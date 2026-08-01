@@ -6,6 +6,8 @@ import {
   isPptxImportEnabled,
   isPiWebSearchEnabled,
   isVideoExportEnabled,
+  isZhibanDataCollectionEnabled,
+  isZhibanResearchEnabled,
   isVocationalTaskEngineEnabled,
   resolveVocationalActive,
   shouldShowVocationalTestUi,
@@ -158,6 +160,58 @@ describe('isPiWebSearchEnabled', () => {
   });
 });
 
+describe('Zhiban server feature flags', () => {
+  const researchFlag = 'OPENMAIC_ENABLE_ZHIBAN_RESEARCH';
+  const collectionFlag = 'OPENMAIC_ENABLE_ZHIBAN_DATA_COLLECTION';
+  let originalResearch: string | undefined;
+  let originalCollection: string | undefined;
+
+  beforeEach(() => {
+    originalResearch = process.env[researchFlag];
+    originalCollection = process.env[collectionFlag];
+    delete process.env[researchFlag];
+    delete process.env[collectionFlag];
+  });
+
+  afterEach(() => {
+    if (originalResearch === undefined) delete process.env[researchFlag];
+    else process.env[researchFlag] = originalResearch;
+    if (originalCollection === undefined) delete process.env[collectionFlag];
+    else process.env[collectionFlag] = originalCollection;
+  });
+
+  it('keeps research and collection disabled by default', () => {
+    expect(isZhibanResearchEnabled()).toBe(false);
+    expect(isZhibanDataCollectionEnabled()).toBe(false);
+  });
+
+  it("enables the research gate only for 'true' and '1'", () => {
+    process.env[researchFlag] = 'true';
+    expect(isZhibanResearchEnabled()).toBe(true);
+    process.env[researchFlag] = '1';
+    expect(isZhibanResearchEnabled()).toBe(true);
+    process.env[researchFlag] = 'yes';
+    expect(isZhibanResearchEnabled()).toBe(false);
+  });
+
+  it('requires explicit opt-in to both research and data collection', () => {
+    process.env[researchFlag] = 'true';
+    expect(isZhibanDataCollectionEnabled()).toBe(false);
+    delete process.env[researchFlag];
+    process.env[collectionFlag] = 'true';
+    expect(isZhibanDataCollectionEnabled()).toBe(false);
+    process.env[researchFlag] = 'true';
+    expect(isZhibanDataCollectionEnabled()).toBe(true);
+  });
+
+  it('uses the research gate as a collection kill switch', () => {
+    process.env[researchFlag] = 'true';
+    process.env[collectionFlag] = '1';
+    expect(isZhibanDataCollectionEnabled()).toBe(true);
+    process.env[researchFlag] = 'false';
+    expect(isZhibanDataCollectionEnabled()).toBe(false);
+  });
+});
 describe('isVocationalTaskEngineEnabled', () => {
   const flag = 'OPENMAIC_ENABLE_VOCATIONAL';
   let original: string | undefined;

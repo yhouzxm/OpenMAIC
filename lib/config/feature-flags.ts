@@ -45,6 +45,20 @@ export function isPiWebSearchEnabled(): boolean {
   return readBoolean(process.env.OPENMAIC_ENABLE_PI_WEB_SEARCH);
 }
 
+/** Server-only master gate for the Zhiban research configuration. */
+export function isZhibanResearchEnabled(): boolean {
+  return readBoolean(process.env.OPENMAIC_ENABLE_ZHIBAN_RESEARCH);
+}
+
+/**
+ * Server-only data-collection gate. Both flags must be enabled so the research
+ * master gate remains a reliable kill switch. Phase 0 has no writing caller.
+ */
+export function isZhibanDataCollectionEnabled(): boolean {
+  return (
+    isZhibanResearchEnabled() && readBoolean(process.env.OPENMAIC_ENABLE_ZHIBAN_DATA_COLLECTION)
+  );
+}
 /**
  * Server-authoritative gate for the vocational task-engine generation path.
  * Default OFF. When disabled, requests that include taskEngineMode must

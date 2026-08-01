@@ -20,8 +20,8 @@
     "LICENSE"
   ],
   "scripts": {
-    "clean:dist": "rimraf dist",
-    "build": "rm -rf dist && rollup -c && tsc --emitDeclarationOnly",
+    "clean:dist": "pnpm exec rimraf dist",
+    "build": "pnpm exec rimraf dist && rollup -c && tsc --emitDeclarationOnly",
     "dev": "rollup -c -w",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
     "test": "vitest run",

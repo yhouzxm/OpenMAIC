@@ -20,8 +20,8 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "clean": "rm -rf dist",
-    "build": "rm -rf dist && tsc -p tsconfig.json && node scripts/gen-schema.mjs",
+    "clean": "pnpm exec rimraf dist",
+    "build": "pnpm exec rimraf dist && tsc -p tsconfig.json && node scripts/gen-schema.mjs",
     "build:schema": "node scripts/gen-schema.mjs",
     "dev": "tsc -p tsconfig.json --watch",
     "typecheck": "tsc -p tsconfig.json --noEmit",
