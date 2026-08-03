@@ -4,7 +4,6 @@
  * Extracts the repeated parseModelString → resolveApiKey → resolveBaseUrl →
  * resolveProxy → getModel boilerplate into a single call.
  */
-
 import type { NextRequest } from 'next/server';
 import { getModel, parseModelString, type ModelWithInfo } from '@/lib/ai/providers';
 import type { ThinkingConfig } from '@/lib/types/provider';
