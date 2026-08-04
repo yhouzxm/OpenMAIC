@@ -6,6 +6,7 @@ import {
   rollbackLatestZhibanMigration,
 } from '@/lib/zhiban/db/migrate';
 import { initialIdentityMigration } from '@/lib/zhiban/db/migrations/001-initial-identity';
+import { localAuthMigration } from '@/lib/zhiban/db/migrations/002-local-auth';
 import type { QueryResult, ZhibanDatabaseClient, ZhibanDatabasePool } from '@/lib/zhiban/db/types';
 
 class RecordingDatabase implements ZhibanDatabasePool, ZhibanDatabaseClient {
@@ -50,10 +51,11 @@ describe('Zhiban PostgreSQL migrations', () => {
   it('applies the initial migration transactionally and only once', async () => {
     const db = new RecordingDatabase();
 
-    await expect(migrateZhibanDatabase(db)).resolves.toEqual(['001']);
+    await expect(migrateZhibanDatabase(db)).resolves.toEqual(['001', '002', '003']);
     await expect(migrateZhibanDatabase(db)).resolves.toEqual([]);
 
     expect(db.applied.get('001')).toBe(initialIdentityMigration.checksum);
+    expect(db.applied.get('002')).toBe(localAuthMigration.checksum);
     expect(db.statements.filter(({ text }) => text === 'BEGIN')).toHaveLength(2);
     expect(db.statements.filter(({ text }) => text === 'COMMIT')).toHaveLength(2);
     expect(db.statements.some(({ text }) => text.includes('CREATE TABLE zhiban.accounts'))).toBe(
@@ -87,7 +89,14 @@ describe('Zhiban PostgreSQL migrations', () => {
 
     await expect(getZhibanMigrationStatus(db)).resolves.toEqual([
       expect.objectContaining({ version: '001', applied: true, checksumMatches: true }),
+      expect.objectContaining({ version: '002', applied: true, checksumMatches: true }),
+      expect.objectContaining({ version: '003', applied: true, checksumMatches: true }),
     ]);
+    await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('003');
+    expect(db.applied.has('001')).toBe(true);
+    expect(db.applied.has('002')).toBe(true);
+
+    await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('002');
     await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('001');
 
     expect(db.statements.some(({ text }) => text === 'DROP SCHEMA IF EXISTS zhiban CASCADE')).toBe(

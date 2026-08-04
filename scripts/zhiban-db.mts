@@ -1,3 +1,4 @@
+import { createRequire } from 'node:module';
 import { Pool } from 'pg';
 
 import {
@@ -5,6 +6,10 @@ import {
   migrateZhibanDatabase,
   rollbackLatestZhibanMigration,
 } from '../lib/zhiban/db/index';
+
+const require = createRequire(import.meta.url);
+const { loadEnvConfig } = require('@next/env') as typeof import('@next/env');
+loadEnvConfig(process.cwd());
 
 const connectionString = process.env.DATABASE_URL;
 if (!connectionString) throw new Error('DATABASE_URL is required');

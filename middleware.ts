@@ -49,8 +49,16 @@ export async function middleware(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
 
-  // Whitelist: access-code endpoints, health check
-  if (pathname.startsWith('/api/access-code/') || pathname === '/api/health') {
+  // Whitelist: access-code endpoints and self-authenticating Zhiban routes.
+  // Zhiban auth and admin APIs validate their own session/RBAC permissions;
+  // requiring the legacy site-wide access code would break the separate portal.
+  if (
+    pathname.startsWith('/api/access-code/') ||
+    pathname === '/api/health' ||
+    pathname === '/api/zhiban/health' ||
+    pathname.startsWith('/api/zhiban/auth/') ||
+    pathname.startsWith('/api/zhiban/admin/')
+  ) {
     return NextResponse.next();
   }
 
