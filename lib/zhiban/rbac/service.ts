@@ -9,6 +9,9 @@ import type {
   ManagedAccount,
   ManagedRoleAssignment,
   PermissionCode,
+  ResourceScopeContext,
+  ScopedGrant,
+  DataScopeType,
 } from './types';
 
 interface PrincipalRow extends Record<string, unknown> {
@@ -20,6 +23,7 @@ interface PrincipalRow extends Record<string, unknown> {
   must_change: boolean;
   roles: string[] | null;
   permissions: PermissionCode[] | null;
+  grants: ScopedGrant[] | null;
 }
 
 interface ManagedAccountRow extends Record<string, unknown> {
@@ -73,6 +77,10 @@ export async function getAuthorizedPrincipal(
               pc.must_change,
               COALESCE(array_agg(DISTINCT r.code) FILTER (WHERE r.code IS NOT NULL), '{}') AS roles,
               COALESCE(array_agg(DISTINCT p.code) FILTER (WHERE p.code IS NOT NULL), '{}') AS permissions
+              , COALESCE(jsonb_agg(DISTINCT jsonb_build_object(
+                'roleCode', r.code, 'permission', p.code,
+                'scopeType', ra.scope_type, 'scopeId', ra.scope_id
+              )) FILTER (WHERE p.code IS NOT NULL), '[]'::jsonb) AS grants
        FROM zhiban.user_sessions s
        JOIN zhiban.accounts a ON a.id = s.account_id
        JOIN zhiban.password_credentials pc ON pc.account_id = a.id
@@ -99,8 +107,40 @@ export async function getAuthorizedPrincipal(
       mustChangePassword: row.must_change,
       roles: row.roles ?? [],
       permissions: row.permissions ?? [],
+      grants: row.grants ?? [],
     };
   });
+}
+
+export function hasScopedPermission(
+  principal: AuthorizedPrincipal,
+  permission: PermissionCode,
+  context: ResourceScopeContext = {},
+): boolean {
+  return principal.grants.some((grant) => {
+    if (grant.permission !== permission) return false;
+    if (grant.scopeType === 'system' || grant.scopeType === 'tenant') return true;
+    if (grant.scopeType === 'self') return context.ownerAccountId === principal.id;
+    if (!grant.scopeId) return false;
+    if (grant.scopeType === 'class') return context.classIds?.includes(grant.scopeId) ?? false;
+    if (grant.scopeType === 'course') return context.courseIds?.includes(grant.scopeId) ?? false;
+    return context.projectGroupIds?.includes(grant.scopeId) ?? false;
+  });
+}
+
+export async function requireScopedPermission(
+  pool: ZhibanDatabasePool,
+  cookieValue: string | undefined,
+  permission: PermissionCode,
+  context: ResourceScopeContext,
+): Promise<AuthorizedPrincipal> {
+  if (!cookieValue) throw new AuthorizationError('Authentication required', 401);
+  const principal = await getAuthorizedPrincipal(pool, cookieValue);
+  if (!principal) throw new AuthorizationError('Authentication required', 401);
+  if (!hasScopedPermission(principal, permission, context)) {
+    throw new AuthorizationError('Permission denied for this data scope', 403);
+  }
+  return principal;
 }
 
 export async function requirePermission(
@@ -111,7 +151,9 @@ export async function requirePermission(
   if (!cookieValue) throw new AuthorizationError('Authentication required', 401);
   const principal = await getAuthorizedPrincipal(pool, cookieValue);
   if (!principal) throw new AuthorizationError('Authentication required', 401);
-  if (!principal.permissions.includes(permission)) {
+  // An endpoint without resource context is tenant-wide administration.
+  // Narrow self/class/course/project grants must use requireScopedPermission.
+  if (!hasScopedPermission(principal, permission)) {
     throw new AuthorizationError('Permission denied', 403);
   }
   return principal;
@@ -161,11 +203,21 @@ export async function listAssignableRoles(
 ) {
   return withZhibanTenant(pool, principal.tenantId, async (client) => {
     const result = await client.query<
-      Record<string, unknown> & { id: string; code: string; name: string; role_type: string }
+      Record<string, unknown> & {
+        id: string;
+        code: string;
+        name: string;
+        role_type: string;
+        allowed_scopes: DataScopeType[];
+      }
     >(
-      `SELECT id, code, name, role_type FROM zhiban.roles
-       WHERE status = 'active' AND (tenant_id IS NULL OR tenant_id = $1)
-       ORDER BY role_type, name`,
+      `SELECT r.id, r.code, r.name, r.role_type,
+              COALESCE(array_agg(policy.scope_type) FILTER (WHERE policy.scope_type IS NOT NULL), '{}') AS allowed_scopes
+       FROM zhiban.roles r
+       LEFT JOIN zhiban.role_scope_policies policy ON policy.role_id = r.id
+       WHERE r.status = 'active' AND (r.tenant_id IS NULL OR r.tenant_id = $1)
+       GROUP BY r.id
+       ORDER BY r.role_type, r.name`,
       [principal.tenantId],
     );
     return result.rows
@@ -175,14 +227,79 @@ export async function listAssignableRoles(
         code: row.code,
         name: row.name,
         roleType: row.role_type,
+        allowedScopes: row.allowed_scopes,
       }));
+  });
+}
+
+export async function listAuthorizationScopes(
+  pool: ZhibanDatabasePool,
+  principal: AuthorizedPrincipal,
+) {
+  return withZhibanTenant(pool, principal.tenantId, async (client) => {
+    const result = await client.query<
+      Record<string, unknown> & {
+        id: string;
+        scope_type: 'project_group' | 'class' | 'course';
+        code: string;
+        name: string;
+        external_ref: string | null;
+        status: 'active' | 'archived';
+      }
+    >(
+      `SELECT id, scope_type, code, name, external_ref, status
+       FROM zhiban.authorization_scopes
+       WHERE tenant_id = $1 ORDER BY scope_type, name`,
+      [principal.tenantId],
+    );
+    return result.rows.map((row) => ({
+      id: row.id,
+      scopeType: row.scope_type,
+      code: row.code,
+      name: row.name,
+      externalRef: row.external_ref,
+      status: row.status,
+    }));
+  });
+}
+
+export async function createAuthorizationScope(
+  pool: ZhibanDatabasePool,
+  principal: AuthorizedPrincipal,
+  input: {
+    scopeType: 'project_group' | 'class' | 'course';
+    code: string;
+    name: string;
+    externalRef?: string;
+  },
+) {
+  return withZhibanTenant(pool, principal.tenantId, async (client) => {
+    const id = randomUUID();
+    await client.query(
+      `INSERT INTO zhiban.authorization_scopes
+        (id, tenant_id, scope_type, code, name, external_ref)
+       VALUES ($1, $2, $3, $4, $5, $6)`,
+      [
+        id,
+        principal.tenantId,
+        input.scopeType,
+        input.code.trim(),
+        input.name.trim(),
+        input.externalRef?.trim() || null,
+      ],
+    );
+    await audit(client, principal, 'authorization_scope.created', 'authorization_scope', id, {
+      scopeType: input.scopeType,
+      code: input.code,
+    });
+    return { id };
   });
 }
 
 export async function assignRole(
   pool: ZhibanDatabasePool,
   principal: AuthorizedPrincipal,
-  input: { accountId: string; roleCode: string },
+  input: { accountId: string; roleCode: string; scopeType: DataScopeType; scopeId?: string },
 ) {
   if (input.roleCode === 'system_admin' && !principal.roles.includes('system_admin')) {
     throw new AuthorizationError('Only a system administrator can grant this role');
@@ -191,22 +308,34 @@ export async function assignRole(
     const assignmentId = randomUUID();
     const result = await client.query<{ id: string }>(
       `INSERT INTO zhiban.role_assignments
-        (id, tenant_id, account_id, role_id, scope_type, granted_by)
-       SELECT $1, $2, a.id, r.id, 'tenant', $3
+        (id, tenant_id, account_id, role_id, scope_type, scope_id, granted_by)
+       SELECT $1, $2, a.id, r.id, $6, $7, $3
        FROM zhiban.accounts a
        JOIN zhiban.roles r ON r.code = $4 AND (r.tenant_id IS NULL OR r.tenant_id = $2)
        WHERE a.id = $5 AND a.tenant_id = $2 AND a.deleted_at IS NULL
          AND NOT EXISTS (
            SELECT 1 FROM zhiban.role_assignments existing
            WHERE existing.account_id = a.id AND existing.role_id = r.id
-             AND existing.scope_type = 'tenant' AND existing.revoked_at IS NULL
+             AND existing.scope_type = $6
+             AND existing.scope_id IS NOT DISTINCT FROM $7::uuid
+             AND existing.revoked_at IS NULL
          )
        RETURNING id`,
-      [assignmentId, principal.tenantId, principal.id, input.roleCode, input.accountId],
+      [
+        assignmentId,
+        principal.tenantId,
+        principal.id,
+        input.roleCode,
+        input.accountId,
+        input.scopeType,
+        input.scopeId ?? null,
+      ],
     );
     if (!result.rows[0]) throw new Error('Account, role, or active assignment is invalid');
     await audit(client, principal, 'role.assigned', 'account', input.accountId, {
       roleCode: input.roleCode,
+      scopeType: input.scopeType,
+      scopeId: input.scopeId ?? null,
     });
     return { id: result.rows[0].id };
   });

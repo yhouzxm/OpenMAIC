@@ -10,7 +10,23 @@ import {
 
 export const runtime = 'nodejs';
 
-const schema = z.object({ accountId: z.uuid(), roleCode: z.string().trim().min(1).max(64) });
+const schema = z
+  .object({
+    accountId: z.uuid(),
+    roleCode: z.string().trim().min(1).max(64),
+    scopeType: z.enum(['self', 'project_group', 'class', 'course', 'tenant', 'system']),
+    scopeId: z.uuid().optional(),
+  })
+  .superRefine((value, context) => {
+    const needsId = ['project_group', 'class', 'course'].includes(value.scopeType);
+    if (needsId !== Boolean(value.scopeId)) {
+      context.addIssue({
+        code: 'custom',
+        message: 'Scope ID must match scope type',
+        path: ['scopeId'],
+      });
+    }
+  });
 
 export async function POST(request: NextRequest) {
   try {

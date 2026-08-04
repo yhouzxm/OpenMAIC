@@ -10,13 +10,19 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import type { AuthorizedPrincipal, ManagedAccount } from '@/lib/zhiban/rbac';
+import type {
+  AuthorizationScope,
+  AuthorizedPrincipal,
+  DataScopeType,
+  ManagedAccount,
+} from '@/lib/zhiban/rbac';
 
 interface RoleOption {
   id: string;
   code: string;
   name: string;
   roleType: string;
+  allowedScopes: DataScopeType[];
 }
 type AccountType = 'student' | 'teacher' | 'admin';
 
@@ -32,21 +38,28 @@ async function api<T>(url: string, init?: RequestInit): Promise<T> {
 
 export function AdminConsole({ principal }: { principal: AuthorizedPrincipal }) {
   const router = useRouter();
-  const canManage = principal.permissions.includes('account:manage');
+  const canManage = principal.grants.some(
+    (grant) =>
+      grant.permission === 'account:manage' &&
+      (grant.scopeType === 'tenant' || grant.scopeType === 'system'),
+  );
   const [accounts, setAccounts] = useState<ManagedAccount[]>([]);
   const [roles, setRoles] = useState<RoleOption[]>([]);
+  const [scopes, setScopes] = useState<AuthorizationScope[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCreate, setShowCreate] = useState(false);
 
   const load = useCallback(async () => {
     setLoading(true);
     try {
-      const [accountResult, roleResult] = await Promise.all([
+      const [accountResult, roleResult, scopeResult] = await Promise.all([
         api<{ accounts: ManagedAccount[] }>('/api/zhiban/admin/accounts'),
         api<{ roles: RoleOption[] }>('/api/zhiban/admin/roles'),
+        api<{ scopes: AuthorizationScope[] }>('/api/zhiban/admin/scopes'),
       ]);
       setAccounts(accountResult.accounts);
       setRoles(roleResult.roles);
+      setScopes(scopeResult.scopes);
     } catch (error) {
       toast.error(error instanceof Error ? error.message : '加载失败');
     } finally {
@@ -95,11 +108,31 @@ export function AdminConsole({ principal }: { principal: AuthorizedPrincipal }) 
         </div>
       </header>
 
-      <section className="mb-6 grid gap-4 sm:grid-cols-3">
+      <section className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Summary icon={<Users />} label="账号总数" value={accounts.length} />
         <Summary icon={<ShieldCheck />} label="正常账号" value={activeCount} />
         <Summary icon={<UserRoundCog />} label="可分配角色" value={roles.length} />
+        <Summary icon={<ShieldCheck />} label="数据范围" value={scopes.length} />
       </section>
+
+      <Card className="mb-6">
+        <CardHeader>
+          <CardTitle>数据范围目录</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {canManage && <CreateScopeForm onCreated={load} />}
+          <div className="mt-4 flex flex-wrap gap-2">
+            {scopes.map((scope) => (
+              <Badge key={scope.id} variant="outline">
+                {scope.name} · {scopeTypeLabel(scope.scopeType)}
+              </Badge>
+            ))}
+            {!scopes.length && (
+              <span className="text-sm text-slate-500">尚未登记班级、课程或项目组范围</span>
+            )}
+          </div>
+        </CardContent>
+      </Card>
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
@@ -118,6 +151,7 @@ export function AdminConsole({ principal }: { principal: AuthorizedPrincipal }) 
           {showCreate && (
             <CreateAccountForm
               roles={roles}
+              scopes={scopes}
               onCancel={() => setShowCreate(false)}
               onCreated={async () => {
                 setShowCreate(false);
@@ -136,6 +170,7 @@ export function AdminConsole({ principal }: { principal: AuthorizedPrincipal }) 
                   key={account.id}
                   account={account}
                   roles={roles}
+                  scopes={scopes}
                   canManage={canManage}
                   isSelf={account.id === principal.id}
                   onChanged={load}
@@ -163,16 +198,75 @@ function Summary({ icon, label, value }: { icon: React.ReactNode; label: string;
   );
 }
 
+function scopeTypeLabel(scopeType: DataScopeType) {
+  return {
+    self: '本人',
+    project_group: '项目组',
+    class: '班级',
+    course: '课程',
+    tenant: '全机构',
+    system: '全系统',
+  }[scopeType];
+}
+
+function CreateScopeForm({ onCreated }: { onCreated: () => Promise<void> }) {
+  const [saving, setSaving] = useState(false);
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setSaving(true);
+    const form = event.currentTarget;
+    try {
+      await api('/api/zhiban/admin/scopes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(Object.fromEntries(new FormData(form))),
+      });
+      form.reset();
+      toast.success('数据范围已创建');
+      await onCreated();
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : '创建失败');
+    } finally {
+      setSaving(false);
+    }
+  }
+  return (
+    <form onSubmit={submit} className="grid gap-3 rounded-xl bg-slate-50 p-4 md:grid-cols-4">
+      <Field label="范围类型">
+        <select className={selectClass} name="scopeType">
+          <option value="class">班级</option>
+          <option value="course">课程</option>
+          <option value="project_group">项目组</option>
+        </select>
+      </Field>
+      <Field label="范围编码">
+        <Input name="code" required />
+      </Field>
+      <Field label="范围名称">
+        <Input name="name" required />
+      </Field>
+      <div className="flex items-end">
+        <Button type="submit" disabled={saving}>
+          {saving ? '保存中…' : '登记范围'}
+        </Button>
+      </div>
+    </form>
+  );
+}
+
 function CreateAccountForm({
   roles,
+  scopes,
   onCancel,
   onCreated,
 }: {
   roles: RoleOption[];
+  scopes: AuthorizationScope[];
   onCancel: () => void;
   onCreated: () => Promise<void>;
 }) {
   const [type, setType] = useState<AccountType>('student');
+  const [roleCode, setRoleCode] = useState('student');
   const [saving, setSaving] = useState(false);
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -188,6 +282,10 @@ function CreateAccountForm({
           : { adminLevel: 'institution' }),
     };
     delete body.identifier;
+    const [initialRoleScopeType, initialRoleScopeId] = String(values.roleScope).split(':');
+    body.initialRoleScopeType = initialRoleScopeType;
+    if (initialRoleScopeId) body.initialRoleScopeId = initialRoleScopeId;
+    delete body.roleScope;
     try {
       await api('/api/zhiban/admin/accounts', {
         method: 'POST',
@@ -203,13 +301,19 @@ function CreateAccountForm({
     }
   }
   const roleOptions = roles.filter((role) => type !== 'student' || role.code === 'student');
+  const selectedRole = roles.find((role) => role.code === roleCode);
+  const allowedScopes = selectedRole?.allowedScopes ?? [];
   return (
     <form onSubmit={submit} className="grid gap-4 rounded-xl border bg-slate-50 p-4 md:grid-cols-3">
       <Field label="账号类型">
         <select
           className={selectClass}
           value={type}
-          onChange={(e) => setType(e.target.value as AccountType)}
+          onChange={(e) => {
+            const nextType = e.target.value as AccountType;
+            setType(nextType);
+            setRoleCode(nextType === 'student' ? 'student' : '');
+          }}
         >
           <option value="student">学生</option>
           <option value="teacher">教师</option>
@@ -241,7 +345,8 @@ function CreateAccountForm({
           className={selectClass}
           name="initialRoleCode"
           required
-          defaultValue={type === 'student' ? 'student' : ''}
+          value={roleCode}
+          onChange={(event) => setRoleCode(event.target.value)}
         >
           <option value="" disabled>
             请选择
@@ -251,6 +356,29 @@ function CreateAccountForm({
               {role.name}
             </option>
           ))}
+        </select>
+      </Field>
+      <Field label="授权数据范围">
+        <select className={selectClass} name="roleScope" required key={roleCode}>
+          <option value="" disabled>
+            请选择
+          </option>
+          {allowedScopes.flatMap((scopeType) => {
+            if (scopeType === 'self' || scopeType === 'tenant' || scopeType === 'system') {
+              return (
+                <option key={scopeType} value={`${scopeType}:`}>
+                  {scopeTypeLabel(scopeType)}
+                </option>
+              );
+            }
+            return scopes
+              .filter((scope) => scope.scopeType === scopeType && scope.status === 'active')
+              .map((scope) => (
+                <option key={scope.id} value={`${scopeType}:${scope.id}`}>
+                  {scope.name} · {scopeTypeLabel(scopeType)}
+                </option>
+              ));
+          })}
         </select>
       </Field>
       <div className="flex items-end gap-2 md:col-span-3">
@@ -277,21 +405,23 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 function AccountRow({
   account,
   roles,
+  scopes,
   canManage,
   isSelf,
   onChanged,
 }: {
   account: ManagedAccount;
   roles: RoleOption[];
+  scopes: AuthorizationScope[];
   canManage: boolean;
   isSelf: boolean;
   onChanged: () => Promise<void>;
 }) {
   const [roleCode, setRoleCode] = useState('');
+  const [roleScope, setRoleScope] = useState('');
   const [busy, setBusy] = useState(false);
-  const available = roles.filter(
-    (role) => !account.roles.some((assigned) => assigned.roleCode === role.code),
-  );
+  const available = roles;
+  const selectedRole = roles.find((role) => role.code === roleCode);
   async function mutate(url: string, init: RequestInit, success: string) {
     setBusy(true);
     try {
@@ -329,6 +459,11 @@ function AccountRow({
                   className="inline-flex items-center gap-1 rounded-full bg-teal-50 px-2.5 py-1 text-xs text-teal-800"
                 >
                   {assignment.roleName}
+                  {' · '}
+                  {assignment.scopeId
+                    ? (scopes.find((scope) => scope.id === assignment.scopeId)?.name ??
+                      assignment.scopeId)
+                    : scopeTypeLabel(assignment.scopeType as DataScopeType)}
                   {canManage && !isSelf && (
                     <button
                       disabled={busy}
@@ -357,7 +492,10 @@ function AccountRow({
             <select
               className={selectClass}
               value={roleCode}
-              onChange={(e) => setRoleCode(e.target.value)}
+              onChange={(e) => {
+                setRoleCode(e.target.value);
+                setRoleScope('');
+              }}
             >
               <option value="">添加角色</option>
               {available.map((role) => (
@@ -366,19 +504,50 @@ function AccountRow({
                 </option>
               ))}
             </select>
+            <select
+              className={selectClass}
+              value={roleScope}
+              onChange={(event) => setRoleScope(event.target.value)}
+              disabled={!roleCode}
+            >
+              <option value="">选择范围</option>
+              {(selectedRole?.allowedScopes ?? []).flatMap((scopeType) => {
+                if (scopeType === 'self' || scopeType === 'tenant' || scopeType === 'system')
+                  return (
+                    <option key={scopeType} value={`${scopeType}:`}>
+                      {scopeTypeLabel(scopeType)}
+                    </option>
+                  );
+                return scopes
+                  .filter((scope) => scope.scopeType === scopeType && scope.status === 'active')
+                  .map((scope) => (
+                    <option key={scope.id} value={`${scopeType}:${scope.id}`}>
+                      {scope.name}
+                    </option>
+                  ));
+              })}
+            </select>
             <Button
               variant="outline"
-              disabled={!roleCode || busy}
+              disabled={!roleCode || !roleScope || busy}
               onClick={() =>
                 void mutate(
                   '/api/zhiban/admin/role-assignments',
                   {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ accountId: account.id, roleCode }),
+                    body: JSON.stringify({
+                      accountId: account.id,
+                      roleCode,
+                      scopeType: roleScope.split(':')[0],
+                      scopeId: roleScope.split(':')[1] || undefined,
+                    }),
                   },
                   '角色已授予',
-                ).then(() => setRoleCode(''))
+                ).then(() => {
+                  setRoleCode('');
+                  setRoleScope('');
+                })
               }
             >
               授权

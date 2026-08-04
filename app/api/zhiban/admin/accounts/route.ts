@@ -21,25 +21,38 @@ const common = {
     z.string().trim().max(32).optional(),
   ),
   initialRoleCode: z.string().trim().min(1).max(64),
+  initialRoleScopeType: z.enum(['self', 'project_group', 'class', 'course', 'tenant', 'system']),
+  initialRoleScopeId: z.uuid().optional(),
 };
 
-const createSchema = z.discriminatedUnion('accountType', [
-  z.object({
-    ...common,
-    accountType: z.literal('student'),
-    studentNo: z.string().trim().min(1).max(64),
-  }),
-  z.object({
-    ...common,
-    accountType: z.literal('teacher'),
-    employeeNo: z.string().trim().min(1).max(64),
-  }),
-  z.object({
-    ...common,
-    accountType: z.literal('admin'),
-    adminLevel: z.enum(['teaching', 'institution']).default('institution'),
-  }),
-]);
+const createSchema = z
+  .discriminatedUnion('accountType', [
+    z.object({
+      ...common,
+      accountType: z.literal('student'),
+      studentNo: z.string().trim().min(1).max(64),
+    }),
+    z.object({
+      ...common,
+      accountType: z.literal('teacher'),
+      employeeNo: z.string().trim().min(1).max(64),
+    }),
+    z.object({
+      ...common,
+      accountType: z.literal('admin'),
+      adminLevel: z.enum(['teaching', 'institution']).default('institution'),
+    }),
+  ])
+  .superRefine((value, context) => {
+    const needsId = ['project_group', 'class', 'course'].includes(value.initialRoleScopeType);
+    if (needsId !== Boolean(value.initialRoleScopeId)) {
+      context.addIssue({
+        code: 'custom',
+        message: 'Scope ID must match scope type',
+        path: ['initialRoleScopeId'],
+      });
+    }
+  });
 
 export async function GET() {
   try {

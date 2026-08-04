@@ -44,6 +44,8 @@ export type CreateLocalAccountInput = {
   password: string;
   mobile?: string;
   initialRoleCode?: string;
+  initialRoleScopeType?: 'self' | 'project_group' | 'class' | 'course' | 'tenant' | 'system';
+  initialRoleScopeId?: string;
 } & (
   | { accountType: 'student'; studentNo: string }
   | { accountType: 'teacher'; employeeNo: string }
@@ -145,16 +147,25 @@ export async function createLocalAccount(
     }
 
     if (input.initialRoleCode) {
+      const scopeType =
+        input.initialRoleScopeType ?? (input.initialRoleCode === 'student' ? 'self' : 'tenant');
       const assignment = await client.query<{ id: string }>(
         `INSERT INTO zhiban.role_assignments
-          (id, tenant_id, account_id, role_id, scope_type)
-         SELECT $1, $2, $3, r.id, 'tenant'
+          (id, tenant_id, account_id, role_id, scope_type, scope_id)
+         SELECT $1, $2, $3, r.id, $5, $6
          FROM zhiban.roles r
          WHERE r.code = $4 AND (r.tenant_id IS NULL OR r.tenant_id = $2)
          ORDER BY r.tenant_id NULLS LAST
          LIMIT 1
          RETURNING id`,
-        [roleAssignmentId, input.tenantId, accountId, input.initialRoleCode],
+        [
+          roleAssignmentId,
+          input.tenantId,
+          accountId,
+          input.initialRoleCode,
+          scopeType,
+          input.initialRoleScopeId ?? null,
+        ],
       );
       if (!assignment.rows[0]) throw new Error(`Unknown role: ${input.initialRoleCode}`);
     }

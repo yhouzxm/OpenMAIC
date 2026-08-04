@@ -12,9 +12,35 @@ export type PermissionCode =
   | 'audit:read'
   | 'research:export';
 
+export type DataScopeType = 'self' | 'project_group' | 'class' | 'course' | 'tenant' | 'system';
+
+export interface ScopedGrant {
+  roleCode: string;
+  permission: PermissionCode;
+  scopeType: DataScopeType;
+  scopeId: string | null;
+}
+
+export interface ResourceScopeContext {
+  ownerAccountId?: string;
+  projectGroupIds?: string[];
+  classIds?: string[];
+  courseIds?: string[];
+}
+
 export interface AuthorizedPrincipal extends AuthenticatedAccount {
   roles: string[];
   permissions: PermissionCode[];
+  grants: ScopedGrant[];
+}
+
+export interface AuthorizationScope {
+  id: string;
+  scopeType: Extract<DataScopeType, 'project_group' | 'class' | 'course'>;
+  code: string;
+  name: string;
+  externalRef: string | null;
+  status: 'active' | 'archived';
 }
 
 export interface ManagedRoleAssignment {

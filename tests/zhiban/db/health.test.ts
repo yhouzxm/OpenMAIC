@@ -4,6 +4,7 @@ import { checkZhibanDatabaseHealth } from '@/lib/zhiban/db/health';
 import { initialIdentityMigration } from '@/lib/zhiban/db/migrations/001-initial-identity';
 import { localAuthMigration } from '@/lib/zhiban/db/migrations/002-local-auth';
 import { defaultRbacMigration } from '@/lib/zhiban/db/migrations/003-default-rbac';
+import { rbacDataScopesMigration } from '@/lib/zhiban/db/migrations/004-rbac-data-scopes';
 import type { QueryResult, ZhibanQueryable } from '@/lib/zhiban/db/types';
 
 class HealthDatabase implements ZhibanQueryable {
@@ -31,7 +32,7 @@ describe('checkZhibanDatabaseHealth', () => {
       status: 'migration_required',
       database: 'reachable',
       schema: 'missing',
-      pendingVersions: ['001', '002', '003'],
+      pendingVersions: ['001', '002', '003', '004'],
     });
   });
 
@@ -42,13 +43,14 @@ describe('checkZhibanDatabaseHealth', () => {
           { version: '001', checksum: initialIdentityMigration.checksum },
           { version: '002', checksum: localAuthMigration.checksum },
           { version: '003', checksum: defaultRbacMigration.checksum },
+          { version: '004', checksum: rbacDataScopesMigration.checksum },
         ]),
       ),
     ).resolves.toMatchObject({
       status: 'healthy',
       database: 'reachable',
       schema: 'ready',
-      appliedVersions: ['001', '002', '003'],
+      appliedVersions: ['001', '002', '003', '004'],
       pendingVersions: [],
       driftedVersions: [],
     });

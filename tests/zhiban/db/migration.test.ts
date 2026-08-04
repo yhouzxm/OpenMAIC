@@ -51,7 +51,7 @@ describe('Zhiban PostgreSQL migrations', () => {
   it('applies the initial migration transactionally and only once', async () => {
     const db = new RecordingDatabase();
 
-    await expect(migrateZhibanDatabase(db)).resolves.toEqual(['001', '002', '003']);
+    await expect(migrateZhibanDatabase(db)).resolves.toEqual(['001', '002', '003', '004']);
     await expect(migrateZhibanDatabase(db)).resolves.toEqual([]);
 
     expect(db.applied.get('001')).toBe(initialIdentityMigration.checksum);
@@ -91,11 +91,13 @@ describe('Zhiban PostgreSQL migrations', () => {
       expect.objectContaining({ version: '001', applied: true, checksumMatches: true }),
       expect.objectContaining({ version: '002', applied: true, checksumMatches: true }),
       expect.objectContaining({ version: '003', applied: true, checksumMatches: true }),
+      expect.objectContaining({ version: '004', applied: true, checksumMatches: true }),
     ]);
-    await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('003');
+    await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('004');
     expect(db.applied.has('001')).toBe(true);
     expect(db.applied.has('002')).toBe(true);
 
+    await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('003');
     await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('002');
     await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('001');
 

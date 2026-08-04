@@ -4,8 +4,8 @@ import { NextResponse } from 'next/server';
 import { ZHIBAN_SESSION_COOKIE } from '@/lib/zhiban/auth/http';
 import { getZhibanPool } from '@/lib/zhiban/db/connection';
 
-import { AuthorizationError, requirePermission } from './service';
-import type { PermissionCode } from './types';
+import { AuthorizationError, requirePermission, requireScopedPermission } from './service';
+import type { PermissionCode, ResourceScopeContext } from './types';
 
 export async function requireRequestPermission(permission: PermissionCode) {
   const cookieStore = await cookies();
@@ -13,6 +13,19 @@ export async function requireRequestPermission(permission: PermissionCode) {
     getZhibanPool(),
     cookieStore.get(ZHIBAN_SESSION_COOKIE)?.value,
     permission,
+  );
+}
+
+export async function requireRequestScopedPermission(
+  permission: PermissionCode,
+  context: ResourceScopeContext,
+) {
+  const cookieStore = await cookies();
+  return requireScopedPermission(
+    getZhibanPool(),
+    cookieStore.get(ZHIBAN_SESSION_COOKIE)?.value,
+    permission,
+    context,
   );
 }
 
