@@ -5,6 +5,10 @@ import { initialIdentityMigration } from '@/lib/zhiban/db/migrations/001-initial
 import { localAuthMigration } from '@/lib/zhiban/db/migrations/002-local-auth';
 import { defaultRbacMigration } from '@/lib/zhiban/db/migrations/003-default-rbac';
 import { rbacDataScopesMigration } from '@/lib/zhiban/db/migrations/004-rbac-data-scopes';
+import { academicOrganizationMigration } from '@/lib/zhiban/db/migrations/005-academic-organization';
+import { bulkImportMigration } from '@/lib/zhiban/db/migrations/006-bulk-import';
+import { teacherCourseSettingsMigration } from '@/lib/zhiban/db/migrations/007-teacher-course-settings';
+import { completeTeacherCourseSettingsMigration } from '@/lib/zhiban/db/migrations/008-complete-teacher-course-settings';
 import type { QueryResult, ZhibanQueryable } from '@/lib/zhiban/db/types';
 
 class HealthDatabase implements ZhibanQueryable {
@@ -32,7 +36,7 @@ describe('checkZhibanDatabaseHealth', () => {
       status: 'migration_required',
       database: 'reachable',
       schema: 'missing',
-      pendingVersions: ['001', '002', '003', '004'],
+      pendingVersions: ['001', '002', '003', '004', '005', '006', '007', '008'],
     });
   });
 
@@ -44,13 +48,17 @@ describe('checkZhibanDatabaseHealth', () => {
           { version: '002', checksum: localAuthMigration.checksum },
           { version: '003', checksum: defaultRbacMigration.checksum },
           { version: '004', checksum: rbacDataScopesMigration.checksum },
+          { version: '005', checksum: academicOrganizationMigration.checksum },
+          { version: '006', checksum: bulkImportMigration.checksum },
+          { version: '007', checksum: teacherCourseSettingsMigration.checksum },
+          { version: '008', checksum: completeTeacherCourseSettingsMigration.checksum },
         ]),
       ),
     ).resolves.toMatchObject({
       status: 'healthy',
       database: 'reachable',
       schema: 'ready',
-      appliedVersions: ['001', '002', '003', '004'],
+      appliedVersions: ['001', '002', '003', '004', '005', '006', '007', '008'],
       pendingVersions: [],
       driftedVersions: [],
     });

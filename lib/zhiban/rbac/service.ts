@@ -309,14 +309,14 @@ export async function assignRole(
     const result = await client.query<{ id: string }>(
       `INSERT INTO zhiban.role_assignments
         (id, tenant_id, account_id, role_id, scope_type, scope_id, granted_by)
-       SELECT $1, $2, a.id, r.id, $6, $7, $3
+       SELECT $1::uuid, $2::uuid, a.id, r.id, $6::varchar(32), $7::uuid, $3::uuid
        FROM zhiban.accounts a
        JOIN zhiban.roles r ON r.code = $4 AND (r.tenant_id IS NULL OR r.tenant_id = $2)
        WHERE a.id = $5 AND a.tenant_id = $2 AND a.deleted_at IS NULL
          AND NOT EXISTS (
            SELECT 1 FROM zhiban.role_assignments existing
            WHERE existing.account_id = a.id AND existing.role_id = r.id
-             AND existing.scope_type = $6
+             AND existing.scope_type = $6::varchar(32)
              AND existing.scope_id IS NOT DISTINCT FROM $7::uuid
              AND existing.revoked_at IS NULL
          )

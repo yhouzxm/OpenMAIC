@@ -29,7 +29,7 @@ export default function ZhibanLoginPage() {
       });
       const result = await response.json();
       if (!response.ok) throw new Error(result.error ?? '登录失败');
-      router.replace('/zhiban/admin');
+      router.replace('/zhiban');
       router.refresh();
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : '登录失败，请稍后重试');

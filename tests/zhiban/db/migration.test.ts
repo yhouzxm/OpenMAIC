@@ -51,7 +51,16 @@ describe('Zhiban PostgreSQL migrations', () => {
   it('applies the initial migration transactionally and only once', async () => {
     const db = new RecordingDatabase();
 
-    await expect(migrateZhibanDatabase(db)).resolves.toEqual(['001', '002', '003', '004']);
+    await expect(migrateZhibanDatabase(db)).resolves.toEqual([
+      '001',
+      '002',
+      '003',
+      '004',
+      '005',
+      '006',
+      '007',
+      '008',
+    ]);
     await expect(migrateZhibanDatabase(db)).resolves.toEqual([]);
 
     expect(db.applied.get('001')).toBe(initialIdentityMigration.checksum);
@@ -92,11 +101,19 @@ describe('Zhiban PostgreSQL migrations', () => {
       expect.objectContaining({ version: '002', applied: true, checksumMatches: true }),
       expect.objectContaining({ version: '003', applied: true, checksumMatches: true }),
       expect.objectContaining({ version: '004', applied: true, checksumMatches: true }),
+      expect.objectContaining({ version: '005', applied: true, checksumMatches: true }),
+      expect.objectContaining({ version: '006', applied: true, checksumMatches: true }),
+      expect.objectContaining({ version: '007', applied: true, checksumMatches: true }),
+      expect.objectContaining({ version: '008', applied: true, checksumMatches: true }),
     ]);
-    await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('004');
+    await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('008');
     expect(db.applied.has('001')).toBe(true);
     expect(db.applied.has('002')).toBe(true);
 
+    await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('007');
+    await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('006');
+    await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('005');
+    await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('004');
     await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('003');
     await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('002');
     await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('001');

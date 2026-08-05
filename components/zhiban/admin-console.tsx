@@ -2,6 +2,7 @@
 
 import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { LogOut, Plus, RefreshCw, ShieldCheck, UserRoundCog, Users } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -93,6 +94,9 @@ export function AdminConsole({ principal }: { principal: AuthorizedPrincipal }) 
           </p>
         </div>
         <div className="flex gap-2">
+          <Button variant="secondary" asChild>
+            <Link href="/zhiban/admin/academic">班级与课程</Link>
+          </Button>
           <Button variant="secondary" onClick={() => void load()} disabled={loading}>
             <RefreshCw className={`mr-2 size-4 ${loading ? 'animate-spin' : ''}`} />
             刷新

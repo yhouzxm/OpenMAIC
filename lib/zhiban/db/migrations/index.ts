@@ -2,12 +2,20 @@ import { initialIdentityMigration, type ZhibanMigration } from './001-initial-id
 import { localAuthMigration } from './002-local-auth';
 import { defaultRbacMigration } from './003-default-rbac';
 import { rbacDataScopesMigration } from './004-rbac-data-scopes';
+import { academicOrganizationMigration } from './005-academic-organization';
+import { bulkImportMigration } from './006-bulk-import';
+import { teacherCourseSettingsMigration } from './007-teacher-course-settings';
+import { completeTeacherCourseSettingsMigration } from './008-complete-teacher-course-settings';
 
 export const ZHIBAN_MIGRATIONS: readonly ZhibanMigration[] = [
   initialIdentityMigration,
   localAuthMigration,
   defaultRbacMigration,
   rbacDataScopesMigration,
+  academicOrganizationMigration,
+  bulkImportMigration,
+  teacherCourseSettingsMigration,
+  completeTeacherCourseSettingsMigration,
 ];
 
 export type { ZhibanMigration } from './001-initial-identity';

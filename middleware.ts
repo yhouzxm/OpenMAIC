@@ -55,9 +55,7 @@ export async function middleware(request: NextRequest) {
   if (
     pathname.startsWith('/api/access-code/') ||
     pathname === '/api/health' ||
-    pathname === '/api/zhiban/health' ||
-    pathname.startsWith('/api/zhiban/auth/') ||
-    pathname.startsWith('/api/zhiban/admin/')
+    pathname.startsWith('/api/zhiban/')
   ) {
     return NextResponse.next();
   }

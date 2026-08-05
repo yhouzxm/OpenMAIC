@@ -152,7 +152,7 @@ export async function createLocalAccount(
       const assignment = await client.query<{ id: string }>(
         `INSERT INTO zhiban.role_assignments
           (id, tenant_id, account_id, role_id, scope_type, scope_id)
-         SELECT $1, $2, $3, r.id, $5, $6
+         SELECT $1::uuid, $2::uuid, $3::uuid, r.id, $5::varchar(32), $6::uuid
          FROM zhiban.roles r
          WHERE r.code = $4 AND (r.tenant_id IS NULL OR r.tenant_id = $2)
          ORDER BY r.tenant_id NULLS LAST
