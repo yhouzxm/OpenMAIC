@@ -2,7 +2,7 @@
 
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, BookOpen, RefreshCw, Save } from 'lucide-react';
+import { ArrowLeft, BookOpen, RefreshCw, Save, Workflow } from 'lucide-react';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -12,6 +12,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import type { TeacherCourse } from '@/lib/zhiban/teacher-courses';
+import { ZhibanLogoutButton } from './logout-button';
 
 const selectClass = 'h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm';
 const text = (values: Record<string, FormDataEntryValue>, key: string) => String(values[key] ?? '');
@@ -97,7 +98,7 @@ export function TeacherCourseConsole({ principalName }: { principalName: string 
   return <main className="mx-auto min-h-screen max-w-7xl px-4 py-6">
     <header className="mb-6 flex items-center justify-between rounded-2xl bg-slate-950 px-6 py-5 text-white">
       <div><p className="text-sm text-teal-300">授课教师工作台 · {principalName}</p><h1 className="text-2xl font-semibold">课程设定</h1></div>
-      <div className="flex gap-2"><Button variant="secondary" asChild><Link href="/zhiban"><ArrowLeft className="mr-2 size-4" />返回</Link></Button><Button variant="secondary" onClick={() => void load()}><RefreshCw className="size-4" /></Button></div>
+      <div className="flex gap-2"><Button variant="secondary" asChild><Link href="/zhiban/teacher/pbl"><Workflow className="mr-2 size-4" />PBL 项目</Link></Button><Button variant="secondary" asChild><Link href="/zhiban"><ArrowLeft className="mr-2 size-4" />返回</Link></Button><Button variant="secondary" onClick={() => void load()}><RefreshCw className="size-4" /></Button><ZhibanLogoutButton /></div>
     </header>
     <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
       <Card><CardHeader><CardTitle>我的课程</CardTitle></CardHeader><CardContent className="space-y-2">

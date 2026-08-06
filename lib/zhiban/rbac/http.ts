@@ -5,7 +5,18 @@ import { ZHIBAN_SESSION_COOKIE } from '@/lib/zhiban/auth/http';
 import { getZhibanPool } from '@/lib/zhiban/db/connection';
 
 import { AuthorizationError, requirePermission, requireScopedPermission } from './service';
+import { getAuthorizedPrincipal } from './service';
 import type { PermissionCode, ResourceScopeContext } from './types';
+
+export async function requireRequestPrincipal() {
+  const cookieStore = await cookies();
+  const principal = await getAuthorizedPrincipal(
+    getZhibanPool(),
+    cookieStore.get(ZHIBAN_SESSION_COOKIE)?.value ?? '',
+  );
+  if (!principal) throw new AuthorizationError('Authentication required', 401);
+  return principal;
+}
 
 export async function requireRequestPermission(permission: PermissionCode) {
   const cookieStore = await cookies();

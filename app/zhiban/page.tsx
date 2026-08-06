@@ -11,6 +11,8 @@ export default async function ZhibanEntry() {
   if (!principal) redirect('/zhiban/login');
   if (hasScopedPermission(principal, 'account:read')) redirect('/zhiban/admin');
   if (principal.permissions.includes('course:manage')) redirect('/zhiban/teacher/courses');
+  if (principal.accountType === 'student' && principal.permissions.includes('course:read'))
+    redirect('/zhiban/student/pbl');
   return (
     <main className="mx-auto max-w-xl px-6 py-24 text-center">
       <h1 className="text-2xl font-semibold">账号尚未配置工作台权限</h1>

@@ -9,6 +9,7 @@ import { academicOrganizationMigration } from '@/lib/zhiban/db/migrations/005-ac
 import { bulkImportMigration } from '@/lib/zhiban/db/migrations/006-bulk-import';
 import { teacherCourseSettingsMigration } from '@/lib/zhiban/db/migrations/007-teacher-course-settings';
 import { completeTeacherCourseSettingsMigration } from '@/lib/zhiban/db/migrations/008-complete-teacher-course-settings';
+import { pblLearningMigration } from '@/lib/zhiban/db/migrations/009-pbl-learning';
 import type { QueryResult, ZhibanQueryable } from '@/lib/zhiban/db/types';
 
 class HealthDatabase implements ZhibanQueryable {
@@ -36,7 +37,7 @@ describe('checkZhibanDatabaseHealth', () => {
       status: 'migration_required',
       database: 'reachable',
       schema: 'missing',
-      pendingVersions: ['001', '002', '003', '004', '005', '006', '007', '008'],
+      pendingVersions: ['001', '002', '003', '004', '005', '006', '007', '008', '009'],
     });
   });
 
@@ -52,13 +53,14 @@ describe('checkZhibanDatabaseHealth', () => {
           { version: '006', checksum: bulkImportMigration.checksum },
           { version: '007', checksum: teacherCourseSettingsMigration.checksum },
           { version: '008', checksum: completeTeacherCourseSettingsMigration.checksum },
+          { version: '009', checksum: pblLearningMigration.checksum },
         ]),
       ),
     ).resolves.toMatchObject({
       status: 'healthy',
       database: 'reachable',
       schema: 'ready',
-      appliedVersions: ['001', '002', '003', '004', '005', '006', '007', '008'],
+      appliedVersions: ['001', '002', '003', '004', '005', '006', '007', '008', '009'],
       pendingVersions: [],
       driftedVersions: [],
     });
