@@ -6,10 +6,18 @@ describe('complete teacher course settings schema', () => {
 
   it('stores the complete teacher policy set', () => {
     for (const column of [
-      'starts_at', 'ends_at', 'pbl_projects', 'scene_rules', 'course_resources',
-      'prompt_strategy', 'grading_policy', 'assignment_policy', 'warning_policy',
+      'starts_at',
+      'ends_at',
+      'pbl_projects',
+      'scene_rules',
+      'course_resources',
+      'prompt_strategy',
+      'grading_policy',
+      'assignment_policy',
+      'warning_policy',
       'intervention_policy',
-    ]) expect(sql).toContain(column);
+    ])
+      expect(sql).toContain(column);
   });
 
   it('constrains dates and JSON container types', () => {

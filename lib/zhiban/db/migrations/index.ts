@@ -11,6 +11,8 @@ import { pblCollaborationAssessmentMigration } from './010-pbl-collaboration-ass
 import { openmaicClassroomAdaptationMigration } from './011-openmaic-classroom-adaptation';
 import { classroomInteractionEventsMigration } from './012-classroom-interaction-events';
 import { classroomEventRollbackCompatibilityMigration } from './013-classroom-event-rollback-compatibility';
+import { learningEventsProfilesMigration } from './014-learning-events-profiles';
+import { learnerProfileGovernanceMigration } from './015-learner-profile-governance';
 
 export const ZHIBAN_MIGRATIONS: readonly ZhibanMigration[] = [
   initialIdentityMigration,
@@ -26,6 +28,8 @@ export const ZHIBAN_MIGRATIONS: readonly ZhibanMigration[] = [
   openmaicClassroomAdaptationMigration,
   classroomInteractionEventsMigration,
   classroomEventRollbackCompatibilityMigration,
+  learningEventsProfilesMigration,
+  learnerProfileGovernanceMigration,
 ];
 
 export type { ZhibanMigration } from './001-initial-identity';

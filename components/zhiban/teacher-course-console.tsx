@@ -2,7 +2,15 @@
 
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, BookOpen, GraduationCap, RefreshCw, Save, Workflow } from 'lucide-react';
+import {
+  ArrowLeft,
+  BarChart3,
+  BookOpen,
+  GraduationCap,
+  RefreshCw,
+  Save,
+  Workflow,
+} from 'lucide-react';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -143,7 +151,16 @@ export function TeacherCourseConsole({ principalName }: { principalName: string 
         </div>
         <div className="flex gap-2">
           <Button variant="secondary" asChild>
-            <Link href="/zhiban/teacher/classrooms"><GraduationCap className="mr-2 size-4" />课堂绑定</Link>
+            <Link href="/zhiban/teacher/profiles">
+              <BarChart3 className="mr-2 size-4" />
+              学习画像
+            </Link>
+          </Button>
+          <Button variant="secondary" asChild>
+            <Link href="/zhiban/teacher/classrooms">
+              <GraduationCap className="mr-2 size-4" />
+              课堂绑定
+            </Link>
           </Button>
           <Button variant="secondary" asChild>
             <Link href="/zhiban/teacher/pbl">

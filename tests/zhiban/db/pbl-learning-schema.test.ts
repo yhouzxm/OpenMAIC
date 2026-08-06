@@ -5,7 +5,13 @@ describe('Zhiban PBL learning schema', () => {
   const sql = pblLearningMigration.up.join('\n');
 
   it('stores definitions, learner state, events, submissions, and evaluations', () => {
-    for (const table of ['pbl_projects', 'pbl_project_instances', 'pbl_learning_events', 'pbl_submissions', 'pbl_evaluations']) {
+    for (const table of [
+      'pbl_projects',
+      'pbl_project_instances',
+      'pbl_learning_events',
+      'pbl_submissions',
+      'pbl_evaluations',
+    ]) {
       expect(sql).toContain(`CREATE TABLE zhiban.${table}`);
     }
   });

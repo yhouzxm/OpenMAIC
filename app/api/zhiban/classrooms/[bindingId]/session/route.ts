@@ -7,6 +7,7 @@ import {
   requireRequestPrincipal,
 } from '@/lib/zhiban/rbac';
 import { recordClassroomEvent, startClassroomSession } from '@/lib/zhiban/classroom';
+import { rebuildLearnerProfile } from '@/lib/zhiban/profile';
 
 const eventSchema = z.object({
   eventId: z.uuid(),
@@ -62,9 +63,11 @@ export async function PATCH(
       return NextResponse.json({ error: 'Invalid classroom event' }, { status: 400 });
     const principal = await student();
     const { bindingId } = await context.params;
-    return NextResponse.json(
-      await recordClassroomEvent(getZhibanPool(), principal, bindingId, parsed.data),
-    );
+    const pool = getZhibanPool();
+    const result = await recordClassroomEvent(pool, principal, bindingId, parsed.data);
+    if (result.accepted)
+      await rebuildLearnerProfile(pool, principal, principal.id, result.courseId);
+    return NextResponse.json(result);
   } catch (error) {
     return (
       authorizationErrorResponse(error) ??

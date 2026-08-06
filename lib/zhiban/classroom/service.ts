@@ -223,8 +223,12 @@ export async function recordClassroomEvent(
 ) {
   return withZhibanTenant(pool, principal.tenantId, async (client) => {
     await requireStudentBinding(client, principal, bindingId);
-    const session = await client.query<{ id: string; visited_scene_ids: string[] }>(
-      `SELECT id,visited_scene_ids FROM zhiban.classroom_learning_sessions WHERE course_classroom_id=$1 AND student_id=$2`,
+    const session = await client.query<{
+      id: string;
+      visited_scene_ids: string[];
+      course_id: string;
+    }>(
+      `SELECT s.id,s.visited_scene_ids,cc.course_id FROM zhiban.classroom_learning_sessions s JOIN zhiban.course_classrooms cc ON cc.id=s.course_classroom_id WHERE s.course_classroom_id=$1 AND s.student_id=$2`,
       [bindingId, principal.id],
     );
     if (!session.rows[0]) throw new Error('Classroom session has not started');
@@ -243,7 +247,7 @@ export async function recordClassroomEvent(
       });
       if (!decision.allowed) throw new Error(decision.reason ?? 'Scene is locked');
     }
-    const inserted = await client.query(
+    const inserted = await client.query<{ id: string }>(
       `INSERT INTO zhiban.classroom_learning_events (id,tenant_id,session_id,event_id,event_type,scene_id,payload,occurred_at) VALUES ($1,$2,$3,$4,$5,$6,$7::jsonb,$8) ON CONFLICT (tenant_id,event_id) DO NOTHING RETURNING id`,
       [
         randomUUID(),
@@ -257,6 +261,25 @@ export async function recordClassroomEvent(
       ],
     );
     if (inserted.rows[0]) {
+      await client.query(
+        `INSERT INTO zhiban.learning_events (id,tenant_id,learner_id,course_id,source_kind,source_id,event_type,classroom_binding_id,payload,occurred_at,expires_at)
+         SELECT $1,$2,$3,cc.course_id,'classroom',$4,$5,cc.id,$6::jsonb,$7,
+           $7::timestamptz+(COALESCE(pref.retention_days,730)||' days')::interval
+         FROM zhiban.course_classrooms cc
+         LEFT JOIN zhiban.learner_profile_preferences pref ON pref.learner_id=$3 AND pref.course_id=cc.course_id
+         WHERE cc.id=$8 AND COALESCE(pref.collection_enabled,true)
+         ON CONFLICT (tenant_id,source_kind,source_id) DO NOTHING`,
+        [
+          randomUUID(),
+          principal.tenantId,
+          principal.id,
+          inserted.rows[0].id,
+          input.eventType,
+          JSON.stringify(input.payload),
+          input.occurredAt,
+          bindingId,
+        ],
+      );
       const visited = input.sceneId
         ? [...new Set([...(session.rows[0].visited_scene_ids ?? []), input.sceneId])]
         : session.rows[0].visited_scene_ids;
@@ -272,7 +295,7 @@ export async function recordClassroomEvent(
         ],
       );
     }
-    return { accepted: Boolean(inserted.rows[0]) };
+    return { accepted: Boolean(inserted.rows[0]), courseId: session.rows[0].course_id };
   });
 }
 
