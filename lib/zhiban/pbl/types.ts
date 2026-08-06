@@ -23,6 +23,9 @@ export interface ZhibanPblProject extends ZhibanPblDefinitionInput {
   status: 'draft' | 'published' | 'archived';
   packageVersion: number;
   openmaicPackage: import('@/lib/types/generation').GeneratedPBLContent | null;
+  templateId?: string | null;
+  rubricId?: string | null;
+  gradeItemId?: string | null;
 }
 
 export interface ZhibanPblProjectInput extends Omit<ZhibanPblDefinitionInput, 'id'> {
@@ -42,6 +45,8 @@ export interface ZhibanPblInstance {
   packageVersion: number;
   projectState: import('@/lib/pbl/v2/types').PBLProjectV2;
   lastActivityAt: string | null;
+  group?: { id: string; name: string; role: 'leader' | 'member' | 'recorder' | 'presenter'; members: Array<{ name: string; role: string }> } | null;
+  submissionReviews?: Array<{ id: string; microtaskId: string; version: number; status: string; feedback: string; submittedAt: string }>;
 }
 
 export interface StudentPblProjectSummary {

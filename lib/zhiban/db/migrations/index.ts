@@ -7,6 +7,7 @@ import { bulkImportMigration } from './006-bulk-import';
 import { teacherCourseSettingsMigration } from './007-teacher-course-settings';
 import { completeTeacherCourseSettingsMigration } from './008-complete-teacher-course-settings';
 import { pblLearningMigration } from './009-pbl-learning';
+import { pblCollaborationAssessmentMigration } from './010-pbl-collaboration-assessment';
 
 export const ZHIBAN_MIGRATIONS: readonly ZhibanMigration[] = [
   initialIdentityMigration,
@@ -18,6 +19,7 @@ export const ZHIBAN_MIGRATIONS: readonly ZhibanMigration[] = [
   teacherCourseSettingsMigration,
   completeTeacherCourseSettingsMigration,
   pblLearningMigration,
+  pblCollaborationAssessmentMigration,
 ];
 
 export type { ZhibanMigration } from './001-initial-identity';

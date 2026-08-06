@@ -1,4 +1,4 @@
-import { randomUUID } from 'node:crypto';
+import { createHash, randomUUID } from 'node:crypto';
 import { isPBLProjectV2, type PBLProjectV2 } from '@/lib/pbl/v2/types';
 import { withZhibanTenant } from '@/lib/zhiban/db/tenant-context';
 import type { ZhibanDatabasePool } from '@/lib/zhiban/db/types';
@@ -23,6 +23,9 @@ function project(row: Record<string, unknown>): ZhibanPblProject {
     closesAt: row.closes_at ? new Date(row.closes_at as string).toISOString() : null,
     status: row.status as ZhibanPblProject['status'], packageVersion: row.package_version as number,
     openmaicPackage: row.openmaic_package as GeneratedPBLContent | null,
+    templateId: row.template_id as string | null | undefined,
+    rubricId: row.rubric_id as string | null | undefined,
+    gradeItemId: row.grade_item_id as string | null | undefined,
   };
 }
 
@@ -68,6 +71,22 @@ export async function saveGeneratedPblPackage(pool: ZhibanDatabasePool, principa
       `UPDATE zhiban.pbl_projects SET openmaic_package=$3::jsonb,package_version=package_version+1,updated_by=$4,updated_at=now() WHERE id=$1 AND tenant_id=$2 RETURNING *`,
       [projectId, principal.tenantId, JSON.stringify(content), principal.id],
     );
+    const tasks = content.projectV2!.milestones.flatMap((milestone) =>
+      milestone.microtasks.map((task) => ({ task, milestone })),
+    );
+    await client.query(`DELETE FROM zhiban.pbl_tasks WHERE project_id=$1 AND tenant_id=$2`, [projectId, principal.tenantId]);
+    let previousTaskId: string | null = null;
+    for (let index = 0; index < tasks.length; index += 1) {
+      const { task, milestone } = tasks[index];
+      const id = randomUUID();
+      await client.query(
+        `INSERT INTO zhiban.pbl_tasks (id,tenant_id,project_id,openmaic_task_id,milestone_id,title,description,display_order,task_scope,dependencies)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,'individual',$9::jsonb)`,
+        [id, principal.tenantId, projectId, task.id, milestone.id, task.title, task.description ?? '', index,
+          JSON.stringify(previousTaskId ? [previousTaskId] : [])],
+      );
+      previousTaskId = id;
+    }
     return project(result.rows[0]);
   });
 }
@@ -177,10 +196,26 @@ export async function syncStudentPblInstance(pool: ZhibanDatabasePool, principal
       `INSERT INTO zhiban.pbl_learning_events (id,tenant_id,instance_id,source_event_id,event_type,actor_type,payload,occurred_at)
        VALUES ($1,$2,$3,$4,$5,$6,$7::jsonb,$8) ON CONFLICT (instance_id,source_event_id) DO NOTHING`,
       [randomUUID(), principal.tenantId, instanceId, event.id, event.kind, event.actorType === 'user' ? 'student' : event.actorType, JSON.stringify(event), event.ts]);
-    for (const submission of projectState.submissions) await client.query(
-      `INSERT INTO zhiban.pbl_submissions (id,tenant_id,instance_id,milestone_id,microtask_id,kind,content,file_url,attempt,submitted_at)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) ON CONFLICT (instance_id,microtask_id,attempt) DO UPDATE SET content=EXCLUDED.content,file_url=EXCLUDED.file_url,submitted_at=EXCLUDED.submitted_at`,
-      [submission.id, principal.tenantId, instanceId, submission.milestoneId ?? null, submission.microtaskId, submission.kind, submission.content, submission.fileUrl ?? null, 1, submission.createdAt]);
+    for (const submission of projectState.submissions) {
+      const exists = await client.query<{ id: string }>(`SELECT id FROM zhiban.pbl_submissions WHERE id=$1 AND tenant_id=$2`, [submission.id, principal.tenantId]);
+      if (exists.rows[0]) continue;
+      const next = await client.query<{ version: number }>(
+        `SELECT COALESCE(max(attempt),0)+1 AS version FROM zhiban.pbl_submissions WHERE instance_id=$1 AND microtask_id=$2`,
+        [instanceId, submission.microtaskId],
+      );
+      const group = await client.query<{ group_id: string }>(
+        `SELECT gm.group_id FROM zhiban.pbl_group_members gm JOIN zhiban.pbl_project_instances i ON i.project_id=gm.project_id
+         WHERE i.id=$1 AND gm.student_id=$2 AND gm.left_at IS NULL LIMIT 1`, [instanceId, principal.id],
+      );
+      const hash = createHash('sha256').update(submission.content).update(submission.fileUrl ?? '').digest('hex');
+      await client.query(
+        `INSERT INTO zhiban.pbl_submissions (id,tenant_id,instance_id,milestone_id,microtask_id,kind,content,file_url,attempt,submitted_at,submitted_by,group_id,content_hash,hash_algorithm)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,'sha256')`,
+        [submission.id, principal.tenantId, instanceId, submission.milestoneId ?? null, submission.microtaskId,
+          submission.kind, submission.content, submission.fileUrl ?? null, next.rows[0]?.version ?? 1,
+          submission.createdAt, principal.id, group.rows[0]?.group_id ?? null, hash],
+      );
+    }
     for (const evaluation of projectState.evaluations) await client.query(
       `INSERT INTO zhiban.pbl_evaluations (id,tenant_id,instance_id,source_evaluation_id,kind,milestone_id,microtask_id,score,feedback,evidence,evaluated_at)
        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10::jsonb,$11) ON CONFLICT (instance_id,source_evaluation_id) DO NOTHING`,
@@ -200,6 +235,13 @@ export async function getStudentPblInstance(pool: ZhibanDatabasePool, principal:
        WHERE i.id=$1 AND i.tenant_id=$2 AND i.student_id=$3`, [instanceId, principal.tenantId, principal.id]);
     if (!result.rows[0]) throw new Error('PBL instance not found');
     const row = result.rows[0];
-    return instance(row, row.project_title as string, row.course_id as string, row.course_name as string);
+    const [group, reviews] = await Promise.all([
+      client.query<Record<string, unknown>>(`SELECT g.id,g.name,me.group_role,COALESCE(jsonb_agg(jsonb_build_object('name',a.display_name,'role',gm.group_role)),'[]') AS members FROM zhiban.pbl_group_members me JOIN zhiban.pbl_groups g ON g.id=me.group_id JOIN zhiban.pbl_group_members gm ON gm.group_id=g.id AND gm.left_at IS NULL JOIN zhiban.accounts a ON a.id=gm.student_id WHERE me.project_id=$1 AND me.student_id=$2 AND me.left_at IS NULL GROUP BY g.id,me.group_role`, [row.project_id, principal.id]),
+      client.query<Record<string, unknown>>(`SELECT id,microtask_id,attempt,review_status,COALESCE(teacher_feedback,'') AS teacher_feedback,submitted_at FROM zhiban.pbl_submissions WHERE instance_id=$1 ORDER BY submitted_at DESC`, [instanceId]),
+    ]);
+    return { ...instance(row, row.project_title as string, row.course_id as string, row.course_name as string),
+      group: group.rows[0] ? { id: group.rows[0].id as string, name: group.rows[0].name as string, role: group.rows[0].group_role as NonNullable<ZhibanPblInstance['group']>['role'], members: group.rows[0].members as Array<{ name: string; role: string }> } : null,
+      submissionReviews: reviews.rows.map((review) => ({ id: review.id as string, microtaskId: review.microtask_id as string, version: Number(review.attempt), status: review.review_status as string, feedback: review.teacher_feedback as string, submittedAt: new Date(review.submitted_at as string).toISOString() })),
+    };
   });
 }
