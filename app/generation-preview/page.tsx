@@ -56,6 +56,7 @@ import {
 } from './types';
 import { StepVisualizer } from './components/visualizers';
 import { resolveTaskEngineModeFromOutlineDoneEvent } from './vocational-mode';
+import { toast } from 'sonner';
 
 const log = createLogger('GenerationPreview');
 const OUTLINE_REVIEW_AUTO_CONTINUE_MS = 2500;
@@ -1082,6 +1083,50 @@ function GenerationPreviewContent() {
 
       sessionStorage.removeItem('generationSession');
       await store.saveToStorage();
+      const zhibanDraftRaw = sessionStorage.getItem('zhibanClassroomDraft');
+      if (zhibanDraftRaw) {
+        try {
+          const zhibanDraft = JSON.parse(zhibanDraftRaw) as {
+            courseId: string;
+            courseName: string;
+          };
+          const generated = useStageStore.getState();
+          const persisted = await fetch('/api/classroom', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ stage: generated.stage, scenes: generated.scenes }),
+          });
+          if (!persisted.ok) {
+            const body = await persisted.json().catch(() => ({}));
+            throw new Error(body.error?.message ?? body.error ?? '课堂服务端持久化失败');
+          }
+          const response = await fetch(
+            `/api/zhiban/teacher/courses/${zhibanDraft.courseId}/classrooms`,
+            {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({
+                classroomId: stage.id,
+                title: stage.name,
+                description: stage.description ?? '',
+                displayOrder: 0,
+                opensAt: null,
+                closesAt: null,
+                status: 'draft',
+              }),
+            },
+          );
+          const body = await response.json().catch(() => ({}));
+          if (!response.ok) throw new Error(body.error ?? '自动绑定失败');
+          sessionStorage.removeItem('zhibanClassroomDraft');
+          toast.success(`课堂已自动绑定到《${zhibanDraft.courseName}》，当前为草稿`);
+        } catch (bindingError) {
+          log.error('[Zhiban] Classroom auto-binding failed:', bindingError);
+          toast.error(
+            `课堂已生成，但自动绑定失败：${bindingError instanceof Error ? bindingError.message : '未知错误'}`,
+          );
+        }
+      }
       router.push(`/classroom/${stage.id}`);
     } catch (err) {
       setIsOutlineStreaming(false);

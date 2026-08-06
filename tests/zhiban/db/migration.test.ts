@@ -62,6 +62,9 @@ describe('Zhiban PostgreSQL migrations', () => {
       '008',
       '009',
       '010',
+      '011',
+      '012',
+      '013',
     ]);
     await expect(migrateZhibanDatabase(db)).resolves.toEqual([]);
 
@@ -109,11 +112,17 @@ describe('Zhiban PostgreSQL migrations', () => {
       expect.objectContaining({ version: '008', applied: true, checksumMatches: true }),
       expect.objectContaining({ version: '009', applied: true, checksumMatches: true }),
       expect.objectContaining({ version: '010', applied: true, checksumMatches: true }),
+      expect.objectContaining({ version: '011', applied: true, checksumMatches: true }),
+      expect.objectContaining({ version: '012', applied: true, checksumMatches: true }),
+      expect.objectContaining({ version: '013', applied: true, checksumMatches: true }),
     ]);
-    await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('010');
+    await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('013');
     expect(db.applied.has('001')).toBe(true);
     expect(db.applied.has('002')).toBe(true);
 
+    await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('012');
+    await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('011');
+    await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('010');
     await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('009');
     await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('008');
     await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('007');

@@ -23,9 +23,9 @@ import {
 
 const log = createLogger('Classroom');
 
-export default function ClassroomDetailPage() {
+export function OpenMaicClassroomPlayer({ classroomId: providedClassroomId }: { classroomId?: string }) {
   const params = useParams();
-  const classroomId = params?.id as string;
+  const classroomId = providedClassroomId ?? params?.id as string;
 
   const { loadFromStorage } = useStageStore();
 
@@ -200,4 +200,8 @@ export default function ClassroomDetailPage() {
       </MediaStageProvider>
     </ThemeProvider>
   );
+}
+
+export default function ClassroomDetailPage() {
+  return <OpenMaicClassroomPlayer />;
 }

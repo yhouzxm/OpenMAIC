@@ -8,6 +8,9 @@ import { teacherCourseSettingsMigration } from './007-teacher-course-settings';
 import { completeTeacherCourseSettingsMigration } from './008-complete-teacher-course-settings';
 import { pblLearningMigration } from './009-pbl-learning';
 import { pblCollaborationAssessmentMigration } from './010-pbl-collaboration-assessment';
+import { openmaicClassroomAdaptationMigration } from './011-openmaic-classroom-adaptation';
+import { classroomInteractionEventsMigration } from './012-classroom-interaction-events';
+import { classroomEventRollbackCompatibilityMigration } from './013-classroom-event-rollback-compatibility';
 
 export const ZHIBAN_MIGRATIONS: readonly ZhibanMigration[] = [
   initialIdentityMigration,
@@ -20,6 +23,9 @@ export const ZHIBAN_MIGRATIONS: readonly ZhibanMigration[] = [
   completeTeacherCourseSettingsMigration,
   pblLearningMigration,
   pblCollaborationAssessmentMigration,
+  openmaicClassroomAdaptationMigration,
+  classroomInteractionEventsMigration,
+  classroomEventRollbackCompatibilityMigration,
 ];
 
 export type { ZhibanMigration } from './001-initial-identity';

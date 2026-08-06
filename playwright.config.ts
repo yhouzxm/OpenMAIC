@@ -1,5 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const systemBrowser = process.env.PLAYWRIGHT_USE_SYSTEM_EDGE === 'true' ? { channel: 'msedge' as const } : {};
+
 export default defineConfig({
   testDir: './e2e/tests',
   fullyParallel: true,
@@ -15,14 +17,14 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { ...devices['Desktop Chrome'], ...systemBrowser },
     },
   ],
   webServer: {
-    command: process.env.CI ? 'pnpm build && pnpm start' : 'pnpm dev',
-    url: 'http://localhost:3002',
+    command: process.env.CI ? 'pnpm build && pnpm start' : 'pnpm exec next dev --webpack',
+    url: 'http://localhost:3002/zhiban/login',
     reuseExistingServer: !process.env.CI,
-    timeout: 120_000,
+    timeout: 300_000,
     // Enable the MAIC Editor (Pro mode) so editor e2e can reach it. This is a
     // build-time NEXT_PUBLIC_* flag, so it must be set when the webServer runs
     // `pnpm build` (CI) or `pnpm dev` (local).

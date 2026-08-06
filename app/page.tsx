@@ -100,6 +100,7 @@ function HomePage() {
   const router = useRouter();
   const showVocationalTestUi = shouldShowVocationalTestUi();
   const [form, setForm] = useState<FormState>(initialFormState);
+  const [zhibanCourse, setZhibanCourse] = useState<{ id: string; name: string } | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [settingsSection, setSettingsSection] = useState<
     import('@/lib/types/settings').SettingsSection | undefined
@@ -144,6 +145,19 @@ function HomePage() {
     } catch {
       /* localStorage unavailable */
     }
+  }, []);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('zhibanCourseId');
+    const name = params.get('zhibanCourseName');
+    if (!id || !name) return;
+    setZhibanCourse({ id, name });
+    setForm((previous) =>
+      previous.requirement
+        ? previous
+        : { ...previous, requirement: `请为《${name}》创建一节适合成人学习者的互动课堂。` },
+    );
   }, []);
 
   // Restore requirement draft from localStorage on mount. The previous derived-state
@@ -399,6 +413,12 @@ function HomePage() {
         currentStep: 'generating' as const,
       };
       sessionStorage.setItem('generationSession', JSON.stringify(sessionState));
+      if (zhibanCourse)
+        sessionStorage.setItem(
+          'zhibanClassroomDraft',
+          JSON.stringify({ courseId: zhibanCourse.id, courseName: zhibanCourse.name }),
+        );
+      else sessionStorage.removeItem('zhibanClassroomDraft');
 
       router.push('/generation-preview');
     } catch (err) {
@@ -430,6 +450,13 @@ function HomePage() {
 
   return (
     <div className="min-h-[100dvh] w-full bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 flex flex-col items-center p-4 pt-16 md:p-8 md:pt-16 overflow-x-hidden">
+      {zhibanCourse && (
+        <div className="mb-4 w-full max-w-3xl rounded-xl border border-teal-300 bg-teal-50 px-4 py-3 text-sm text-teal-900">
+          <b>智伴课程：</b>
+          {zhibanCourse.name}
+          <span className="ml-2 text-teal-700">课堂生成成功后将自动绑定为草稿。</span>
+        </div>
+      )}
       <input
         ref={fileInputRef}
         type="file"

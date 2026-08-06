@@ -203,6 +203,22 @@ export const ChatArea = forwardRef<ChatAreaRef, ChatAreaProps>(
       return softClosing ? continueSoftClosingSession(softClosing.id) : false;
     }, [chatSessions, continueSoftClosingSession]);
 
+    const trackedSendMessage = useCallback(
+      async (content: string) => {
+        window.dispatchEvent(
+          new CustomEvent('zhiban:classroom-interaction', {
+            detail: {
+              type: 'chat_message',
+              sceneId: currentSceneId ?? undefined,
+              payload: { characterCount: content.length },
+            },
+          }),
+        );
+        await sendMessage(content);
+      },
+      [currentSceneId, sendMessage],
+    );
+
     const switchToTab = useCallback((tab: 'lecture' | 'chat') => {
       setActiveTab(tab);
     }, []);
@@ -215,7 +231,7 @@ export const ChatArea = forwardRef<ChatAreaRef, ChatAreaProps>(
       continueActiveSoftClosingSession: handleContinueActiveSoftClosingSession,
       softPauseActiveSession,
       resumeActiveSession,
-      sendMessage,
+      sendMessage: trackedSendMessage,
       startDiscussion,
       startLecture,
       addLectureMessage,

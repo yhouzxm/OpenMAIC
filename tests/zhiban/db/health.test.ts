@@ -11,6 +11,9 @@ import { teacherCourseSettingsMigration } from '@/lib/zhiban/db/migrations/007-t
 import { completeTeacherCourseSettingsMigration } from '@/lib/zhiban/db/migrations/008-complete-teacher-course-settings';
 import { pblLearningMigration } from '@/lib/zhiban/db/migrations/009-pbl-learning';
 import { pblCollaborationAssessmentMigration } from '@/lib/zhiban/db/migrations/010-pbl-collaboration-assessment';
+import { openmaicClassroomAdaptationMigration } from '@/lib/zhiban/db/migrations/011-openmaic-classroom-adaptation';
+import { classroomInteractionEventsMigration } from '@/lib/zhiban/db/migrations/012-classroom-interaction-events';
+import { classroomEventRollbackCompatibilityMigration } from '@/lib/zhiban/db/migrations/013-classroom-event-rollback-compatibility';
 import type { QueryResult, ZhibanQueryable } from '@/lib/zhiban/db/types';
 
 class HealthDatabase implements ZhibanQueryable {
@@ -38,7 +41,7 @@ describe('checkZhibanDatabaseHealth', () => {
       status: 'migration_required',
       database: 'reachable',
       schema: 'missing',
-      pendingVersions: ['001', '002', '003', '004', '005', '006', '007', '008', '009', '010'],
+      pendingVersions: ['001', '002', '003', '004', '005', '006', '007', '008', '009', '010', '011', '012', '013'],
     });
   });
 
@@ -56,13 +59,16 @@ describe('checkZhibanDatabaseHealth', () => {
           { version: '008', checksum: completeTeacherCourseSettingsMigration.checksum },
           { version: '009', checksum: pblLearningMigration.checksum },
           { version: '010', checksum: pblCollaborationAssessmentMigration.checksum },
+          { version: '011', checksum: openmaicClassroomAdaptationMigration.checksum },
+          { version: '012', checksum: classroomInteractionEventsMigration.checksum },
+          { version: '013', checksum: classroomEventRollbackCompatibilityMigration.checksum },
         ]),
       ),
     ).resolves.toMatchObject({
       status: 'healthy',
       database: 'reachable',
       schema: 'ready',
-      appliedVersions: ['001', '002', '003', '004', '005', '006', '007', '008', '009', '010'],
+      appliedVersions: ['001', '002', '003', '004', '005', '006', '007', '008', '009', '010', '011', '012', '013'],
       pendingVersions: [],
       driftedVersions: [],
     });

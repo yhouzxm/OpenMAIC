@@ -12,6 +12,7 @@ import {
   AlertCircle,
   RefreshCw,
   Trophy,
+  Lock,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { SlideThumbnail } from '@/components/slide-renderer/SlideThumbnail';
@@ -20,6 +21,7 @@ import { useStageStore, useCanvasStore } from '@/lib/store';
 import { useI18n } from '@/lib/hooks/use-i18n';
 import type { SceneType, SlideContent, InteractiveContent } from '@/lib/types/stage';
 import { PENDING_SCENE_ID } from '@/lib/store/stage';
+import { useClassroomAccessStore } from '@/lib/zhiban/classroom/client-access-store';
 
 interface SceneSidebarProps {
   readonly collapsed: boolean;
@@ -47,6 +49,7 @@ export function SceneSidebar({
   const failedOutlines = useStageStore.use.failedOutlines();
   const viewportSize = useCanvasStore.use.viewportSize();
   const viewportRatio = useCanvasStore.use.viewportRatio();
+  const lockedScenes = useClassroomAccessStore((state) => state.lockedScenes);
 
   const [retryingOutlineId, setRetryingOutlineId] = useState<string | null>(null);
 
@@ -152,12 +155,16 @@ export function SceneSidebar({
             const isInteractive = scene.type === 'interactive';
             const slideContent = isSlide ? (scene.content as SlideContent) : null;
             const interactiveContent = isInteractive ? (scene.content as InteractiveContent) : null;
+            const lockedReason = lockedScenes[scene.id];
 
             return (
               <div
                 key={scene.id}
                 data-testid="scene-item"
+                aria-disabled={Boolean(lockedReason)}
+                title={lockedReason}
                 onClick={() => {
+                  if (lockedReason) return;
                   if (onSceneSelect) {
                     onSceneSelect(scene.id);
                   } else {
@@ -165,7 +172,8 @@ export function SceneSidebar({
                   }
                 }}
                 className={cn(
-                  'group relative rounded-lg transition-all duration-200 cursor-pointer flex flex-col gap-1 p-1.5',
+                  'group relative rounded-lg transition-all duration-200 flex flex-col gap-1 p-1.5',
+                  lockedReason ? 'cursor-not-allowed opacity-60' : 'cursor-pointer',
                   isActive
                     ? 'bg-purple-50 dark:bg-purple-900/20 ring-1 ring-purple-200 dark:ring-purple-700'
                     : 'hover:bg-gray-50/80 dark:hover:bg-gray-800/50',
@@ -195,6 +203,9 @@ export function SceneSidebar({
                     >
                       {scene.title}
                     </span>
+                    {lockedReason && (
+                      <Lock className="size-3 shrink-0 text-amber-600" aria-label={lockedReason} />
+                    )}
                   </div>
                 </div>
 

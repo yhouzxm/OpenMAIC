@@ -836,6 +836,30 @@ export function QuizView({ questions, sceneId, stageId }: QuizViewProps) {
       if (cancelled) return;
       setResults(ordered);
       setPhase('reviewing');
+      const earned = ordered.reduce((sum, result) => sum + result.earned, 0);
+      const total = questions.reduce((sum, question) => sum + (question.points ?? 1), 0);
+      window.dispatchEvent(
+        new CustomEvent('zhiban:classroom-interaction', {
+          detail: {
+            type: 'quiz_completed',
+            sceneId,
+            payload: {
+              score: total > 0 ? Math.round((earned / total) * 100) : 0,
+              questionCount: questions.length,
+              answers: questions.map((question) => {
+                const result = ordered.find((item) => item.questionId === question.id);
+                return {
+                  questionId: question.id,
+                  questionType: question.type,
+                  answer: answers[question.id] ?? null,
+                  earned: result?.earned ?? 0,
+                  maxScore: question.points ?? 1,
+                };
+              }),
+            },
+          },
+        }),
+      );
     })();
 
     return () => {
