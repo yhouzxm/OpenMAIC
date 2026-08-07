@@ -13,6 +13,8 @@ import { classroomInteractionEventsMigration } from './012-classroom-interaction
 import { classroomEventRollbackCompatibilityMigration } from './013-classroom-event-rollback-compatibility';
 import { learningEventsProfilesMigration } from './014-learning-events-profiles';
 import { learnerProfileGovernanceMigration } from './015-learner-profile-governance';
+import { emaAnalysisJobsMigration } from './016-ema-analysis-jobs';
+import { learningEventsPartitioningMigration } from './017-learning-events-partitioning';
 
 export const ZHIBAN_MIGRATIONS: readonly ZhibanMigration[] = [
   initialIdentityMigration,
@@ -30,6 +32,8 @@ export const ZHIBAN_MIGRATIONS: readonly ZhibanMigration[] = [
   classroomEventRollbackCompatibilityMigration,
   learningEventsProfilesMigration,
   learnerProfileGovernanceMigration,
+  emaAnalysisJobsMigration,
+  learningEventsPartitioningMigration,
 ];
 
 export type { ZhibanMigration } from './001-initial-identity';

@@ -31,8 +31,15 @@ try {
     console.log(version ? `Rolled back Zhiban migration ${version}` : 'Nothing to roll back');
   } else if (command === 'status') {
     console.table(await getZhibanMigrationStatus(pool));
+  } else if (command === 'partitions') {
+    const result = await pool.query<{ partition_name: string; bound: string }>(
+      `SELECT child.relname partition_name,pg_get_expr(child.relpartbound,child.oid) bound
+       FROM pg_inherits JOIN pg_class parent ON parent.oid=inhparent JOIN pg_class child ON child.oid=inhrelid
+       JOIN pg_namespace n ON n.oid=parent.relnamespace WHERE n.nspname='zhiban' AND parent.relname='learning_events' ORDER BY child.relname`,
+    );
+    console.table(result.rows);
   } else {
-    throw new Error(`Unknown command: ${command}. Use migrate, rollback, or status.`);
+    throw new Error(`Unknown command: ${command}. Use migrate, rollback, status, or partitions.`);
   }
 } finally {
   await pool.end();

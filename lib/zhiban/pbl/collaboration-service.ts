@@ -269,7 +269,7 @@ export async function scorePblSubmission(
       `INSERT INTO zhiban.learning_events(id,tenant_id,learner_id,course_id,source_kind,source_id,event_type,project_id,payload,occurred_at,expires_at)
        SELECT $1,$2,$3,$4,'evaluation',$5,'evaluation_completed',$6,$7::jsonb,now(),now()+(COALESCE(pref.retention_days,730)||' days')::interval
        FROM (SELECT 1) seed LEFT JOIN zhiban.learner_profile_preferences pref ON pref.learner_id=$3 AND pref.course_id=$4
-       WHERE COALESCE(pref.collection_enabled,true) ON CONFLICT(tenant_id,source_kind,source_id)DO NOTHING`,
+       WHERE COALESCE(pref.collection_enabled,true)`,
       [
         randomUUID(),
         principal.tenantId,
@@ -303,7 +303,13 @@ export async function scorePblSubmission(
       `UPDATE zhiban.pbl_submissions SET review_status='approved',teacher_feedback=$3,reviewed_by=$4,reviewed_at=now() WHERE id=$1 AND tenant_id=$2`,
       [input.submissionId, principal.tenantId, input.feedback, principal.id],
     );
-    return { evaluationId, score: Math.round(total * 100) / 100, gradeItemId: project.gradeItemId };
+    return {
+      evaluationId,
+      score: Math.round(total * 100) / 100,
+      gradeItemId: project.gradeItemId,
+      learnerId: submission.rows[0].learner_id,
+      courseId: project.courseId,
+    };
   });
 }
 

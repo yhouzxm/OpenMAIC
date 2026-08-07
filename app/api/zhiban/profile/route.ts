@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { after, NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { getZhibanPool } from '@/lib/zhiban/db/connection';
 import {
@@ -6,7 +6,8 @@ import {
   authorizationErrorResponse,
   requireRequestPrincipal,
 } from '@/lib/zhiban/rbac';
-import { listOwnProfiles, rebuildLearnerProfile } from '@/lib/zhiban/profile';
+import { listOwnProfiles } from '@/lib/zhiban/profile';
+import { enqueueProfileRebuild, processAnalysisJobs } from '@/lib/zhiban/analysis';
 export async function GET() {
   try {
     const p = await requireRequestPrincipal();
@@ -30,9 +31,10 @@ export async function POST(request: NextRequest) {
     if (!parsed.success) return NextResponse.json({ error: 'Invalid course' }, { status: 400 });
     const p = await requireRequestPrincipal();
     if (!p.permissions.includes('course:read')) throw new AuthorizationError('Permission denied');
-    return NextResponse.json({
-      profile: await rebuildLearnerProfile(getZhibanPool(), p, p.id, parsed.data.courseId),
-    });
+    const pool = getZhibanPool();
+    const result = await enqueueProfileRebuild(pool, p, p.id, parsed.data.courseId);
+    after(() => processAnalysisJobs(pool, p.tenantId, { limit: 1 }));
+    return NextResponse.json(result, { status: 202 });
   } catch (e) {
     return (
       authorizationErrorResponse(e) ??

@@ -22,6 +22,7 @@ export function TeacherProfileConsole() {
   const [busy, setBusy] = useState(false);
   const [detail, setDetail] = useState<Row | null>(null);
   const [selectedLearnerId, setSelectedLearnerId] = useState('');
+  const [emaRows, setEmaRows] = useState<Row[]>([]);
   useEffect(() => {
     void api<{ courses: TeacherCourse[] }>('/api/zhiban/teacher/courses')
       .then((d) => {
@@ -32,9 +33,12 @@ export function TeacherProfileConsole() {
   }, []);
   const load = useCallback(async () => {
     if (!courseId) return;
-    setRows(
-      (await api<{ profiles: Row[] }>(`/api/zhiban/teacher/courses/${courseId}/profiles`)).profiles,
-    );
+    const [profiles, ema] = await Promise.all([
+      api<{ profiles: Row[] }>(`/api/zhiban/teacher/courses/${courseId}/profiles`),
+      api<{ responses: Row[] }>(`/api/zhiban/teacher/courses/${courseId}/ema`),
+    ]);
+    setRows(profiles.profiles);
+    setEmaRows(ema.responses);
   }, [courseId]);
   useEffect(() => {
     void load().catch((e) => toast.error(e.message));
@@ -42,11 +46,11 @@ export function TeacherProfileConsole() {
   async function rebuild() {
     setBusy(true);
     try {
-      const result = await api<{ rebuilt: number }>(
+      const result = await api<{ queued: number }>(
         `/api/zhiban/teacher/courses/${courseId}/profiles`,
         { method: 'POST' },
       );
-      toast.success(`已重算 ${result.rebuilt} 名学生画像`);
+      toast.success(`已提交 ${result.queued} 名学生的画像分析任务`);
       await load();
     } catch (e) {
       toast.error(e instanceof Error ? e.message : '重算失败');
@@ -221,6 +225,30 @@ export function TeacherProfileConsole() {
           </div>
         </section>
       )}
+      <section className="mt-6 rounded-2xl border bg-white p-5">
+        <h2 className="text-xl font-semibold">EMA 学习状态反馈</h2>
+        <p className="mt-1 text-sm text-slate-600">跳过只记录为跳过，不计入风险或成绩。</p>
+        <div className="mt-3 max-h-80 overflow-auto rounded border">
+          {emaRows.map((item) => (
+            <div key={String(item.id)} className="border-b p-3 text-sm">
+              <b>{String(item.display_name)}</b>{' '}
+              <span className="text-slate-500">{String(item.login_name)}</span> ·{' '}
+              {String(item.status)}
+              <span className="float-right text-slate-500">{time(item.triggered_at)}</span>
+              {item.skipped ? (
+                <p className="mt-1">学习者已跳过</p>
+              ) : item.answers ? (
+                <pre className="mt-1 whitespace-pre-wrap text-xs">
+                  {JSON.stringify(item.answers)}
+                </pre>
+              ) : (
+                <p className="mt-1 text-slate-500">等待回答</p>
+              )}
+            </div>
+          ))}
+          {!emaRows.length && <p className="p-3 text-sm text-slate-500">暂无 EMA 触发记录。</p>}
+        </div>
+      </section>
     </main>
   );
 }

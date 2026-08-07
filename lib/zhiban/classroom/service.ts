@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { withZhibanTenant } from '@/lib/zhiban/db/tenant-context';
 import type { ZhibanDatabasePool } from '@/lib/zhiban/db/types';
 import type { AuthorizedPrincipal } from '@/lib/zhiban/rbac';
-import type { ClassroomBindingInput, ZhibanCourseClassroom } from './types';
+import type { ClassroomBindingInput, ClassroomEventType, ZhibanCourseClassroom } from './types';
 import type { SceneRuleSetting } from '@/lib/zhiban/teacher-courses';
 import { evaluateSceneAccess } from './scene-access';
 
@@ -28,7 +28,7 @@ export async function listManagedCourseClassrooms(
     async (client) =>
       (
         await client.query<Record<string, unknown>>(
-          `SELECT id,classroom_id,title,description,display_order,opens_at,closes_at,status FROM zhiban.course_classrooms WHERE course_id=$1 ORDER BY display_order,title`,
+          `SELECT id,classroom_id,title,description,display_order,opens_at,closes_at,status FROM zhiban.course_classrooms WHERE course_id=$1 ORDER BY (status='archived'),display_order,title`,
           [courseId],
         )
       ).rows,
@@ -99,6 +99,71 @@ export async function updateCourseClassroom(
       ],
     );
     return { id: bindingId };
+  });
+}
+
+export async function unbindCourseClassroom(
+  pool: ZhibanDatabasePool,
+  principal: AuthorizedPrincipal,
+  bindingId: string,
+) {
+  return withZhibanTenant(pool, principal.tenantId, async (client) => {
+    const binding = await client.query<{ course_id: string; classroom_id: string }>(
+      `SELECT course_id,classroom_id FROM zhiban.course_classrooms WHERE id=$1`,
+      [bindingId],
+    );
+    if (!binding.rows[0] || !canManageCourse(principal, binding.rows[0].course_id))
+      throw new Error('Permission denied');
+    await client.query(
+      `UPDATE zhiban.course_classrooms SET status='archived',updated_by=$3,updated_at=now() WHERE id=$1 AND tenant_id=$2`,
+      [bindingId, principal.tenantId, principal.id],
+    );
+    await client.query(
+      `INSERT INTO zhiban.audit_log(tenant_id,actor_type,actor_account_id,action,resource_type,resource_id,metadata) VALUES($1,'account',$2,'classroom.unbound','course_classroom',$3,$4::jsonb)`,
+      [
+        principal.tenantId,
+        principal.id,
+        bindingId,
+        JSON.stringify({ classroomId: binding.rows[0].classroom_id }),
+      ],
+    );
+    return { id: bindingId, unbound: true };
+  });
+}
+
+export async function deleteCourseClassroom(
+  pool: ZhibanDatabasePool,
+  principal: AuthorizedPrincipal,
+  bindingId: string,
+  deletePersisted: (classroomId: string) => Promise<unknown>,
+) {
+  return withZhibanTenant(pool, principal.tenantId, async (client) => {
+    const binding = await client.query<{ course_id: string; classroom_id: string }>(
+      `SELECT course_id,classroom_id FROM zhiban.course_classrooms WHERE id=$1 FOR UPDATE`,
+      [bindingId],
+    );
+    if (!binding.rows[0] || !canManageCourse(principal, binding.rows[0].course_id))
+      throw new Error('Permission denied');
+    const shared = await client.query(
+      `SELECT 1 FROM zhiban.course_classrooms WHERE classroom_id=$1 AND id<>$2 AND status<>'archived' LIMIT 1`,
+      [binding.rows[0].classroom_id, bindingId],
+    );
+    if (shared.rows[0]) throw new Error('该 OpenMAIC 课堂仍绑定其他课程，请先解除其他绑定');
+    await deletePersisted(binding.rows[0].classroom_id);
+    await client.query(`DELETE FROM zhiban.course_classrooms WHERE id=$1 AND tenant_id=$2`, [
+      bindingId,
+      principal.tenantId,
+    ]);
+    await client.query(
+      `INSERT INTO zhiban.audit_log(tenant_id,actor_type,actor_account_id,action,resource_type,resource_id,metadata) VALUES($1,'account',$2,'classroom.deleted','course_classroom',$3,$4::jsonb)`,
+      [
+        principal.tenantId,
+        principal.id,
+        bindingId,
+        JSON.stringify({ classroomId: binding.rows[0].classroom_id }),
+      ],
+    );
+    return { id: bindingId, deleted: true };
   });
 }
 
@@ -197,17 +262,6 @@ export async function startClassroomSession(
   });
 }
 
-export type ClassroomEventType =
-  | 'classroom_opened'
-  | 'scene_viewed'
-  | 'slide_action'
-  | 'quiz_answered'
-  | 'quiz_completed'
-  | 'simulation_interacted'
-  | 'pbl_activity'
-  | 'chat_message'
-  | 'resource_opened'
-  | 'classroom_completed';
 export async function recordClassroomEvent(
   pool: ZhibanDatabasePool,
   principal: AuthorizedPrincipal,
@@ -267,8 +321,7 @@ export async function recordClassroomEvent(
            $7::timestamptz+(COALESCE(pref.retention_days,730)||' days')::interval
          FROM zhiban.course_classrooms cc
          LEFT JOIN zhiban.learner_profile_preferences pref ON pref.learner_id=$3 AND pref.course_id=cc.course_id
-         WHERE cc.id=$8 AND COALESCE(pref.collection_enabled,true)
-         ON CONFLICT (tenant_id,source_kind,source_id) DO NOTHING`,
+         WHERE cc.id=$8 AND COALESCE(pref.collection_enabled,true)`,
         [
           randomUUID(),
           principal.tenantId,

@@ -1,7 +1,7 @@
 'use client';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Download, Save, Sparkles } from 'lucide-react';
+import { ArrowLeft, Download, Save, Sparkles, Trash2, Unlink } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -131,6 +131,28 @@ export function TeacherClassroomConsole() {
     anchor.download = `${course?.code ?? 'course'}-classroom-progress.csv`;
     anchor.click();
     URL.revokeObjectURL(url);
+  }
+  async function remove(item: Binding, mode: 'unbind' | 'delete') {
+    const title = String(item.title);
+    const confirmed = window.confirm(
+      mode === 'unbind'
+        ? `确认解除“${title}”与当前课程的绑定吗？\n学生入口将隐藏，但学习进度和审计记录会保留。`
+        : `确认彻底删除“${title}”吗？\n这会删除 OpenMAIC 课堂文件、课程绑定及课堂学习会话，且无法撤销。`,
+    );
+    if (!confirmed) return;
+    setBusy(true);
+    try {
+      await api(`/api/zhiban/teacher/classrooms/${String(item.id)}?mode=${mode}`, {
+        method: 'DELETE',
+      });
+      toast.success(mode === 'unbind' ? '课堂已解绑，学习记录已保留' : '课堂及其绑定已删除');
+      if (editing?.id === item.id) setEditing(null);
+      await load();
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : '操作失败');
+    } finally {
+      setBusy(false);
+    }
   }
   return (
     <main className="mx-auto max-w-6xl px-5 py-8">
@@ -315,20 +337,45 @@ export function TeacherClassroomConsole() {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>已绑定课堂</CardTitle>
+            <CardTitle>课堂绑定记录</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             {items.map((item) => (
-              <button
-                key={String(item.id)}
-                className="w-full rounded-md border p-3 text-left hover:bg-slate-50"
-                onClick={() => setEditing(item)}
-              >
-                <b>{String(item.title)}</b>
-                <p className="text-sm text-slate-500">
-                  {String(item.classroom_id)} · {String(item.status)}
-                </p>
-              </button>
+              <div key={String(item.id)} className="rounded-md border p-3">
+                <button
+                  className="w-full text-left hover:text-teal-700 disabled:cursor-default disabled:hover:text-inherit"
+                  disabled={item.status === 'archived'}
+                  onClick={() => setEditing(item)}
+                >
+                  <b>{String(item.title)}</b>
+                  <p className="text-sm text-slate-500">
+                    {String(item.classroom_id)} ·{' '}
+                    {item.status === 'archived' ? '已解绑' : String(item.status)}
+                  </p>
+                </button>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {item.status !== 'archived' && (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      disabled={busy}
+                      onClick={() => void remove(item, 'unbind')}
+                    >
+                      <Unlink className="mr-1 size-3" />
+                      解绑
+                    </Button>
+                  )}
+                  <Button
+                    size="sm"
+                    variant="destructive"
+                    disabled={busy}
+                    onClick={() => void remove(item, 'delete')}
+                  >
+                    <Trash2 className="mr-1 size-3" />
+                    删除课堂
+                  </Button>
+                </div>
+              </div>
             ))}
             {!items.length && <p className="text-sm text-slate-500">尚未绑定课堂。</p>}
           </CardContent>

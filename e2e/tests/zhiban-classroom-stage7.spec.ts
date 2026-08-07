@@ -35,6 +35,11 @@ test.describe('Zhiban stage 7 classroom acceptance', () => {
     );
     await expect(page.getByText('学生课堂学习进度')).toBeVisible();
     await expect(page.getByText(/课堂互动审计/)).toBeVisible();
+    const binding = page.getByText('已绑定课堂').locator('..');
+    if (await binding.getByRole('button', { name: '解绑' }).count()) {
+      await expect(binding.getByRole('button', { name: '解绑' }).first()).toBeVisible();
+      await expect(binding.getByRole('button', { name: '删除课堂' }).first()).toBeVisible();
+    }
   });
   test('student classroom entry restores server session and exposes scene locks', async ({
     page,
@@ -45,6 +50,10 @@ test.describe('Zhiban stage 7 classroom acceptance', () => {
     const entry = page.getByRole('link', { name: /进入课堂|继续课堂/ }).first();
     test.skip((await entry.count()) === 0, 'Student has no published classroom fixture');
     await entry.click();
+    await expect(page.getByRole('link', { name: '返回我的课堂' })).toHaveAttribute(
+      'href',
+      '/zhiban/student/classrooms',
+    );
     await expect(page.locator('[data-testid="scene-list"]')).toBeVisible();
     const locked = page.locator('[data-testid="scene-item"][aria-disabled="true"]');
     if (await locked.count()) await expect(locked.first().locator('[aria-label]')).toBeVisible();

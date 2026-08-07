@@ -30,7 +30,7 @@ async function syncSources(
   );
   for (const row of sources.rows)
     await client.query(
-      `INSERT INTO zhiban.learning_events(id,tenant_id,learner_id,course_id,source_kind,source_id,event_type,project_id,classroom_binding_id,payload,occurred_at,expires_at)VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10::jsonb,$11,$11::timestamptz+($12||' days')::interval)ON CONFLICT(tenant_id,source_kind,source_id)DO NOTHING`,
+      `INSERT INTO zhiban.learning_events(id,tenant_id,learner_id,course_id,source_kind,source_id,event_type,project_id,classroom_binding_id,payload,occurred_at,expires_at)VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10::jsonb,$11,$11::timestamptz+($12||' days')::interval)`,
       [
         randomUUID(),
         tenantId,

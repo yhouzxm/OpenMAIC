@@ -16,6 +16,8 @@ import { classroomInteractionEventsMigration } from '@/lib/zhiban/db/migrations/
 import { classroomEventRollbackCompatibilityMigration } from '@/lib/zhiban/db/migrations/013-classroom-event-rollback-compatibility';
 import { learningEventsProfilesMigration } from '@/lib/zhiban/db/migrations/014-learning-events-profiles';
 import { learnerProfileGovernanceMigration } from '@/lib/zhiban/db/migrations/015-learner-profile-governance';
+import { emaAnalysisJobsMigration } from '@/lib/zhiban/db/migrations/016-ema-analysis-jobs';
+import { learningEventsPartitioningMigration } from '@/lib/zhiban/db/migrations/017-learning-events-partitioning';
 import type { QueryResult, ZhibanQueryable } from '@/lib/zhiban/db/types';
 
 class HealthDatabase implements ZhibanQueryable {
@@ -59,6 +61,8 @@ describe('checkZhibanDatabaseHealth', () => {
         '013',
         '014',
         '015',
+        '016',
+        '017',
       ],
     });
   });
@@ -82,6 +86,8 @@ describe('checkZhibanDatabaseHealth', () => {
           { version: '013', checksum: classroomEventRollbackCompatibilityMigration.checksum },
           { version: '014', checksum: learningEventsProfilesMigration.checksum },
           { version: '015', checksum: learnerProfileGovernanceMigration.checksum },
+          { version: '016', checksum: emaAnalysisJobsMigration.checksum },
+          { version: '017', checksum: learningEventsPartitioningMigration.checksum },
         ]),
       ),
     ).resolves.toMatchObject({
@@ -104,6 +110,8 @@ describe('checkZhibanDatabaseHealth', () => {
         '013',
         '014',
         '015',
+        '016',
+        '017',
       ],
       pendingVersions: [],
       driftedVersions: [],

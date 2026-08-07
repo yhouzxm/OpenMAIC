@@ -2,7 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { useStageStore } from '@/lib/store/stage';
-import { evaluateSceneAccess, type ClassroomEventType } from '@/lib/zhiban/classroom';
+import { evaluateSceneAccess } from '@/lib/zhiban/classroom/scene-access';
+import type { ClassroomEventType } from '@/lib/zhiban/classroom/types';
 import { useClassroomAccessStore } from '@/lib/zhiban/classroom/client-access-store';
 import type { SceneRuleSetting } from '@/lib/zhiban/teacher-courses';
 

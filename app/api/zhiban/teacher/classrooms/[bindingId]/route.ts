@@ -2,8 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { getZhibanPool } from '@/lib/zhiban/db/connection';
 import { authorizationErrorResponse, requireRequestPrincipal } from '@/lib/zhiban/rbac';
-import { updateCourseClassroom } from '@/lib/zhiban/classroom';
-import { readClassroom } from '@/lib/server/classroom-storage';
+import {
+  deleteCourseClassroom,
+  unbindCourseClassroom,
+  updateCourseClassroom,
+} from '@/lib/zhiban/classroom';
+import { deletePersistedClassroom, readClassroom } from '@/lib/server/classroom-storage';
 const schema = z.object({
   classroomId: z.string().min(1).max(160),
   title: z.string().min(1).max(300),
@@ -39,6 +43,37 @@ export async function PUT(
       authorizationErrorResponse(error) ??
       NextResponse.json(
         { error: error instanceof Error ? error.message : 'Unable to update classroom' },
+        { status: 400 },
+      )
+    );
+  }
+}
+
+export async function DELETE(
+  request: NextRequest,
+  context: { params: Promise<{ bindingId: string }> },
+) {
+  try {
+    const principal = await requireRequestPrincipal();
+    const { bindingId } = await context.params;
+    const mode = request.nextUrl.searchParams.get('mode');
+    if (mode === 'unbind')
+      return NextResponse.json(await unbindCourseClassroom(getZhibanPool(), principal, bindingId));
+    if (mode === 'delete')
+      return NextResponse.json(
+        await deleteCourseClassroom(
+          getZhibanPool(),
+          principal,
+          bindingId,
+          deletePersistedClassroom,
+        ),
+      );
+    return NextResponse.json({ error: 'Invalid removal mode' }, { status: 400 });
+  } catch (error) {
+    return (
+      authorizationErrorResponse(error) ??
+      NextResponse.json(
+        { error: error instanceof Error ? error.message : 'Unable to remove classroom' },
         { status: 400 },
       )
     );

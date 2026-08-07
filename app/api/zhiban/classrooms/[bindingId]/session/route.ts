@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { after, NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { getZhibanPool } from '@/lib/zhiban/db/connection';
 import {
@@ -7,7 +7,7 @@ import {
   requireRequestPrincipal,
 } from '@/lib/zhiban/rbac';
 import { recordClassroomEvent, startClassroomSession } from '@/lib/zhiban/classroom';
-import { rebuildLearnerProfile } from '@/lib/zhiban/profile';
+import { enqueueLearningAnalysis, processAnalysisJobs } from '@/lib/zhiban/analysis';
 
 const eventSchema = z.object({
   eventId: z.uuid(),
@@ -65,8 +65,15 @@ export async function PATCH(
     const { bindingId } = await context.params;
     const pool = getZhibanPool();
     const result = await recordClassroomEvent(pool, principal, bindingId, parsed.data);
-    if (result.accepted)
-      await rebuildLearnerProfile(pool, principal, principal.id, result.courseId);
+    if (result.accepted) {
+      const analysis = await enqueueLearningAnalysis(pool, principal, {
+        learnerId: principal.id,
+        courseId: result.courseId,
+        sourceEventId: parsed.data.eventId,
+      });
+      after(() => processAnalysisJobs(pool, principal.tenantId, { limit: analysis.jobs.length }));
+      return NextResponse.json({ ...result, analysisJobIds: analysis.jobs }, { status: 202 });
+    }
     return NextResponse.json(result);
   } catch (error) {
     return (

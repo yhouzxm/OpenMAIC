@@ -37,8 +37,8 @@ export function StudentProfileConsole() {
       });
       const b = await r.json();
       if (!r.ok) throw new Error(b.error);
-      toast.success('学习画像已更新');
-      await load();
+      toast.success('画像分析任务已提交，将在后台更新');
+      window.setTimeout(() => void load().catch(() => undefined), 1200);
     } catch (e) {
       toast.error(e instanceof Error ? e.message : '更新失败');
     }

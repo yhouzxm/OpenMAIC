@@ -58,6 +58,28 @@ export async function readClassroom(id: string): Promise<PersistedClassroomData 
   }
 }
 
+export async function deletePersistedClassroom(id: string): Promise<boolean> {
+  if (!isValidClassroomId(id)) throw new Error('Invalid classroom id');
+  const root = path.resolve(CLASSROOMS_DIR);
+  const jsonPath = path.resolve(root, `${id}.json`);
+  const mediaPath = path.resolve(root, id);
+  if (path.dirname(jsonPath) !== root || path.dirname(mediaPath) !== root)
+    throw new Error('Classroom path escaped storage root');
+  let deleted = false;
+  try {
+    await fs.unlink(jsonPath);
+    deleted = true;
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
+  }
+  try {
+    await fs.rm(mediaPath, { recursive: true, force: true });
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
+  }
+  return deleted;
+}
+
 export async function persistClassroom(
   data: {
     id: string;

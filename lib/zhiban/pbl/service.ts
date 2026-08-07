@@ -360,7 +360,7 @@ export async function syncStudentPblInstance(
           `INSERT INTO zhiban.learning_events(id,tenant_id,learner_id,course_id,source_kind,source_id,event_type,project_id,payload,occurred_at,expires_at)
            SELECT $1,$2,$3,$4,'pbl',$5,$6,$7,$8::jsonb,$9,$9::timestamptz+(COALESCE(pref.retention_days,730)||' days')::interval
            FROM (SELECT 1) seed LEFT JOIN zhiban.learner_profile_preferences pref ON pref.learner_id=$3 AND pref.course_id=$4
-           WHERE COALESCE(pref.collection_enabled,true) ON CONFLICT(tenant_id,source_kind,source_id)DO NOTHING`,
+           WHERE COALESCE(pref.collection_enabled,true)`,
           [
             randomUUID(),
             principal.tenantId,
@@ -417,7 +417,7 @@ export async function syncStudentPblInstance(
           `INSERT INTO zhiban.learning_events(id,tenant_id,learner_id,course_id,source_kind,source_id,event_type,project_id,payload,occurred_at,expires_at)
            SELECT $1,$2,$3,$4,'submission',$5,'submission_created',$6,$7::jsonb,$8,$8::timestamptz+(COALESCE(pref.retention_days,730)||' days')::interval
            FROM (SELECT 1) seed LEFT JOIN zhiban.learner_profile_preferences pref ON pref.learner_id=$3 AND pref.course_id=$4
-           WHERE COALESCE(pref.collection_enabled,true) ON CONFLICT(tenant_id,source_kind,source_id)DO NOTHING`,
+           WHERE COALESCE(pref.collection_enabled,true)`,
           [
             randomUUID(),
             principal.tenantId,
@@ -461,7 +461,7 @@ export async function syncStudentPblInstance(
           `INSERT INTO zhiban.learning_events(id,tenant_id,learner_id,course_id,source_kind,source_id,event_type,project_id,payload,occurred_at,expires_at)
            SELECT $1,$2,$3,$4,'evaluation',$5,'evaluation_completed',$6,$7::jsonb,$8,$8::timestamptz+(COALESCE(pref.retention_days,730)||' days')::interval
            FROM (SELECT 1) seed LEFT JOIN zhiban.learner_profile_preferences pref ON pref.learner_id=$3 AND pref.course_id=$4
-           WHERE COALESCE(pref.collection_enabled,true) ON CONFLICT(tenant_id,source_kind,source_id)DO NOTHING`,
+           WHERE COALESCE(pref.collection_enabled,true)`,
           [
             randomUUID(),
             principal.tenantId,

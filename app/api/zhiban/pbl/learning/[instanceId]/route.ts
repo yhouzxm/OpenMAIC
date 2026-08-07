@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { randomUUID } from 'node:crypto';
+import { after, NextRequest, NextResponse } from 'next/server';
 import { isPBLProjectV2 } from '@/lib/pbl/v2/types';
 import { getZhibanPool } from '@/lib/zhiban/db/connection';
 import {
@@ -7,7 +8,7 @@ import {
   requireRequestPrincipal,
 } from '@/lib/zhiban/rbac';
 import { getStudentPblInstance, syncStudentPblInstance } from '@/lib/zhiban/pbl';
-import { rebuildLearnerProfile } from '@/lib/zhiban/profile';
+import { enqueueLearningAnalysis, processAnalysisJobs } from '@/lib/zhiban/analysis';
 
 export async function GET(
   _request: NextRequest,
@@ -46,8 +47,16 @@ export async function PATCH(
     const { instanceId } = await context.params;
     const pool = getZhibanPool();
     const result = await syncStudentPblInstance(pool, principal, instanceId, body.projectState);
-    if (result.courseId)
-      await rebuildLearnerProfile(pool, principal, principal.id, result.courseId);
+    if (result.courseId) {
+      const sourceEventId = body.projectState.runtimeEvents?.at(-1)?.id ?? randomUUID();
+      const analysis = await enqueueLearningAnalysis(pool, principal, {
+        learnerId: principal.id,
+        courseId: result.courseId,
+        sourceEventId,
+      });
+      after(() => processAnalysisJobs(pool, principal.tenantId, { limit: analysis.jobs.length }));
+      return NextResponse.json({ ...result, analysisJobIds: analysis.jobs }, { status: 202 });
+    }
     return NextResponse.json(result);
   } catch (error) {
     return (
