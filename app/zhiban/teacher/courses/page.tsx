@@ -13,5 +13,5 @@ export default async function TeacherCoursesPage() {
   if (!principal) redirect('/zhiban/login');
   if (!principal.permissions.includes('course:manage')) redirect('/zhiban/admin');
   const courses = await listTeacherCourses(getZhibanPool(), principal);
-  return <TeacherPortal principalName={principal.displayName} courses={courses} />;
+  return <TeacherPortal principalName={principal.displayName} courses={courses} embedded />;
 }

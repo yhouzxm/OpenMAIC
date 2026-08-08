@@ -1,14 +1,16 @@
 import { cookies } from 'next/headers';
 import { notFound, redirect } from 'next/navigation';
-import { TeacherCourseOverview } from '@/components/zhiban/teacher-course-workspace';
+import { TeacherCourseShell } from '@/components/zhiban/teacher-course-workspace';
 import { ZHIBAN_SESSION_COOKIE } from '@/lib/zhiban/auth/http';
 import { getZhibanPool } from '@/lib/zhiban/db/connection';
 import { getAuthorizedPrincipal } from '@/lib/zhiban/rbac';
 import { listTeacherCourses } from '@/lib/zhiban/teacher-courses';
 
-export default async function TeacherCoursePage({
+export default async function TeacherCourseLayout({
+  children,
   params,
 }: {
+  children: React.ReactNode;
   params: Promise<{ courseId: string }>;
 }) {
   const token = (await cookies()).get(ZHIBAN_SESSION_COOKIE)?.value;
@@ -21,5 +23,9 @@ export default async function TeacherCoursePage({
     (item) => item.id === courseId,
   );
   if (!course) notFound();
-  return <TeacherCourseOverview course={course} />;
+  return (
+    <TeacherCourseShell principalName={principal.displayName} course={course}>
+      {children}
+    </TeacherCourseShell>
+  );
 }

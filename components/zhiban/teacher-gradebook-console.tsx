@@ -26,15 +26,24 @@ async function api<T>(url: string, init?: RequestInit) {
   return body as T;
 }
 const select = 'h-10 rounded-md border border-slate-300 bg-white px-3 text-sm';
-export function TeacherGradebookConsole() {
+export function TeacherGradebookConsole({
+  embedded = false,
+  fixedCourseId = '',
+  hideHeader = false,
+}: {
+  embedded?: boolean;
+  fixedCourseId?: string;
+  hideHeader?: boolean;
+}) {
   const [courses, setCourses] = useState<TeacherCourse[]>([]);
-  const [courseId, setCourseId] = useState('');
+  const [courseId, setCourseId] = useState(fixedCourseId);
   const [book, setBook] = useState<Book | null>(null);
   const [busy, setBusy] = useState(false);
   const load = useCallback(async () => {
     if (courseId) setBook(await api<Book>(`/api/zhiban/teacher/courses/${courseId}/grades`));
   }, [courseId]);
   useEffect(() => {
+    if (fixedCourseId) return;
     void api<{ courses: TeacherCourse[] }>('/api/zhiban/teacher/courses')
       .then((r) => {
         setCourses(r.courses);
@@ -46,7 +55,7 @@ export function TeacherGradebookConsole() {
         );
       })
       .catch((e) => toast.error(e.message));
-  }, []);
+  }, [fixedCourseId]);
   useEffect(() => {
     void load().catch((e) => toast.error(e.message));
   }, [load]);
@@ -164,33 +173,37 @@ export function TeacherGradebookConsole() {
     book?.records.find((r) => r.student_id === studentId && r.grade_item_id === itemId);
   const final = (studentId: unknown) => book?.finalGrades.find((r) => r.student_id === studentId);
   return (
-    <main className="min-h-screen bg-slate-100 p-5 text-slate-900">
+    <main className={embedded ? 'text-slate-900' : 'min-h-screen bg-slate-100 p-5 text-slate-900'}>
       <div className="mx-auto max-w-7xl space-y-5">
-        <header className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-slate-950 p-6 text-white">
-          <div>
-            <h1 className="text-2xl font-semibold">测评与课程成绩</h1>
-            <p className="text-sm text-slate-300">统一管理过程性、项目、期末成绩和课程总评</p>
-          </div>
-          <Button asChild className="bg-white text-slate-900 hover:bg-slate-100">
-            <Link href="/zhiban/teacher/courses">返回课程设置</Link>
-          </Button>
-        </header>
-        <Card>
-          <CardContent className="pt-5">
-            <label className="mb-2 block text-sm font-medium">课程</label>
-            <select
-              className={`${select} w-full max-w-md`}
-              value={courseId}
-              onChange={(e) => setCourseId(e.target.value)}
-            >
-              {courses.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.name}
-                </option>
-              ))}
-            </select>
-          </CardContent>
-        </Card>
+        {!embedded && !hideHeader && (
+          <header className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-slate-950 p-6 text-white">
+            <div>
+              <h1 className="text-2xl font-semibold">测评与课程成绩</h1>
+              <p className="text-sm text-slate-300">统一管理过程性、项目、期末成绩和课程总评</p>
+            </div>
+            <Button asChild className="bg-white text-slate-900 hover:bg-slate-100">
+              <Link href="/zhiban/teacher/courses">返回课程设置</Link>
+            </Button>
+          </header>
+        )}
+        {!embedded && (
+          <Card>
+            <CardContent className="pt-5">
+              <label className="mb-2 block text-sm font-medium">课程</label>
+              <select
+                className={`${select} w-full max-w-md`}
+                value={courseId}
+                onChange={(e) => setCourseId(e.target.value)}
+              >
+                {courses.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.name}
+                  </option>
+                ))}
+              </select>
+            </CardContent>
+          </Card>
+        )}
         <div className="grid gap-5 lg:grid-cols-2">
           <Card>
             <CardHeader>

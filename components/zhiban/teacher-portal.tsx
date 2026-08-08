@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { Bell, BookOpen, ChevronDown, GraduationCap, Menu, Search, UserRound } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
@@ -11,9 +11,11 @@ import { ZhibanLogoutButton } from './logout-button';
 export function TeacherPortal({
   principalName,
   courses,
+  embedded = false,
 }: {
   principalName: string;
   courses: TeacherCourse[];
+  embedded?: boolean;
 }) {
   const [query, setQuery] = useState('');
   const [status, setStatus] = useState('all');
@@ -27,31 +29,33 @@ export function TeacherPortal({
   }, [courses, query, status]);
 
   return (
-    <div className="min-h-screen bg-[#f1f5fb] text-slate-800">
-      <TeacherTopbar principalName={principalName} />
-      <div className="flex min-h-[calc(100vh-52px)]">
-        <aside className="hidden w-60 shrink-0 border-r bg-white lg:block">
-          <div className="border-b px-6 py-7 text-center">
-            <div className="mx-auto flex size-20 items-center justify-center rounded-full border-2 border-[#1677e8] bg-blue-50 text-[#1677e8]">
-              <UserRound className="size-11" />
+    <div className={embedded ? 'contents' : 'min-h-screen bg-[#f1f5fb] text-slate-800'}>
+      {!embedded && <TeacherTopbar principalName={principalName} />}
+      <div className={embedded ? 'contents' : 'flex min-h-[calc(100vh-52px)]'}>
+        {!embedded && (
+          <aside className="hidden w-60 shrink-0 border-r bg-white lg:block">
+            <div className="border-b px-6 py-7 text-center">
+              <Link href="/zhiban/teacher/profile" className="group block" title="进入个人设置">
+                <TeacherAvatar className="mx-auto size-20" fallbackClassName="size-11" />
+                <p className="mt-4 font-medium group-hover:text-[#1677e8]">{principalName}</p>
+              </Link>
+              <p className="mt-2 text-sm text-slate-500">授课教师</p>
+              <p className="mt-3 text-sm text-slate-500">智伴·创学</p>
             </div>
-            <p className="mt-4 font-medium">{principalName}</p>
-            <p className="mt-2 text-sm text-slate-500">授课教师</p>
-            <p className="mt-3 text-sm text-slate-500">智伴·创学</p>
-          </div>
-          <nav className="space-y-1 py-5 text-[16px]">
-            <PortalNav href="/zhiban/teacher/courses">首页</PortalNav>
-            <PortalNav href="/zhiban/teacher/courses" active>
-              我的课程
-            </PortalNav>
-            <PortalNav href="/zhiban/teacher/classrooms">课堂教学</PortalNav>
-            <PortalNav href="/zhiban/teacher/pbl">PBL 项目</PortalNav>
-            <PortalNav href="/zhiban/teacher/grades">学生成绩</PortalNav>
-            <PortalNav href="/zhiban/teacher/profiles">学习分析</PortalNav>
-            <PortalNav href="/zhiban/teacher/agents">智能体中心</PortalNav>
-            <PortalNav href="/zhiban/teacher/risks">风险预警</PortalNav>
-          </nav>
-        </aside>
+            <nav className="space-y-1 py-5 text-[16px]">
+              <PortalNav href="/zhiban/teacher/courses">首页</PortalNav>
+              <PortalNav href="/zhiban/teacher/courses" active>
+                我的课程
+              </PortalNav>
+              <PortalNav href="/zhiban/teacher/classrooms">课堂教学</PortalNav>
+              <PortalNav href="/zhiban/teacher/pbl">PBL 项目</PortalNav>
+              <PortalNav href="/zhiban/teacher/grades">学生成绩</PortalNav>
+              <PortalNav href="/zhiban/teacher/profiles">学习分析</PortalNav>
+              <PortalNav href="/zhiban/teacher/agents">智能体中心</PortalNav>
+              <PortalNav href="/zhiban/teacher/risks">风险预警</PortalNav>
+            </nav>
+          </aside>
+        )}
 
         <main className="min-w-0 flex-1">
           <div className="border-b bg-white px-5 py-4 md:px-8">
@@ -156,11 +160,48 @@ export function TeacherTopbar({ principalName }: { principalName: string }) {
       </div>
       <div className="flex items-center gap-4 text-sm">
         <Bell className="hidden size-5 sm:block" />
-        <span className="hidden sm:inline">{principalName}</span>
-        <ZhibanLogoutButton variant="outline" />
+        <Link
+          href="/zhiban/teacher/profile"
+          className="hidden items-center gap-2 hover:text-blue-100 sm:flex"
+          title="进入个人设置"
+        >
+          <TeacherAvatar className="size-7 border-white" fallbackClassName="size-4" />
+          <span>{principalName}</span>
+        </Link>
+        <ZhibanLogoutButton
+          variant="outline"
+          className="border-white/70 bg-transparent text-white hover:bg-white/15 hover:text-white"
+        />
         <Menu className="size-5 md:hidden" />
       </div>
     </header>
+  );
+}
+
+export function TeacherAvatar({
+  className,
+  fallbackClassName,
+}: {
+  className: string;
+  fallbackClassName: string;
+}) {
+  const [avatar, setAvatar] = useState('');
+  useEffect(() => {
+    void fetch('/api/zhiban/teacher/profile')
+      .then((response) => (response.ok ? response.json() : null))
+      .then((body) => setAvatar(String(body?.profile?.avatarDataUrl ?? '')))
+      .catch(() => undefined);
+  }, []);
+  return (
+    <span
+      className={`flex items-center justify-center overflow-hidden rounded-full border-2 border-[#1677e8] bg-blue-50 text-[#1677e8] ${className}`}
+    >
+      {avatar ? (
+        <img src={avatar} alt="教师头像" className="size-full object-cover" />
+      ) : (
+        <UserRound className={fallbackClassName} />
+      )}
+    </span>
   );
 }
 

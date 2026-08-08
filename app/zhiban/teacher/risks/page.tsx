@@ -1,1 +1,13 @@
-import{cookies}from'next/headers';import{redirect}from'next/navigation';import{TeacherRiskConsole}from'@/components/zhiban/teacher-risk-console';import{ZHIBAN_SESSION_COOKIE}from'@/lib/zhiban/auth/http';import{getZhibanPool}from'@/lib/zhiban/db/connection';import{getAuthorizedPrincipal}from'@/lib/zhiban/rbac';export default async function Page(){const t=(await cookies()).get(ZHIBAN_SESSION_COOKIE)?.value;if(!t)redirect('/zhiban/login');const p=await getAuthorizedPrincipal(getZhibanPool(),t);if(!p?.permissions.includes('risk:read'))redirect('/zhiban');return <TeacherRiskConsole/>;}
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
+import { TeacherRiskConsole } from '@/components/zhiban/teacher-risk-console';
+import { ZHIBAN_SESSION_COOKIE } from '@/lib/zhiban/auth/http';
+import { getZhibanPool } from '@/lib/zhiban/db/connection';
+import { getAuthorizedPrincipal } from '@/lib/zhiban/rbac';
+export default async function Page() {
+  const t = (await cookies()).get(ZHIBAN_SESSION_COOKIE)?.value;
+  if (!t) redirect('/zhiban/login');
+  const p = await getAuthorizedPrincipal(getZhibanPool(), t);
+  if (!p?.permissions.includes('risk:read')) redirect('/zhiban');
+  return <TeacherRiskConsole hideHeader />;
+}

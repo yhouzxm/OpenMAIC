@@ -21,15 +21,24 @@ async function api<T>(url: string, init?: RequestInit) {
   return body as T;
 }
 
-export function PblProjectConsole() {
+export function PblProjectConsole({
+  embedded = false,
+  fixedCourseId = '',
+  hideHeader = false,
+}: {
+  embedded?: boolean;
+  fixedCourseId?: string;
+  hideHeader?: boolean;
+}) {
   const [courses, setCourses] = useState<TeacherCourse[]>([]);
-  const [courseId, setCourseId] = useState('');
+  const [courseId, setCourseId] = useState(fixedCourseId);
   const [projects, setProjects] = useState<ZhibanPblProject[]>([]);
   const [busy, setBusy] = useState('');
   const [editing, setEditing] = useState<ZhibanPblProject | null>(null);
   const [managingId, setManagingId] = useState<string | null>(null);
   const [templates, setTemplates] = useState<Array<{ id: string; code: string; name: string }>>([]);
   const loadCourses = useCallback(async () => {
+    if (fixedCourseId) return;
     const data = await api<{ courses: TeacherCourse[] }>('/api/zhiban/teacher/courses');
     setCourses(data.courses);
     const requested = new URLSearchParams(window.location.search).get('courseId');
@@ -41,7 +50,7 @@ export function PblProjectConsole() {
           : data.courses[0]?.id) ||
         '',
     );
-  }, []);
+  }, [fixedCourseId]);
   const loadProjects = useCallback(async () => {
     if (!courseId) return;
     const data = await api<{ projects: ZhibanPblProject[] }>(
@@ -132,23 +141,29 @@ export function PblProjectConsole() {
     }
   }
   return (
-    <main className="mx-auto max-w-7xl px-4 py-6">
-      <header className="mb-6 flex items-center justify-between rounded-2xl bg-slate-950 px-6 py-5 text-white">
-        <div>
-          <p className="text-sm text-teal-300">阶段 6 · 复用 OpenMAIC PBL v2</p>
-          <h1 className="text-2xl font-semibold">PBL 项目管理</h1>
-        </div>
-        <div className="flex gap-2">
-          <Button variant="secondary" asChild>
-            <Link href="/zhiban/teacher/courses">
-              <ArrowLeft className="mr-2 size-4" />
-              课程设置
-            </Link>
-          </Button>
-          <ZhibanLogoutButton />
-        </div>
-      </header>
-      <div className="mb-5">
+    <main className={embedded ? 'mx-auto max-w-7xl' : 'mx-auto max-w-7xl px-4 py-6'}>
+      {!embedded && !hideHeader && (
+        <header className="mb-6 flex items-center justify-between rounded-2xl bg-slate-950 px-6 py-5 text-white">
+          <div>
+            <p className="text-sm text-teal-300">阶段 6 · 复用 OpenMAIC PBL v2</p>
+            <h1 className="text-2xl font-semibold">PBL 项目管理</h1>
+          </div>
+          <div className="flex gap-2">
+            <Button variant="secondary" asChild>
+              <Link href="/zhiban/teacher/courses">
+                <ArrowLeft className="mr-2 size-4" />
+                课程设置
+              </Link>
+            </Button>
+            <ZhibanLogoutButton />
+          </div>
+        </header>
+      )}
+      <div
+        className={
+          embedded ? 'mb-5 [&>label:first-child]:hidden [&>select:first-of-type]:hidden' : 'mb-5'
+        }
+      >
         <Label>课程</Label>
         <select
           className="mt-2 h-10 w-full rounded-md border px-3"

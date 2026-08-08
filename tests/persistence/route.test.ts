@@ -71,7 +71,7 @@ describe('embedded persistence route', () => {
     }));
     vi.stubEnv('DATABASE_URL', 'postgres://retry-test');
     vi.stubEnv('PERSISTENCE_DEV_TOKEN', 'test-token');
-    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+    const { handlePersistenceRequest } = await import('@/lib/persistence/route-handler');
     const request = () =>
       new Request('http://localhost/api/persistence/runtime/sessions', {
         headers: { authorization: 'Bearer test-token' },
@@ -93,7 +93,7 @@ describe('embedded persistence route', () => {
     // Next dev HMR reloads module code but retains globalThis. The initialized
     // handler must be reused rather than opening another pool.
     vi.resetModules();
-    const reloaded = await import('@/app/api/persistence/[...path]/route');
+    const reloaded = await import('@/lib/persistence/route-handler');
     const hmrPoolFactory = vi.fn();
     const afterReload = await reloaded.handlePersistenceRequest(request(), {
       poolFactory: hmrPoolFactory,
@@ -146,7 +146,7 @@ describe('embedded persistence route', () => {
     }));
     vi.stubEnv('DATABASE_URL', 'postgres://adapter-test');
     vi.stubEnv('PERSISTENCE_DEV_TOKEN', 'test-token');
-    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+    const { handlePersistenceRequest } = await import('@/lib/persistence/route-handler');
     const pool = { end: vi.fn().mockResolvedValue(undefined) };
 
     const put = await handlePersistenceRequest(

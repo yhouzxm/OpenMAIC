@@ -13,9 +13,17 @@ async function api<T>(u: string, i?: RequestInit) {
   if (!r.ok) throw new Error(b.error ?? '请求失败');
   return b as T;
 }
-export function TeacherRiskConsole() {
+export function TeacherRiskConsole({
+  embedded = false,
+  fixedCourseId = '',
+  hideHeader = false,
+}: {
+  embedded?: boolean;
+  fixedCourseId?: string;
+  hideHeader?: boolean;
+}) {
   const [courses, setCourses] = useState<TeacherCourse[]>([]),
-    [courseId, setCourseId] = useState(''),
+    [courseId, setCourseId] = useState(fixedCourseId),
     [data, setData] = useState<{
       cases: Row[];
       heatmap: Row[];
@@ -30,6 +38,7 @@ export function TeacherRiskConsole() {
     if (courseId) setData(await api(`/api/zhiban/teacher/courses/${courseId}/risks`));
   }, [courseId]);
   useEffect(() => {
+    if (fixedCourseId) return;
     void api<{ courses: TeacherCourse[] }>('/api/zhiban/teacher/courses')
       .then((r) => {
         setCourses(r.courses);
@@ -41,7 +50,7 @@ export function TeacherRiskConsole() {
         );
       })
       .catch((e) => toast.error(e.message));
-  }, []);
+  }, [fixedCourseId]);
   useEffect(() => {
     void load().catch((e) => toast.error(e.message));
   }, [load]);
@@ -65,37 +74,41 @@ export function TeacherRiskConsole() {
     level3 = active.filter((c) => Number(c.severity) === 3),
     overdue = active.filter((c) => new Date(String(c.sla_due_at)) < new Date());
   return (
-    <main className="min-h-screen bg-slate-100 p-5">
+    <main className={embedded ? '' : 'min-h-screen bg-slate-100 p-5'}>
       <div className="mx-auto max-w-7xl space-y-5">
-        <header className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-slate-950 p-6 text-white">
-          <div>
-            <h1 className="text-2xl font-semibold">风险预警与教学干预</h1>
-            <p className="text-sm text-slate-300">
-              学习支持风险，不用于心理诊断；三级预警必须由教师处置
-            </p>
-          </div>
-          <div className="flex gap-2">
-            <Button asChild variant="secondary">
-              <a href={`/api/zhiban/teacher/courses/${courseId}/risks/export`}>去标识化导出</a>
-            </Button>
-            <Button asChild className="bg-white text-slate-900">
-              <Link href="/zhiban/teacher/courses">返回课程</Link>
-            </Button>
-          </div>
-        </header>
+        {!embedded && !hideHeader && (
+          <header className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-slate-950 p-6 text-white">
+            <div>
+              <h1 className="text-2xl font-semibold">风险预警与教学干预</h1>
+              <p className="text-sm text-slate-300">
+                学习支持风险，不用于心理诊断；三级预警必须由教师处置
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <Button asChild variant="secondary">
+                <a href={`/api/zhiban/teacher/courses/${courseId}/risks/export`}>去标识化导出</a>
+              </Button>
+              <Button asChild className="bg-white text-slate-900">
+                <Link href="/zhiban/teacher/courses">返回课程</Link>
+              </Button>
+            </div>
+          </header>
+        )}
         <Card>
           <CardContent className="flex flex-wrap gap-3 pt-5">
-            <select
-              className="h-10 min-w-72 rounded border bg-white px-3"
-              value={courseId}
-              onChange={(e) => setCourseId(e.target.value)}
-            >
-              {courses.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.name}
-                </option>
-              ))}
-            </select>
+            {!embedded && (
+              <select
+                className="h-10 min-w-72 rounded border bg-white px-3"
+                value={courseId}
+                onChange={(e) => setCourseId(e.target.value)}
+              >
+                {courses.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.name}
+                  </option>
+                ))}
+              </select>
+            )}
             <Button
               disabled={busy}
               onClick={() => void action({ action: 'evaluate' }, '全班风险评估已完成')}

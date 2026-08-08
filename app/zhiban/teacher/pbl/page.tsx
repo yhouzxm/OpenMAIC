@@ -10,5 +10,5 @@ export default async function TeacherPblPage() {
   if (!value) redirect('/zhiban/login');
   const principal = await getAuthorizedPrincipal(getZhibanPool(), value);
   if (!principal?.permissions.includes('course:manage')) redirect('/zhiban');
-  return <PblProjectConsole />;
+  return <PblProjectConsole hideHeader />;
 }

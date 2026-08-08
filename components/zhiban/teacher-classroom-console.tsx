@@ -19,9 +19,17 @@ async function api<T>(url: string, init?: RequestInit) {
 }
 const iso = (value: FormDataEntryValue | null) =>
   value ? new Date(String(value)).toISOString() : null;
-export function TeacherClassroomConsole() {
+export function TeacherClassroomConsole({
+  embedded = false,
+  fixedCourseId = '',
+  hideHeader = false,
+}: {
+  embedded?: boolean;
+  fixedCourseId?: string;
+  hideHeader?: boolean;
+}) {
   const [courses, setCourses] = useState<TeacherCourse[]>([]);
-  const [courseId, setCourseId] = useState('');
+  const [courseId, setCourseId] = useState(fixedCourseId);
   const [items, setItems] = useState<Binding[]>([]);
   const [progress, setProgress] = useState<Binding[]>([]);
   const [events, setEvents] = useState<Binding[]>([]);
@@ -33,7 +41,8 @@ export function TeacherClassroomConsole() {
     void api<{ courses: TeacherCourse[] }>('/api/zhiban/teacher/courses')
       .then((data) => {
         setCourses(data.courses);
-        const requested = new URLSearchParams(window.location.search).get('courseId');
+        const requested =
+          fixedCourseId || new URLSearchParams(window.location.search).get('courseId');
         setCourseId(
           data.courses.some((course) => course.id === requested)
             ? requested!
@@ -41,7 +50,7 @@ export function TeacherClassroomConsole() {
         );
       })
       .catch((e) => toast.error(e.message));
-  }, []);
+  }, [fixedCourseId]);
   const load = useCallback(async () => {
     if (!courseId) return;
     const data = await api<{ classrooms: Binding[]; progress: Binding[]; events: Binding[] }>(
@@ -160,22 +169,30 @@ export function TeacherClassroomConsole() {
     }
   }
   return (
-    <main className="mx-auto max-w-6xl px-5 py-8">
-      <header className="mb-6 flex items-center justify-between rounded-2xl bg-slate-950 p-6 text-white">
-        <div>
-          <p className="text-sm text-teal-300">阶段 7 · OpenMAIC 课堂适配</p>
-          <h1 className="text-2xl font-semibold">课程课堂绑定</h1>
-        </div>
-        <div className="flex gap-2">
-          <Button variant="secondary" asChild>
-            <Link href="/zhiban/teacher/courses">
-              <ArrowLeft className="mr-2 size-4" />
-              课程设置
-            </Link>
-          </Button>
-          <ZhibanLogoutButton />
-        </div>
-      </header>
+    <main
+      className={
+        embedded
+          ? 'mx-auto max-w-6xl [&>label:first-of-type]:hidden [&>select:first-of-type]:hidden'
+          : 'mx-auto max-w-6xl px-5 py-8'
+      }
+    >
+      {!embedded && !hideHeader && (
+        <header className="mb-6 flex items-center justify-between rounded-2xl bg-slate-950 p-6 text-white">
+          <div>
+            <p className="text-sm text-teal-300">阶段 7 · OpenMAIC 课堂适配</p>
+            <h1 className="text-2xl font-semibold">课程课堂绑定</h1>
+          </div>
+          <div className="flex gap-2">
+            <Button variant="secondary" asChild>
+              <Link href="/zhiban/teacher/courses">
+                <ArrowLeft className="mr-2 size-4" />
+                课程设置
+              </Link>
+            </Button>
+            <ZhibanLogoutButton />
+          </div>
+        </header>
+      )}
       <Label>课程</Label>
       <select
         className="mb-5 mt-2 h-10 w-full rounded-md border px-3"

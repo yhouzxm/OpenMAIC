@@ -47,9 +47,11 @@ async function api<T>(url: string, init?: RequestInit) {
 export function TeacherCourseConsole({
   principalName,
   initialCourseId = '',
+  embedded = false,
 }: {
   principalName: string;
   initialCourseId?: string;
+  embedded?: boolean;
 }) {
   const [courses, setCourses] = useState<TeacherCourse[]>([]);
   const [selectedId, setSelectedId] = useState(initialCourseId);
@@ -149,74 +151,78 @@ export function TeacherCourseConsole({
   }
 
   return (
-    <main className="mx-auto min-h-screen max-w-7xl px-4 py-6">
-      <header className="mb-6 flex items-center justify-between rounded-2xl bg-slate-950 px-6 py-5 text-white">
-        <div>
-          <p className="text-sm text-teal-300">授课教师工作台 · {principalName}</p>
-          <h1 className="text-2xl font-semibold">课程设定</h1>
-        </div>
-        <div className="flex gap-2">
-          <Button variant="secondary" asChild>
-            <Link href="/zhiban/teacher/risks">风险预警</Link>
-          </Button>
-          <Button variant="secondary" asChild>
-            <Link href="/zhiban/teacher/grades">测评与成绩</Link>
-          </Button>
-          <Button variant="secondary" asChild>
-            <Link href="/zhiban/teacher/agents">智能体干预</Link>
-          </Button>
-          <Button variant="secondary" asChild>
-            <Link href="/zhiban/teacher/profiles">
-              <BarChart3 className="mr-2 size-4" />
-              学习画像
-            </Link>
-          </Button>
-          <Button variant="secondary" asChild>
-            <Link href="/zhiban/teacher/classrooms">
-              <GraduationCap className="mr-2 size-4" />
-              课堂绑定
-            </Link>
-          </Button>
-          <Button variant="secondary" asChild>
-            <Link href="/zhiban/teacher/pbl">
-              <Workflow className="mr-2 size-4" />
-              PBL 项目
-            </Link>
-          </Button>
-          <Button variant="secondary" asChild>
-            <Link href="/zhiban">
-              <ArrowLeft className="mr-2 size-4" />
-              返回
-            </Link>
-          </Button>
-          <Button variant="secondary" onClick={() => void load()}>
-            <RefreshCw className="size-4" />
-          </Button>
-          <ZhibanLogoutButton />
-        </div>
-      </header>
-      <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
-        <Card>
-          <CardHeader>
-            <CardTitle>我的课程</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            {courses.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => setSelectedId(item.id)}
-                className={`w-full rounded-lg border p-3 text-left ${item.id === selectedId ? 'border-teal-600 bg-teal-50' : ''}`}
-              >
-                <p className="font-medium">{item.name}</p>
-                <p className="text-sm text-slate-500">{item.code}</p>
-                <Badge variant="outline">
-                  {item.publicationStatus === 'published' ? '已发布' : '草稿'}
-                </Badge>
-              </button>
-            ))}
-            {!courses.length && <p className="text-sm text-slate-500">尚未分配课程范围</p>}
-          </CardContent>
-        </Card>
+    <main className={embedded ? 'w-full' : 'mx-auto min-h-screen max-w-7xl px-4 py-6'}>
+      {!embedded && (
+        <header className="mb-6 flex items-center justify-between rounded-2xl bg-slate-950 px-6 py-5 text-white">
+          <div>
+            <p className="text-sm text-teal-300">授课教师工作台 · {principalName}</p>
+            <h1 className="text-2xl font-semibold">课程设定</h1>
+          </div>
+          <div className="flex gap-2">
+            <Button variant="secondary" asChild>
+              <Link href="/zhiban/teacher/risks">风险预警</Link>
+            </Button>
+            <Button variant="secondary" asChild>
+              <Link href="/zhiban/teacher/grades">测评与成绩</Link>
+            </Button>
+            <Button variant="secondary" asChild>
+              <Link href="/zhiban/teacher/agents">智能体干预</Link>
+            </Button>
+            <Button variant="secondary" asChild>
+              <Link href="/zhiban/teacher/profiles">
+                <BarChart3 className="mr-2 size-4" />
+                学习画像
+              </Link>
+            </Button>
+            <Button variant="secondary" asChild>
+              <Link href="/zhiban/teacher/classrooms">
+                <GraduationCap className="mr-2 size-4" />
+                课堂绑定
+              </Link>
+            </Button>
+            <Button variant="secondary" asChild>
+              <Link href="/zhiban/teacher/pbl">
+                <Workflow className="mr-2 size-4" />
+                PBL 项目
+              </Link>
+            </Button>
+            <Button variant="secondary" asChild>
+              <Link href="/zhiban">
+                <ArrowLeft className="mr-2 size-4" />
+                返回
+              </Link>
+            </Button>
+            <Button variant="secondary" onClick={() => void load()}>
+              <RefreshCw className="size-4" />
+            </Button>
+            <ZhibanLogoutButton />
+          </div>
+        </header>
+      )}
+      <div className={embedded ? 'grid gap-6' : 'grid gap-6 lg:grid-cols-[280px_1fr]'}>
+        {!embedded && (
+          <Card>
+            <CardHeader>
+              <CardTitle>我的课程</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              {courses.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => setSelectedId(item.id)}
+                  className={`w-full rounded-lg border p-3 text-left ${item.id === selectedId ? 'border-teal-600 bg-teal-50' : ''}`}
+                >
+                  <p className="font-medium">{item.name}</p>
+                  <p className="text-sm text-slate-500">{item.code}</p>
+                  <Badge variant="outline">
+                    {item.publicationStatus === 'published' ? '已发布' : '草稿'}
+                  </Badge>
+                </button>
+              ))}
+              {!courses.length && <p className="text-sm text-slate-500">尚未分配课程范围</p>}
+            </CardContent>
+          </Card>
+        )}
         {course && (
           <Card>
             <CardHeader>

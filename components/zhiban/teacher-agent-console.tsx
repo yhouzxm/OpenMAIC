@@ -46,9 +46,17 @@ async function api<T>(url: string, init?: RequestInit): Promise<T> {
   return body;
 }
 
-export function TeacherAgentConsole() {
+export function TeacherAgentConsole({
+  embedded = false,
+  fixedCourseId = '',
+  hideHeader = false,
+}: {
+  embedded?: boolean;
+  fixedCourseId?: string;
+  hideHeader?: boolean;
+}) {
   const [courses, setCourses] = useState<TeacherCourse[]>([]);
-  const [courseId, setCourseId] = useState('');
+  const [courseId, setCourseId] = useState(fixedCourseId);
   const [items, setItems] = useState<Item[]>([]);
   const [templates, setTemplates] = useState<Template[]>([]);
 
@@ -64,6 +72,7 @@ export function TeacherAgentConsole() {
   }, [courseId]);
 
   useEffect(() => {
+    if (fixedCourseId) return;
     void api<{ courses: TeacherCourse[] }>('/api/zhiban/teacher/courses')
       .then((result) => {
         setCourses(result.courses);
@@ -78,7 +87,7 @@ export function TeacherAgentConsole() {
         );
       })
       .catch((error) => toast.error(error.message));
-  }, []);
+  }, [fixedCourseId]);
   useEffect(() => {
     if (!courseId) return;
     void Promise.all([
@@ -165,31 +174,37 @@ export function TeacherAgentConsole() {
   ];
 
   return (
-    <main className="min-h-screen bg-slate-100 px-4 py-6 text-slate-900">
+    <main
+      className={embedded ? 'text-slate-900' : 'min-h-screen bg-slate-100 px-4 py-6 text-slate-900'}
+    >
       <div className="mx-auto max-w-7xl space-y-5">
-        <header className="flex flex-col gap-4 rounded-2xl bg-slate-950 px-6 py-5 text-white shadow-sm sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h1 className="text-2xl font-semibold">多智能体干预中心</h1>
-            <p className="mt-1 text-sm text-slate-300">Tutor、Peer 与教师干预的审计和处置闭环</p>
-          </div>
-          <Button asChild className="bg-white text-slate-900 hover:bg-slate-100">
-            <Link href="/zhiban/teacher/courses">返回课程设置</Link>
-          </Button>
-        </header>
-        <section className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-          <label className="mb-2 block text-sm font-medium text-slate-700">当前课程</label>
-          <select
-            className={`${fieldClass} w-full md:max-w-md`}
-            value={courseId}
-            onChange={(event) => setCourseId(event.target.value)}
-          >
-            {courses.map((course) => (
-              <option key={course.id} value={course.id}>
-                {course.name}
-              </option>
-            ))}
-          </select>
-        </section>
+        {!embedded && !hideHeader && (
+          <header className="flex flex-col gap-4 rounded-2xl bg-slate-950 px-6 py-5 text-white shadow-sm sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h1 className="text-2xl font-semibold">多智能体干预中心</h1>
+              <p className="mt-1 text-sm text-slate-300">Tutor、Peer 与教师干预的审计和处置闭环</p>
+            </div>
+            <Button asChild className="bg-white text-slate-900 hover:bg-slate-100">
+              <Link href="/zhiban/teacher/courses">返回课程设置</Link>
+            </Button>
+          </header>
+        )}
+        {!embedded && (
+          <section className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+            <label className="mb-2 block text-sm font-medium text-slate-700">当前课程</label>
+            <select
+              className={`${fieldClass} w-full md:max-w-md`}
+              value={courseId}
+              onChange={(event) => setCourseId(event.target.value)}
+            >
+              {courses.map((course) => (
+                <option key={course.id} value={course.id}>
+                  {course.name}
+                </option>
+              ))}
+            </select>
+          </section>
+        )}
         <div className="grid gap-4 md:grid-cols-3">
           {summaries.map((summary) => (
             <Card key={summary.label} className="border-slate-200 bg-white shadow-sm">

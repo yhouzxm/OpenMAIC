@@ -15,15 +15,24 @@ async function api<T>(url: string, init?: RequestInit) {
   if (!r.ok) throw new Error(b.error);
   return b as T;
 }
-export function TeacherProfileConsole() {
+export function TeacherProfileConsole({
+  embedded = false,
+  fixedCourseId = '',
+  hideHeader = false,
+}: {
+  embedded?: boolean;
+  fixedCourseId?: string;
+  hideHeader?: boolean;
+}) {
   const [courses, setCourses] = useState<TeacherCourse[]>([]);
-  const [courseId, setCourseId] = useState('');
+  const [courseId, setCourseId] = useState(fixedCourseId);
   const [rows, setRows] = useState<Row[]>([]);
   const [busy, setBusy] = useState(false);
   const [detail, setDetail] = useState<Row | null>(null);
   const [selectedLearnerId, setSelectedLearnerId] = useState('');
   const [emaRows, setEmaRows] = useState<Row[]>([]);
   useEffect(() => {
+    if (fixedCourseId) return;
     void api<{ courses: TeacherCourse[] }>('/api/zhiban/teacher/courses')
       .then((d) => {
         setCourses(d.courses);
@@ -35,7 +44,7 @@ export function TeacherProfileConsole() {
         );
       })
       .catch((e) => toast.error(e.message));
-  }, []);
+  }, [fixedCourseId]);
   const load = useCallback(async () => {
     if (!courseId) return;
     const [profiles, ema] = await Promise.all([
@@ -93,34 +102,38 @@ export function TeacherProfileConsole() {
     }
   }
   return (
-    <main className="mx-auto max-w-7xl p-6">
-      <header className="mb-6 flex justify-between rounded-2xl bg-slate-950 p-6 text-white">
-        <div>
-          <p className="text-teal-300">阶段 8 · 学习画像</p>
-          <h1 className="text-2xl font-semibold">课程学习画像</h1>
-        </div>
-        <div className="flex gap-2">
-          <Button variant="secondary" asChild>
-            <Link href="/zhiban/teacher/courses">
-              <ArrowLeft className="mr-2 size-4" />
-              课程设置
-            </Link>
-          </Button>
-          <ZhibanLogoutButton />
-        </div>
-      </header>
+    <main className={embedded ? 'mx-auto max-w-7xl' : 'mx-auto max-w-7xl p-6'}>
+      {!embedded && !hideHeader && (
+        <header className="mb-6 flex justify-between rounded-2xl bg-slate-950 p-6 text-white">
+          <div>
+            <p className="text-teal-300">阶段 8 · 学习画像</p>
+            <h1 className="text-2xl font-semibold">课程学习画像</h1>
+          </div>
+          <div className="flex gap-2">
+            <Button variant="secondary" asChild>
+              <Link href="/zhiban/teacher/courses">
+                <ArrowLeft className="mr-2 size-4" />
+                课程设置
+              </Link>
+            </Button>
+            <ZhibanLogoutButton />
+          </div>
+        </header>
+      )}
       <div className="mb-5 flex gap-3">
-        <select
-          className="h-10 flex-1 rounded-md border px-3"
-          value={courseId}
-          onChange={(e) => setCourseId(e.target.value)}
-        >
-          {courses.map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.name}（{c.code}）
-            </option>
-          ))}
-        </select>
+        {!embedded && (
+          <select
+            className="h-10 flex-1 rounded-md border px-3"
+            value={courseId}
+            onChange={(e) => setCourseId(e.target.value)}
+          >
+            {courses.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.name}（{c.code}）
+              </option>
+            ))}
+          </select>
+        )}
         <Button onClick={() => void rebuild()} disabled={busy || !courseId}>
           <RefreshCw className="mr-2 size-4" />
           批量重算

@@ -16,5 +16,11 @@ export default async function TeacherCourseSettingsPage({
   if (!principal) redirect('/zhiban/login');
   if (!principal.permissions.includes('course:manage')) redirect('/zhiban');
   const { courseId } = await params;
-  return <TeacherCourseConsole principalName={principal.displayName} initialCourseId={courseId} />;
+  return (
+    <TeacherCourseConsole
+      principalName={principal.displayName}
+      initialCourseId={courseId}
+      embedded
+    />
+  );
 }
