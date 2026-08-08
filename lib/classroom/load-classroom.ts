@@ -43,6 +43,7 @@ interface AgentLookupResult {
 
 export interface RunClassroomLoadArgs<TMediaTasks = unknown> {
   classroomId: string;
+  preferServer?: boolean;
   loadToken: StageSceneLoadToken;
   isCurrent: () => boolean;
   loadFromStorage: (classroomId: string, loadToken: StageSceneLoadToken) => Promise<void>;
@@ -95,6 +96,7 @@ export function resetLegacyAgentFallbackProbes(): void {
 
 export async function runClassroomLoad<TMediaTasks = unknown>({
   classroomId,
+  preferServer = false,
   loadToken,
   isCurrent,
   loadFromStorage,
@@ -115,10 +117,12 @@ export async function runClassroomLoad<TMediaTasks = unknown>({
   log,
 }: RunClassroomLoadArgs<TMediaTasks>): Promise<void> {
   try {
-    await loadFromStorage(classroomId, loadToken);
-    if (!isCurrent()) return;
+    if (!preferServer) {
+      await loadFromStorage(classroomId, loadToken);
+      if (!isCurrent()) return;
+    }
 
-    if (!getCurrentStage()) {
+    if (preferServer || !getCurrentStage()) {
       log.info('No IndexedDB data, trying server-side storage for:', classroomId);
       const classroom = await fetchClassroom(classroomId);
       if (!isCurrent()) return;
@@ -169,6 +173,7 @@ export async function runClassroomLoad<TMediaTasks = unknown>({
     let effectiveConfigs = documentConfigs ?? [];
     if (
       stageForRoster?.id === classroomId &&
+      !preferServer &&
       rosterNeedsLegacyFallback(documentConfigs) &&
       !fruitlessLegacyProbeStageIds.has(classroomId)
     ) {

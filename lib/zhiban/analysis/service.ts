@@ -4,8 +4,14 @@ import type { ZhibanDatabasePool } from '@/lib/zhiban/db/types';
 import type { AuthorizedPrincipal } from '@/lib/zhiban/rbac';
 import { rebuildLearnerProfile } from '@/lib/zhiban/profile';
 import { evaluateEmaTrigger } from '@/lib/zhiban/ema';
+import { evaluateMonitorIntervention } from '@/lib/zhiban/agents/service';
+import { evaluateLearnerRisk, sweepRiskSla } from '@/lib/zhiban/risk';
 
-export type AnalysisJobType = 'profile_rebuild' | 'ema_evaluate';
+export type AnalysisJobType =
+  | 'profile_rebuild'
+  | 'ema_evaluate'
+  | 'monitor_evaluate'
+  | 'risk_evaluate';
 
 async function insertJob(
   client: { query: ZhibanDatabasePool['query'] },
@@ -16,7 +22,7 @@ async function insertJob(
   const id = randomUUID();
   const key = `${jobType}:${input.learnerId}:${input.courseId}:${input.sourceEventId}`;
   const result = await client.query<{ id: string }>(
-    `INSERT INTO zhiban.analysis_jobs(id,tenant_id,job_type,idempotency_key,payload) VALUES($1,$2,$3,$4,$5::jsonb)
+    `INSERT INTO zhiban.analysis_jobs(id,tenant_id,job_type,idempotency_key,payload,run_after) VALUES($1,$2,$3::varchar,$4,$5::jsonb,CASE WHEN $3::varchar='risk_evaluate'::varchar THEN now()+interval '4 seconds' WHEN $3::varchar='monitor_evaluate'::varchar THEN now()+interval '2 seconds' ELSE now() END)
      ON CONFLICT(tenant_id,idempotency_key)DO UPDATE SET updated_at=now() RETURNING id`,
     [id, tenantId, jobType, key, JSON.stringify({ ...input, eventId: input.sourceEventId })],
   );
@@ -30,7 +36,12 @@ export async function enqueueLearningAnalysis(
 ) {
   return withZhibanTenant(pool, principal.tenantId, async (client) => {
     const jobs: string[] = [];
-    for (const jobType of ['profile_rebuild', 'ema_evaluate'] as const) {
+    for (const jobType of [
+      'profile_rebuild',
+      'ema_evaluate',
+      'monitor_evaluate',
+      'risk_evaluate',
+    ] as const) {
       jobs.push(await insertJob(client, principal.tenantId, jobType, input));
     }
     return { jobs };
@@ -172,6 +183,7 @@ export async function processAnalysisJobs(
   tenantId: string,
   options: { limit?: number; workerId?: string } = {},
 ) {
+  await sweepRiskSla(pool, tenantId);
   const workerId = options.workerId ?? `inline-${process.pid}`;
   let processed = 0;
   for (let index = 0; index < (options.limit ?? 10); index += 1) {
@@ -184,6 +196,10 @@ export async function processAnalysisJobs(
         await rebuildLearnerProfile(pool, principal, payload.learnerId, payload.courseId);
       } else if (job.job_type === 'ema_evaluate') {
         await evaluateEmaTrigger(pool, tenantId, payload);
+      } else if (job.job_type === 'monitor_evaluate') {
+        await evaluateMonitorIntervention(pool, tenantId, payload);
+      } else if (job.job_type === 'risk_evaluate') {
+        await evaluateLearnerRisk(pool, tenantId, payload);
       }
       await finishJob(pool, tenantId, String(job.id));
     } catch (error) {

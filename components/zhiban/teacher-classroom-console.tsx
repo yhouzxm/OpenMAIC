@@ -33,7 +33,12 @@ export function TeacherClassroomConsole() {
     void api<{ courses: TeacherCourse[] }>('/api/zhiban/teacher/courses')
       .then((data) => {
         setCourses(data.courses);
-        setCourseId(data.courses[0]?.id ?? '');
+        const requested = new URLSearchParams(window.location.search).get('courseId');
+        setCourseId(
+          data.courses.some((course) => course.id === requested)
+            ? requested!
+            : (data.courses[0]?.id ?? ''),
+        );
       })
       .catch((e) => toast.error(e.message));
   }, []);

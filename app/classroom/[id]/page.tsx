@@ -20,10 +20,11 @@ import {
   defaultClassroomLoadDeps,
   runClassroomLoad,
 } from '@/lib/classroom/load-classroom';
+import { markStageForPostgresPersistence, markStageReadOnly } from '@/lib/utils/stage-storage';
 
 const log = createLogger('Classroom');
 
-export function OpenMaicClassroomPlayer({ classroomId: providedClassroomId }: { classroomId?: string }) {
+export function OpenMaicClassroomPlayer({ classroomId: providedClassroomId, postgres = true, readOnly = false }: { classroomId?: string; postgres?: boolean; readOnly?: boolean }) {
   const params = useParams();
   const classroomId = providedClassroomId ?? params?.id as string;
 
@@ -37,6 +38,7 @@ export function OpenMaicClassroomPlayer({ classroomId: providedClassroomId }: { 
   const { generateRemaining, retrySingleOutline, stop } = useSceneGenerator({
     onComplete: () => {
       log.info('[Classroom] All scenes generated');
+      void useStageStore.getState().saveToStorage();
     },
   });
 
@@ -47,6 +49,7 @@ export function OpenMaicClassroomPlayer({ classroomId: providedClassroomId }: { 
 
       await runClassroomLoad({
         classroomId,
+        preferServer: postgres,
         loadToken,
         isCurrent,
         loadFromStorage,
@@ -56,7 +59,8 @@ export function OpenMaicClassroomPlayer({ classroomId: providedClassroomId }: { 
           defaultClassroomLoadDeps.applyFallbackScenes({
             ...args,
             isCurrent,
-            applyStageAndScenes: applyClassroomStageAndScenes,
+            applyStageAndScenes: (stage, scenes, options) =>
+              applyClassroomStageAndScenes(stage, scenes, { ...options, persist: !readOnly }),
           }),
         loadRestoredMediaTasks: defaultClassroomLoadDeps.loadRestoredMediaTasks,
         applyRestoredMediaTasks: defaultClassroomLoadDeps.applyRestoredMediaTasks,
@@ -72,7 +76,7 @@ export function OpenMaicClassroomPlayer({ classroomId: providedClassroomId }: { 
         log,
       });
     },
-    [classroomId, loadFromStorage],
+    [classroomId, loadFromStorage, postgres, readOnly],
   );
 
   useEffect(() => {
@@ -83,6 +87,8 @@ export function OpenMaicClassroomPlayer({ classroomId: providedClassroomId }: { 
     setError(null);
     /* eslint-enable react-hooks/set-state-in-effect */
     generationStartedRef.current = false;
+    if (readOnly) markStageReadOnly(classroomId);
+    else if (postgres) markStageForPostgresPersistence(classroomId);
 
     // Clear previous classroom's media tasks to prevent cross-classroom contamination.
     // Placeholder IDs (gen_img_1, gen_vid_1) are NOT globally unique across stages,
@@ -102,7 +108,7 @@ export function OpenMaicClassroomPlayer({ classroomId: providedClassroomId }: { 
       cancelled = true;
       stop();
     };
-  }, [classroomId, loadClassroom, stop]);
+  }, [classroomId, loadClassroom, postgres, readOnly, stop]);
 
   // Auto-resume generation for pending outlines
   useEffect(() => {

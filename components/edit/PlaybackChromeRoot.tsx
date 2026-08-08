@@ -925,7 +925,7 @@ export const PlaybackChromeRoot = forwardRef<PlaybackChromeRootHandle, PlaybackC
     const handleDiscussionSSE = useCallback(
       async (topic: string, prompt?: string, agentId?: string) => {
         // Start discussion display in ChatArea (lecture speech is preserved independently)
-        chatAreaRef.current?.startDiscussion({
+        const discussion = chatAreaRef.current?.startDiscussion({
           topic,
           prompt,
           agentId: agentId || 'default-1',
@@ -937,9 +937,22 @@ export const PlaybackChromeRoot = forwardRef<PlaybackChromeRootHandle, PlaybackC
         setChatSessionType('discussion');
         // Optimistic thinking: show thinking dots immediately (same as onMessageSend)
         setThinkingState({ stage: 'director' });
+        await discussion;
       },
       [],
     );
+
+    useEffect(() => {
+      const handleZhibanIntervention = (event: Event) => {
+        const detail = (event as CustomEvent<{ topic: string; prompt?: string; agentId: string; briefId?: string }>).detail;
+        if (!detail?.agentId || !detail.topic) return;
+        void handleDiscussionSSE(detail.topic, detail.prompt, detail.agentId)
+          .then(() => window.dispatchEvent(new CustomEvent('zhiban:agent-intervention-result', { detail: { briefId: detail.briefId, outcome: 'deliver' } })))
+          .catch((error) => window.dispatchEvent(new CustomEvent('zhiban:agent-intervention-result', { detail: { briefId: detail.briefId, outcome: 'fail', error: error instanceof Error ? error.message : String(error) } })));
+      };
+      window.addEventListener('zhiban:start-agent-intervention', handleZhibanIntervention);
+      return () => window.removeEventListener('zhiban:start-agent-intervention', handleZhibanIntervention);
+    }, [handleDiscussionSSE]);
 
     // First speech text for idle display (extracted here for playbackView)
     const firstSpeechText = useMemo(

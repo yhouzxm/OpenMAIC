@@ -108,6 +108,17 @@ const ERROR_CAPTURE_SHIM = `<script data-iframe-error-shim>
  * it also observes the storage shim).
  */
 export function patchHtmlForIframe(html: string): string {
+  // Older generated visualization3d pages sometimes call `init()` before a
+  // later `const annotations = []` declaration. That throws from the lexical
+  // TDZ before Three.js can render. Hoist only this known empty collection;
+  // keep the repair deliberately narrow so arbitrary authored scripts are not
+  // rewritten.
+  const annotationsTdzPattern = /\b(?:const|let)\s+annotations\s*=/g;
+  const needsAnnotationsTdzRepair = annotationsTdzPattern.test(html);
+  annotationsTdzPattern.lastIndex = 0;
+  const repairedHtml = needsAnnotationsTdzRepair
+    ? html.replace(annotationsTdzPattern, 'annotations =')
+    : html;
   const iframeCss = `<style data-iframe-patch>
   html, body {
     width: 100%;
@@ -122,24 +133,28 @@ export function patchHtmlForIframe(html: string): string {
   body { min-height: 100vh; }
 </style>`;
 
-  const injection = '\n' + ERROR_CAPTURE_SHIM + '\n' + STORAGE_SHIM + '\n' + iframeCss;
+  const annotationsCompatibility = needsAnnotationsTdzRepair
+    ? '\n<script data-iframe-3d-annotations-compat>var annotations = [];</script>'
+    : '';
+  const injection =
+    '\n' + ERROR_CAPTURE_SHIM + '\n' + STORAGE_SHIM + annotationsCompatibility + '\n' + iframeCss;
 
   // Insert right after <head> or at the start of the document
-  const headIdx = html.indexOf('<head>');
+  const headIdx = repairedHtml.indexOf('<head>');
   if (headIdx !== -1) {
     const insertPos = headIdx + 6; // after <head>
-    return html.substring(0, insertPos) + injection + html.substring(insertPos);
+    return repairedHtml.substring(0, insertPos) + injection + repairedHtml.substring(insertPos);
   }
 
-  const headWithAttrs = html.indexOf('<head ');
+  const headWithAttrs = repairedHtml.indexOf('<head ');
   if (headWithAttrs !== -1) {
-    const closeAngle = html.indexOf('>', headWithAttrs);
+    const closeAngle = repairedHtml.indexOf('>', headWithAttrs);
     if (closeAngle !== -1) {
       const insertPos = closeAngle + 1;
-      return html.substring(0, insertPos) + injection + html.substring(insertPos);
+      return repairedHtml.substring(0, insertPos) + injection + repairedHtml.substring(insertPos);
     }
   }
 
   // Fallback: prepend
-  return injection + html;
+  return injection + repairedHtml;
 }

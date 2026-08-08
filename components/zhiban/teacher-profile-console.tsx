@@ -27,7 +27,12 @@ export function TeacherProfileConsole() {
     void api<{ courses: TeacherCourse[] }>('/api/zhiban/teacher/courses')
       .then((d) => {
         setCourses(d.courses);
-        setCourseId(d.courses[0]?.id ?? '');
+        const requested = new URLSearchParams(window.location.search).get('courseId');
+        setCourseId(
+          d.courses.some((course) => course.id === requested)
+            ? requested!
+            : (d.courses[0]?.id ?? ''),
+        );
       })
       .catch((e) => toast.error(e.message));
   }, []);

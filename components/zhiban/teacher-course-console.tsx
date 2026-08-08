@@ -44,9 +44,15 @@ async function api<T>(url: string, init?: RequestInit) {
   return body as T;
 }
 
-export function TeacherCourseConsole({ principalName }: { principalName: string }) {
+export function TeacherCourseConsole({
+  principalName,
+  initialCourseId = '',
+}: {
+  principalName: string;
+  initialCourseId?: string;
+}) {
   const [courses, setCourses] = useState<TeacherCourse[]>([]);
-  const [selectedId, setSelectedId] = useState('');
+  const [selectedId, setSelectedId] = useState(initialCourseId);
   const [busy, setBusy] = useState(false);
   const load = useCallback(async () => {
     try {
@@ -150,6 +156,15 @@ export function TeacherCourseConsole({ principalName }: { principalName: string 
           <h1 className="text-2xl font-semibold">课程设定</h1>
         </div>
         <div className="flex gap-2">
+          <Button variant="secondary" asChild>
+            <Link href="/zhiban/teacher/risks">风险预警</Link>
+          </Button>
+          <Button variant="secondary" asChild>
+            <Link href="/zhiban/teacher/grades">测评与成绩</Link>
+          </Button>
+          <Button variant="secondary" asChild>
+            <Link href="/zhiban/teacher/agents">智能体干预</Link>
+          </Button>
           <Button variant="secondary" asChild>
             <Link href="/zhiban/teacher/profiles">
               <BarChart3 className="mr-2 size-4" />

@@ -1,0 +1,10 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
+import { createAgentTemplate, listAgentTemplates, publishAgentTemplate } from '@/lib/zhiban/agents';
+import { getZhibanPool } from '@/lib/zhiban/db/connection';
+import { authorizationErrorResponse, requireRequestScopedPermission } from '@/lib/zhiban/rbac';
+export const runtime='nodejs';
+async function context(courseId:string){const id=z.uuid().parse(courseId);return {id,principal:await requireRequestScopedPermission('course:manage',{courseIds:[id]})};}
+export async function GET(_:NextRequest,{params}:{params:Promise<{courseId:string}>}){try{const {id,principal}=await context((await params).courseId);return NextResponse.json({templates:await listAgentTemplates(getZhibanPool(),principal,id)});}catch(error){return authorizationErrorResponse(error)??NextResponse.json({error:error instanceof Error?error.message:'Unable to load templates'},{status:400});}}
+export async function POST(request:NextRequest,{params}:{params:Promise<{courseId:string}>}){try{const {id,principal}=await context((await params).courseId);const body=z.object({roleType:z.enum(['tutor','peer','monitor']),version:z.string().trim().min(1).max(80),name:z.string().trim().min(1).max(120),persona:z.string().trim().min(1).max(20000),policy:z.record(z.string(),z.unknown()).optional(),publish:z.boolean().optional()}).parse(await request.json());return NextResponse.json({template:await createAgentTemplate(getZhibanPool(),principal,{courseId:id,...body})});}catch(error){return authorizationErrorResponse(error)??NextResponse.json({error:error instanceof Error?error.message:'Unable to create template'},{status:400});}}
+export async function PATCH(request:NextRequest,{params}:{params:Promise<{courseId:string}>}){try{const {id,principal}=await context((await params).courseId);const body=z.object({templateId:z.uuid()}).parse(await request.json());return NextResponse.json(await publishAgentTemplate(getZhibanPool(),principal,id,body.templateId));}catch(error){return authorizationErrorResponse(error)??NextResponse.json({error:error instanceof Error?error.message:'Unable to publish template'},{status:400});}}

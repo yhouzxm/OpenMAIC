@@ -243,7 +243,7 @@ export const useAgentRegistry = create<AgentRegistryState>()(
       // for snapshots written before this partialize existed.
       partialize: (state) => ({
         agents: Object.fromEntries(
-          Object.entries(state.agents).filter(([, agent]) => !agent.isGenerated),
+          Object.entries(state.agents).filter(([, agent]) => !agent.isGenerated && !agent.isRuntime),
         ),
       }),
       // Merge persisted state with default agents
@@ -258,7 +258,7 @@ export const useAgentRegistry = create<AgentRegistryState>()(
         // Generated agents are loaded on-demand from IndexedDB per stage
         for (const [id, agent] of Object.entries(persistedAgents)) {
           const agentConfig = agent as AgentConfig;
-          if (!id.startsWith('default-') && !agentConfig.isGenerated) {
+          if (!id.startsWith('default-') && !agentConfig.isGenerated && !agentConfig.isRuntime) {
             mergedAgents[id] = agentConfig;
           }
         }

@@ -25,6 +25,8 @@ export interface AgentConfig {
 
   // LLM-generated agent fields
   isGenerated?: boolean; // true for LLM-generated agents
+  /** Ephemeral application adapter agent; excluded from local persistence. */
+  isRuntime?: boolean;
   boundStageId?: string; // stage ID this agent was generated for
 }
 

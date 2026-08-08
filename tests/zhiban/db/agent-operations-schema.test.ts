@@ -1,0 +1,3 @@
+import { describe, expect, it } from 'vitest';
+import { agentOperationsMigration } from '@/lib/zhiban/db/migrations/020-agent-operations';
+describe('agent operations schema',()=>{it('adds lifecycle, metrics, RLS and rollback',()=>{const up=agentOperationsMigration.up.join('\n');const down=agentOperationsMigration.down.join('\n');expect(up).toContain("'running'");expect(up).toContain("'resolved'");expect(up).toContain('agent_invocation_metrics');expect(up).toContain('ENABLE ROW LEVEL SECURITY');expect(up).toContain('attempt_count');expect(down).toContain('DROP TABLE IF EXISTS zhiban.agent_invocation_metrics');});});

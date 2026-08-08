@@ -8,15 +8,31 @@ import {
   readClassroom,
 } from '@/lib/server/classroom-storage';
 import { createLogger } from '@/lib/logger';
+import { requireRequestPrincipal } from '@/lib/zhiban/rbac';
 
 const log = createLogger('Classroom API');
+
+function canPersistClassroom(principal: Awaited<ReturnType<typeof requireRequestPrincipal>>) {
+  return (
+    principal.permissions.includes('course:manage') ||
+    principal.grants.some(
+      (grant) =>
+        grant.permission === 'course:manage' &&
+        (grant.scopeType === 'course' || grant.scopeType === 'tenant' || grant.scopeType === 'system'),
+    )
+  );
+}
 
 export async function POST(request: NextRequest) {
   let stageId: string | undefined;
   let sceneCount: number | undefined;
   try {
     const body = await request.json();
-    const { stage, scenes } = body;
+    const { stage, scenes, documentState } = body;
+    const principal = await requireRequestPrincipal();
+    if (!canPersistClassroom(principal)) {
+      return apiError(API_ERROR_CODES.INVALID_REQUEST, 403, 'Permission denied');
+    }
     stageId = stage?.id;
     sceneCount = scenes?.length;
 
@@ -31,7 +47,7 @@ export async function POST(request: NextRequest) {
     const id = stage.id || randomUUID();
     const baseUrl = buildRequestOrigin(request);
 
-    const persisted = await persistClassroom({ id, stage: { ...stage, id }, scenes }, baseUrl);
+    const persisted = await persistClassroom({ id, stage: { ...stage, id }, scenes, documentState, tenantId: principal.tenantId, actorId: principal.id }, baseUrl);
 
     return apiSuccess({ id: persisted.id, url: persisted.url }, 201);
   } catch (error) {
@@ -50,6 +66,10 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   try {
+    const principal = await requireRequestPrincipal();
+    if (!principal.permissions.includes('course:read')) {
+      return apiError(API_ERROR_CODES.INVALID_REQUEST, 403, 'Permission denied');
+    }
     const id = request.nextUrl.searchParams.get('id');
 
     if (!id) {

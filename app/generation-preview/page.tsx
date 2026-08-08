@@ -57,6 +57,7 @@ import {
 import { StepVisualizer } from './components/visualizers';
 import { resolveTaskEngineModeFromOutlineDoneEvent } from './vocational-mode';
 import { toast } from 'sonner';
+import { markStageForPostgresPersistence } from '@/lib/utils/stage-storage';
 
 const log = createLogger('GenerationPreview');
 const OUTLINE_REVIEW_AUTO_CONTINUE_MS = 2500;
@@ -1082,8 +1083,9 @@ function GenerationPreviewContent() {
       );
 
       sessionStorage.removeItem('generationSession');
-      await store.saveToStorage();
       const zhibanDraftRaw = sessionStorage.getItem('zhibanClassroomDraft');
+      if (zhibanDraftRaw) markStageForPostgresPersistence(stage.id);
+      await store.saveToStorage();
       if (zhibanDraftRaw) {
         try {
           const zhibanDraft = JSON.parse(zhibanDraftRaw) as {

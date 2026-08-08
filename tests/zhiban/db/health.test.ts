@@ -18,6 +18,13 @@ import { learningEventsProfilesMigration } from '@/lib/zhiban/db/migrations/014-
 import { learnerProfileGovernanceMigration } from '@/lib/zhiban/db/migrations/015-learner-profile-governance';
 import { emaAnalysisJobsMigration } from '@/lib/zhiban/db/migrations/016-ema-analysis-jobs';
 import { learningEventsPartitioningMigration } from '@/lib/zhiban/db/migrations/017-learning-events-partitioning';
+import { multiAgentCollaborationMigration } from '@/lib/zhiban/db/migrations/018-multi-agent-collaboration';
+import { postgresClassroomDocumentsMigration } from '@/lib/zhiban/db/migrations/019-postgres-classroom-documents';
+import { agentOperationsMigration } from '@/lib/zhiban/db/migrations/020-agent-operations';
+import { assessmentGradesMigration } from '@/lib/zhiban/db/migrations/021-assessment-grades';
+import { gradeGovernanceMigration } from '@/lib/zhiban/db/migrations/022-grade-governance';
+import { riskInterventionMigration } from '@/lib/zhiban/db/migrations/023-risk-intervention';
+import { riskGovernanceMigration } from '@/lib/zhiban/db/migrations/024-risk-governance';
 import type { QueryResult, ZhibanQueryable } from '@/lib/zhiban/db/types';
 
 class HealthDatabase implements ZhibanQueryable {
@@ -63,6 +70,13 @@ describe('checkZhibanDatabaseHealth', () => {
         '015',
         '016',
         '017',
+        '018',
+        '019',
+        '020',
+        '021',
+        '022',
+        '023',
+        '024',
       ],
     });
   });
@@ -88,6 +102,13 @@ describe('checkZhibanDatabaseHealth', () => {
           { version: '015', checksum: learnerProfileGovernanceMigration.checksum },
           { version: '016', checksum: emaAnalysisJobsMigration.checksum },
           { version: '017', checksum: learningEventsPartitioningMigration.checksum },
+          { version: '018', checksum: multiAgentCollaborationMigration.checksum },
+          { version: '019', checksum: postgresClassroomDocumentsMigration.checksum },
+          { version: '020', checksum: agentOperationsMigration.checksum },
+          { version: '021', checksum: assessmentGradesMigration.checksum },
+          { version: '022', checksum: gradeGovernanceMigration.checksum },
+          { version: '023', checksum: riskInterventionMigration.checksum },
+          { version: '024', checksum: riskGovernanceMigration.checksum },
         ]),
       ),
     ).resolves.toMatchObject({
@@ -112,6 +133,13 @@ describe('checkZhibanDatabaseHealth', () => {
         '015',
         '016',
         '017',
+        '018',
+        '019',
+        '020',
+        '021',
+        '022',
+        '023',
+        '024',
       ],
       pendingVersions: [],
       driftedVersions: [],

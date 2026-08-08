@@ -15,6 +15,13 @@ import { learningEventsProfilesMigration } from './014-learning-events-profiles'
 import { learnerProfileGovernanceMigration } from './015-learner-profile-governance';
 import { emaAnalysisJobsMigration } from './016-ema-analysis-jobs';
 import { learningEventsPartitioningMigration } from './017-learning-events-partitioning';
+import { multiAgentCollaborationMigration } from './018-multi-agent-collaboration';
+import { postgresClassroomDocumentsMigration } from './019-postgres-classroom-documents';
+import { agentOperationsMigration } from './020-agent-operations';
+import { assessmentGradesMigration } from './021-assessment-grades';
+import { gradeGovernanceMigration } from './022-grade-governance';
+import { riskInterventionMigration } from './023-risk-intervention';
+import { riskGovernanceMigration } from './024-risk-governance';
 
 export const ZHIBAN_MIGRATIONS: readonly ZhibanMigration[] = [
   initialIdentityMigration,
@@ -34,6 +41,13 @@ export const ZHIBAN_MIGRATIONS: readonly ZhibanMigration[] = [
   learnerProfileGovernanceMigration,
   emaAnalysisJobsMigration,
   learningEventsPartitioningMigration,
+  multiAgentCollaborationMigration,
+  postgresClassroomDocumentsMigration,
+  agentOperationsMigration,
+  assessmentGradesMigration,
+  gradeGovernanceMigration,
+  riskInterventionMigration,
+  riskGovernanceMigration,
 ];
 
 export type { ZhibanMigration } from './001-initial-identity';

@@ -15,6 +15,24 @@ Your output must be a complete HTML document with:
 
 ## ⚠️ CRITICAL REQUIREMENTS
 
+### 0. INITIALIZATION ORDER - No temporal dead zones
+
+Declare every scene-level collection and state variable before any call to `initScene()`,
+`init()`, `animate()`, or any function that reads it. This includes `annotations`, labels,
+objects, meshes, interaction targets, animation state, and raycast targets. Never call an
+initializer before a later `const` or `let` declaration it may reference.
+
+```javascript
+// GOOD: state exists before initialization starts
+const annotations = [];
+const objects = {};
+initScene();
+
+// FORBIDDEN: throws "Cannot access 'annotations' before initialization"
+initScene();
+const annotations = [];
+```
+
 ### 1. LIGHTING - Objects MUST be clearly visible
 
 **ALWAYS ensure:**

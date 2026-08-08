@@ -156,6 +156,42 @@ async function saveStageChats(
  */
 export type StaleDroppedSave = 'stale-dropped';
 
+const POSTGRES_PERSISTENCE_PREFIX = 'openmaic:postgres-classroom:';
+const READ_ONLY_STAGE_PREFIX = 'openmaic:read-only-classroom:';
+
+export function markStageForPostgresPersistence(stageId: string): void {
+  if (typeof sessionStorage !== 'undefined') {
+    sessionStorage.removeItem(`${READ_ONLY_STAGE_PREFIX}${stageId}`);
+    sessionStorage.setItem(`${POSTGRES_PERSISTENCE_PREFIX}${stageId}`, '1');
+  }
+}
+
+export function usesPostgresPersistence(stageId: string): boolean {
+  return typeof sessionStorage !== 'undefined' && sessionStorage.getItem(`${POSTGRES_PERSISTENCE_PREFIX}${stageId}`) === '1';
+}
+
+export function markStageReadOnly(stageId: string): void {
+  if (typeof sessionStorage !== 'undefined') sessionStorage.setItem(`${READ_ONLY_STAGE_PREFIX}${stageId}`, '1');
+}
+
+function isStageReadOnly(stageId: string): boolean {
+  return typeof sessionStorage !== 'undefined' && sessionStorage.getItem(`${READ_ONLY_STAGE_PREFIX}${stageId}`) === '1';
+}
+
+async function saveStageDataToPostgres(data: StageStoreData): Promise<void> {
+  const response = await fetch('/api/classroom', {
+    method: 'POST', headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ stage: data.stage, scenes: data.scenes, documentState: {
+      currentSceneId: data.currentSceneId, chats: data.chats, chatSnapshot: data.chatSnapshot, outline: data.outline,
+    } }),
+  });
+  if (!response.ok) {
+    const body = (await response.json().catch(() => null)) as { error?: string; details?: string } | null;
+    const reason = body?.details || body?.error || `HTTP ${response.status}`;
+    throw new Error(`PostgreSQL classroom persistence failed: ${reason}`);
+  }
+}
+
 /**
  * Save stage data to IndexedDB.
  *
@@ -176,6 +212,11 @@ export async function saveStageData(
   if (isStageWriteStale(stageId, capturedEpoch)) {
     log.info(`Dropping save for deleted/stale stage: ${stageId}`);
     return 'stale-dropped';
+  }
+  if (isStageReadOnly(stageId)) return undefined;
+  if (usesPostgresPersistence(stageId)) {
+    await saveStageDataToPostgres(data);
+    return undefined;
   }
   try {
     const now = Date.now();
@@ -252,6 +293,11 @@ export async function saveStageDataIncremental(
   if (isStageWriteStale(stageId, capturedEpoch)) {
     log.info(`Dropping incremental save for deleted/stale stage: ${stageId}`);
     return 'stale-dropped';
+  }
+  if (isStageReadOnly(stageId)) return { failedChanges: [] };
+  if (usesPostgresPersistence(stageId)) {
+    await saveStageDataToPostgres(data);
+    return { failedChanges: [] };
   }
   const has = (kind: PendingChange['kind']) => dirty.some((change) => change.kind === kind);
   const dirtySceneIds = new Set(

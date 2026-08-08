@@ -28,6 +28,12 @@ export function StudentClassroomConsole() {
         </div>
         <div className="flex gap-2">
           <Button variant="secondary" asChild>
+            <Link href="/zhiban/student/risks">学习支持</Link>
+          </Button>
+          <Button variant="secondary" asChild>
+            <Link href="/zhiban/student/grades">测评与成绩</Link>
+          </Button>
+          <Button variant="secondary" asChild>
             <Link href="/zhiban/student/profile">
               <BarChart3 className="mr-2 size-4" />
               学习画像

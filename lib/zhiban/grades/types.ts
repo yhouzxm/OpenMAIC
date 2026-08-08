@@ -1,0 +1,4 @@
+export type GradeCategory = 'formative' | 'project' | 'final';
+export type GradeStatus = 'draft' | 'published' | 'excused' | 'void';
+export interface GradeItemInput { code: string; name: string; category: GradeCategory; weight: number; maxScore: number; dropLowest?: boolean; sourceType?: 'manual' | 'assessment' | 'pbl' | 'classroom_quiz'; sourceId?: string; }
+export interface AssessmentInput extends GradeItemInput { title: string; description?: string; assessmentType: 'quiz' | 'assignment' | 'exam' | 'practice'; maxAttempts: number; scoringMethod: 'highest' | 'latest' | 'average'; opensAt?: string | null; dueAt?: string | null; questions: Array<{ type: 'single_choice' | 'multiple_choice' | 'true_false' | 'short_answer' | 'essay'; prompt: string; options?: unknown[]; answerKey?: Record<string, unknown>; maxScore: number }>; }

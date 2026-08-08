@@ -27,7 +27,10 @@ export default function ZhibanLoginPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ tenantId, loginName, password }),
       });
-      const result = await response.json();
+      const contentType = response.headers.get('content-type') ?? '';
+      const result = contentType.includes('application/json')
+        ? await response.json()
+        : { error: `登录服务返回异常响应（HTTP ${response.status}）` };
       if (!response.ok) throw new Error(result.error ?? '登录失败');
       router.replace('/zhiban');
       router.refresh();

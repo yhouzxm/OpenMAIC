@@ -133,4 +133,20 @@ describe('patchHtmlForIframe', () => {
     handlers.message({ data: { foo: 1 } });
     expect(posts).toHaveLength(4);
   });
+
+  it('repairs the known visualization3d annotations TDZ without rewriting unrelated declarations', () => {
+    const html = `<html><head></head><body><script>
+      init();
+      function init() { annotations.push('label'); }
+      const annotations = ['label'];
+      const other = [];
+    </script></body></html>`;
+    const out = patchHtmlForIframe(html);
+    expect(out).toContain('data-iframe-3d-annotations-compat');
+    expect(out).toContain('var annotations = [];');
+    expect(out).toContain("annotations = ['label'];");
+    expect(out).not.toContain("const annotations = ['label'];");
+    expect(out).toContain('const other = [];');
+    expect(out.indexOf('var annotations = [];')).toBeLessThan(out.indexOf('init();'));
+  });
 });
