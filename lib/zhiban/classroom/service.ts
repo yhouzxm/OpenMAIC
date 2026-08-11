@@ -173,9 +173,19 @@ export async function listStudentClassrooms(
 ): Promise<ZhibanCourseClassroom[]> {
   return withZhibanTenant(pool, principal.tenantId, async (client) => {
     const result = await client.query<Record<string, unknown>>(
-      `SELECT cc.id,cc.course_id,c.code AS course_code,c.name AS course_name,cc.classroom_id,cc.title,cc.description,cc.display_order,cc.opens_at,cc.closes_at,cc.status,s.id AS session_id,COALESCE(s.progress_percent,0) AS progress_percent,s.current_scene_id,s.last_activity_at
+      `SELECT cc.id,cc.course_id,c.code AS course_code,c.name AS course_name,cc.classroom_id,cc.title,cc.description,cc.display_order,cc.opens_at,cc.closes_at,cc.status,s.id AS session_id,COALESCE(s.progress_percent,0) AS progress_percent,s.current_scene_id,s.last_activity_at,
+              COALESCE(MAX(EXTRACT(YEAR FROM term.starts_on)::text),'') AS academic_year,
+              COALESCE(MAX(term.name),'') AS term_name,
+              COALESCE(MAX(o.status),'') AS offering_status,
+              COALESCE(MAX(tp.department),'') AS department,
+              COALESCE(MAX(sp.learning_center),'') AS learning_center,
+              COALESCE(BOOL_OR(settings.pbl_enabled),true) AS pbl_enabled
       FROM zhiban.course_classrooms cc JOIN zhiban.courses c ON c.id=cc.course_id
       JOIN zhiban.course_offerings o ON o.course_id=cc.course_id JOIN zhiban.enrollments e ON e.offering_id=o.id AND e.student_id=$2 AND e.status='enrolled'
+      JOIN zhiban.academic_terms term ON term.id=o.term_id
+      LEFT JOIN zhiban.student_profiles sp ON sp.account_id=e.student_id
+      LEFT JOIN zhiban.teacher_profiles tp ON tp.account_id=c.owner_teacher_id
+      LEFT JOIN zhiban.course_settings settings ON settings.course_id=c.id
       LEFT JOIN zhiban.classroom_learning_sessions s ON s.course_classroom_id=cc.id AND s.student_id=$2
       WHERE cc.tenant_id=$1 AND cc.status='published' AND (cc.opens_at IS NULL OR cc.opens_at<=now()) AND (cc.closes_at IS NULL OR cc.closes_at>=now())
       GROUP BY cc.id,c.id,s.id ORDER BY c.name,cc.display_order,cc.title`,
@@ -186,6 +196,12 @@ export async function listStudentClassrooms(
       courseId: row.course_id as string,
       courseCode: row.course_code as string,
       courseName: row.course_name as string,
+      academicYear: row.academic_year as string,
+      termName: row.term_name as string,
+      offeringStatus: row.offering_status as string,
+      department: row.department as string,
+      learningCenter: row.learning_center as string,
+      pblEnabled: Boolean(row.pbl_enabled),
       classroomId: row.classroom_id as string,
       title: row.title as string,
       description: row.description as string,

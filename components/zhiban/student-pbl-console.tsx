@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { StudentPblProjectSummary, ZhibanPblInstance } from '@/lib/zhiban/pbl';
 import { ZhibanLogoutButton } from './logout-button';
 
-export function StudentPblConsole() {
+export function StudentPblConsole({ hideHeader = false }: { hideHeader?: boolean }) {
   const [projects, setProjects] = useState<StudentPblProjectSummary[]>([]);
   const [busy, setBusy] = useState('');
   const router = useRouter();
@@ -46,16 +46,23 @@ export function StudentPblConsole() {
   }
   return (
     <main className="mx-auto max-w-6xl px-5 py-8">
-      <header className="mb-6 flex items-center justify-between rounded-2xl bg-slate-950 p-6 text-white">
-        <div>
-          <p className="text-sm text-teal-300">智伴·创学</p>
-          <h1 className="text-2xl font-semibold">我的 PBL 项目</h1>
-        </div>
-        <div className="flex gap-2">
-          <Button variant="secondary" asChild><Link href="/zhiban/student/classrooms"><GraduationCap className="mr-2 size-4" />课程课堂</Link></Button>
-          <ZhibanLogoutButton />
-        </div>
-      </header>
+      {!hideHeader && (
+        <header className="mb-6 flex items-center justify-between rounded-2xl bg-slate-950 p-6 text-white">
+          <div>
+            <p className="text-sm text-teal-300">智伴·创学</p>
+            <h1 className="text-2xl font-semibold">我的 PBL 项目</h1>
+          </div>
+          <div className="flex gap-2">
+            <Button variant="secondary" asChild>
+              <Link href="/zhiban/student/classrooms">
+                <GraduationCap className="mr-2 size-4" />
+                课程课堂
+              </Link>
+            </Button>
+            <ZhibanLogoutButton />
+          </div>
+        </header>
+      )}
       <div className="grid gap-4 md:grid-cols-2">
         {projects.map((p) => (
           <Card key={p.id}>

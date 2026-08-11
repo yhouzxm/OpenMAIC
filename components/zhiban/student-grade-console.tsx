@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 type Row = Record<string, unknown>;
-export function StudentGradeConsole() {
+export function StudentGradeConsole({ hideHeader = false }: { hideHeader?: boolean }) {
   const [data, setData] = useState<{ courses: Row[]; records: Row[]; reviews: Row[] }>({
     courses: [],
     records: [],
@@ -74,20 +74,22 @@ export function StudentGradeConsole() {
   return (
     <main className="min-h-screen bg-slate-100 p-5">
       <div className="mx-auto max-w-5xl space-y-5">
-        <header className="flex items-center justify-between rounded-2xl bg-slate-950 p-6 text-white">
-          <div>
-            <h1 className="text-2xl font-semibold">测评与我的成绩</h1>
-            <p className="text-sm text-slate-300">完成已开放测评，查看教师发布的成绩和总评</p>
-          </div>
-          <div className="flex gap-2">
-            <Button asChild variant="secondary">
-              <a href="/api/zhiban/student/grades/export">导出成绩</a>
-            </Button>
-            <Button asChild className="bg-white text-slate-900">
-              <Link href="/zhiban/student/classrooms">返回学习</Link>
-            </Button>
-          </div>
-        </header>
+        {!hideHeader && (
+          <header className="flex items-center justify-between rounded-2xl bg-slate-950 p-6 text-white">
+            <div>
+              <h1 className="text-2xl font-semibold">测评与我的成绩</h1>
+              <p className="text-sm text-slate-300">完成已开放测评，查看教师发布的成绩和总评</p>
+            </div>
+            <div className="flex gap-2">
+              <Button asChild variant="secondary">
+                <a href="/api/zhiban/student/grades/export">导出成绩</a>
+              </Button>
+              <Button asChild className="bg-white text-slate-900">
+                <Link href="/zhiban/student/classrooms">返回学习</Link>
+              </Button>
+            </div>
+          </header>
+        )}
         {assessments.map((a) => (
           <Card key={String(a.id)}>
             <CardHeader>

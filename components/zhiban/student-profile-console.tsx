@@ -14,7 +14,7 @@ const labels: Record<string, string> = {
   collaboration: '协作参与',
   selfDirection: '自主学习',
 };
-export function StudentProfileConsole() {
+export function StudentProfileConsole({ hideHeader = false }: { hideHeader?: boolean }) {
   const [rows, setRows] = useState<Row[]>([]);
   const [detail, setDetail] = useState<Row | null>(null);
   const [selectedCourseId, setSelectedCourseId] = useState('');
@@ -84,21 +84,23 @@ export function StudentProfileConsole() {
   }
   return (
     <main className="mx-auto max-w-6xl p-6">
-      <header className="mb-6 flex justify-between rounded-2xl bg-slate-950 p-6 text-white">
-        <div>
-          <p className="text-teal-300">阶段 8 · 可解释学习画像</p>
-          <h1 className="text-2xl font-semibold">我的学习画像</h1>
-        </div>
-        <div className="flex gap-2">
-          <Button variant="secondary" asChild>
-            <Link href="/zhiban/student/classrooms">
-              <ArrowLeft className="mr-2 size-4" />
-              课程课堂
-            </Link>
-          </Button>
-          <ZhibanLogoutButton />
-        </div>
-      </header>
+      {!hideHeader && (
+        <header className="mb-6 flex justify-between rounded-2xl bg-slate-950 p-6 text-white">
+          <div>
+            <p className="text-teal-300">阶段 8 · 可解释学习画像</p>
+            <h1 className="text-2xl font-semibold">我的学习画像</h1>
+          </div>
+          <div className="flex gap-2">
+            <Button variant="secondary" asChild>
+              <Link href="/zhiban/student/classrooms">
+                <ArrowLeft className="mr-2 size-4" />
+                课程课堂
+              </Link>
+            </Button>
+            <ZhibanLogoutButton />
+          </div>
+        </header>
+      )}
       <p className="mb-5 rounded-lg bg-blue-50 p-3 text-sm text-blue-800">
         画像基于课堂与 PBL 学习证据计算，仅用于学习支持，不是心理或能力诊断。
       </p>

@@ -9,5 +9,5 @@ export default async function Page() {
   if (!token) redirect('/zhiban/login');
   const p = await getAuthorizedPrincipal(getZhibanPool(), token);
   if (!p?.permissions.includes('course:read')) redirect('/zhiban');
-  return <StudentProfileConsole />;
+  return <StudentProfileConsole hideHeader />;
 }

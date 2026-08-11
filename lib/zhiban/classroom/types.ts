@@ -3,6 +3,12 @@ export interface ZhibanCourseClassroom {
   courseId: string;
   courseCode: string;
   courseName: string;
+  academicYear?: string;
+  termName?: string;
+  offeringStatus?: string;
+  department?: string;
+  learningCenter?: string;
+  pblEnabled?: boolean;
   classroomId: string;
   title: string;
   description: string;

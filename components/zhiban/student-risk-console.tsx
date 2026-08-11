@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 type Row = Record<string, unknown>;
-export function StudentRiskConsole() {
+export function StudentRiskConsole({ hideHeader = false }: { hideHeader?: boolean }) {
   const [data, setData] = useState<{ risks: Row[]; preferences: Row[]; requests: Row[] }>({
     risks: [],
     preferences: [],
@@ -64,17 +64,19 @@ export function StudentRiskConsole() {
   return (
     <main className="min-h-screen bg-slate-100 p-5">
       <div className="mx-auto max-w-4xl space-y-5">
-        <header className="flex items-center justify-between rounded-2xl bg-slate-950 p-6 text-white">
-          <div>
-            <h1 className="text-2xl font-semibold">我的学习支持</h1>
-            <p className="text-sm text-slate-300">
-              提示仅用于提供学习帮助，不是心理诊断，也不直接影响成绩
-            </p>
-          </div>
-          <Button asChild className="bg-white text-slate-900">
-            <Link href="/zhiban/student/classrooms">返回学习</Link>
-          </Button>
-        </header>
+        {!hideHeader && (
+          <header className="flex items-center justify-between rounded-2xl bg-slate-950 p-6 text-white">
+            <div>
+              <h1 className="text-2xl font-semibold">我的学习支持</h1>
+              <p className="text-sm text-slate-300">
+                提示仅用于提供学习帮助，不是心理诊断，也不直接影响成绩
+              </p>
+            </div>
+            <Button asChild className="bg-white text-slate-900">
+              <Link href="/zhiban/student/classrooms">返回学习</Link>
+            </Button>
+          </header>
+        )}
         {data.risks.map((r) => (
           <Card key={`${String(r.course_id)}:${String(r.risk_type)}`}>
             <CardHeader>
