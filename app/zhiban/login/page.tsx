@@ -11,8 +11,7 @@ import { Label } from '@/components/ui/label';
 
 export default function ZhibanLoginPage() {
   const router = useRouter();
-  const [tenantId, setTenantId] = useState(process.env.NEXT_PUBLIC_ZHIBAN_TENANT_ID ?? '');
-  const [loginName, setLoginName] = useState('');
+  const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -25,7 +24,7 @@ export default function ZhibanLoginPage() {
       const response = await fetch('/api/zhiban/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tenantId, loginName, password }),
+        body: JSON.stringify({ identifier, password }),
       });
       const contentType = response.headers.get('content-type') ?? '';
       const result = contentType.includes('application/json')
@@ -57,23 +56,13 @@ export default function ZhibanLoginPage() {
         <CardContent>
           <form className="space-y-4" onSubmit={submit}>
             <div className="space-y-2">
-              <Label htmlFor="tenantId">机构 ID</Label>
+              <Label htmlFor="identifier">账号</Label>
               <Input
-                id="tenantId"
-                value={tenantId}
-                onChange={(e) => setTenantId(e.target.value)}
-                placeholder="UUID"
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="loginName">账号</Label>
-              <Input
-                id="loginName"
+                id="identifier"
                 autoComplete="username"
-                value={loginName}
-                onChange={(e) => setLoginName(e.target.value)}
-                placeholder="学号、工号或管理员账号"
+                value={identifier}
+                onChange={(e) => setIdentifier(e.target.value)}
+                placeholder="手机号、学号、工号或管理员账号"
                 required
                 autoFocus
               />

@@ -76,6 +76,12 @@ describe('Zhiban PostgreSQL migrations', () => {
       '022',
       '023',
       '024',
+      '025',
+      '026',
+      '027',
+      '028',
+      '029',
+      '030',
     ]);
     await expect(migrateZhibanDatabase(db)).resolves.toEqual([]);
 
@@ -137,11 +143,23 @@ describe('Zhiban PostgreSQL migrations', () => {
       expect.objectContaining({ version: '022', applied: true, checksumMatches: true }),
       expect.objectContaining({ version: '023', applied: true, checksumMatches: true }),
       expect.objectContaining({ version: '024', applied: true, checksumMatches: true }),
+      expect.objectContaining({ version: '025', applied: true, checksumMatches: true }),
+      expect.objectContaining({ version: '026', applied: true, checksumMatches: true }),
+      expect.objectContaining({ version: '027', applied: true, checksumMatches: true }),
+      expect.objectContaining({ version: '028', applied: true, checksumMatches: true }),
+      expect.objectContaining({ version: '029', applied: true, checksumMatches: true }),
+      expect.objectContaining({ version: '030', applied: true, checksumMatches: true }),
     ]);
-    await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('024');
+    await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('030');
     expect(db.applied.has('001')).toBe(true);
     expect(db.applied.has('002')).toBe(true);
 
+    await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('029');
+    await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('028');
+    await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('027');
+    await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('026');
+    await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('025');
+    await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('024');
     await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('023');
     await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('022');
     await expect(rollbackLatestZhibanMigration(db)).resolves.toBe('021');

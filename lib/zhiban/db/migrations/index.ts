@@ -22,6 +22,12 @@ import { assessmentGradesMigration } from './021-assessment-grades';
 import { gradeGovernanceMigration } from './022-grade-governance';
 import { riskInterventionMigration } from './023-risk-intervention';
 import { riskGovernanceMigration } from './024-risk-governance';
+import { oucOrganizationIdentityMigration } from './025-ouc-organization-identity';
+import { oucCourseRegistrationMigration } from './026-ouc-course-registration';
+import { oucImportAccessFixesMigration } from './027-ouc-import-access-fixes';
+import { globalAccountUniquenessMigration } from './028-global-account-uniqueness';
+import { separateIdentityImportsMigration } from './029-separate-identity-imports';
+import { importOrganizationFromSourceMigration } from './030-import-organization-from-source';
 
 export const ZHIBAN_MIGRATIONS: readonly ZhibanMigration[] = [
   initialIdentityMigration,
@@ -48,6 +54,12 @@ export const ZHIBAN_MIGRATIONS: readonly ZhibanMigration[] = [
   gradeGovernanceMigration,
   riskInterventionMigration,
   riskGovernanceMigration,
+  oucOrganizationIdentityMigration,
+  oucCourseRegistrationMigration,
+  oucImportAccessFixesMigration,
+  globalAccountUniquenessMigration,
+  separateIdentityImportsMigration,
+  importOrganizationFromSourceMigration,
 ];
 
 export type { ZhibanMigration } from './001-initial-identity';

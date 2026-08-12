@@ -9,13 +9,12 @@ import {
   sessionCookieOptions,
   ZHIBAN_SESSION_COOKIE,
 } from '@/lib/zhiban/auth/http';
-import { authenticateLocal } from '@/lib/zhiban/auth/service';
+import { authenticateLocalByIdentifier } from '@/lib/zhiban/auth/service';
 
 export const runtime = 'nodejs';
 
 const loginSchema = z.object({
-  tenantId: z.uuid(),
-  loginName: z.string().trim().min(1).max(128),
+  identifier: z.string().trim().min(1).max(128),
   password: z.string().min(1).max(128),
 });
 
@@ -29,7 +28,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid login request' }, { status: 400 });
     }
 
-    const result = await authenticateLocal(getZhibanPool(), {
+    const result = await authenticateLocalByIdentifier(getZhibanPool(), {
       ...parsed.data,
       ...requestFingerprints(request),
     });

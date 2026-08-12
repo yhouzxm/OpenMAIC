@@ -25,6 +25,12 @@ import { assessmentGradesMigration } from '@/lib/zhiban/db/migrations/021-assess
 import { gradeGovernanceMigration } from '@/lib/zhiban/db/migrations/022-grade-governance';
 import { riskInterventionMigration } from '@/lib/zhiban/db/migrations/023-risk-intervention';
 import { riskGovernanceMigration } from '@/lib/zhiban/db/migrations/024-risk-governance';
+import { oucOrganizationIdentityMigration } from '@/lib/zhiban/db/migrations/025-ouc-organization-identity';
+import { oucCourseRegistrationMigration } from '@/lib/zhiban/db/migrations/026-ouc-course-registration';
+import { oucImportAccessFixesMigration } from '@/lib/zhiban/db/migrations/027-ouc-import-access-fixes';
+import { globalAccountUniquenessMigration } from '@/lib/zhiban/db/migrations/028-global-account-uniqueness';
+import { separateIdentityImportsMigration } from '@/lib/zhiban/db/migrations/029-separate-identity-imports';
+import { importOrganizationFromSourceMigration } from '@/lib/zhiban/db/migrations/030-import-organization-from-source';
 import type { QueryResult, ZhibanQueryable } from '@/lib/zhiban/db/types';
 
 class HealthDatabase implements ZhibanQueryable {
@@ -77,6 +83,12 @@ describe('checkZhibanDatabaseHealth', () => {
         '022',
         '023',
         '024',
+        '025',
+        '026',
+        '027',
+        '028',
+        '029',
+        '030',
       ],
     });
   });
@@ -109,6 +121,12 @@ describe('checkZhibanDatabaseHealth', () => {
           { version: '022', checksum: gradeGovernanceMigration.checksum },
           { version: '023', checksum: riskInterventionMigration.checksum },
           { version: '024', checksum: riskGovernanceMigration.checksum },
+          { version: '025', checksum: oucOrganizationIdentityMigration.checksum },
+          { version: '026', checksum: oucCourseRegistrationMigration.checksum },
+          { version: '027', checksum: oucImportAccessFixesMigration.checksum },
+          { version: '028', checksum: globalAccountUniquenessMigration.checksum },
+          { version: '029', checksum: separateIdentityImportsMigration.checksum },
+          { version: '030', checksum: importOrganizationFromSourceMigration.checksum },
         ]),
       ),
     ).resolves.toMatchObject({
@@ -140,6 +158,12 @@ describe('checkZhibanDatabaseHealth', () => {
         '022',
         '023',
         '024',
+        '025',
+        '026',
+        '027',
+        '028',
+        '029',
+        '030',
       ],
       pendingVersions: [],
       driftedVersions: [],

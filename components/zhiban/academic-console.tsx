@@ -1,8 +1,7 @@
 'use client';
 
 import { FormEvent, useCallback, useEffect, useState } from 'react';
-import Link from 'next/link';
-import { ArrowLeft, BookOpen, GraduationCap, RefreshCw, School, Users } from 'lucide-react';
+import { BookOpen, GraduationCap, School, Users } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { Badge } from '@/components/ui/badge';
@@ -25,19 +24,16 @@ async function request<T>(init?: RequestInit): Promise<T> {
 
 export function AcademicConsole() {
   const [data, setData] = useState<AcademicOverview | null>(null);
-  const [loading, setLoading] = useState(true);
   const load = useCallback(async () => {
-    setLoading(true);
     try {
       setData((await request<{ overview: AcademicOverview }>()).overview);
     } catch (error) {
       toast.error(error instanceof Error ? error.message : '加载失败');
-    } finally {
-      setLoading(false);
     }
   }, []);
   useEffect(() => {
-    void load();
+    const timer = window.setTimeout(() => void load(), 0);
+    return () => window.clearTimeout(timer);
   }, [load]);
 
   async function submit(event: FormEvent<HTMLFormElement>, action: string) {
@@ -59,27 +55,6 @@ export function AcademicConsole() {
 
   return (
     <main className="mx-auto min-h-screen max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-      <header className="mb-6 flex items-center justify-between rounded-2xl bg-slate-950 px-6 py-5 text-white shadow-xl">
-        <div>
-          <p className="text-sm text-teal-300">智伴·创学管理中心</p>
-          <h1 className="mt-1 text-2xl font-semibold">班级、课程与选课</h1>
-        </div>
-        <div className="flex gap-2">
-          <Button variant="secondary" asChild>
-            <Link href="/zhiban/admin/import">批量导入</Link>
-          </Button>
-          <Button variant="secondary" asChild>
-            <Link href="/zhiban/admin">
-              <ArrowLeft className="mr-2 size-4" />
-              账号与权限
-            </Link>
-          </Button>
-          <Button variant="secondary" onClick={() => void load()} disabled={loading}>
-            <RefreshCw className={`mr-2 size-4 ${loading ? 'animate-spin' : ''}`} />
-            刷新
-          </Button>
-        </div>
-      </header>
       {!data ? (
         <p className="py-20 text-center text-slate-500">正在加载…</p>
       ) : (

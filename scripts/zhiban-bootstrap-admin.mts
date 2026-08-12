@@ -3,6 +3,7 @@ import { createRequire } from 'node:module';
 import { Pool } from 'pg';
 
 import { createLocalAccount } from '../lib/zhiban/auth/service';
+import { hashLoginIdentifier, maskLoginIdentifier } from '../lib/zhiban/auth/identifiers';
 import { migrateZhibanDatabase } from '../lib/zhiban/db/migrate';
 import { withZhibanTenant } from '../lib/zhiban/db/tenant-context';
 import type { ZhibanDatabasePool } from '../lib/zhiban/db/types';
@@ -81,6 +82,21 @@ try {
       );
     });
   }
+  await withZhibanTenant(pool, tenantId, async (client) => {
+    await client.query(
+      `INSERT INTO zhiban.account_login_identifiers
+        (id,account_id,tenant_id,identifier_type,lookup_hash,display_mask,verified,source_system)
+       VALUES($1,$2,$3,'admin_account',$4,$5,true,'bootstrap')
+       ON CONFLICT(lookup_hash) DO UPDATE SET account_id=EXCLUDED.account_id,tenant_id=EXCLUDED.tenant_id,status='active',verified=true,updated_at=now()`,
+      [
+        randomUUID(),
+        accountId,
+        tenantId,
+        hashLoginIdentifier(adminLogin),
+        maskLoginIdentifier('admin_account', adminLogin),
+      ],
+    );
+  });
   console.log(`Zhiban tenant ${tenantId} and administrator ${accountId} are ready`);
 } finally {
   await nativePool.end();

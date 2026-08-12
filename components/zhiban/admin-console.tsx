@@ -1,9 +1,7 @@
 'use client';
 
 import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { LogOut, Plus, RefreshCw, ShieldCheck, UserRoundCog, Users } from 'lucide-react';
+import { Plus, ShieldCheck, UserRoundCog, Users } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { Badge } from '@/components/ui/badge';
@@ -38,7 +36,6 @@ async function api<T>(url: string, init?: RequestInit): Promise<T> {
 }
 
 export function AdminConsole({ principal }: { principal: AuthorizedPrincipal }) {
-  const router = useRouter();
   const canManage = principal.grants.some(
     (grant) =>
       grant.permission === 'account:manage' &&
@@ -72,12 +69,6 @@ export function AdminConsole({ principal }: { principal: AuthorizedPrincipal }) 
     void load();
   }, [load]);
 
-  async function logout() {
-    await fetch('/api/zhiban/auth/logout', { method: 'POST' });
-    router.replace('/zhiban/login');
-    router.refresh();
-  }
-
   const activeCount = useMemo(
     () => accounts.filter((account) => account.status === 'active').length,
     [accounts],
@@ -85,33 +76,6 @@ export function AdminConsole({ principal }: { principal: AuthorizedPrincipal }) 
 
   return (
     <main className="mx-auto min-h-screen max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-      <header className="mb-6 flex flex-col gap-4 rounded-2xl bg-slate-950 px-6 py-5 text-white shadow-xl sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p className="text-sm text-teal-300">智伴·创学管理中心</p>
-          <h1 className="mt-1 text-2xl font-semibold">账号与 RBAC 授权</h1>
-          <p className="mt-1 text-sm text-slate-300">
-            {principal.displayName} · {principal.roles.join('、')}
-          </p>
-        </div>
-        <div className="flex gap-2">
-          <Button variant="secondary" asChild>
-            <Link href="/zhiban/admin/academic">班级与课程</Link>
-          </Button>
-          <Button variant="secondary" onClick={() => void load()} disabled={loading}>
-            <RefreshCw className={`mr-2 size-4 ${loading ? 'animate-spin' : ''}`} />
-            刷新
-          </Button>
-          <Button
-            variant="outline"
-            className="border-slate-600 bg-transparent text-white hover:bg-slate-800 hover:text-white"
-            onClick={() => void logout()}
-          >
-            <LogOut className="mr-2 size-4" />
-            退出
-          </Button>
-        </div>
-      </header>
-
       <section className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Summary icon={<Users />} label="账号总数" value={accounts.length} />
         <Summary icon={<ShieldCheck />} label="正常账号" value={activeCount} />

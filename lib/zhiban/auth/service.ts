@@ -5,6 +5,7 @@ import type { ZhibanDatabasePool, ZhibanQueryable } from '@/lib/zhiban/db/types'
 
 import { hashLocalPassword, verifyLocalPassword } from './password';
 import { protectMobile } from './pii';
+import { hashLoginIdentifier, maskLoginIdentifier, type LoginIdentifierType } from './identifiers';
 import { createSessionToken, hashOpaqueToken, parseSessionToken } from './token';
 import type { AuthenticatedAccount, LocalAccountType, LocalLoginResult } from './types';
 
@@ -146,6 +147,37 @@ export async function createLocalAccount(
       );
     }
 
+    const identifiers: Array<[LoginIdentifierType, string]> = [
+      ['login_name', input.loginName.trim()],
+      [
+        input.accountType === 'student'
+          ? 'student_no'
+          : input.accountType === 'teacher'
+            ? 'employee_no'
+            : 'admin_account',
+        input.accountType === 'student'
+          ? input.studentNo.trim()
+          : input.accountType === 'teacher'
+            ? input.employeeNo.trim()
+            : input.loginName.trim(),
+      ],
+    ];
+    if (input.mobile) identifiers.push(['mobile', input.mobile.trim()]);
+    for (const [identifierType, value] of identifiers)
+      await client.query(
+        `INSERT INTO zhiban.account_login_identifiers
+          (id,account_id,tenant_id,identifier_type,lookup_hash,display_mask,verified,source_system)
+         VALUES($1,$2,$3,$4,$5,$6,true,'local') ON CONFLICT(lookup_hash) DO NOTHING`,
+        [
+          randomUUID(),
+          accountId,
+          input.tenantId,
+          identifierType,
+          hashLoginIdentifier(value),
+          maskLoginIdentifier(identifierType, value),
+        ],
+      );
+
     if (input.initialRoleCode) {
       const scopeType =
         input.initialRoleScopeType ?? (input.initialRoleCode === 'student' ? 'self' : 'tenant');
@@ -259,6 +291,89 @@ export async function authenticateLocal(
       sessionCookie: token.cookieValue,
       expiresAt,
     };
+  });
+}
+
+export async function authenticateLocalByIdentifier(
+  pool: ZhibanDatabasePool,
+  input: { identifier: string; password: string; ipHash?: string; userAgentHash?: string },
+): Promise<LocalLoginResult> {
+  const identifierHash = hashLoginIdentifier(input.identifier);
+  const indexed = await pool.query<{ tenant_id: string; account_id: string }>(
+    `SELECT tenant_id,account_id
+     FROM zhiban.account_login_identifiers
+     WHERE lookup_hash=$1 AND status='active'
+     LIMIT 2`,
+    [identifierHash],
+  );
+  const matches: Array<{ tenantId: string; accountId: string; loginName: string }> = [];
+
+  if (indexed.rows.length === 1) {
+    const indexedAccount = indexed.rows[0];
+    const account = await withZhibanTenant(pool, indexedAccount.tenant_id, async (client) =>
+      client.query<{ login_name: string }>(
+        `SELECT login_name FROM zhiban.accounts
+         WHERE tenant_id=$1 AND id=$2 AND status='active' AND deleted_at IS NULL`,
+        [indexedAccount.tenant_id, indexedAccount.account_id],
+      ),
+    );
+    if (account.rows[0])
+      matches.push({
+        tenantId: indexedAccount.tenant_id,
+        accountId: indexedAccount.account_id,
+        loginName: account.rows[0].login_name,
+      });
+  } else if (indexed.rows.length === 0) {
+    // Compatibility path for accounts created before global identifiers existed.
+    const tenants = await pool.query<{ id: string }>(
+      `SELECT id FROM zhiban.tenants WHERE status='active' ORDER BY id`,
+    );
+    const normalized = input.identifier.trim();
+    const mobileHash = /^1\d{10}$/.test(normalized) ? protectMobile(normalized).lookupHash : null;
+    for (const tenant of tenants.rows) {
+      const result = await withZhibanTenant(pool, tenant.id, async (client) =>
+        client.query<{ id: string; login_name: string }>(
+          `SELECT DISTINCT a.id,a.login_name
+             FROM zhiban.accounts a
+             LEFT JOIN zhiban.student_profiles sp ON sp.account_id=a.id
+             LEFT JOIN zhiban.teacher_profiles tp ON tp.account_id=a.id
+            WHERE a.tenant_id=$1 AND a.status='active' AND a.deleted_at IS NULL
+              AND (lower(a.login_name)=lower($2) OR sp.student_no=$2 OR tp.employee_no=$2
+                   OR ($3::char(64) IS NOT NULL AND a.mobile_lookup_hash=$3::char(64)))
+            LIMIT 2`,
+          [tenant.id, normalized, mobileHash],
+        ),
+      );
+      for (const row of result.rows)
+        matches.push({ tenantId: tenant.id, accountId: row.id, loginName: row.login_name });
+      if (matches.length > 1) break;
+    }
+  }
+
+  if (matches.length !== 1) return { ok: false, reason: 'invalid_credentials' };
+  const resolved = matches[0];
+  if (indexed.rows.length === 0)
+    await withZhibanTenant(pool, resolved.tenantId, async (client) => {
+      await client.query(
+        `INSERT INTO zhiban.account_login_identifiers
+          (id,account_id,tenant_id,identifier_type,lookup_hash,display_mask,verified,source_system)
+         VALUES($1,$2,$3,'login_name',$4,$5,true,'legacy_backfill')
+         ON CONFLICT(lookup_hash) DO NOTHING`,
+        [
+          randomUUID(),
+          resolved.accountId,
+          resolved.tenantId,
+          identifierHash,
+          maskLoginIdentifier('login_name', input.identifier),
+        ],
+      );
+    });
+  return authenticateLocal(pool, {
+    tenantId: resolved.tenantId,
+    loginName: resolved.loginName,
+    password: input.password,
+    ipHash: input.ipHash,
+    userAgentHash: input.userAgentHash,
   });
 }
 
