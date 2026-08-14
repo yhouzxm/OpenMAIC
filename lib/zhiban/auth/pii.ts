@@ -1,4 +1,4 @@
-import { createCipheriv, createHmac, hkdfSync, randomBytes } from 'node:crypto';
+import { createCipheriv, createDecipheriv, createHmac, hkdfSync, randomBytes } from 'node:crypto';
 
 export interface ProtectedMobile {
   encrypted: Buffer;
@@ -38,4 +38,15 @@ export function protectMobile(mobile: string, encodedKey?: string): ProtectedMob
     lookupHash: createHmac('sha256', lookupKey).update(normalized).digest('hex'),
     last4: normalized.slice(-4),
   };
+}
+
+export function revealMobile(value: Buffer | Uint8Array, encodedKey?: string): string {
+  const packed = Buffer.from(value);
+  if (packed.length < 30 || packed[0] !== 1) throw new Error('Stored mobile number is invalid');
+  const encryptionKey = Buffer.from(
+    hkdfSync('sha256', readMasterKey(encodedKey), Buffer.alloc(0), 'zhiban-mobile-encryption', 32),
+  );
+  const decipher = createDecipheriv('aes-256-gcm', encryptionKey, packed.subarray(1, 13));
+  decipher.setAuthTag(packed.subarray(13, 29));
+  return Buffer.concat([decipher.update(packed.subarray(29)), decipher.final()]).toString('utf8');
 }

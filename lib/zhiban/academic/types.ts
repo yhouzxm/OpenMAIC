@@ -34,6 +34,7 @@ export interface CourseOffering {
   classId: string | null;
   className: string | null;
   code: string;
+  name: string | null;
   capacity: number | null;
   enrolledCount: number;
   status: string;
@@ -43,23 +44,34 @@ export interface AcademicPerson {
   displayName: string;
   identifier: string;
 }
-export interface EnrollmentRecord {
-  id: string;
-  offeringId: string;
-  offeringCode: string;
-  studentId: string;
-  studentName: string;
-  studentNo: string;
-  status: string;
-  source: string;
+export interface AdministrativeClassTeacher extends AcademicPerson {
+  organizationId: string | null;
+  organizationCode: string | null;
+  organizationName: string | null;
 }
-
 export interface AcademicOverview {
   terms: AcademicTerm[];
   classes: AcademicClass[];
   courses: AcademicCourse[];
   offerings: CourseOffering[];
-  students: AcademicPerson[];
   teachers: AcademicPerson[];
-  enrollments: EnrollmentRecord[];
+}
+
+export interface AdministrativeClassRecord {
+  id: string;
+  admissionTerm: string | null;
+  code: string;
+  name: string;
+  headTeacherId: string | null;
+  headTeacherName: string | null;
+  expectedSize: number | null;
+  memberCount: number;
+  studentCategory: string | null;
+  branchCode: string | null;
+  branchName: string | null;
+  studyCenterCode: string | null;
+  studyCenterName: string | null;
+  majorCode: string | null;
+  majorName: string | null;
+  trainingPlanNo: string | null;
 }

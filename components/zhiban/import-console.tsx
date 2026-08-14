@@ -88,7 +88,7 @@ export function ImportConsole() {
         <Button variant="secondary" asChild>
           <Link href="/zhiban/admin/academic">
             <ArrowLeft className="mr-2 size-4" />
-            班级与课程
+            教学管理
           </Link>
         </Button>
       </header>

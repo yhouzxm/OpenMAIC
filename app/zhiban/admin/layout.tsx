@@ -10,5 +10,15 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   if (!token) redirect('/zhiban/login');
   const principal = await getAuthorizedPrincipal(getZhibanPool(), token);
   if (!principal) redirect('/zhiban/login');
+  const isAdministrator = principal.roles.some((role) =>
+    ['teaching_admin', 'institution_admin', 'system_admin'].includes(role),
+  );
+  if (!isAdministrator) {
+    redirect(
+      principal.accountType === 'teacher'
+        ? '/zhiban/teacher/classrooms'
+        : '/zhiban/student/classrooms',
+    );
+  }
   return <AdminGlobalShell principalName={principal.displayName}>{children}</AdminGlobalShell>;
 }

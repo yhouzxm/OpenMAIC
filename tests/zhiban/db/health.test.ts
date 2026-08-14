@@ -31,6 +31,8 @@ import { oucImportAccessFixesMigration } from '@/lib/zhiban/db/migrations/027-ou
 import { globalAccountUniquenessMigration } from '@/lib/zhiban/db/migrations/028-global-account-uniqueness';
 import { separateIdentityImportsMigration } from '@/lib/zhiban/db/migrations/029-separate-identity-imports';
 import { importOrganizationFromSourceMigration } from '@/lib/zhiban/db/migrations/030-import-organization-from-source';
+import { administrativeClassImportMigration } from '@/lib/zhiban/db/migrations/031-administrative-class-import';
+import { courseClassGroupingMigration } from '@/lib/zhiban/db/migrations/032-course-class-grouping';
 import type { QueryResult, ZhibanQueryable } from '@/lib/zhiban/db/types';
 
 class HealthDatabase implements ZhibanQueryable {
@@ -89,6 +91,8 @@ describe('checkZhibanDatabaseHealth', () => {
         '028',
         '029',
         '030',
+        '031',
+        '032',
       ],
     });
   });
@@ -127,6 +131,8 @@ describe('checkZhibanDatabaseHealth', () => {
           { version: '028', checksum: globalAccountUniquenessMigration.checksum },
           { version: '029', checksum: separateIdentityImportsMigration.checksum },
           { version: '030', checksum: importOrganizationFromSourceMigration.checksum },
+          { version: '031', checksum: administrativeClassImportMigration.checksum },
+          { version: '032', checksum: courseClassGroupingMigration.checksum },
         ]),
       ),
     ).resolves.toMatchObject({
@@ -164,6 +170,8 @@ describe('checkZhibanDatabaseHealth', () => {
         '028',
         '029',
         '030',
+        '031',
+        '032',
       ],
       pendingVersions: [],
       driftedVersions: [],

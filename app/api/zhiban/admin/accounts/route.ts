@@ -12,16 +12,16 @@ import {
 export const runtime = 'nodejs';
 
 const common = {
-  loginName: z.string().trim().min(1).max(128),
-  displayName: z.string().trim().min(1).max(128),
   realName: z.string().trim().min(1).max(128),
-  password: z.string().min(12).max(128),
+  password: z.string().min(8).max(128),
   mobile: z.preprocess(
     (value) => (value === '' ? undefined : value),
     z.string().trim().max(32).optional(),
   ),
-  initialRoleCode: z.string().trim().min(1).max(64),
-  initialRoleScopeType: z.enum(['self', 'project_group', 'class', 'course', 'tenant', 'system']),
+  initialRoleCode: z.string().trim().min(1).max(64).optional(),
+  initialRoleScopeType: z
+    .enum(['self', 'project_group', 'class', 'course', 'tenant', 'system'])
+    .optional(),
   initialRoleScopeId: z.uuid().optional(),
 };
 
@@ -37,14 +37,11 @@ const createSchema = z
       accountType: z.literal('teacher'),
       employeeNo: z.string().trim().min(1).max(64),
     }),
-    z.object({
-      ...common,
-      accountType: z.literal('admin'),
-      adminLevel: z.enum(['teaching', 'institution']).default('institution'),
-    }),
   ])
   .superRefine((value, context) => {
-    const needsId = ['project_group', 'class', 'course'].includes(value.initialRoleScopeType);
+    const needsId = value.initialRoleScopeType
+      ? ['project_group', 'class', 'course'].includes(value.initialRoleScopeType)
+      : false;
     if (needsId !== Boolean(value.initialRoleScopeId)) {
       context.addIssue({
         code: 'custom',
@@ -72,6 +69,16 @@ export async function POST(request: NextRequest) {
     const parsed = createSchema.safeParse(await request.json().catch(() => null));
     if (!parsed.success)
       return NextResponse.json({ error: 'Invalid account data' }, { status: 400 });
+    const invalidInitialRole =
+      parsed.data.accountType === 'student'
+        ? parsed.data.initialRoleCode !== 'student' || parsed.data.initialRoleScopeType !== 'self'
+        : Boolean(parsed.data.initialRoleCode || parsed.data.initialRoleScopeType);
+    if (invalidInitialRole) {
+      return NextResponse.json(
+        { error: '新建用户不能直接授予管理员权限，请在权限管理中为教师授权' },
+        { status: 400 },
+      );
+    }
     if (
       parsed.data.initialRoleCode === 'system_admin' &&
       !principal.roles.includes('system_admin')
@@ -81,9 +88,13 @@ export async function POST(request: NextRequest) {
         { status: 403 },
       );
     }
+    const identifier =
+      parsed.data.accountType === 'student' ? parsed.data.studentNo : parsed.data.employeeNo;
     const account = await createLocalAccount(getZhibanPool(), {
       tenantId: principal.tenantId,
       ...parsed.data,
+      loginName: identifier,
+      displayName: parsed.data.realName,
     });
     return NextResponse.json({ account }, { status: 201 });
   } catch (error) {

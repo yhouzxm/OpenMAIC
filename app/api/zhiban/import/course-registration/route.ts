@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
 import { getZhibanPool } from '@/lib/zhiban/db/connection';
 import {
+  deleteAcademicImportBatch,
   listCourseRegistrationBatches,
   validateCourseRegistrationImport,
 } from '@/lib/zhiban/ouc-import';
@@ -14,6 +16,23 @@ export async function GET() {
     return (
       authorizationErrorResponse(error) ??
       NextResponse.json({ error: '无法读取导入批次' }, { status: 500 })
+    );
+  }
+}
+export async function DELETE(request: NextRequest) {
+  try {
+    const principal = await requireRequestPermission('account:manage');
+    const batchId = z.uuid().parse(request.nextUrl.searchParams.get('batchId'));
+    return NextResponse.json(
+      await deleteAcademicImportBatch(getZhibanPool(), principal, batchId, 'course_registration'),
+    );
+  } catch (error) {
+    return (
+      authorizationErrorResponse(error) ??
+      NextResponse.json(
+        { error: error instanceof Error ? error.message : '删除批次失败' },
+        { status: 400 },
+      )
     );
   }
 }

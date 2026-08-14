@@ -72,7 +72,11 @@ export async function validateCourseRegistrationImport(
       async (c) =>
         (
           await c.query<{ student_no: string }>(
-            `SELECT student_no FROM zhiban.student_profiles WHERE tenant_id=$1`,
+            `SELECT sp.student_no
+             FROM zhiban.student_profiles sp
+             JOIN zhiban.accounts a ON a.id=sp.account_id AND a.tenant_id=sp.tenant_id
+             WHERE sp.tenant_id=$1 AND a.account_type='student'
+               AND a.status='active' AND a.deleted_at IS NULL`,
             [p.tenantId],
           )
         ).rows,
@@ -81,13 +85,54 @@ export async function validateCourseRegistrationImport(
     orgs = await pool.query<{ external_id: string }>(
       `SELECT external_id FROM zhiban.organization_units WHERE status='active'`,
     ),
-    orgSet = new Set(orgs.rows.map((x) => x.external_id));
+    orgSet = new Set(orgs.rows.map((x) => x.external_id)),
+    classes = await withZhibanTenant(
+      pool,
+      p.tenantId,
+      async (c) =>
+        (
+          await c.query<{
+            study_center_code: string | null;
+            admission_term_code: string | null;
+            name: string;
+          }>(
+            `SELECT study_center_code,admission_term_code,name FROM zhiban.classes
+             WHERE tenant_id=$1 AND class_kind='administrative' AND status='active'`,
+            [p.tenantId],
+          )
+        ).rows,
+    ),
+    classCounts = new Map<string, number>();
+  for (const klass of classes) {
+    const key = [
+      klass.study_center_code,
+      normalizeAdmissionTerm(klass.admission_term_code),
+      klass.name,
+    ].join('|');
+    classCounts.set(key, (classCounts.get(key) ?? 0) + 1);
+  }
   for (const r of rows) {
     const e: string[] = [];
-    for (const k of ['选课年度学期', '学习中心代码', '学号', '课程ID', '课程名称', '班级名称'])
+    for (const k of [
+      '学生入学学期',
+      '选课年度学期',
+      '学习中心代码',
+      '学号',
+      '课程ID',
+      '课程名称',
+      '班级名称',
+    ])
       if (!r[k]) e.push(`${k}不能为空`);
-    if (!studentSet.has(r['学号'])) e.push('学号尚未导入身份库');
+    if (!studentSet.has(r['学号'])) e.push('学生用户不存在，请先建立用户');
     if (!orgSet.has(r['学习中心代码'])) e.push('学习中心代码不存在');
+    const classKey = [
+      r['学习中心代码'],
+      normalizeAdmissionTerm(r['学生入学学期']),
+      r['班级名称'],
+    ].join('|');
+    const classMatches = classCounts.get(classKey) ?? 0;
+    if (classMatches === 0) e.push('未找到对应行政班，请先导入班级信息');
+    if (classMatches > 1) e.push('对应行政班不唯一，请先整理班级数据');
     if (!/^\d+(\.\d+)?$/.test(r['学分'])) e.push('学分格式无效');
     r.__errors = e.join('；');
   }
@@ -138,6 +183,9 @@ export async function validateCourseRegistrationImport(
       errors: r.__errors.split('；'),
     })),
   };
+}
+function normalizeAdmissionTerm(value: string | null | undefined) {
+  return (value?.trim() ?? '').replace(/春季$/, '春').replace(/秋季$/, '秋');
 }
 function termDates(name: string) {
   const m = name.match(/(\d{4})(春季|秋季)/);
@@ -194,11 +242,16 @@ export async function executeCourseRegistrationImport(
       ).rows[0];
       const student = (
         await c.query<{ account_id: string }>(
-          `SELECT account_id FROM zhiban.student_profiles WHERE tenant_id=$1 AND student_no=$2`,
+          `SELECT sp.account_id
+           FROM zhiban.student_profiles sp
+           JOIN zhiban.accounts a ON a.id=sp.account_id AND a.tenant_id=sp.tenant_id
+           WHERE sp.tenant_id=$1 AND sp.student_no=$2 AND a.account_type='student'
+             AND a.status='active' AND a.deleted_at IS NULL`,
           [p.tenantId, r['学号']],
         )
       ).rows[0];
-      if (!org || !student) throw new Error(`第${r.__row}行机构或学生不存在`);
+      if (!org) throw new Error(`第${r.__row}行学习中心不存在，不能导入`);
+      if (!student) throw new Error(`第${r.__row}行学生用户不存在，请先建立用户`);
       const dates = termDates(r['选课年度学期']);
       let term = (
         await c.query<{ id: string }>(
@@ -236,51 +289,16 @@ export async function executeCourseRegistrationImport(
         );
         await change(c, p, batchId, rowId, 'academic_program', program.id, 20);
       }
-      const classCode = `OUC-${sha(`${r['学习中心代码']}|${r['学生入学学期']}|${r['班级名称']}`).slice(0, 24)}`;
-      let klass = (
-        await c.query<{ id: string }>(
-          `SELECT id FROM zhiban.classes WHERE tenant_id=$1 AND code=$2`,
-          [p.tenantId, classCode],
-        )
-      ).rows[0];
-      if (!klass) {
-        klass = { id: randomUUID() };
-        await c.query(
-          `INSERT INTO zhiban.authorization_scopes(id,tenant_id,scope_type,code,name,external_ref) VALUES($1,$2,'class',$3,$4,$3)`,
-          [klass.id, p.tenantId, classCode, r['班级名称']],
-        );
-        const head = (
-          await c.query<{ account_id: string }>(
-            `SELECT account_id FROM zhiban.teacher_profiles WHERE tenant_id=$1 AND employee_no=$2`,
-            [p.tenantId, r['班主任工号']],
-          )
-        ).rows[0];
-        await c.query(
-          `INSERT INTO zhiban.classes(id,tenant_id,term_id,code,name,head_teacher_id,organization_id,program_id,admission_term_code,source_system,source_external_id,source_row_hash) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,'ouchn',$4,$10)`,
-          [
-            klass.id,
-            p.tenantId,
-            term.id,
-            classCode,
-            r['班级名称'],
-            head?.account_id ?? null,
-            org.id,
-            program.id,
-            r['学生入学学期'],
-            sha(JSON.stringify(r)),
-          ],
-        );
-        if (head?.account_id)
-          await c.query(
-            `INSERT INTO zhiban.role_assignments(id,tenant_id,account_id,role_id,scope_type,scope_id,granted_by)
-             SELECT $1,$2,$3,r.id,'class',$4,$5 FROM zhiban.roles r
-              WHERE r.code='head_teacher' AND r.tenant_id IS NULL
-             ON CONFLICT(account_id,role_id,scope_type,COALESCE(scope_id,'00000000-0000-0000-0000-000000000000'::uuid))
-               WHERE revoked_at IS NULL DO NOTHING`,
-            [randomUUID(), p.tenantId, head.account_id, klass.id, p.id],
-          );
-        await change(c, p, batchId, rowId, 'class', klass.id, 30);
-      }
+      const matchedClasses = await c.query<{ id: string; code: string }>(
+        `SELECT id,code FROM zhiban.classes
+         WHERE tenant_id=$1 AND class_kind='administrative' AND status='active'
+           AND study_center_code=$2 AND name=$3
+           AND regexp_replace(admission_term_code,'(春季|秋季)$',CASE WHEN admission_term_code LIKE '%春季' THEN '春' ELSE '秋' END)=$4`,
+        [p.tenantId, r['学习中心代码'], r['班级名称'], normalizeAdmissionTerm(r['学生入学学期'])],
+      );
+      if (matchedClasses.rows.length !== 1)
+        throw new Error(`第${r.__row}行未找到唯一对应行政班，请先导入并整理班级信息`);
+      const klass = matchedClasses.rows[0];
       let course = (
         await c.query<{ id: string }>(
           `SELECT id FROM zhiban.courses WHERE tenant_id=$1 AND (external_course_id=$2 OR code=$2)`,
@@ -311,8 +329,9 @@ export async function executeCourseRegistrationImport(
         );
         await change(c, p, batchId, rowId, 'course', course.id, 40);
       }
-      const offeringKey = [r['学习中心代码'], r['选课年度学期'], r['课程ID'], classCode].join('|'),
-        offeringCode = `OUC-${sha(offeringKey).slice(0, 40)}`;
+      const offeringKey = [r['学习中心代码'], r['课程ID'], '01'].join('|'),
+        offeringCode = `${r['学习中心代码']}${r['课程ID']}01`,
+        offeringName = `${r['学习中心名称']}01`;
       let offering = (
         await c.query<{ id: string }>(
           `SELECT id FROM zhiban.course_offerings WHERE tenant_id=$1 AND code=$2`,
@@ -322,14 +341,14 @@ export async function executeCourseRegistrationImport(
       if (!offering) {
         offering = { id: randomUUID() };
         await c.query(
-          `INSERT INTO zhiban.course_offerings(id,tenant_id,course_id,term_id,class_id,code,status,organization_id,academic_year_term,source_system,source_external_id,source_row_hash) VALUES($1,$2,$3,$4,$5,$6,'in_progress',$7,$8,'ouchn',$9,$10)`,
+          `INSERT INTO zhiban.course_offerings(id,tenant_id,course_id,term_id,class_id,code,name,status,organization_id,academic_year_term,source_system,source_external_id,source_row_hash) VALUES($1,$2,$3,$4,NULL,$5,$6,'in_progress',$7,$8,'ouchn',$9,$10)`,
           [
             offering.id,
             p.tenantId,
             course.id,
             term.id,
-            klass.id,
             offeringCode,
+            offeringName,
             org.id,
             r['选课年度学期'],
             offeringKey,
@@ -338,6 +357,21 @@ export async function executeCourseRegistrationImport(
         );
         await change(c, p, batchId, rowId, 'course_offering', offering.id, 50);
       }
+      const linked = await c.query<{ class_id: string }>(
+        `INSERT INTO zhiban.course_offering_classes(tenant_id,offering_id,class_id)
+         VALUES($1,$2,$3) ON CONFLICT DO NOTHING RETURNING class_id`,
+        [p.tenantId, offering.id, klass.id],
+      );
+      if (linked.rows[0])
+        await change(
+          c,
+          p,
+          batchId,
+          rowId,
+          'course_offering_class',
+          `${offering.id}|${klass.id}`,
+          55,
+        );
       const sourceKey = [r['学习中心代码'], r['选课年度学期'], r['学号'], r['课程ID']].join('|');
       const existing = (
         await c.query<{ id: string }>(
@@ -409,6 +443,18 @@ export async function rollbackCourseRegistrationImport(
       )
     ).rows;
     for (const x of changes) {
+      if (x.entity_type === 'course_offering_class') {
+        const [offeringId, classId] = x.entity_id.split('|');
+        await c.query(
+          `DELETE FROM zhiban.course_offering_classes WHERE tenant_id=$1 AND offering_id=$2 AND class_id=$3`,
+          [p.tenantId, offeringId, classId],
+        );
+        await c.query(
+          `UPDATE zhiban.academic_import_changes SET rolled_back_at=now() WHERE id=$1`,
+          [x.id],
+        );
+        continue;
+      }
       const table = (
         {
           enrollment: 'enrollments',
@@ -463,7 +509,7 @@ export async function listCourseRegistrationBatches(
     async (c) =>
       (
         await c.query(
-          `SELECT id,file_name,status,total_rows,valid_rows,invalid_rows,summary,error_message,executed_at,rolled_back_at,created_at FROM zhiban.academic_import_batches WHERE tenant_id=$1 ORDER BY created_at DESC LIMIT 50`,
+          `SELECT id,file_name,status,total_rows,valid_rows,invalid_rows,summary,error_message,executed_at,rolled_back_at,created_at FROM zhiban.academic_import_batches WHERE tenant_id=$1 AND import_type='course_registration' ORDER BY created_at DESC LIMIT 50`,
           [p.tenantId],
         )
       ).rows,

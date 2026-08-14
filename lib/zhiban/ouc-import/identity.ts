@@ -28,7 +28,6 @@ const USERS = [
   '证件号码',
   '身份',
   '状态',
-  '创建时间',
 ];
 const STUDENTS = [
   '学号',
@@ -73,6 +72,7 @@ function parse(buffer: Buffer, headers: string[]) {
 }
 function errors(user: Row, student?: Row) {
   const e: string[] = [];
+  if (!['学生', '教师'].includes(user['身份'])) e.push('身份只能填写学生或教师');
   if (!user['姓名'] || !user['登录名']) e.push('姓名和登录名不能为空');
   if (!/^1\d{10}$/.test(user['手机号'])) e.push('手机号必须为11位真实号码');
   if (user['邮箱'] && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(user['邮箱'])) e.push('邮箱格式无效');
@@ -123,11 +123,9 @@ export async function validateOucIdentityImport(
     const e = errors(u, s);
     if (!orgSet.has(u['所属机构']) && !orgNames.has(u['所属机构']))
       e.push('所属机构必须填写有效的机构代码或机构名称');
-    if (!['学生', '教师', '管理员'].includes(u['身份'])) e.push('身份必须为学生、教师或管理员');
+    if (!['学生', '教师'].includes(u['身份'])) e.push('身份必须为学生或教师');
     if (existingLogins.has(u['登录名'].toLowerCase()))
       e.push('账号已存在；为保证整批可回滚，本导入不覆盖既有账号');
-    if (!s && input.unmatchedPolicy === 'reject')
-      e.push('未匹配学生信息，必须指定教师或管理员策略');
     u.__errors = e.join('；');
   }
   const all = [...users, ...students],
@@ -135,7 +133,7 @@ export async function validateOucIdentityImport(
   const id = randomUUID();
   await withZhibanTenant(pool, p.tenantId, async (c) => {
     await c.query(
-      `INSERT INTO zhiban.identity_import_batches(id,tenant_id,created_by,users_file_name,users_file_sha256,students_file_name,students_file_sha256,default_organization_id,unmatched_account_policy,status,total_rows,valid_rows,invalid_rows,encrypted_payload,summary) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14::jsonb,$15::jsonb)`,
+      `INSERT INTO zhiban.identity_import_batches(id,tenant_id,created_by,users_file_name,users_file_sha256,students_file_name,students_file_sha256,default_organization_id,unmatched_account_policy,status,total_rows,valid_rows,invalid_rows,encrypted_payload,summary) VALUES($1::uuid,$2::uuid,$3::uuid,$4::text,$5::text,$6::text,$7::text,$8::uuid,$9::text,$10::text,$11::integer,$12::integer,$13::integer,$14::jsonb,$15::jsonb)`,
       [
         id,
         p.tenantId,
@@ -160,7 +158,7 @@ export async function validateOucIdentityImport(
     ] as const)
       for (const r of rows)
         await c.query(
-          `INSERT INTO zhiban.identity_import_rows(tenant_id,batch_id,source_file,row_number,business_key,source_row_hash,encrypted_source,status,errors) VALUES($1,$2,$3,$4,$5,$6,$7::jsonb,$8,$9::jsonb)`,
+          `INSERT INTO zhiban.identity_import_rows(tenant_id,batch_id,source_file,row_number,business_key,source_row_hash,encrypted_source,status,errors) VALUES($1::uuid,$2::uuid,$3::text,$4::integer,$5::text,$6::text,$7::jsonb,$8::text,$9::jsonb)`,
           [
             p.tenantId,
             id,
@@ -196,7 +194,7 @@ async function addIdentifier(
   verified = true,
 ) {
   await c.query(
-    `INSERT INTO zhiban.account_login_identifiers(id,account_id,tenant_id,identifier_type,lookup_hash,display_mask,verified,source_system) VALUES($1,$2,$3,$4,$5,$6,$7,'ouchn') ON CONFLICT(lookup_hash) DO UPDATE SET account_id=EXCLUDED.account_id,tenant_id=EXCLUDED.tenant_id,status='active',verified=EXCLUDED.verified,updated_at=now()`,
+    `INSERT INTO zhiban.account_login_identifiers(id,account_id,tenant_id,identifier_type,lookup_hash,display_mask,verified,source_system) VALUES($1::uuid,$2::uuid,$3::uuid,$4::text,$5::text,$6::text,$7::boolean,'ouchn') ON CONFLICT(lookup_hash) DO UPDATE SET account_id=EXCLUDED.account_id,tenant_id=EXCLUDED.tenant_id,status='active',verified=EXCLUDED.verified,updated_at=now()`,
     [
       randomUUID(),
       accountId,
@@ -213,7 +211,7 @@ async function ensureImportedAccountAccess(
   p: AuthorizedPrincipal,
   accountId: string,
   organizationId: string,
-  accountType: 'student' | 'teacher' | 'admin',
+  accountType: 'student' | 'teacher',
 ) {
   await c.query(
     `INSERT INTO zhiban.tenant_organization_bindings(tenant_id,organization_id,is_primary)
@@ -222,17 +220,17 @@ async function ensureImportedAccountAccess(
   );
   await c.query(
     `INSERT INTO zhiban.account_organization_memberships(id,tenant_id,account_id,organization_id,membership_type,status)
-     VALUES($1,$2,$3,$4,'primary','active')
-     ON CONFLICT(tenant_id,account_id,organization_id,membership_type)
-     DO UPDATE SET status='active',updated_at=now()`,
+     VALUES($1::uuid,$2::uuid,$3::uuid,$4::uuid,'primary','active')
+     ON CONFLICT(account_id,organization_id,membership_type)
+     DO UPDATE SET status='active',valid_to=NULL`,
     [randomUUID(), p.tenantId, accountId, organizationId],
   );
   if (accountType === 'teacher') return;
-  const roleCode = accountType === 'student' ? 'student' : 'institution_admin';
-  const scopeType = accountType === 'student' ? 'self' : 'organization';
+  const roleCode = 'student';
+  const scopeType = 'self';
   await c.query(
     `INSERT INTO zhiban.role_assignments(id,tenant_id,account_id,role_id,scope_type,scope_id,granted_by)
-     SELECT $1,$2,$3,r.id,$4,CASE WHEN $4='organization' THEN $5::uuid ELSE NULL END,$6
+     SELECT $1::uuid,$2::uuid,$3::uuid,r.id,$4::text,CASE WHEN $4::text='organization' THEN $5::uuid ELSE NULL END,$6::uuid
        FROM zhiban.roles r WHERE r.code=$7 AND r.tenant_id IS NULL
      ON CONFLICT(account_id,role_id,scope_type,COALESCE(scope_id,'00000000-0000-0000-0000-000000000000'::uuid))
        WHERE revoked_at IS NULL DO NOTHING`,
@@ -266,7 +264,7 @@ export async function executeOucIdentityImport(
     );
     for (const u of data.users) {
       const s = students.get(u['登录名']);
-      const type = u['身份'] === '学生' ? 'student' : u['身份'] === '管理员' ? 'admin' : 'teacher';
+      const type = u['身份'] === '学生' ? 'student' : 'teacher';
       const idDoc = protectIdentityNumber(u['证件号码']),
         mobile = protectMobile(u['手机号']);
       const existing = (
@@ -289,7 +287,7 @@ export async function executeOucIdentityImport(
       if (!org) throw new Error(`机构不存在：${orgCode}`);
       if (!existing) {
         await c.query(
-          `INSERT INTO zhiban.accounts(id,tenant_id,login_name,display_name,account_type,status,mobile_encrypted,mobile_lookup_hash,mobile_last4,mobile_verified_at,primary_organization_id,source_system,source_external_id,source_created_at) VALUES($1,$2,$3,$4,$5,'active',$6,$7,$8,now(),$9,'ouchn',$3,NULLIF($10,'')::timestamptz)`,
+          `INSERT INTO zhiban.accounts(id,tenant_id,login_name,display_name,account_type,status,mobile_encrypted,mobile_lookup_hash,mobile_last4,mobile_verified_at,primary_organization_id,source_system,source_external_id,source_created_at) VALUES($1,$2,$3,$4,$5,'active',$6,$7,$8,now(),$9,'ouchn',$3,now())`,
           [
             accountId,
             p.tenantId,
@@ -300,7 +298,6 @@ export async function executeOucIdentityImport(
             mobile.lookupHash,
             mobile.last4,
             org.id,
-            u['创建时间'],
           ],
         );
         await c.query(
@@ -381,11 +378,6 @@ export async function executeOucIdentityImport(
             idDoc.last4,
             org.id,
           ],
-        );
-      else
-        await c.query(
-          `INSERT INTO zhiban.admin_profiles(account_id,tenant_id,admin_level,default_data_scope,organization_id,organization_level) SELECT $1,$2,'institution','tenant',$3,organization_level FROM zhiban.organization_units WHERE id=$3 ON CONFLICT(account_id) DO UPDATE SET organization_id=EXCLUDED.organization_id,organization_level=EXCLUDED.organization_level,row_version=zhiban.admin_profiles.row_version+1,updated_at=now()`,
-          [accountId, p.tenantId, org.id],
         );
       await ensureImportedAccountAccess(c, p, accountId, org.id, type);
       await addIdentifier(c, p.tenantId, accountId, 'login_name', u['登录名']);

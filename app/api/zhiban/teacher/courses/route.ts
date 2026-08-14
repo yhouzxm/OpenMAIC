@@ -17,8 +17,7 @@ export async function GET() {
       store.get(ZHIBAN_SESSION_COOKIE)?.value ?? '',
     );
     if (!principal) throw new AuthorizationError('Authentication required', 401);
-    if (!principal.permissions.includes('course:manage'))
-      throw new AuthorizationError('Permission denied');
+    if (principal.accountType !== 'teacher') throw new AuthorizationError('Permission denied');
     return NextResponse.json({ courses: await listTeacherCourses(getZhibanPool(), principal) });
   } catch (error) {
     return (

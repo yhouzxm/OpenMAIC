@@ -40,3 +40,15 @@ export function protectIdentityNumber(value: string) {
     birthDate: `${normalized.slice(6, 10)}-${normalized.slice(10, 12)}-${normalized.slice(12, 14)}`,
   };
 }
+
+export function revealIdentityNumber(value: Buffer | Uint8Array) {
+  const packed = Buffer.from(value);
+  if (packed.length < 30 || packed[0] !== 1) throw new Error('Stored identity number is invalid');
+  const decipher = createDecipheriv(
+    'aes-256-gcm',
+    key('zhiban-identity-encryption'),
+    packed.subarray(1, 13),
+  );
+  decipher.setAuthTag(packed.subarray(13, 29));
+  return Buffer.concat([decipher.update(packed.subarray(29)), decipher.final()]).toString('utf8');
+}

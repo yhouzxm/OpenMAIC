@@ -29,6 +29,7 @@ export function TeacherClassroomConsole({
   hideHeader?: boolean;
 }) {
   const [courses, setCourses] = useState<TeacherCourse[]>([]);
+  const [coursesLoaded, setCoursesLoaded] = useState(false);
   const [courseId, setCourseId] = useState(fixedCourseId);
   const [items, setItems] = useState<Binding[]>([]);
   const [progress, setProgress] = useState<Binding[]>([]);
@@ -49,7 +50,8 @@ export function TeacherClassroomConsole({
             : (data.courses[0]?.id ?? ''),
         );
       })
-      .catch((e) => toast.error(e.message));
+      .catch((e) => toast.error(e.message))
+      .finally(() => setCoursesLoaded(true));
   }, [fixedCourseId]);
   const load = useCallback(async () => {
     if (!courseId) return;
@@ -167,6 +169,19 @@ export function TeacherClassroomConsole({
     } finally {
       setBusy(false);
     }
+  }
+  if (coursesLoaded && courses.length === 0) {
+    return (
+      <main className="mx-auto max-w-6xl px-5 py-8">
+        <div className="rounded-xl border border-blue-200 bg-blue-50 px-6 py-12 text-center">
+          <h1 className="text-xl font-semibold text-slate-900">课堂教学</h1>
+          <p className="mt-3 text-slate-600">当前教师账号尚未安排课程。</p>
+          <p className="mt-1 text-sm text-slate-500">
+            您已经可以访问课堂工作台；管理员为您安排课程后，课程和课堂功能会自动显示。
+          </p>
+        </div>
+      </main>
+    );
   }
   return (
     <main

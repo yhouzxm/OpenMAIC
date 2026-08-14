@@ -28,6 +28,8 @@ import { oucImportAccessFixesMigration } from './027-ouc-import-access-fixes';
 import { globalAccountUniquenessMigration } from './028-global-account-uniqueness';
 import { separateIdentityImportsMigration } from './029-separate-identity-imports';
 import { importOrganizationFromSourceMigration } from './030-import-organization-from-source';
+import { administrativeClassImportMigration } from './031-administrative-class-import';
+import { courseClassGroupingMigration } from './032-course-class-grouping';
 
 export const ZHIBAN_MIGRATIONS: readonly ZhibanMigration[] = [
   initialIdentityMigration,
@@ -60,6 +62,8 @@ export const ZHIBAN_MIGRATIONS: readonly ZhibanMigration[] = [
   globalAccountUniquenessMigration,
   separateIdentityImportsMigration,
   importOrganizationFromSourceMigration,
+  administrativeClassImportMigration,
+  courseClassGroupingMigration,
 ];
 
 export type { ZhibanMigration } from './001-initial-identity';

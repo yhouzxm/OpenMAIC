@@ -34,10 +34,11 @@ export async function GET() {
     }
     const profile = await withZhibanTenant(getZhibanPool(), principal.tenantId, async (client) => {
       const result = await client.query<Record<string, unknown>>(
-        `SELECT a.display_name,a.login_name,a.mobile_last4,t.name AS tenant_name,
+        `SELECT a.display_name,a.login_name,a.mobile_last4,COALESCE(ou.name,t.name) AS tenant_name,
                 p.employee_no,p.real_name,p.department,p.professional_title,p.employment_status,p.extension
          FROM zhiban.accounts a
          JOIN zhiban.tenants t ON t.id=a.tenant_id
+         LEFT JOIN zhiban.organization_units ou ON ou.id=a.primary_organization_id
          JOIN zhiban.teacher_profiles p ON p.account_id=a.id AND p.tenant_id=a.tenant_id
          WHERE a.id=$1`,
         [principal.id],

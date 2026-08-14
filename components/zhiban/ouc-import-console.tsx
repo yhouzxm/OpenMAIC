@@ -4,7 +4,7 @@ import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 
-type Mode = 'users' | 'students' | 'registrations';
+type Mode = 'users' | 'students' | 'registrations' | 'classes';
 type Batch = {
   id: string;
   status: string;
@@ -16,6 +16,7 @@ type Batch = {
   students_file_name?: string;
   error_message?: string;
 };
+type ValidationIssue = { rowNumber: number; key?: string; errors: string[] };
 const meta = {
   users: {
     title: '用户数据导入',
@@ -29,8 +30,14 @@ const meta = {
   },
   registrations: {
     title: '课程注册数据导入',
-    description: '导入学期、班级、课程、开课实例及学生选课注册关系。',
+    description:
+      '关联已有行政班，导入课程、开课实例及学生选课注册关系；不存在对应行政班时禁止导入。',
     file: '学生课程注册明细.xlsx',
+  },
+  classes: {
+    title: '行政班数据导入',
+    description: '导入行政班、专业、培养方案、所属机构及班主任信息。',
+    file: '班级信息.xlsx',
   },
 } as const;
 
@@ -43,11 +50,14 @@ async function jsonResponse(response: Response) {
 export function OucImportConsole({ mode }: { mode: Mode }) {
   const [batches, setBatches] = useState<Batch[]>([]),
     [message, setMessage] = useState(''),
+    [validationIssues, setValidationIssues] = useState<ValidationIssue[]>([]),
     [busy, setBusy] = useState(false);
-  const identity = mode !== 'registrations';
+  const identity = mode === 'users' || mode === 'students';
   const base = identity
     ? '/api/zhiban/import/ouc-identity'
-    : '/api/zhiban/import/course-registration';
+    : mode === 'classes'
+      ? '/api/zhiban/import/administrative-classes'
+      : '/api/zhiban/import/course-registration';
   const reload = useCallback(async () => {
     const body = await jsonResponse(await fetch(base));
     const rows: Batch[] = body.batches ?? [];
@@ -69,11 +79,13 @@ export function OucImportConsole({ mode }: { mode: Mode }) {
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setBusy(true);
+    setValidationIssues([]);
     setMessage('正在预检文件，不会写入业务数据…');
     try {
       const form = new FormData(event.currentTarget);
       if (identity) form.set('mode', mode);
       const result = await jsonResponse(await fetch(base, { method: 'POST', body: form }));
+      setValidationIssues(result.rows ?? []);
       setMessage(
         `预检完成：有效 ${result.validRows} 行，无效 ${result.invalidRows} 行。全部有效后请点击“确认执行”。`,
       );
@@ -84,16 +96,38 @@ export function OucImportConsole({ mode }: { mode: Mode }) {
       setBusy(false);
     }
   }
-  async function act(id: string, action: 'execute' | 'rollback') {
+  async function act(id: string, action: 'execute' | 'rollback' | 'delete', status?: string) {
     if (
       action === 'rollback' &&
       !confirm('确认回滚该批次？如存在后续业务引用，系统会停止回滚且不执行部分删除。')
     )
       return;
+    if (
+      action === 'delete' &&
+      !confirm(
+        status === 'completed'
+          ? '确认删除该导入批次记录吗？已成功导入的业务数据会保留，删除后将无法再通过该批次回滚。'
+          : '确认删除该导入批次吗？批次明细和预检记录将一并删除。',
+      )
+    )
+      return;
     setBusy(true);
     try {
-      await jsonResponse(await fetch(`${base}/${id}/${action}`, { method: 'POST' }));
-      setMessage(action === 'execute' ? '批次执行成功。' : '批次回滚完成。');
+      await jsonResponse(
+        await fetch(
+          action === 'delete'
+            ? `${base}?batchId=${encodeURIComponent(id)}`
+            : `${base}/${id}/${action}`,
+          { method: action === 'delete' ? 'DELETE' : 'POST' },
+        ),
+      );
+      setMessage(
+        action === 'execute'
+          ? '批次执行成功。'
+          : action === 'rollback'
+            ? '批次回滚完成。'
+            : '导入批次已删除。',
+      );
       await reload();
     } catch (e) {
       setMessage(e instanceof Error ? e.message : '操作失败');
@@ -108,13 +142,22 @@ export function OucImportConsole({ mode }: { mode: Mode }) {
           <div>
             <h1 className="mt-1 text-2xl font-semibold">{selected.title}</h1>
           </div>
-          {identity && (
+          {(identity || mode === 'classes' || mode === 'registrations') && (
             <Link
-              href={mode === 'users' ? '/zhiban/admin/users' : '/zhiban/admin/students'}
+              href={
+                mode === 'users'
+                  ? '/zhiban/admin/users'
+                  : mode === 'registrations'
+                    ? '/zhiban/admin/academic?tab=courses'
+                    : mode === 'classes'
+                      ? '/zhiban/admin/students?tab=classes'
+                      : '/zhiban/admin/students?tab=students'
+              }
               className="flex items-center rounded border px-4 py-2 text-sm text-slate-700 hover:bg-slate-50"
             >
               <ArrowLeft className="mr-2 size-4" />
-              返回{mode === 'users' ? '用户信息管理' : '学生信息管理'}
+              返回
+              {mode === 'users' ? '用户管理' : mode === 'registrations' ? '教学管理' : '学籍管理'}
             </Link>
           )}
         </div>
@@ -124,6 +167,19 @@ export function OucImportConsole({ mode }: { mode: Mode }) {
         <div className="mb-4 rounded border border-blue-200 bg-blue-50 p-3 text-sm text-blue-900">
           {message}
         </div>
+      )}
+      {validationIssues.length > 0 && (
+        <section className="mb-4 rounded border border-red-200 bg-red-50 p-4 text-sm">
+          <h2 className="font-medium text-red-800">预检失败明细</h2>
+          <div className="mt-2 max-h-64 overflow-auto">
+            {validationIssues.map((issue) => (
+              <div key={`${issue.rowNumber}-${issue.key}`} className="border-t border-red-100 py-2">
+                第 {issue.rowNumber} 行{issue.key ? `（${issue.key}）` : ''}：
+                {issue.errors.join('；')}
+              </div>
+            ))}
+          </div>
+        </section>
       )}
       <section className="rounded border bg-white p-5 shadow-sm">
         <form className="grid gap-4 md:grid-cols-3" onSubmit={submit}>
@@ -155,7 +211,8 @@ export function OucImportConsole({ mode }: { mode: Mode }) {
         </form>
         {mode === 'users' && (
           <p className="mt-3 text-sm text-slate-500">
-            所属机构和身份均从 Excel 读取；身份只允许填写“学生、教师、管理员”。
+            所属机构和身份均从 Excel
+            读取；身份只允许填写“学生、教师”。管理员权限请在权限管理中授予教师。
           </p>
         )}
       </section>
@@ -205,6 +262,13 @@ export function OucImportConsole({ mode }: { mode: Mode }) {
                         回滚
                       </button>
                     )}
+                    <button
+                      disabled={busy}
+                      onClick={() => act(b.id, 'delete', b.status)}
+                      className="rounded border border-red-300 px-3 py-1 text-red-700"
+                    >
+                      删除
+                    </button>
                   </td>
                 </tr>
               ))}

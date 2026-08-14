@@ -13,8 +13,8 @@ const ARGON2_OPTIONS = {
 } as const;
 
 export function validateLocalPassword(password: string): void {
-  if (password.length < 12 || password.length > 128) {
-    throw new Error('Password must contain between 12 and 128 characters');
+  if (password.length < 8 || password.length > 128) {
+    throw new Error('Password must contain between 8 and 128 characters');
   }
   if (!/\p{L}/u.test(password) || !/\p{N}/u.test(password)) {
     throw new Error('Password must contain at least one letter and one number');

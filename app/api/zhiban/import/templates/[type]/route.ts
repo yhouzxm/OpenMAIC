@@ -7,6 +7,7 @@ const names: Record<OucTemplateType, string> = {
   users: '用户数据导入模板.xlsx',
   students: '学生数据导入模板.xlsx',
   registrations: '课程注册数据导入模板.xlsx',
+  classes: '行政班数据导入模板.xlsx',
 };
 export async function GET(_: Request, { params }: { params: Promise<{ type: string }> }) {
   try {

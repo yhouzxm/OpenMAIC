@@ -2,23 +2,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import {
-  BookOpen,
-  Database,
-  GraduationCap,
-  School,
-  ShieldCheck,
-  UserRound,
-  Users,
-} from 'lucide-react';
+import { Database, GraduationCap, School, ShieldCheck, UserRound, Users } from 'lucide-react';
 import { ZhibanLogoutButton } from './logout-button';
 
 const navigation = [
-  { label: '账号与权限', href: '/zhiban/admin', icon: ShieldCheck, exact: true },
-  { label: '用户信息管理', href: '/zhiban/admin/users', icon: Users },
-  { label: '学生信息管理', href: '/zhiban/admin/students', icon: GraduationCap },
-  { label: '班级与课程', href: '/zhiban/admin/academic', icon: School },
-  { label: '课程注册导入', href: '/zhiban/admin/import/registrations', icon: BookOpen },
+  { label: '权限管理', href: '/zhiban/admin', icon: ShieldCheck, exact: true },
+  { label: '用户管理', href: '/zhiban/admin/users', icon: Users },
+  { label: '学籍管理', href: '/zhiban/admin/students', icon: GraduationCap },
+  { label: '教学管理', href: '/zhiban/admin/academic', icon: School },
 ] as const;
 
 export function AdminGlobalShell({
@@ -64,11 +55,16 @@ export function AdminGlobalShell({
               ('exact' in item && item.exact ? pathname === href : pathname.startsWith(href)) ||
               (href === '/zhiban/admin/users' && pathname === '/zhiban/admin/import/users') ||
               (href === '/zhiban/admin/students' && pathname === '/zhiban/admin/import/students');
+            const resolvedActive =
+              active ||
+              (href === '/zhiban/admin/students' && pathname === '/zhiban/admin/import/classes') ||
+              (href === '/zhiban/admin/academic' &&
+                pathname === '/zhiban/admin/import/registrations');
             return (
               <Link
                 key={href}
                 href={href}
-                className={`flex items-center gap-3 border-l-4 px-7 py-3.5 text-sm ${active ? 'border-[#1677e8] bg-blue-50 font-medium text-[#1677e8]' : 'border-transparent hover:bg-slate-50'}`}
+                className={`flex items-center gap-3 border-l-4 px-7 py-3.5 text-sm ${resolvedActive ? 'border-[#1677e8] bg-blue-50 font-medium text-[#1677e8]' : 'border-transparent hover:bg-slate-50'}`}
               >
                 <Icon className="size-4" />
                 {label}

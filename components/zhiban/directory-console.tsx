@@ -9,7 +9,7 @@ async function api(url: string, init?: RequestInit) {
   if (!r.ok) throw new Error(b.error || '操作失败');
   return b;
 }
-export function DirectoryConsole({ mode }: { mode: Mode }) {
+export function DirectoryConsole({ mode, embedded = false }: { mode: Mode; embedded?: boolean }) {
   const [rows, setRows] = useState<Row[]>([]),
     [total, setTotal] = useState(0),
     [page, setPage] = useState(1),
@@ -25,6 +25,8 @@ export function DirectoryConsole({ mode }: { mode: Mode }) {
     }),
     [searched, setSearched] = useState(false),
     [editing, setEditing] = useState<Row | null>(null),
+    [deleting, setDeleting] = useState<Row | null>(null),
+    [creating, setCreating] = useState(false),
     [message, setMessage] = useState('');
   const base = `/api/zhiban/admin/directory/${mode}`;
   function makeQuery(filters: typeof submitted, pageNumber = page) {
@@ -47,6 +49,25 @@ export function DirectoryConsole({ mode }: { mode: Mode }) {
     setSubmitted(filters);
     void load(1, filters);
   }
+  async function openEdit(row: Row) {
+    if (mode !== 'users') return setEditing(row);
+    try {
+      setEditing(await api(`${base}/${row.id}`));
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : '读取用户信息失败');
+    }
+  }
+  async function removeUser() {
+    if (!deleting) return;
+    try {
+      await api(`${base}/${deleting.id}`, { method: 'DELETE' });
+      setDeleting(null);
+      setMessage('用户已删除，登录会话和权限已撤销');
+      await load(page, submitted);
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : '删除用户失败');
+    }
+  }
   async function save(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!editing) return;
@@ -66,15 +87,50 @@ export function DirectoryConsole({ mode }: { mode: Mode }) {
       setMessage(err instanceof Error ? err.message : '修改失败');
     }
   }
+  async function createUser(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const values = Object.fromEntries(new FormData(e.currentTarget)),
+      type = String(values.accountType);
+    const body: Record<string, FormDataEntryValue | string> = {
+      ...values,
+      ...(type === 'student' ? { initialRoleCode: 'student', initialRoleScopeType: 'self' } : {}),
+      ...(type === 'student'
+        ? { studentNo: values.identifier }
+        : { employeeNo: values.identifier }),
+    };
+    delete body.identifier;
+    try {
+      await api('/api/zhiban/admin/accounts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      setCreating(false);
+      setMessage('用户创建成功');
+      if (searched) await load(page, submitted);
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : '创建失败');
+    }
+  }
   const users = mode === 'users';
   return (
-    <div className="p-6">
-      <div className="mb-4 flex items-center justify-between">
-        <div>
-          <h1 className="text-xl font-semibold">{users ? '用户信息管理' : '学生信息管理'}</h1>
-          <p className="mt-1 text-sm text-slate-500">支持查询、修改、分页和按当前条件导出。</p>
-        </div>
+    <div className={embedded ? '' : 'p-6'}>
+      <div className={`mb-4 flex items-center justify-between ${embedded ? 'justify-end' : ''}`}>
+        {!embedded && (
+          <div>
+            <h1 className="text-xl font-semibold">{users ? '用户管理' : '学籍管理'}</h1>
+            <p className="mt-1 text-sm text-slate-500">支持查询、修改、分页和按当前条件导出。</p>
+          </div>
+        )}
         <div className="flex gap-2">
+          {users && (
+            <button
+              onClick={() => setCreating(true)}
+              className="rounded bg-blue-600 px-4 py-2 text-sm text-white"
+            >
+              新建用户
+            </button>
+          )}
           <Link
             href={`/zhiban/admin/import/${mode}`}
             className="rounded border border-blue-300 px-4 py-2 text-sm text-blue-700"
@@ -151,9 +207,10 @@ export function DirectoryConsole({ mode }: { mode: Mode }) {
                 ? [
                     '序号',
                     '机构',
-                    '姓名',
+                    '真实姓名',
                     '登录名',
                     '身份',
+                    '学号 / 工号',
                     '手机号',
                     '证件号',
                     '来源',
@@ -186,10 +243,11 @@ export function DirectoryConsole({ mode }: { mode: Mode }) {
                 <td className="p-3">{(page - 1) * 10 + index + 1}</td>
                 {users ? (
                   <>
-                    <td>{r.organization_code || r.organization_name || '-'}</td>
-                    <td>{r.display_name}</td>
+                    <td>{r.organization_name || '-'}</td>
+                    <td>{r.real_name}</td>
                     <td>{r.login_name}</td>
-                    <td>{r.account_type}</td>
+                    <td>{r.account_type === 'student' ? '学生' : '教师'}</td>
+                    <td>{r.account_type === 'student' ? r.student_no : r.employee_no}</td>
                     <td>{r.mobile_last4 ? `****${r.mobile_last4}` : '-'}</td>
                     <td>{r.identity_last4 ? `**************${r.identity_last4}` : '-'}</td>
                     <td>{r.source_system || 'local'}</td>
@@ -209,15 +267,20 @@ export function DirectoryConsole({ mode }: { mode: Mode }) {
                   </>
                 )}
                 <td>
-                  <button onClick={() => setEditing(r)} className="text-blue-600">
+                  <button onClick={() => void openEdit(r)} className="text-blue-600">
                     修改
                   </button>
+                  {users && r.login_name.toLowerCase() !== 'admin' && (
+                    <button onClick={() => setDeleting(r)} className="ml-3 text-red-600">
+                      删除
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}
             {!rows.length && (
               <tr>
-                <td colSpan={10} className="p-12 text-center text-slate-500">
+                <td colSpan={11} className="p-12 text-center text-slate-500">
                   {searched ? '没有符合条件的数据' : '请设置查询条件后点击“查询”'}
                 </td>
               </tr>
@@ -256,8 +319,50 @@ export function DirectoryConsole({ mode }: { mode: Mode }) {
             <div className="grid gap-3 md:grid-cols-2">
               {users ? (
                 <>
-                  <Field name="displayName" label="姓名" value={editing.display_name} />
-                  <Field name="mobile" label="新手机号" />
+                  <Field name="realName" label="真实姓名" value={editing.real_name} />
+                  <Field name="mobile" label="手机号" value={editing.mobile} />
+                  <ReadOnly label="登录名" value={editing.login_name} />
+                  <ReadOnly
+                    label="用户身份"
+                    value={editing.account_type === 'student' ? '学生' : '教师'}
+                  />
+                  <ReadOnly label="所属机构" value={editing.organization_name} />
+                  {editing.account_type === 'student' ? (
+                    <ReadOnly label="学号" value={editing.student_no} />
+                  ) : (
+                    <ReadOnly label="工号" value={editing.employee_no} />
+                  )}
+                  <ReadOnly label="出生日期" value={editing.birth_date} />
+                  <ReadOnly label="证件类型" value={editing.identity_document_type} />
+                  <ReadOnly label="证件号码" value={editing.identity_number} />
+                  {editing.account_type === 'student' ? (
+                    <>
+                      <ReadOnly label="入学年份" value={editing.enrollment_year} />
+                      <ReadOnly label="学历层次" value={editing.education_level} />
+                      <ReadOnly
+                        label="专业"
+                        value={[editing.major_code, editing.major_name].filter(Boolean).join(' · ')}
+                      />
+                      <ReadOnly label="学习中心" value={editing.learning_center} />
+                      <ReadOnly label="学籍状态" value={editing.study_status} />
+                      <ReadOnly label="入学学期" value={editing.admission_term} />
+                      <ReadOnly
+                        label="行政班"
+                        value={[editing.class_code, editing.class_name].filter(Boolean).join(' · ')}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <ReadOnly label="部门" value={editing.department} />
+                      <ReadOnly label="职称" value={editing.professional_title} />
+                      <ReadOnly label="任职状态" value={editing.employment_status} />
+                    </>
+                  )}
+                  <ReadOnly label="数据来源" value={editing.source_system || 'local'} />
+                  <ReadOnly label="来源标识" value={editing.source_external_id} />
+                  <ReadOnly label="来源创建时间" value={editing.source_created_at} />
+                  <ReadOnly label="创建时间" value={editing.created_at} />
+                  <ReadOnly label="更新时间" value={editing.updated_at} />
                   <label>
                     状态
                     <select
@@ -269,7 +374,7 @@ export function DirectoryConsole({ mode }: { mode: Mode }) {
                       <option value="disabled">停用</option>
                     </select>
                   </label>
-                  <Field name="password" label="重置密码（至少12位）" type="password" />
+                  <Field name="password" label="重置密码（至少8位）" type="password" />
                 </>
               ) : (
                 <>
@@ -327,7 +432,71 @@ export function DirectoryConsole({ mode }: { mode: Mode }) {
           </form>
         </div>
       )}
+      {users && deleting && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
+          <div className="w-full max-w-md rounded bg-white p-6 shadow-xl">
+            <h2 className="text-lg font-semibold">删除用户</h2>
+            <p className="mt-3 text-sm text-slate-600">
+              确认删除“{deleting.real_name || deleting.login_name}
+              ”吗？该账号将被停用，现有登录会话及权限将立即撤销，审计记录会保留。
+            </p>
+            <div className="mt-5 flex justify-end gap-2">
+              <button onClick={() => setDeleting(null)} className="rounded border px-4 py-2">
+                取消
+              </button>
+              <button
+                onClick={() => void removeUser()}
+                className="rounded bg-red-600 px-4 py-2 text-white"
+              >
+                确认删除
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {users && creating && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
+          <form onSubmit={createUser} className="w-full max-w-xl rounded bg-white p-6 shadow-xl">
+            <h2 className="mb-4 text-lg font-semibold">新建用户</h2>
+            <div className="grid gap-3 md:grid-cols-2">
+              <label>
+                用户身份
+                <select name="accountType" className="mt-1 w-full rounded border p-2">
+                  <option value="student">学生</option>
+                  <option value="teacher">教师</option>
+                </select>
+              </label>
+              <Field name="realName" label="真实姓名" />
+              <Field name="identifier" label="登录名（学生填学号，教师填工号）" />
+              <Field name="mobile" label="手机号" />
+              <Field name="password" label="初始密码（至少8位）" type="password" />
+            </div>
+            <div className="mt-5 flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setCreating(false)}
+                className="rounded border px-4 py-2"
+              >
+                取消
+              </button>
+              <button className="rounded bg-blue-600 px-4 py-2 text-white">创建</button>
+            </div>
+          </form>
+        </div>
+      )}
     </div>
+  );
+}
+function ReadOnly({ label, value }: { label: string; value?: string }) {
+  return (
+    <label className="text-sm text-slate-600">
+      {label}
+      <input
+        readOnly
+        value={value || '-'}
+        className="mt-1 w-full rounded border bg-slate-50 p-2 text-slate-700"
+      />
+    </label>
   );
 }
 function Field({

@@ -444,10 +444,22 @@ export function TeacherCourseConsole({
                     defaultValue={course.interventionPolicy.message}
                   />
                 </Wide>
-                <div className="md:col-span-2">
+                <div className="flex flex-wrap gap-3 md:col-span-2">
                   <Button disabled={busy}>
                     <Save className="mr-2 size-4" />
                     {busy ? '保存中…' : `保存设置（版本 ${course.version + 1}）`}
+                  </Button>
+                  <Button variant="outline" asChild>
+                    <Link
+                      href={
+                        embedded
+                          ? `/zhiban/teacher/courses/${course.id}`
+                          : '/zhiban/teacher/courses'
+                      }
+                    >
+                      <ArrowLeft className="mr-2 size-4" />
+                      取消并返回
+                    </Link>
                   </Button>
                 </div>
               </form>

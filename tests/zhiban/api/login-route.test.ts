@@ -1,9 +1,9 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { NextRequest } from 'next/server';
 
-const { cookieSet, authenticateLocal } = vi.hoisted(() => ({
+const { cookieSet, authenticateLocalByIdentifier } = vi.hoisted(() => ({
   cookieSet: vi.fn(),
-  authenticateLocal: vi.fn(),
+  authenticateLocalByIdentifier: vi.fn(),
 }));
 
 vi.mock('next/headers', () => ({
@@ -12,7 +12,7 @@ vi.mock('next/headers', () => ({
 vi.mock('@/lib/zhiban/db/connection', () => ({
   getZhibanPool: vi.fn(() => ({})),
 }));
-vi.mock('@/lib/zhiban/auth/service', () => ({ authenticateLocal }));
+vi.mock('@/lib/zhiban/auth/service', () => ({ authenticateLocalByIdentifier }));
 
 import { POST } from '@/app/api/zhiban/auth/login/route';
 
@@ -34,16 +34,15 @@ describe('POST /api/zhiban/auth/login', () => {
     vi.stubEnv('ZHIBAN_AUTH_ENABLED', 'false');
     const response = await POST(loginRequest({}));
     expect(response.status).toBe(503);
-    expect(authenticateLocal).not.toHaveBeenCalled();
+    expect(authenticateLocalByIdentifier).not.toHaveBeenCalled();
   });
 
   it('returns one generic response for failed credentials', async () => {
     vi.stubEnv('ZHIBAN_AUTH_ENABLED', 'true');
-    authenticateLocal.mockResolvedValue({ ok: false, reason: 'account_locked' });
+    authenticateLocalByIdentifier.mockResolvedValue({ ok: false, reason: 'account_locked' });
     const response = await POST(
       loginRequest({
-        tenantId: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
-        loginName: 'student01',
+        identifier: '202600000001',
         password: 'wrong',
       }),
     );
@@ -56,12 +55,12 @@ describe('POST /api/zhiban/auth/login', () => {
   it('sets an HttpOnly session cookie after successful authentication', async () => {
     vi.stubEnv('ZHIBAN_AUTH_ENABLED', '1');
     const expiresAt = new Date('2026-08-05T00:00:00.000Z');
-    authenticateLocal.mockResolvedValue({
+    authenticateLocalByIdentifier.mockResolvedValue({
       ok: true,
       account: {
         id: 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',
         tenantId: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
-        loginName: 'student01',
+        loginName: '202600000001',
         displayName: '测试学生',
         accountType: 'student',
         mustChangePassword: true,
@@ -71,8 +70,7 @@ describe('POST /api/zhiban/auth/login', () => {
     });
     const response = await POST(
       loginRequest({
-        tenantId: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
-        loginName: 'student01',
+        identifier: '202600000001',
         password: 'AdultLearning2026!',
       }),
     );

@@ -1,7 +1,7 @@
 'use client';
 
 import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
-import { Plus, ShieldCheck, UserRoundCog, Users } from 'lucide-react';
+import { ShieldCheck, UserRoundCog, Users } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { Badge } from '@/components/ui/badge';
@@ -45,7 +45,6 @@ export function AdminConsole({ principal }: { principal: AuthorizedPrincipal }) 
   const [roles, setRoles] = useState<RoleOption[]>([]);
   const [scopes, setScopes] = useState<AuthorizationScope[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showCreate, setShowCreate] = useState(false);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -55,7 +54,7 @@ export function AdminConsole({ principal }: { principal: AuthorizedPrincipal }) 
         api<{ roles: RoleOption[] }>('/api/zhiban/admin/roles'),
         api<{ scopes: AuthorizationScope[] }>('/api/zhiban/admin/scopes'),
       ]);
-      setAccounts(accountResult.accounts);
+      setAccounts(accountResult.accounts.filter((account) => account.accountType === 'teacher'));
       setRoles(roleResult.roles);
       setScopes(scopeResult.scopes);
     } catch (error) {
@@ -77,8 +76,8 @@ export function AdminConsole({ principal }: { principal: AuthorizedPrincipal }) 
   return (
     <main className="mx-auto min-h-screen max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
       <section className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Summary icon={<Users />} label="账号总数" value={accounts.length} />
-        <Summary icon={<ShieldCheck />} label="正常账号" value={activeCount} />
+        <Summary icon={<Users />} label="教师账号总数" value={accounts.length} />
+        <Summary icon={<ShieldCheck />} label="正常教师账号" value={activeCount} />
         <Summary icon={<UserRoundCog />} label="可分配角色" value={roles.length} />
         <Summary icon={<ShieldCheck />} label="数据范围" value={scopes.length} />
       </section>
@@ -104,29 +103,9 @@ export function AdminConsole({ principal }: { principal: AuthorizedPrincipal }) 
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>账号列表</CardTitle>
-          {canManage && (
-            <Button
-              className="bg-teal-600 hover:bg-teal-700"
-              onClick={() => setShowCreate((value) => !value)}
-            >
-              <Plus className="mr-2 size-4" />
-              新建账号
-            </Button>
-          )}
+          <CardTitle>教师权限列表</CardTitle>
         </CardHeader>
         <CardContent className="space-y-5">
-          {showCreate && (
-            <CreateAccountForm
-              roles={roles}
-              scopes={scopes}
-              onCancel={() => setShowCreate(false)}
-              onCreated={async () => {
-                setShowCreate(false);
-                await load();
-              }}
-            />
-          )}
           {loading ? (
             <p className="py-12 text-center text-slate-500">正在加载…</p>
           ) : accounts.length === 0 ? (
@@ -222,6 +201,8 @@ function CreateScopeForm({ onCreated }: { onCreated: () => Promise<void> }) {
   );
 }
 
+// Kept as the canonical account form implementation; account creation is surfaced by User Management.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function CreateAccountForm({
   roles,
   scopes,
@@ -305,8 +286,8 @@ function CreateAccountForm({
       <Field label="手机号（可选）">
         <Input name="mobile" />
       </Field>
-      <Field label="初始密码（至少12位，含字母和数字）">
-        <Input name="password" type="password" minLength={12} required />
+      <Field label="初始密码（至少8位，含字母和数字）">
+        <Input name="password" type="password" minLength={8} required />
       </Field>
       <Field label="初始角色">
         <select

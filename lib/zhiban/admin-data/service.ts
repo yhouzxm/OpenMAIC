@@ -1,7 +1,8 @@
 import * as XLSX from 'xlsx';
 import { randomUUID } from 'node:crypto';
 import { hashLocalPassword } from '@/lib/zhiban/auth/password';
-import { protectMobile } from '@/lib/zhiban/auth/pii';
+import { protectMobile, revealMobile } from '@/lib/zhiban/auth/pii';
+import { revealIdentityNumber } from '@/lib/zhiban/ouc-import/crypto';
 import { hashLoginIdentifier, maskLoginIdentifier } from '@/lib/zhiban/auth/identifiers';
 import { withZhibanTenant } from '@/lib/zhiban/db/tenant-context';
 import type { ZhibanDatabasePool, ZhibanQueryable } from '@/lib/zhiban/db/types';
@@ -49,13 +50,21 @@ export async function listDirectoryUsers(
       pageSize,
       (page - 1) * pageSize,
     ];
-    const where = `a.tenant_id=$1 AND a.deleted_at IS NULL AND ($2::text IS NULL OR a.login_name ILIKE '%'||$2||'%' OR a.display_name ILIKE '%'||$2||'%' OR a.mobile_last4=$2) AND ($3::text IS NULL OR a.status=$3) AND ($4::text IS NULL OR ou.external_id=$4 OR ou.name ILIKE '%'||$4||'%')`;
+    const where = `a.tenant_id=$1 AND a.deleted_at IS NULL AND ($2::text IS NULL OR sp.student_no ILIKE '%'||$2||'%' OR tp.employee_no ILIKE '%'||$2||'%' OR sp.real_name ILIKE '%'||$2||'%' OR tp.real_name ILIKE '%'||$2||'%' OR a.mobile_last4=$2) AND ($3::text IS NULL OR a.status=$3) AND ($4::text IS NULL OR ou.external_id=$4 OR ou.name ILIKE '%'||$4||'%')`;
     const rows = await c.query(
-      `SELECT a.id,a.login_name,a.display_name,a.account_type,a.status,a.mobile_last4,a.source_system,a.created_at,ou.external_id organization_code,ou.name organization_name,COALESCE(sp.identity_number_last4,tp.identity_number_last4) identity_last4 FROM zhiban.accounts a LEFT JOIN zhiban.organization_units ou ON ou.id=a.primary_organization_id LEFT JOIN zhiban.student_profiles sp ON sp.account_id=a.id LEFT JOIN zhiban.teacher_profiles tp ON tp.account_id=a.id WHERE ${where} ORDER BY a.created_at DESC LIMIT $5 OFFSET $6`,
+      `SELECT a.id,a.login_name,a.account_type,a.status,a.mobile_last4,a.source_system,a.created_at,
+        ou.external_id organization_code,ou.name organization_name,
+        COALESCE(sp.real_name,tp.real_name,a.display_name) real_name,sp.student_no,
+        COALESCE(tp.employee_no,CASE WHEN lower(a.login_name)='admin' THEN 'admin' END) employee_no,
+        COALESCE(sp.identity_number_last4,tp.identity_number_last4) identity_last4
+       FROM zhiban.accounts a LEFT JOIN zhiban.organization_units ou ON ou.id=a.primary_organization_id
+       LEFT JOIN zhiban.student_profiles sp ON sp.account_id=a.id
+       LEFT JOIN zhiban.teacher_profiles tp ON tp.account_id=a.id
+       WHERE ${where} ORDER BY a.created_at DESC LIMIT $5 OFFSET $6`,
       values,
     );
     const count = await c.query<{ count: number }>(
-      `SELECT count(*)::int count FROM zhiban.accounts a LEFT JOIN zhiban.organization_units ou ON ou.id=a.primary_organization_id WHERE ${where}`,
+      `SELECT count(*)::int count FROM zhiban.accounts a LEFT JOIN zhiban.organization_units ou ON ou.id=a.primary_organization_id LEFT JOIN zhiban.student_profiles sp ON sp.account_id=a.id LEFT JOIN zhiban.teacher_profiles tp ON tp.account_id=a.id WHERE ${where}`,
       values.slice(0, 4),
     );
     return { rows: rows.rows, total: count.rows[0]?.count || 0, page, pageSize };
@@ -68,6 +77,7 @@ export async function updateDirectoryUser(
   id: string,
   input: {
     displayName?: string;
+    realName?: string;
     mobile?: string;
     status?: 'active' | 'disabled';
     password?: string;
@@ -86,6 +96,20 @@ export async function updateDirectoryUser(
         `UPDATE zhiban.accounts SET display_name=$2,row_version=row_version+1,updated_at=now() WHERE id=$1`,
         [id, input.displayName],
       );
+    if (input.realName) {
+      await c.query(
+        `UPDATE zhiban.accounts SET display_name=$2,row_version=row_version+1,updated_at=now() WHERE id=$1`,
+        [id, input.realName],
+      );
+      await c.query(
+        `UPDATE zhiban.student_profiles SET real_name=$2,row_version=row_version+1,updated_at=now() WHERE account_id=$1`,
+        [id, input.realName],
+      );
+      await c.query(
+        `UPDATE zhiban.teacher_profiles SET real_name=$2,row_version=row_version+1,updated_at=now() WHERE account_id=$1`,
+        [id, input.realName],
+      );
+    }
     if (input.status)
       await c.query(
         `UPDATE zhiban.accounts SET status=$2,row_version=row_version+1,updated_at=now() WHERE id=$1`,
@@ -118,12 +142,130 @@ export async function updateDirectoryUser(
         [id, await hashLocalPassword(input.password)],
       );
       await c.query(
-        `UPDATE zhiban.user_sessions SET revoked_at=now(),revoked_reason='administrator_password_reset' WHERE account_id=$1 AND revoked_at IS NULL`,
+        `UPDATE zhiban.user_sessions SET revoked_at=now(),revoke_reason='administrator_password_reset' WHERE account_id=$1 AND revoked_at IS NULL`,
         [id],
       );
     }
     await audit(c, p, 'admin.account.updated', id, { fields: Object.keys(input) });
     return { id };
+  });
+}
+
+export async function getDirectoryUser(
+  pool: ZhibanDatabasePool,
+  p: AuthorizedPrincipal,
+  id: string,
+) {
+  return withZhibanTenant(pool, p.tenantId, async (c) => {
+    const row = (
+      await c.query<{
+        id: string;
+        login_name: string;
+        display_name: string;
+        account_type: string;
+        status: string;
+        mobile_encrypted: Buffer | null;
+        source_system: string | null;
+        source_external_id: string | null;
+        source_created_at: Date | null;
+        created_at: Date;
+        updated_at: Date;
+        organization_code: string | null;
+        organization_name: string | null;
+        real_name: string | null;
+        student_no: string | null;
+        employee_no: string | null;
+        admin_level: string | null;
+        birth_date: string | null;
+        identity_document_type: string | null;
+        identity_number_encrypted: Buffer | null;
+        enrollment_year: number | null;
+        education_level: string | null;
+        major_code: string | null;
+        major_name: string | null;
+        learning_center: string | null;
+        study_status: string | null;
+        admission_term: string | null;
+        class_code: string | null;
+        class_name: string | null;
+        department: string | null;
+        professional_title: string | null;
+        employment_status: string | null;
+        default_data_scope: string | null;
+      }>(
+        `SELECT a.id,a.login_name,a.display_name,a.account_type,a.status,a.mobile_encrypted,
+        a.source_system,a.source_external_id,a.source_created_at,a.created_at,a.updated_at,
+        ou.external_id organization_code,ou.name organization_name,
+        COALESCE(sp.real_name,tp.real_name,a.display_name) real_name,sp.student_no,
+        COALESCE(tp.employee_no,CASE WHEN lower(a.login_name)='admin' THEN 'admin' END) employee_no,ap.admin_level,
+        COALESCE(sp.birth_date,tp.birth_date)::text birth_date,
+        COALESCE(sp.identity_document_type,tp.identity_document_type) identity_document_type,
+        COALESCE(sp.identity_number_encrypted,tp.identity_number_encrypted) identity_number_encrypted,
+        sp.enrollment_year,sp.education_level,sp.major_code,sp.major_name,sp.learning_center,
+        sp.study_status,sp.admission_term,sp.class_code,sp.class_name,
+        tp.department,tp.professional_title,tp.employment_status,ap.default_data_scope
+      FROM zhiban.accounts a
+      LEFT JOIN zhiban.organization_units ou ON ou.id=a.primary_organization_id
+      LEFT JOIN zhiban.student_profiles sp ON sp.account_id=a.id
+      LEFT JOIN zhiban.teacher_profiles tp ON tp.account_id=a.id
+      LEFT JOIN zhiban.admin_profiles ap ON ap.account_id=a.id
+      WHERE a.id=$1 AND a.tenant_id=$2 AND a.deleted_at IS NULL`,
+        [id, p.tenantId],
+      )
+    ).rows[0];
+    if (!row) throw new Error('用户不存在');
+    const { mobile_encrypted, identity_number_encrypted, ...detail } = row;
+    return {
+      ...detail,
+      mobile: mobile_encrypted ? revealMobile(mobile_encrypted) : null,
+      identity_number: identity_number_encrypted
+        ? revealIdentityNumber(identity_number_encrypted)
+        : null,
+    };
+  });
+}
+
+export async function deleteDirectoryUser(
+  pool: ZhibanDatabasePool,
+  p: AuthorizedPrincipal,
+  id: string,
+) {
+  if (id === p.id) throw new Error('不能删除当前登录账号');
+  return withZhibanTenant(pool, p.tenantId, async (c) => {
+    const account = (
+      await c.query<{ id: string; login_name: string; protected: boolean }>(
+        `SELECT a.id,a.login_name,
+          (lower(a.login_name)='admin' OR EXISTS(
+            SELECT 1 FROM zhiban.role_assignments ra JOIN zhiban.roles r ON r.id=ra.role_id
+            WHERE ra.account_id=a.id AND ra.revoked_at IS NULL AND r.code='system_admin'
+          )) protected
+         FROM zhiban.accounts a WHERE a.id=$1 AND a.tenant_id=$2 AND a.deleted_at IS NULL FOR UPDATE`,
+        [id, p.tenantId],
+      )
+    ).rows[0];
+    if (!account) throw new Error('用户不存在');
+    if (account.protected) throw new Error('系统管理账号 admin 不可删除');
+    await c.query(
+      `UPDATE zhiban.accounts SET status='disabled',deleted_at=now(),row_version=row_version+1,updated_at=now() WHERE id=$1`,
+      [id],
+    );
+    await c.query(
+      `UPDATE zhiban.user_sessions SET revoked_at=now(),revoke_reason='administrator_deleted_account' WHERE account_id=$1 AND revoked_at IS NULL`,
+      [id],
+    );
+    await c.query(
+      `UPDATE zhiban.role_assignments SET revoked_at=now() WHERE account_id=$1 AND revoked_at IS NULL`,
+      [id],
+    );
+    await c.query(
+      `UPDATE zhiban.account_login_identifiers SET status='revoked',valid_to=now(),updated_at=now() WHERE account_id=$1 AND status='active'`,
+      [id],
+    );
+    await audit(c, p, 'admin.account.deleted', id, {
+      loginName: account.login_name,
+      deletion: 'soft',
+    });
+    return { id, deleted: true };
   });
 }
 
@@ -233,7 +375,7 @@ export async function exportDirectoryUsers(
       '创建时间',
     ],
     result.rows.map((r) => [
-      r.organization_code || r.organization_name,
+      r.organization_name,
       r.display_name,
       r.login_name,
       r.account_type,

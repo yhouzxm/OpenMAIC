@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
 
 import { getZhibanPool } from '@/lib/zhiban/db/connection';
-import { listOucIdentityBatches, validateOucIdentityImport } from '@/lib/zhiban/ouc-import';
+import {
+  deleteIdentityImportBatch,
+  listOucIdentityBatches,
+  validateOucIdentityImport,
+} from '@/lib/zhiban/ouc-import';
 import { authorizationErrorResponse, requireRequestPermission } from '@/lib/zhiban/rbac';
 
 export const runtime = 'nodejs';
@@ -52,6 +57,22 @@ export async function POST(request: NextRequest) {
       authorizationErrorResponse(error) ??
       NextResponse.json(
         { error: error instanceof Error ? error.message : '预检失败' },
+        { status: 400 },
+      )
+    );
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const principal = await requireRequestPermission('account:manage');
+    const batchId = z.uuid().parse(request.nextUrl.searchParams.get('batchId'));
+    return NextResponse.json(await deleteIdentityImportBatch(getZhibanPool(), principal, batchId));
+  } catch (error) {
+    return (
+      authorizationErrorResponse(error) ??
+      NextResponse.json(
+        { error: error instanceof Error ? error.message : '删除批次失败' },
         { status: 400 },
       )
     );

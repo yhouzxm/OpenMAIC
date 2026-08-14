@@ -131,7 +131,16 @@ export function TeacherPortal({
               ))}
               {!visible.length && (
                 <div className="border bg-white px-6 py-16 text-center text-slate-500">
-                  没有符合条件的课程
+                  {courses.length === 0 ? (
+                    <>
+                      <p className="font-medium text-slate-700">当前教师账号尚未安排课程</p>
+                      <p className="mt-2 text-sm">
+                        您已经可以访问教师课程工作台；管理员安排课程后会自动显示。
+                      </p>
+                    </>
+                  ) : (
+                    '没有符合条件的课程'
+                  )}
                 </div>
               )}
             </section>

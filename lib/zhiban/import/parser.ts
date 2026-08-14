@@ -111,9 +111,9 @@ export async function parseImportWorkbook(buffer: Buffer): Promise<ParsedImport>
     keys.set(row.sheet, set);
     if (
       (row.sheet === '学生' || row.sheet === '教师') &&
-      String(row.values['初始密码*']).length < 12
+      String(row.values['初始密码*']).length < 8
     )
-      row.errors.push('初始密码至少12位');
+      row.errors.push('初始密码至少8位');
   }
   const has = (sheet: ImportSheetName, key: unknown) => !key || keys.get(sheet)?.has(String(key));
   for (const row of rows) {

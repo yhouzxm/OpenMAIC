@@ -17,9 +17,11 @@ const navigation = [
 
 export function TeacherGlobalShell({
   principalName,
+  institutionName,
   children,
 }: {
   principalName: string;
+  institutionName: string;
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
@@ -37,7 +39,7 @@ export function TeacherGlobalShell({
             <TeacherAvatar className="mx-auto size-20" fallbackClassName="size-11" />
             <p className="mt-4 font-medium group-hover:text-[#1677e8]">{principalName}</p>
             <p className="mt-2 text-sm text-slate-500">授课教师</p>
-            <p className="mt-3 text-sm text-slate-500">智伴·创学</p>
+            <p className="mt-3 text-sm text-slate-500">{institutionName}</p>
           </Link>
           <nav className="space-y-1 py-5">
             {navigation.map(({ label, href, icon: Icon }) => {

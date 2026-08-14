@@ -7,8 +7,12 @@ import {
   createAcademicCourse,
   createAcademicTerm,
   createCourseOffering,
+  deleteAcademicCourse,
+  deleteAcademicTerm,
   enrollStudent,
   listAcademicOverview,
+  updateAcademicCourse,
+  updateAcademicTerm,
 } from '@/lib/zhiban/academic';
 import { getZhibanPool } from '@/lib/zhiban/db/connection';
 import {
@@ -66,6 +70,27 @@ const actionSchema = z.discriminatedUnion('action', [
   }),
   z.object({ action: z.literal('add_class_member'), classId: z.uuid(), studentId: z.uuid() }),
   z.object({ action: z.literal('enroll_student'), offeringId: z.uuid(), studentId: z.uuid() }),
+  z.object({ action: z.literal('delete_term'), termId: z.uuid() }),
+  z.object({
+    action: z.literal('update_term'),
+    termId: z.uuid(),
+    code: z.string().trim().min(1).max(64),
+    name: z.string().trim().min(1).max(160),
+    startsOn: z.iso.date(),
+    endsOn: z.iso.date(),
+  }),
+  z.object({
+    action: z.literal('update_course'),
+    courseId: z.uuid(),
+    code: z.string().trim().min(1).max(64),
+    name: z.string().trim().min(1).max(200),
+    credits: z.preprocess(
+      (value) => (value === '' || value === undefined ? undefined : Number(value)),
+      z.number().nonnegative().max(99).optional(),
+    ),
+    ownerTeacherId: optionalUuid,
+  }),
+  z.object({ action: z.literal('delete_course'), courseId: z.uuid(), confirmed: z.literal(true) }),
 ]);
 
 export async function GET() {
@@ -104,15 +129,23 @@ export async function POST(request: NextRequest) {
           : 'course:manage';
     const principal = await requireRequestPermission(permission);
     const result =
-      input.action === 'create_term'
-        ? await createAcademicTerm(pool, principal, input)
-        : input.action === 'create_class'
-          ? await createAcademicClass(pool, principal, input)
-          : input.action === 'create_course'
-            ? await createAcademicCourse(pool, principal, input)
-            : input.action === 'create_offering'
-              ? await createCourseOffering(pool, principal, input)
-              : await enrollStudent(pool, principal, input);
+      input.action === 'delete_term'
+        ? await deleteAcademicTerm(pool, principal, input.termId)
+        : input.action === 'update_term'
+          ? await updateAcademicTerm(pool, principal, input.termId, input)
+          : input.action === 'delete_course'
+            ? await deleteAcademicCourse(pool, principal, input.courseId)
+            : input.action === 'update_course'
+              ? await updateAcademicCourse(pool, principal, input.courseId, input)
+              : input.action === 'create_term'
+                ? await createAcademicTerm(pool, principal, input)
+                : input.action === 'create_class'
+                  ? await createAcademicClass(pool, principal, input)
+                  : input.action === 'create_course'
+                    ? await createAcademicCourse(pool, principal, input)
+                    : input.action === 'create_offering'
+                      ? await createCourseOffering(pool, principal, input)
+                      : await enrollStudent(pool, principal, input);
     return NextResponse.json({ result }, { status: 201 });
   } catch (error) {
     const response = authorizationErrorResponse(error);

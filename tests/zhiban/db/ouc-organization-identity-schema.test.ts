@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'vitest';
+import fs from 'node:fs';
+import path from 'node:path';
 import { oucOrganizationIdentityMigration } from '@/lib/zhiban/db/migrations/025-ouc-organization-identity';
 
 describe('OUC organization and identity migration', () => {
@@ -48,5 +50,15 @@ describe('OUC organization and identity migration', () => {
     expect(down).toContain('DROP TABLE IF EXISTS zhiban.identity_import_changes');
     expect(down).toContain('DROP TABLE IF EXISTS zhiban.organization_units');
     expect(down).not.toContain('DROP SCHEMA');
+  });
+
+  it('uses consistent PostgreSQL parameter types during identity import', () => {
+    const source = fs.readFileSync(
+      path.join(process.cwd(), 'lib/zhiban/ouc-import/identity.ts'),
+      'utf8',
+    );
+    expect(source).toContain("$4::text,CASE WHEN $4::text='organization'");
+    expect(source).toContain('$4::integer');
+    expect(source).toContain('$4::uuid');
   });
 });

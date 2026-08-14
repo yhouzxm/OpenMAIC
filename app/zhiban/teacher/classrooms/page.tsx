@@ -8,6 +8,6 @@ export default async function TeacherClassroomsPage() {
   const token = (await cookies()).get(ZHIBAN_SESSION_COOKIE)?.value;
   if (!token) redirect('/zhiban/login');
   const principal = await getAuthorizedPrincipal(getZhibanPool(), token);
-  if (!principal?.permissions.includes('course:manage')) redirect('/zhiban');
+  if (!principal || principal.accountType !== 'teacher') redirect('/zhiban');
   return <TeacherClassroomConsole hideHeader />;
 }
