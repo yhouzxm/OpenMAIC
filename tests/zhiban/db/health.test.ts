@@ -33,6 +33,7 @@ import { separateIdentityImportsMigration } from '@/lib/zhiban/db/migrations/029
 import { importOrganizationFromSourceMigration } from '@/lib/zhiban/db/migrations/030-import-organization-from-source';
 import { administrativeClassImportMigration } from '@/lib/zhiban/db/migrations/031-administrative-class-import';
 import { courseClassGroupingMigration } from '@/lib/zhiban/db/migrations/032-course-class-grouping';
+import { studentCourseAccessMigration } from '@/lib/zhiban/db/migrations/033-student-course-access';
 import type { QueryResult, ZhibanQueryable } from '@/lib/zhiban/db/types';
 
 class HealthDatabase implements ZhibanQueryable {
@@ -93,6 +94,7 @@ describe('checkZhibanDatabaseHealth', () => {
         '030',
         '031',
         '032',
+        '033',
       ],
     });
   });
@@ -133,6 +135,7 @@ describe('checkZhibanDatabaseHealth', () => {
           { version: '030', checksum: importOrganizationFromSourceMigration.checksum },
           { version: '031', checksum: administrativeClassImportMigration.checksum },
           { version: '032', checksum: courseClassGroupingMigration.checksum },
+          { version: '033', checksum: studentCourseAccessMigration.checksum },
         ]),
       ),
     ).resolves.toMatchObject({
@@ -172,6 +175,7 @@ describe('checkZhibanDatabaseHealth', () => {
         '030',
         '031',
         '032',
+        '033',
       ],
       pendingVersions: [],
       driftedVersions: [],

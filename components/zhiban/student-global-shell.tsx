@@ -13,6 +13,7 @@ import {
   Menu,
   Settings,
   UserRound,
+  X,
 } from 'lucide-react';
 import { ZhibanLogoutButton } from './logout-button';
 
@@ -25,14 +26,27 @@ const navigation = [
   { label: '个人设置', href: '/zhiban/student/settings', icon: Settings },
 ] as const;
 
+const mobileNavigation = navigation.filter(({ href }) =>
+  [
+    '/zhiban/student/classrooms',
+    '/zhiban/student/grades',
+    '/zhiban/student/profile',
+    '/zhiban/student/risks',
+    '/zhiban/student/settings',
+  ].includes(href),
+);
+
 export function StudentGlobalShell({
   principalName,
+  organizationName,
   children,
 }: {
   principalName: string;
+  organizationName: string;
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const [mobileOpen, setMobileOpen] = useState(false);
   const immersive =
     /^\/zhiban\/student\/classroom\/[^/]+/.test(pathname) ||
     /^\/zhiban\/student\/pbl\/[^/]+/.test(pathname);
@@ -41,43 +55,62 @@ export function StudentGlobalShell({
 
   return (
     <div className="min-h-screen bg-[#f1f5fb] text-slate-800">
-      <StudentTopbar principalName={principalName} />
+      <StudentTopbar
+        principalName={principalName}
+        mobileOpen={mobileOpen}
+        onMenuToggle={() => setMobileOpen((open) => !open)}
+      />
       <aside className="fixed bottom-0 left-0 top-[52px] z-30 hidden w-60 overflow-y-auto border-r bg-white lg:block">
-        <Link
-          href="/zhiban/student/settings"
-          className="group block border-b px-6 py-7 text-center"
-        >
-          <StudentAvatar className="mx-auto size-20" fallbackClassName="size-11" />
-          <p className="mt-4 font-medium group-hover:text-[#1677e8]">{principalName}</p>
-          <p className="mt-2 text-sm text-slate-500">学生</p>
-          <p className="mt-3 text-sm text-slate-500">智伴·创学</p>
-        </Link>
-        <nav className="space-y-1 py-5">
-          {navigation.map(({ label, href, icon: Icon }) => {
-            const active =
-              pathname === href ||
-              pathname.startsWith(`${href}/`) ||
-              (href === '/zhiban/student/classrooms' &&
-                pathname.startsWith('/zhiban/student/courses/'));
-            return (
-              <Link
-                key={href}
-                href={href}
-                className={`flex items-center gap-3 border-l-4 px-7 py-3.5 text-sm ${active ? 'border-[#1677e8] bg-blue-50 font-medium text-[#1677e8]' : 'border-transparent hover:bg-slate-50'}`}
-              >
-                <Icon className="size-4" />
-                {label}
-              </Link>
-            );
-          })}
-        </nav>
+        <StudentSidebarContent
+          principalName={principalName}
+          organizationName={organizationName}
+          pathname={pathname}
+        />
       </aside>
+      {mobileOpen && (
+        <>
+          <button
+            type="button"
+            aria-label="关闭菜单"
+            className="fixed inset-0 z-[45] cursor-default bg-transparent lg:hidden"
+            onClick={() => setMobileOpen(false)}
+          />
+          <nav className="fixed right-2 top-[56px] z-50 w-52 overflow-hidden rounded-md border bg-white py-2 text-sm shadow-xl lg:hidden">
+            {mobileNavigation.map(({ label, href, icon: Icon }) => {
+              const active =
+                pathname === href ||
+                pathname.startsWith(`${href}/`) ||
+                (href === '/zhiban/student/classrooms' &&
+                  pathname.startsWith('/zhiban/student/courses/'));
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  onClick={() => setMobileOpen(false)}
+                  className={`flex items-center gap-3 px-4 py-3 ${active ? 'bg-blue-50 font-medium text-[#1677e8]' : 'hover:bg-slate-50'}`}
+                >
+                  <Icon className="size-4" />
+                  {label}
+                </Link>
+              );
+            })}
+          </nav>
+        </>
+      )}
       <main className="min-w-0 lg:ml-60">{children}</main>
     </div>
   );
 }
 
-function StudentTopbar({ principalName }: { principalName: string }) {
+function StudentTopbar({
+  principalName,
+  mobileOpen,
+  onMenuToggle,
+}: {
+  principalName: string;
+  mobileOpen: boolean;
+  onMenuToggle: () => void;
+}) {
   return (
     <header className="sticky top-0 z-40 flex h-[52px] items-center justify-between bg-[#176fda] px-4 text-white shadow-sm md:px-8">
       <div className="flex items-center gap-8">
@@ -106,9 +139,64 @@ function StudentTopbar({ principalName }: { principalName: string }) {
           variant="outline"
           className="border-white/70 bg-transparent text-white hover:bg-white/15 hover:text-white"
         />
-        <Menu className="size-5 lg:hidden" />
+        <button
+          type="button"
+          className="flex size-9 items-center justify-center rounded hover:bg-white/15 lg:hidden"
+          aria-label={mobileOpen ? '关闭菜单' : '打开菜单'}
+          aria-expanded={mobileOpen}
+          onClick={onMenuToggle}
+        >
+          {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+        </button>
       </div>
     </header>
+  );
+}
+
+function StudentSidebarContent({
+  principalName,
+  organizationName,
+  pathname,
+  onNavigate,
+}: {
+  principalName: string;
+  organizationName: string;
+  pathname: string;
+  onNavigate?: () => void;
+}) {
+  return (
+    <>
+      <Link
+        href="/zhiban/student/settings"
+        className="group block border-b px-6 py-7 text-center"
+        onClick={onNavigate}
+      >
+        <StudentAvatar className="mx-auto size-20" fallbackClassName="size-11" />
+        <p className="mt-4 font-medium group-hover:text-[#1677e8]">{principalName}</p>
+        <p className="mt-2 text-sm text-slate-500">学生</p>
+        <p className="mt-3 text-sm text-slate-500">{organizationName}</p>
+      </Link>
+      <nav className="space-y-1 py-5">
+        {navigation.map(({ label, href, icon: Icon }) => {
+          const active =
+            pathname === href ||
+            pathname.startsWith(`${href}/`) ||
+            (href === '/zhiban/student/classrooms' &&
+              pathname.startsWith('/zhiban/student/courses/'));
+          return (
+            <Link
+              key={href}
+              href={href}
+              onClick={onNavigate}
+              className={`flex items-center gap-3 border-l-4 px-7 py-3.5 text-sm ${active ? 'border-[#1677e8] bg-blue-50 font-medium text-[#1677e8]' : 'border-transparent hover:bg-slate-50'}`}
+            >
+              <Icon className="size-4" />
+              {label}
+            </Link>
+          );
+        })}
+      </nav>
+    </>
   );
 }
 

@@ -173,21 +173,29 @@ export async function listStudentClassrooms(
 ): Promise<ZhibanCourseClassroom[]> {
   return withZhibanTenant(pool, principal.tenantId, async (client) => {
     const result = await client.query<Record<string, unknown>>(
-      `SELECT cc.id,cc.course_id,c.code AS course_code,c.name AS course_name,cc.classroom_id,cc.title,cc.description,cc.display_order,cc.opens_at,cc.closes_at,cc.status,s.id AS session_id,COALESCE(s.progress_percent,0) AS progress_percent,s.current_scene_id,s.last_activity_at,
+      `SELECT COALESCE(cc.id::text,'course:'||c.id::text) AS id,c.id AS course_id,c.code AS course_code,c.name AS course_name,
+              COALESCE(cc.classroom_id,'') AS classroom_id,COALESCE(cc.title,c.name) AS title,
+              COALESCE(cc.description,'') AS description,COALESCE(cc.display_order,0) AS display_order,
+              cc.opens_at,cc.closes_at,COALESCE(cc.status,'draft') AS status,
+              s.id AS session_id,COALESCE(s.progress_percent,0) AS progress_percent,s.current_scene_id,s.last_activity_at,
               COALESCE(MAX(EXTRACT(YEAR FROM term.starts_on)::text),'') AS academic_year,
               COALESCE(MAX(term.name),'') AS term_name,
               COALESCE(MAX(o.status),'') AS offering_status,
               COALESCE(MAX(tp.department),'') AS department,
               COALESCE(MAX(sp.learning_center),'') AS learning_center,
-              COALESCE(BOOL_OR(settings.pbl_enabled),true) AS pbl_enabled
-      FROM zhiban.course_classrooms cc JOIN zhiban.courses c ON c.id=cc.course_id
-      JOIN zhiban.course_offerings o ON o.course_id=cc.course_id JOIN zhiban.enrollments e ON e.offering_id=o.id AND e.student_id=$2 AND e.status='enrolled'
+              BOOL_OR(settings.pbl_enabled) AS pbl_enabled
+      FROM zhiban.enrollments e
+      JOIN zhiban.course_offerings o ON o.id=e.offering_id
+      JOIN zhiban.courses c ON c.id=o.course_id
       JOIN zhiban.academic_terms term ON term.id=o.term_id
+      LEFT JOIN zhiban.course_classrooms cc ON cc.course_id=c.id AND cc.tenant_id=e.tenant_id
+        AND cc.status='published' AND (cc.opens_at IS NULL OR cc.opens_at<=now())
+        AND (cc.closes_at IS NULL OR cc.closes_at>=now())
       LEFT JOIN zhiban.student_profiles sp ON sp.account_id=e.student_id
       LEFT JOIN zhiban.teacher_profiles tp ON tp.account_id=c.owner_teacher_id
       LEFT JOIN zhiban.course_settings settings ON settings.course_id=c.id
       LEFT JOIN zhiban.classroom_learning_sessions s ON s.course_classroom_id=cc.id AND s.student_id=$2
-      WHERE cc.tenant_id=$1 AND cc.status='published' AND (cc.opens_at IS NULL OR cc.opens_at<=now()) AND (cc.closes_at IS NULL OR cc.closes_at>=now())
+      WHERE e.tenant_id=$1 AND e.student_id=$2 AND e.status='enrolled'
       GROUP BY cc.id,c.id,s.id ORDER BY c.name,cc.display_order,cc.title`,
       [principal.tenantId, principal.id],
     );
@@ -201,7 +209,7 @@ export async function listStudentClassrooms(
       offeringStatus: row.offering_status as string,
       department: row.department as string,
       learningCenter: row.learning_center as string,
-      pblEnabled: Boolean(row.pbl_enabled),
+      pblEnabled: row.pbl_enabled === null ? null : Boolean(row.pbl_enabled),
       classroomId: row.classroom_id as string,
       title: row.title as string,
       description: row.description as string,

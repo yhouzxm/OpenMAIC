@@ -118,7 +118,16 @@ export function TeacherPortal({
                       <Badge className="bg-[#1677e8] hover:bg-[#1677e8]">
                         {course.publicationStatus === 'published' ? '进行中' : '草稿'}
                       </Badge>
-                      {course.pblEnabled && <Badge variant="outline">PBL</Badge>}
+                      <Badge
+                        variant="outline"
+                        className={!course.settingsConfigured ? 'text-slate-500' : undefined}
+                      >
+                        {!course.settingsConfigured
+                          ? '未配置'
+                          : course.pblEnabled
+                            ? 'PBL'
+                            : '开放课堂'}
+                      </Badge>
                     </div>
                     <p className="mt-2 text-sm text-slate-500">课程代码：{course.code}</p>
                     <p className="mt-1 text-sm text-slate-500">

@@ -1,7 +1,8 @@
 'use client';
 
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { Camera, Loader2, Save, UserRound } from 'lucide-react';
+import Link from 'next/link';
+import { ArrowLeft, Camera, Loader2, Save, UserRound } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -183,10 +184,16 @@ export function StudentPersonalSettings() {
                   </Editable>
                 </div>
               </section>
-              <div className="border-t px-6 py-5 md:px-8">
+              <div className="flex flex-wrap gap-3 border-t px-6 py-5 md:px-8">
                 <Button disabled={saving} className="bg-[#1677e8]">
                   <Save className="mr-2 size-4" />
                   {saving ? '保存中…' : '保存个人信息'}
+                </Button>
+                <Button variant="outline" asChild>
+                  <Link href="/zhiban/student/classrooms">
+                    <ArrowLeft className="mr-2 size-4" />
+                    取消并返回
+                  </Link>
                 </Button>
               </div>
             </form>

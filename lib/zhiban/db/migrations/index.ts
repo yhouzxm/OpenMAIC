@@ -30,6 +30,7 @@ import { separateIdentityImportsMigration } from './029-separate-identity-import
 import { importOrganizationFromSourceMigration } from './030-import-organization-from-source';
 import { administrativeClassImportMigration } from './031-administrative-class-import';
 import { courseClassGroupingMigration } from './032-course-class-grouping';
+import { studentCourseAccessMigration } from './033-student-course-access';
 
 export const ZHIBAN_MIGRATIONS: readonly ZhibanMigration[] = [
   initialIdentityMigration,
@@ -64,6 +65,7 @@ export const ZHIBAN_MIGRATIONS: readonly ZhibanMigration[] = [
   importOrganizationFromSourceMigration,
   administrativeClassImportMigration,
   courseClassGroupingMigration,
+  studentCourseAccessMigration,
 ];
 
 export type { ZhibanMigration } from './001-initial-identity';

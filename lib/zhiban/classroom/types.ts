@@ -8,7 +8,7 @@ export interface ZhibanCourseClassroom {
   offeringStatus?: string;
   department?: string;
   learningCenter?: string;
-  pblEnabled?: boolean;
+  pblEnabled?: boolean | null;
   classroomId: string;
   title: string;
   description: string;

@@ -5,15 +5,25 @@ import type { TeacherCourse, TeacherCourseUpdate } from './types';
 
 function accessibleCourseIds(principal: AuthorizedPrincipal) {
   return principal.grants
-    .filter((grant) => grant.permission === 'course:manage' && grant.scopeType === 'course' && grant.scopeId)
+    .filter(
+      (grant) =>
+        grant.permission === 'course:manage' && grant.scopeType === 'course' && grant.scopeId,
+    )
     .map((grant) => grant.scopeId!);
 }
 
 function tenantWide(principal: AuthorizedPrincipal) {
-  return principal.grants.some((grant) => grant.permission === 'course:manage' && (grant.scopeType === 'tenant' || grant.scopeType === 'system'));
+  return principal.grants.some(
+    (grant) =>
+      grant.permission === 'course:manage' &&
+      (grant.scopeType === 'tenant' || grant.scopeType === 'system'),
+  );
 }
 
-export async function listTeacherCourses(pool: ZhibanDatabasePool, principal: AuthorizedPrincipal): Promise<TeacherCourse[]> {
+export async function listTeacherCourses(
+  pool: ZhibanDatabasePool,
+  principal: AuthorizedPrincipal,
+): Promise<TeacherCourse[]> {
   const ids = accessibleCourseIds(principal);
   const all = tenantWide(principal);
   return withZhibanTenant(pool, principal.tenantId, async (client) => {
@@ -21,7 +31,8 @@ export async function listTeacherCourses(pool: ZhibanDatabasePool, principal: Au
       `SELECT c.id,c.code,c.name,c.description,c.credits::text,
         s.starts_at,s.ends_at,COALESCE(s.delivery_mode,'blended') AS delivery_mode,
         COALESCE(s.learning_objectives,'[]'::jsonb) AS learning_objectives,s.teaching_notes,
-        COALESCE(s.pbl_enabled,true) AS pbl_enabled,COALESCE(s.pbl_projects,'[]'::jsonb) AS pbl_projects,
+        (s.course_id IS NOT NULL) AS settings_configured,
+        COALESCE(s.pbl_enabled,false) AS pbl_enabled,COALESCE(s.pbl_projects,'[]'::jsonb) AS pbl_projects,
         COALESCE(s.scene_rules,'[]'::jsonb) AS scene_rules,COALESCE(s.course_resources,'[]'::jsonb) AS course_resources,
         COALESCE(s.agent_settings,'{"tutorEnabled":true,"peerEnabled":false,"monitorEnabled":false,"strategyEnabled":false}'::jsonb) AS agent_settings,
         COALESCE(s.prompt_strategy,'{"version":"v1","policy":""}'::jsonb) AS prompt_strategy,
@@ -35,39 +46,67 @@ export async function listTeacherCourses(pool: ZhibanDatabasePool, principal: Au
       [principal.tenantId, all, ids],
     );
     return result.rows.map((r) => ({
-      id: r.id as string, code: r.code as string, name: r.name as string,
+      id: r.id as string,
+      code: r.code as string,
+      name: r.name as string,
       description: (r.description as string | null) ?? '',
       credits: r.credits === null ? null : Number(r.credits),
       startsAt: r.starts_at ? new Date(r.starts_at as string).toISOString() : null,
       endsAt: r.ends_at ? new Date(r.ends_at as string).toISOString() : null,
       deliveryMode: r.delivery_mode as TeacherCourse['deliveryMode'],
-      learningObjectives: r.learning_objectives as string[], teachingNotes: (r.teaching_notes as string | null) ?? '',
-      pblEnabled: r.pbl_enabled as boolean, pblProjects: r.pbl_projects as TeacherCourse['pblProjects'],
-      sceneRules: r.scene_rules as TeacherCourse['sceneRules'], courseResources: r.course_resources as TeacherCourse['courseResources'],
-      agentSettings: r.agent_settings as TeacherCourse['agentSettings'], promptStrategy: r.prompt_strategy as TeacherCourse['promptStrategy'],
-      gradingPolicy: r.grading_policy as TeacherCourse['gradingPolicy'], assignmentPolicy: r.assignment_policy as TeacherCourse['assignmentPolicy'],
-      warningPolicy: r.warning_policy as TeacherCourse['warningPolicy'], interventionPolicy: r.intervention_policy as TeacherCourse['interventionPolicy'],
-      publicationStatus: r.publication_status as TeacherCourse['publicationStatus'], version: r.version as number,
+      learningObjectives: r.learning_objectives as string[],
+      teachingNotes: (r.teaching_notes as string | null) ?? '',
+      settingsConfigured: r.settings_configured as boolean,
+      pblEnabled: r.pbl_enabled as boolean,
+      pblProjects: r.pbl_projects as TeacherCourse['pblProjects'],
+      sceneRules: r.scene_rules as TeacherCourse['sceneRules'],
+      courseResources: r.course_resources as TeacherCourse['courseResources'],
+      agentSettings: r.agent_settings as TeacherCourse['agentSettings'],
+      promptStrategy: r.prompt_strategy as TeacherCourse['promptStrategy'],
+      gradingPolicy: r.grading_policy as TeacherCourse['gradingPolicy'],
+      assignmentPolicy: r.assignment_policy as TeacherCourse['assignmentPolicy'],
+      warningPolicy: r.warning_policy as TeacherCourse['warningPolicy'],
+      interventionPolicy: r.intervention_policy as TeacherCourse['interventionPolicy'],
+      publicationStatus: r.publication_status as TeacherCourse['publicationStatus'],
+      version: r.version as number,
     }));
   });
 }
 
-export async function updateTeacherCourse(pool: ZhibanDatabasePool, principal: AuthorizedPrincipal, courseId: string, input: TeacherCourseUpdate) {
+export async function updateTeacherCourse(
+  pool: ZhibanDatabasePool,
+  principal: AuthorizedPrincipal,
+  courseId: string,
+  input: TeacherCourseUpdate,
+) {
   return withZhibanTenant(pool, principal.tenantId, async (client) => {
-    const current = await client.query<Record<string, unknown> & { version: number; snapshot: Record<string, unknown> }>(
+    const current = await client.query<
+      Record<string, unknown> & { version: number; snapshot: Record<string, unknown> }
+    >(
       `SELECT s.version,to_jsonb(s)-'tenant_id'-'created_at'-'updated_at' AS snapshot
        FROM zhiban.courses c LEFT JOIN zhiban.course_settings s ON s.course_id=c.id
-       WHERE c.id=$1 AND c.tenant_id=$2 FOR UPDATE OF c`, [courseId, principal.tenantId],
+       WHERE c.id=$1 AND c.tenant_id=$2 FOR UPDATE OF c`,
+      [courseId, principal.tenantId],
     );
     if (!current.rows[0]) throw new Error('Course not found');
     const version = current.rows[0].version ?? 0;
-    if (version !== input.expectedVersion) throw new Error('Course settings were changed by another user; refresh and retry');
-    if (version > 0) await client.query(
-      `INSERT INTO zhiban.course_setting_versions (tenant_id,course_id,version,snapshot,changed_by) VALUES ($1,$2,$3,$4::jsonb,$5)`,
-      [principal.tenantId, courseId, version, JSON.stringify(current.rows[0].snapshot), principal.id],
+    if (version !== input.expectedVersion)
+      throw new Error('Course settings were changed by another user; refresh and retry');
+    if (version > 0)
+      await client.query(
+        `INSERT INTO zhiban.course_setting_versions (tenant_id,course_id,version,snapshot,changed_by) VALUES ($1,$2,$3,$4::jsonb,$5)`,
+        [
+          principal.tenantId,
+          courseId,
+          version,
+          JSON.stringify(current.rows[0].snapshot),
+          principal.id,
+        ],
+      );
+    await client.query(
+      `UPDATE zhiban.courses SET name=$3,description=$4,credits=$5,updated_at=now() WHERE id=$1 AND tenant_id=$2`,
+      [courseId, principal.tenantId, input.name, input.description, input.credits],
     );
-    await client.query(`UPDATE zhiban.courses SET name=$3,description=$4,credits=$5,updated_at=now() WHERE id=$1 AND tenant_id=$2`,
-      [courseId, principal.tenantId, input.name, input.description, input.credits]);
     const next = version + 1;
     await client.query(
       `INSERT INTO zhiban.course_settings
@@ -81,16 +120,38 @@ export async function updateTeacherCourse(pool: ZhibanDatabasePool, principal: A
         grading_policy=EXCLUDED.grading_policy,assignment_policy=EXCLUDED.assignment_policy,warning_policy=EXCLUDED.warning_policy,
         intervention_policy=EXCLUDED.intervention_policy,publication_status=EXCLUDED.publication_status,
         version=EXCLUDED.version,updated_by=EXCLUDED.updated_by,updated_at=now()`,
-      [courseId, principal.tenantId, input.startsAt, input.endsAt, input.deliveryMode,
-        JSON.stringify(input.learningObjectives), input.teachingNotes, input.pblEnabled,
-        JSON.stringify({ projects: input.pblProjects }), JSON.stringify(input.pblProjects), JSON.stringify(input.sceneRules),
-        JSON.stringify(input.courseResources), JSON.stringify(input.agentSettings), JSON.stringify(input.promptStrategy),
-        JSON.stringify(input.gradingPolicy), JSON.stringify(input.assignmentPolicy), JSON.stringify(input.warningPolicy),
-        JSON.stringify(input.interventionPolicy), input.publicationStatus, next, principal.id],
+      [
+        courseId,
+        principal.tenantId,
+        input.startsAt,
+        input.endsAt,
+        input.deliveryMode,
+        JSON.stringify(input.learningObjectives),
+        input.teachingNotes,
+        input.pblEnabled,
+        JSON.stringify({ projects: input.pblProjects }),
+        JSON.stringify(input.pblProjects),
+        JSON.stringify(input.sceneRules),
+        JSON.stringify(input.courseResources),
+        JSON.stringify(input.agentSettings),
+        JSON.stringify(input.promptStrategy),
+        JSON.stringify(input.gradingPolicy),
+        JSON.stringify(input.assignmentPolicy),
+        JSON.stringify(input.warningPolicy),
+        JSON.stringify(input.interventionPolicy),
+        input.publicationStatus,
+        next,
+        principal.id,
+      ],
     );
     await client.query(
       `INSERT INTO zhiban.audit_log (tenant_id,actor_type,actor_account_id,action,resource_type,resource_id,metadata) VALUES ($1,'account',$2,'course.settings_updated','course',$3,$4::jsonb)`,
-      [principal.tenantId, principal.id, courseId, JSON.stringify({ version: next, status: input.publicationStatus })],
+      [
+        principal.tenantId,
+        principal.id,
+        courseId,
+        JSON.stringify({ version: next, status: input.publicationStatus }),
+      ],
     );
     return { version: next };
   });

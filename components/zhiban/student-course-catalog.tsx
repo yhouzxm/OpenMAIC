@@ -150,7 +150,9 @@ export function StudentCourseCatalog({ courseId = '' }: { courseId?: string }) {
                   <h2 className="text-lg font-medium text-[#0868db] group-hover:underline">
                     {course.courseName}
                   </h2>
-                  <Badge className="bg-[#1677e8]">{course.pblEnabled ? 'PBL' : '开放课堂'}</Badge>
+                  <Badge className={course.pblEnabled === null ? 'bg-slate-500' : 'bg-[#1677e8]'}>
+                    {course.pblEnabled === null ? '未配置' : course.pblEnabled ? 'PBL' : '开放课堂'}
+                  </Badge>
                 </div>
                 <p className="mt-2 text-sm text-slate-500">课程代码：{course.courseCode}</p>
                 <p className="mt-1 text-sm text-slate-500">
@@ -179,6 +181,7 @@ export function StudentCourseCatalog({ courseId = '' }: { courseId?: string }) {
 }
 
 function ClassroomCard({ item }: { item: ZhibanCourseClassroom }) {
+  const classroomAvailable = Boolean(item.classroomId);
   return (
     <Card>
       <CardHeader>
@@ -188,18 +191,24 @@ function ClassroomCard({ item }: { item: ZhibanCourseClassroom }) {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="text-sm text-slate-500">{item.description || 'OpenMAIC 互动课堂'}</p>
+        <p className="text-sm text-slate-500">
+          {classroomAvailable ? item.description || 'OpenMAIC 互动课堂' : '课堂尚未开放'}
+        </p>
         <div className="mt-4 h-2 overflow-hidden rounded bg-slate-200">
           <div className="h-full bg-[#1677e8]" style={{ width: `${item.progressPercent}%` }} />
         </div>
         <div className="mt-3 flex items-center justify-between">
           <span className="text-sm">学习进度 {item.progressPercent}%</span>
-          <Button asChild>
-            <Link href={`/zhiban/student/classroom/${item.id}`}>
-              <Play className="mr-2 size-4" />
-              {item.sessionId ? '继续课堂' : '进入课堂'}
-            </Link>
-          </Button>
+          {classroomAvailable ? (
+            <Button asChild>
+              <Link href={`/zhiban/student/classroom/${item.id}`}>
+                <Play className="mr-2 size-4" />
+                {item.sessionId ? '继续课堂' : '进入课堂'}
+              </Link>
+            </Button>
+          ) : (
+            <span className="text-sm text-slate-400">等待教师开放</span>
+          )}
         </div>
       </CardContent>
     </Card>

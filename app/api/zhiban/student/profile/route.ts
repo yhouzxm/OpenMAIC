@@ -30,12 +30,15 @@ export async function GET() {
       return NextResponse.json({ error: 'Permission denied' }, { status: 403 });
     const profile = await withZhibanTenant(getZhibanPool(), principal.tenantId, async (client) => {
       const result = await client.query<Record<string, unknown>>(
-        `SELECT a.display_name,a.login_name,a.mobile_last4,t.name AS tenant_name,
+        `SELECT a.display_name,a.login_name,a.mobile_last4,
+                COALESCE(learning_center.name,primary_org.name,p.learning_center,t.name) AS tenant_name,
                 p.student_no,p.real_name,p.enrollment_year,p.education_level,p.major_code,
                 p.major_name,p.learning_center,p.study_status,p.extension
          FROM zhiban.accounts a
          JOIN zhiban.tenants t ON t.id=a.tenant_id
          JOIN zhiban.student_profiles p ON p.account_id=a.id AND p.tenant_id=a.tenant_id
+         LEFT JOIN zhiban.organization_units learning_center ON learning_center.id=p.learning_center_organization_id
+         LEFT JOIN zhiban.organization_units primary_org ON primary_org.id=a.primary_organization_id
          WHERE a.id=$1`,
         [principal.id],
       );

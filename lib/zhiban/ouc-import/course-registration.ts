@@ -329,6 +329,14 @@ export async function executeCourseRegistrationImport(
         );
         await change(c, p, batchId, rowId, 'course', course.id, 40);
       }
+      await c.query(
+        `INSERT INTO zhiban.authorization_scopes
+          (id,tenant_id,scope_type,code,name,external_ref,status)
+         SELECT id,tenant_id,'course',code,name,external_course_id,'active'
+         FROM zhiban.courses WHERE id=$1 AND tenant_id=$2
+         ON CONFLICT (id) DO UPDATE SET status='active',updated_at=now()`,
+        [course.id, p.tenantId],
+      );
       const offeringKey = [r['学习中心代码'], r['课程ID'], '01'].join('|'),
         offeringCode = `${r['学习中心代码']}${r['课程ID']}01`,
         offeringName = `${r['学习中心名称']}01`;
@@ -372,6 +380,21 @@ export async function executeCourseRegistrationImport(
           `${offering.id}|${klass.id}`,
           55,
         );
+      const courseRoleAssignmentId = randomUUID();
+      const courseRoleAssignment = await c.query<{ id: string }>(
+        `INSERT INTO zhiban.role_assignments
+          (id,tenant_id,account_id,role_id,scope_type,scope_id,granted_by)
+         SELECT $1,$2,$3,r.id,'course',$4,$5
+         FROM zhiban.roles r
+         WHERE r.tenant_id IS NULL AND r.code='student' AND r.status='active'
+         ON CONFLICT (account_id,role_id,scope_type,
+           COALESCE(scope_id,'00000000-0000-0000-0000-000000000000'::uuid))
+           WHERE revoked_at IS NULL DO NOTHING
+         RETURNING id`,
+        [courseRoleAssignmentId, p.tenantId, student.account_id, course.id, p.id],
+      );
+      if (courseRoleAssignment.rows[0])
+        await change(c, p, batchId, rowId, 'student_course_role', courseRoleAssignmentId, 90);
       const sourceKey = [r['学习中心代码'], r['选课年度学期'], r['学号'], r['课程ID']].join('|');
       const existing = (
         await c.query<{ id: string }>(
@@ -443,6 +466,17 @@ export async function rollbackCourseRegistrationImport(
       )
     ).rows;
     for (const x of changes) {
+      if (x.entity_type === 'student_course_role') {
+        await c.query(`DELETE FROM zhiban.role_assignments WHERE tenant_id=$1 AND id=$2`, [
+          p.tenantId,
+          x.entity_id,
+        ]);
+        await c.query(
+          `UPDATE zhiban.academic_import_changes SET rolled_back_at=now() WHERE id=$1`,
+          [x.id],
+        );
+        continue;
+      }
       if (x.entity_type === 'course_offering_class') {
         const [offeringId, classId] = x.entity_id.split('|');
         await c.query(

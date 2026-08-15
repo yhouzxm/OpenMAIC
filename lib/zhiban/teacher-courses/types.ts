@@ -28,6 +28,7 @@ export interface TeacherCourse {
   deliveryMode: 'online' | 'blended' | 'face_to_face';
   learningObjectives: string[];
   teachingNotes: string;
+  settingsConfigured: boolean;
   pblEnabled: boolean;
   pblProjects: PblProjectSetting[];
   sceneRules: SceneRuleSetting[];
@@ -50,6 +51,9 @@ export interface TeacherCourse {
   version: number;
 }
 
-export type TeacherCourseUpdate = Omit<TeacherCourse, 'id' | 'code' | 'version'> & {
+export type TeacherCourseUpdate = Omit<
+  TeacherCourse,
+  'id' | 'code' | 'version' | 'settingsConfigured'
+> & {
   expectedVersion: number;
 };
