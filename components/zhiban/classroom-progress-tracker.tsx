@@ -13,7 +13,7 @@ interface SessionState {
   sceneRules: SceneRuleSetting[];
   maxScore: number | null;
 }
-export function ClassroomProgressTracker({ bindingId }: { bindingId: string }) {
+export function ClassroomProgressTracker({ bindingId, preferredSceneId }: { bindingId: string; preferredSceneId?: string }) {
   const currentSceneId = useStageStore((state) => state.currentSceneId);
   const scenes = useStageStore((state) => state.scenes);
   const [session, setSession] = useState<SessionState | null>(null);
@@ -81,7 +81,7 @@ export function ClassroomProgressTracker({ bindingId }: { bindingId: string }) {
   useEffect(() => {
     if (!session || !scenes.length || restored.current) return;
     restored.current = true;
-    const target =
+    const target = preferredSceneId && scenes.some((scene) => scene.id === preferredSceneId) ? preferredSceneId :
       session.currentSceneId && scenes.some((scene) => scene.id === session.currentSceneId)
         ? session.currentSceneId
         : scenes[0]?.id;
@@ -89,7 +89,7 @@ export function ClassroomProgressTracker({ bindingId }: { bindingId: string }) {
       lastAllowed.current = target;
       useStageStore.getState().setCurrentSceneId(target);
     }
-  }, [scenes, session]);
+  }, [preferredSceneId, scenes, session]);
   useEffect(() => {
     if (!session || !currentSceneId) return;
     const decision = evaluateSceneAccess(session.sceneRules, currentSceneId, {

@@ -64,4 +64,41 @@ describe('withZhibanTenant', () => {
     expect(db.statements.at(-1)?.text).toBe('ROLLBACK');
     expect(db.released).toBe(true);
   });
+
+  it('serializes concurrent business queries on the transaction client', async () => {
+    const db = new TenantClient();
+    let activeQueries = 0;
+    let maximumActiveQueries = 0;
+    const originalQuery = db.query.bind(db);
+
+    db.query = async <TRow extends Record<string, unknown>>(
+      text: string,
+      values?: readonly unknown[],
+    ): Promise<QueryResult<TRow>> => {
+      if (!text.startsWith('BUSINESS')) return originalQuery<TRow>(text, values);
+      activeQueries += 1;
+      maximumActiveQueries = Math.max(maximumActiveQueries, activeQueries);
+      await new Promise((resolve) => setTimeout(resolve, 5));
+      activeQueries -= 1;
+      return originalQuery<TRow>(text, values);
+    };
+
+    await withZhibanTenant(db, tenantId, async (client) => {
+      await Promise.all([
+        client.query('BUSINESS QUERY 1'),
+        client.query('BUSINESS QUERY 2'),
+        client.query('BUSINESS QUERY 3'),
+      ]);
+    });
+
+    expect(maximumActiveQueries).toBe(1);
+    expect(db.statements.map(({ text }) => text)).toEqual([
+      'BEGIN',
+      "SELECT set_config('zhiban.tenant_id', $1, true)",
+      'BUSINESS QUERY 1',
+      'BUSINESS QUERY 2',
+      'BUSINESS QUERY 3',
+      'COMMIT',
+    ]);
+  });
 });

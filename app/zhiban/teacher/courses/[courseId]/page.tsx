@@ -5,6 +5,7 @@ import { ZHIBAN_SESSION_COOKIE } from '@/lib/zhiban/auth/http';
 import { getZhibanPool } from '@/lib/zhiban/db/connection';
 import { getAuthorizedPrincipal } from '@/lib/zhiban/rbac';
 import { listTeacherCourses } from '@/lib/zhiban/teacher-courses';
+import { getTeacherCourseStructure } from '@/lib/zhiban/curriculum';
 
 export default async function TeacherCoursePage({
   params,
@@ -21,5 +22,14 @@ export default async function TeacherCoursePage({
     (item) => item.id === courseId,
   );
   if (!course) notFound();
-  return <TeacherCourseOverview course={course} />;
+  const structure = await getTeacherCourseStructure(getZhibanPool(), principal, courseId);
+  return (
+    <TeacherCourseOverview
+      course={course}
+      modules={structure.modules}
+      publishedVersion={
+        structure.versions.find((version) => version.status === 'published')?.version ?? null
+      }
+    />
+  );
 }

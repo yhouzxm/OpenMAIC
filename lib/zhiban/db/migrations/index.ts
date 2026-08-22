@@ -31,6 +31,21 @@ import { importOrganizationFromSourceMigration } from './030-import-organization
 import { administrativeClassImportMigration } from './031-administrative-class-import';
 import { courseClassGroupingMigration } from './032-course-class-grouping';
 import { studentCourseAccessMigration } from './033-student-course-access';
+import { unifiedCourseStructureMigration } from './034-unified-course-structure';
+import { courseActivityGovernanceMigration } from './035-course-activity-governance';
+import { courseContentDiscussionsMigration } from './036-course-content-discussions';
+import { courseworkCompletionMigration } from './037-coursework-completion';
+import { courseTutorMigration } from './038-course-tutor';
+import { courseTutorGovernanceMigration } from './039-course-tutor-governance';
+import { aiSupportSourceBindingsMigration } from './040-ai-support-source-bindings';
+import { openMaicSingleActivityMigration } from './041-openmaic-single-activity';
+import { independentOpenMaicActivitiesMigration } from './042-independent-openmaic-activities';
+import { openMaicActivityTypesMigration } from './043-openmaic-activity-types';
+import { coursePeerMigration } from './044-course-peer';
+import { monitorClosedLoopMigration } from './045-monitor-closed-loop';
+import { monitorTeacherNotificationsMigration } from './046-monitor-teacher-notifications';
+import { teachingAnalyticsOptimizationMigration } from './047-teaching-analytics-optimization';
+import { teachingAnalysisJobsMigration } from './048-teaching-analysis-jobs';
 
 export const ZHIBAN_MIGRATIONS: readonly ZhibanMigration[] = [
   initialIdentityMigration,
@@ -66,6 +81,21 @@ export const ZHIBAN_MIGRATIONS: readonly ZhibanMigration[] = [
   administrativeClassImportMigration,
   courseClassGroupingMigration,
   studentCourseAccessMigration,
+  unifiedCourseStructureMigration,
+  courseActivityGovernanceMigration,
+  courseContentDiscussionsMigration,
+  courseworkCompletionMigration,
+  courseTutorMigration,
+  courseTutorGovernanceMigration,
+  aiSupportSourceBindingsMigration,
+  openMaicSingleActivityMigration,
+  independentOpenMaicActivitiesMigration,
+  openMaicActivityTypesMigration,
+  coursePeerMigration,
+  monitorClosedLoopMigration,
+  monitorTeacherNotificationsMigration,
+  teachingAnalyticsOptimizationMigration,
+  teachingAnalysisJobsMigration,
 ];
 
 export type { ZhibanMigration } from './001-initial-identity';

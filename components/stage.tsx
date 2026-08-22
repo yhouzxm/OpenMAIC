@@ -32,8 +32,10 @@ import { preloadEditor } from '@/lib/edit/preload-editor';
  */
 export function Stage({
   onRetryOutline,
+  backHref,
 }: {
   onRetryOutline?: (outlineId: string) => Promise<void>;
+  backHref?: string;
 }) {
   const { mode, setMode, scenes, currentSceneId, generatingOutlines, stage } = useStageStore();
   const currentScene = useStageStore((s) => s.getCurrentScene());
@@ -148,6 +150,7 @@ export function Stage({
             <PlaybackChromeRoot
               ref={playbackRef}
               onRetryOutline={onRetryOutline}
+              backHref={backHref}
               canEnterProMode={isEditable}
               onEnterProMode={toggleHandler}
             />

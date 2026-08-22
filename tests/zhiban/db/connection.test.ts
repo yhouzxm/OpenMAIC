@@ -23,7 +23,8 @@ describe('Zhiban PostgreSQL connection configuration', () => {
     expect(resolveZhibanPoolConfig({ DATABASE_URL: connectionString })).toMatchObject({
       connectionString,
       max: 10,
-      connectionTimeoutMillis: 5_000,
+      connectionTimeoutMillis: 20_000,
+      idleTimeoutMillis: 300_000,
       application_name: 'openmaic-zhiban',
     });
     expect(
@@ -31,8 +32,9 @@ describe('Zhiban PostgreSQL connection configuration', () => {
         DATABASE_URL: connectionString,
         ZHIBAN_DB_POOL_MAX: '500',
         ZHIBAN_DB_CONNECT_TIMEOUT_MS: '10',
+        ZHIBAN_DB_IDLE_TIMEOUT_MS: '9999999',
       }),
-    ).toMatchObject({ max: 50, connectionTimeoutMillis: 500 });
+    ).toMatchObject({ max: 50, connectionTimeoutMillis: 500, idleTimeoutMillis: 900_000 });
   });
 
   it('creates a lazy pg pool without opening a connection immediately', async () => {

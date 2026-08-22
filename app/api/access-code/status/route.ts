@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
 import { apiSuccess } from '@/lib/server/api-response';
-import { verifyAccessToken } from '@/lib/server/access-token';
+import { verifyAccessToken, verifyScopedAccessToken } from '@/lib/server/access-token';
 
 export async function GET() {
   const accessCode = process.env.ACCESS_CODE;
@@ -10,7 +10,10 @@ export async function GET() {
   if (enabled) {
     const cookieStore = await cookies();
     const token = cookieStore.get('openmaic_access')?.value;
-    authenticated = !!token && verifyAccessToken(token, accessCode);
+    const scopedToken = cookieStore.get('zhiban_openmaic_access')?.value;
+    authenticated =
+      (!!token && verifyAccessToken(token, accessCode)) ||
+      (!!scopedToken && verifyScopedAccessToken(scopedToken, accessCode, 'activity-agent'));
   }
 
   return apiSuccess({ enabled, authenticated });

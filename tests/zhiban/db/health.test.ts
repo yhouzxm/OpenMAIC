@@ -34,6 +34,15 @@ import { importOrganizationFromSourceMigration } from '@/lib/zhiban/db/migration
 import { administrativeClassImportMigration } from '@/lib/zhiban/db/migrations/031-administrative-class-import';
 import { courseClassGroupingMigration } from '@/lib/zhiban/db/migrations/032-course-class-grouping';
 import { studentCourseAccessMigration } from '@/lib/zhiban/db/migrations/033-student-course-access';
+import { unifiedCourseStructureMigration } from '@/lib/zhiban/db/migrations/034-unified-course-structure';
+import { courseActivityGovernanceMigration } from '@/lib/zhiban/db/migrations/035-course-activity-governance';
+import { courseContentDiscussionsMigration } from '@/lib/zhiban/db/migrations/036-course-content-discussions';
+import { courseworkCompletionMigration } from '@/lib/zhiban/db/migrations/037-coursework-completion';
+import { courseTutorMigration } from '@/lib/zhiban/db/migrations/038-course-tutor';
+import { courseTutorGovernanceMigration } from '@/lib/zhiban/db/migrations/039-course-tutor-governance';
+import { aiSupportSourceBindingsMigration } from '@/lib/zhiban/db/migrations/040-ai-support-source-bindings';
+import { openMaicSingleActivityMigration } from '@/lib/zhiban/db/migrations/041-openmaic-single-activity';
+import { independentOpenMaicActivitiesMigration } from '@/lib/zhiban/db/migrations/042-independent-openmaic-activities';
 import type { QueryResult, ZhibanQueryable } from '@/lib/zhiban/db/types';
 
 class HealthDatabase implements ZhibanQueryable {
@@ -95,6 +104,15 @@ describe('checkZhibanDatabaseHealth', () => {
         '031',
         '032',
         '033',
+        '034',
+        '035',
+        '036',
+        '037',
+        '038',
+        '039',
+        '040',
+        '041',
+        '042',
       ],
     });
   });
@@ -136,6 +154,15 @@ describe('checkZhibanDatabaseHealth', () => {
           { version: '031', checksum: administrativeClassImportMigration.checksum },
           { version: '032', checksum: courseClassGroupingMigration.checksum },
           { version: '033', checksum: studentCourseAccessMigration.checksum },
+          { version: '034', checksum: unifiedCourseStructureMigration.checksum },
+          { version: '035', checksum: courseActivityGovernanceMigration.checksum },
+          { version: '036', checksum: courseContentDiscussionsMigration.checksum },
+          { version: '037', checksum: courseworkCompletionMigration.checksum },
+          { version: '038', checksum: courseTutorMigration.checksum },
+          { version: '039', checksum: courseTutorGovernanceMigration.checksum },
+          { version: '040', checksum: aiSupportSourceBindingsMigration.checksum },
+          { version: '041', checksum: openMaicSingleActivityMigration.checksum },
+          { version: '042', checksum: independentOpenMaicActivitiesMigration.checksum },
         ]),
       ),
     ).resolves.toMatchObject({
@@ -176,6 +203,15 @@ describe('checkZhibanDatabaseHealth', () => {
         '031',
         '032',
         '033',
+        '034',
+        '035',
+        '036',
+        '037',
+        '038',
+        '039',
+        '040',
+        '041',
+        '042',
       ],
       pendingVersions: [],
       driftedVersions: [],

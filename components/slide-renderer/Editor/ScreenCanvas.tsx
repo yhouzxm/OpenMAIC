@@ -13,16 +13,33 @@ import type { SlideContent } from '@/lib/types/stage';
 import type { PPTElement, SlideBackground } from '@openmaic/dsl';
 import type { PercentageGeometry } from '@/lib/types/action';
 import { useViewportSize } from './Canvas/hooks/useViewportSize';
-import { useRef, useMemo } from 'react';
+import { useEffect, useRef, useMemo } from 'react';
 import { AnimatePresence } from 'motion/react';
 import { isPlaybackRendererEnabled } from '@/lib/config/feature-flags';
 
 export function ScreenCanvas() {
   const canvasScale = useCanvasStore.use.canvasScale();
+  const viewportSize = useSceneSelector<SlideContent, number>(
+    (content) => content.canvas.viewportSize,
+  );
+  const viewportRatio = useSceneSelector<SlideContent, number>(
+    (content) => content.canvas.viewportRatio,
+  );
+  const setViewportSize = useCanvasStore.use.setViewportSize();
+  const setViewportRatio = useCanvasStore.use.setViewportRatio();
   const elements = useSceneSelector<SlideContent, PPTElement[]>(
     (content) => content.canvas.elements,
   );
   const canvasRef = useRef<HTMLDivElement>(null);
+
+  // PPTX imports preserve the source page size (for example 4:3). The legacy
+  // playback canvas used to keep the global 16:9 defaults, which cropped
+  // imported slides instead of fitting them. Keep the UI viewport in sync
+  // with the active slide so useViewportSize can scale the complete page.
+  useEffect(() => {
+    setViewportSize(viewportSize);
+    setViewportRatio(viewportRatio);
+  }, [setViewportRatio, setViewportSize, viewportRatio, viewportSize]);
 
   // Viewport size and positioning
   const { viewportStyles } = useViewportSize(canvasRef);

@@ -3,7 +3,8 @@ import { Pool, type PoolConfig } from 'pg';
 import type { ZhibanDatabasePool } from './types';
 
 const DEFAULT_POOL_SIZE = 10;
-const DEFAULT_CONNECTION_TIMEOUT_MS = 5_000;
+const DEFAULT_CONNECTION_TIMEOUT_MS = 20_000;
+const DEFAULT_IDLE_TIMEOUT_MS = 300_000;
 const MIN_POOL_SIZE = 1;
 const MAX_POOL_SIZE = 50;
 
@@ -52,7 +53,12 @@ export function resolveZhibanPoolConfig(
       500,
       30_000,
     ),
-    idleTimeoutMillis: 30_000,
+    idleTimeoutMillis: boundedInteger(
+      env.ZHIBAN_DB_IDLE_TIMEOUT_MS,
+      DEFAULT_IDLE_TIMEOUT_MS,
+      30_000,
+      900_000,
+    ),
     application_name: 'openmaic-zhiban',
   };
 }

@@ -163,18 +163,13 @@ export function TeacherPortal({
 export function TeacherTopbar({ principalName }: { principalName: string }) {
   return (
     <header className="sticky top-0 z-40 flex h-[52px] items-center justify-between bg-[#176fda] px-4 text-white shadow-sm md:px-8">
-      <div className="flex items-center gap-8">
+      <div className="flex items-center">
         <Link href="/zhiban/teacher/courses" className="flex items-center gap-2 font-semibold">
           <span className="flex size-8 items-center justify-center rounded-full border-2 border-white">
             <GraduationCap className="size-5" />
           </span>
           <span className="text-lg">智伴·创学</span>
         </Link>
-        <nav className="hidden items-center gap-7 text-sm md:flex">
-          <Link href="/zhiban/teacher/courses">教学工作台</Link>
-          <Link href="/zhiban/teacher/classrooms">OpenMAIC 课堂</Link>
-          <Link href="/zhiban/teacher/pbl">项目式学习</Link>
-        </nav>
       </div>
       <div className="flex items-center gap-4 text-sm">
         <Bell className="hidden size-5 sm:block" />

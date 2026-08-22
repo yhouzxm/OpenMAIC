@@ -30,6 +30,24 @@ export interface UseImportPptxOptions {
   onImported?: (slides: Slide[]) => void;
 }
 
+async function convertLegacyPpt(file: File): Promise<File> {
+  const formData = new FormData();
+  formData.append('file', file);
+  const response = await fetch('/api/zhiban/teacher/ppt/convert', {
+    method: 'POST',
+    body: formData,
+  });
+  if (!response.ok) {
+    const body = (await response.json().catch(() => null)) as { error?: string } | null;
+    throw new Error(body?.error || `PPT_CONVERSION_FAILED: HTTP ${response.status}`);
+  }
+  const blob = await response.blob();
+  const baseName = file.name.replace(/\.ppt$/i, '') || 'presentation';
+  return new File([blob], `${baseName}.pptx`, {
+    type: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  });
+}
+
 /**
  * PPTX import flow: parse + convert + (optionally) upload media, all inside
  * the bundled `maic-importer` dist that we load by URL to bypass
@@ -47,8 +65,8 @@ export function useImportPptx(options: UseImportPptxOptions = {}) {
 
   const handleFileChange = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
-      if (!file) return;
+      const selectedFile = e.target.files?.[0];
+      if (!selectedFile) return;
 
       e.target.value = '';
 
@@ -56,6 +74,12 @@ export function useImportPptx(options: UseImportPptxOptions = {}) {
       const toastId = toast.loading(t('import.parsingPptx'));
 
       try {
+        const extension = selectedFile.name.split('.').pop()?.toLowerCase();
+        if (extension !== 'ppt' && extension !== 'pptx') {
+          throw new Error('仅支持 .ppt 或 .pptx 文件');
+        }
+        const file = extension === 'ppt' ? await convertLegacyPpt(selectedFile) : selectedFile;
+
         // Static URL → bundler never sees the import target.
         // `scripts/sync-maic-importer.mjs` copies the prebuilt dist into
         // `public/vendor/` after every `pnpm install`.
@@ -93,8 +117,16 @@ export function useImportPptx(options: UseImportPptxOptions = {}) {
         log.error('PPTX import failed:', error);
         const notDeployed =
           error instanceof Error && error.message.startsWith('PARSER_NOT_DEPLOYED');
+        const conversionMessage =
+          error instanceof Error &&
+          (error.message.includes('LibreOffice') ||
+            error.message.startsWith('PPT_CONVERSION_FAILED') ||
+            error.message.startsWith('仅支持'))
+            ? error.message
+            : null;
         toast.error(
-          t(notDeployed ? 'import.error.parserUnavailable' : 'import.error.invalidPptx'),
+          conversionMessage ??
+            t(notDeployed ? 'import.error.parserUnavailable' : 'import.error.invalidPptx'),
           { id: toastId },
         );
       } finally {

@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Download, Eye, RefreshCw } from 'lucide-react';
 import { toast } from 'sonner';
@@ -14,20 +14,30 @@ const labels: Record<string, string> = {
   collaboration: '协作参与',
   selfDirection: '自主学习',
 };
-export function StudentProfileConsole({ hideHeader = false }: { hideHeader?: boolean }) {
+export function StudentProfileConsole({
+  hideHeader = false,
+  courseId,
+}: {
+  hideHeader?: boolean;
+  courseId?: string;
+}) {
   const [rows, setRows] = useState<Row[]>([]);
   const [detail, setDetail] = useState<Row | null>(null);
   const [selectedCourseId, setSelectedCourseId] = useState('');
   const [reason, setReason] = useState('');
-  const load = () =>
+  const load = useCallback(() =>
     fetch('/api/zhiban/profile').then(async (r) => {
       const b = await r.json();
       if (!r.ok) throw new Error(b.error);
-      setRows(b.profiles);
-    });
+      setRows(
+        courseId
+          ? (b.profiles as Row[]).filter((profile) => String(profile.course_id) === courseId)
+          : b.profiles,
+      );
+    }), [courseId]);
   useEffect(() => {
     void load().catch((e) => toast.error(e.message));
-  }, []);
+  }, [load]);
   async function rebuild(courseId: unknown) {
     try {
       const r = await fetch('/api/zhiban/profile', {
@@ -83,7 +93,7 @@ export function StudentProfileConsole({ hideHeader = false }: { hideHeader?: boo
     }
   }
   return (
-    <main className="mx-auto max-w-6xl p-6">
+    <main className="mx-auto max-w-6xl p-3 sm:p-6">
       {!hideHeader && (
         <header className="mb-6 flex justify-between rounded-2xl bg-slate-950 p-6 text-white">
           <div>
@@ -101,6 +111,7 @@ export function StudentProfileConsole({ hideHeader = false }: { hideHeader?: boo
           </div>
         </header>
       )}
+      {courseId && <h2 className="mb-4 text-xl font-semibold">本课程学习分析</h2>}
       <p className="mb-5 rounded-lg bg-blue-50 p-3 text-sm text-blue-800">
         画像基于课堂与 PBL 学习证据计算，仅用于学习支持，不是心理或能力诊断。
       </p>
@@ -136,7 +147,9 @@ export function StudentProfileConsole({ hideHeader = false }: { hideHeader?: boo
         ))}
         {!rows.length && (
           <p className="text-slate-500">
-            画像尚未生成。进入课程学习后，可由教师批量生成或在课程入口触发生成。
+            {courseId
+              ? '本课程画像尚未生成。完成课程活动后可重新计算学习分析。'
+              : '画像尚未生成。进入课程学习后，可由教师批量生成或在课程入口触发生成。'}
           </p>
         )}
       </div>

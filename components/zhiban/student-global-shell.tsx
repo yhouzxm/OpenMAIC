@@ -9,8 +9,11 @@ import {
   Bell,
   BookOpen,
   FolderKanban,
+  FileText,
   GraduationCap,
   Menu,
+  MessagesSquare,
+  Bot,
   Settings,
   UserRound,
   X,
@@ -49,9 +52,32 @@ export function StudentGlobalShell({
   const [mobileOpen, setMobileOpen] = useState(false);
   const immersive =
     /^\/zhiban\/student\/classroom\/[^/]+/.test(pathname) ||
-    /^\/zhiban\/student\/pbl\/[^/]+/.test(pathname);
+    /^\/zhiban\/student\/pbl\/[^/]+/.test(pathname) ||
+    /^\/zhiban\/student\/courses\/[^/]+\/activities\/[^/]+/.test(pathname);
+  const courseWorkspace =
+    /^\/zhiban\/student\/courses\/[^/]+(?:\/(?:introduction|tools|coursework|resources|analysis|grades|support))?\/?$/.test(
+      pathname,
+    );
 
   if (immersive) return children;
+
+  if (courseWorkspace)
+    return (
+      <div className="min-h-screen bg-[#f1f5fb] text-slate-800">
+        <StudentTopbar
+          principalName={principalName}
+          mobileOpen={mobileOpen}
+          onMenuToggle={() => setMobileOpen((open) => !open)}
+        />
+        {mobileOpen && (
+          <CourseMobileMenu
+            pathname={pathname}
+            onNavigate={() => setMobileOpen(false)}
+          />
+        )}
+        <main className="min-w-0">{children}</main>
+      </div>
+    );
 
   return (
     <div className="min-h-screen bg-[#f1f5fb] text-slate-800">
@@ -102,6 +128,35 @@ export function StudentGlobalShell({
   );
 }
 
+function CourseMobileMenu({ pathname, onNavigate }: { pathname: string; onNavigate: () => void }) {
+  const match = pathname.match(/^\/zhiban\/student\/courses\/([^/]+)/);
+  const courseId = match?.[1] ?? '';
+  const base = `/zhiban/student/courses/${courseId}`;
+  const items = [
+    { label: '目录', href: base, icon: BookOpen },
+    { label: '简介', href: `${base}/introduction`, icon: FileText },
+    { label: '学习工具', href: `${base}/tools`, icon: Bot },
+    { label: '讨论与作业', href: `${base}/coursework`, icon: MessagesSquare },
+    { label: '课程资源', href: `${base}/resources`, icon: FolderKanban },
+    { label: '学习成绩', href: `${base}/grades`, icon: GraduationCap },
+    { label: '学习分析', href: `${base}/analysis`, icon: BarChart3 },
+    { label: '学习支持', href: `${base}/support`, icon: AlertTriangle },
+  ];
+  return (
+    <>
+      <button type="button" aria-label="关闭课程菜单" className="fixed inset-0 z-[45] cursor-default bg-black/5 lg:hidden" onClick={onNavigate} />
+      <nav className="fixed right-2 top-[56px] z-50 max-h-[calc(100vh-64px)] w-52 overflow-y-auto rounded-md border bg-white py-2 text-sm shadow-xl lg:hidden">
+        {items.map(({ label, href, icon: Icon }) => {
+          const active = pathname === href || (href !== base && pathname.startsWith(`${href}/`));
+          return <Link key={href} href={href} onClick={onNavigate} className={`flex items-center gap-3 px-4 py-3 ${active ? 'bg-blue-50 font-medium text-[#1677e8]' : 'hover:bg-slate-50'}`}><Icon className="size-4" />{label}</Link>;
+        })}
+        <div className="my-1 border-t" />
+        <Link href="/zhiban/student/classrooms" onClick={onNavigate} className="flex items-center gap-3 px-4 py-3 hover:bg-slate-50"><BookOpen className="size-4" />返回我的课程</Link>
+      </nav>
+    </>
+  );
+}
+
 function StudentTopbar({
   principalName,
   mobileOpen,
@@ -113,18 +168,13 @@ function StudentTopbar({
 }) {
   return (
     <header className="sticky top-0 z-40 flex h-[52px] items-center justify-between bg-[#176fda] px-4 text-white shadow-sm md:px-8">
-      <div className="flex items-center gap-8">
+      <div className="flex items-center">
         <Link href="/zhiban/student/classrooms" className="flex items-center gap-2 font-semibold">
           <span className="flex size-8 items-center justify-center rounded-full border-2 border-white">
             <GraduationCap className="size-5" />
           </span>
           <span className="text-lg">智伴·创学</span>
         </Link>
-        <nav className="hidden items-center gap-7 text-sm md:flex">
-          <Link href="/zhiban/student/classrooms">学习中心</Link>
-          <Link href="/zhiban/student/pbl">项目式学习</Link>
-          <Link href="/zhiban/student/profile">学习档案</Link>
-        </nav>
       </div>
       <div className="flex items-center gap-4 text-sm">
         <Bell className="hidden size-5 sm:block" />

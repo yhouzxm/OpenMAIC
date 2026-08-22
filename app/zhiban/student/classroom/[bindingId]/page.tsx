@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
 import { notFound, redirect } from 'next/navigation';
-import { OpenMaicClassroomPlayer } from '@/app/classroom/[id]/page';
+import { OpenMaicClassroomPlayer } from '@/components/openmaic-classroom-player';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { ClassroomProgressTracker } from '@/components/zhiban/classroom-progress-tracker';
@@ -13,14 +13,17 @@ import { getAuthorizedPrincipal } from '@/lib/zhiban/rbac';
 
 export default async function StudentClassroomPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ bindingId: string }>;
+  searchParams: Promise<{ sceneId?: string }>;
 }) {
   const token = (await cookies()).get(ZHIBAN_SESSION_COOKIE)?.value;
   if (!token) redirect('/zhiban/login');
   const principal = await getAuthorizedPrincipal(getZhibanPool(), token);
   if (!principal?.permissions.includes('course:read')) redirect('/zhiban');
   const { bindingId } = await params;
+  const { sceneId } = await searchParams;
   const classroom = (await listStudentClassrooms(getZhibanPool(), principal)).find(
     (item) => item.id === bindingId,
   );
@@ -34,10 +37,10 @@ export default async function StudentClassroomPage({
         <ArrowLeft className="mr-2 size-4" />
         返回我的课堂
       </Link>
-      <ClassroomProgressTracker bindingId={bindingId} />
+      <ClassroomProgressTracker bindingId={bindingId} preferredSceneId={sceneId} />
       <EmaPrompt />
       <ClassroomAgentBridge courseId={classroom.courseId} />
-      <OpenMaicClassroomPlayer classroomId={classroom.classroomId} postgres readOnly />
+      <OpenMaicClassroomPlayer classroomId={classroom.classroomId} postgres readOnly initialSceneId={sceneId} />
     </>
   );
 }

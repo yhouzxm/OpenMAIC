@@ -41,6 +41,22 @@ async function verifyToken(token: string, accessCode: string): Promise<boolean> 
   return mismatch === 0;
 }
 
+async function verifyScopedToken(token: string, accessCode: string, requiredScope: string): Promise<boolean> {
+  const parts = token.split('.');
+  if (parts.length !== 3) return false;
+  const [timestamp, scope, signature] = parts;
+  if (scope !== requiredScope || !/^\d+$/.test(timestamp)) return false;
+  const issuedAt = Number(timestamp);
+  if (!Number.isFinite(issuedAt) || issuedAt > Date.now() + 60_000 || Date.now() - issuedAt > 2 * 60 * 60 * 1000) return false;
+  const keyData = encode(accessCode);
+  const key = await crypto.subtle.importKey('raw', keyData.buffer as ArrayBuffer, { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  const expected = bufToHex(await crypto.subtle.sign('HMAC', key, encode(`${timestamp}.${scope}`).buffer as ArrayBuffer));
+  if (signature.length !== expected.length) return false;
+  let mismatch = 0;
+  for (let index = 0; index < signature.length; index++) mismatch |= signature.charCodeAt(index) ^ expected.charCodeAt(index);
+  return mismatch === 0;
+}
+
 export async function middleware(request: NextRequest) {
   const accessCode = process.env.ACCESS_CODE;
   if (!accessCode) {
@@ -58,6 +74,21 @@ export async function middleware(request: NextRequest) {
     pathname === '/api/classroom' ||
     pathname.startsWith('/api/persistence/') ||
     pathname.startsWith('/api/zhiban/')
+  ) {
+    return NextResponse.next();
+  }
+
+
+  const isOpenMaicAgentApi =
+    pathname === '/api/chat' ||
+    pathname.startsWith('/api/chat/') ||
+    pathname.startsWith('/api/agent/') ||
+    pathname.startsWith('/api/generate/');
+  const zhibanActivityToken = request.cookies.get('zhiban_openmaic_access')?.value;
+  if (
+    isOpenMaicAgentApi &&
+    zhibanActivityToken &&
+    (await verifyScopedToken(zhibanActivityToken, accessCode, 'activity-agent'))
   ) {
     return NextResponse.next();
   }

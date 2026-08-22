@@ -59,6 +59,18 @@ export function isZhibanDataCollectionEnabled(): boolean {
     isZhibanResearchEnabled() && readBoolean(process.env.OPENMAIC_ENABLE_ZHIBAN_DATA_COLLECTION)
   );
 }
+
+/** Course Tutor kill switch. It defaults on; set explicitly to false/0 to restore the default OpenMAIC roster. */
+export function isZhibanCourseTutorEnabled(): boolean {
+  const value = process.env.OPENMAIC_ENABLE_ZHIBAN_COURSE_TUTOR;
+  return value !== 'false' && value !== '0';
+}
+
+/** OpenMAIC single-activity adapter kill switch. Defaults on for existing Zhiban courses. */
+export function isZhibanOpenMaicActivityEnabled(): boolean {
+  const value = process.env.OPENMAIC_ENABLE_ZHIBAN_OPENMAIC_ACTIVITY;
+  return value !== 'false' && value !== '0';
+}
 /**
  * Server-authoritative gate for the vocational task-engine generation path.
  * Default OFF. When disabled, requests that include taskEngineMode must

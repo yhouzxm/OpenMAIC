@@ -717,7 +717,38 @@ export async function listStudentGrades(pool: ZhibanDatabasePool, principal: Aut
       [principal.id],
     );
     const records = await client.query(
-      `SELECT r.id grade_record_id,r.course_id,g.code,g.name,g.category,r.raw_score,g.max_score,r.normalized_score,r.feedback,r.published_at FROM zhiban.course_grade_records r JOIN zhiban.course_grade_items g ON g.id=r.grade_item_id WHERE r.student_id=$1 AND r.status='published' ORDER BY g.category,g.code`,
+      `SELECT r.id grade_record_id,g.course_id,g.code,
+              COALESCE(assessment.title,assignment.title,g.name) name,
+              g.category,g.source_type,g.weight,g.max_score,r.raw_score,r.normalized_score,
+              r.feedback,r.published_at,
+              COALESCE(assessment.assessment_type,
+                CASE WHEN assignment.id IS NOT NULL THEN 'assignment' ELSE g.source_type END) item_type,
+              COALESCE(assessment.due_at,assignment.due_at) due_at,
+              assessment.max_attempts,COALESCE(attempts.attempt_count,0)::int attempt_count,
+              CASE WHEN r.id IS NULL THEN 'ungraded' ELSE 'published' END grade_status
+       FROM zhiban.course_grade_items g
+       LEFT JOIN zhiban.course_grade_records r
+         ON r.grade_item_id=g.id AND r.student_id=$1 AND r.status='published'
+       LEFT JOIN LATERAL (
+         SELECT a.id,a.title,a.assessment_type,a.due_at,a.max_attempts
+         FROM zhiban.course_assessments a WHERE a.grade_item_id=g.id AND a.status<>'archived'
+         ORDER BY a.created_at DESC LIMIT 1
+       ) assessment ON true
+       LEFT JOIN LATERAL (
+         SELECT x.id,x.title,x.due_at FROM zhiban.activity_assignments x
+         WHERE x.grade_item_id=g.id AND x.status<>'archived'
+         ORDER BY x.created_at DESC LIMIT 1
+       ) assignment ON true
+       LEFT JOIN LATERAL (
+         SELECT count(*)::int attempt_count FROM zhiban.assessment_attempts x
+         WHERE x.assessment_id=assessment.id AND x.student_id=$1 AND x.status<>'void'
+       ) attempts ON true
+       WHERE g.status='active' AND EXISTS(
+         SELECT 1 FROM zhiban.enrollments e JOIN zhiban.course_offerings o ON o.id=e.offering_id
+         WHERE e.student_id=$1 AND e.status='enrolled' AND o.course_id=g.course_id
+       )
+       ORDER BY g.course_id,
+         CASE g.category WHEN 'formative' THEN 1 WHEN 'project' THEN 2 ELSE 3 END,g.code`,
       [principal.id],
     );
     const reviews = await client.query(

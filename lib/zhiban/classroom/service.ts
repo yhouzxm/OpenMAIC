@@ -177,7 +177,7 @@ export async function listStudentClassrooms(
               COALESCE(cc.classroom_id,'') AS classroom_id,COALESCE(cc.title,c.name) AS title,
               COALESCE(cc.description,'') AS description,COALESCE(cc.display_order,0) AS display_order,
               cc.opens_at,cc.closes_at,COALESCE(cc.status,'draft') AS status,
-              s.id AS session_id,COALESCE(s.progress_percent,0) AS progress_percent,s.current_scene_id,s.last_activity_at,
+              s.id AS session_id,COALESCE(MAX(course_progress.progress_percent),0) AS progress_percent,s.current_scene_id,s.last_activity_at,
               COALESCE(MAX(EXTRACT(YEAR FROM term.starts_on)::text),'') AS academic_year,
               COALESCE(MAX(term.name),'') AS term_name,
               COALESCE(MAX(o.status),'') AS offering_status,
@@ -195,6 +195,20 @@ export async function listStudentClassrooms(
       LEFT JOIN zhiban.teacher_profiles tp ON tp.account_id=c.owner_teacher_id
       LEFT JOIN zhiban.course_settings settings ON settings.course_id=c.id
       LEFT JOIN zhiban.classroom_learning_sessions s ON s.course_classroom_id=cc.id AND s.student_id=$2
+      LEFT JOIN LATERAL (
+        SELECT CASE WHEN count(*)=0 THEN 0 ELSE
+          round(100.0*count(*) FILTER(WHERE progress.status='completed')/count(*))::int END AS progress_percent
+        FROM (
+          SELECT snapshot FROM zhiban.course_design_versions
+          WHERE course_id=c.id AND status='published' ORDER BY version DESC LIMIT 1
+        ) design
+        CROSS JOIN LATERAL jsonb_array_elements(design.snapshot->'modules') module_item
+        CROSS JOIN LATERAL jsonb_array_elements(module_item->'chapters') chapter_item
+        CROSS JOIN LATERAL jsonb_array_elements(chapter_item->'activities') activity_item
+        LEFT JOIN zhiban.student_activity_progress progress
+          ON progress.course_id=c.id AND progress.student_id=$2
+         AND progress.activity_id::text=activity_item->>'id'
+      ) course_progress ON true
       WHERE e.tenant_id=$1 AND e.student_id=$2 AND e.status='enrolled'
       GROUP BY cc.id,c.id,s.id ORDER BY c.name,cc.display_order,cc.title`,
       [principal.tenantId, principal.id],

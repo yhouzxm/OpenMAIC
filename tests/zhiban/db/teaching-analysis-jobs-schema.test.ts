@@ -1,0 +1,1 @@
+import {describe,expect,it} from 'vitest';import{teachingAnalysisJobsMigration}from '@/lib/zhiban/db/migrations/048-teaching-analysis-jobs';describe('teaching analysis jobs migration',()=>{it('adds durable snapshot jobs',()=>{expect(teachingAnalysisJobsMigration.up.join('\n')).toContain("'teaching_snapshot'")})});

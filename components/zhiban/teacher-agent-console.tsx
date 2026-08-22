@@ -27,6 +27,11 @@ type Template = {
   persona: string;
   status: string;
 };
+type MonitorData = {
+  policy: { enabled:boolean; mode:'shadow'|'active'|'paused'; tutorThreshold:number; peerThreshold:number; teacherThreshold:number; cooldownMinutes:number; dailyLimit:number; followupHours:number; policyVersion:string };
+  decisions: Array<{id:string;learner_name:string;risk_score:string;risk_level:string;signal_type:string;target_role?:string;disposition:string;reason:string;created_at:string}>;
+  effectiveness: { measured?:number; effective_count?:number; average_reduction?:string };
+};
 
 const fieldClass =
   'min-h-10 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none placeholder:text-slate-400 focus:border-teal-600 focus:ring-2 focus:ring-teal-100';
@@ -59,6 +64,7 @@ export function TeacherAgentConsole({
   const [courseId, setCourseId] = useState(fixedCourseId);
   const [items, setItems] = useState<Item[]>([]);
   const [templates, setTemplates] = useState<Template[]>([]);
+  const [monitor, setMonitor] = useState<MonitorData | null>(null);
 
   const load = useCallback(async () => {
     if (!courseId) return;
@@ -93,10 +99,12 @@ export function TeacherAgentConsole({
     void Promise.all([
       api<{ interventions: Item[] }>(`/api/zhiban/teacher/courses/${courseId}/interventions`),
       api<{ templates: Template[] }>(`/api/zhiban/teacher/courses/${courseId}/agent-templates`),
+      api<MonitorData>(`/api/zhiban/teacher/courses/${courseId}/monitor`),
     ])
-      .then(([a, b]) => {
+      .then(([a, b, c]) => {
         setItems(a.interventions);
         setTemplates(b.templates);
+        setMonitor(c);
       })
       .catch((error) => toast.error(error.message));
   }, [courseId]);
@@ -104,11 +112,12 @@ export function TeacherAgentConsole({
   async function act(id: string, action: 'escalate' | 'resolve' | 'retry' | 'assign') {
     const note = action === 'resolve' ? (window.prompt('请输入结案说明') ?? undefined) : undefined;
     if (action === 'resolve' && !note) return;
+    const effective = action === 'resolve' ? window.confirm('本次干预是否有效？\n“确定”表示有效，“取消”表示未见明显效果。') : undefined;
     try {
       await api(`/api/zhiban/teacher/courses/${courseId}/interventions`, {
         method: 'PATCH',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ briefId: id, action, note }),
+        body: JSON.stringify({ briefId: id, action, note, effective }),
       });
       toast.success('处理成功');
       await load();
@@ -161,6 +170,13 @@ export function TeacherAgentConsole({
     } catch (error) {
       toast.error(error instanceof Error ? error.message : '发布失败');
     }
+  }
+  async function saveMonitor(form:FormData){
+    try{
+      const number=(name:string)=>Number(form.get(name));
+      await api(`/api/zhiban/teacher/courses/${courseId}/monitor`,{method:'PUT',headers:{'content-type':'application/json'},body:JSON.stringify({enabled:form.get('enabled')==='on',mode:form.get('mode'),tutorThreshold:number('tutorThreshold'),peerThreshold:number('peerThreshold'),teacherThreshold:number('teacherThreshold'),cooldownMinutes:number('cooldownMinutes'),dailyLimit:number('dailyLimit'),followupHours:number('followupHours'),policyVersion:form.get('policyVersion')})});
+      setMonitor(await api<MonitorData>(`/api/zhiban/teacher/courses/${courseId}/monitor`));toast.success('Monitor 策略已保存');
+    }catch(error){toast.error(error instanceof Error?error.message:'保存失败');}
   }
 
   const pending = items.filter((item) =>
@@ -219,6 +235,21 @@ export function TeacherAgentConsole({
             </Card>
           ))}
         </div>
+        {monitor && <Card className="border-slate-200 bg-white shadow-sm">
+          <CardHeader className="border-b border-slate-100"><CardTitle>Monitor 协同策略</CardTitle></CardHeader>
+          <CardContent className="space-y-5 pt-5">
+            <form action={saveMonitor} className="grid gap-3 md:grid-cols-4">
+              <label className="flex items-center gap-2 text-sm"><input name="enabled" type="checkbox" defaultChecked={monitor.policy.enabled}/>启用 Monitor</label>
+              <label className="text-sm">运行模式<select name="mode" defaultValue={monitor.policy.mode} className={`${fieldClass} mt-1 w-full`}><option value="shadow">影子模式</option><option value="active">主动模式</option><option value="paused">暂停</option></select></label>
+              <Field name="policyVersion" label="策略版本" value={monitor.policy.policyVersion}/><Field name="cooldownMinutes" label="冷却（分钟）" value={monitor.policy.cooldownMinutes} type="number"/>
+              <Field name="tutorThreshold" label="Tutor 成绩阈值" value={monitor.policy.tutorThreshold} type="number"/><Field name="peerThreshold" label="Peer 协作阈值" value={monitor.policy.peerThreshold} type="number"/><Field name="teacherThreshold" label="教师升级风险阈值" value={monitor.policy.teacherThreshold} type="number"/><Field name="dailyLimit" label="每日自动干预上限" value={monitor.policy.dailyLimit} type="number"/>
+              <Field name="followupHours" label="复评间隔（小时）" value={monitor.policy.followupHours} type="number"/>
+              <div className="flex items-end"><Button className="bg-teal-700 text-white hover:bg-teal-800">保存 Monitor 策略</Button></div>
+            </form>
+            <div className="grid gap-3 md:grid-cols-3 text-sm"><Stat label="已复评" value={monitor.effectiveness.measured??0}/><Stat label="判定有效" value={monitor.effectiveness.effective_count??0}/><Stat label="平均风险下降" value={monitor.effectiveness.average_reduction??'—'}/></div>
+            <div><h3 className="mb-2 font-semibold">最近 Monitor 决策</h3>{monitor.decisions.length?<div className="max-h-80 divide-y overflow-y-auto rounded border">{monitor.decisions.map(d=><div key={d.id} className="p-3 text-sm"><div className="flex flex-wrap gap-2"><b>{d.learner_name}</b><Badge variant="outline">{d.signal_type}</Badge><Badge variant="outline">风险 {d.risk_score}</Badge><Badge>{d.disposition}</Badge>{d.target_role&&<span>→ {d.target_role}</span>}</div><p className="mt-1 text-slate-600">{d.reason}</p><p className="mt-1 text-xs text-slate-400">{new Date(d.created_at).toLocaleString()}</p></div>)}</div>:<p className="text-sm text-slate-500">暂无决策记录。影子模式运行后也会在此留痕。</p>}</div>
+          </CardContent>
+        </Card>}
         <Card className="border-slate-200 bg-white shadow-sm">
           <CardHeader className="border-b border-slate-100">
             <CardTitle className="text-slate-900">角色提示词版本</CardTitle>
@@ -356,3 +387,6 @@ export function TeacherAgentConsole({
     </main>
   );
 }
+
+function Field({name,label,value,type='text'}:{name:string;label:string;value:string|number;type?:string}){return <label className="text-sm">{label}<input required name={name} type={type} min={type==='number'?0:undefined} max={type==='number'?10080:undefined} defaultValue={value} className={`${fieldClass} mt-1 w-full`}/></label>;}
+function Stat({label,value}:{label:string;value:string|number}){return <div className="rounded bg-slate-50 p-3"><p className="text-slate-500">{label}</p><p className="mt-1 text-xl font-semibold">{value}</p></div>;}

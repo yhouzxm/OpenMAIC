@@ -6,12 +6,14 @@ import { rebuildLearnerProfile } from '@/lib/zhiban/profile';
 import { evaluateEmaTrigger } from '@/lib/zhiban/ema';
 import { evaluateMonitorIntervention } from '@/lib/zhiban/agents/service';
 import { evaluateLearnerRisk, sweepRiskSla } from '@/lib/zhiban/risk';
+import { createAnalysisSnapshot } from '@/lib/zhiban/teaching-analytics';
 
 export type AnalysisJobType =
   | 'profile_rebuild'
   | 'ema_evaluate'
   | 'monitor_evaluate'
-  | 'risk_evaluate';
+  | 'risk_evaluate'
+  | 'teaching_snapshot';
 
 async function insertJob(
   client: { query: ZhibanDatabasePool['query'] },
@@ -113,6 +115,59 @@ export async function enqueueCourseProfileRebuilds(
   });
 }
 
+export async function enqueueTeachingSnapshot(
+  pool: ZhibanDatabasePool,
+  principal: AuthorizedPrincipal,
+  courseId: string,
+  runAfter = new Date(),
+) {
+  if (!principal.permissions.includes('course:manage')) throw new Error('Permission denied');
+  return withZhibanTenant(pool, principal.tenantId, async (client) => {
+    const id = randomUUID(),
+      period = runAfter.toISOString().slice(0, 10),
+      key = `teaching_snapshot:${courseId}:${period}`;
+    const r = await client.query<{ id: string }>(
+      `INSERT INTO zhiban.analysis_jobs(id,tenant_id,job_type,idempotency_key,payload,run_after) VALUES($1,$2,'teaching_snapshot',$3,$4::jsonb,$5) ON CONFLICT(tenant_id,idempotency_key) DO UPDATE SET run_after=LEAST(analysis_jobs.run_after,excluded.run_after),updated_at=now() RETURNING id`,
+      [id, principal.tenantId, key, JSON.stringify({ courseId, actorId: principal.id }), runAfter],
+    );
+    return { jobId: r.rows[0].id, runAfter: runAfter.toISOString() };
+  });
+}
+
+async function teachingActorPrincipal(
+  pool: ZhibanDatabasePool,
+  tenantId: string,
+  actorId: string,
+  courseId: string,
+): Promise<AuthorizedPrincipal> {
+  return withZhibanTenant(pool, tenantId, async (client) => {
+    const r = await client.query<{
+      login_name: string;
+      display_name: string;
+      account_type: 'student' | 'teacher' | 'admin';
+    }>(`SELECT login_name,display_name,account_type FROM zhiban.accounts WHERE id=$1`, [actorId]);
+    if (!r.rows[0]) throw new Error('Teaching analysis actor not found');
+    return {
+      id: actorId,
+      tenantId,
+      loginName: r.rows[0].login_name,
+      displayName: r.rows[0].display_name,
+      accountType: r.rows[0].account_type,
+      mustChangePassword: false,
+      roles: ['teacher'],
+      permissions: ['course:manage'],
+      grants: [
+        {
+          permission: 'course:manage',
+          scopeType: 'course',
+          scopeId: courseId,
+          roleCode: 'teacher',
+        },
+      ],
+    };
+  });
+}
+
 async function learnerPrincipal(
   pool: ZhibanDatabasePool,
   tenantId: string,
@@ -142,8 +197,22 @@ async function learnerPrincipal(
 async function claimJob(pool: ZhibanDatabasePool, tenantId: string, workerId: string) {
   return withZhibanTenant(pool, tenantId, async (client) => {
     const result = await client.query<Record<string, unknown>>(
-      `WITH candidate AS (SELECT id FROM zhiban.analysis_jobs WHERE status IN('queued','running') AND run_after<=now() AND (status='queued' OR locked_at<now()-interval '10 minutes') ORDER BY run_after,created_at FOR UPDATE SKIP LOCKED LIMIT 1)
-       UPDATE zhiban.analysis_jobs j SET status='running',attempts=attempts+1,locked_at=now(),locked_by=$1,updated_at=now() FROM candidate WHERE j.id=candidate.id RETURNING j.*`,
+      `WITH candidate AS (
+         SELECT jobs.id
+         FROM zhiban.analysis_jobs jobs
+         WHERE jobs.status IN ('queued', 'running')
+           AND jobs.run_after <= now()
+           AND (jobs.status = 'queued' OR jobs.locked_at < now() - interval '10 minutes')
+         ORDER BY jobs.run_after, jobs.created_at
+         LIMIT 1
+       )
+       UPDATE zhiban.analysis_jobs j
+       SET status = 'running', attempts = attempts + 1, locked_at = now(), locked_by = $1, updated_at = now()
+       FROM candidate
+       WHERE j.id = candidate.id
+         AND j.status IN ('queued', 'running')
+         AND (j.status = 'queued' OR j.locked_at < now() - interval '10 minutes')
+       RETURNING j.*`,
       [workerId],
     );
     return result.rows[0] ?? null;
@@ -168,7 +237,7 @@ async function failJob(
   const terminal = Number(job.attempts) >= Number(job.max_attempts);
   await withZhibanTenant(pool, tenantId, (client) =>
     client.query(
-      `UPDATE zhiban.analysis_jobs SET status=$2,last_error=$3,run_after=CASE WHEN $2='queued' THEN now()+(LEAST(300,power(2,attempts))||' seconds')::interval ELSE run_after END,locked_at=NULL,locked_by=NULL,updated_at=now(),completed_at=CASE WHEN $2='failed' THEN now() ELSE NULL END WHERE id=$1`,
+      `UPDATE zhiban.analysis_jobs SET status=$2::varchar,last_error=$3::text,run_after=CASE WHEN $2::text='queued' THEN now()+(LEAST(300,power(2,attempts))||' seconds')::interval ELSE run_after END,locked_at=NULL,locked_by=NULL,updated_at=now(),completed_at=CASE WHEN $2::text='failed' THEN now() ELSE NULL END WHERE id=$1`,
       [
         job.id,
         terminal ? 'failed' : 'queued',
@@ -200,6 +269,21 @@ export async function processAnalysisJobs(
         await evaluateMonitorIntervention(pool, tenantId, payload);
       } else if (job.job_type === 'risk_evaluate') {
         await evaluateLearnerRisk(pool, tenantId, payload);
+      } else if (job.job_type === 'teaching_snapshot') {
+        const teachingPayload = job.payload as { courseId: string; actorId: string };
+        const actor = await teachingActorPrincipal(
+          pool,
+          tenantId,
+          teachingPayload.actorId,
+          teachingPayload.courseId,
+        );
+        await createAnalysisSnapshot(pool, actor, teachingPayload.courseId);
+        await enqueueTeachingSnapshot(
+          pool,
+          actor,
+          teachingPayload.courseId,
+          new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        );
       }
       await finishJob(pool, tenantId, String(job.id));
     } catch (error) {

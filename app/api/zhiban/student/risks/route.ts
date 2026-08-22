@@ -2,10 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createLearnerRiskRequest, getOwnRisks, setRiskPreference } from '@/lib/zhiban/risk';
 import { getZhibanPool } from '@/lib/zhiban/db/connection';
-import { authorizationErrorResponse, requireRequestPermission } from '@/lib/zhiban/rbac';
+import { authorizationErrorResponse, requireRequestGrantedPermission } from '@/lib/zhiban/rbac';
 export async function GET() {
   try {
-    const p = await requireRequestPermission('course:read');
+    const p = await requireRequestGrantedPermission('course:read');
     return NextResponse.json(await getOwnRisks(getZhibanPool(), p));
   } catch (error) {
     return (
@@ -19,7 +19,7 @@ export async function GET() {
 }
 export async function PATCH(request: NextRequest) {
   try {
-    const p = await requireRequestPermission('course:read');
+    const p = await requireRequestGrantedPermission('course:read');
     const body = z
       .object({
         courseId: z.uuid(),
@@ -40,7 +40,7 @@ export async function PATCH(request: NextRequest) {
 }
 export async function POST(request: NextRequest) {
   try {
-    const p = await requireRequestPermission('course:read');
+    const p = await requireRequestGrantedPermission('course:read');
     const body = z
       .object({
         courseId: z.uuid(),

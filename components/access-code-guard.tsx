@@ -34,10 +34,29 @@ export function AccessCodeGuard({ children }: { children: ReactNode }) {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [pathname]);
 
   const isZhibanRoute = pathname.startsWith('/zhiban');
-  const needsAuth = !isZhibanRoute && !status.loading && status.enabled && !status.authenticated;
+  // Independent Zhiban OpenMAIC activity documents use the native classroom
+  // editor/player route, but are protected by the Zhiban session and scoped
+  // course RBAC in /api/classroom rather than the legacy site access code.
+  const isZhibanActivityDocument = /^\/classroom\/zba_[a-zA-Z0-9_-]+$/.test(pathname);
+  const isZhibanActivityGeneration =
+    pathname === '/' &&
+    typeof window !== 'undefined' &&
+    new URLSearchParams(window.location.search).has('zhibanActivityId');
+  const isZhibanActivityGenerationPreview =
+    pathname === '/generation-preview' &&
+    typeof window !== 'undefined' &&
+    Boolean(sessionStorage.getItem('zhibanActivityDraft'));
+  const needsAuth =
+    !isZhibanRoute &&
+    !isZhibanActivityDocument &&
+    !isZhibanActivityGeneration &&
+    !isZhibanActivityGenerationPreview &&
+    !status.loading &&
+    status.enabled &&
+    !status.authenticated;
 
   return (
     <>

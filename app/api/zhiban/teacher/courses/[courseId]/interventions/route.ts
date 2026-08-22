@@ -20,7 +20,7 @@ export async function PATCH(request: NextRequest, context: { params: Promise<{ c
   try {
     const courseId = z.uuid().parse((await context.params).courseId);
     const principal = await requireRequestScopedPermission('course:manage', { courseIds: [courseId] });
-    const body = z.object({ briefId: z.uuid(), action: z.enum(['escalate', 'resolve', 'retry', 'assign']), note: z.string().max(2000).optional(), assignedTo: z.uuid().optional() }).parse(await request.json());
+    const body = z.object({ briefId: z.uuid(), action: z.enum(['escalate', 'resolve', 'retry', 'assign']), note: z.string().max(2000).optional(), assignedTo: z.uuid().optional(), effective:z.boolean().optional(), outcomeScore:z.number().min(0).max(100).optional() }).parse(await request.json());
     return NextResponse.json(await manageTeacherIntervention(getZhibanPool(), principal, { courseId, ...body }));
   } catch (error) {
     return authorizationErrorResponse(error) ?? NextResponse.json({ error: error instanceof Error ? error.message : 'Unable to update intervention' }, { status: 400 });

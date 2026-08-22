@@ -1,26 +1,26 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 type Row = Record<string, unknown>;
-export function StudentRiskConsole({ hideHeader = false }: { hideHeader?: boolean }) {
+export function StudentRiskConsole({ hideHeader = false, courseId }: { hideHeader?: boolean; courseId?: string }) {
   const [data, setData] = useState<{ risks: Row[]; preferences: Row[]; requests: Row[] }>({
     risks: [],
     preferences: [],
     requests: [],
   });
-  const load = () =>
+  const load = useCallback(() =>
     fetch('/api/zhiban/student/risks').then(async (r) => {
       const b = await r.json();
       if (!r.ok) throw new Error(b.error);
       setData(b);
-    });
+    }), []);
   useEffect(() => {
     void load().catch((e) => toast.error(e.message));
-  }, []);
+  }, [load]);
   async function preference(courseId: unknown, enabled: boolean, pauseDays = 0) {
     const r = await fetch('/api/zhiban/student/risks', {
       method: 'PATCH',
@@ -62,7 +62,7 @@ export function StudentRiskConsole({ hideHeader = false }: { hideHeader?: boolea
     await load();
   }
   return (
-    <main className="min-h-screen bg-slate-100 p-5">
+    <main className="min-h-screen bg-slate-100 p-2 sm:p-5">
       <div className="mx-auto max-w-4xl space-y-5">
         {!hideHeader && (
           <header className="flex items-center justify-between rounded-2xl bg-slate-950 p-6 text-white">
@@ -77,7 +77,8 @@ export function StudentRiskConsole({ hideHeader = false }: { hideHeader?: boolea
             </Button>
           </header>
         )}
-        {data.risks.map((r) => (
+        {courseId && <h2 className="text-xl font-semibold">本课程学习支持</h2>}
+        {data.risks.filter((r) => !courseId || String(r.course_id) === courseId).map((r) => (
           <Card key={`${String(r.course_id)}:${String(r.risk_type)}`}>
             <CardHeader>
               <div className="flex justify-between">
@@ -130,7 +131,7 @@ export function StudentRiskConsole({ hideHeader = false }: { hideHeader?: boolea
             </CardContent>
           </Card>
         ))}
-        {!data.risks.length && (
+        {!data.risks.filter((r) => !courseId || String(r.course_id) === courseId).length && (
           <Card>
             <CardContent className="p-8 text-center text-slate-500">
               当前没有需要展示的学习支持提示。
@@ -142,7 +143,7 @@ export function StudentRiskConsole({ hideHeader = false }: { hideHeader?: boolea
             <CardTitle>我的请求</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
-            {data.requests.map((r) => (
+            {data.requests.filter((r) => !courseId || String(r.course_id) === courseId).map((r) => (
               <div key={String(r.id)} className="rounded border p-3 text-sm">
                 <p>{String(r.content)}</p>
                 <Badge variant="outline">{String(r.status)}</Badge>
@@ -151,7 +152,7 @@ export function StudentRiskConsole({ hideHeader = false }: { hideHeader?: boolea
                 )}
               </div>
             ))}
-            {!data.requests.length && <p className="text-sm text-slate-500">暂无请求。</p>}
+            {!data.requests.filter((r) => !courseId || String(r.course_id) === courseId).length && <p className="text-sm text-slate-500">暂无请求。</p>}
           </CardContent>
         </Card>
       </div>

@@ -101,6 +101,16 @@ function HomePage() {
   const showVocationalTestUi = shouldShowVocationalTestUi();
   const [form, setForm] = useState<FormState>(initialFormState);
   const [zhibanCourse, setZhibanCourse] = useState<{ id: string; name: string } | null>(null);
+  const [zhibanActivity, setZhibanActivity] = useState<{
+    courseId: string;
+    activityId: string;
+    title: string;
+  } | null>(null);
+  const [zhibanAccessReady, setZhibanAccessReady] = useState(
+    () =>
+      typeof window === 'undefined' ||
+      !new URLSearchParams(window.location.search).has('zhibanActivityId'),
+  );
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [settingsSection, setSettingsSection] = useState<
     import('@/lib/types/settings').SettingsSection | undefined
@@ -151,12 +161,36 @@ function HomePage() {
     const params = new URLSearchParams(window.location.search);
     const id = params.get('zhibanCourseId');
     const name = params.get('zhibanCourseName');
+    const activityId = params.get('zhibanActivityId');
+    const activityTitle = params.get('zhibanActivityTitle');
     if (!id || !name) return;
     setZhibanCourse({ id, name });
+    if (activityId && activityTitle) {
+      setZhibanActivity({ courseId: id, activityId, title: activityTitle });
+      setZhibanAccessReady(false);
+      void fetch(`/api/zhiban/teacher/courses/${id}/openmaic-access`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ activityId }),
+      })
+        .then(async (response) => {
+          const body = await response.json().catch(() => ({}));
+          if (!response.ok) throw new Error(body.error ?? '活动生成授权失败');
+          setZhibanAccessReady(true);
+        })
+        .catch((accessError) => {
+          setError(accessError instanceof Error ? accessError.message : '活动生成授权失败');
+        });
+    }
     setForm((previous) =>
       previous.requirement
         ? previous
-        : { ...previous, requirement: `请为《${name}》创建一节适合成人学习者的互动课堂。` },
+        : {
+            ...previous,
+            requirement: activityTitle
+              ? `请为《${name}》的学习活动“${activityTitle}”生成一组适合成人学习者的幻灯片。`
+              : `请为《${name}》创建一节适合成人学习者的互动课堂。`,
+          },
     );
   }, []);
 
@@ -332,6 +366,10 @@ function HomePage() {
     // (requires a usable provider), and under the #580 invariant a usable
     // provider always has a concrete model. State A (no usable provider)
     // surfaces through the toolbar's single Configure-Provider affordance.
+    if (zhibanActivity && !zhibanAccessReady) {
+      setError('正在验证课程活动权限，请稍候再试');
+      return;
+    }
     if (!form.requirement.trim()) {
       setError(t('upload.requirementRequired'));
       return;
@@ -413,7 +451,10 @@ function HomePage() {
         currentStep: 'generating' as const,
       };
       sessionStorage.setItem('generationSession', JSON.stringify(sessionState));
-      if (zhibanCourse)
+      if (zhibanActivity) {
+        sessionStorage.setItem('zhibanActivityDraft', JSON.stringify(zhibanActivity));
+        sessionStorage.removeItem('zhibanClassroomDraft');
+      } else if (zhibanCourse)
         sessionStorage.setItem(
           'zhibanClassroomDraft',
           JSON.stringify({ courseId: zhibanCourse.id, courseName: zhibanCourse.name }),
@@ -684,10 +725,10 @@ function HomePage() {
               {/* Send button */}
               <button
                 onClick={handleGenerate}
-                disabled={!canGenerate}
+                disabled={!canGenerate || !zhibanAccessReady}
                 className={cn(
                   'shrink-0 h-8 rounded-lg flex items-center justify-center gap-1.5 transition-all px-3',
-                  canGenerate
+                  canGenerate && zhibanAccessReady
                     ? 'bg-primary text-primary-foreground hover:opacity-90 shadow-sm cursor-pointer'
                     : 'bg-muted text-muted-foreground/40 cursor-not-allowed',
                 )}

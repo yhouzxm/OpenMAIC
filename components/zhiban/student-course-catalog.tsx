@@ -2,11 +2,10 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, BookOpen, Play, Search } from 'lucide-react';
+import { ArrowLeft, BookOpen, Search } from 'lucide-react';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import type { ZhibanCourseClassroom } from '@/lib/zhiban/classroom';
 
@@ -71,12 +70,6 @@ export function StudentCourseCatalog({ courseId = '' }: { courseId?: string }) {
             </Link>
           </Button>
         </div>
-        <section className="grid gap-4 md:grid-cols-2">
-          {filtered.map((item) => (
-            <ClassroomCard key={item.id} item={item} />
-          ))}
-          {!filtered.length && <p className="text-slate-500">当前课程暂无已开放的课堂。</p>}
-        </section>
       </main>
     );
   }
@@ -133,16 +126,14 @@ export function StudentCourseCatalog({ courseId = '' }: { courseId?: string }) {
       <section className="space-y-3">
         {courses.map((items) => {
           const course = items[0];
-          const progress = Math.round(
-            items.reduce((sum, item) => sum + item.progressPercent, 0) / items.length,
-          );
+          const progress = course.progressPercent;
           return (
             <Link
               key={course.courseId}
               href={`/zhiban/student/courses/${course.courseId}`}
               className="group flex flex-col gap-4 border bg-white p-5 transition hover:border-blue-300 hover:shadow-sm sm:flex-row sm:items-center"
             >
-              <div className="flex h-24 w-full shrink-0 items-center justify-center rounded bg-gradient-to-br from-blue-500 to-indigo-700 text-white sm:w-36">
+              <div className="hidden h-24 w-36 shrink-0 items-center justify-center rounded bg-gradient-to-br from-blue-500 to-indigo-700 text-white sm:flex">
                 <BookOpen className="size-10" />
               </div>
               <div className="min-w-0 flex-1">
@@ -156,8 +147,7 @@ export function StudentCourseCatalog({ courseId = '' }: { courseId?: string }) {
                 </div>
                 <p className="mt-2 text-sm text-slate-500">课程代码：{course.courseCode}</p>
                 <p className="mt-1 text-sm text-slate-500">
-                  {course.academicYear || '未设置学年'} · {course.termName || '未设置学期'} · 已开放{' '}
-                  {items.length} 个课堂
+                  {course.academicYear || '未设置学年'} · {course.termName || '未设置学期'}
                 </p>
               </div>
               <div className="w-full shrink-0 sm:w-48">
@@ -180,40 +170,6 @@ export function StudentCourseCatalog({ courseId = '' }: { courseId?: string }) {
   );
 }
 
-function ClassroomCard({ item }: { item: ZhibanCourseClassroom }) {
-  const classroomAvailable = Boolean(item.classroomId);
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <BookOpen />
-          {item.title}
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p className="text-sm text-slate-500">
-          {classroomAvailable ? item.description || 'OpenMAIC 互动课堂' : '课堂尚未开放'}
-        </p>
-        <div className="mt-4 h-2 overflow-hidden rounded bg-slate-200">
-          <div className="h-full bg-[#1677e8]" style={{ width: `${item.progressPercent}%` }} />
-        </div>
-        <div className="mt-3 flex items-center justify-between">
-          <span className="text-sm">学习进度 {item.progressPercent}%</span>
-          {classroomAvailable ? (
-            <Button asChild>
-              <Link href={`/zhiban/student/classroom/${item.id}`}>
-                <Play className="mr-2 size-4" />
-                {item.sessionId ? '继续课堂' : '进入课堂'}
-              </Link>
-            </Button>
-          ) : (
-            <span className="text-sm text-slate-400">等待教师开放</span>
-          )}
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
 function Filter({
   label,
   value,

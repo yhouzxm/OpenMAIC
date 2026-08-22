@@ -67,6 +67,12 @@ export function Canvas(_props: CanvasProps) {
   const elements = useSceneSelector<SlideContent, PPTElement[]>(
     (content) => content.canvas.elements,
   );
+  const slideViewportSize = useSceneSelector<SlideContent, number>(
+    (content) => content.canvas.viewportSize,
+  );
+  const slideViewportRatio = useSceneSelector<SlideContent, number>(
+    (content) => content.canvas.viewportRatio,
+  );
 
   // Canvas UI state
   const canvasScale = useCanvasStore.use.canvasScale();
@@ -81,6 +87,8 @@ export function Canvas(_props: CanvasProps) {
   const setActiveElementIdList = useCanvasStore.use.setActiveElementIdList();
   const setGridLineSize = useCanvasStore.use.setGridLineSize();
   const setRulerState = useCanvasStore.use.setRulerState();
+  const setViewportSize = useCanvasStore.use.setViewportSize();
+  const setViewportRatio = useCanvasStore.use.setViewportRatio();
 
   // Keyboard state
   const spaceKeyState = useKeyboardStore((state) => state.spaceKeyState);
@@ -99,6 +107,14 @@ export function Canvas(_props: CanvasProps) {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- Sync store elements to local state
     setElementList(newElements);
   }, [elements]);
+
+  // Imported decks are not necessarily widescreen. Use the active slide's
+  // own logical dimensions so the editor uniformly fits the entire page
+  // rather than clipping a 4:3/custom-sized PPT to the 16:9 default.
+  useEffect(() => {
+    setViewportSize(slideViewportSize);
+    setViewportRatio(slideViewportRatio);
+  }, [setViewportRatio, setViewportSize, slideViewportRatio, slideViewportSize]);
 
   // Viewport size and positioning
   const { viewportStyles, dragViewport } = useViewportSize(canvasRef);

@@ -8,7 +8,13 @@ import {
   readClassroom,
 } from '@/lib/server/classroom-storage';
 import { createLogger } from '@/lib/logger';
+import { createScopedAccessToken } from '@/lib/server/access-token';
 import { requireRequestPrincipal } from '@/lib/zhiban/rbac';
+import { getZhibanPool } from '@/lib/zhiban/db/connection';
+import {
+  readOpenMaicActivityDocument,
+  saveOpenMaicActivityDocument,
+} from '@/lib/zhiban/openmaic-activity';
 
 const log = createLogger('Classroom API');
 
@@ -21,6 +27,9 @@ function canPersistClassroom(principal: Awaited<ReturnType<typeof requireRequest
         (grant.scopeType === 'course' || grant.scopeType === 'tenant' || grant.scopeType === 'system'),
     )
   );
+}
+function canReadClassroom(principal: Awaited<ReturnType<typeof requireRequestPrincipal>>) {
+  return principal.permissions.includes('course:read') || principal.grants.some((grant) => grant.permission === 'course:read' || grant.permission === 'course:manage');
 }
 
 export async function POST(request: NextRequest) {
@@ -47,6 +56,18 @@ export async function POST(request: NextRequest) {
     const id = stage.id || randomUUID();
     const baseUrl = buildRequestOrigin(request);
 
+    const activitySaved = await saveOpenMaicActivityDocument(
+      getZhibanPool(),
+      principal,
+      id,
+      { ...stage, id },
+      scenes,
+      documentState ?? {},
+    );
+    if (activitySaved) {
+      return apiSuccess({ id, url: `/classroom/${id}`, revision: activitySaved.revision }, 201);
+    }
+
     const persisted = await persistClassroom({ id, stage: { ...stage, id }, scenes, documentState, tenantId: principal.tenantId, actorId: principal.id }, baseUrl);
 
     return apiSuccess({ id: persisted.id, url: persisted.url }, 201);
@@ -67,7 +88,7 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
   try {
     const principal = await requireRequestPrincipal();
-    if (!principal.permissions.includes('course:read')) {
+    if (!canReadClassroom(principal)) {
       return apiError(API_ERROR_CODES.INVALID_REQUEST, 403, 'Permission denied');
     }
     const id = request.nextUrl.searchParams.get('id');
@@ -84,12 +105,33 @@ export async function GET(request: NextRequest) {
       return apiError(API_ERROR_CODES.INVALID_REQUEST, 400, 'Invalid classroom id');
     }
 
-    const classroom = await readClassroom(id);
+    const activityDocument = await readOpenMaicActivityDocument(getZhibanPool(), principal, id);
+    const classroom = activityDocument
+      ? {
+          id: String(activityDocument.document_id),
+          stage: activityDocument.stage,
+          scenes: activityDocument.scenes,
+          documentState: activityDocument.document_state,
+          revision: Number(activityDocument.revision),
+          createdAt: new Date(String(activityDocument.created_at)).toISOString(),
+        }
+      : await readClassroom(id);
     if (!classroom) {
       return apiError(API_ERROR_CODES.INVALID_REQUEST, 404, 'Classroom not found');
     }
 
-    return apiSuccess({ classroom });
+    const response = apiSuccess({ classroom });
+    const accessCode = process.env.ACCESS_CODE;
+    if (activityDocument && accessCode) {
+      response.cookies.set('zhiban_openmaic_access', createScopedAccessToken(accessCode, 'activity-agent'), {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        maxAge: 60 * 60 * 2,
+        secure: process.env.NODE_ENV === 'production',
+      });
+    }
+    return response;
   } catch (error) {
     log.error(
       `Classroom retrieval failed [id=${request.nextUrl.searchParams.get('id') ?? 'unknown'}]:`,

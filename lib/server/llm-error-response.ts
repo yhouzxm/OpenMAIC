@@ -43,7 +43,40 @@ function statusFromError(error: unknown, seen = new Set<unknown>()): number | un
   const status = toHttpErrorStatus(error.statusCode ?? error.status ?? error.status_code);
   if (status !== undefined) return status;
 
-  return statusFromError(error.cause, seen) ?? statusFromError(error.lastError, seen);
+  const nestedErrors = Array.isArray(error.errors) ? error.errors : [];
+  return (
+    statusFromError(error.cause, seen) ??
+    statusFromError(error.lastError, seen) ??
+    nestedErrors
+      .map((nested) => statusFromError(nested, seen))
+      .find((nestedStatus): nestedStatus is number => nestedStatus !== undefined)
+  );
+}
+
+function messagesFromError(error: unknown, seen = new Set<unknown>()): string[] {
+  if (!error || seen.has(error)) return [];
+  seen.add(error);
+
+  if (typeof error === 'string') return [error];
+  if (!isRecord(error)) return [];
+
+  const messages = [error.message, error.responseBody]
+    .filter((value): value is string => typeof value === 'string' && value.length > 0);
+  const nestedErrors = Array.isArray(error.errors) ? error.errors : [];
+  return [
+    ...messages,
+    ...messagesFromError(error.cause, seen),
+    ...messagesFromError(error.lastError, seen),
+    ...nestedErrors.flatMap((nested) => messagesFromError(nested, seen)),
+  ];
+}
+
+function isUnsupportedProviderLocation(error: unknown): boolean {
+  const message = messagesFromError(error).join(' ').toLowerCase();
+  return (
+    message.includes('user location is not supported') ||
+    (message.includes('failed_precondition') && message.includes('location'))
+  );
 }
 
 function messageForStatus(status: number): string {
@@ -61,6 +94,14 @@ function messageForStatus(status: number): string {
  * exposing provider response bodies, URLs, or credential-adjacent details.
  */
 export function llmApiError(error: unknown) {
+  if (isUnsupportedProviderLocation(error)) {
+    return apiError(
+      'UPSTREAM_ERROR',
+      400,
+      'The configured model provider is unavailable from this server region. Configure an accessible model endpoint or proxy and try again.',
+    );
+  }
+
   const status = statusFromError(error);
   if (status === undefined) {
     return apiError('INTERNAL_ERROR', 500, 'Scene generation failed. Please try again.');

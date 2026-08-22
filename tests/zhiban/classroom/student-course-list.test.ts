@@ -17,5 +17,7 @@ describe('student course catalog query', () => {
     expect(query).not.toContain('WHERE cc.tenant_id=$1');
     expect(query).toContain('BOOL_OR(settings.pbl_enabled) AS pbl_enabled');
     expect(query).not.toContain('COALESCE(BOOL_OR(settings.pbl_enabled),true)');
+    expect(query).toContain("count(*) FILTER(WHERE progress.status='completed')");
+    expect(query).toContain("jsonb_array_elements(chapter_item->'activities')");
   });
 });

@@ -1,0 +1,3 @@
+import { describe,expect,it } from 'vitest';
+import { monitorClosedLoopMigration } from '@/lib/zhiban/db/migrations/045-monitor-closed-loop';
+describe('Monitor closed-loop schema',()=>{const sql=monitorClosedLoopMigration.up.join('\n');it('persists configuration and every explainable decision',()=>{expect(sql).toContain('course_monitor_configs');expect(sql).toContain('monitor_decisions');expect(sql).toContain("'no_action','shadow','suppressed','dispatched','escalated'");});it('persists post-intervention effectiveness',()=>{expect(sql).toContain('intervention_effectiveness');expect(sql).toContain('before_score');expect(sql).toContain('after_score');});});

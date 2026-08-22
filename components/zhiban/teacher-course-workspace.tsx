@@ -8,55 +8,37 @@ import {
   BarChart3,
   BookOpen,
   Bot,
-  ChevronDown,
   ClipboardCheck,
   FolderOpen,
   LayoutDashboard,
   Settings,
+  UserRound,
+  Users,
   Workflow,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import type { TeacherCourse } from '@/lib/zhiban/teacher-courses';
+import type { CourseActivityType, CourseModule } from '@/lib/zhiban/curriculum';
 import { TeacherTopbar } from './teacher-portal';
 
-const features = [
-  {
-    label: '章节与课堂',
-    description: '创建、绑定和管理 OpenMAIC 互动课堂',
-    icon: BookOpen,
-    route: 'classrooms',
-  },
-  {
-    label: 'PBL 项目',
-    description: '项目任务、分组、成果提交与评价',
-    icon: Workflow,
-    route: 'pbl',
-  },
-  {
-    label: '学生成绩',
-    description: '测评、成绩项、总评和成绩发布',
-    icon: ClipboardCheck,
-    route: 'grades',
-  },
-  {
-    label: '学习分析',
-    description: '学习事件、学习画像和 EMA 数据',
-    icon: BarChart3,
-    route: 'profiles',
-  },
-  {
-    label: '风险预警',
-    description: '风险识别、教师干预和效果追踪',
-    icon: AlertTriangle,
-    route: 'risks',
-  },
-  {
-    label: '智能体中心',
-    description: 'Tutor、Peer、Monitor 与干预审计',
-    icon: Bot,
-    route: 'agents',
-  },
-] as const;
+const activityTypeLabels: Record<CourseActivityType, string> = {
+  content: '图文内容',
+  resource: '课程资源',
+  classroom: 'OpenMAIC 课堂',
+  pbl: 'PBL 项目',
+  assignment: '作业',
+  quiz: '测验',
+  discussion: '讨论',
+  ema: 'EMA 问卷',
+  practice: '实训',
+  summary: '章节总结',
+  ai_support: 'AI 辅导',
+  openmaic_slide: '幻灯片',
+  openmaic_quiz: 'Quiz',
+  openmaic_interactive: '互动网页',
+  openmaic_pbl: 'PBL 互动',
+  openmaic_3d: '3D 互动',
+};
 
 export function TeacherCourseShell({
   principalName,
@@ -108,14 +90,14 @@ export function TeacherCourseShell({
       <div className="mx-auto flex max-w-[1580px] items-stretch">
         <aside className="sticky top-[52px] hidden h-[calc(100vh-52px)] w-60 shrink-0 self-start overflow-y-auto border-r bg-white py-4 lg:block">
           <WorkspaceNav href={base} icon={LayoutDashboard} active={pathname === base}>
-            课程首页
+            章节
           </WorkspaceNav>
           <WorkspaceNav
             href={`${base}/classrooms${query}`}
             icon={BookOpen}
             active={pathname.startsWith(`${base}/classrooms`)}
           >
-            章节与课堂
+            课堂与互动
           </WorkspaceNav>
           <WorkspaceNav
             href={`${base}/pbl${query}`}
@@ -125,6 +107,20 @@ export function TeacherCourseShell({
             PBL 项目
           </WorkspaceNav>
           <WorkspaceNav
+            href={`${base}/teachers${query}`}
+            icon={UserRound}
+            active={pathname.startsWith(`${base}/teachers`)}
+          >
+            课程教师
+          </WorkspaceNav>
+          <WorkspaceNav
+            href={`${base}/students${query}`}
+            icon={Users}
+            active={pathname.startsWith(`${base}/students`)}
+          >
+            选课学生
+          </WorkspaceNav>
+          <WorkspaceNav
             href={`${base}/grades${query}`}
             icon={ClipboardCheck}
             active={pathname.startsWith(`${base}/grades`)}
@@ -132,11 +128,11 @@ export function TeacherCourseShell({
             学生成绩
           </WorkspaceNav>
           <WorkspaceNav
-            href={`${base}/profiles${query}`}
+            href={`${base}/analytics${query}`}
             icon={BarChart3}
-            active={pathname.startsWith(`${base}/profiles`)}
+            active={pathname.startsWith(`${base}/analytics`) || pathname.startsWith(`${base}/profiles`)}
           >
-            学习分析
+            教学分析
           </WorkspaceNav>
           <WorkspaceNav
             href={`${base}/risks${query}`}
@@ -167,9 +163,26 @@ export function TeacherCourseShell({
   );
 }
 
-export function TeacherCourseOverview({ course }: { course: TeacherCourse }) {
+export function TeacherCourseOverview({
+  course,
+  modules,
+  publishedVersion,
+}: {
+  course: TeacherCourse;
+  modules: CourseModule[];
+  publishedVersion: number | null;
+}) {
   const base = `/zhiban/teacher/courses/${course.id}`;
   const query = `?courseId=${encodeURIComponent(course.id)}`;
+  const activityCount = modules.reduce(
+    (moduleTotal, moduleItem) =>
+      moduleTotal +
+      moduleItem.chapters.reduce(
+        (chapterTotal, chapter) => chapterTotal + chapter.activities.length,
+        0,
+      ),
+    0,
+  );
   return (
     <>
       <section className="mb-5 grid gap-4 md:grid-cols-4">
@@ -201,31 +214,92 @@ export function TeacherCourseOverview({ course }: { course: TeacherCourse }) {
       <section className="border bg-white p-5">
         <div className="mb-5 flex items-center justify-between border-b pb-4">
           <div>
-            <h2 className="text-lg font-semibold">课程教学管理</h2>
-            <p className="mt-1 text-sm text-slate-500">左侧栏目保持不变，仅在右侧切换课程功能</p>
+            <h2 className="text-lg font-semibold">课程结构</h2>
+            <p className="mt-1 text-sm text-slate-500">
+              {publishedVersion ? `当前已发布 v${publishedVersion}` : '当前结构尚未发布'} ·{' '}
+              {modules.length} 个模块 ·{' '}
+              {modules.reduce((sum, moduleItem) => sum + moduleItem.chapters.length, 0)} 个章节 ·{' '}
+              {activityCount} 个活动
+            </p>
           </div>
-          <span className="flex items-center gap-2 rounded border px-3 py-2 text-sm">
-            全部
-            <ChevronDown className="size-4" />
-          </span>
+          <Link
+            href={`${base}/classrooms${query}`}
+            className="rounded bg-[#1677e8] px-4 py-2 text-sm text-white hover:bg-blue-700"
+          >
+            编辑课程结构
+          </Link>
         </div>
-        <div className="space-y-3">
-          {features.map(({ label, description, icon: Icon, route }) => (
-            <Link
-              key={route}
-              href={`${base}/${route}${query}`}
-              className="group flex items-center gap-4 rounded bg-[#f6f7f9] px-5 py-4 hover:bg-blue-50"
-            >
-              <ChevronDown className="size-4 -rotate-90 text-slate-500" />
-              <Icon className="size-5 text-[#1677e8]" />
-              <div className="min-w-0 flex-1">
-                <h3 className="font-medium group-hover:text-[#1677e8]">{label}</h3>
-                <p className="mt-1 text-sm text-slate-500">{description}</p>
-              </div>
-              <span className="hidden text-sm text-[#1677e8] sm:inline">进入管理 →</span>
-            </Link>
-          ))}
-        </div>
+        {modules.length ? (
+          <div className="space-y-3">
+            {modules.map((moduleItem, moduleIndex) => (
+              <article key={moduleItem.id} className="rounded border bg-slate-50/60">
+                <div className="flex items-center gap-3 border-b px-4 py-3">
+                  <span className="flex size-7 items-center justify-center rounded bg-blue-100 text-sm font-semibold text-blue-700">
+                    {moduleIndex + 1}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-medium">{moduleItem.title}</h3>
+                    {moduleItem.description && (
+                      <p className="truncate text-xs text-slate-500">{moduleItem.description}</p>
+                    )}
+                  </div>
+                  <span className="text-xs text-slate-500">
+                    {moduleItem.chapters.length} 个章节
+                  </span>
+                </div>
+                <div className="divide-y bg-white">
+                  {moduleItem.chapters.map((chapter, chapterIndex) => (
+                    <div key={chapter.id}>
+                      <div className="flex items-center gap-3 px-5 py-3 text-sm">
+                        <span className="text-slate-400">
+                          {moduleIndex + 1}.{chapterIndex + 1}
+                        </span>
+                        <span className="min-w-0 flex-1 truncate font-medium">
+                          {chapter.title}
+                        </span>
+                        <span className="text-xs text-slate-500">
+                          {chapter.activities.length} 个活动 · {chapter.estimatedMinutes} 分钟
+                        </span>
+                      </div>
+                      {chapter.activities.length ? (
+                        <div className="border-t bg-slate-50/50 px-5 py-2 pl-12">
+                          {chapter.activities.map((activity, activityIndex) => (
+                            <div
+                              key={activity.id}
+                              className="flex min-h-9 items-center gap-3 border-b border-dashed py-2 text-sm last:border-b-0"
+                            >
+                              <span className="w-7 shrink-0 text-xs text-slate-400">
+                                {activityIndex + 1}
+                              </span>
+                              <span className="min-w-0 flex-1 truncate">{activity.title}</span>
+                              <Badge variant="outline" className="shrink-0 font-normal">
+                                {activityTypeLabels[activity.activityType]}
+                              </Badge>
+                              {activity.required && (
+                                <span className="shrink-0 text-xs text-blue-600">必修</span>
+                              )}
+                              <span className="w-16 shrink-0 text-right text-xs text-slate-500">
+                                {activity.estimatedMinutes} 分钟
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="border-t bg-slate-50/50 px-12 py-3 text-xs text-slate-400">
+                          本章节尚未添加活动
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div className="rounded border border-dashed py-12 text-center text-sm text-slate-500">
+            尚未建立课程结构。点击右上角“编辑课程结构”开始创建模块、章节和活动。
+          </div>
+        )}
       </section>
       <section className="mt-5 grid gap-5 xl:grid-cols-2">
         <div className="border bg-white p-5">

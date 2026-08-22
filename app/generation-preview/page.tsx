@@ -1083,6 +1083,24 @@ function GenerationPreviewContent() {
       );
 
       sessionStorage.removeItem('generationSession');
+      const zhibanActivityRaw = sessionStorage.getItem('zhibanActivityDraft');
+      if (zhibanActivityRaw) {
+        try {
+          const draft = JSON.parse(zhibanActivityRaw) as { courseId: string; activityId: string; title: string };
+          const generated = useStageStore.getState();
+          const response = await fetch(`/api/zhiban/teacher/courses/${draft.courseId}/openmaic-activity`, { method: 'PUT', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ activityId: draft.activityId, source: 'ai', stage: generated.stage, scenes: generated.scenes }) });
+          const body = await response.json().catch(() => ({}));
+          if (!response.ok) throw new Error(body.error ?? '幻灯片活动保存失败');
+          sessionStorage.removeItem('zhibanActivityDraft');
+          toast.success(`AI 幻灯片已生成并写入活动“${draft.title}”`);
+          router.push(`/classroom/${body.document_id}`);
+          return;
+        } catch (activityError) {
+          log.error('[Zhiban] Activity generation save failed:', activityError);
+          toast.error(`幻灯片已生成，但写入课程活动失败：${activityError instanceof Error ? activityError.message : '未知错误'}`);
+          throw activityError;
+        }
+      }
       const zhibanDraftRaw = sessionStorage.getItem('zhibanClassroomDraft');
       if (zhibanDraftRaw) markStageForPostgresPersistence(stage.id);
       await store.saveToStorage();

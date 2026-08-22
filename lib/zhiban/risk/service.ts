@@ -373,7 +373,7 @@ export function pseudonymizeRiskLearner(tenantId: string, learnerId: string) {
 export async function sweepRiskSla(pool: ZhibanDatabasePool, tenantId: string) {
   return withZhibanTenant(pool, tenantId, async (client) => {
     const rows = await client.query<{ id: string; course_id: string; status: string }>(
-      `SELECT c.id,c.course_id,c.status FROM zhiban.risk_cases c LEFT JOIN zhiban.risk_course_controls x ON x.course_id=c.course_id WHERE c.status IN('new','acknowledged','in_progress') AND c.sla_due_at<now() AND COALESCE(x.sla_scan_enabled,true) FOR UPDATE SKIP LOCKED`,
+      `SELECT c.id,c.course_id,c.status FROM zhiban.risk_cases c LEFT JOIN zhiban.risk_course_controls x ON x.course_id=c.course_id WHERE c.status IN('new','acknowledged','in_progress') AND c.sla_due_at<now() AND COALESCE(x.sla_scan_enabled,true) FOR UPDATE OF c SKIP LOCKED`,
     );
     for (const row of rows.rows) {
       await client.query(

@@ -1,4 +1,4 @@
-import { StudentCourseCatalog } from '@/components/zhiban/student-course-catalog';
+import { StudentCourseStructure } from '@/components/zhiban/student-course-structure';
 
 export default async function StudentCourseWorkspacePage({
   params,
@@ -6,5 +6,9 @@ export default async function StudentCourseWorkspacePage({
   params: Promise<{ courseId: string }>;
 }) {
   const { courseId } = await params;
-  return <StudentCourseCatalog courseId={courseId} />;
+  return (
+    <div className="mx-auto max-w-6xl">
+      <StudentCourseStructure courseId={courseId} />
+    </div>
+  );
 }

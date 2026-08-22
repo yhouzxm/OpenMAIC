@@ -27,6 +27,15 @@ export async function requireRequestPermission(permission: PermissionCode) {
   );
 }
 
+/** Require a permission granted at any scope; resource services still enforce ownership/enrollment. */
+export async function requireRequestGrantedPermission(permission: PermissionCode) {
+  const principal = await requireRequestPrincipal();
+  if (!principal.permissions.includes(permission)) {
+    throw new AuthorizationError('Permission denied', 403);
+  }
+  return principal;
+}
+
 export async function requireRequestScopedPermission(
   permission: PermissionCode,
   context: ResourceScopeContext,
