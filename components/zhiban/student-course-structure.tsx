@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { BookOpen, CheckCircle2, ChevronDown, Clock, LockKeyhole } from 'lucide-react';
 import { toast } from 'sonner';
@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import type { CourseActivity, CourseActivityType, CourseStructure } from '@/lib/zhiban/curriculum';
 import type { ActivityContentRecord } from '@/lib/zhiban/content';
+import { getMechLabSampleCourseStructure } from '@/lib/zhiban/virtual-lab/registry';
 
 const labels: Record<CourseActivityType, string> = {
   content: '图文内容',
@@ -27,6 +28,7 @@ const labels: Record<CourseActivityType, string> = {
   openmaic_interactive: '互动网页',
   openmaic_pbl: 'PBL 互动',
   openmaic_3d: '3D 互动',
+  virtual_lab: 'Virtual Lab 虚拟实训',
 };
 const openMaicActivityTypes = new Set<CourseActivityType>([
   'openmaic_slide',
@@ -37,16 +39,19 @@ const openMaicActivityTypes = new Set<CourseActivityType>([
 ]);
 
 export function StudentCourseStructure({ courseId }: { courseId: string }) {
+  const sampleStructure = useMemo(() => getMechLabSampleCourseStructure(courseId), [courseId]);
   const [structure, setStructure] = useState<CourseStructure | null | undefined>(undefined);
   const [contents, setContents] = useState<ActivityContentRecord[]>([]);
   const [expandedContentId, setExpandedContentId] = useState<string | null>(null);
   const load = useCallback(async () => {
+    if (sampleStructure) return;
     const response = await fetch(`/api/zhiban/student/courses/${courseId}/structure`);
     const body = await response.json();
     if (!response.ok) throw new Error(body.error ?? '课程目录加载失败');
     setStructure(body.structure);
-  }, [courseId]);
+  }, [courseId, sampleStructure]);
   useEffect(() => {
+    if (sampleStructure) return;
     void Promise.all([
       fetch(`/api/zhiban/student/courses/${courseId}/structure`),
       fetch(`/api/zhiban/student/courses/${courseId}/content`),
@@ -60,7 +65,8 @@ export function StudentCourseStructure({ courseId }: { courseId: string }) {
         setContents(contentBody.contents ?? []);
       })
       .catch((error) => toast.error(error.message));
-  }, [courseId]);
+  }, [courseId, sampleStructure]);
+  const resolvedStructure = sampleStructure ?? structure;
   const complete = async (activityId: string) => {
     const response = await fetch(`/api/zhiban/student/courses/${courseId}/structure`, {
       method: 'POST',
@@ -82,16 +88,16 @@ export function StudentCourseStructure({ courseId }: { courseId: string }) {
     toast.success('该内容已完成');
     await load();
   };
-  if (structure === undefined)
+  if (resolvedStructure === undefined)
     return <div className="border bg-white p-8 text-center text-slate-500">正在加载课程目录…</div>;
-  if (!structure)
+  if (!resolvedStructure)
     return (
       <div className="border bg-white p-8 text-center text-slate-500">教师尚未发布课程结构。</div>
     );
   return (
     <section className="min-w-0 overflow-hidden border bg-white p-2 sm:p-5">
       <div className="space-y-4">
-        {structure.modules.map((module, moduleIndex) => (
+        {resolvedStructure.modules.map((module, moduleIndex) => (
           <details key={module.id} open={moduleIndex === 0} className="group rounded border">
             <summary className="flex cursor-pointer list-none items-center gap-2 bg-slate-50 px-3 py-3 sm:gap-3 sm:px-4 sm:py-4">
               <ChevronDown className="size-4 transition group-open:rotate-180" />
@@ -232,6 +238,8 @@ function StudentActivity({
 function activityHref(activity: CourseActivity, courseId: string) {
   if (activity.activityType === 'content') return null;
   if (openMaicActivityTypes.has(activity.activityType))
+    return `/zhiban/student/courses/${courseId}/activities/${activity.id}`;
+  if (activity.activityType === 'virtual_lab')
     return `/zhiban/student/courses/${courseId}/activities/${activity.id}`;
   if (activity.activityType === 'ai_support') return `?activityId=${activity.id}#course-tutor`;
   if (activity.activityType === 'classroom')

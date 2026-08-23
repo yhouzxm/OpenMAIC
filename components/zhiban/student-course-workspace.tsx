@@ -13,6 +13,7 @@ import {
   MessagesSquare,
 } from 'lucide-react';
 import type { ZhibanCourseClassroom } from '@/lib/zhiban/classroom';
+import { MECH_LAB_SAMPLE_COURSE_ID } from '@/lib/zhiban/virtual-lab/registry';
 
 export function StudentCourseWorkspaceShell({
   courseId,
@@ -37,6 +38,7 @@ export function StudentCourseWorkspaceShell({
 
   const courseClassrooms = classrooms.filter((item) => item.courseId === courseId);
   const course = courseClassrooms[0];
+  const isMechLabSample = courseId === MECH_LAB_SAMPLE_COURSE_ID;
   const progress = courseClassrooms.length
     ? Math.round(
         courseClassrooms.reduce((sum, item) => sum + item.progressPercent, 0) /
@@ -51,7 +53,7 @@ export function StudentCourseWorkspaceShell({
         <div className="mx-auto max-w-[1500px]">
           <p className="mb-4 truncate text-xs text-blue-100 sm:mb-5 sm:text-sm">
             <Link href="/zhiban/student/classrooms" className="hover:underline">我的课程</Link>
-            <span className="mx-2">/</span>{course?.courseName ?? '课程学习工作区'}
+            <span className="mx-2">/</span>{course?.courseName ?? (isMechLabSample ? '机电一体化系统' : '课程学习工作区')}
           </p>
           <div className="flex flex-col gap-7 lg:flex-row lg:items-center">
             <div className="flex min-w-0 flex-1 flex-col gap-5 sm:flex-row sm:items-center">
@@ -59,9 +61,9 @@ export function StudentCourseWorkspaceShell({
                 <BookOpen className="size-12 text-white/90 sm:size-16" />
               </div>
               <div className="min-w-0">
-                <h1 className="break-words text-2xl font-semibold sm:text-3xl">{course?.courseName ?? '课程学习工作区'}</h1>
-                <p className="mt-3 text-sm text-blue-50 sm:mt-5">课程代码：{course?.courseCode ?? '—'}</p>
-                <p className="mt-2 text-sm text-blue-50">学习周期：{dates}</p>
+                <h1 className="break-words text-2xl font-semibold sm:text-3xl">{course?.courseName ?? (isMechLabSample ? '机电一体化系统' : '课程学习工作区')}</h1>
+                <p className="mt-3 text-sm text-blue-50 sm:mt-5">课程代码：{course?.courseCode ?? (isMechLabSample ? 'MECH-101' : '—')}</p>
+                <p className="mt-2 text-sm text-blue-50">学习周期：{isMechLabSample ? '交互式课件示例' : dates}</p>
               </div>
             </div>
             <div className="flex w-full flex-wrap items-center gap-3 rounded-lg bg-white/35 p-3 backdrop-blur-sm sm:flex-nowrap sm:gap-4 sm:p-4 lg:w-[430px]">

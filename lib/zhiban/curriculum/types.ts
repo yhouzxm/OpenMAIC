@@ -14,7 +14,8 @@ export type CourseActivityType =
   | 'openmaic_quiz'
   | 'openmaic_interactive'
   | 'openmaic_pbl'
-  | 'openmaic_3d';
+  | 'openmaic_3d'
+  | 'virtual_lab';
 
 export interface CourseActivity {
   id: string;

@@ -53,6 +53,66 @@
 
 https://github.com/user-attachments/assets/b4ab35ac-f994-46b1-8957-e82fe87ff0e9
 
+## 智伴·创学比赛版：机电 Virtual Lab
+
+本工程在 OpenMAIC 的 Interactive HTML、WebGL、消息通信、智伴认证与 PostgreSQL 能力上，提供“自动输送系统 S2 无输出故障诊断”交互式课件。学生完成“观察—PLC I/O—测量—判断—维修—验证”，系统生成确定性过程评分、AI过程反馈、补救建议与再练比较；教师可查看真实课程级学情。
+
+### 启动、配置与迁移
+
+```bash
+pnpm install
+pnpm exec tsx scripts/zhiban-db.mts migrate
+pnpm dev
+```
+
+在 `.env.local` 配置至少以下项（不要把账号、密码或 API Key 提交到源码）：
+
+```env
+ZHIBAN_AUTH_ENABLED=true
+DATABASE_URL=postgresql://<user>:<password>@<host>:5432/<database>
+ZHIBAN_PII_KEY=<base64编码的32字节密钥>
+# 可选：任一已支持的 AI provider，例如 OPENAI_API_KEY=...
+```
+
+AI 教练复用平台模型路由。未配置 Key、模型超时、空回答或不符合教学规则的回答均会自动切换为本地分层提示；实训、评分和结果页不会被阻断。
+
+### 入口与评审账号
+
+- 学生入口：`/zhiban/student/courses/mech-mechatronics-system`
+- Virtual Lab：`/zhiban/student/courses/mech-mechatronics-system/activities/mech-lab-line-stop`
+- 教师学情：`/zhiban/teacher/virtual-lab`
+
+使用现有用户管理导入或创建评审学生、教师账号；为教师授予租户/系统范围的 `course:manage` 权限。评审账号凭据仅放在部署环境或私有交接单中，禁止硬编码。
+
+### 五分钟演示模式
+
+场景为确定性训练：每次“开始实训”后均在同一位置触发 S2 无输出故障；“重置场景”可立即回到初始状态。建议演示节奏：
+
+| 时间 | 演示内容 |
+| --- | --- |
+| 00:00–00:30 | 课程入口与学习目标 |
+| 00:30–01:00 | 正常输送与故障现象 |
+| 01:00–01:40 | PLC I0.2 OFF 与现场工件到位 |
+| 01:40–02:30 | S2 供电 24V、输出 0V |
+| 02:30–03:10 | AI 分层启发式提示 |
+| 03:10–03:40 | 修复、I0.2 ON、恢复生产 |
+| 03:40–05:00 | Assessment、补救建议、再练比较、教师学情 |
+
+### 数据、隐私与限制
+
+Virtual Lab 仅保存教学必要的 session、关键操作、确定性 Assessment 与能力画像；学生只能读取自己的记录，教师只可通过既有 `course:manage` 授权读取聚合学情。数据库不可用时显示非阻塞同步提示，核心实训仍可完成。本比赛版仅包含一个确定性 S2 故障，不包含真实 PLC 通信、第二故障、语音或 VR/AR。
+
+### 验证
+
+```bash
+pnpm exec tsc --noEmit
+pnpm lint
+pnpm test
+pnpm test:e2e
+```
+
+Playwright 评审环境设置 `ZHIBAN_E2E_STUDENT_LOGIN`、`ZHIBAN_E2E_STUDENT_PASSWORD`（教师端验收同时设置对应教师变量）；未设置时智伴 E2E 会安全跳过，不会创建认证后门。
+
 ### Highlights
 
 - **One-click lesson generation** — Describe a topic or attach your materials; the AI builds a full lesson in minutes

@@ -46,6 +46,7 @@ import { monitorClosedLoopMigration } from './045-monitor-closed-loop';
 import { monitorTeacherNotificationsMigration } from './046-monitor-teacher-notifications';
 import { teachingAnalyticsOptimizationMigration } from './047-teaching-analytics-optimization';
 import { teachingAnalysisJobsMigration } from './048-teaching-analysis-jobs';
+import { virtualLabPersistenceMigration } from './049-virtual-lab-persistence';
 
 export const ZHIBAN_MIGRATIONS: readonly ZhibanMigration[] = [
   initialIdentityMigration,
@@ -96,6 +97,7 @@ export const ZHIBAN_MIGRATIONS: readonly ZhibanMigration[] = [
   monitorTeacherNotificationsMigration,
   teachingAnalyticsOptimizationMigration,
   teachingAnalysisJobsMigration,
+  virtualLabPersistenceMigration,
 ];
 
 export type { ZhibanMigration } from './001-initial-identity';

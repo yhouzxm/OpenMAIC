@@ -2,12 +2,13 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { AlertTriangle, BarChart3, BookOpen, Bot, GraduationCap, Workflow } from 'lucide-react';
+import { AlertTriangle, BarChart3, BookOpen, Bot, FlaskConical, GraduationCap, Workflow } from 'lucide-react';
 import { TeacherAvatar, TeacherTopbar } from './teacher-portal';
 
 const navigation = [
   { label: '我的课程', href: '/zhiban/teacher/courses', icon: BookOpen },
   { label: '课堂教学', href: '/zhiban/teacher/classrooms', icon: GraduationCap },
+  { label: '虚拟实训', href: '/zhiban/teacher/virtual-lab', icon: FlaskConical },
   { label: 'PBL 项目', href: '/zhiban/teacher/pbl', icon: Workflow },
   { label: '学生成绩', href: '/zhiban/teacher/grades', icon: BarChart3 },
   { label: '学习分析', href: '/zhiban/teacher/profiles', icon: BarChart3 },

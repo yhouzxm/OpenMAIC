@@ -38,6 +38,7 @@ const activityTypeLabels: Record<CourseActivityType, string> = {
   openmaic_interactive: '互动网页',
   openmaic_pbl: 'PBL 互动',
   openmaic_3d: '3D 互动',
+  virtual_lab: 'Virtual Lab 虚拟实训',
 };
 
 export function TeacherCourseShell({
