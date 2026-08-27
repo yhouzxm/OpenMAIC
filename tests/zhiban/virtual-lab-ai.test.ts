@@ -111,6 +111,24 @@ describe('state-aware Virtual Lab AI coach', () => {
     expect(response.message).toBeTruthy();
   });
 
+  it.each(['model missing', 'API key missing', 'request timeout', 'invalid JSON response'])(
+    'keeps the training path available for %s',
+    async (reason) => {
+      const response = await runTrainingCoach(context(), {
+        generate: async () => { throw new Error(reason); },
+      });
+      expect(response.fallback).toBe(true);
+      expect(response.notice).toContain('已切换至教学提示模式');
+      expect(response.message.length).toBeGreaterThan(0);
+    },
+  );
+
+  it('uses a controlled fallback for an empty model response', async () => {
+    const response = await runTrainingCoach(context(), { generate: async () => '   ' });
+    expect(response.fallback).toBe(true);
+    expect(response.message.length).toBeGreaterThan(0);
+  });
+
   it('filters a provider response that directly leaks the answer', async () => {
     const response = await runTrainingCoach(context(), { generate: async () => 'S2输出异常，更换S2即可。' });
     expect(response.fallback).toBe(true);

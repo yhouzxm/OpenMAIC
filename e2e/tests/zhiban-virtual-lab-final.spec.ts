@@ -9,15 +9,53 @@ const configured = Boolean(student.login && student.password);
 
 async function login(page: import('@playwright/test').Page, account = student) {
   await page.goto('/zhiban/login', { waitUntil: 'domcontentloaded' });
-  await page.locator('#identifier').fill(student.login);
-  await page.locator('#password').fill(student.password);
+  await page.locator('#identifier').fill(account.login);
+  await page.locator('#password').fill(account.password);
   await page.getByRole('button', { name: '登录' }).click();
   await page.waitForURL((url) => !url.pathname.endsWith('/zhiban/login'), { timeout: 60_000 });
 }
 
 test.describe('比赛版 Virtual Lab 黄金路径', () => {
-  test.describe.configure({ mode: 'serial', timeout: 90_000 });
+  test.describe.configure({ mode: 'serial', timeout: 120_000 });
   test.skip(!configured, 'Set ZHIBAN_E2E_STUDENT_LOGIN and ZHIBAN_E2E_STUDENT_PASSWORD to run');
+
+  test('student self-learning remediation works without a Classroom session', async ({ page }) => {
+    await login(page);
+    await page.goto('/zhiban/student/courses/mech-mechatronics-system/learning-center', { waitUntil: 'domcontentloaded' });
+    await expect(page.getByText('沿信号链学机理，循证据链做诊断')).toBeVisible();
+    await expect(page.getByText('抢修停摆的自动生产线')).toBeVisible();
+
+    await page.goto('/zhiban/student/courses/mech-mechatronics-system/learning-center/station-02-sensing', { waitUntil: 'domcontentloaded' });
+    await expect(page.getByTestId('learning-station-02')).toBeVisible();
+    let sensing = page.frameLocator('iframe').last();
+    await sensing.getByRole('button', { name: '测量 S2 供电端' }).click();
+    await page.getByRole('button', { name: 'A. S2已经完全正常' }).click();
+    await expect(page.getByTestId('smart-remediation-card')).toContainText('建议补练');
+    await expect(page.getByTestId('smart-remediation-card')).not.toContainText(/S02-03|POWER_EQUALS|reasonCode/);
+    await page.getByRole('link', { name: '开始补练' }).click();
+    await expect(page.getByTestId('remediation-run-banner')).toContainText('智能补练');
+
+    sensing = page.frameLocator('iframe').last();
+    await sensing.getByRole('button', { name: '测量 S2 供电端' }).click();
+    await page.getByRole('button', { name: 'B. S2供电回路基本正常' }).click();
+    await sensing.getByRole('button', { name: /无输出推演/ }).click();
+    const track = await sensing.locator('#track').boundingBox();
+    const workpiece = await sensing.locator('#workpiece').boundingBox();
+    if (!track || !workpiece) throw new Error('S2 sensing workpiece is not visible');
+    await page.mouse.move(workpiece.x + workpiece.width / 2, workpiece.y + workpiece.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(track.x + track.width / 2, track.y + track.height / 2, { steps: 8 });
+    await page.mouse.up();
+    await sensing.getByRole('button', { name: '测量 S2 输出端' }).click();
+    await page.getByRole('button', { name: /B\. 继续检查S2输出链路/ }).click();
+    await expect(page.getByRole('link', { name: '重新挑战' })).toBeVisible({ timeout: 15_000 });
+    await page.getByRole('link', { name: '重新挑战' }).click();
+    await expect(page.getByTestId('remediation-run-banner')).toContainText('重新挑战原任务');
+    sensing = page.frameLocator('iframe').last();
+    await sensing.getByRole('button', { name: '测量 S2 供电端' }).click();
+    await page.getByRole('button', { name: 'B. S2供电回路基本正常' }).click();
+    await expect(page.getByTestId('remediation-run-banner')).toContainText('已回归主学习路径', { timeout: 15_000 });
+  });
 
   test('student completes deterministic S2 diagnosis without a live model dependency', async ({ page }) => {
     await login(page);
@@ -45,6 +83,8 @@ test.describe('比赛版 Virtual Lab 黄金路径', () => {
     await lab.getByRole('button', { name: '重新启动验证' }).click();
     await expect(page.getByTestId('virtual-lab-assessment-result')).toBeVisible({ timeout: 20_000 });
     await expect(page.getByText('五维能力表现')).toBeVisible();
+    await expect(page.getByTestId('diagnosis-path-replay')).toContainText('我的诊断路径');
+    await expect(page.getByTestId('diagnosis-path-replay')).toContainText('循证诊断路径');
     await expect(page.getByText('建议补强')).toBeVisible();
     await expect(page.getByTestId('virtual-lab-history')).toContainText(/第\s*\d+\s*次/, { timeout: 12_000 });
   });

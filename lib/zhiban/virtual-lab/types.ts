@@ -52,6 +52,7 @@ export interface MechLabActionPayload {
     | 'REPLACE_COMPONENT'
     | 'RESTART_MACHINE'
     | 'CLICK_COMPONENT'
+    | 'HIGHLIGHT_COMPONENT'
     | 'REQUEST_HINT'
     | 'WRONG_ACTION'
     | 'OBSERVE'
@@ -78,12 +79,25 @@ export interface MechLabSceneStatePayload {
   phase: string;
   operationalPhase?: string;
   systemRunning: boolean;
-  workpiece?: { position?: { x: number; y: number; z: number }; detectedByS1?: boolean; detectedByS2?: boolean };
-  sensors: { s1: boolean; s2: boolean; s2Powered?: boolean; s2Output?: boolean; s2Faulty?: boolean };
+  workpiece?: {
+    position?: { x: number; y: number; z: number };
+    detectedByS1?: boolean;
+    detectedByS2?: boolean;
+  };
+  sensors: {
+    s1: boolean;
+    s2: boolean;
+    s2Powered?: boolean;
+    s2Output?: boolean;
+    s2Faulty?: boolean;
+  };
   motor: boolean;
   conveyor: boolean;
   cylinder: boolean;
-  plc: { inputs: { s1: boolean; s2: boolean; startButton?: boolean; stopButton?: boolean }; outputs: { motor: boolean; cylinder: boolean } };
+  plc: {
+    inputs: { s1: boolean; s2: boolean; startButton?: boolean; stopButton?: boolean };
+    outputs: { motor: boolean; cylinder: boolean };
+  };
   faultActive?: boolean;
   training?: {
     inspectedComponents?: string[];

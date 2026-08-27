@@ -6,6 +6,7 @@ import { ArrowLeft } from 'lucide-react';
 import { ClassroomProgressTracker } from '@/components/zhiban/classroom-progress-tracker';
 import { EmaPrompt } from '@/components/zhiban/ema-prompt';
 import { ClassroomAgentBridge } from '@/components/zhiban/classroom-agent-bridge';
+import { ClassroomSceneDispatch } from '@/components/zhiban/classroom-scene-dispatch';
 import { ZHIBAN_SESSION_COOKIE } from '@/lib/zhiban/auth/http';
 import { listStudentClassrooms } from '@/lib/zhiban/classroom';
 import { getZhibanPool } from '@/lib/zhiban/db/connection';
@@ -40,6 +41,7 @@ export default async function StudentClassroomPage({
       <ClassroomProgressTracker bindingId={bindingId} preferredSceneId={sceneId} />
       <EmaPrompt />
       <ClassroomAgentBridge courseId={classroom.courseId} />
+      <ClassroomSceneDispatch bindingId={bindingId} courseId={classroom.courseId} />
       <OpenMaicClassroomPlayer classroomId={classroom.classroomId} postgres readOnly initialSceneId={sceneId} />
     </>
   );

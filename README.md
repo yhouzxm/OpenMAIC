@@ -53,11 +53,45 @@
 
 https://github.com/user-attachments/assets/b4ab35ac-f994-46b1-8957-e82fe87ff0e9
 
-## 智伴·创学比赛版：机电 Virtual Lab
+## 智伴·创学比赛成品
 
-本工程在 OpenMAIC 的 Interactive HTML、WebGL、消息通信、智伴认证与 PostgreSQL 能力上，提供“自动输送系统 S2 无输出故障诊断”交互式课件。学生完成“观察—PLC I/O—测量—判断—维修—验证”，系统生成确定性过程评分、AI过程反馈、补救建议与再练比较；教师可查看真实课程级学情。
+### 作品定位
 
-### 启动、配置与迁移
+**智伴·创学——AI驱动的机电一体化智能诊断与虚拟实训交互课件**，围绕 PBL 工程任务“抢修停摆的自动生产线”，以“**沿信号链学机理，循证据链做诊断**”为核心理念。作品不是课程管理平台：学生无需教师发起课堂即可沿主线完成学习、补练、实训和评价；Classroom 仅作为可选课堂应用。
+
+主线由七个递进任务阶段组成：
+
+`识系统 → 探感知 → 析控制 → 追执行 → 学诊断 → 战故障 → 评提升`
+
+内容冻结为 **7 个 Station、25 个逻辑 Scene、15 个知识点（K01–K15）、8 个微练习（M01–M08）**。交互复用 OpenMAIC Interactive HTML、WebGL/Three.js、Simulation、Diagram、iframe 双向消息与 Scene Player。
+
+### 教学闭环与核心能力
+
+- 五步循证诊断法：察（现场）→ 查（PLC I/O）→ 测（工具证据）→ 断（故障判断）→ 验（维修验证）。
+- 单一正式 Virtual Lab：`line-stop-001` 自动输送系统，确定性触发“S2 有 24V 供电但无输出”故障。
+- AI 一体四态：知识学习伙伴、认知诊断、实训教练、评价导师；全部复用平台模型路由，设备状态与确定性评分不由 AI 决定。
+- Concept Error 与 Scene 级精准补练：规则决定补练路径，AI 只解释原因；补练后回到原任务再挑战。
+- Assessment：五维实训过程评价、我的诊断路径与循证路径对比、AI反馈、补救建议和跨尝试学习增值。
+- Station 07：六维课件能力画像（系统机理、传感检测、PLC信号、工具检测、证据推理、诊断验证）。
+- Classroom（可选）：教师调度已有 Scene，学生完成后聚合 Concept Error，再调度已有补救 Scene；不依赖实时聊天、视频或白板。
+
+### 技术架构
+
+```text
+Next.js / React / TypeScript
+  ├─ Learning Center + SceneOrchestrator + PBL 外壳
+  ├─ OpenMAIC Interactive HTML / iframe messaging / WebGL
+  ├─ Virtual Lab 状态机 + PLC I/O + 虚拟万用表
+  ├─ 统一 AI 模型路由 + 本地 fallback
+  ├─ 确定性 Assessment + Learner Profile + Teacher Analytics
+  └─ PostgreSQL + tenant RLS + 既有 RBAC / enrollment
+```
+
+Interactive iframe 负责仿真，智伴宿主负责课程上下文、事件、AI、评价与持久化；Virtual Lab、Learning Event、Profile、Classroom 均复用现有认证和租户边界。
+
+### 启动、配置与 Migration
+
+环境要求：Node.js 20+、pnpm 10+、PostgreSQL。
 
 ```bash
 pnpm install
@@ -65,53 +99,106 @@ pnpm exec tsx scripts/zhiban-db.mts migrate
 pnpm dev
 ```
 
-在 `.env.local` 配置至少以下项（不要把账号、密码或 API Key 提交到源码）：
+生产构建采用 Next.js standalone 输出：
+
+```bash
+pnpm build
+cp -R .next/static .next/standalone/.next/static
+PORT=3000 node .next/standalone/server.js
+```
+
+Windows PowerShell 将复制命令替换为 `Copy-Item .next\static .next\standalone\.next\static -Recurse -Force`。正式启动前必须提供与迁移时相同的 `DATABASE_URL`；本工程的 `output: standalone` 不使用 `next start`。
+
+在 `.env.local` 配置（密码、账号凭据和 API Key 不得提交到源码）：
 
 ```env
 ZHIBAN_AUTH_ENABLED=true
 DATABASE_URL=postgresql://<user>:<password>@<host>:5432/<database>
 ZHIBAN_PII_KEY=<base64编码的32字节密钥>
-# 可选：任一已支持的 AI provider，例如 OPENAI_API_KEY=...
+# 可选：平台已支持的任一 AI provider，例如 OPENAI_API_KEY=...
+# 可选：可信评审学生登录名白名单，仅服务端生效
+ZHIBAN_REVIEW_DEMO_ACCOUNTS=review-student-quick
 ```
 
-AI 教练复用平台模型路由。未配置 Key、模型超时、空回答或不符合教学规则的回答均会自动切换为本地分层提示；实训、评分和结果页不会被阻断。
+智伴相关 Migration 按现有序列执行，其中 `049` 保存 Virtual Lab，`050` 保存知识学习事件，`051` 保存共享课堂 Scene Session；迁移不会删除既有业务表。
 
-### 入口与评审账号
+### 学生、教师与评审入口
 
-- 学生入口：`/zhiban/student/courses/mech-mechatronics-system`
+- 学生课程：`/zhiban/student/courses/mech-mechatronics-system`
+- 学习中心：`/zhiban/student/courses/mech-mechatronics-system/learning-center`
 - Virtual Lab：`/zhiban/student/courses/mech-mechatronics-system/activities/mech-lab-line-stop`
-- 教师学情：`/zhiban/teacher/virtual-lab`
+- 教师课件预览：`/zhiban/teacher/courses/mech-mechatronics-system/learning-center`
+- 教师实训学情：`/zhiban/teacher/virtual-lab`
 
-使用现有用户管理导入或创建评审学生、教师账号；为教师授予租户/系统范围的 `course:manage` 权限。评审账号凭据仅放在部署环境或私有交接单中，禁止硬编码。
+评审账号必须使用现有用户管理真实创建并绑定《机电一体化系统》：
 
-### 五分钟演示模式
+1. **自主学习学生账号**：不加入演示白名单，按 01→07 真实解锁。
+2. **快速演示学生账号**：登录名加入服务端 `ZHIBAN_REVIEW_DEMO_ACCOUNTS`，可快速预览重点 Station；操作仍按真实 Learning Event、Virtual Lab 和 Assessment 记录。
+3. **评审教师账号**：教师身份且仅授予目标课程所需的 `course:manage`，不授予系统管理员权限。
 
-场景为确定性训练：每次“开始实训”后均在同一位置触发 S2 无输出故障；“重置场景”可立即回到初始状态。建议演示节奏：
+密码只存部署密钥或私有评审交接单。系统没有 `skip=true`、`unlock=true`、localStorage 解锁或硬编码评审密码等认证后门。
+
+### AI 与持久化降级
+
+AI 缺 Key、模型不存在、超时、空文本、格式异常或输出泄露答案时，自动切换到受控本地教学提示；知识学习、微练习、补练、Virtual Lab、Assessment 和 Station 07 均可继续。Learning Event、Profile、Virtual Lab action、Assessment 或补练记录保存失败时，页面显示“学习记录暂未同步，不影响本次学习”，当前交互不会白屏或中断。
+
+### 五分钟比赛演示
 
 | 时间 | 演示内容 |
 | --- | --- |
-| 00:00–00:30 | 课程入口与学习目标 |
-| 00:30–01:00 | 正常输送与故障现象 |
-| 01:00–01:40 | PLC I0.2 OFF 与现场工件到位 |
-| 01:40–02:30 | S2 供电 24V、输出 0V |
-| 02:30–03:10 | AI 分层启发式提示 |
-| 03:10–03:40 | 修复、I0.2 ON、恢复生产 |
-| 03:40–05:00 | Assessment、补救建议、再练比较、教师学情 |
+| 00:00–00:30 | 作品主页、工程任务、七阶段与核心理念 |
+| 00:30–01:10 | Station 02：工件→S2→24V/输出→I0.2，展示“有供电≠有输出” |
+| 01:10–01:40 | Station 03：S2→I0.2→PLC Logic→Q0.1→动态梯形图 |
+| 01:40–02:10 | 故意触发 Concept Error，AI追问→Smart Remediation→精准补练 |
+| 02:10–03:35 | Virtual Lab：故障→PLC→24V→0V→提示→诊断→维修→验证 |
+| 03:35–04:10 | 五维 Assessment 与专家诊断路径回放 |
+| 04:10–04:40 | Station 07 六维画像、精准补练与学习增值 |
+| 04:40–05:00 | 可选教师 Scene 调度和班级共性 Concept Error |
 
-### 数据、隐私与限制
+每次重置均从同一初始状态开始，S2 故障在同一逻辑位置触发；AI 或数据库异常不影响 5 分钟核心路径。
 
-Virtual Lab 仅保存教学必要的 session、关键操作、确定性 Assessment 与能力画像；学生只能读取自己的记录，教师只可通过既有 `course:manage` 授权读取聚合学情。数据库不可用时显示非阻塞同步提示，核心实训仍可完成。本比赛版仅包含一个确定性 S2 故障，不包含真实 PLC 通信、第二故障、语音或 VR/AR。
-
-### 验证
+### 测试
 
 ```bash
+pnpm exec vitest run tests/zhiban
 pnpm exec tsc --noEmit
-pnpm lint
-pnpm test
-pnpm test:e2e
+pnpm exec eslint <本批相关文件>
+git diff --check
+pnpm build
+pnpm exec playwright test e2e/tests/zhiban-virtual-lab-final.spec.ts --project=chromium
+pnpm exec playwright test e2e/tests/zhiban-classroom-optional-final.spec.ts --project=chromium
 ```
 
-Playwright 评审环境设置 `ZHIBAN_E2E_STUDENT_LOGIN`、`ZHIBAN_E2E_STUDENT_PASSWORD`（教师端验收同时设置对应教师变量）；未设置时智伴 E2E 会安全跳过，不会创建认证后门。
+真实 Playwright 验收配置：
+
+```env
+ZHIBAN_E2E_STUDENT_LOGIN=<真实学生登录名>
+ZHIBAN_E2E_STUDENT_PASSWORD=<密码>
+ZHIBAN_E2E_TEACHER_LOGIN=<真实教师登录名>
+ZHIBAN_E2E_TEACHER_PASSWORD=<密码>
+ZHIBAN_E2E_COURSE_ID=<真实课程ID或mech-mechatronics-system>
+ZHIBAN_E2E_CLASSROOM_BINDING_ID=<可选课堂绑定UUID>
+```
+
+未配置凭据时认证 E2E 会明确跳过，不会绕过生产认证。全仓历史测试若存在与比赛核心无关的既有失败，以定向核心测试、TypeScript、ESLint、build 与真实 E2E 为冻结基线。
+
+### 数据隐私
+
+系统仅保存教学必要的关键事件、尝试、Assessment 与能力画像，不保存每帧 3D 数据。学生只能读取本人数据；教师需通过课程授权查看聚合学情；服务端从认证上下文确定用户，不信任前端提交的任意 userId。
+
+### FINAL SCOPE（业务功能永久冻结）
+
+PBL 工程外壳、7 Station、25 Scene、K01–K15、M01–M08、3D/Interactive HTML、PLC 推演、虚拟万用表、60秒信号追踪、Virtual Lab、AI四态、五步循证诊断、Concept Error、Scene级补练与再挑战、Assessment、六维画像、Learning Event/Persistence，以及可选 Classroom 与 Teacher Analytics。
+
+### OUT OF SCOPE
+
+第二完整故障 Virtual Lab、第二生产线、PLC 梯形图编辑器、真实 PLC、AI 生成 Scene、第五 AI Agent、知识图谱、数字人、TTS/ASR、VR/AR、排行榜、积分商城、复杂游戏、实时白板、视频会议和协同编辑均不再开发。
+
+### 已知限制
+
+- 正式仿真只冻结一个 S2 无输出故障；移动端可访问，但完整 3D 实训建议使用 1366×768 及以上 PC 屏幕。
+- AI 个性化受部署方模型质量和网络影响；稳定 fallback 始终可用。
+- Classroom 首版采用 3–5 秒短轮询，是可选教学应用，不是学生自主学习前置条件。
 
 ### Highlights
 

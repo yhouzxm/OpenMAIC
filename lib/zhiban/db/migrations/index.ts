@@ -47,6 +47,8 @@ import { monitorTeacherNotificationsMigration } from './046-monitor-teacher-noti
 import { teachingAnalyticsOptimizationMigration } from './047-teaching-analytics-optimization';
 import { teachingAnalysisJobsMigration } from './048-teaching-analysis-jobs';
 import { virtualLabPersistenceMigration } from './049-virtual-lab-persistence';
+import { knowledgeLearningCenterMigration } from './050-knowledge-learning-center';
+import { classroomSceneSessionsMigration } from './051-classroom-scene-sessions';
 
 export const ZHIBAN_MIGRATIONS: readonly ZhibanMigration[] = [
   initialIdentityMigration,
@@ -98,6 +100,8 @@ export const ZHIBAN_MIGRATIONS: readonly ZhibanMigration[] = [
   teachingAnalyticsOptimizationMigration,
   teachingAnalysisJobsMigration,
   virtualLabPersistenceMigration,
+  knowledgeLearningCenterMigration,
+  classroomSceneSessionsMigration,
 ];
 
 export type { ZhibanMigration } from './001-initial-identity';

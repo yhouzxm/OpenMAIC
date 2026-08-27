@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import type { ZhibanCourseClassroom } from '@/lib/zhiban/classroom';
-import { MECH_LAB_SAMPLE_COURSE_ID } from '@/lib/zhiban/virtual-lab/registry';
+import { MECHATRONICS_COURSE_CODE } from '@/lib/zhiban/mechatronics-course.constants';
 
 type FilterKey = 'academicYear' | 'termName' | 'offeringStatus' | 'department' | 'learningCenter';
 const emptyFilters: Record<FilterKey, string> = {
@@ -125,16 +125,6 @@ export function StudentCourseCatalog({ courseId = '' }: { courseId?: string }) {
         />
       </section>
       <section className="space-y-3">
-        {!query.trim() && Object.values(filters).every((value) => !value) && (
-          <Link
-            href={`/zhiban/student/courses/${MECH_LAB_SAMPLE_COURSE_ID}`}
-            className="group flex flex-col gap-4 border border-blue-200 bg-blue-50/40 p-5 transition hover:border-blue-400 hover:shadow-sm sm:flex-row sm:items-center"
-          >
-            <div className="hidden h-24 w-36 shrink-0 items-center justify-center rounded bg-gradient-to-br from-cyan-600 to-blue-800 text-white sm:flex"><BookOpen className="size-10" /></div>
-            <div className="min-w-0 flex-1"><div className="flex flex-wrap items-center gap-2"><h2 className="text-lg font-medium text-[#0868db] group-hover:underline">机电一体化系统</h2><Badge className="bg-[#1677e8]">Virtual Lab</Badge></div><p className="mt-2 text-sm text-slate-500">交互式课件 · 第3章传感检测与转换技术 / 第5章系统控制技术</p><p className="mt-1 text-sm text-slate-500">自动输送系统智能故障诊断虚拟实训</p></div>
-            <div className="w-full shrink-0 text-sm text-[#1677e8] sm:w-48">进入学生工作区 →</div>
-          </Link>
-        )}
         {courses.map((items) => {
           const course = items[0];
           const progress = course.progressPercent;
@@ -152,8 +142,22 @@ export function StudentCourseCatalog({ courseId = '' }: { courseId?: string }) {
                   <h2 className="text-lg font-medium text-[#0868db] group-hover:underline">
                     {course.courseName}
                   </h2>
-                  <Badge className={course.pblEnabled === null ? 'bg-slate-500' : 'bg-[#1677e8]'}>
-                    {course.pblEnabled === null ? '未配置' : course.pblEnabled ? 'PBL' : '开放课堂'}
+                  <Badge
+                    className={
+                      course.courseCode === MECHATRONICS_COURSE_CODE
+                        ? 'bg-cyan-700'
+                        : course.pblEnabled === null
+                          ? 'bg-slate-500'
+                          : 'bg-[#1677e8]'
+                    }
+                  >
+                    {course.courseCode === MECHATRONICS_COURSE_CODE
+                      ? '智能诊断学习中心'
+                      : course.pblEnabled === null
+                        ? '未配置'
+                        : course.pblEnabled
+                          ? 'PBL'
+                          : '开放课堂'}
                   </Badge>
                 </div>
                 <p className="mt-2 text-sm text-slate-500">课程代码：{course.courseCode}</p>

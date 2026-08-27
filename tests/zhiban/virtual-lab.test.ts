@@ -1,6 +1,15 @@
 import { describe, expect, it } from 'vitest';
-import { createMechLabInteractiveContent } from '@/lib/zhiban/virtual-lab/interactive-template';
-import { getMechLabActivity, getMechLabSampleCourseStructure, MECH_LAB_ACTIVITY_ID, MECH_LAB_SAMPLE_COURSE_ID } from '@/lib/zhiban/virtual-lab/registry';
+import {
+  createMechLabInteractiveContent,
+  createMechSystemRecognitionInteractiveContent,
+} from '@/lib/zhiban/virtual-lab/interactive-template';
+import {
+  createMechLabCourseStructure,
+  getMechLabActivity,
+  getMechLabSampleCourseStructure,
+  MECH_LAB_ACTIVITY_ID,
+  MECH_LAB_SAMPLE_COURSE_ID,
+} from '@/lib/zhiban/virtual-lab/registry';
 import {
   advanceLineStopState,
   applyLineStopAction,
@@ -10,7 +19,12 @@ import {
   resumeLineStopSystem,
   startLineStopSystem,
 } from '@/lib/zhiban/virtual-lab/scenarios';
-import { createMechLabMessage, isMechLabMessage, isMechLabMessageForContext, MECH_LAB_MESSAGE_SOURCE } from '@/lib/zhiban/virtual-lab/types';
+import {
+  createMechLabMessage,
+  isMechLabMessage,
+  isMechLabMessageForContext,
+  MECH_LAB_MESSAGE_SOURCE,
+} from '@/lib/zhiban/virtual-lab/types';
 
 describe('formal Virtual Lab activity', () => {
   const context = getMechLabActivity(MECH_LAB_SAMPLE_COURSE_ID, MECH_LAB_ACTIVITY_ID)!;
@@ -23,8 +37,20 @@ describe('formal Virtual Lab activity', () => {
     expect(structure?.modules[0]?.chapters[0]?.activities[0]?.activityType).toBe('virtual_lab');
   });
 
+  it('keeps the activity context bound to the real academic course identifier', () => {
+    const academicCourseId = '5b65726f-49ee-4c03-b027-d01714714115';
+    const academicContext = getMechLabActivity(academicCourseId, MECH_LAB_ACTIVITY_ID);
+    const academicStructure = createMechLabCourseStructure(academicCourseId);
+    expect(academicContext?.courseId).toBe(academicCourseId);
+    expect(academicStructure.courseId).toBe(academicCourseId);
+    expect(academicStructure.modules[0]?.chapters[0]?.activities[0]?.id).toBe(MECH_LAB_ACTIVITY_ID);
+  });
+
   it('accepts only structured protocol messages for the active activity', () => {
-    const ready = createMechLabMessage(context, 'MECH_READY', { status: 'ready', rotation: 'running' });
+    const ready = createMechLabMessage(context, 'MECH_READY', {
+      status: 'ready',
+      rotation: 'running',
+    });
     expect(ready.source).toBe(MECH_LAB_MESSAGE_SOURCE);
     expect(isMechLabMessage(ready)).toBe(true);
     expect(isMechLabMessageForContext(ready, context)).toBe(true);
@@ -47,6 +73,22 @@ describe('formal Virtual Lab activity', () => {
     const script = html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
     expect(script).toBeTruthy();
     expect(() => new Function(script!)).not.toThrow();
+  });
+
+  it('keeps Station 01 in component-recognition mode without diagnostic controls', () => {
+    const html = createMechSystemRecognitionInteractiveContent({
+      ...context,
+      title: '系统认知 · 自动生产线设备探索',
+    }).html!;
+    expect(html).toContain('data-system-recognition-mode');
+    expect(html).toContain('系统认知 · 自动生产线设备探索');
+    expect(html).toContain('#start,#pause,#requestHint,#restart,#reset{display:none!important}');
+    expect(html).toContain(
+      '#plcPanel,#meterPanel,#diagnosisPanel,#diagnosisNext,.teach,.device,.record,#deviceActions',
+    );
+    expect(html).toContain('恢复默认视角');
+    expect(html).toContain('data-device="conveyor"');
+    expect(html).toContain('data-device="workpiece"');
   });
 
   it('runs a deterministic normal segment, then stops with physical S2 arrival but PLC I0.2 OFF', () => {
@@ -75,7 +117,10 @@ describe('formal Virtual Lab activity', () => {
 
   it('records PLC and meter evidence and does not accept an unsupported or wrong diagnosis', () => {
     let state = faultedState();
-    state = applyLineStopAction(state, { type: 'SUBMIT_DIAGNOSIS', diagnosis: 'S2_OUTPUT_ABNORMAL' });
+    state = applyLineStopAction(state, {
+      type: 'SUBMIT_DIAGNOSIS',
+      diagnosis: 'S2_OUTPUT_ABNORMAL',
+    });
     expect(state.training.wrongActions).toContain('DIAGNOSIS_WITHOUT_EVIDENCE');
     expect(state.trainingPhase).not.toBe('completed');
 
@@ -101,7 +146,10 @@ describe('formal Virtual Lab activity', () => {
     expect(state.training.wrongActions).toContain('RESTART_BEFORE_REPAIR');
     expect(state.phase).toBe('fault_waiting');
 
-    state = applyLineStopAction(state, { type: 'SUBMIT_DIAGNOSIS', diagnosis: 'S2_OUTPUT_ABNORMAL' });
+    state = applyLineStopAction(state, {
+      type: 'SUBMIT_DIAGNOSIS',
+      diagnosis: 'S2_OUTPUT_ABNORMAL',
+    });
     expect(state.trainingPhase).toBe('repair');
     state = applyLineStopAction(state, { type: 'REPLACE_COMPONENT', target: 'sensor_s2' });
     expect(state.sensorS2.faulty).toBe(false);

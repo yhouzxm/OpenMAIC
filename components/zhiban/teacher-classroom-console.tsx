@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import type { TeacherCourse } from '@/lib/zhiban/teacher-courses';
 import { ZhibanLogoutButton } from './logout-button';
+import { TeacherClassroomSceneControl } from './teacher-classroom-scene-control';
 type Binding = Record<string, unknown>;
 async function api<T>(url: string, init?: RequestInit) {
   const response = await fetch(url, init);
@@ -239,6 +240,7 @@ export function TeacherClassroomConsole({
           </Button>
         </div>
       </div>
+      {courseId && <TeacherClassroomSceneControl courseId={courseId} bindings={items} />}
       <Card className="mt-6">
         <CardHeader>
           <CardTitle>学生课堂学习进度</CardTitle>

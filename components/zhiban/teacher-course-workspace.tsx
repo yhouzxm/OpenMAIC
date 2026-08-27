@@ -19,6 +19,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import type { TeacherCourse } from '@/lib/zhiban/teacher-courses';
 import type { CourseActivityType, CourseModule } from '@/lib/zhiban/curriculum';
+import { MECHATRONICS_COURSE_CODE } from '@/lib/zhiban/mechatronics-course.constants';
 import { TeacherTopbar } from './teacher-portal';
 
 const activityTypeLabels: Record<CourseActivityType, string> = {
@@ -100,6 +101,27 @@ export function TeacherCourseShell({
           >
             课堂与互动
           </WorkspaceNav>
+          {course.code === MECHATRONICS_COURSE_CODE && (
+            <>
+              <WorkspaceNav
+                href={`${base}/learning-center`}
+                icon={BookOpen}
+                active={
+                  pathname === `${base}/learning-center` ||
+                  pathname.startsWith(`${base}/learning-center/station-`)
+                }
+              >
+                智能诊断学习中心
+              </WorkspaceNav>
+              <WorkspaceNav
+                href={`${base}/learning-center/analytics`}
+                icon={BarChart3}
+                active={pathname.startsWith(`${base}/learning-center/analytics`)}
+              >
+                学习中心学情
+              </WorkspaceNav>
+            </>
+          )}
           <WorkspaceNav
             href={`${base}/pbl${query}`}
             icon={Workflow}
@@ -131,7 +153,9 @@ export function TeacherCourseShell({
           <WorkspaceNav
             href={`${base}/analytics${query}`}
             icon={BarChart3}
-            active={pathname.startsWith(`${base}/analytics`) || pathname.startsWith(`${base}/profiles`)}
+            active={
+              pathname.startsWith(`${base}/analytics`) || pathname.startsWith(`${base}/profiles`)
+            }
           >
             教学分析
           </WorkspaceNav>
@@ -255,9 +279,7 @@ export function TeacherCourseOverview({
                         <span className="text-slate-400">
                           {moduleIndex + 1}.{chapterIndex + 1}
                         </span>
-                        <span className="min-w-0 flex-1 truncate font-medium">
-                          {chapter.title}
-                        </span>
+                        <span className="min-w-0 flex-1 truncate font-medium">{chapter.title}</span>
                         <span className="text-xs text-slate-500">
                           {chapter.activities.length} 个活动 · {chapter.estimatedMinutes} 分钟
                         </span>

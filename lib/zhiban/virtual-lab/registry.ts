@@ -30,9 +30,13 @@ export function getMechLabActivity(
   courseId: string,
   activityId: string,
 ): MechLabActivityContext | null {
-  return courseId === mechLabLineStop.courseId && activityId === mechLabLineStop.activityId
-    ? mechLabLineStop
+  return courseId && activityId === mechLabLineStop.activityId
+    ? { ...mechLabLineStop, courseId }
     : null;
+}
+
+export function createMechLabCourseStructure(courseId: string): CourseStructure {
+  return { ...getMechLabSampleCourseStructure(MECH_LAB_SAMPLE_COURSE_ID)!, courseId };
 }
 
 /** A single activity card is enough for the interactive-courseware entry in this batch. */

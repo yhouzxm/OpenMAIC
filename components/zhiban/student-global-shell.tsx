@@ -55,11 +55,30 @@ export function StudentGlobalShell({
     /^\/zhiban\/student\/pbl\/[^/]+/.test(pathname) ||
     /^\/zhiban\/student\/courses\/[^/]+\/activities\/[^/]+/.test(pathname);
   const courseWorkspace =
-    /^\/zhiban\/student\/courses\/[^/]+(?:\/(?:introduction|tools|coursework|resources|analysis|grades|support))?\/?$/.test(
+    /^\/zhiban\/student\/courses\/[^/]+(?:\/(?:introduction|tools|coursework|resources|analysis|grades|support|learning-center)(?:\/[^/]+)?)?\/?$/.test(
       pathname,
     );
+  const learningCenter = /^\/zhiban\/student\/courses\/[^/]+\/learning-center(?:\/[^/]+)?\/?$/.test(
+    pathname,
+  );
 
   if (immersive) return children;
+
+  // The learning center is a focused interactive courseware experience. It
+  // intentionally does not show the course workspace header or navigation;
+  // the center provides its own return links and progression UI.
+  if (learningCenter)
+    return (
+      <div className="min-h-screen bg-[#f1f5fb] text-slate-800">
+        <StudentTopbar
+          principalName={principalName}
+          mobileOpen={false}
+          onMenuToggle={() => undefined}
+          showMenu={false}
+        />
+        <main className="min-w-0">{children}</main>
+      </div>
+    );
 
   if (courseWorkspace)
     return (
@@ -70,10 +89,7 @@ export function StudentGlobalShell({
           onMenuToggle={() => setMobileOpen((open) => !open)}
         />
         {mobileOpen && (
-          <CourseMobileMenu
-            pathname={pathname}
-            onNavigate={() => setMobileOpen(false)}
-          />
+          <CourseMobileMenu pathname={pathname} onNavigate={() => setMobileOpen(false)} />
         )}
         <main className="min-w-0">{children}</main>
       </div>
@@ -144,14 +160,36 @@ function CourseMobileMenu({ pathname, onNavigate }: { pathname: string; onNaviga
   ];
   return (
     <>
-      <button type="button" aria-label="关闭课程菜单" className="fixed inset-0 z-[45] cursor-default bg-black/5 lg:hidden" onClick={onNavigate} />
+      <button
+        type="button"
+        aria-label="关闭课程菜单"
+        className="fixed inset-0 z-[45] cursor-default bg-black/5 lg:hidden"
+        onClick={onNavigate}
+      />
       <nav className="fixed right-2 top-[56px] z-50 max-h-[calc(100vh-64px)] w-52 overflow-y-auto rounded-md border bg-white py-2 text-sm shadow-xl lg:hidden">
         {items.map(({ label, href, icon: Icon }) => {
           const active = pathname === href || (href !== base && pathname.startsWith(`${href}/`));
-          return <Link key={href} href={href} onClick={onNavigate} className={`flex items-center gap-3 px-4 py-3 ${active ? 'bg-blue-50 font-medium text-[#1677e8]' : 'hover:bg-slate-50'}`}><Icon className="size-4" />{label}</Link>;
+          return (
+            <Link
+              key={href}
+              href={href}
+              onClick={onNavigate}
+              className={`flex items-center gap-3 px-4 py-3 ${active ? 'bg-blue-50 font-medium text-[#1677e8]' : 'hover:bg-slate-50'}`}
+            >
+              <Icon className="size-4" />
+              {label}
+            </Link>
+          );
         })}
         <div className="my-1 border-t" />
-        <Link href="/zhiban/student/classrooms" onClick={onNavigate} className="flex items-center gap-3 px-4 py-3 hover:bg-slate-50"><BookOpen className="size-4" />返回我的课程</Link>
+        <Link
+          href="/zhiban/student/classrooms"
+          onClick={onNavigate}
+          className="flex items-center gap-3 px-4 py-3 hover:bg-slate-50"
+        >
+          <BookOpen className="size-4" />
+          返回我的课程
+        </Link>
       </nav>
     </>
   );
@@ -161,10 +199,12 @@ function StudentTopbar({
   principalName,
   mobileOpen,
   onMenuToggle,
+  showMenu = true,
 }: {
   principalName: string;
   mobileOpen: boolean;
   onMenuToggle: () => void;
+  showMenu?: boolean;
 }) {
   return (
     <header className="sticky top-0 z-40 flex h-[52px] items-center justify-between bg-[#176fda] px-4 text-white shadow-sm md:px-8">
@@ -189,15 +229,17 @@ function StudentTopbar({
           variant="outline"
           className="border-white/70 bg-transparent text-white hover:bg-white/15 hover:text-white"
         />
-        <button
-          type="button"
-          className="flex size-9 items-center justify-center rounded hover:bg-white/15 lg:hidden"
-          aria-label={mobileOpen ? '关闭菜单' : '打开菜单'}
-          aria-expanded={mobileOpen}
-          onClick={onMenuToggle}
-        >
-          {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
-        </button>
+        {showMenu && (
+          <button
+            type="button"
+            className="flex size-9 items-center justify-center rounded hover:bg-white/15 lg:hidden"
+            aria-label={mobileOpen ? '关闭菜单' : '打开菜单'}
+            aria-expanded={mobileOpen}
+            onClick={onMenuToggle}
+          >
+            {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+          </button>
+        )}
       </div>
     </header>
   );

@@ -111,6 +111,38 @@ export function createMechLabInteractiveContent(context: MechLabActivityContext)
   };
 }
 
+/**
+ * Reuses the formal line-stop scene in a deliberately read-only learning mode.
+ * The scene geometry, camera controls, picking, and iframe protocol stay shared;
+ * only the diagnostic controls are hidden so Station 01 remains about recognising
+ * system components rather than completing a fault-training task.
+ */
+export function createMechSystemRecognitionInteractiveContent(
+  context: MechLabActivityContext,
+): InteractiveContent {
+  const formalContent = createMechLabInteractiveContent(context);
+  if (!formalContent.html || context.scenarioId !== LINE_STOP_001_SCENARIO_ID) return formalContent;
+
+  const recognitionStyle = `<style data-system-recognition-mode>
+#plcPanel,#meterPanel,#diagnosisPanel,#diagnosisNext,.teach,.device,.record,#deviceActions,
+#start,#pause,#requestHint,#restart,#reset{display:none!important}
+#phase{display:none!important}
+.controls{left:auto;right:14px;bottom:14px;transform:none;width:auto;max-width:none;padding:0}
+#camera{margin:0;background:#123b60}
+</style>`;
+
+  return {
+    ...formalContent,
+    html: formalContent.html
+      .replace('</head>', `${recognitionStyle}</head>`)
+      .replace(
+        '<h1>自动输送系统 · S2故障诊断虚拟实训</h1>',
+        `<h1>${context.title}</h1>`,
+      )
+      .replace('<span id="phase">任务准备</span>', '<span id="phase">设备探索</span>'),
+  };
+}
+
 export const mechValidationProtocol: MechIframeProtocol = {
   source: 'zhiban-mech-validation',
   version: '1.0',

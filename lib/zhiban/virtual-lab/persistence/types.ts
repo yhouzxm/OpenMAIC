@@ -74,4 +74,17 @@ export interface TeacherVirtualLabAnalytics {
   errorPatterns: { code: string; count: number; percent: number }[];
   dimensions: { key: string; label: string; average: number | null }[];
   interventions: string[];
+  knowledgeLearning: {
+    participatingStudents: number;
+    stationCompletion: {
+      stationId: string;
+      title: string;
+      completedStudents: number;
+      totalStudents: number;
+      rate: number | null;
+    }[];
+    dimensions: { key: string; label: string; average: number | null }[];
+    conceptErrors: { code: string; count: number; percent: number }[];
+    interventions: string[];
+  };
 }

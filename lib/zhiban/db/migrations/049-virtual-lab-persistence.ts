@@ -10,7 +10,7 @@ const tables = ['virtual_lab_sessions', 'virtual_lab_actions', 'virtual_lab_lear
 export const virtualLabPersistenceMigration: ZhibanMigration = {
   version: '049',
   description: 'Virtual Lab sessions, actions, assessments, and source-labelled learner abilities',
-  checksum: 'zhiban-049-virtual-lab-persistence-v1',
+  checksum: 'zhiban-049-virtual-lab-persistence-v2',
   up: [
     `CREATE TABLE zhiban.virtual_lab_sessions (
       id UUID PRIMARY KEY,
@@ -35,7 +35,7 @@ export const virtualLabPersistenceMigration: ZhibanMigration = {
       verification_passed BOOLEAN NOT NULL DEFAULT false,
       created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
       updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-      FOREIGN KEY(user_id, tenant_id) REFERENCES zhiban.accounts(id, tenant_id) ON DELETE CASCADE,
+      FOREIGN KEY(user_id) REFERENCES zhiban.accounts(id) ON DELETE CASCADE,
       UNIQUE(tenant_id, user_id, course_id, activity_id, scenario_id, attempt_number),
       CHECK(jsonb_typeof(assessment_json) = 'object'),
       CHECK(jsonb_typeof(weak_points_json) = 'array'),
@@ -53,7 +53,7 @@ export const virtualLabPersistenceMigration: ZhibanMigration = {
       phase VARCHAR(64),
       payload_json JSONB NOT NULL DEFAULT '{}'::jsonb,
       created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-      FOREIGN KEY(session_id, tenant_id) REFERENCES zhiban.virtual_lab_sessions(id, tenant_id) ON DELETE CASCADE,
+      FOREIGN KEY(session_id) REFERENCES zhiban.virtual_lab_sessions(id) ON DELETE CASCADE,
       CHECK(value IS NULL OR jsonb_typeof(value) IN ('string','number','boolean','object','array','null')),
       CHECK(jsonb_typeof(payload_json) = 'object')
     )`,
@@ -71,7 +71,7 @@ export const virtualLabPersistenceMigration: ZhibanMigration = {
       source_attempts INTEGER NOT NULL DEFAULT 0 CHECK(source_attempts >= 0),
       created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
       updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-      FOREIGN KEY(user_id, tenant_id) REFERENCES zhiban.accounts(id, tenant_id) ON DELETE CASCADE,
+      FOREIGN KEY(user_id) REFERENCES zhiban.accounts(id) ON DELETE CASCADE,
       UNIQUE(tenant_id, user_id, course_id, activity_id, scenario_id),
       CHECK(jsonb_typeof(dimensions) = 'object'),
       CHECK(jsonb_typeof(weak_points_json) = 'array'),

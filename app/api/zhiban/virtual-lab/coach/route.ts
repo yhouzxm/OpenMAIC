@@ -2,15 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { callLLM } from '@/lib/ai/llm';
 import { resolveModelFromRequest } from '@/lib/server/resolve-model';
-import {
-  runTrainingCoach,
-  type TrainingContext,
-} from '@/lib/zhiban/virtual-lab/ai';
+import { runTrainingCoach, type TrainingContext } from '@/lib/zhiban/virtual-lab/ai';
 
 export const runtime = 'nodejs';
 export const maxDuration = 30;
 
 const CoachRequestSchema = z.object({
+  mode: z.literal('training_coach').default('training_coach'),
   context: z.custom<TrainingContext>((value) => {
     if (!value || typeof value !== 'object') return false;
     const context = value as Partial<TrainingContext>;
@@ -56,9 +54,6 @@ export async function POST(request: NextRequest) {
     });
     return NextResponse.json(response);
   } catch (_error) {
-    return NextResponse.json(
-      { error: 'AI教练暂时繁忙，请稍后重试。' },
-      { status: 503 },
-    );
+    return NextResponse.json({ error: 'AI教练暂时繁忙，请稍后重试。' }, { status: 503 });
   }
 }

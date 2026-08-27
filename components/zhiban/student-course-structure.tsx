@@ -9,7 +9,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import type { CourseActivity, CourseActivityType, CourseStructure } from '@/lib/zhiban/curriculum';
 import type { ActivityContentRecord } from '@/lib/zhiban/content';
-import { getMechLabSampleCourseStructure } from '@/lib/zhiban/virtual-lab/registry';
+import { createMechLabCourseStructure } from '@/lib/zhiban/virtual-lab/registry';
+import { MECHATRONICS_COURSE_CODE } from '@/lib/zhiban/mechatronics-course.constants';
 
 const labels: Record<CourseActivityType, string> = {
   content: '图文内容',
@@ -39,19 +40,46 @@ const openMaicActivityTypes = new Set<CourseActivityType>([
 ]);
 
 export function StudentCourseStructure({ courseId }: { courseId: string }) {
-  const sampleStructure = useMemo(() => getMechLabSampleCourseStructure(courseId), [courseId]);
+  const [isMechatronicsCourse, setIsMechatronicsCourse] = useState<boolean | undefined>(undefined);
+  const sampleStructure = useMemo(
+    () => (isMechatronicsCourse ? createMechLabCourseStructure(courseId) : null),
+    [courseId, isMechatronicsCourse],
+  );
   const [structure, setStructure] = useState<CourseStructure | null | undefined>(undefined);
   const [contents, setContents] = useState<ActivityContentRecord[]>([]);
   const [expandedContentId, setExpandedContentId] = useState<string | null>(null);
+  useEffect(() => {
+    let active = true;
+    void fetch('/api/zhiban/classrooms')
+      .then(async (response) => {
+        const body = (await response.json()) as {
+          classrooms?: Array<{ courseId: string; courseCode: string }>;
+        };
+        if (!response.ok) throw new Error('课程信息加载失败');
+        if (active)
+          setIsMechatronicsCourse(
+            (body.classrooms ?? []).some(
+              (course) =>
+                course.courseId === courseId && course.courseCode === MECHATRONICS_COURSE_CODE,
+            ),
+          );
+      })
+      .catch(() => {
+        if (active) setIsMechatronicsCourse(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, [courseId]);
   const load = useCallback(async () => {
-    if (sampleStructure) return;
+    if (isMechatronicsCourse === undefined || sampleStructure) return;
     const response = await fetch(`/api/zhiban/student/courses/${courseId}/structure`);
     const body = await response.json();
     if (!response.ok) throw new Error(body.error ?? '课程目录加载失败');
     setStructure(body.structure);
-  }, [courseId, sampleStructure]);
+  }, [courseId, isMechatronicsCourse, sampleStructure]);
   useEffect(() => {
-    if (sampleStructure) return;
+    if (isMechatronicsCourse === undefined || sampleStructure) return;
     void Promise.all([
       fetch(`/api/zhiban/student/courses/${courseId}/structure`),
       fetch(`/api/zhiban/student/courses/${courseId}/content`),
@@ -65,7 +93,7 @@ export function StudentCourseStructure({ courseId }: { courseId: string }) {
         setContents(contentBody.contents ?? []);
       })
       .catch((error) => toast.error(error.message));
-  }, [courseId, sampleStructure]);
+  }, [courseId, isMechatronicsCourse, sampleStructure]);
   const resolvedStructure = sampleStructure ?? structure;
   const complete = async (activityId: string) => {
     const response = await fetch(`/api/zhiban/student/courses/${courseId}/structure`, {
@@ -80,7 +108,8 @@ export function StudentCourseStructure({ courseId }: { courseId: string }) {
   };
   const completeContent = async (activityId: string) => {
     const response = await fetch(`/api/zhiban/student/courses/${courseId}/content`, {
-      method: 'POST', headers: { 'content-type': 'application/json' },
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ action: 'complete_content', activityId }),
     });
     const body = await response.json();
@@ -106,41 +135,66 @@ export function StudentCourseStructure({ courseId }: { courseId: string }) {
               <span className="ml-auto text-xs text-slate-500">{module.chapters.length} 章</span>
             </summary>
             <div className="divide-y">
-              {module.chapters.map((chapter, chapterIndex) => (
-                <div key={chapter.id} className="p-2 sm:p-4">
-                  <div className="mb-3 flex flex-wrap items-center gap-2">
-                    <Badge variant="outline">第 {chapterIndex + 1} 章</Badge>
-                    <h3 className="font-medium">{chapter.title}</h3>
-                    <span className="ml-auto flex items-center gap-1 text-xs text-slate-500">
-                      <Clock className="size-3" />
-                      预计 {chapter.estimatedMinutes} 分钟
-                    </span>
+              {module.chapters.map((chapter, chapterIndex) => {
+                // The mechatronics Virtual Lab is now hosted by Learning Center Station 06,
+                // rather than appearing as a duplicate activity in the course workspace.
+                const visibleActivities = chapter.activities.filter(
+                  (activity) => !(isMechatronicsCourse && activity.activityType === 'virtual_lab'),
+                );
+                return (
+                  <div key={chapter.id} className="p-2 sm:p-4">
+                    <div className="mb-3 flex flex-wrap items-center gap-2">
+                      <Badge variant="outline">第 {chapterIndex + 1} 章</Badge>
+                      <h3 className="font-medium">{chapter.title}</h3>
+                      <span className="ml-auto flex items-center gap-1 text-xs text-slate-500">
+                        <Clock className="size-3" />
+                        预计 {chapter.estimatedMinutes} 分钟
+                      </span>
+                    </div>
+                    <div className="space-y-2 sm:pl-2 md:pl-8">
+                      {visibleActivities.map((activity) => (
+                        <StudentActivity
+                          key={activity.id}
+                          courseId={courseId}
+                          activity={activity}
+                          content={contents.find((item) => item.activityId === activity.id)}
+                          contentExpanded={expandedContentId === activity.id}
+                          onToggleContent={() =>
+                            setExpandedContentId((current) =>
+                              current === activity.id ? null : activity.id,
+                            )
+                          }
+                          onCompleteContent={() =>
+                            void completeContent(activity.id).catch((error) =>
+                              toast.error(error.message),
+                            )
+                          }
+                          onComplete={() =>
+                            void complete(activity.id).catch((error) => toast.error(error.message))
+                          }
+                        />
+                      ))}
+                      {!visibleActivities.length && (
+                        <p className="text-sm text-slate-500">
+                          {isMechatronicsCourse ? (
+                            <>
+                              综合实训已移至学习中心的“06 综合实训”学习站。
+                              <Link
+                                href={`/zhiban/student/courses/${courseId}/learning-center/station-06-virtual-lab`}
+                                className="ml-1 text-blue-600 hover:underline"
+                              >
+                                前往综合实训 →
+                              </Link>
+                            </>
+                          ) : (
+                            '本章暂无学习活动。'
+                          )}
+                        </p>
+                      )}
+                    </div>
                   </div>
-                  <div className="space-y-2 sm:pl-2 md:pl-8">
-                    {chapter.activities.map((activity) => (
-                      <StudentActivity
-                        key={activity.id}
-                        courseId={courseId}
-                        activity={activity}
-                        content={contents.find((item) => item.activityId === activity.id)}
-                        contentExpanded={expandedContentId === activity.id}
-                        onToggleContent={() =>
-                          setExpandedContentId((current) => current === activity.id ? null : activity.id)
-                        }
-                        onCompleteContent={() =>
-                          void completeContent(activity.id).catch((error) => toast.error(error.message))
-                        }
-                        onComplete={() =>
-                          void complete(activity.id).catch((error) => toast.error(error.message))
-                        }
-                      />
-                    ))}
-                    {!chapter.activities.length && (
-                      <p className="text-sm text-slate-400">本章暂无学习活动。</p>
-                    )}
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </details>
         ))}
@@ -171,67 +225,78 @@ function StudentActivity({
   const href = activityHref(activity, courseId);
   return (
     <div className="min-w-0 overflow-hidden rounded bg-slate-50">
-    <div className="flex flex-wrap items-center gap-2 px-2 py-3 text-sm sm:gap-3 sm:px-3">
-      {completed ? (
-        <CheckCircle2 className="size-4 text-emerald-600" />
-      ) : available ? (
-        <CheckCircle2 className="size-4 text-slate-400" />
-      ) : (
-        <LockKeyhole className="size-4 text-amber-500" />
-      )}
-      <Badge className="bg-blue-50 text-blue-700 hover:bg-blue-50">
-        {labels[activity.activityType]}
-      </Badge>
-      <div className="min-w-0 flex-1">
-        <p className="font-medium">{activity.title}</p>
-        {activity.description && (
-          <p className="mt-1 text-xs text-slate-500">{activity.description}</p>
-        )}
-      </div>
-      <span className="w-full text-xs text-slate-500 sm:w-auto">
-        {activity.required ? '必修' : '选修'} · {activity.estimatedMinutes} 分钟
-      </span>
-      {completed && (
-        <Badge className="bg-emerald-50 text-emerald-700 hover:bg-emerald-50">已完成</Badge>
-      )}
-      {!available ? (
-        <span className="text-xs text-amber-600">{activity.unavailableReason || '尚未开放'}</span>
-      ) : activity.activityType === 'content' ? (
-        <Button size="sm" variant="outline" disabled={!content} onClick={onToggleContent}>
-          {contentExpanded ? '收起内容' : content ? '查看内容' : '内容未发布'}
-        </Button>
-      ) : href ? (
-        <Button asChild size="sm" variant="outline">
-          <Link href={href}>开始学习</Link>
-        </Button>
-      ) : (
-        !completed && (
-          <Button size="sm" variant="outline" onClick={onComplete}>
-            标记完成
-          </Button>
-        )
-      )}
-      {available &&
-        href &&
-        !completed &&
-        String(activity.completionRule.type ?? 'manual') === 'manual' && (
-          <Button size="sm" onClick={onComplete}>
-            确认完成
-          </Button>
-        )}
-    </div>
-    {contentExpanded && content && (
-      <article className="max-w-full overflow-x-auto border-t bg-white p-3 [overflow-wrap:anywhere] [&_img]:h-auto [&_img]:max-w-full [&_pre]:max-w-full [&_pre]:overflow-x-auto [&_table]:block [&_table]:max-w-full [&_table]:overflow-x-auto sm:p-5">
-        {content.format === 'markdown' ? (
-          <div className="text-sm leading-7 text-slate-700"><Streamdown>{content.body}</Streamdown></div>
-        ) : content.format === 'html' ? (
-          <div className="text-sm leading-7 text-slate-700" dangerouslySetInnerHTML={{ __html: content.body }} />
+      <div className="flex flex-wrap items-center gap-2 px-2 py-3 text-sm sm:gap-3 sm:px-3">
+        {completed ? (
+          <CheckCircle2 className="size-4 text-emerald-600" />
+        ) : available ? (
+          <CheckCircle2 className="size-4 text-slate-400" />
         ) : (
-          <div className="whitespace-pre-wrap text-sm leading-7 text-slate-700">{content.body}</div>
+          <LockKeyhole className="size-4 text-amber-500" />
         )}
-        {!completed && <Button size="sm" className="mt-4" onClick={onCompleteContent}>完成本节学习</Button>}
-      </article>
-    )}
+        <Badge className="bg-blue-50 text-blue-700 hover:bg-blue-50">
+          {labels[activity.activityType]}
+        </Badge>
+        <div className="min-w-0 flex-1">
+          <p className="font-medium">{activity.title}</p>
+          {activity.description && (
+            <p className="mt-1 text-xs text-slate-500">{activity.description}</p>
+          )}
+        </div>
+        <span className="w-full text-xs text-slate-500 sm:w-auto">
+          {activity.required ? '必修' : '选修'} · {activity.estimatedMinutes} 分钟
+        </span>
+        {completed && (
+          <Badge className="bg-emerald-50 text-emerald-700 hover:bg-emerald-50">已完成</Badge>
+        )}
+        {!available ? (
+          <span className="text-xs text-amber-600">{activity.unavailableReason || '尚未开放'}</span>
+        ) : activity.activityType === 'content' ? (
+          <Button size="sm" variant="outline" disabled={!content} onClick={onToggleContent}>
+            {contentExpanded ? '收起内容' : content ? '查看内容' : '内容未发布'}
+          </Button>
+        ) : href ? (
+          <Button asChild size="sm" variant="outline">
+            <Link href={href}>开始学习</Link>
+          </Button>
+        ) : (
+          !completed && (
+            <Button size="sm" variant="outline" onClick={onComplete}>
+              标记完成
+            </Button>
+          )
+        )}
+        {available &&
+          href &&
+          !completed &&
+          String(activity.completionRule.type ?? 'manual') === 'manual' && (
+            <Button size="sm" onClick={onComplete}>
+              确认完成
+            </Button>
+          )}
+      </div>
+      {contentExpanded && content && (
+        <article className="max-w-full overflow-x-auto border-t bg-white p-3 [overflow-wrap:anywhere] [&_img]:h-auto [&_img]:max-w-full [&_pre]:max-w-full [&_pre]:overflow-x-auto [&_table]:block [&_table]:max-w-full [&_table]:overflow-x-auto sm:p-5">
+          {content.format === 'markdown' ? (
+            <div className="text-sm leading-7 text-slate-700">
+              <Streamdown>{content.body}</Streamdown>
+            </div>
+          ) : content.format === 'html' ? (
+            <div
+              className="text-sm leading-7 text-slate-700"
+              dangerouslySetInnerHTML={{ __html: content.body }}
+            />
+          ) : (
+            <div className="whitespace-pre-wrap text-sm leading-7 text-slate-700">
+              {content.body}
+            </div>
+          )}
+          {!completed && (
+            <Button size="sm" className="mt-4" onClick={onCompleteContent}>
+              完成本节学习
+            </Button>
+          )}
+        </article>
+      )}
     </div>
   );
 }
