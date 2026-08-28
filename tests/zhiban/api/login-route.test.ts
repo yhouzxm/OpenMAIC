@@ -79,7 +79,49 @@ describe('POST /api/zhiban/auth/login', () => {
     expect(cookieSet).toHaveBeenCalledWith(
       'zhiban_session',
       'opaque-session-cookie',
-      expect.objectContaining({ httpOnly: true, sameSite: 'lax', path: '/', expires: expiresAt }),
+      expect.objectContaining({
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: false,
+        path: '/',
+        expires: expiresAt,
+      }),
+    );
+  });
+
+  it('sets a Secure session cookie for HTTPS requests', async () => {
+    vi.stubEnv('ZHIBAN_AUTH_ENABLED', 'true');
+    const expiresAt = new Date('2026-08-05T00:00:00.000Z');
+    authenticateLocalByIdentifier.mockResolvedValue({
+      ok: true,
+      account: {
+        id: 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',
+        tenantId: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
+        loginName: '202600000001',
+        displayName: '测试学生',
+        accountType: 'student',
+        mustChangePassword: true,
+      },
+      sessionCookie: 'opaque-session-cookie',
+      expiresAt,
+    });
+
+    const response = await POST(
+      new NextRequest('https://learning.example.com/api/zhiban/auth/login', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', 'user-agent': 'vitest' },
+        body: JSON.stringify({
+          identifier: '202600000001',
+          password: 'AdultLearning2026!',
+        }),
+      }),
+    );
+
+    expect(response.status).toBe(200);
+    expect(cookieSet).toHaveBeenCalledWith(
+      'zhiban_session',
+      'opaque-session-cookie',
+      expect.objectContaining({ secure: true }),
     );
   });
 });

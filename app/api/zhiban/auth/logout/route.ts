@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 import {
   isLocalAuthEnabled,
@@ -11,12 +11,12 @@ import { getZhibanPool } from '@/lib/zhiban/db/connection';
 
 export const runtime = 'nodejs';
 
-export async function POST() {
+export async function POST(request: NextRequest) {
   const cookieStore = await cookies();
   const token = cookieStore.get(ZHIBAN_SESSION_COOKIE)?.value;
   if (token && isLocalAuthEnabled()) await revokeLocalSession(getZhibanPool(), token);
   cookieStore.set(ZHIBAN_SESSION_COOKIE, '', {
-    ...sessionCookieOptions(new Date(0)),
+    ...sessionCookieOptions(new Date(0), request),
     maxAge: 0,
   });
   return NextResponse.json({ success: true });

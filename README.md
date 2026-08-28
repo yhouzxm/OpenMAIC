@@ -103,11 +103,12 @@ pnpm dev
 
 ```bash
 pnpm build
-cp -R .next/static .next/standalone/.next/static
-PORT=3000 node .next/standalone/server.js
+pnpm start
 ```
 
-Windows PowerShell 将复制命令替换为 `Copy-Item .next\static .next\standalone\.next\static -Recurse -Force`。正式启动前必须提供与迁移时相同的 `DATABASE_URL`；本工程的 `output: standalone` 不使用 `next start`。
+`pnpm build` 会自动把 `.next/static` 和 `public` 复制到 standalone 运行目录；`pnpm start` 会读取项目根目录的生产环境文件并启动 `.next/standalone/server.js`。由 systemd、容器或云平台注入的环境变量优先级更高。正式启动前必须提供与迁移时相同的 `DATABASE_URL`。
+
+通过普通 HTTP 在本机验证生产构建时，会话 Cookie 自动使用非 Secure 模式；通过 HTTPS 或反向代理部署时，请传递 `X-Forwarded-Proto: https`，会话 Cookie 会自动启用 Secure。也可用 `ZHIBAN_SECURE_COOKIES=true|false` 显式覆盖。
 
 在 `.env.local` 配置（密码、账号凭据和 API Key 不得提交到源码）：
 

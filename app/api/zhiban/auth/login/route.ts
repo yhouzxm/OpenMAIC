@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
     cookieStore.set(
       ZHIBAN_SESSION_COOKIE,
       result.sessionCookie,
-      sessionCookieOptions(result.expiresAt),
+      sessionCookieOptions(result.expiresAt, request),
     );
     return NextResponse.json({ account: result.account });
   } catch (error) {
