@@ -4,6 +4,7 @@ import type {
   LearningEventType,
   StationId,
 } from '@/lib/zhiban/learning-center/types';
+import type { SceneGuidanceDefinition } from './guidance';
 
 export const SCENE_IDS = [
   'S01-01',
@@ -100,6 +101,7 @@ export interface SceneDefinition {
   interactiveTemplate?: string;
   activityId?: string;
   scenarioId?: string;
+  guidance?: SceneGuidanceDefinition;
   metadata: Record<string, unknown>;
 }
 

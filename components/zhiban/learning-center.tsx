@@ -1,7 +1,17 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight, CheckCircle2, LockKeyhole, Map, Route } from 'lucide-react';
+import {
+  ArrowRight,
+  BarChart3,
+  CheckCircle2,
+  Clock3,
+  Factory,
+  LockKeyhole,
+  Map,
+  Route,
+  Target,
+} from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -21,24 +31,24 @@ const localKey = (courseId: string) => `zhiban-learning-center:${courseId}`;
 export function LearningCenter({
   courseId,
   previewMode,
+  publicMode = false,
 }: {
   courseId: string;
   previewMode?: 'teacher';
+  publicMode?: boolean;
 }) {
   const [progress, setProgress] = useState<LearningCenterProgress>(() =>
     emptyLearningCenterProgress(courseId),
   );
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!publicMode);
   const [access, setAccess] = useState<LearningCenterAccessState>();
   const basePath = previewMode
     ? `/zhiban/teacher/courses/${courseId}/learning-center`
     : `/zhiban/student/courses/${courseId}/learning-center`;
-  const courseHomePath = previewMode
-    ? `/zhiban/teacher/courses/${courseId}`
-    : `/zhiban/student/courses/${courseId}`;
   const project = createMechatronicsPblDefinition(courseId);
 
   useEffect(() => {
+    if (publicMode) return;
     let active = true;
     void fetch(`/api/zhiban/student/courses/${courseId}/learning-center`)
       .then(async (response) => {
@@ -64,52 +74,111 @@ export function LearningCenter({
     return () => {
       active = false;
     };
-  }, [courseId]);
+  }, [courseId, publicMode]);
 
   const completedStations = KNOWLEDGE_STATIONS.filter(
     (station) => progress.stations[station.id]?.status === 'completed',
   ).length;
-  const currentStationId = access?.currentStationId;
+  const currentStationId = publicMode ? KNOWLEDGE_STATIONS[0]?.id : access?.currentStationId;
+  const currentStation = KNOWLEDGE_STATIONS.find((station) => station.id === currentStationId);
+  const overallProgress = Math.round((completedStations / KNOWLEDGE_STATIONS.length) * 100);
   return (
-    <main className="space-y-5" data-testid="learning-center">
-      <header className="rounded-xl border bg-gradient-to-r from-[#071b48] via-[#123d71] to-[#0f766e] p-6 text-white shadow-sm">
-        <div className="flex flex-wrap items-start justify-between gap-4">
+    <main
+      className="mx-auto max-w-[1580px] space-y-5 px-3 py-4 sm:px-4 md:px-6 md:py-6 lg:px-8"
+      data-testid="learning-center"
+    >
+      <header className="relative overflow-hidden rounded-2xl border border-blue-900/20 bg-gradient-to-br from-[#061a42] via-[#123d71] to-[#08736d] p-6 text-white shadow-lg md:p-8">
+        <div className="pointer-events-none absolute -right-20 -top-24 size-72 rounded-full bg-cyan-300/10 blur-2xl" />
+        <div className="pointer-events-none absolute -bottom-24 left-1/3 size-64 rounded-full bg-blue-300/10 blur-3xl" />
+
+        <div className="relative grid gap-6 lg:grid-cols-[minmax(0,1fr)_240px] lg:items-start">
           <div>
-            <Link
-              href={courseHomePath}
-              className="text-sm text-blue-100 hover:underline"
-            >
-              ← 返回课程首页
-            </Link>
-            <div className="mt-4 flex items-center gap-3">
-              <Map className="size-7" />
-              <div>
-                <p className="text-sm text-blue-100">智伴·创学</p>
-                <h1 className="text-2xl font-semibold">
-                  AI驱动的机电一体化智能诊断与虚拟实训交互课件
-                </h1>
-              </div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-medium text-cyan-50 backdrop-blur-sm">
+              <Map className="size-4" aria-hidden="true" />
+              智伴·创学 · 机电一体化智能诊断学习中心
             </div>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-blue-50">
-              沿信号链学机理，循证据链做诊断。按照“认知—感知—控制—执行—诊断—实训—提升”逐步完成学习任务。
+            <h1 className="mt-4 max-w-4xl text-2xl font-semibold tracking-tight md:text-3xl">
+              AI驱动的机电一体化智能诊断与虚拟实训交互课件
+            </h1>
+            <p className="mt-3 flex items-center gap-2 text-sm font-medium text-cyan-100 md:text-base">
+              <Target className="size-4 shrink-0" aria-hidden="true" />
+              沿信号链学机理，循证据链做诊断
             </p>
-            <div className="mt-4 rounded-lg border border-white/15 bg-white/10 p-3">
-              <p className="text-sm font-medium">工程任务：{project.title}</p>
-              <p className="mt-1 text-xs leading-5 text-blue-100">{project.description}</p>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {MECHATRONICS_PROJECT_STAGES.map((stage) => (
-                  <span key={stage.stationId} className="rounded-full bg-white/15 px-3 py-1 text-xs">
-                    {stage.label}
+          </div>
+
+          <div className="rounded-2xl border border-white/15 bg-slate-950/20 p-4 backdrop-blur-sm">
+            <div className="flex items-end justify-between gap-3">
+              <div>
+                <p className="text-xs text-blue-100">总体学习进度</p>
+                <p className="mt-1 text-3xl font-semibold tabular-nums">
+                  {completedStations}
+                  <span className="ml-1 text-base font-normal text-blue-100">
+                    / {KNOWLEDGE_STATIONS.length} 站
                   </span>
-                ))}
+                </p>
               </div>
+              <span className="text-sm font-medium text-cyan-100">{overallProgress}%</span>
+            </div>
+            <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-white/15">
+              <div
+                className="h-full rounded-full bg-gradient-to-r from-cyan-300 to-emerald-300 transition-all"
+                style={{ width: `${overallProgress}%` }}
+              />
+            </div>
+            <p className="mt-3 text-xs leading-5 text-blue-100">
+              {currentStation
+                ? `继续学习：${currentStation.title}`
+                : '按七阶段路径逐步完成工程任务'}
+            </p>
+            {previewMode && (
+              <Button
+                asChild
+                size="sm"
+                className="mt-3 w-full bg-white text-blue-800 hover:bg-cyan-50"
+              >
+                <Link href={`${basePath}/analytics`}>
+                  <BarChart3 className="mr-1.5 size-4" aria-hidden="true" />
+                  课程学情分析
+                </Link>
+              </Button>
+            )}
+          </div>
+        </div>
+
+        <div className="relative mt-6 rounded-2xl border border-white/15 bg-white/[0.08] p-4 backdrop-blur-sm md:p-5">
+          <div className="flex items-start gap-3">
+            <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-cyan-300/15 text-cyan-100">
+              <Factory className="size-5" aria-hidden="true" />
+            </span>
+            <div>
+              <p className="text-xs font-medium uppercase tracking-[0.18em] text-cyan-100">
+                核心工程任务
+              </p>
+              <h2 className="mt-1 text-lg font-semibold md:text-xl">{project.title}</h2>
+              <p className="mt-2 max-w-4xl text-sm leading-6 text-blue-50/90">
+                {project.description}
+              </p>
             </div>
           </div>
-          <div className="rounded-lg bg-white/15 px-4 py-3 text-sm backdrop-blur">
-            <b>
-              {completedStations} / {KNOWLEDGE_STATIONS.length}
-            </b>
-            <span className="ml-2 text-blue-100">学习站已完成</span>
+
+          <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4 xl:grid-cols-7">
+            {MECHATRONICS_PROJECT_STAGES.map((stage, index) => (
+              <div
+                key={stage.stationId}
+                className="group relative flex min-h-14 items-center gap-2 rounded-xl border border-white/10 bg-slate-950/15 px-3 py-2.5"
+              >
+                <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-white/15 text-xs font-semibold text-cyan-50">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <span className="text-sm font-medium text-white">{stage.label}</span>
+                {index < MECHATRONICS_PROJECT_STAGES.length - 1 && (
+                  <ArrowRight
+                    className="absolute -right-3 z-10 hidden size-4 text-cyan-200/70 xl:block"
+                    aria-hidden="true"
+                  />
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </header>
@@ -124,10 +193,15 @@ export function LearningCenter({
         </p>
       )}
       <section className="rounded-xl border bg-white p-5">
-        <div className="mb-5 flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            <Route className="size-5 text-blue-600" />
-            <h2 className="font-semibold">学习路径</h2>
+        <div className="mb-5 flex items-start justify-between gap-3">
+          <div>
+            <div className="flex items-center gap-2">
+              <Route className="size-5 text-blue-600" />
+              <h2 className="font-semibold">学习路径</h2>
+            </div>
+            <p className="mt-1.5 text-sm leading-6 text-slate-500">
+              按顺序完成学习站；已完成内容可随时复习，出现明确认知误区时系统会推荐针对性补练。
+            </p>
           </div>
           {loading && <span className="text-xs text-slate-500">正在恢复学习进度…</span>}
         </div>
@@ -137,7 +211,7 @@ export function LearningCenter({
             const decision = access?.stations[station.id];
             const enabled = decision?.allowed ?? station.id === 'station-01-system';
             const locked = !enabled;
-            const targetPath = `${basePath}/${station.id}`;
+            const targetPath = publicMode ? '/zhiban/login' : `${basePath}/${station.id}`;
             const prerequisite = decision?.prerequisiteStationId;
             return (
               <article
@@ -172,7 +246,13 @@ export function LearningCenter({
                     style={{ width: `${item?.progressPercent ?? 0}%` }}
                   />
                 </div>
-                <p className="mt-1 text-xs text-slate-500">进度 {item?.progressPercent ?? 0}%</p>
+                <div className="mt-1 flex items-center justify-between gap-3 text-xs text-slate-500">
+                  <span>进度 {item?.progressPercent ?? 0}%</span>
+                  <span className="inline-flex items-center gap-1">
+                    <Clock3 className="size-3.5" aria-hidden="true" />
+                    预计 {station.estimatedMinutes} 分钟
+                  </span>
+                </div>
                 {enabled ? (
                   <Button asChild size="sm" className="mt-4 w-full">
                     <Link href={targetPath}>
@@ -186,9 +266,19 @@ export function LearningCenter({
                   </Button>
                 ) : (
                   <div className="mt-4 space-y-2">
-                    <p className="text-xs text-slate-500">{decision?.reason ?? '完成上一学习站后解锁'}</p>
+                    <p className="text-xs text-slate-500">
+                      {decision?.reason ?? '完成上一学习站后解锁'}
+                    </p>
                     <Button asChild size="sm" variant="outline" className="w-full">
-                      <Link href={prerequisite ? `${basePath}/${prerequisite}` : basePath}>
+                      <Link
+                        href={
+                          publicMode
+                            ? '/zhiban/login'
+                            : prerequisite
+                              ? `${basePath}/${prerequisite}`
+                              : basePath
+                        }
+                      >
                         前往上一站
                       </Link>
                     </Button>
@@ -199,7 +289,7 @@ export function LearningCenter({
           })}
         </div>
       </section>
-      {!progress.persistenceAvailable && (
+      {!publicMode && !progress.persistenceAvailable && (
         <p className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
           学习记录服务暂时不可用，当前进度会先保存在本机，恢复后可继续同步。
         </p>

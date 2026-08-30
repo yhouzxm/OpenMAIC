@@ -54,6 +54,20 @@ export function TeacherCourseShell({
   const pathname = usePathname();
   const base = `/zhiban/teacher/courses/${course.id}`;
   const query = `?courseId=${encodeURIComponent(course.id)}`;
+  const focusedLearningCenter =
+    course.code === MECHATRONICS_COURSE_CODE &&
+    (pathname === `${base}/learning-center` || pathname.startsWith(`${base}/learning-center/`));
+
+  // Learning-center preview and its courseware analytics are intentionally
+  // presented as focused teaching surfaces, separate from course management.
+  if (focusedLearningCenter)
+    return (
+      <div className="min-h-screen bg-[#f1f5fb] text-slate-800">
+        <TeacherTopbar principalName={principalName} />
+        <main className="min-w-0">{children}</main>
+      </div>
+    );
+
   return (
     <div className="min-h-screen bg-[#f1f5fb] text-slate-800">
       <TeacherTopbar principalName={principalName} />
@@ -118,7 +132,7 @@ export function TeacherCourseShell({
                 icon={BarChart3}
                 active={pathname.startsWith(`${base}/learning-center/analytics`)}
               >
-                学习中心学情
+                课程学情分析
               </WorkspaceNav>
             </>
           )}

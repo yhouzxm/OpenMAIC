@@ -63,6 +63,7 @@ export interface TeacherVirtualLabStudent {
 
 export interface TeacherVirtualLabAnalytics {
   metrics: {
+    enrolledStudents: number;
     participatingStudents: number;
     completedStudents: number;
     completionRate: number | null;
@@ -75,6 +76,7 @@ export interface TeacherVirtualLabAnalytics {
   dimensions: { key: string; label: string; average: number | null }[];
   interventions: string[];
   knowledgeLearning: {
+    enrolledStudents: number;
     participatingStudents: number;
     stationCompletion: {
       stationId: string;
@@ -83,7 +85,13 @@ export interface TeacherVirtualLabAnalytics {
       totalStudents: number;
       rate: number | null;
     }[];
-    dimensions: { key: string; label: string; average: number | null }[];
+    dimensions: {
+      key: string;
+      label: string;
+      average: number | null;
+      evidenceStudents: number;
+      totalStudents: number;
+    }[];
     conceptErrors: { code: string; count: number; percent: number }[];
     interventions: string[];
   };

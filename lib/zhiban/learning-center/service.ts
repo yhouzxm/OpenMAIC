@@ -15,6 +15,8 @@ import { updateKnowledgeStationProfile } from './profile';
 import { updateLearningCenterAggregateProfile } from './profile';
 import { calculateLearningCenterProfile } from './learning-center-profile';
 import { deriveConceptErrorStates, deriveRemediationRuns } from '@/lib/zhiban/scene-orchestration/remediation';
+import { SCENE_DEFINITIONS } from '@/lib/zhiban/scene-orchestration/registry';
+import { deriveSceneGuidanceStates } from '@/lib/zhiban/scene-orchestration/guidance';
 import type { PersistedVirtualLabSession } from '@/lib/zhiban/virtual-lab/persistence/types';
 import type {
   LearningCenterProgress,
@@ -244,12 +246,14 @@ export async function getLearningCenterIntegratedSummary(
   } catch {
     // The integrated summary remains available even if profile persistence is temporarily offline.
   }
+  const conceptErrorStates = deriveConceptErrorStates(events);
   return {
     progress,
     profile: calculateLearningCenterProfile(courseId, events, sessions),
     sessions,
-    conceptErrorStates: deriveConceptErrorStates(events),
+    conceptErrorStates,
     remediationRuns: deriveRemediationRuns(events),
+    guidanceStates: deriveSceneGuidanceStates(SCENE_DEFINITIONS, events, conceptErrorStates),
   };
 }
 
@@ -265,6 +269,7 @@ export async function getLearningCenterSummaryForPrincipal(
       profile: calculateLearningCenterProfile(courseId, [], []),
       conceptErrorStates: [],
       remediationRuns: [],
+      guidanceStates: deriveSceneGuidanceStates(SCENE_DEFINITIONS, [], []),
     };
   }
   const summary = await getLearningCenterIntegratedSummary(pool, principal, courseId);

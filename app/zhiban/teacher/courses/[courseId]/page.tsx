@@ -6,6 +6,7 @@ import { getZhibanPool } from '@/lib/zhiban/db/connection';
 import { getAuthorizedPrincipal } from '@/lib/zhiban/rbac';
 import { listTeacherCourses } from '@/lib/zhiban/teacher-courses';
 import { getTeacherCourseStructure } from '@/lib/zhiban/curriculum';
+import { MECHATRONICS_COURSE_CODE } from '@/lib/zhiban/mechatronics-course.constants';
 
 export default async function TeacherCoursePage({
   params,
@@ -22,6 +23,8 @@ export default async function TeacherCoursePage({
     (item) => item.id === courseId,
   );
   if (!course) notFound();
+  if (course.code === MECHATRONICS_COURSE_CODE)
+    redirect(`/zhiban/teacher/courses/${course.id}/learning-center`);
   const structure = await getTeacherCourseStructure(getZhibanPool(), principal, courseId);
   return (
     <TeacherCourseOverview

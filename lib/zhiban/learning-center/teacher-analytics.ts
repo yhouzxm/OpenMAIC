@@ -30,61 +30,74 @@ export function buildTeacherLearningCenterAnalytics(
   events: TeacherKnowledgeEventRow[],
   profiles: TeacherLearningProfileRow[],
   virtualLabLearnerIds: string[],
+  enrolledLearnerIds?: string[],
 ) {
-  const learners = new Set([
+  const observedLearners = new Set([
     ...events.map((event) => event.learnerId),
     ...profiles.map((profile) => profile.userId),
     ...virtualLabLearnerIds,
   ]);
-  const totalStudents = learners.size;
+  const enrolledLearners = enrolledLearnerIds
+    ? new Set(enrolledLearnerIds)
+    : new Set(observedLearners);
+  const isEnrolled = (learnerId: string) => enrolledLearners.has(learnerId);
+  const participatingStudents = [...observedLearners].filter(isEnrolled).length;
+  const totalStudents = enrolledLearners.size;
   const completedByStation = new Map<string, Set<string>>();
   for (const event of events) {
-    if (event.eventType !== 'COMPLETE_STATION') continue;
+    if (event.eventType !== 'COMPLETE_STATION' || !isEnrolled(event.learnerId)) continue;
     const bucket = completedByStation.get(event.stationId) ?? new Set<string>();
     bucket.add(event.learnerId);
     completedByStation.set(event.stationId, bucket);
   }
-  completedByStation.set('station-06-virtual-lab', new Set(virtualLabLearnerIds));
+  completedByStation.set(
+    'station-06-virtual-lab',
+    new Set(virtualLabLearnerIds.filter(isEnrolled)),
+  );
 
-  const conceptCounts = new Map<string, number>();
+  const conceptLearners = new Map<string, Set<string>>();
   for (const event of events) {
+    if (!isEnrolled(event.learnerId)) continue;
     const codes = Array.isArray(event.payload?.conceptErrors) ? event.payload.conceptErrors : [];
     for (const value of codes) {
       if (typeof value !== 'string') continue;
-      conceptCounts.set(value, (conceptCounts.get(value) ?? 0) + 1);
+      const learners = conceptLearners.get(value) ?? new Set<string>();
+      learners.add(event.learnerId);
+      conceptLearners.set(value, learners);
     }
   }
 
-  const conceptErrors = [...conceptCounts.entries()]
-    .map(([code, count]) => ({
+  const conceptErrors = [...conceptLearners.entries()]
+    .map(([code, learners]) => ({
       code,
-      count,
-      percent: totalStudents ? round((count / totalStudents) * 100) : 0,
+      count: learners.size,
+      percent: totalStudents ? round((learners.size / totalStudents) * 100) : 0,
     }))
     .sort((left, right) => right.count - left.count);
 
   const interventions: string[] = [];
-  if (conceptCounts.get('POWER_EQUALS_SENSOR_NORMAL'))
+  if (conceptLearners.get('POWER_EQUALS_SENSOR_NORMAL')?.size)
     interventions.push(
       '建议强化传感器供电与输出信号的区别，可组织学生返回“感知探秘”完成测量推演。',
     );
   if (
-    (conceptCounts.get('INPUT_OUTPUT_CONFUSION') ?? 0) +
-      (conceptCounts.get('FIELD_IO_MAPPING_ERROR') ?? 0) >
+    (conceptLearners.get('INPUT_OUTPUT_CONFUSION')?.size ?? 0) +
+      (conceptLearners.get('FIELD_IO_MAPPING_ERROR')?.size ?? 0) >
     0
   )
     interventions.push('建议强化PLC输入/输出及现场地址映射，并返回“控制推演”完成I/O匹配。');
-  if (conceptCounts.get('OUTPUT_EQUALS_ACTUATION_SUCCESS'))
+  if (conceptLearners.get('OUTPUT_EQUALS_ACTUATION_SUCCESS')?.size)
     interventions.push('建议比较“PLC已有输出”与“执行机构真实动作”，返回“执行探索”复核执行链。');
   if (
-    [...conceptCounts.keys()].some(
+    [...conceptLearners.keys()].some(
       (code) => code.endsWith('_LAYER_CONFUSION') || code === 'EVIDENCE_SELECTION_ERROR',
     )
   )
     interventions.push('建议使用“察—查—测—断—验”重新组织三层故障诊断证据。');
 
   return {
-    participatingStudents: totalStudents,
+    enrolledStudents: totalStudents,
+    participatingStudents,
     stationCompletion: KNOWLEDGE_STATIONS.map((station) => {
       const completedStudents = completedByStation.get(station.id)?.size ?? 0;
       return {
@@ -97,6 +110,7 @@ export function buildTeacherLearningCenterAnalytics(
     }),
     dimensions: LEARNING_CENTER_DIMENSIONS.map((key) => {
       const values = profiles
+        .filter((profile) => isEnrolled(profile.userId))
         .map((profile) => profile.dimensions[key])
         .filter((value): value is number => typeof value === 'number' && Number.isFinite(value));
       return {
@@ -105,6 +119,8 @@ export function buildTeacherLearningCenterAnalytics(
         average: values.length
           ? round(values.reduce((sum, value) => sum + value, 0) / values.length)
           : null,
+        evidenceStudents: values.length,
+        totalStudents,
       };
     }),
     conceptErrors,

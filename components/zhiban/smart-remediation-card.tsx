@@ -54,6 +54,9 @@ export function SmartRemediationCard({
   const reported = useRef(false);
   const target = getScene(recommendation.sceneId)!;
   const source = recommendation.sourceSceneId ? getScene(recommendation.sourceSceneId) : null;
+  const aiMode = recommendation.contextMode === 'POST_ASSESSMENT'
+    ? 'assessment_mentor'
+    : 'cognitive_diagnosis';
   const fallback = useMemo(() => createRemediationFallback(recommendation), [recommendation]);
   const [explanation, setExplanation] = useState(fallback);
   const [syncWarning, setSyncWarning] = useState('');
@@ -75,7 +78,7 @@ export function SmartRemediationCard({
         const response = await fetch(`/api/zhiban/student/courses/${courseId}/learning-center/coach`, {
           method: 'POST', headers,
           body: JSON.stringify({
-            mode: 'cognitive_diagnosis', stationId: source?.stationId ?? target.stationId,
+            mode: aiMode, stationId: source?.stationId ?? target.stationId,
             currentInteraction: recommendation.briefRationale,
             studentAttempts: Number(recommendation.explanationContext.occurrenceCount ?? 1),
             conceptErrors: recommendation.triggerConceptErrors,
@@ -90,7 +93,7 @@ export function SmartRemediationCard({
       } catch { setExplanation(fallback); }
     };
     void load();
-  }, [courseId, fallback, recommendation, source?.stationId, target.stationId, target.title]);
+  }, [aiMode, courseId, fallback, recommendation, source?.stationId, target.stationId, target.title]);
 
   const params = new URLSearchParams({
     remediationRunId: runId.current,
@@ -115,7 +118,24 @@ export function SmartRemediationCard({
         <Badge variant="outline">{recommendation.priority === 'critical' ? '优先补强' : '智能支线'}</Badge>
       </div>
       <h3 className="mt-3 text-lg font-semibold">{target.title}</h3>
-      <p className="mt-2 text-sm leading-6 text-slate-700">{explanation.remediationMessage}</p>
+      <dl className="mt-3 space-y-3 text-sm leading-6 text-slate-700">
+        <div>
+          <dt className="font-medium text-slate-900">为什么推荐</dt>
+          <dd data-testid="remediation-reason">{explanation.remediationMessage}</dd>
+        </div>
+        <div>
+          <dt className="font-medium text-slate-900">补练目标</dt>
+          <dd data-testid="remediation-objective">
+            {target.guidance?.objective ?? target.description}
+          </dd>
+        </div>
+        <div>
+          <dt className="font-medium text-slate-900">完成以后</dt>
+          <dd data-testid="remediation-retry-target">
+            完成补练后将返回{source ? `“${source.title}”` : '原任务'}再次验证；仅浏览补练页面不会提高能力分数。
+          </dd>
+        </div>
+      </dl>
       <p className="mt-2 rounded-lg bg-white p-3 text-sm text-violet-900">思考：{explanation.guidingQuestion}</p>
       <div className="mt-3 flex flex-wrap gap-4 text-xs text-slate-500">
         <span className="inline-flex items-center gap-1"><Clock3 className="size-3" />约 {recommendation.estimatedMinutes} 分钟</span>

@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { createZhibanHealthHandler } from '@/app/api/zhiban/health/route';
 import type { ZhibanDatabaseHealth } from '@/lib/zhiban/db/health';
 import type { ZhibanDatabasePool } from '@/lib/zhiban/db/types';
+import { createZhibanHealthHandler } from '@/lib/zhiban/health/handler';
 
 const pool = {} as ZhibanDatabasePool;
 

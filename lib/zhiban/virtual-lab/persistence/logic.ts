@@ -60,35 +60,57 @@ export function makeHistorySummary(sessions: PersistedVirtualLabSession[]) {
 
 export function buildTeacherVirtualLabAnalytics(
   sessions: PersistedVirtualLabSession[],
+  enrolledLearnerIds?: string[],
 ): TeacherVirtualLabAnalytics {
   const completed = sessions.filter((item) => item.status === 'completed' && item.assessment);
+  const latestCompletedByStudent = new Map<string, PersistedVirtualLabSession>();
+  for (const session of completed) {
+    const userId = (session as PersistedVirtualLabSession & { userId?: string }).userId;
+    if (!userId) continue;
+    const current = latestCompletedByStudent.get(userId);
+    if (
+      !current ||
+      session.attemptNumber > current.attemptNumber ||
+      (session.attemptNumber === current.attemptNumber &&
+        (session.completedAt ?? '') > (current.completedAt ?? ''))
+    )
+      latestCompletedByStudent.set(userId, session);
+  }
+  const latestCompleted = [...latestCompletedByStudent.values()];
   const byStudent = new Map<string, PersistedVirtualLabSession[]>();
   for (const session of sessions) {
     const key = (session as PersistedVirtualLabSession & { userId?: string }).userId ?? '';
     if (!key) continue;
     byStudent.set(key, [...(byStudent.get(key) ?? []), session]);
   }
-  const completedStudents = new Set(
-    completed.map((item) => (item as PersistedVirtualLabSession & { userId?: string }).userId),
-  ).size;
-  const total = sessions.length
+  const completedStudents = latestCompleted.length;
+  const participatingStudents = sessions.length
     ? new Set(
         sessions.map((item) => (item as PersistedVirtualLabSession & { userId?: string }).userId),
       ).size
     : 0;
-  const errors = new Map<string, number>();
-  completed.forEach((item) =>
-    item.assessment?.errorPatterns.forEach((code) => errors.set(code, (errors.get(code) ?? 0) + 1)),
-  );
-  const errorPatterns = [...errors.entries()]
-    .map(([code, count]) => ({
+  const enrolledStudents = enrolledLearnerIds
+    ? new Set(enrolledLearnerIds).size
+    : participatingStudents;
+  const affectedStudents = new Map<string, Set<string>>();
+  latestCompleted.forEach((item) => {
+    const userId = (item as PersistedVirtualLabSession & { userId?: string }).userId;
+    if (!userId) return;
+    item.assessment?.errorPatterns.forEach((code) => {
+      const learners = affectedStudents.get(code) ?? new Set<string>();
+      learners.add(userId);
+      affectedStudents.set(code, learners);
+    });
+  });
+  const errorPatterns = [...affectedStudents.entries()]
+    .map(([code, learners]) => ({
       code,
-      count,
-      percent: completedStudents ? Math.round((count / completedStudents) * 100) : 0,
+      count: learners.size,
+      percent: enrolledStudents ? Math.round((learners.size / enrolledStudents) * 100) : 0,
     }))
     .sort((a, b) => b.count - a.count);
   const dimensions = DIMENSIONS.map(([key, label]) => {
-    const values = completed.map(
+    const values = latestCompleted.map(
       (item) =>
         (item.assessment!.dimensions[key].score / item.assessment!.dimensions[key].maxScore) * 100,
     );
@@ -110,23 +132,29 @@ export function buildTeacherVirtualLabAnalytics(
     interventions.push('建议在课堂中强调维修后重新启动和结果验证的规范流程。');
   return {
     metrics: {
-      participatingStudents: total,
+      enrolledStudents,
+      participatingStudents,
       completedStudents,
-      completionRate: total ? Math.round((completedStudents / total) * 100) : null,
-      averageScore: completed.length
+      completionRate: enrolledStudents
+        ? Math.round((completedStudents / enrolledStudents) * 100)
+        : null,
+      averageScore: latestCompleted.length
         ? Math.round(
-            completed.reduce((sum, item) => sum + (item.overallScore ?? 0), 0) / completed.length,
+            latestCompleted.reduce((sum, item) => sum + (item.overallScore ?? 0), 0) /
+              latestCompleted.length,
           )
         : null,
-      averageDurationSeconds: completed.length
+      averageDurationSeconds: latestCompleted.length
         ? Math.round(
-            completed.reduce((sum, item) => sum + (item.durationSeconds ?? 0), 0) /
-              completed.length,
+            latestCompleted.reduce((sum, item) => sum + (item.durationSeconds ?? 0), 0) /
+              latestCompleted.length,
           )
         : null,
-      averageHintsUsed: completed.length
+      averageHintsUsed: latestCompleted.length
         ? Math.round(
-            (completed.reduce((sum, item) => sum + item.hintsUsed, 0) / completed.length) * 10,
+            (latestCompleted.reduce((sum, item) => sum + item.hintsUsed, 0) /
+              latestCompleted.length) *
+              10,
           ) / 10
         : null,
     },
@@ -135,6 +163,7 @@ export function buildTeacherVirtualLabAnalytics(
     dimensions,
     interventions,
     knowledgeLearning: {
+      enrolledStudents: 0,
       participatingStudents: 0,
       stationCompletion: [],
       dimensions: [],

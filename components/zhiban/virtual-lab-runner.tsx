@@ -12,10 +12,10 @@ import {
   RotateCcw,
   Send,
   Sparkles,
-  Timer,
 } from 'lucide-react';
 import { InteractiveIframeHost } from '@/components/scene-renderers/InteractiveIframeHost';
 import { InteractiveRenderer } from '@/components/scene-renderers/interactive-renderer';
+import { LearningStationHero } from '@/components/zhiban/learning-station-hero';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -42,9 +42,6 @@ import type {
 } from '@/lib/zhiban/virtual-lab/persistence/types';
 import { createMechLabInteractiveContent } from '@/lib/zhiban/virtual-lab/interactive-template';
 import {
-  DIAGNOSIS_METHOD_STEPS,
-  mapVirtualLabPhaseToDiagnosisStep,
-  type DiagnosisMethodStep,
   type LearningCenterProgress,
 } from '@/lib/zhiban/learning-center';
 import {
@@ -56,8 +53,14 @@ import {
 } from '@/lib/zhiban/virtual-lab/types';
 import { useWidgetIframeStore } from '@/lib/store/widget-iframe';
 import { SmartRemediationCard } from '@/components/zhiban/smart-remediation-card';
+import { SceneGuidanceLayer } from '@/components/zhiban/scene-guidance-layer';
 import {
+  deriveVirtualLabGuidanceView,
+  resolveVirtualLabActionFeedback,
   resolveVirtualLabRemediation,
+  virtualLabErrorPatternMessage,
+  type SceneActionFeedback,
+  type VirtualLabGuidanceView,
 } from '@/lib/zhiban/scene-orchestration';
 import type { ConceptErrorCode } from '@/lib/zhiban/learning-center';
 
@@ -73,27 +76,52 @@ function sendToScene(sceneId: string, message: MechLabMessage): boolean {
   return true;
 }
 
-function DiagnosisMethodProgress({ phase }: { phase: string }) {
-  const current = mapVirtualLabPhaseToDiagnosisStep(phase) as DiagnosisMethodStep;
-  const currentIndex = DIAGNOSIS_METHOD_STEPS.findIndex((step) => step.id === current);
+function DiagnosisMethodProgress({ view }: { view: VirtualLabGuidanceView }) {
   return (
     <ol className="mt-4 grid grid-cols-5 gap-1" aria-label="察查测断验诊断进度">
-      {DIAGNOSIS_METHOD_STEPS.map((step, index) => (
+      {view.stages.map((step) => (
         <li
           key={step.id}
           className={`rounded-md px-1 py-2 text-center text-xs ${
-            index === currentIndex
+            step.status === 'current'
               ? 'bg-blue-600 font-semibold text-white'
-              : index < currentIndex
+              : step.status === 'completed'
                 ? 'bg-emerald-50 text-emerald-700'
                 : 'bg-slate-100 text-slate-500'
           }`}
           title={step.description}
         >
+          <span aria-hidden="true">{step.status === 'completed' ? '✓' : step.status === 'current' ? '●' : '○'}</span>{' '}
           {step.label}
+          <span className="sr-only">
+            {step.status === 'completed' ? '已完成' : step.status === 'current' ? '当前阶段' : '未开始'}
+          </span>
         </li>
       ))}
     </ol>
+  );
+}
+
+function EvidenceSummary({ view }: { view: VirtualLabGuidanceView }) {
+  return (
+    <section className="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs" aria-label="当前诊断证据">
+      <b className="text-slate-800">当前证据</b>
+      {view.obtainedEvidence.length ? (
+        <ul className="mt-2 space-y-1 text-emerald-800">
+          {view.obtainedEvidence.map((item) => <li key={item}>✓ {item}</li>)}
+        </ul>
+      ) : (
+        <p className="mt-2 text-slate-500">尚未获得诊断证据，请先完成真实观察或操作。</p>
+      )}
+      {view.missingEvidence.length > 0 && (
+        <div className="mt-2 border-t border-slate-200 pt-2 text-slate-600">
+          <b>仍需关注</b>
+          <ul className="mt-1 space-y-1">
+            {view.missingEvidence.slice(0, 3).map((item) => <li key={item}>○ {item}</li>)}
+          </ul>
+        </div>
+      )}
+    </section>
   );
 }
 
@@ -124,7 +152,7 @@ export function VirtualLabRunner({
   const [started, setStarted] = useState(previewOnly);
   const [, setMessages] = useState<MechLabMessage[]>([]);
   const [lastState, setLastState] = useState('等待开始实训');
-  const [trainingPhase, setTrainingPhase] = useState('intro');
+  const [, setTrainingPhase] = useState('intro');
   const [priorKnowledgeNotice, setPriorKnowledgeNotice] = useState('');
   const [coachLoading, setCoachLoading] = useState(false);
   const [question, setQuestion] = useState('');
@@ -134,6 +162,11 @@ export function VirtualLabRunner({
   const [evaluating, setEvaluating] = useState(false);
   const [history, setHistory] = useState<VirtualLabHistory>();
   const [syncWarning, setSyncWarning] = useState('');
+  const [guidanceFeedback, setGuidanceFeedback] = useState<SceneActionFeedback | null>(null);
+  const [, setGuidanceRevision] = useState(0);
+  const [guidanceErrors, setGuidanceErrors] = useState(0);
+  const [runtimeWarning, setRuntimeWarning] = useState('');
+  const [attemptGeneration, setAttemptGeneration] = useState(0);
   const snapshotRef = useRef<Partial<MechLabSceneStatePayload>>({});
   const actionsRef = useRef<TrainingAction[]>([]);
   const hintsRef = useRef<TrainingHintRecord[]>([]);
@@ -144,6 +177,8 @@ export function VirtualLabRunner({
   const sessionAttemptRef = useRef<number | undefined>(undefined);
   const pendingActionsRef = useRef<PersistedVirtualLabAction[]>([]);
   const learningProfileRef = useRef<VirtualLabHistory['profile']>(null);
+  const coachRequestRef = useRef(0);
+  const attemptGenerationRef = useRef(0);
 
   const persistAction = useCallback((action: PersistedVirtualLabAction) => {
     const sessionId = sessionIdRef.current;
@@ -165,10 +200,23 @@ export function VirtualLabRunner({
   const addAction = useCallback(
     (action: TrainingAction) => {
       actionsRef.current = [...actionsRef.current, action];
+      setGuidanceRevision((current) => current + 1);
       persistAction(action);
     },
     [persistAction],
   );
+
+  const guidanceView = deriveVirtualLabGuidanceView({
+    started,
+    snapshot: snapshotRef.current,
+    actions: actionsRef.current,
+  });
+
+  const activeGuidanceSceneId = assessment
+    ? 'S06-03' as const
+    : started
+      ? 'S06-02' as const
+      : 'S06-01' as const;
 
   const refreshHistory = useCallback(async () => {
     try {
@@ -191,6 +239,14 @@ export function VirtualLabRunner({
   useEffect(() => {
     void refreshHistory();
   }, [refreshHistory]);
+
+  useEffect(
+    () => () => {
+      coachRequestRef.current += 1;
+      attemptGenerationRef.current += 1;
+    },
+    [],
+  );
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -216,7 +272,12 @@ export function VirtualLabRunner({
 
   const requestCoach = useCallback(
     async (studentMessage?: string) => {
-      if (coachLoading) return;
+      if (coachLoading) return coachResponse?.message ?? '请先观察当前设备与信号状态。';
+      const requestId = ++coachRequestRef.current;
+      const requestGeneration = attemptGenerationRef.current;
+      const isCurrentRequest = () =>
+        coachRequestRef.current === requestId &&
+        attemptGenerationRef.current === requestGeneration;
       setCoachLoading(true);
       addAction({
         timestamp: new Date().toISOString(),
@@ -250,6 +311,8 @@ export function VirtualLabRunner({
         response = createFallbackCoachResponse(trainingContext);
       }
 
+      if (!isCurrentRequest()) return '当前实训状态已更新，请基于最新证据重新请求提示。';
+
       const record: TrainingHintRecord = {
         timestamp: new Date().toISOString(),
         hintLevel: response.hintLevel,
@@ -280,9 +343,10 @@ export function VirtualLabRunner({
       });
       sendToScene(sceneId, hintMessage);
       setMessages((current) => [hintMessage, ...current].slice(0, 6));
-      setCoachLoading(false);
+      if (isCurrentRequest()) setCoachLoading(false);
+      return response.message;
     },
-    [addAction, coachLoading, context, persistAction, sceneId],
+    [addAction, coachLoading, coachResponse?.message, context, persistAction, sceneId],
   );
 
   const completeAttempt = useCallback(async () => {
@@ -419,7 +483,7 @@ export function VirtualLabRunner({
       if (message.type === 'MECH_READY') setLastState('Interactive HTML 与 3D 场景已就绪');
       if (message.type === 'MECH_ACTION') {
         const action = typeof payload.action === 'string' ? payload.action : '场景操作';
-        addAction({
+        const actionRecord: TrainingAction = {
           timestamp: message.timestamp,
           action,
           ...(typeof payload.target === 'string' ? { target: payload.target } : {}),
@@ -428,7 +492,33 @@ export function VirtualLabRunner({
             : {}),
           ...(typeof payload.unit === 'string' ? { unit: payload.unit } : {}),
           ...(typeof payload.phase === 'string' ? { phase: payload.phase } : {}),
+        };
+        addAction(actionRecord);
+        const wrongCount = action === 'WRONG_ACTION'
+          ? actionsRef.current.filter(
+              (item) => item.action === 'WRONG_ACTION' && item.value === actionRecord.value,
+            ).length
+          : 0;
+        if (action === 'WRONG_ACTION') setGuidanceErrors(wrongCount);
+        const actionFeedback = resolveVirtualLabActionFeedback({
+          action,
+          value: actionRecord.value,
+          snapshot: snapshotRef.current,
+          actions: actionsRef.current,
+          consecutiveErrors: Math.max(1, wrongCount),
         });
+        if (actionFeedback) setGuidanceFeedback(actionFeedback);
+        if (action === 'OBSERVE' && payload.detail === 'webgl_unavailable') {
+          setRuntimeWarning(
+            '当前浏览器无法正常启用3D实训环境。请检查浏览器硬件加速，或更换支持WebGL的浏览器后重试。',
+          );
+          setGuidanceFeedback({
+            action: '已尝试加载3D实训环境',
+            result: '当前浏览器未能启用WebGL。',
+            nextFocus: '请检查硬件加速设置，更换支持WebGL的浏览器后重试。',
+            tone: 'warning',
+          });
+        }
         if (action.startsWith('MEASURE_')) setTrainingPhase('measurement');
         else if (action === 'SUBMIT_DIAGNOSIS') setTrainingPhase('diagnosis');
         else if (action === 'REPLACE_COMPONENT' || action === 'RESTART_MACHINE')
@@ -436,13 +526,58 @@ export function VirtualLabRunner({
         setLastState(`已收到场景操作：${action}`);
       }
       if (message.type === 'MECH_STATE_CHANGED') {
-        snapshotRef.current = message.payload as MechLabSceneStatePayload;
+        const previous = snapshotRef.current;
+        const nextSnapshot = message.payload as MechLabSceneStatePayload;
+        snapshotRef.current = nextSnapshot;
+        setGuidanceRevision((current) => current + 1);
         const phase = typeof payload.phase === 'string' ? payload.phase : '已更新';
         if (typeof payload.phase === 'string') setTrainingPhase(payload.phase);
         setLastState(`场景状态：${phase}`);
+        if (!previous.training?.diagnosis && nextSnapshot.training?.diagnosis) {
+          setGuidanceErrors(0);
+          setGuidanceFeedback({
+            action: '已形成故障判断',
+            result: '当前判断已得到现有证据支持，可以进入维修。',
+            nextFocus: '执行必要维修后，仍需通过重新启动验证恢复结果。',
+            tone: 'success',
+          });
+        }
+        if (!previous.training?.repaired && nextSnapshot.training?.repaired) {
+          setGuidanceFeedback({
+            action: '已完成维修操作',
+            result: '设备已完成当前维修处理。',
+            nextFocus: '维修完成并不能自动证明故障已排除。请重新启动系统进行验证。',
+            tone: 'success',
+          });
+        }
+        if (!previous.training?.verificationPassed && nextSnapshot.training?.verificationPassed) {
+          setGuidanceFeedback({
+            action: '已重新启动生产线',
+            result: 'PLC I0.2恢复ON，生产流程恢复运行。',
+            nextFocus: '现场状态、PLC输入和生产过程已经重新一致，你已完成维修结果验证。',
+            tone: 'success',
+          });
+        }
       }
-      if (message.type === 'MECH_REQUEST_HINT' && !previewOnly) void requestCoach();
-      if (message.type === 'MECH_COMPLETE') void completeAttempt();
+      if (message.type === 'MECH_REQUEST_HINT') {
+        if (!previewOnly) void requestCoach();
+        else
+          setGuidanceFeedback({
+            action: '已尝试请求AI学习提示',
+            result: '教师预览模式不记录学生学习过程，AI学习支架暂不启用。',
+            nextFocus: '可继续预览3D场景、PLC和测量交互。',
+            tone: 'neutral',
+          });
+      }
+      if (message.type === 'MECH_COMPLETE') {
+        setGuidanceFeedback({
+          action: '已完成维修后验证',
+          result: 'PLC I0.2恢复ON，自动输送系统已恢复生产。',
+          nextFocus: '进入过程评价，回看“察—查—测—断—验”证据链。',
+          tone: 'success',
+        });
+        void completeAttempt();
+      }
     };
     window.addEventListener('message', receive);
     return () => window.removeEventListener('message', receive);
@@ -452,10 +587,24 @@ export function VirtualLabRunner({
     const message = createMechLabMessage(context, 'MECH_RESET', {});
     if (!sendToScene(sceneId, message)) {
       setLastState('场景尚未就绪，请稍候重试。');
+      setGuidanceFeedback({
+        action: '已尝试重置场景',
+        result: '3D场景尚未完成初始化。',
+        nextFocus: '请稍候场景就绪后再次重试。',
+        tone: 'warning',
+      });
       return;
     }
+    attemptGenerationRef.current += 1;
+    coachRequestRef.current += 1;
+    setAttemptGeneration(attemptGenerationRef.current);
+    setCoachLoading(false);
     snapshotRef.current = {};
     actionsRef.current = [];
+    setGuidanceRevision((current) => current + 1);
+    setGuidanceErrors(0);
+    setGuidanceFeedback(null);
+    setRuntimeWarning('');
     persistAction({ action: 'RESET', phase: 'intro', timestamp: new Date().toISOString() });
     hintsRef.current = [];
     setHintHistory([]);
@@ -467,12 +616,28 @@ export function VirtualLabRunner({
 
   const askQuestion = () => {
     const value = question.trim();
-    if (!value) return;
+    if (!value) {
+      setGuidanceFeedback({
+        action: '已尝试向AI学习伙伴提问',
+        result: '当前还没有输入问题。',
+        nextFocus: '可以用一句话说明你正在比较哪些现场或信号状态。',
+        tone: 'warning',
+      });
+      return;
+    }
     setQuestion('');
     void requestCoach(value);
   };
 
   const beginAttempt = () => {
+    attemptGenerationRef.current += 1;
+    coachRequestRef.current += 1;
+    setAttemptGeneration(attemptGenerationRef.current);
+    setCoachLoading(false);
+    setCoachResponse(undefined);
+    setGuidanceFeedback(null);
+    setGuidanceErrors(0);
+    setRuntimeWarning('');
     if (previewOnly) {
       setStarted(true);
       setTrainingPhase('intro');
@@ -511,8 +676,16 @@ export function VirtualLabRunner({
   };
 
   const retry = () => {
+    attemptGenerationRef.current += 1;
+    coachRequestRef.current += 1;
+    setAttemptGeneration(attemptGenerationRef.current);
+    setCoachLoading(false);
     snapshotRef.current = {};
     actionsRef.current = [];
+    setGuidanceRevision((current) => current + 1);
+    setGuidanceFeedback(null);
+    setGuidanceErrors(0);
+    setRuntimeWarning('');
     hintsRef.current = [];
     setHintHistory([]);
     setCoachResponse(undefined);
@@ -520,6 +693,32 @@ export function VirtualLabRunner({
     setStarted(false);
     beginAttempt();
   };
+
+  const coachDisabledReason = previewOnly
+    ? '教师预览模式不记录学生学习过程，AI学习支架暂不启用。'
+    : !started
+      ? '开始实训后可使用AI学习伙伴。'
+      : coachLoading
+        ? 'AI学习伙伴正在分析当前证据，请稍候。'
+        : '';
+  const operationRequirement = !started
+    ? '请先点击“开始实训”加载3D场景，再在场景内启动生产线。'
+    : guidanceView.repairCompleted && !guidanceView.verificationPassed
+      ? '维修已完成，现在需要点击“重新启动验证”，确认输入与生产流程恢复。'
+      : !guidanceView.repairCompleted
+        ? '“重新启动验证”需要在完成证据判断和维修后才可用。'
+        : '当前操作条件已满足。';
+  const stationProgressPercent = assessment
+    ? 100
+    : guidanceView.verificationPassed
+      ? 95
+      : guidanceView.repairCompleted
+        ? 80
+        : guidanceView.obtainedEvidence.length > 0
+          ? Math.min(70, 30 + guidanceView.obtainedEvidence.length * 10)
+          : started
+            ? 15
+            : 0;
 
   return (
     <main
@@ -531,84 +730,82 @@ export function VirtualLabRunner({
     >
       <InteractiveIframeHost />
       <div className={presentation === 'learning-center' ? 'space-y-5' : 'mx-auto max-w-7xl space-y-5'}>
-        <header
-          className={
-            presentation === 'learning-center'
-              ? 'rounded-xl border border-blue-900/20 bg-gradient-to-r from-[#071b48] via-[#123b78] to-[#0f766e] p-5 text-white shadow-sm'
-              : 'rounded-xl border bg-white p-5 shadow-sm'
-          }
-        >
-          <Link
-            href={
-              presentation === 'learning-center'
-                ? `/zhiban/student/courses/${context.courseId}/learning-center`
-                : `/zhiban/student/courses/${context.courseId}`
-            }
-            className={
-              presentation === 'learning-center'
-                ? 'text-sm text-blue-100 hover:underline'
-                : 'text-sm text-blue-600 hover:underline'
-            }
-          >
-            {presentation === 'learning-center' ? '← 返回学习中心' : '← 返回课程首页'}
-          </Link>
-          <div className="mt-4 flex flex-wrap items-center gap-3">
-            <Badge
-              className={
-                presentation === 'learning-center'
-                  ? 'bg-white/20 text-white hover:bg-white/20'
-                  : 'bg-blue-600'
-              }
+        {presentation === 'learning-center' ? (
+          <LearningStationHero
+            courseId={context.courseId}
+            stationId="station-06-virtual-lab"
+            headline={context.title}
+            description={context.description}
+            progressPercent={stationProgressPercent}
+            completed={Boolean(assessment)}
+            previewMode={previewOnly}
+          />
+        ) : (
+          <header className="rounded-xl border bg-white p-5 shadow-sm">
+            <Link
+              href={`/zhiban/student/courses/${context.courseId}`}
+              className="text-sm text-blue-600 hover:underline"
             >
-              {presentation === 'learning-center' ? '06 综合实训' : 'Virtual Lab'}
-            </Badge>
-            <Badge
-              variant="outline"
-              className={presentation === 'learning-center' ? 'border-white/40 text-white' : undefined}
-            >
-              {context.difficulty}
-            </Badge>
-            {previewOnly && (
-              <Badge className="bg-white/20 text-white hover:bg-white/20">教师预览</Badge>
-            )}
-          </div>
-          <h1
-            className={
-              presentation === 'learning-center'
-                ? 'mt-3 text-2xl font-semibold text-white'
-                : 'mt-3 text-2xl font-semibold text-slate-900'
-            }
-          >
-            {context.title}
-          </h1>
-          <p className={presentation === 'learning-center' ? 'mt-2 text-blue-50' : 'mt-2 text-slate-600'}>
-            {context.description}
-          </p>
-          <div
-            className={
-              presentation === 'learning-center'
-                ? 'mt-4 flex items-center gap-2 text-sm text-blue-100'
-                : 'mt-4 flex items-center gap-2 text-sm text-slate-600'
-            }
-          >
-            <Timer className="size-4" />
-            预计时长 {context.estimatedMinutes} 分钟
-          </div>
-          <p
-            className={
-              presentation === 'learning-center'
-                ? 'mt-3 text-xs text-blue-100 md:hidden'
-                : 'mt-3 text-xs text-slate-500 md:hidden'
-            }
-          >
-            建议使用 PC 端获得完整的三维虚拟实训体验。
-          </p>
-          {priorKnowledgeNotice && (
-            <p className="mt-3 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800">
-              {priorKnowledgeNotice}
+              ← 返回课程首页
+            </Link>
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              <Badge className="bg-blue-600">Virtual Lab</Badge>
+              <Badge variant="outline">{context.difficulty}</Badge>
+            </div>
+            <h1 className="mt-3 text-2xl font-semibold text-slate-900">{context.title}</h1>
+            <p className="mt-2 text-slate-600">{context.description}</p>
+            <div className="mt-4 flex items-center gap-2 text-sm text-slate-600">
+              <Clock3 className="size-4" aria-hidden="true" />
+              预计时长 {context.estimatedMinutes} 分钟
+            </div>
+            <p className="mt-3 text-xs text-slate-500 md:hidden">
+              建议使用 PC 端获得完整的三维虚拟实训体验。
             </p>
-          )}
-        </header>
+          </header>
+        )}
+        {priorKnowledgeNotice && (
+          <p className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800">
+            {priorKnowledgeNotice}
+          </p>
+        )}
+        {presentation === 'learning-center' && (
+          <SceneGuidanceLayer
+            key={`${activeGuidanceSceneId}:${attemptGeneration}`}
+            courseId={context.courseId}
+            sceneId={activeGuidanceSceneId}
+            previewMode={previewOnly}
+            completed={
+              activeGuidanceSceneId === 'S06-01'
+                ? started
+                : activeGuidanceSceneId === 'S06-03'
+                  ? Boolean(assessment)
+                  : guidanceView.completed
+            }
+            consecutiveErrors={guidanceErrors}
+            actionCount={actionsRef.current.length}
+            taskOverride={activeGuidanceSceneId === 'S06-02' ? guidanceView.currentTask : undefined}
+            promptOverride={activeGuidanceSceneId === 'S06-02' ? guidanceView.currentTask : undefined}
+            progressSummary={
+              assessment
+                ? '综合实训、维修验证与过程评价已完成'
+                : activeGuidanceSceneId === 'S06-01'
+                  ? '开始后将按“察—查—测—断—验”完成任务'
+                  : `已获得 ${guidanceView.obtainedEvidence.length} 项确定性证据`
+            }
+            feedback={guidanceFeedback}
+            {...(started && !assessment
+              ? {
+                  onRequestHelp: async () =>
+                    (await requestCoach()) ?? '请沿“察—查—测—断—验”检查当前证据链。',
+                }
+              : {})}
+          />
+        )}
+        {runtimeWarning && (
+          <p role="alert" className="rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800">
+            {runtimeWarning}
+          </p>
+        )}
 
         {assessment ? (
           <VirtualLabAssessmentResult
@@ -659,7 +856,7 @@ export function VirtualLabRunner({
                 </section>
               ) : (
                 <div className="rounded-xl border border-dashed bg-white p-10 text-center text-sm text-slate-500">
-                  点击“开始实训”后加载 Interactive HTML 场景。
+                  点击“开始实训”后加载三维自动生产线场景。
                 </div>
               )}
             </section>
@@ -667,10 +864,14 @@ export function VirtualLabRunner({
               <section className="rounded-xl border bg-white p-5">
                 <h2 className="font-semibold">当前任务</h2>
                 <p className="mt-3 text-sm leading-6 text-slate-600">
-                  依据现场、PLC I/O 与测量证据完成“察—查—测—断—验”。
+                  {guidanceView.currentTask}
                 </p>
-                <DiagnosisMethodProgress phase={trainingPhase} />
+                <DiagnosisMethodProgress view={guidanceView} />
+                <EvidenceSummary view={guidanceView} />
                 <p className="mt-3 text-sm font-medium text-blue-700">状态：{lastState}</p>
+                <p className="mt-2 text-xs leading-5 text-slate-500" id="virtual-lab-operation-requirement">
+                  {operationRequirement}
+                </p>
                 {started && (
                   <Button
                     className="mt-4 w-full"
@@ -712,6 +913,7 @@ export function VirtualLabRunner({
                     className="mt-3 w-full"
                     variant="outline"
                     disabled={!started || coachLoading || previewOnly}
+                    aria-describedby={coachDisabledReason ? 'virtual-lab-coach-disabled-reason' : undefined}
                   onClick={() => void requestCoach()}
                 >
                   {coachLoading ? (
@@ -731,16 +933,23 @@ export function VirtualLabRunner({
                     }}
                     placeholder="如：24V正常说明什么？"
                     disabled={!started || coachLoading || previewOnly}
+                    aria-describedby={coachDisabledReason ? 'virtual-lab-coach-disabled-reason' : undefined}
                   />
                   <Button
                     size="icon"
                     aria-label="发送问题"
                     onClick={askQuestion}
                     disabled={!started || coachLoading || previewOnly || !question.trim()}
+                    aria-describedby={coachDisabledReason ? 'virtual-lab-coach-disabled-reason' : undefined}
                   >
                     <Send className="size-4" />
                   </Button>
                 </div>
+                {coachDisabledReason && (
+                  <p id="virtual-lab-coach-disabled-reason" className="mt-2 text-xs leading-5 text-slate-500">
+                    {coachDisabledReason}
+                  </p>
+                )}
                 {hintHistory.length > 0 && (
                   <details className="mt-3 text-xs text-slate-500">
                     <summary className="cursor-pointer">提示记录（{hintHistory.length}）</summary>
@@ -802,7 +1011,7 @@ function friendlyAction(action: TrainingAction) {
     SUBMIT_DIAGNOSIS: `提交故障判断：${action.value === 'S2_OUTPUT_ABNORMAL' ? 'S2输出异常' : (action.value ?? '—')}`,
     REPLACE_COMPONENT: '更换/修复 S2 传感器',
     RESTART_MACHINE: '重新启动并验证',
-    WRONG_ACTION: `无效操作：${action.value ?? '—'}`,
+    WRONG_ACTION: `操作反馈：${virtualLabErrorPatternMessage(String(action.value ?? ''))}`,
   };
   return labels[action.action] ?? '';
 }

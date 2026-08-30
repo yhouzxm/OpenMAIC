@@ -9,6 +9,7 @@ import type {
   SceneReuseStrategy,
   SceneType,
 } from './types';
+import type { SceneGuidanceDefinition } from './guidance';
 
 const SCENARIO_ID = 'line-stop-001';
 
@@ -27,6 +28,7 @@ function scene(input: {
   componentKey?: string;
   interactiveTemplate?: string;
   activity?: boolean;
+  guidance?: SceneGuidanceDefinition;
   metadata?: Record<string, unknown>;
 }): SceneDefinition {
   return {
@@ -45,6 +47,7 @@ function scene(input: {
     componentKey: input.componentKey,
     interactiveTemplate: input.interactiveTemplate,
     ...(input.activity ? { activityId: MECH_LAB_ACTIVITY_ID, scenarioId: SCENARIO_ID } : {}),
+    guidance: input.guidance,
     metadata: input.metadata ?? {},
   };
 }
@@ -71,6 +74,19 @@ export const SCENE_DEFINITIONS: readonly SceneDefinition[] = [
     learningMode: 'knowledge',
     completionRule: eventRule(),
     componentKey: 'pbl-project-shell',
+    guidance: {
+      task: '先了解自动生产线为什么停摆，以及接下来需要解决什么工程问题。',
+      objective: '明确本次工程任务，并建立先认识系统、再分析故障的学习顺序。',
+      observeItems: ['自动生产线整体结构', '工件、传感器、PLC与执行机构的空间关系'],
+      operableTargets: [
+        { id: 'production-line', label: '生产线整体', action: '浏览设备布局和工件流向' },
+        { id: 'task-briefing', label: '任务说明', action: '查看工程背景与完成条件' },
+      ],
+      firstActionPrompt: '先不要急着判断故障。先认识生产线由哪些部分组成。',
+      completionCriteria: ['明确本次任务目标，并开始生产线系统认知'],
+      estimatedMinutes: 2,
+      completionFeedback: '已了解本次工程任务。接下来将沿“感知—控制—执行”认识整个系统。',
+    },
     metadata: { projectStage: '识系统' },
   }),
   scene({
@@ -87,6 +103,31 @@ export const SCENE_DEFINITIONS: readonly SceneDefinition[] = [
     componentKey: 'system-learning-station',
     interactiveTemplate: 'line-stop-001-learning',
     activity: true,
+    guidance: {
+      task: '在3D生产线上找到负责检测工件到位的设备，并认识各关键设备的作用。',
+      objective: '能识别自动生产线关键设备，理解设备的输入、作用和输出。',
+      observeItems: ['S1与S2在输送线上的位置', 'PLC、电机、输送带、工件和气缸的作用关系'],
+      operableTargets: [
+        { id: 's1', label: 'S1', action: '点击查看入口检测作用' },
+        { id: 's2', label: 'S2', action: '点击查看到位检测作用' },
+        { id: 'plc', label: 'PLC', action: '点击查看控制作用' },
+        { id: 'motor', label: '电机', action: '点击查看驱动作用' },
+        { id: 'conveyor', label: '输送带', action: '点击查看输送作用' },
+        { id: 'workpiece', label: '工件', action: '点击查看位置状态' },
+        { id: 'cylinder', label: '气缸', action: '点击查看推料作用' },
+      ],
+      firstActionPrompt: '旋转视角并点击3D设备；任务目标设备会在设备信息区给出反馈。',
+      completionCriteria: ['在真实3D场景中点击负责检测工件到位的设备'],
+      estimatedMinutes: 3,
+      successFeedback: '你已经找到负责工件到位检测的设备。',
+      completionFeedback: '设备探索已完成，可以继续理解感知—控制—执行三层关系。',
+      errorFeedback: {
+        M01_WRONG_TARGET: {
+          message: '当前判断还需要考虑这个元件是采集信号、处理信号，还是执行动作。',
+          nextObservation: '可以从它接收什么、输出什么来判断角色。',
+        },
+      },
+    },
   }),
   scene({
     id: 'S01-03',
@@ -101,6 +142,27 @@ export const SCENE_DEFINITIONS: readonly SceneDefinition[] = [
     completionRule: eventRule(['K02']),
     componentKey: 'system-learning-station',
     activity: true,
+    guidance: {
+      task: '把已经认识的元件组织成“感知—控制—执行”系统。',
+      objective: '能根据设备的输入、作用和输出建立三层信号链。',
+      observeItems: ['谁负责检测', '谁负责处理信号', '谁负责产生机械动作', '信号如何传到后一级'],
+      operableTargets: [
+        { id: 's2', label: 'S2', action: '选择它在系统中的层级' },
+        { id: 'plc', label: 'PLC', action: '选择它在系统中的层级' },
+        { id: 'cylinder', label: '气缸', action: '选择它在系统中的层级' },
+      ],
+      firstActionPrompt: '先从现场传感器开始，沿信号传递方向判断后续环节。',
+      completionCriteria: ['完成S2、PLC和气缸的三层分类'],
+      estimatedMinutes: 2,
+      successFeedback: '三类设备已经形成连续的系统关系。',
+      completionFeedback: '你已经建立“感知→控制→执行”的基本系统模型。下一步将观察它在真实生产流程中如何连续工作。',
+      errorFeedback: {
+        CLASSIFICATION_ROLE_MISMATCH: {
+          message: '当前分类与设备的输入、输出角色不一致。',
+          nextObservation: '比较它是在获取信息、作出控制决策，还是执行机械动作。',
+        },
+      },
+    },
   }),
   scene({
     id: 'S01-04',
@@ -115,6 +177,27 @@ export const SCENE_DEFINITIONS: readonly SceneDefinition[] = [
     completionRule: eventRule(['K03'], ['M02']),
     componentKey: 'system-learning-station',
     activity: true,
+    guidance: {
+      task: '按真实生产过程排列自动生产线的正常工作步骤。',
+      objective: '理解物理流、信息流和控制流之间的先后与因果关系。',
+      observeItems: ['工件如何移动', '传感器信号何时产生', 'PLC何时判断并发出控制', '执行机构何时动作'],
+      operableTargets: [
+        { id: 'sequence', label: '流程步骤', action: '拖动或使用箭头调整顺序' },
+        { id: 'submit', label: '提交排序', action: '检查当前因果顺序' },
+        { id: 'play', label: '正常流程观察', action: '播放并观察三种流' },
+      ],
+      firstActionPrompt: '先判断现场发生什么，再判断PLC何时获得输入并控制执行机构。',
+      completionCriteria: ['正确排列正常生产步骤', '播放一次正常流程并观察三种流'],
+      estimatedMinutes: 3,
+      successFeedback: '正常生产步骤已形成完整因果链。',
+      completionFeedback: '正常运行基线已经建立。后续诊断时，可把异常状态与这条流程进行比较。',
+      errorFeedback: {
+        SEQUENCE_CAUSALITY_ERROR: {
+          message: '当前顺序与信号因果关系不一致。',
+          nextObservation: '先思考PLC获得输入之前，现场必须先发生什么。',
+        },
+      },
+    },
   }),
 
   scene({
@@ -130,6 +213,20 @@ export const SCENE_DEFINITIONS: readonly SceneDefinition[] = [
     completionRule: eventRule(['K04']),
     componentKey: 'sensing-learning-station',
     interactiveTemplate: 'sensing-station',
+    guidance: {
+      task: '拖动工件经过S2检测区域，观察工件位置与传感器状态之间的关系。',
+      objective: '理解工件位置变化如何触发S2检测状态变化。',
+      observeItems: ['工件位于检测区前、区内还是区后', 'S2状态何时发生变化'],
+      operableTargets: [
+        { id: 'workpiece', label: '工件', action: '拖动经过S2检测区' },
+        { id: 's2-zone', label: 'S2检测区', action: '观察工件进入和离开时的状态' },
+      ],
+      firstActionPrompt: '拖动工件经过S2检测区。',
+      completionCriteria: ['亲手拖动工件并观察至少一次位置—检测状态变化'],
+      estimatedMinutes: 2,
+      successFeedback: '已经观察到工件位置与S2检测状态的联动。',
+      completionFeedback: '你已建立工件位置与传感器检测状态的基本关系，可以继续先预测、再验证。',
+    },
   }),
   scene({
     id: 'S02-02',
@@ -144,6 +241,27 @@ export const SCENE_DEFINITIONS: readonly SceneDefinition[] = [
     completionRule: eventRule(['K05'], ['M03']),
     componentKey: 'sensing-learning-station',
     interactiveTemplate: 'sensing-station',
+    guidance: {
+      task: '把工件放在三个代表位置，先预测S2状态，再验证PLC I0.2。',
+      objective: '建立工件位置、S2检测、传感器输出与PLC输入之间的动态关系。',
+      observeItems: ['工件是否进入S2检测区', 'S2与PLC I0.2是否同步变化'],
+      operableTargets: [
+        { id: 'workpiece', label: '工件', action: '拖动到检测区前、区内或区后' },
+        { id: 'prediction', label: '预测按钮', action: '选择S2下一刻ON或OFF' },
+        { id: 'verify', label: '验证按钮', action: '揭示实际状态并对比预测' },
+      ],
+      firstActionPrompt: '点击“开始位置预测”，拖动工件到一个代表位置，再选择ON或OFF并验证。',
+      completionCriteria: ['完成检测区前、检测区内、检测区后三个位置的预测与验证'],
+      estimatedMinutes: 3,
+      successFeedback: '本次预测与实际位置—信号关系一致。',
+      completionFeedback: '三个位置均已验证，可以继续学习供电与输出状态判断。',
+      errorFeedback: {
+        PREDICTION_MISMATCH: {
+          message: '当前预测与实际位置—信号关系不一致。',
+          nextObservation: '比较工件位置、S2输出与PLC I0.2是否同步。',
+        },
+      },
+    },
   }),
   scene({
     id: 'S02-03',
@@ -159,6 +277,27 @@ export const SCENE_DEFINITIONS: readonly SceneDefinition[] = [
     remediationFor: ['POWER_EQUALS_SENSOR_NORMAL'],
     componentKey: 'sensing-learning-station',
     interactiveTemplate: 'sensing-station',
+    guidance: {
+      task: '通过供电和输出两项证据判断S2工作状态。',
+      objective: '区分传感器“有供电”与“有正常输出”。',
+      observeItems: ['S2供电状态', 'S2输出状态', 'PLC I0.2状态'],
+      operableTargets: [
+        { id: 'measure-power', label: '供电测量', action: '测量S2供电端' },
+        { id: 'measure-output', label: '输出测量', action: '测量S2输出端' },
+        { id: 'i02', label: 'PLC I0.2', action: '比较输入状态与输出测量' },
+      ],
+      firstActionPrompt: '先测量S2供电，再测量输出，并与PLC I0.2比较。',
+      completionCriteria: ['完成供电测量与判断', '完成输出证据决策'],
+      estimatedMinutes: 3,
+      successFeedback: '已用供电与输出两类证据判断传感器状态。',
+      completionFeedback: '传感器体检已完成：供电正常只是条件，输出与PLC输入仍需单独验证。',
+      errorFeedback: {
+        POWER_EQUALS_SENSOR_NORMAL: {
+          message: '当前判断只使用了供电证据。',
+          nextObservation: '供电状态和输出状态是两个不同证据，请继续比较两者。',
+        },
+      },
+    },
   }),
   scene({
     id: 'S02-04',
@@ -173,6 +312,26 @@ export const SCENE_DEFINITIONS: readonly SceneDefinition[] = [
     completionRule: eventRule(['K08']),
     componentKey: 'sensing-learning-station',
     interactiveTemplate: 'sensing-station',
+    guidance: {
+      task: '建立现场S2与PLC输入I0.2之间的对应关系。',
+      objective: '理解现场设备、信号与PLC输入地址的双向映射。',
+      observeItems: ['S2产生的现场信号', 'PLC输入地址I0.2', '信号进入PLC的方向'],
+      operableTargets: [
+        { id: 's2', label: 'S2', action: '从现场设备追踪到PLC地址' },
+        { id: 'i02', label: 'I0.2', action: '从PLC地址反向追踪现场设备' },
+      ],
+      firstActionPrompt: '先点击S2观察信号去向，再点击I0.2反向查找现场设备。',
+      completionCriteria: ['完成S2→I0.2与I0.2→S2双向映射'],
+      estimatedMinutes: 2,
+      successFeedback: '现场S2与PLC输入I0.2的双向关系已经建立。',
+      completionFeedback: '你已能沿信号方向在现场设备与PLC地址之间双向追踪。',
+      errorFeedback: {
+        FIELD_IO_MAPPING_ERROR: {
+          message: '当前现场设备与PLC地址的信号方向不一致。',
+          nextObservation: '先确认这个信号是输入PLC，还是由PLC输出。',
+        },
+      },
+    },
   }),
 
   scene({
@@ -189,6 +348,20 @@ export const SCENE_DEFINITIONS: readonly SceneDefinition[] = [
     remediationFor: ['INPUT_OUTPUT_CONFUSION'],
     componentKey: 'control-learning-station',
     interactiveTemplate: 'control-station',
+    guidance: {
+      task: '区分PLC输入信号与输出信号，判断现场信息进入PLC还是由PLC发出。',
+      objective: '能按信号方向区分PLC输入I与PLC输出Q。',
+      observeItems: ['PLC的I区与Q区', '现场检测元件的信息角色', '执行机构接收的控制信号'],
+      operableTargets: [
+        { id: 'field-device', label: '现场元件', action: '判断它提供信息还是接收控制' },
+        { id: 'input-area', label: 'PLC输入区', action: '观察进入PLC的信号' },
+        { id: 'output-area', label: 'PLC输出区', action: '观察PLC发出的控制' },
+      ],
+      firstActionPrompt: '先选择一个现场元件，判断它是在向PLC提供信息，还是接收PLC控制。',
+      completionCriteria: ['完成PLC输入与输出区域辨析'],
+      estimatedMinutes: 2,
+      completionFeedback: '你已经能够区分PLC输入与输出。下一步将把现场设备与具体I/O地址对应起来。',
+    },
   }),
   scene({
     id: 'S03-02',
@@ -204,6 +377,20 @@ export const SCENE_DEFINITIONS: readonly SceneDefinition[] = [
     remediationFor: ['FIELD_IO_MAPPING_ERROR'],
     componentKey: 'control-learning-station',
     interactiveTemplate: 'control-station',
+    guidance: {
+      task: '把现场设备与PLC地址建立正确映射。',
+      objective: '能按信号方向建立现场设备与现有PLC I/O地址的对应关系。',
+      observeItems: ['现场设备承担的角色', 'I/Q地址的信号方向', '映射后高亮的设备关系'],
+      operableTargets: [
+        { id: 's2', label: 'S2', action: '选择对应PLC地址' },
+        { id: 'pusher', label: '推料控制', action: '选择对应PLC地址' },
+        { id: 'submit', label: '提交映射', action: '验证信号方向' },
+      ],
+      firstActionPrompt: '先判断现场设备产生的是输入信号，还是接收PLC输出控制。',
+      completionCriteria: ['完成现有现场设备与PLC地址匹配练习'],
+      estimatedMinutes: 3,
+      completionFeedback: '现场设备与PLC地址映射已完成，可以继续推演PLC扫描过程。',
+    },
   }),
   scene({
     id: 'S03-03',
@@ -219,6 +406,20 @@ export const SCENE_DEFINITIONS: readonly SceneDefinition[] = [
     remediationFor: ['PLC_SCAN_SEQUENCE_ERROR'],
     componentKey: 'control-learning-station',
     interactiveTemplate: 'control-station',
+    guidance: {
+      task: '按PLC真实扫描顺序推演一次控制周期。',
+      objective: '理解读取输入、执行逻辑、刷新输出三个阶段的先后关系。',
+      observeItems: ['输入映像何时确定', '程序逻辑何时运算', '输出状态何时刷新'],
+      operableTargets: [
+        { id: 'input', label: '读取输入', action: '采样当前I0.2状态' },
+        { id: 'logic', label: '执行逻辑', action: '根据输入完成控制判断' },
+        { id: 'output', label: '刷新输出', action: '把逻辑结果更新到Q0.1' },
+      ],
+      firstActionPrompt: '先判断PLC在执行程序逻辑前，需要先读取什么状态。',
+      completionCriteria: ['按读取输入→执行逻辑→刷新输出完成一次扫描'],
+      estimatedMinutes: 3,
+      completionFeedback: '一个完整PLC扫描周期已经完成，下一步将用动态梯形图验证逻辑传递。',
+    },
   }),
   scene({
     id: 'S03-04',
@@ -234,6 +435,27 @@ export const SCENE_DEFINITIONS: readonly SceneDefinition[] = [
     remediationFor: ['LADDER_LOGIC_CONFUSION'],
     componentKey: 'control-learning-station',
     interactiveTemplate: 'control-station',
+    guidance: {
+      task: '根据I0.2状态预测Q0.1，再执行PLC扫描验证梯形图信号是否导通。',
+      objective: '理解I0.2触点状态如何通过控制逻辑影响Q0.1输出。',
+      observeItems: ['I0.2触点是否闭合', '信号路径是否导通', 'Q0.1线圈最终状态'],
+      operableTargets: [
+        { id: 'i02', label: 'I0.2', action: '切换或观察输入状态' },
+        { id: 'prediction', label: 'Q0.1预测', action: '先选择ON或OFF' },
+        { id: 'scan', label: '扫描步骤', action: '依次执行INPUT、LOGIC、OUTPUT' },
+      ],
+      firstActionPrompt: '先观察I0.2，预测Q0.1，再按INPUT→LOGIC→OUTPUT完成扫描。',
+      completionCriteria: ['提交一次Q0.1预测', '完成一次INPUT→LOGIC→OUTPUT扫描验证'],
+      estimatedMinutes: 3,
+      successFeedback: '预测与梯形图实际信号传递结果一致。',
+      completionFeedback: '动态梯形图验证已完成，可以继续进入执行链学习。',
+      errorFeedback: {
+        LADDER_LOGIC_CONFUSION: {
+          message: '当前预测与梯形图逻辑不一致。',
+          nextObservation: '先观察I0.2触点是否满足导通条件，再沿通路检查Q0.1线圈。',
+        },
+      },
+    },
   }),
 
   scene({
@@ -249,6 +471,21 @@ export const SCENE_DEFINITIONS: readonly SceneDefinition[] = [
     completionRule: eventRule(['K13']),
     componentKey: 'actuation-learning-station',
     interactiveTemplate: 'actuation-station',
+    guidance: {
+      task: '沿Q0.1控制信号逐级追踪电磁阀、气路和气缸。',
+      objective: '理解PLC输出如何经执行控制环节转化为机械动作。',
+      observeItems: ['Q0.1输出状态', '电磁阀状态', '气路传递', '气缸机械动作'],
+      operableTargets: [
+        { id: 'q01', label: 'Q0.1', action: '从PLC输出开始追踪' },
+        { id: 'valve', label: '电磁阀', action: '观察电控制向气路的转换' },
+        { id: 'air', label: '气路', action: '观察能量如何传到气缸' },
+        { id: 'cylinder', label: '气缸', action: '确认最终机械动作' },
+      ],
+      firstActionPrompt: '从PLC输出Q0.1开始，沿控制信号依次观察后续环节。',
+      completionCriteria: ['依次观察Q0.1、电磁阀、气路和气缸节点'],
+      estimatedMinutes: 3,
+      completionFeedback: '完整执行链已经建立，可以继续观察控制状态如何转化为机械动作。',
+    },
   }),
   scene({
     id: 'S04-02',
@@ -263,6 +500,19 @@ export const SCENE_DEFINITIONS: readonly SceneDefinition[] = [
     completionRule: eventRule(['K13']),
     componentKey: 'actuation-learning-station',
     interactiveTemplate: 'actuation-station',
+    guidance: {
+      task: '观察控制信号如何通过中间执行环节转化为机械动作。',
+      objective: '能区分PLC输出、执行链中间状态与气缸最终动作。',
+      observeItems: ['Q0.1变化', '电磁阀与气路变化', '气缸伸出或缩回'],
+      operableTargets: [
+        { id: 'output-toggle', label: 'Q0.1开关', action: '手动切换控制输出' },
+        { id: 'chain-node', label: '执行链节点', action: '逐级观察状态传递' },
+      ],
+      firstActionPrompt: '先切换Q0.1，再从电磁阀和气路逐级观察到气缸。',
+      completionCriteria: ['观察至少一次Q0.1 ON/OFF与气缸动作变化'],
+      estimatedMinutes: 2,
+      completionFeedback: '你已经观察到控制信号经中间环节转化为机械动作。',
+    },
   }),
   scene({
     id: 'S04-03',
@@ -278,6 +528,20 @@ export const SCENE_DEFINITIONS: readonly SceneDefinition[] = [
     remediationFor: ['CONTROL_EXECUTION_CONFUSION', 'OUTPUT_EQUALS_ACTUATION_SUCCESS'],
     componentKey: 'actuation-learning-station',
     interactiveTemplate: 'actuation-station',
+    guidance: {
+      task: 'Q0.1已经ON，但气缸没有动作。沿执行链判断还需要检查哪些环节。',
+      objective: '形成“PLC有输出不等于执行成功”的证据意识。',
+      observeItems: ['Q0.1是否ON', '电磁阀与气路中间状态', '气缸是否真实动作'],
+      operableTargets: [
+        { id: 'failure-mode', label: '执行失败推演', action: '建立Q0.1 ON但气缸不动作情境' },
+        { id: 'q01', label: 'Q0.1', action: '确认控制输出状态' },
+        { id: 'checkpoint', label: '执行层判断', action: '基于证据提交故障层级' },
+      ],
+      firstActionPrompt: '先切换“执行失败推演”并打开Q0.1，再比较控制输出与现场动作。',
+      completionCriteria: ['形成Q0.1 ON但气缸未动作的证据情境', '完成执行侧知识检查点'],
+      estimatedMinutes: 3,
+      completionFeedback: '你已经理解：PLC控制输出存在，并不能自动证明执行机构动作成功。',
+    },
   }),
 
   scene({
@@ -292,6 +556,18 @@ export const SCENE_DEFINITIONS: readonly SceneDefinition[] = [
     prerequisite: 'S04-03',
     completionRule: eventRule(['K15']),
     componentKey: 'diagnosis-learning-station',
+    guidance: {
+      task: '把故障诊断行为按“察—查—测—断—验”组织成合理顺序。',
+      objective: '建立以现场、信号和测量证据为基础的规范诊断框架。',
+      observeItems: ['每一步需要的前置证据', '形成判断前是否已取得事实', '维修后是否完成验证'],
+      operableTargets: [
+        { id: 'method-steps', label: '五步诊断条', action: '按合理顺序选择诊断步骤' },
+      ],
+      firstActionPrompt: '先从观察异常现象开始，再思考形成判断前还需要哪些证据。',
+      completionCriteria: ['完成察、查、测、断、验五个步骤认知'],
+      estimatedMinutes: 2,
+      completionFeedback: '你已经建立规范的循证诊断框架。接下来要把它用于不同故障层级。',
+    },
   }),
   scene({
     id: 'S05-02',
@@ -306,6 +582,20 @@ export const SCENE_DEFINITIONS: readonly SceneDefinition[] = [
     completionRule: eventRule(['K15'], ['M08-sensing']),
     remediationFor: ['SENSING_LAYER_CONFUSION'],
     componentKey: 'diagnosis-learning-station',
+    guidance: {
+      task: '判断异常是否发生在感知层，并用已有证据支持判断。',
+      objective: '能比较现场状态与PLC输入，判断信息是否在进入PLC前丢失。',
+      observeItems: ['现场工件状态', 'PLC输入状态', '两者之间的感知链证据'],
+      operableTargets: [
+        { id: 'field', label: '现场状态', action: '查看工件是否到位' },
+        { id: 'input', label: 'PLC输入', action: '查看I0.2状态' },
+        { id: 'evidence', label: '关键证据', action: '选择支持当前判断的事实' },
+      ],
+      firstActionPrompt: '先比较现场状态和PLC输入是否发生了对应变化。',
+      completionCriteria: ['查看现场、PLC输入和输出', '提交感知层情境判断及关键证据'],
+      estimatedMinutes: 2,
+      completionFeedback: '感知层诊断情境已完成，可以继续判断控制层信号链。',
+    },
   }),
   scene({
     id: 'S05-03',
@@ -320,6 +610,20 @@ export const SCENE_DEFINITIONS: readonly SceneDefinition[] = [
     completionRule: eventRule(['K15'], ['M08-control']),
     remediationFor: ['CONTROL_LAYER_CONFUSION'],
     componentKey: 'diagnosis-learning-station',
+    guidance: {
+      task: '利用PLC输入、程序逻辑和输出状态判断控制层是否存在异常。',
+      objective: '建立INPUT→LOGIC→OUTPUT控制证据链。',
+      observeItems: ['PLC输入当前状态', '控制逻辑结果', 'PLC输出当前状态'],
+      operableTargets: [
+        { id: 'input', label: 'PLC输入', action: '确认I0.2状态' },
+        { id: 'logic', label: '控制逻辑', action: '判断逻辑条件是否成立' },
+        { id: 'output', label: 'PLC输出', action: '确认Q0.1是否按预期刷新' },
+      ],
+      firstActionPrompt: '按输入、逻辑、输出顺序逐项获取证据。',
+      completionCriteria: ['查看三项状态并提交控制层情境判断'],
+      estimatedMinutes: 2,
+      completionFeedback: '控制层诊断情境已完成，可以继续比较输出与真实执行动作。',
+    },
   }),
   scene({
     id: 'S05-04',
@@ -334,6 +638,19 @@ export const SCENE_DEFINITIONS: readonly SceneDefinition[] = [
     completionRule: eventRule(['K15'], ['M08-actuation']),
     remediationFor: ['ACTUATION_LAYER_CONFUSION', 'EVIDENCE_SELECTION_ERROR'],
     componentKey: 'diagnosis-learning-station',
+    guidance: {
+      task: '在60秒内沿信号链定位第一个状态矛盾节点。',
+      objective: '能先确认信号到达位置，再判断执行层异常范围。',
+      observeItems: ['当前信号链位置', '已经确认的节点', '尚未检查的执行链节点'],
+      operableTargets: [
+        { id: 'start-challenge', label: '开始挑战', action: '启动原有60秒计时' },
+        { id: 'signal-node', label: '信号链节点', action: '选择第一个状态矛盾节点' },
+      ],
+      firstActionPrompt: '先判断信号已经到达哪里，再决定下一个需要检查的节点。',
+      completionCriteria: ['完成执行层诊断情境', '完成一次60秒信号追踪挑战'],
+      estimatedMinutes: 3,
+      completionFeedback: '执行层诊断与信号追踪已完成，你已能沿证据链区分三类故障层级。',
+    },
   }),
 
   scene({
@@ -350,6 +667,21 @@ export const SCENE_DEFINITIONS: readonly SceneDefinition[] = [
     componentKey: 'pbl-project-shell',
     activity: true,
     metadata: { projectStage: '战故障' },
+    guidance: {
+      task: '独立完成自动输送系统停机故障诊断，并用证据验证维修结果。',
+      objective: '沿“察—查—测—断—验”建立完整证据链；AI学习伙伴只提供提示，不替你完成诊断。',
+      observeItems: ['工件位置与生产线停止现象', 'PLC I/O与S2状态', '虚拟测量结果'],
+      operableTargets: [
+        { id: 'scene', label: '3D设备现场', action: '观察设备和工件状态' },
+        { id: 'plc', label: 'PLC', action: '查看I/O监控' },
+        { id: 'measurement', label: '虚拟测量工具', action: '获取供电与输出证据' },
+        { id: 'diagnosis', label: '诊断与维修', action: '提交判断、完成维修并重启验证' },
+      ],
+      firstActionPrompt: '先进入实训并启动生产线，观察工件最终停在哪里。',
+      completionCriteria: ['形成现场、PLC与测量证据链', '完成维修并重新启动验证生产线恢复'],
+      estimatedMinutes: 12,
+      completionFeedback: '任务已导入，请按循证诊断流程开始综合实训。',
+    },
   }),
   scene({
     id: 'S06-02',
@@ -365,6 +697,19 @@ export const SCENE_DEFINITIONS: readonly SceneDefinition[] = [
     componentKey: 'virtual-lab-runner',
     interactiveTemplate: 'line-stop-001',
     activity: true,
+    guidance: {
+      task: '沿“察—查—测—断—验”完成自动输送系统故障诊断与恢复验证。',
+      objective: '根据现场、PLC I/O和测量证据完成规范诊断。',
+      observeItems: ['工件与传感器现场状态', 'PLC I/O变化', '万用表测量结果'],
+      operableTargets: [
+        { id: 'plc', label: 'PLC', action: '打开I/O监控' },
+        { id: 's2', label: 'S2', action: '检查并使用万用表测量' },
+      ],
+      firstActionPrompt: '开始后先观察现场异常，不要在缺少证据时直接更换设备。',
+      completionCriteria: ['正确诊断并修复', '重新启动并完成生产恢复验证'],
+      estimatedMinutes: 12,
+      completionFeedback: '综合实训已完成，请查看过程评价和诊断路径。',
+    },
   }),
   scene({
     id: 'S06-03',
@@ -379,13 +724,27 @@ export const SCENE_DEFINITIONS: readonly SceneDefinition[] = [
     completionRule: { type: 'virtual_lab_assessment' },
     componentKey: 'virtual-lab-assessment',
     activity: true,
+    guidance: {
+      task: '确认维修后已重新启动并恢复生产，再查看诊断路径与过程评价。',
+      objective: '理解“完成维修”不等于“已验证故障排除”。',
+      observeItems: ['维修后PLC I0.2是否恢复', '生产流程是否真正恢复', '察—查—测—断—验路径是否完整'],
+      operableTargets: [
+        { id: 'path-replay', label: '诊断路径回放', action: '对比自己的操作与循证路径' },
+        { id: 'assessment', label: '过程评价', action: '查看五维评分和改进建议' },
+        { id: 'retry', label: '再次实训', action: '重新挑战并比较过程表现' },
+      ],
+      firstActionPrompt: '先确认本轮已通过重新启动完成结果验证，再回看诊断过程。',
+      completionCriteria: ['完成维修、主动重新启动，并确认生产线恢复', '查看过程评价与诊断路径'],
+      estimatedMinutes: 3,
+      completionFeedback: '你已完成“察—查—测—断—验”完整闭环，可以查看过程评价。',
+    },
   }),
 
   scene({
     id: 'S07-01',
     stationId: 'station-07-assessment',
-    title: '六维能力画像',
-    description: '查看课件级六维确定性能力画像。',
+    title: '过程评价与诊断路径回放',
+    description: '对比本次确定性过程评分与“察—查—测—断—验”路径。',
     sceneType: 'assessment',
     reuseStrategy: 'REUSE_DIRECT',
     capabilities: ['assessment', 'analytics'],
@@ -393,32 +752,71 @@ export const SCENE_DEFINITIONS: readonly SceneDefinition[] = [
     prerequisite: 'S06-03',
     completionRule: { type: 'station_profile' },
     componentKey: 'assessment-learning-station',
+    guidance: {
+      task: '回看自己的诊断过程，找出做得好的步骤、缺失的证据和可以减少的无效操作。',
+      objective: '理解系统评价的是解决问题的过程，而不只是最终答案。',
+      observeItems: ['最近一次确定性五项过程评分', '诊断路径中已形成与缺失的证据', '评分项的确定性原因'],
+      operableTargets: [
+        { id: 'assessment-dimension', label: '过程评分项', action: '查看分数与确定性原因' },
+        { id: 'path-summary', label: '诊断路径摘要', action: '核对察、查、测、断、验是否完整' },
+      ],
+      firstActionPrompt: '结果只是诊断的一部分。请先比较自己的过程评价与循证诊断路径。',
+      completionCriteria: ['查看最近一次五项过程评分', '理解路径缺口对证据链的影响'],
+      estimatedMinutes: 3,
+      completionFeedback: '已完成过程回看，可继续查看六维能力画像。',
+    },
   }),
   scene({
     id: 'S07-02',
     stationId: 'station-07-assessment',
-    title: '精准补救',
-    description: '根据概念误区和薄弱能力返回既有学习站。',
-    sceneType: 'remediation',
+    title: '六维能力画像与认知误区复盘',
+    description: '使用真实学习证据解释六维能力与概念误区状态。',
+    sceneType: 'assessment',
     reuseStrategy: 'REUSE_DIRECT',
     capabilities: ['assessment', 'analytics'],
     learningMode: 'assessment',
     prerequisite: 'S07-01',
     completionRule: { type: 'station_profile' },
     componentKey: 'assessment-learning-station',
+    guidance: {
+      task: '结合真实学习行为，找出自己的优势和当前最需要提升的能力。',
+      objective: '理解六维画像分数的数据来源，并识别当前需巩固的概念。',
+      observeItems: ['六个能力维度的分数与证据数', '每个维度的真实数据来源', '概念误区的当前学习状态'],
+      operableTargets: [
+        { id: 'profile-dimension', label: '六维能力项', action: '对照分数、证据数和来源' },
+        { id: 'concept-review', label: '认知误区复盘', action: '查看需巩固、改善中或已验证状态' },
+      ],
+      firstActionPrompt: '先找出分数最低的维度，再查看该结果来自哪些答题、实训或再挑战证据。',
+      completionCriteria: ['查看六维画像的证据来源', '确认当前优势与最需提升的能力'],
+      estimatedMinutes: 3,
+      completionFeedback: '已完成能力与误区复盘，可继续查看当前优先补练任务。',
+    },
   }),
   scene({
     id: 'S07-03',
     stationId: 'station-07-assessment',
-    title: '再练与教师学情',
-    description: '复用再练比较和教师课件级学情分析。',
-    sceneType: 'assessment',
+    title: '智能补练、再挑战与学习闭环',
+    description: '复用现有精准补练、再挑战和再实训机制验证新表现。',
+    sceneType: 'remediation',
     reuseStrategy: 'REUSE_DIRECT',
     capabilities: ['assessment', 'analytics'],
     learningMode: 'assessment',
     prerequisite: 'S07-02',
     completionRule: { type: 'station_profile' },
     componentKey: 'assessment-learning-station',
+    guidance: {
+      task: '根据本轮真实表现完成针对性补练，并回到原任务重新验证。',
+      objective: '理解推荐原因、补练目标和再挑战去向，用新表现验证学习效果。',
+      observeItems: ['当前优先补练的确定性原因', '补练需要重新掌握的内容', '补练完成后的再挑战目标'],
+      operableTargets: [
+        { id: 'remediation-card', label: '当前优先补练', action: '查看原因、目标并开始补练' },
+        { id: 'retry', label: '重新挑战', action: '用新的答题或实训表现验证掌握' },
+      ],
+      firstActionPrompt: '先阅读“为什么推荐”与“补练目标”；仅浏览补练页面不会提高能力分数。',
+      completionCriteria: ['完成当前优先补练', '回到原任务或综合实训完成再挑战'],
+      estimatedMinutes: 5,
+      completionFeedback: '补练完成后仍需通过再挑战验证，只有新的真实表现才会更新画像。',
+    },
   }),
 ] as const;
 

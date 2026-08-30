@@ -66,6 +66,7 @@ import { useImportClassroom } from '@/lib/import/use-import-classroom';
 import { isPptxImportEnabled, shouldShowVocationalTestUi } from '@/lib/config/feature-flags';
 import { useImportPptx } from '@/lib/import/use-import-pptx';
 import { InteractiveModeButton } from '@/components/generation/interactive-mode-button';
+import { PublicLearningCenterHome } from '@/components/zhiban/public-learning-center-home';
 
 const log = createLogger('Home');
 
@@ -1541,5 +1542,6 @@ function ClassroomCard({
 }
 
 export default function Page() {
-  return <HomePage />;
+  const competitionHomeEnabled = process.env.NEXT_PUBLIC_ZHIBAN_COMPETITION_HOME !== 'false';
+  return competitionHomeEnabled ? <PublicLearningCenterHome /> : <HomePage />;
 }

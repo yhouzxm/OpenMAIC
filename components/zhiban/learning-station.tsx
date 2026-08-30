@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { ArrowLeft, Bot, CheckCircle2, GripVertical, Send, Sparkles } from 'lucide-react';
+import { Bot, CheckCircle2, GripVertical, Send, Sparkles } from 'lucide-react';
 import { InteractiveIframeHost } from '@/components/scene-renderers/InteractiveIframeHost';
 import { InteractiveRenderer } from '@/components/scene-renderers/interactive-renderer';
 import type { InteractiveContent } from '@/lib/types/stage';
@@ -11,7 +11,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { SensingLearningStation } from '@/components/zhiban/sensing-learning-station';
 import { LearningStationCompletionGuide } from '@/components/zhiban/learning-station-completion-guide';
+import { LearningStationHero } from '@/components/zhiban/learning-station-hero';
 import { RemediationRunBanner } from '@/components/zhiban/smart-remediation-card';
+import { SceneGuidanceLayer } from '@/components/zhiban/scene-guidance-layer';
 import { VirtualLabRunner } from '@/components/zhiban/virtual-lab-runner';
 import {
   ActuationLearningStation,
@@ -33,6 +35,11 @@ import {
   type LearningCenterProgress,
   type LearningEventInput,
 } from '@/lib/zhiban/learning-center';
+import {
+  resolveGuidanceForError,
+  type GuidanceHelpRequest,
+  type SceneActionFeedback,
+} from '@/lib/zhiban/scene-orchestration/guidance';
 
 const stationId = 'station-01-system' as const;
 const sceneId = 'learning-center-line-stop-001';
@@ -107,6 +114,7 @@ const flowSteps = [
 ] as const;
 const defaultOrder = ['工件进入', '电机输送', 'S1检测', 'PLC读取', 'S2到位', 'PLC控制', '气缸推料'];
 const correctOrder = ['工件进入', 'S1检测', 'PLC读取', '电机输送', 'S2到位', 'PLC控制', '气缸推料'];
+type SystemSceneId = 'S01-01' | 'S01-02' | 'S01-03' | 'S01-04';
 
 function addLearningHighlightBridge(content: InteractiveContent): InteractiveContent {
   if (!content.html) return content;
@@ -129,31 +137,31 @@ export function LearningStation({
   if (isMechatronicsCourse && requestedStationId === 'station-02-sensing')
     return (
       <StationShell courseId={courseId} stationId="station-02-sensing" previewMode={previewMode}>
-        <SensingLearningStation courseId={courseId} />
+        <SensingLearningStation courseId={courseId} previewMode={previewMode === 'teacher'} />
       </StationShell>
     );
   if (isMechatronicsCourse && requestedStationId === 'station-03-control')
     return (
       <StationShell courseId={courseId} stationId="station-03-control" previewMode={previewMode}>
-        <ControlLearningStation courseId={courseId} />
+        <ControlLearningStation courseId={courseId} previewMode={previewMode === 'teacher'} />
       </StationShell>
     );
   if (isMechatronicsCourse && requestedStationId === 'station-04-actuation')
     return (
       <StationShell courseId={courseId} stationId="station-04-actuation" previewMode={previewMode}>
-        <ActuationLearningStation courseId={courseId} />
+        <ActuationLearningStation courseId={courseId} previewMode={previewMode === 'teacher'} />
       </StationShell>
     );
   if (isMechatronicsCourse && requestedStationId === 'station-05-diagnosis')
     return (
       <StationShell courseId={courseId} stationId="station-05-diagnosis" previewMode={previewMode}>
-        <DiagnosisLearningStation courseId={courseId} />
+        <DiagnosisLearningStation courseId={courseId} previewMode={previewMode === 'teacher'} />
       </StationShell>
     );
   if (isMechatronicsCourse && requestedStationId === 'station-07-assessment')
     return (
       <StationShell courseId={courseId} stationId="station-07-assessment" previewMode={previewMode}>
-        <AssessmentLearningStation courseId={courseId} />
+        <AssessmentLearningStation courseId={courseId} previewMode={previewMode === 'teacher'} />
       </StationShell>
     );
   if (isMechatronicsCourse && requestedStationId === 'station-06-virtual-lab') {
@@ -188,7 +196,7 @@ export function LearningStation({
     );
   return (
     <StationShell courseId={courseId} stationId="station-01-system" previewMode={previewMode}>
-      <SystemLearningStation courseId={courseId} />
+      <SystemLearningStation courseId={courseId} previewMode={previewMode === 'teacher'} />
     </StationShell>
   );
 }
@@ -225,7 +233,13 @@ function StationShell({
   );
 }
 
-function SystemLearningStation({ courseId }: { courseId: string }) {
+function SystemLearningStation({
+  courseId,
+  previewMode = false,
+}: {
+  courseId: string;
+  previewMode?: boolean;
+}) {
   const context = getMechLabActivity(courseId, 'mech-lab-line-stop');
   const content = useMemo(
     () =>
@@ -257,6 +271,11 @@ function SystemLearningStation({ courseId }: { courseId: string }) {
   const [aiQuestion, setAiQuestion] = useState('');
   const [aiAnswer, setAiAnswer] = useState('');
   const [aiBusy, setAiBusy] = useState(false);
+  const [activeSceneId, setActiveSceneId] = useState<SystemSceneId>('S01-01');
+  const [guidanceFeedback, setGuidanceFeedback] = useState<
+    Partial<Record<SystemSceneId, SceneActionFeedback>>
+  >({});
+  const [k01ConsecutiveErrors, setK01ConsecutiveErrors] = useState(0);
   const getSendMessage = useWidgetIframeStore((state) => state.getSendMessage);
   const flowTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const stationCompletedReported = useRef(false);
@@ -300,6 +319,10 @@ function SystemLearningStation({ courseId }: { courseId: string }) {
   const record = useCallback(
     async (input: LearningEventInput) => {
       const event = attachClassroomSceneContext({ ...input, timestamp: input.timestamp ?? new Date().toISOString() });
+      if (previewMode) {
+        applyLocalEvent(event);
+        return;
+      }
       try {
         const response = await fetch(`/api/zhiban/student/courses/${courseId}/learning-center`, {
           method: 'POST',
@@ -317,7 +340,7 @@ function SystemLearningStation({ courseId }: { courseId: string }) {
       }
       applyLocalEvent(event);
     },
-    [applyLocalEvent, courseId, progress],
+    [applyLocalEvent, courseId, previewMode, progress],
   );
 
   useEffect(() => {
@@ -325,7 +348,16 @@ function SystemLearningStation({ courseId }: { courseId: string }) {
       .then(async (response) => {
         if (!response.ok) throw new Error('progress');
         const body = (await response.json()) as { progress?: LearningCenterProgress };
-        if (body.progress) setProgress(body.progress);
+        if (body.progress) {
+          setProgress(body.progress);
+          setActiveSceneId(
+            !body.progress.knowledgePoints.K01.completed
+              ? 'S01-01'
+              : !body.progress.knowledgePoints.K02.completed
+                ? 'S01-03'
+                : 'S01-04',
+          );
+        }
       })
       .catch(() => {
         try {
@@ -358,12 +390,14 @@ function SystemLearningStation({ courseId }: { courseId: string }) {
       const payload = message.payload as Record<string, unknown>;
       if (payload.action !== 'CLICK_COMPONENT' || typeof payload.target !== 'string') return;
       const target = payload.target;
+      setActiveSceneId('S01-02');
       setSelectedDevice(target);
+      const targetInfo = deviceInfo[target] ?? deviceInfo.s2;
       void record({
         stationId,
         knowledgePointId: 'K01',
         eventType: 'CLICK_COMPONENT',
-        payload: { target },
+        payload: { target, sceneId: 'S01-02' },
       });
       const correct = target === 's2';
       const attempt = Math.max(1, progress.knowledgePoints.K01.attempts + 1);
@@ -378,15 +412,37 @@ function SystemLearningStation({ courseId }: { courseId: string }) {
           target,
           firstCorrect: correct && attempt === 1,
           durationMs: Date.now() - stationStartedAt.current,
+          sceneId: 'S01-02',
         },
       });
-      if (correct)
+      if (correct) {
+        setK01ConsecutiveErrors(0);
+        setGuidanceFeedback((current) => ({ ...current, 'S01-02': {
+          action: `已点击${targetInfo.name}`,
+          result: 'S2负责检测工件是否到达检测工位，并把到位信号送往PLC输入。',
+          nextFocus: '继续比较S2与PLC、电机和气缸在系统中的不同作用。',
+          tone: 'success',
+          targetId: target,
+        } }));
         void record({
           stationId,
           knowledgePointId: 'K01',
           eventType: 'COMPLETE_KNOWLEDGE_POINT',
-          payload: { exercise: 'M01' },
+          payload: { exercise: 'M01', sceneId: 'S01-02' },
         });
+      } else {
+        setK01ConsecutiveErrors((current) => {
+          const next = current + 1;
+          setGuidanceFeedback((feedback) => ({
+            ...feedback,
+            'S01-02': resolveGuidanceForError({
+              errorCode: 'M01_WRONG_TARGET',
+              consecutiveErrors: next,
+            }),
+          }));
+          return next;
+        });
+      }
     };
     window.addEventListener('message', receive);
     return () => window.removeEventListener('message', receive);
@@ -406,7 +462,7 @@ function SystemLearningStation({ courseId }: { courseId: string }) {
         stationId,
         knowledgePointId: 'K03',
         eventType: 'SEQUENCE_STEP',
-        payload: { step: next + 1, label: flowSteps[next][1] },
+        payload: { step: next + 1, label: flowSteps[next][1], sceneId: 'S01-04' },
       });
     }, 900);
     return () => {
@@ -420,7 +476,7 @@ function SystemLearningStation({ courseId }: { courseId: string }) {
         stationId,
         knowledgePointId: 'K03',
         eventType: 'COMPLETE_KNOWLEDGE_POINT',
-        payload: { exercise: 'M02' },
+        payload: { exercise: 'M02', sceneId: 'S01-04' },
       });
   }, [flowComplete, progress.knowledgePoints.K03.completed, record, sequenceComplete]);
 
@@ -435,6 +491,40 @@ function SystemLearningStation({ courseId }: { courseId: string }) {
     }
   }, [progress.stations, record]);
 
+  const requestSceneHelp = useCallback(
+    async ({ requestId }: GuidanceHelpRequest) => {
+      const model = getCurrentModelConfig();
+      const headers: Record<string, string> = {
+        'content-type': 'application/json',
+        'x-model': model.modelString,
+        'x-api-key': model.apiKey,
+      };
+      if (model.baseUrl) headers['x-base-url'] = model.baseUrl;
+      if (model.providerType) headers['x-provider-type'] = model.providerType;
+      const response = await fetch(
+        `/api/zhiban/student/courses/${courseId}/learning-center/coach`,
+        {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({
+            question: '我需要当前设备识别任务的提示。',
+            requestId,
+            sceneId: 'S01-02',
+            stationId,
+            knowledgePointId: 'K01',
+            currentInteraction: (deviceInfo[selectedDevice] ?? deviceInfo.s2).name,
+            studentAttempts: progress.knowledgePoints.K01.attempts,
+            incorrectConcepts: [],
+          }),
+        },
+      );
+      if (!response.ok) throw new Error('coach unavailable');
+      const body = (await response.json()) as { message?: string; notice?: string };
+      return `${body.message ?? '请先比较各设备的主要作用。'}${body.notice ? `\n${body.notice}` : ''}`;
+    },
+    [courseId, progress.knowledgePoints.K01.attempts, selectedDevice],
+  );
+
   if (!context || !content)
     return <main className="rounded-xl border bg-white p-8">机电系统课件尚未注册。</main>;
   const selected = deviceInfo[selectedDevice] ?? deviceInfo.s2;
@@ -444,7 +534,16 @@ function SystemLearningStation({ courseId }: { courseId: string }) {
   const stationDone = progress.stations[stationId].status === 'completed';
 
   const selectDeviceInfo = (deviceId: string) => {
+    setActiveSceneId('S01-02');
     setSelectedDevice(deviceId);
+    const info = deviceInfo[deviceId] ?? deviceInfo.s2;
+    setGuidanceFeedback((current) => ({ ...current, 'S01-02': {
+      action: `已选择${info.name}`,
+      result: `设备信息区已显示它的所属层级、输入、作用和输出。`,
+      nextFocus: '在3D场景中点击设备，可以完成真实对象识别任务。',
+      tone: 'neutral',
+      targetId: deviceId,
+    } }));
     getSendMessage(sceneId)?.('MECH_ACTION', {
       source: 'zhiban-virtual-lab',
       version: '1.0',
@@ -456,6 +555,7 @@ function SystemLearningStation({ courseId }: { courseId: string }) {
   };
 
   const submitClassification = () => {
+    setActiveSceneId('S01-03');
     const attempt = classificationAttempts + 1;
     setClassificationAttempts(attempt);
     const correct = classTargets.every((item) => classification[item.id] === item.answer);
@@ -477,7 +577,7 @@ function SystemLearningStation({ courseId }: { courseId: string }) {
         eventType: 'CLASSIFY_COMPONENT',
         isCorrect: classification[item.id] === item.answer,
         attempt,
-        payload: { componentId: item.id, layer: classification[item.id] ?? null },
+        payload: { componentId: item.id, layer: classification[item.id] ?? null, sceneId: 'S01-03' },
       });
     void record({
       stationId,
@@ -485,22 +585,47 @@ function SystemLearningStation({ courseId }: { courseId: string }) {
       eventType: 'SUBMIT_MICRO_EXERCISE',
       isCorrect: correct,
       attempt,
-      payload: { exercise: 'classification' },
+      payload: { exercise: 'classification', sceneId: 'S01-03' },
     });
     if (correct) {
       setClassificationMessage('分类正确：信息获取、控制决策和机械动作已形成三层链路。');
-      void record({ stationId, knowledgePointId: 'K02', eventType: 'COMPLETE_KNOWLEDGE_POINT' });
-    } else
+      setGuidanceFeedback((current) => ({ ...current, 'S01-03': {
+        action: '已提交三层分类',
+        result: 'S2、PLC和气缸已形成“感知—控制—执行”系统关系。',
+        nextFocus: '继续观察三层关系在正常生产流程中如何依次传递。',
+        tone: 'success',
+      } }));
+      void record({
+        stationId,
+        knowledgePointId: 'K02',
+        eventType: 'COMPLETE_KNOWLEDGE_POINT',
+        payload: { sceneId: 'S01-03' },
+      });
+    } else {
       setClassificationMessage(
         '再想一想：这个设备主要是在获取信息、作出控制决策，还是执行机械动作？',
       );
+      setGuidanceFeedback((current) => ({
+        ...current,
+        'S01-03': resolveGuidanceForError({
+          errorCode: 'CLASSIFICATION_ROLE_MISMATCH',
+          consecutiveErrors: attempt,
+        }),
+      }));
+    }
   };
 
   const submitSequence = () => {
+    setActiveSceneId('S01-04');
     const correct = order.every((item, index) => item === correctOrder[index]);
     const attempt = sequenceAttempts + 1;
     setSequenceAttempts(attempt);
-    const payload = { exercise: 'M02', order, durationMs: Date.now() - stationStartedAt.current };
+    const payload = {
+      exercise: 'M02',
+      order,
+      durationMs: Date.now() - stationStartedAt.current,
+      sceneId: 'S01-04',
+    };
     void record({
       stationId,
       knowledgePointId: 'K03',
@@ -523,6 +648,20 @@ function SystemLearningStation({ courseId }: { courseId: string }) {
         ? '顺序正确。现在播放一次流程，观察三种流如何同步。'
         : '顺序还不完整，请比较“先感知、再控制、后执行”的关系。',
     );
+    setGuidanceFeedback((current) => ({
+      ...current,
+      'S01-04': correct
+        ? {
+            action: '已提交正常生产流程排序',
+            result: '物理流、信息流与控制流已形成正确的先后关系。',
+            nextFocus: '播放一次流程，观察三种流如何连续协同。',
+            tone: 'success',
+          }
+        : resolveGuidanceForError({
+            errorCode: 'SEQUENCE_CAUSALITY_ERROR',
+            consecutiveErrors: attempt,
+          }),
+    }));
   };
 
   const askCompanion = async () => {
@@ -534,7 +673,7 @@ function SystemLearningStation({ courseId }: { courseId: string }) {
       stationId,
       knowledgePointId: selectedDevice === 's2' ? 'K01' : undefined,
       eventType: 'REQUEST_AI_HELP',
-      payload: { question },
+      payload: { question, sceneId: activeSceneId },
     });
     try {
       const model = getCurrentModelConfig();
@@ -580,33 +719,86 @@ function SystemLearningStation({ courseId }: { courseId: string }) {
     const next = [...order];
     [next[index], next[nextIndex]] = [next[nextIndex], next[index]];
     setOrder(next);
+    setActiveSceneId('S01-04');
+    setGuidanceFeedback((current) => ({ ...current, 'S01-04': {
+      action: `已把“${order[index]}”移动到第${nextIndex + 1}步`,
+      result: '当前流程顺序已更新，尚未提交验证。',
+      nextFocus: '继续判断下一步应由现场变化、PLC判断还是执行机构动作触发。',
+      tone: 'neutral',
+    } }));
   };
 
   return (
     <main className="space-y-5" data-testid="learning-station-01">
       <InteractiveIframeHost />
-      <header className="rounded-xl border bg-gradient-to-r from-[#071b48] to-[#0f766e] p-5 text-white shadow-sm">
-        <Link
-          href={`/zhiban/student/courses/${courseId}/learning-center`}
-          className="flex items-center gap-1 text-sm text-blue-100 hover:underline"
-        >
-          <ArrowLeft className="size-4" />
-          返回学习中心
-        </Link>
-        <div className="mt-4 flex flex-wrap items-center gap-3">
-          <Badge className="bg-white/20 text-white hover:bg-white/20">01 系统认知</Badge>
-          {stationDone && (
-            <Badge className="bg-emerald-500 text-white hover:bg-emerald-500">
-              <CheckCircle2 className="mr-1 size-3" />
-              已完成
-            </Badge>
-          )}
-        </div>
-        <h1 className="mt-3 text-2xl font-semibold">自动生产线基本组成与三层结构</h1>
-        <p className="mt-2 text-sm text-blue-50">
-          目标：从设备、层级和三种流三个角度建立自动生产线的系统认知。
-        </p>
-      </header>
+      <LearningStationHero
+        courseId={courseId}
+        stationId={stationId}
+        headline="自动生产线基本组成与三层结构"
+        description="从设备、层级和三种流三个角度建立自动生产线的系统认知。"
+        progressPercent={progress.stations[stationId].progressPercent}
+        completed={stationDone}
+        previewMode={previewMode}
+      />
+      <SceneGuidanceLayer
+        courseId={courseId}
+        sceneId={activeSceneId}
+        previewMode={previewMode}
+        completed={
+          activeSceneId === 'S01-02'
+            ? k01Done
+            : activeSceneId === 'S01-03'
+              ? k02Done
+              : activeSceneId === 'S01-04'
+                ? k03Done
+                : false
+        }
+        recentChallengeCorrect={
+          activeSceneId === 'S01-02'
+            ? progress.knowledgePoints.K01.correct ?? undefined
+            : activeSceneId === 'S01-03'
+              ? progress.knowledgePoints.K02.correct ?? undefined
+              : activeSceneId === 'S01-04'
+                ? progress.knowledgePoints.K03.correct ?? undefined
+                : undefined
+        }
+        consecutiveErrors={
+          activeSceneId === 'S01-02'
+            ? k01ConsecutiveErrors
+            : activeSceneId === 'S01-03' && !k02Done
+              ? classificationAttempts
+              : activeSceneId === 'S01-04' && !sequenceComplete
+                ? sequenceAttempts
+                : 0
+        }
+        actionCount={
+          activeSceneId === 'S01-02'
+            ? progress.knowledgePoints.K01.attempts
+            : activeSceneId === 'S01-03'
+              ? Object.keys(classification).length
+              : activeSceneId === 'S01-04'
+                ? sequenceAttempts
+                : 0
+        }
+        progressSummary={
+          activeSceneId === 'S01-01'
+            ? '浏览生产线整体结构后，点击设备进入系统认知'
+            : activeSceneId === 'S01-02'
+              ? k01Done
+                ? 'M01已完成'
+                : `已尝试${progress.knowledgePoints.K01.attempts}次`
+              : activeSceneId === 'S01-03'
+                ? k02Done
+                  ? '三层系统模型已完成'
+                  : `已分类${Object.keys(classification).length}/3个设备`
+                : k03Done
+                  ? '正常运行基线已建立'
+                  : `排序已提交${sequenceAttempts}次`
+        }
+        feedback={guidanceFeedback[activeSceneId] ?? null}
+        onHighlightTarget={activeSceneId === 'S01-02' ? selectDeviceInfo : undefined}
+        onRequestHelp={activeSceneId === 'S01-02' ? requestSceneHelp : undefined}
+      />
       <section className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_360px]">
         <div className="space-y-5">
           <section className="relative h-[min(68vh,700px)] min-h-[480px] overflow-hidden rounded-xl border bg-slate-950 shadow-sm">
@@ -614,6 +806,14 @@ function SystemLearningStation({ courseId }: { courseId: string }) {
             <div className="pointer-events-none absolute left-4 top-4 rounded-lg border border-cyan-300/30 bg-slate-950/75 px-3 py-2 text-xs text-cyan-100">
               认知模式：拖动旋转，点击设备或工件查看作用。无需启动故障诊断。
             </div>
+            {(activeSceneId === 'S01-01' ||
+              (activeSceneId === 'S01-02' && progress.knowledgePoints.K01.attempts === 0)) && (
+              <div className="pointer-events-none absolute right-4 top-4 max-w-56 rounded-lg border border-cyan-300 bg-cyan-950/90 px-3 py-2 text-xs text-cyan-50 shadow motion-safe:animate-[pulse_1.4s_ease-in-out_2]">
+                {activeSceneId === 'S01-01'
+                  ? '先浏览生产线整体结构，再点击一个设备查看作用。'
+                  : '可点击S1、S2、PLC、电机、输送带、工件和气缸。'}
+              </div>
+            )}
           </section>
           <section className="rounded-xl border bg-white p-5">
             <div className="flex flex-wrap items-center justify-between gap-2">
@@ -649,7 +849,7 @@ function SystemLearningStation({ courseId }: { courseId: string }) {
               <dl className="mt-3 grid gap-2 sm:grid-cols-2">
                 <div>
                   <dt className="text-xs text-slate-500">所属层级</dt>
-                  <dd>{selected.layer}</dd>
+                  <dd>{k02Done ? selected.layer : '待完成K02分类后揭示'}</dd>
                 </div>
                 <div>
                   <dt className="text-xs text-slate-500">主要作用</dt>
@@ -688,12 +888,19 @@ function SystemLearningStation({ courseId }: { courseId: string }) {
                   <span className="min-w-40 font-medium">{item.label}</span>
                   <select
                     value={classification[item.id] ?? ''}
-                    onChange={(event) =>
+                    onChange={(event) => {
+                      setActiveSceneId('S01-03');
                       setClassification((current) => ({
                         ...current,
                         [item.id]: event.target.value,
-                      }))
-                    }
+                      }));
+                      setGuidanceFeedback((current) => ({ ...current, 'S01-03': {
+                        action: `已为${item.label}选择一个系统层级`,
+                        result: '当前分类已暂存，提交后系统才会验证。',
+                        nextFocus: '继续从设备接收什么、输出什么判断其角色。',
+                        tone: 'neutral',
+                      } }));
+                    }}
                     className="rounded border px-3 py-2"
                   >
                     <option value="">请选择层级</option>
@@ -748,6 +955,13 @@ function SystemLearningStation({ courseId }: { courseId: string }) {
                     const [moved] = next.splice(from, 1);
                     next.splice(index, 0, moved);
                     setOrder(next);
+                    setActiveSceneId('S01-04');
+                    setGuidanceFeedback((current) => ({ ...current, 'S01-04': {
+                      action: `已把“${moved}”放在第${index + 1}步`,
+                      result: '当前流程顺序已更新，尚未提交验证。',
+                      nextFocus: '继续检查现场变化、PLC判断和执行动作的因果顺序。',
+                      tone: 'neutral',
+                    } }));
                   }}
                   className="flex items-center gap-2 rounded border bg-slate-50 p-2 text-sm"
                 >
@@ -787,6 +1001,7 @@ function SystemLearningStation({ courseId }: { courseId: string }) {
                   variant="outline"
                   disabled={flowPlaying}
                   onClick={() => {
+                    setActiveSceneId('S01-04');
                     setFlowStep(-1);
                     setFlowComplete(false);
                     setFlowPlaying(true);

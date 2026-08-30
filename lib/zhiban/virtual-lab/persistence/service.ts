@@ -304,12 +304,25 @@ export async function getTeacherVirtualLabAnalytics(
 ): Promise<TeacherVirtualLabAnalytics> {
   assertTeacher(principal, context.courseId);
   return withZhibanTenant(pool, principal.tenantId, async (client) => {
+    const enrollmentRows = await client.query<{ user_id: string; display_name: string }>(
+      `SELECT DISTINCT e.student_id AS user_id,a.display_name
+       FROM zhiban.enrollments e
+       JOIN zhiban.course_offerings o
+         ON o.id=e.offering_id AND o.tenant_id=e.tenant_id
+       JOIN zhiban.accounts a
+         ON a.id=e.student_id AND a.tenant_id=e.tenant_id
+       WHERE e.tenant_id=$1 AND o.course_id=$2 AND e.status='enrolled'
+       ORDER BY a.display_name`,
+      [principal.tenantId, context.courseId],
+    );
+    const enrolledLearnerIds = enrollmentRows.rows.map((row) => row.user_id);
+    const enrolledLearners = new Set(enrolledLearnerIds);
     const result = await client.query<SessionRow>(
       `SELECT s.*,a.display_name FROM zhiban.virtual_lab_sessions s JOIN zhiban.accounts a ON a.id=s.user_id AND a.tenant_id=s.tenant_id WHERE s.tenant_id=$1 AND s.course_id=$2 AND s.activity_id=$3 AND s.scenario_id=$4 ORDER BY s.user_id,s.attempt_number DESC`,
       [principal.tenantId, ...contextParams(context)],
     );
-    const sessions = result.rows.map(toSession);
-    const analytics = buildTeacherVirtualLabAnalytics(sessions);
+    const sessions = result.rows.map(toSession).filter((item) => enrolledLearners.has(item.userId));
+    const analytics = buildTeacherVirtualLabAnalytics(sessions, enrolledLearnerIds);
     const grouped = new Map<
       string,
       (PersistedVirtualLabSession & { userId: string; name?: string })[]
@@ -317,13 +330,28 @@ export async function getTeacherVirtualLabAnalytics(
     sessions.forEach((item) =>
       grouped.set(item.userId, [...(grouped.get(item.userId) ?? []), item]),
     );
-    analytics.students = [...grouped.values()].map((studentSessions) => {
+    analytics.students = enrollmentRows.rows.map((enrollment) => {
+      const studentSessions = grouped.get(enrollment.user_id) ?? [];
+      if (!studentSessions.length) {
+        return {
+          userId: enrollment.user_id,
+          name: enrollment.display_name,
+          attempts: 0,
+          latestScore: null,
+          highestScore: null,
+          latestDurationSeconds: null,
+          latestHintsUsed: null,
+          weakPoints: [],
+          completedAt: null,
+          latestAssessment: null,
+        } satisfies TeacherVirtualLabStudent;
+      }
       const latest =
         studentSessions.find((item) => item.status === 'completed') ?? studentSessions[0];
       const completed = studentSessions.filter((item) => item.status === 'completed');
       return {
         userId: latest.userId,
-        name: latest.name ?? '学生',
+        name: enrollment.display_name || latest.name || '学生',
         attempts: studentSessions.length,
         latestScore: latest.overallScore,
         highestScore: completed.length
@@ -371,6 +399,7 @@ export async function getTeacherVirtualLabAnalytics(
           sessions.filter((item) => item.status === 'completed').map((item) => item.userId),
         ),
       ],
+      enrolledLearnerIds,
     );
     return analytics;
   });

@@ -49,11 +49,16 @@ export function AccessCodeGuard({ children }: { children: ReactNode }) {
     pathname === '/generation-preview' &&
     typeof window !== 'undefined' &&
     Boolean(sessionStorage.getItem('zhibanActivityDraft'));
+  const isPublicCompetitionHome =
+    pathname === '/' &&
+    process.env.NEXT_PUBLIC_ZHIBAN_COMPETITION_HOME !== 'false' &&
+    !isZhibanActivityGeneration;
   const needsAuth =
     !isZhibanRoute &&
     !isZhibanActivityDocument &&
     !isZhibanActivityGeneration &&
     !isZhibanActivityGenerationPreview &&
+    !isPublicCompetitionHome &&
     !status.loading &&
     status.enabled &&
     !status.authenticated;

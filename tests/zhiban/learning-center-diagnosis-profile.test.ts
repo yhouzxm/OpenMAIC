@@ -169,6 +169,7 @@ describe('Learning Center final diagnosis and assessment integration', () => {
 
   it('builds real teacher aggregates and never fabricates no-data percentages', () => {
     const empty = buildTeacherLearningCenterAnalytics([], [], []);
+    expect(empty.enrolledStudents).toBe(0);
     expect(empty.participatingStudents).toBe(0);
     expect(empty.stationCompletion.every((item) => item.rate === null)).toBe(true);
     expect(empty.conceptErrors).toEqual([]);
@@ -187,15 +188,28 @@ describe('Learning Center final diagnosis and assessment integration', () => {
           eventType: 'SUBMIT_MICRO_EXERCISE',
           payload: { conceptErrors: ['POWER_EQUALS_SENSOR_NORMAL'] },
         },
+        {
+          learnerId: 'student-1',
+          stationId: 'station-02-sensing',
+          eventType: 'SUBMIT_MICRO_EXERCISE',
+          payload: { conceptErrors: ['POWER_EQUALS_SENSOR_NORMAL'] },
+        },
       ],
       [{ userId: 'student-1', dimensions: { sensorDetection: 82 } }],
       ['student-1'],
+      ['student-1', 'student-2'],
     );
+    expect(aggregate.enrolledStudents).toBe(2);
+    expect(aggregate.participatingStudents).toBe(1);
     expect(
       aggregate.stationCompletion.find((item) => item.stationId === 'station-02-sensing'),
-    ).toMatchObject({ completedStudents: 1, rate: 100 });
+    ).toMatchObject({ completedStudents: 1, totalStudents: 2, rate: 50 });
     expect(aggregate.dimensions.find((item) => item.key === 'sensorDetection')?.average).toBe(82);
-    expect(aggregate.conceptErrors[0]).toMatchObject({ count: 1, percent: 100 });
+    expect(aggregate.dimensions.find((item) => item.key === 'sensorDetection')).toMatchObject({
+      evidenceStudents: 1,
+      totalStudents: 2,
+    });
+    expect(aggregate.conceptErrors[0]).toMatchObject({ count: 1, percent: 50 });
     expect(aggregate.interventions[0]).toContain('感知探秘');
   });
 });

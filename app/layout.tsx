@@ -20,9 +20,8 @@ const inter = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'OpenMAIC',
-  description:
-    'The open-source AI interactive classroom. Upload a PDF to instantly generate an immersive, multi-agent learning experience.',
+  title: '智伴·创学',
+  description: 'AI驱动的机电一体化智能诊断与虚拟实训交互课件。',
 };
 
 export default function RootLayout({
