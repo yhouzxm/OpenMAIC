@@ -6,6 +6,7 @@ import {
   buildTeacherLearningCenterAnalytics,
   calculateLearningCenterProfile,
   createLearningCenterAiFallback,
+  deriveDiagnosisLearningMilestones,
   deriveLearningCenterProgress,
   evaluateM08,
   mapVirtualLabPhaseToDiagnosisStep,
@@ -125,6 +126,26 @@ describe('Learning Center final diagnosis and assessment integration', () => {
     const progress = deriveLearningCenterProgress(courseId, events);
     expect(progress.stations['station-05-diagnosis'].status).toBe('completed');
     expect(progress.knowledgePoints.K15.correct).toBe(false);
+  });
+
+  it('restores Station 05 milestones without completing it after only one M08 scenario', () => {
+    const events = [
+      event({ eventType: 'SEQUENCE_STEP', payload: { step: 'observe' } }),
+      event({
+        eventType: 'SUBMIT_MICRO_EXERCISE',
+        isCorrect: true,
+        payload: { exercise: 'M08', scenarioType: 'sensing' },
+      }),
+    ];
+    expect(deriveDiagnosisLearningMilestones(events)).toEqual({
+      methodSteps: ['observe'],
+      completedScenarios: { sensing: true },
+      progressPercent: 25,
+      completed: false,
+    });
+    const progress = deriveLearningCenterProgress(courseId, events);
+    expect(progress.stations['station-05-diagnosis'].status).toBe('in_progress');
+    expect(progress.stations['station-05-diagnosis'].progressPercent).toBe(25);
   });
 
   it('calculates transparent six-dimensional values and persistent retry improvement', () => {

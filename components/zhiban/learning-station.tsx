@@ -293,11 +293,7 @@ function SystemLearningStation({
         point.attempts = Math.max(point.attempts, event.attempt ?? 1);
         point.lastEventAt = event.timestamp ?? new Date().toISOString();
         if (typeof event.isCorrect === 'boolean') point.correct = event.isCorrect;
-        if (
-          event.eventType === 'COMPLETE_KNOWLEDGE_POINT' ||
-          (event.eventType === 'SUBMIT_MICRO_EXERCISE' && event.isCorrect)
-        )
-          point.completed = true;
+        if (event.eventType === 'COMPLETE_KNOWLEDGE_POINT') point.completed = true;
         const station = next.stations[event.stationId];
         const ids = (
           event.stationId === stationId ? ['K01', 'K02', 'K03'] : Object.keys(next.knowledgePoints)
@@ -349,6 +345,8 @@ function SystemLearningStation({
         if (!response.ok) throw new Error('progress');
         const body = (await response.json()) as { progress?: LearningCenterProgress };
         if (body.progress) {
+          stationCompletedReported.current =
+            body.progress.stations[stationId].status === 'completed';
           setProgress(body.progress);
           setActiveSceneId(
             !body.progress.knowledgePoints.K01.completed
@@ -694,7 +692,7 @@ function SystemLearningStation({
             stationId,
             knowledgePointId: 'K01',
             currentInteraction: selected.name,
-            studentAttempts: progress.eventCount,
+            studentAttempts: progress.knowledgePoints.K01.attempts,
             incorrectConcepts: Object.values(progress.knowledgePoints)
               .filter((item) => item.correct === false)
               .map((item) => item.knowledgePointId),

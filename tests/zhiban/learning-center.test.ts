@@ -51,7 +51,7 @@ describe('automatic production line learning center', () => {
     expect(KNOWLEDGE_STATIONS.every((item) => item.available)).toBe(true);
   });
 
-  it('derives K01/M01 completion from a correct micro-exercise', () => {
+  it('keeps a correct checkpoint separate from explicit knowledge-point completion', () => {
     const progress = deriveLearningCenterProgress('mech-mechatronics-system', [
       event({ eventType: 'CLICK_COMPONENT', payload: { target: 's2' }, attempt: 1 }),
       event({
@@ -61,9 +61,38 @@ describe('automatic production line learning center', () => {
         payload: { exercise: 'M01' },
       }),
     ]);
-    expect(progress.knowledgePoints.K01.completed).toBe(true);
+    expect(progress.knowledgePoints.K01.correct).toBe(true);
+    expect(progress.knowledgePoints.K01.completed).toBe(false);
     expect(progress.stations['station-01-system'].status).toBe('in_progress');
-    expect(progress.stations['station-01-system'].progressPercent).toBe(33);
+    expect(progress.stations['station-01-system'].progressPercent).toBe(0);
+  });
+
+  it('does not let a stale station event bypass multi-step completion', () => {
+    const progress = deriveLearningCenterProgress('mech-mechatronics-system', [
+      ...(['K09', 'K10', 'K11'] as const).map((knowledgePointId) =>
+        event({
+          stationId: 'station-03-control',
+          knowledgePointId,
+          eventType: 'COMPLETE_KNOWLEDGE_POINT',
+        }),
+      ),
+      event({
+        stationId: 'station-03-control',
+        knowledgePointId: 'K12',
+        eventType: 'SUBMIT_MICRO_EXERCISE',
+        isCorrect: true,
+        payload: { exercise: 'M07' },
+      }),
+      event({
+        stationId: 'station-03-control',
+        knowledgePointId: undefined,
+        eventType: 'COMPLETE_STATION',
+      }),
+    ]);
+    expect(progress.stations['station-03-control']).toMatchObject({
+      status: 'in_progress',
+      progressPercent: 75,
+    });
   });
 
   it('does not complete a point after an incorrect attempt', () => {

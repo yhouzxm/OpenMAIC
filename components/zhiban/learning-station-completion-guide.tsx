@@ -25,7 +25,7 @@ export function LearningStationCompletionGuide({
   stationId: StationId;
   previewMode?: 'teacher' | 'review';
 }) {
-  const [completed, setCompleted] = useState(false);
+  const [completedStationId, setCompletedStationId] = useState<StationId | null>(null);
   const nextStationId = nextStations[stationId];
   useEffect(() => {
     if (previewMode) return;
@@ -34,7 +34,10 @@ export function LearningStationCompletionGuide({
       try {
         const response = await fetch(`/api/zhiban/student/courses/${courseId}/learning-center`);
         const body = (await response.json()) as { progress?: LearningCenterProgress };
-        if (active) setCompleted(body.progress?.stations[stationId]?.status === 'completed');
+        if (active)
+          setCompletedStationId(
+            body.progress?.stations[stationId]?.status === 'completed' ? stationId : null,
+          );
       } catch {
         // The activity itself remains usable when progress sync is offline.
       }
@@ -47,7 +50,7 @@ export function LearningStationCompletionGuide({
     };
   }, [courseId, previewMode, stationId]);
 
-  if (!completed) return null;
+  if (completedStationId !== stationId) return null;
   const next = nextStationId ? getStation(nextStationId) : undefined;
   return (
     <section className="mt-5 rounded-xl border border-emerald-200 bg-emerald-50 p-4" data-testid="station-completion-guide">

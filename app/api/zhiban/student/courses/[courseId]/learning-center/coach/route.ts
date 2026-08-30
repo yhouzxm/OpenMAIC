@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { callLLM } from '@/lib/ai/llm';
+import { createLogger } from '@/lib/logger';
 import { resolveModelFromRequest } from '@/lib/server/resolve-model';
 import { authorizationErrorResponse, requireRequestPrincipal } from '@/lib/zhiban/rbac';
 import { getZhibanPool } from '@/lib/zhiban/db/connection';
@@ -10,11 +11,14 @@ import {
   createLearningCenterAiFallback,
   getKnowledgePoint,
   getStation,
+  normalizeAiStudentAttempts,
   type AiLearningMode,
 } from '@/lib/zhiban/learning-center';
 
 export const runtime = 'nodejs';
 export const maxDuration = 30;
+
+const log = createLogger('ZhibanLearningCenterCoach');
 
 const InputSchema = z.object({
   question: z.string().trim().min(1).max(1000),
@@ -22,7 +26,12 @@ const InputSchema = z.object({
   stationId: z.string(),
   knowledgePointId: z.string().optional(),
   currentInteraction: z.string().max(8000).default(''),
-  studentAttempts: z.number().int().min(0).max(100).default(0),
+  studentAttempts: z
+    .number()
+    .int()
+    .min(0)
+    .default(0)
+    .transform(normalizeAiStudentAttempts),
   incorrectConcepts: z.array(z.string().max(100)).max(20).default([]),
   conceptErrors: z.array(z.string().max(100)).max(20).default([]),
   microExercise: z.string().max(80).optional(),
@@ -89,7 +98,12 @@ export async function POST(
     const message = result.text.trim();
     if (!message) throw new Error('empty model response');
     return NextResponse.json({ message, fallback: false });
-  } catch {
+  } catch (error) {
+    const summary =
+      error instanceof Error
+        ? { name: error.name, message: error.message }
+        : { name: 'UnknownError', message: String(error) };
+    log.warn('Knowledge companion switched to deterministic fallback.', summary);
     return NextResponse.json({
       message: createLearningCenterAiFallback(responseMode),
       fallback: true,

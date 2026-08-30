@@ -165,6 +165,8 @@ export function SensingLearningStation({
         if (!response.ok) throw new Error('progress');
         const body = (await response.json()) as { progress?: LearningCenterProgress };
         if (body.progress) {
+          stationCompletedReported.current =
+            body.progress.stations[stationId].status === 'completed';
           setProgress(body.progress);
           setActiveSceneId(
             !body.progress.knowledgePoints.K04.completed
@@ -589,7 +591,10 @@ export function SensingLearningStation({
             knowledgePointId:
               snapshot.outputMode === 'NO_OUTPUT_DEMO' ? 'K07' : powerMeasured ? 'K06' : 'K04',
             currentInteraction: `工件${snapshot.position}，S2 ${snapshot.s2Active ? 'ON' : 'OFF'}，输出 ${snapshot.s2Output}V，I0.2 ${snapshot.plcI02 ? 'ON' : 'OFF'}`,
-            studentAttempts: progress.eventCount,
+            studentAttempts:
+              progress.knowledgePoints[
+                snapshot.outputMode === 'NO_OUTPUT_DEMO' ? 'K07' : powerMeasured ? 'K06' : 'K04'
+              ].attempts,
             incorrectConcepts: conceptErrors.current,
             conceptErrors: conceptErrors.current,
             microExercise: powerMeasured ? 'M04/M05' : 'M03',

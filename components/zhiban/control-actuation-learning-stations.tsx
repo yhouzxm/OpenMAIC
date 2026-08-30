@@ -131,13 +131,15 @@ function useKnowledgeStation(courseId: string, spec: StationSpec, previewMode = 
         if (!response.ok) throw new Error('progress');
         const body = (await response.json()) as { progress?: LearningCenterProgress };
         if (!body.progress) return;
+        completeReported.current =
+          body.progress.stations[spec.stationId].status === 'completed';
         setProgress(body.progress);
         spec.points.forEach((point) => {
           if (body.progress?.knowledgePoints[point]?.completed) completed.current.add(point);
         });
       })
       .catch(() => setSyncWarning('学习记录暂未同步，不影响本次学习。'));
-  }, [courseId, spec.points]);
+  }, [courseId, spec.points, spec.stationId]);
   useEffect(() => {
     if (progress.stations[spec.stationId]?.status !== 'completed' || completeReported.current)
       return;
@@ -755,7 +757,7 @@ export function ControlLearningStation({ courseId, previewMode = false }: Props)
             point="K12"
             interaction={`I0.2 ${i02 ? 'ON' : 'OFF'}；已完成扫描：${scanSteps.join('、') || '无'}`}
             conceptErrors={errors}
-            attempts={progress.eventCount}
+            attempts={progress.knowledgePoints.K12.attempts}
             sceneId={activeSceneId}
           />
           {syncWarning && (
@@ -1063,7 +1065,7 @@ export function ActuationLearningStation({ courseId, previewMode = false }: Prop
             point="K14"
             interaction={`Q0.1 ${q01 ? 'ON' : 'OFF'}；情境：${mode}`}
             conceptErrors={errors}
-            attempts={progress.eventCount}
+            attempts={progress.knowledgePoints.K14.attempts}
             sceneId={activeSceneId}
           />
           {syncWarning && (

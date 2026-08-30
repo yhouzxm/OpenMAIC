@@ -1,4 +1,4 @@
-import type { AiLearningMode, ConceptErrorCode, StationId } from './types';
+import type { AiLearningMode, ConceptErrorCode, LearningEvent, StationId } from './types';
 
 export const DIAGNOSIS_METHOD_STEPS = [
   { id: 'observe', label: '察', description: '观察现场现象' },
@@ -49,6 +49,41 @@ export const DIAGNOSIS_SCENARIOS: readonly DiagnosisScenario[] = [
     keyEvidence: ['q01_on', 'cylinder_no_motion'],
   },
 ] as const;
+
+export function deriveDiagnosisLearningMilestones(events: LearningEvent[]) {
+  const methodSteps = new Set<string>();
+  const validMethodSteps = new Set<string>(DIAGNOSIS_METHOD_STEPS.map((step) => step.id));
+  const completedScenarios: Partial<Record<DiagnosisScenarioType, boolean>> = {};
+  for (const event of events) {
+    if (event.stationId !== 'station-05-diagnosis') continue;
+    const payload = event.payload ?? {};
+    if (
+      event.eventType === 'SEQUENCE_STEP' &&
+      typeof payload.step === 'string' &&
+      validMethodSteps.has(payload.step)
+    )
+      methodSteps.add(payload.step);
+    if (
+      event.eventType === 'SUBMIT_MICRO_EXERCISE' &&
+      payload.exercise === 'M08' &&
+      (payload.scenarioType === 'sensing' ||
+        payload.scenarioType === 'control' ||
+        payload.scenarioType === 'actuation')
+    )
+      completedScenarios[payload.scenarioType] = true;
+  }
+  const completedScenarioCount = DIAGNOSIS_SCENARIOS.filter(
+    (scenario) => completedScenarios[scenario.id],
+  ).length;
+  const milestones =
+    (methodSteps.size === DIAGNOSIS_METHOD_STEPS.length ? 1 : 0) + completedScenarioCount;
+  return {
+    methodSteps: [...methodSteps],
+    completedScenarios,
+    progressPercent: Math.round((milestones / 4) * 100),
+    completed: milestones === 4,
+  };
+}
 
 const layerError: Record<DiagnosisScenarioType, ConceptErrorCode> = {
   sensing: 'SENSING_LAYER_CONFUSION',
@@ -104,6 +139,16 @@ export function aiModeForStation(stationId: StationId) {
   if (stationId === 'station-06-virtual-lab') return 'training_coach' as const;
   if (stationId === 'station-07-assessment') return 'assessment_mentor' as const;
   return 'knowledge_companion' as const;
+}
+
+/**
+ * Attempts are prompt context, not an authorization or scoring input. Keep the
+ * value bounded so an old learner with a long event history can still ask the
+ * knowledge companion for help.
+ */
+export function normalizeAiStudentAttempts(value: number) {
+  if (!Number.isFinite(value) || value <= 0) return 0;
+  return Math.min(Math.trunc(value), 100);
 }
 
 export function createLearningCenterAiFallback(mode: AiLearningMode) {

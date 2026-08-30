@@ -11,11 +11,13 @@ import { getCurrentModelConfig } from '@/lib/utils/model-config';
 import {
   DIAGNOSIS_METHOD_STEPS,
   DIAGNOSIS_SCENARIOS,
+  deriveDiagnosisLearningMilestones,
   evaluateM08,
   type ConceptErrorCode,
   type DiagnosisScenarioType,
   type LearningCenterProfile,
   type LearningCenterProgress,
+  type LearningEvent,
   type LearningEventInput,
   type StationId,
 } from '@/lib/zhiban/learning-center';
@@ -165,6 +167,32 @@ export function DiagnosisLearningStation({
     currentSceneIdRef.current = activeSceneId;
     latestAiRequestId.current = null;
   }, [activeSceneId]);
+  useEffect(() => {
+    if (previewMode) return;
+    let active = true;
+    void fetch(`/api/zhiban/student/courses/${courseId}/learning-center`, {
+      cache: 'no-store',
+    })
+      .then(async (response) => {
+        if (!response.ok) throw new Error('progress');
+        const body = (await response.json()) as {
+          events?: LearningEvent[];
+          progress?: LearningCenterProgress;
+        };
+        if (!active) return;
+        const milestones = deriveDiagnosisLearningMilestones(body.events ?? []);
+        setMethodSteps(milestones.methodSteps);
+        setCompletedScenarios(milestones.completedScenarios);
+        completionSent.current =
+          body.progress?.stations['station-05-diagnosis'].status === 'completed';
+      })
+      .catch(() => {
+        if (active) setSyncWarning('学习记录暂未同步，不影响本次学习。');
+      });
+    return () => {
+      active = false;
+    };
+  }, [courseId, previewMode]);
   useEffect(() => {
     if (!challengeRunning) return;
     const timer = window.setInterval(() => {

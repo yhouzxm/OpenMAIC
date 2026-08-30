@@ -1,4 +1,5 @@
 import { KNOWLEDGE_STATIONS } from './registry';
+import { deriveDiagnosisLearningMilestones } from './diagnosis';
 import type {
   LearningCenterProgress,
   LearningEvent,
@@ -54,13 +55,16 @@ export function deriveLearningCenterProgress(
       point.attempts = Math.max(point.attempts, event.attempt ?? 1);
       point.lastEventAt = event.timestamp;
       if (typeof event.isCorrect === 'boolean') point.correct = event.isCorrect;
-      if (
-        event.eventType === 'COMPLETE_KNOWLEDGE_POINT' ||
-        (event.eventType === 'SUBMIT_MICRO_EXERCISE' && event.isCorrect)
-      )
-        point.completed = true;
+      // A correct checkpoint can be only one part of a multi-step knowledge
+      // point (for example M07 still needs a PLC scan, and M08 has three
+      // scenarios). Components emit COMPLETE_KNOWLEDGE_POINT only after their
+      // complete teaching rule is satisfied, so that explicit event is the
+      // single completion source.
+      if (event.eventType === 'COMPLETE_KNOWLEDGE_POINT') point.completed = true;
     }
   }
+  const diagnosisMilestones = deriveDiagnosisLearningMilestones(events);
+  if (diagnosisMilestones.completed) progress.knowledgePoints.K15.completed = true;
   for (const station of KNOWLEDGE_STATIONS) {
     const points = station.knowledgePointIds
       .map((id) => progress.knowledgePoints[id])
@@ -77,15 +81,19 @@ export function deriveLearningCenterProgress(
     stationProgress.progressPercent = points.length
       ? Math.round((completed / points.length) * 100)
       : 0;
+    if (station.id === 'station-05-diagnosis' && !diagnosisMilestones.completed)
+      stationProgress.progressPercent = diagnosisMilestones.progressPercent;
     stationProgress.lastEventAt = lastEventAt;
-    stationProgress.status = explicitlyCompletedStations.has(station.id)
-      ? 'completed'
-      : completed === points.length && points.length > 0
+    const knowledgePointsCompleted = points.length > 0 && completed === points.length;
+    const eventOnlyStationCompleted =
+      points.length === 0 && explicitlyCompletedStations.has(station.id);
+    stationProgress.status =
+      knowledgePointsCompleted || eventOnlyStationCompleted
         ? 'completed'
         : lastEventAt
           ? 'in_progress'
           : 'not_started';
-    if (explicitlyCompletedStations.has(station.id)) stationProgress.progressPercent = 100;
+    if (eventOnlyStationCompleted) stationProgress.progressPercent = 100;
     if (station.id === 'station-01-system' && stationProgress.status === 'completed')
       stationProgress.status = 'completed';
   }
