@@ -33,6 +33,7 @@ import {
 import {
   conceptErrorStatusLabel,
   conceptErrorStudentLabel,
+  createGuidanceRequestId,
   isCurrentGuidanceHelpResponse,
   resolveGuidanceForError,
   virtualLabErrorPatternMessage,
@@ -382,7 +383,7 @@ export function DiagnosisLearningStation({
   };
   const ask = async () => {
     if (!question.trim() || aiBusy) return;
-    const requestId = crypto.randomUUID();
+    const requestId = createGuidanceRequestId();
     const requestSceneId = activeSceneId;
     latestAiRequestId.current = requestId;
     setAiBusy(true);
@@ -922,7 +923,7 @@ export function AssessmentLearningStation({
   );
   const askMentor = async () => {
     if (!profile) return;
-    const requestId = crypto.randomUUID();
+    const requestId = createGuidanceRequestId();
     const requestSceneId = activeSceneId;
     latestAiRequestId.current = requestId;
     setFeedback('');

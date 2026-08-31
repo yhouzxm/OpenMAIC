@@ -5,6 +5,7 @@ import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { SceneGuidanceLayer } from '@/components/zhiban/scene-guidance-layer';
 import {
+  createGuidanceRequestId,
   deriveSceneGuidanceState,
   getScene,
   isCurrentGuidanceHelpResponse,
@@ -144,6 +145,26 @@ describe('shared scene teaching guidance layer', () => {
     expect(isCurrentGuidanceHelpResponse({
       currentSceneId: 'S03-04', latestRequestId: 'new', responseSceneId: 'S03-04', responseRequestId: 'new',
     })).toBe(true);
+  });
+
+  it('creates help request ids when randomUUID is available', () => {
+    expect(
+      createGuidanceRequestId({ randomUUID: () => 'secure-context-id' }),
+    ).toBe('secure-context-id');
+  });
+
+  it('creates help request ids over plain HTTP without randomUUID', () => {
+    const requestId = createGuidanceRequestId({
+      getRandomValues: (array) => {
+        array.fill(1);
+        return array;
+      },
+    });
+    expect(requestId).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/);
+  });
+
+  it('still creates a correlation id when browser crypto is unavailable', () => {
+    expect(createGuidanceRequestId({})).toMatch(/^guidance-/);
   });
 
   it('registers complete guidance for the three proof-of-concept Scenes', () => {

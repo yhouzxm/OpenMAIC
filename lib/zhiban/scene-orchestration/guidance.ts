@@ -102,6 +102,40 @@ export interface GuidanceHelpResponse extends GuidanceHelpRequest {
   message: string;
 }
 
+type GuidanceCrypto = {
+  randomUUID?: () => string;
+  getRandomValues?: (array: Uint8Array) => Uint8Array;
+};
+
+let fallbackRequestSequence = 0;
+
+/**
+ * Generate a correlation id in secure and non-secure browser contexts.
+ * Some browsers do not expose crypto.randomUUID() over plain HTTP/IP access.
+ */
+export function createGuidanceRequestId(
+  cryptoApi: GuidanceCrypto | undefined = globalThis.crypto,
+) {
+  try {
+    if (typeof cryptoApi?.randomUUID === 'function') return cryptoApi.randomUUID();
+  } catch {
+    // Fall through when randomUUID is blocked by the browser security context.
+  }
+  try {
+    if (typeof cryptoApi?.getRandomValues === 'function') {
+      const bytes = cryptoApi.getRandomValues(new Uint8Array(16));
+      bytes[6] = (bytes[6] & 0x0f) | 0x40;
+      bytes[8] = (bytes[8] & 0x3f) | 0x80;
+      const hex = Array.from(bytes, (value) => value.toString(16).padStart(2, '0')).join('');
+      return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+    }
+  } catch {
+    // The id is only used to correlate UI responses, not as a security token.
+  }
+  fallbackRequestSequence += 1;
+  return `guidance-${Date.now().toString(36)}-${fallbackRequestSequence.toString(36)}`;
+}
+
 const nonActionEvents = new Set([
   'ENTER_SCENE',
   'VIEW_KNOWLEDGE_POINT',

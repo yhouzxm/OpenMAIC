@@ -37,6 +37,7 @@ import {
   type SceneId,
 } from '@/lib/zhiban/scene-orchestration';
 import {
+  createGuidanceRequestId,
   isCurrentGuidanceHelpResponse,
   resolveGuidanceForError,
   type GuidanceHelpRequest,
@@ -183,7 +184,7 @@ function KnowledgeCompanion({
   }, [sceneId]);
   const ask = async () => {
     if (!question.trim() || busy) return;
-    const requestId = crypto.randomUUID();
+    const requestId = createGuidanceRequestId();
     const requestSceneId = sceneId;
     latestRequestId.current = requestId;
     setBusy(true);

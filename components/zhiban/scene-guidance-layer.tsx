@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { attachClassroomSceneContext } from '@/lib/zhiban/classroom/client-scene-context';
 import { getScene, enterScene, completeScene } from '@/lib/zhiban/scene-orchestration';
 import {
+  createGuidanceRequestId,
   isCurrentGuidanceHelpResponse,
   reduceSceneBriefingVisibility,
   resolveSceneEntryDecision,
@@ -172,7 +173,7 @@ export function SceneGuidanceLayer({
 
   const requestHelp = useCallback(async () => {
     if (!scene?.guidance || helpLoading) return;
-    const requestId = crypto.randomUUID();
+    const requestId = createGuidanceRequestId();
     const request = { sceneId, requestId } satisfies GuidanceHelpRequest;
     latestRequestIdRef.current = requestId;
     setHelpLoading(true);
