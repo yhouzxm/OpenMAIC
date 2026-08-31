@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { Bot, CheckCircle2, GripVertical, Send, Sparkles } from 'lucide-react';
+import { Bot, GripVertical, Send, Sparkles } from 'lucide-react';
 import { InteractiveIframeHost } from '@/components/scene-renderers/InteractiveIframeHost';
 import { InteractiveRenderer } from '@/components/scene-renderers/interactive-renderer';
 import type { InteractiveContent } from '@/lib/types/stage';
@@ -11,7 +11,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { SensingLearningStation } from '@/components/zhiban/sensing-learning-station';
 import { LearningStationCompletionGuide } from '@/components/zhiban/learning-station-completion-guide';
-import { LearningStationHero } from '@/components/zhiban/learning-station-hero';
+import { LearningTaskStatusBadge } from '@/components/zhiban/learning-task-status-badge';
+import {
+  isStationPracticeMode,
+  LearningStationHero,
+} from '@/components/zhiban/learning-station-hero';
 import { RemediationRunBanner } from '@/components/zhiban/smart-remediation-card';
 import { SceneGuidanceLayer } from '@/components/zhiban/scene-guidance-layer';
 import { VirtualLabRunner } from '@/components/zhiban/virtual-lab-runner';
@@ -32,6 +36,7 @@ import { getStation } from '@/lib/zhiban/learning-center/registry';
 import { attachClassroomSceneContext } from '@/lib/zhiban/classroom/client-scene-context';
 import {
   emptyLearningCenterProgress,
+  createStationPracticeProgress,
   type LearningCenterProgress,
   type LearningEventInput,
 } from '@/lib/zhiban/learning-center';
@@ -347,20 +352,36 @@ function SystemLearningStation({
         if (body.progress) {
           stationCompletedReported.current =
             body.progress.stations[stationId].status === 'completed';
-          setProgress(body.progress);
+          const practiceMode = isStationPracticeMode(window.location.search);
+          setProgress(
+            practiceMode
+              ? createStationPracticeProgress(body.progress, stationId)
+              : body.progress,
+          );
           setActiveSceneId(
-            !body.progress.knowledgePoints.K01.completed
+            practiceMode
+              ? 'S01-01'
+              : !body.progress.knowledgePoints.K01.completed
               ? 'S01-01'
               : !body.progress.knowledgePoints.K02.completed
                 ? 'S01-03'
                 : 'S01-04',
           );
+          setClassificationAttempts(body.progress.knowledgePoints.K02.attempts);
+          setSequenceAttempts(body.progress.knowledgePoints.K03.attempts);
         }
       })
       .catch(() => {
         try {
           const cached = localStorage.getItem(`zhiban-learning-center:${courseId}`);
-          if (cached) setProgress(JSON.parse(cached) as LearningCenterProgress);
+          if (cached) {
+            const cachedProgress = JSON.parse(cached) as LearningCenterProgress;
+            setProgress(
+              isStationPracticeMode(window.location.search)
+                ? createStationPracticeProgress(cachedProgress, stationId)
+                : cachedProgress,
+            );
+          }
         } catch {
           /* optional fallback */
         }
@@ -819,12 +840,7 @@ function SystemLearningStation({
                 <Badge variant="outline">K01 · M01</Badge>
                 <h2 className="mt-2 text-lg font-semibold">在生产线上找到负责检测工件到位的设备</h2>
               </div>
-              {k01Done && (
-                <Badge className="bg-emerald-50 text-emerald-700 hover:bg-emerald-50">
-                  <CheckCircle2 className="mr-1 size-4" />
-                  已完成
-                </Badge>
-              )}
+              <LearningTaskStatusBadge completed={k01Done} />
             </div>
             <p className="mt-2 text-sm text-slate-600">
               请点击三维场景中的设备。目标是找到检测工件到达检测工位的元件。
@@ -870,12 +886,7 @@ function SystemLearningStation({
                 <Badge variant="outline">K02</Badge>
                 <h2 className="mt-2 text-lg font-semibold">把设备归入感知—控制—执行三层</h2>
               </div>
-              {k02Done && (
-                <Badge className="bg-emerald-50 text-emerald-700 hover:bg-emerald-50">
-                  <CheckCircle2 className="mr-1 size-4" />
-                  已完成
-                </Badge>
-              )}
+              <LearningTaskStatusBadge completed={k02Done} />
             </div>
             <div className="mt-4 space-y-3">
               {classTargets.map((item) => (
@@ -929,12 +940,7 @@ function SystemLearningStation({
                 <Badge variant="outline">K03 · M02</Badge>
                 <h2 className="mt-2 text-lg font-semibold">排序：一次正常生产流程</h2>
               </div>
-              {k03Done && (
-                <Badge className="bg-emerald-50 text-emerald-700 hover:bg-emerald-50">
-                  <CheckCircle2 className="mr-1 size-4" />
-                  已完成
-                </Badge>
-              )}
+              <LearningTaskStatusBadge completed={k03Done} />
             </div>
             <p className="mt-2 text-sm text-slate-600">
               拖动或使用上下箭头排序，形成“观察—信号—控制—执行”的流程。

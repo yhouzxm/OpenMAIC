@@ -2,8 +2,9 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { CheckCircle2 } from 'lucide-react';
+import { CheckCircle2, RotateCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useStationPracticeMode } from '@/components/zhiban/learning-station-hero';
 import { getStation } from '@/lib/zhiban/learning-center';
 import type { LearningCenterProgress, StationId } from '@/lib/zhiban/learning-center';
 
@@ -25,6 +26,7 @@ export function LearningStationCompletionGuide({
   stationId: StationId;
   previewMode?: 'teacher' | 'review';
 }) {
+  const practiceMode = useStationPracticeMode();
   const [completedStationId, setCompletedStationId] = useState<StationId | null>(null);
   const nextStationId = nextStations[stationId];
   useEffect(() => {
@@ -52,8 +54,45 @@ export function LearningStationCompletionGuide({
 
   if (completedStationId !== stationId) return null;
   const next = nextStationId ? getStation(nextStationId) : undefined;
+  if (practiceMode) {
+    return (
+      <section
+        className="mt-5 rounded-xl border border-cyan-200 bg-cyan-50 p-4"
+        data-testid="station-practice-guide"
+      >
+        <div className="flex items-start gap-3">
+          <RotateCcw className="mt-0.5 size-5 shrink-0 text-cyan-700" aria-hidden="true" />
+          <div className="flex-1">
+            <h2 className="font-semibold text-cyan-950">复习练习中</h2>
+            <p className="mt-1 text-sm leading-6 text-cyan-900">
+              本站的历史完成记录已保留。本轮请重新完成关键操作或挑战，新的提交会形成新的练习记录，不会因打开页面自动提高能力画像。
+            </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <Button asChild size="sm" variant="outline">
+                <Link href={`/zhiban/student/courses/${courseId}/learning-center`}>
+                  结束复习并返回学习中心
+                </Link>
+              </Button>
+              {nextStationId && (
+                <Button asChild size="sm" variant="ghost">
+                  <Link
+                    href={`/zhiban/student/courses/${courseId}/learning-center/${nextStationId}`}
+                  >
+                    继续下一站
+                  </Link>
+                </Button>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
   return (
-    <section className="mt-5 rounded-xl border border-emerald-200 bg-emerald-50 p-4" data-testid="station-completion-guide">
+    <section
+      className="mt-5 rounded-xl border border-emerald-200 bg-emerald-50 p-4"
+      data-testid="station-completion-guide"
+    >
       <div className="flex items-start gap-3">
         <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-emerald-600" />
         <div className="flex-1">

@@ -58,6 +58,38 @@ describe('Station 06 Virtual Lab teaching guidance', () => {
     }
   });
 
+  it('dismisses the initial waiting cue after the learner starts the Virtual Lab', () => {
+    const runner = readFileSync(
+      resolve(process.cwd(), 'components/zhiban/virtual-lab-runner.tsx'),
+      'utf8',
+    );
+    expect(runner).toContain(
+      'actionCount={started ? Math.max(1, actionsRef.current.length) : 0}',
+    );
+  });
+
+  it('restores Station 06 completion progress from a persisted completed assessment', () => {
+    const runner = readFileSync(
+      resolve(process.cwd(), 'components/zhiban/virtual-lab-runner.tsx'),
+      'utf8',
+    );
+    expect(runner).toContain("session.status === 'completed' && session.assessment !== null");
+    expect(runner).toContain('Boolean(assessment) || (!practiceMode && hasPersistedCompletedAttempt)');
+    expect(runner).toContain('const stationProgressPercent = stationCompleted');
+    expect(runner).toContain('completed={stationCompleted}');
+  });
+
+  it('labels duration as Station 06 Virtual Lab time instead of whole-course time', () => {
+    const runner = readFileSync(
+      resolve(process.cwd(), 'components/zhiban/virtual-lab-runner.tsx'),
+      'utf8',
+    );
+    expect(runner).toContain('本次综合实训用时');
+    expect(runner).toContain('最佳综合实训用时');
+    expect(runner).toContain('<th>实训用时</th>');
+    expect(runner).toContain('不代表整门课程学习时长');
+  });
+
   it('does not reveal the S2 fault or measurement values in S06-01 briefing', () => {
     const guidance = JSON.stringify(getScene('S06-01')?.guidance);
     expect(guidance).not.toMatch(/S2故障|S2坏了|24\.0|0 V|正确答案/);

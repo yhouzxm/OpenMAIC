@@ -15,7 +15,11 @@ import {
 } from 'lucide-react';
 import { InteractiveIframeHost } from '@/components/scene-renderers/InteractiveIframeHost';
 import { InteractiveRenderer } from '@/components/scene-renderers/interactive-renderer';
-import { LearningStationHero } from '@/components/zhiban/learning-station-hero';
+import {
+  LearningStationHero,
+  useStationPracticeMode,
+} from '@/components/zhiban/learning-station-hero';
+import { LearningTaskStatusBadge } from '@/components/zhiban/learning-task-status-badge';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -149,6 +153,7 @@ export function VirtualLabRunner({
 }) {
   const sceneId = sceneIdFor(context);
   const content = useMemo(() => createMechLabInteractiveContent(context), [context]);
+  const practiceMode = useStationPracticeMode();
   const [started, setStarted] = useState(previewOnly);
   const [, setMessages] = useState<MechLabMessage[]>([]);
   const [lastState, setLastState] = useState('等待开始实训');
@@ -707,8 +712,15 @@ export function VirtualLabRunner({
       ? '维修已完成，现在需要点击“重新启动验证”，确认输入与生产流程恢复。'
       : !guidanceView.repairCompleted
         ? '“重新启动验证”需要在完成证据判断和维修后才可用。'
-        : '当前操作条件已满足。';
-  const stationProgressPercent = assessment
+      : '当前操作条件已满足。';
+  const hasPersistedCompletedAttempt = Boolean(
+    history?.sessions.some(
+      (session) => session.status === 'completed' && session.assessment !== null,
+    ),
+  );
+  const stationCompleted =
+    Boolean(assessment) || (!practiceMode && hasPersistedCompletedAttempt);
+  const stationProgressPercent = stationCompleted
     ? 100
     : guidanceView.verificationPassed
       ? 95
@@ -737,7 +749,7 @@ export function VirtualLabRunner({
             headline={context.title}
             description={context.description}
             progressPercent={stationProgressPercent}
-            completed={Boolean(assessment)}
+            completed={stationCompleted}
             previewMode={previewOnly}
           />
         ) : (
@@ -769,6 +781,20 @@ export function VirtualLabRunner({
           </p>
         )}
         {presentation === 'learning-center' && (
+          <section className="grid gap-3 md:grid-cols-3" aria-label="综合实训任务状态">
+            {[
+              { id: 'S06-01', title: '综合任务导入', completed: started },
+              { id: 'S06-02', title: '自动输送线故障诊断', completed: guidanceView.completed },
+              { id: 'S06-03', title: '过程评价与改进', completed: Boolean(assessment) },
+            ].map((task) => (
+              <div key={task.id} className="flex items-center justify-between gap-3 rounded-xl border bg-white p-4">
+                <b className="text-sm">{task.title}</b>
+                <LearningTaskStatusBadge completed={task.completed} />
+              </div>
+            ))}
+          </section>
+        )}
+        {presentation === 'learning-center' && (
           <SceneGuidanceLayer
             key={`${activeGuidanceSceneId}:${attemptGeneration}`}
             courseId={context.courseId}
@@ -782,7 +808,7 @@ export function VirtualLabRunner({
                   : guidanceView.completed
             }
             consecutiveErrors={guidanceErrors}
-            actionCount={actionsRef.current.length}
+            actionCount={started ? Math.max(1, actionsRef.current.length) : 0}
             taskOverride={activeGuidanceSceneId === 'S06-02' ? guidanceView.currentTask : undefined}
             promptOverride={activeGuidanceSceneId === 'S06-02' ? guidanceView.currentTask : undefined}
             progressSummary={
@@ -1114,7 +1140,7 @@ function VirtualLabAssessmentResult({
         <div className="mt-5 grid gap-3 text-sm sm:grid-cols-3">
           <div className="rounded-lg bg-slate-50 p-3">
             <Clock3 className="mr-1 inline size-4 text-blue-600" />
-            完成时间：{formatDuration(assessment.durationSeconds)}
+            本次综合实训用时：{formatDuration(assessment.durationSeconds)}
           </div>
           <div className="rounded-lg bg-slate-50 p-3">操作次数：{assessment.actionsCount}</div>
           <div className="rounded-lg bg-slate-50 p-3">AI提示：{assessment.hintsUsed}</div>
@@ -1135,7 +1161,7 @@ function VirtualLabAssessmentResult({
               suffix="分"
             />
             <MetricDiff
-              label="完成时间"
+              label="综合实训用时"
               before={previous.durationSeconds}
               after={assessment.durationSeconds}
               suffix="秒"
@@ -1306,6 +1332,9 @@ function VirtualLabHistoryCard({ history }: { history: VirtualLabHistory }) {
           数据来源：{history.profileSource ?? '尚无已完成实训'}
         </span>
       </div>
+      <p className="mt-2 text-xs text-slate-500">
+        本页用时均指06综合实训单次运行时间，不代表整门课程学习时长。
+      </p>
       {!history.sessions.length ? (
         <p className="mt-3 text-sm text-slate-500">尚无历史实训记录</p>
       ) : (
@@ -1332,7 +1361,7 @@ function VirtualLabHistoryCard({ history }: { history: VirtualLabHistory }) {
               }
             />
             <HistoryMetric
-              label="最佳用时"
+              label="最佳综合实训用时"
               value={
                 history.summary.bestDurationSeconds === null
                   ? '—'
@@ -1355,7 +1384,7 @@ function VirtualLabHistoryCard({ history }: { history: VirtualLabHistory }) {
                   <th className="py-2">尝试</th>
                   <th>完成时间</th>
                   <th>得分</th>
-                  <th>用时</th>
+                  <th>实训用时</th>
                   <th>错误操作</th>
                   <th>提示</th>
                   <th>摘要</th>

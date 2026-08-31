@@ -79,7 +79,13 @@ export function LearningCenter({
   const completedStations = KNOWLEDGE_STATIONS.filter(
     (station) => progress.stations[station.id]?.status === 'completed',
   ).length;
-  const currentStationId = publicMode ? KNOWLEDGE_STATIONS[0]?.id : access?.currentStationId;
+  // Teacher preview is an unrestricted catalogue view. It must not inherit a
+  // student's current-learning pointer; every station is directly enterable.
+  const currentStationId = previewMode
+    ? undefined
+    : publicMode
+      ? KNOWLEDGE_STATIONS[0]?.id
+      : access?.currentStationId;
   const currentStation = KNOWLEDGE_STATIONS.find((station) => station.id === currentStationId);
   const overallProgress = Math.round((completedStations / KNOWLEDGE_STATIONS.length) * 100);
   return (
@@ -126,9 +132,11 @@ export function LearningCenter({
               />
             </div>
             <p className="mt-3 text-xs leading-5 text-blue-100">
-              {currentStation
-                ? `继续学习：${currentStation.title}`
-                : '按七阶段路径逐步完成工程任务'}
+              {previewMode
+                ? '教师可预览任意学习站'
+                : currentStation
+                  ? `继续学习：${currentStation.title}`
+                  : '按七阶段路径逐步完成工程任务'}
             </p>
             {previewMode && (
               <Button
@@ -209,7 +217,9 @@ export function LearningCenter({
           {KNOWLEDGE_STATIONS.map((station, index) => {
             const item = progress.stations[station.id];
             const decision = access?.stations[station.id];
-            const enabled = decision?.allowed ?? station.id === 'station-01-system';
+            const enabled = previewMode
+              ? true
+              : (decision?.allowed ?? station.id === 'station-01-system');
             const locked = !enabled;
             const targetPath = publicMode ? '/zhiban/login' : `${basePath}/${station.id}`;
             const prerequisite = decision?.prerequisiteStationId;
@@ -222,7 +232,9 @@ export function LearningCenter({
                   <Badge variant={enabled ? 'default' : 'outline'}>
                     {String(index + 1).padStart(2, '0')}
                   </Badge>
-                  {item?.status === 'completed' ? (
+                  {previewMode ? (
+                    <span className="text-xs text-slate-500">可进入</span>
+                  ) : item?.status === 'completed' ? (
                     <CheckCircle2 className="size-5 text-emerald-600" />
                   ) : locked ? (
                     <LockKeyhole className="size-4 text-slate-400" />
@@ -256,9 +268,11 @@ export function LearningCenter({
                 {enabled ? (
                   <Button asChild size="sm" className="mt-4 w-full">
                     <Link href={targetPath}>
-                      {item?.status === 'completed'
-                        ? '再次进入'
-                        : station.id === currentStationId || item?.status === 'in_progress'
+                      {previewMode
+                        ? '进入学习'
+                        : item?.status === 'completed'
+                          ? '再次进入'
+                          : station.id === currentStationId || item?.status === 'in_progress'
                           ? '继续学习'
                           : '进入学习'}
                       <ArrowRight className="ml-1 size-4" />

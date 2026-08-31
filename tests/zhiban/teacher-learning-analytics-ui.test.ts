@@ -18,6 +18,10 @@ const teacherWorkspaceSource = readFileSync(
   resolve(process.cwd(), 'components/zhiban/teacher-course-workspace.tsx'),
   'utf8',
 );
+const learningCenterSource = readFileSync(
+  resolve(process.cwd(), 'components/zhiban/learning-center.tsx'),
+  'utf8',
+);
 
 describe('teacher course analytics visual presentation', () => {
   it('keeps course six-dimension and virtual-lab five-dimension statistics distinct', () => {
@@ -45,6 +49,8 @@ describe('teacher course analytics visual presentation', () => {
     expect(persistenceServiceSource).toContain('enrolledLearnerIds');
     expect(analyticsSource).toContain("enrolledStudents: '选课人数'");
     expect(analyticsSource).toContain("averageScore: '已完成实训平均分'");
+    expect(analyticsSource).toContain("averageDurationSeconds: '平均综合实训用时'");
+    expect(analyticsSource).toContain('用时数据仅统计学生在06综合实训中的已完成记录');
     expect(analyticsSource).toContain('全部选课学生 · 综合实训记录');
   });
 
@@ -52,6 +58,14 @@ describe('teacher course analytics visual presentation', () => {
     expect(teacherWorkspaceSource).toMatch(
       /if \(focusedLearningCenter\)[\s\S]*?<TeacherTopbar principalName=\{principalName\} \/>[\s\S]*?<main className="min-w-0">/,
     );
+  });
+
+  it('shows every station as directly enterable in teacher preview', () => {
+    expect(learningCenterSource).toContain('const currentStationId = previewMode');
+    expect(learningCenterSource).toContain('const enabled = previewMode');
+    expect(learningCenterSource).toMatch(/previewMode\s*\?\s*'进入学习'/);
+    expect(learningCenterSource).toMatch(/\{previewMode\s*\?\s*\([\s\S]*?可进入/);
+    expect(learningCenterSource).toContain('教师可预览任意学习站');
   });
 
   it('does not expose raw concept or assessment error codes as teacher-facing labels', () => {
@@ -63,7 +77,7 @@ describe('teacher course analytics visual presentation', () => {
 
   it('renders separate accessible trends for score, duration and hint count', () => {
     expect(trendSource).toContain("title: '得分'");
-    expect(trendSource).toContain("title: '用时'");
+    expect(trendSource).toContain("title: '综合实训用时'");
     expect(trendSource).toContain("title: '提示次数'");
     expect(trendSource).toContain('role="img"');
     expect(trendSource).toContain('prefers-reduced-motion: reduce');

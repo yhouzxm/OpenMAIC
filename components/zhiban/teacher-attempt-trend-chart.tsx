@@ -122,7 +122,7 @@ export function TeacherAttemptTrendChart({ sessions }: { sessions: PersistedVirt
       values: completed.map((session) => session.overallScore),
     },
     {
-      title: '用时',
+      title: '综合实训用时',
       unit: '秒',
       color: '#0891b2',
       values: completed.map((session) => session.durationSeconds),

@@ -3,9 +3,14 @@
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Bot, CheckCircle2, RefreshCw, Send, Sparkles, Timer } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { LearningStationHero } from '@/components/zhiban/learning-station-hero';
+import {
+  isStationPracticeMode,
+  LearningStationHero,
+  useStationPracticeMode,
+} from '@/components/zhiban/learning-station-hero';
 import { LearningProfileRadar } from '@/components/zhiban/learning-profile-radar';
 import { getCurrentModelConfig } from '@/lib/utils/model-config';
 import {
@@ -26,6 +31,12 @@ import { evaluateSignalTraceChoice, SIGNAL_TRACE_PATH } from '@/lib/zhiban/class
 import type { PersistedVirtualLabSession } from '@/lib/zhiban/virtual-lab/persistence/types';
 import { SmartRemediationCard } from '@/components/zhiban/smart-remediation-card';
 import { SceneGuidanceLayer } from '@/components/zhiban/scene-guidance-layer';
+import { LearningTaskStatusBadge } from '@/components/zhiban/learning-task-status-badge';
+import {
+  JudgmentFeedback,
+  JudgmentOptionIndicator,
+  judgmentOptionClass,
+} from '@/components/zhiban/judgment-feedback';
 import {
   resolveRemediationScene,
   type RemediationRecommendation,
@@ -85,8 +96,12 @@ async function postLearningEvent(courseId: string, event: LearningEventInput) {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify(contextualEvent),
+    keepalive: true,
   });
-  if (!response.ok) throw new Error('event persistence failed');
+  if (response.ok) return;
+  if (response.status === 401) throw new Error('登录状态已失效，请重新登录后继续学习。');
+  if (response.status === 403) throw new Error('学习记录未同步，请确认已完成上一学习站。');
+  throw new Error('学习记录暂未同步，不影响本次学习。');
 }
 
 function elapsedSince(startedAt: number) {
@@ -153,10 +168,13 @@ export function DiagnosisLearningStation({
   const [latestScenarioCorrect, setLatestScenarioCorrect] = useState<Record<string, boolean>>({});
   const startedAt = useRef(0);
   const completionSent = useRef(false);
+  const diagnosisAttemptBase = useRef(0);
   const [challengeRemaining, setChallengeRemaining] = useState(60);
   const [challengeRunning, setChallengeRunning] = useState(false);
   const [challengeAttempts, setChallengeAttempts] = useState(0);
   const [challengeMessage, setChallengeMessage] = useState('');
+  const [challengeSelection, setChallengeSelection] = useState<string>();
+  const [challengeCorrect, setChallengeCorrect] = useState<boolean>();
   const challengeStartedAt = useRef(0);
   const challengeFirstChoice = useRef<string | null>(null);
   const latestAiRequestId = useRef<string | null>(null);
@@ -179,11 +197,28 @@ export function DiagnosisLearningStation({
         const body = (await response.json()) as {
           events?: LearningEvent[];
           progress?: LearningCenterProgress;
+          diagnosisMilestones?: ReturnType<typeof deriveDiagnosisLearningMilestones>;
         };
         if (!active) return;
-        const milestones = deriveDiagnosisLearningMilestones(body.events ?? []);
-        setMethodSteps(milestones.methodSteps);
-        setCompletedScenarios(milestones.completedScenarios);
+        // Prefer the compact server projection. Keep the old event fallback so
+        // rolling deployments remain compatible while server and client
+        // instances are being restarted.
+        const milestones =
+          body.diagnosisMilestones ?? deriveDiagnosisLearningMilestones(body.events ?? []);
+        // A production database can respond after the learner has already
+        // started interacting. Merge persisted evidence instead of replacing
+        // newer local milestones with an older response snapshot.
+        const practiceMode = isStationPracticeMode(window.location.search);
+        diagnosisAttemptBase.current = practiceMode
+          ? (body.progress?.knowledgePoints.K15.attempts ?? 0)
+          : 0;
+        if (!practiceMode) {
+          setMethodSteps((current) => [...new Set([...milestones.methodSteps, ...current])]);
+          setCompletedScenarios((current) => ({
+            ...milestones.completedScenarios,
+            ...current,
+          }));
+        }
         completionSent.current =
           body.progress?.stations['station-05-diagnosis'].status === 'completed';
       })
@@ -208,13 +243,20 @@ export function DiagnosisLearningStation({
   }, [challengeRunning]);
 
   const record = useCallback(
-    async (event: LearningEventInput) => {
-      if (previewMode) return;
-      try {
-        await postLearningEvent(courseId, event);
-      } catch {
-        setSyncWarning('学习记录暂未同步，不影响本次学习。');
-      }
+    (event: LearningEventInput) => {
+      if (previewMode) return Promise.resolve();
+      // Start every small event write immediately. `keepalive` lets an active
+      // request finish during navigation or refresh; client timestamps retain
+      // the teaching order even if production responses complete out of order.
+      return postLearningEvent(courseId, event)
+        .then(() => setSyncWarning(''))
+        .catch((error: unknown) =>
+          setSyncWarning(
+            error instanceof Error
+              ? error.message
+              : '学习记录暂未同步，不影响本次学习。',
+          ),
+        );
     },
     [courseId, previewMode],
   );
@@ -250,6 +292,12 @@ export function DiagnosisLearningStation({
   };
   const toggleEvidence = (value: string) => {
     setActiveSceneId(scenarioSceneId);
+    setMessages((current) => ({ ...current, [scenarioId]: '' }));
+    setLatestScenarioCorrect((current) => {
+      const next = { ...current };
+      delete next[scenarioId];
+      return next;
+    });
     setSelectedEvidence((current) => ({
       ...current,
       [scenarioId]: (current[scenarioId] ?? []).includes(value)
@@ -287,7 +335,7 @@ export function DiagnosisLearningStation({
       knowledgePointId: 'K15',
       eventType: 'SUBMIT_MICRO_EXERCISE',
       isCorrect: result.isCorrect,
-      attempt: Object.keys(completedScenarios).length + 1,
+      attempt: diagnosisAttemptBase.current + Object.keys(completedScenarios).length + 1,
       payload: {
         exercise: 'M08',
         scenarioType: scenario.id,
@@ -466,6 +514,8 @@ export function DiagnosisLearningStation({
     setChallengeAttempts(0);
     setChallengeRemaining(60);
     setChallengeMessage('');
+    setChallengeSelection(undefined);
+    setChallengeCorrect(undefined);
     setChallengeRunning(true);
     setGuidanceFeedback((current) => ({ ...current, 'S05-04': {
       action: '已开始60秒信号追踪挑战',
@@ -481,6 +531,8 @@ export function DiagnosisLearningStation({
     setChallengeAttempts(attempts);
     challengeFirstChoice.current ??= selectedNode;
     const result = evaluateSignalTraceChoice(selectedNode);
+    setChallengeSelection(selectedNode);
+    setChallengeCorrect(result.isCorrect);
     if (result.isCorrect) setChallengeRunning(false);
     setChallengeMessage(result.message);
     setGuidanceFeedback((current) => ({
@@ -542,6 +594,8 @@ export function DiagnosisLearningStation({
     Number(Boolean(completedScenarios.control)) +
     Number(Boolean(completedScenarios.actuation));
   const diagnosisProgress = Math.round((diagnosisMilestones / 4) * 100);
+  const methodCompleted = methodSteps.length === DIAGNOSIS_METHOD_STEPS.length;
+  const nextMethodStep = DIAGNOSIS_METHOD_STEPS.find((step) => !methodSteps.includes(step.id));
   return (
     <main className="space-y-5" data-testid="learning-station-05">
       <Header
@@ -577,20 +631,38 @@ export function DiagnosisLearningStation({
         feedback={guidanceFeedback[activeSceneId] ?? null}
       />
       <section className="rounded-xl border bg-white p-5">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <h2 className="font-semibold">K15 · 察—查—测—断—验</h2>
-          <p className="text-xs text-slate-500">观察异常 → 查看信号 → 获取数据 → 形成判断 → 验证结果</p>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge variant="outline" className="border-blue-200 bg-blue-50 text-blue-700">
+                交互任务
+              </Badge>
+              <h2 className="font-semibold">K15 · 察—查—测—断—验</h2>
+              <LearningTaskStatusBadge completed={methodCompleted} />
+            </div>
+            <p className="mt-2 text-sm text-slate-600">
+              请点击下方五个诊断步骤，逐项了解每一步需要完成的任务。
+            </p>
+          </div>
+          <p className="rounded-lg bg-slate-50 px-3 py-2 text-xs text-slate-600">
+            已查看 {methodSteps.length} / {DIAGNOSIS_METHOD_STEPS.length}
+          </p>
         </div>
         <div className="mt-3 grid gap-2 md:grid-cols-5" aria-label="五步循证诊断导航">
-          {DIAGNOSIS_METHOD_STEPS.map((step) => {
+          {DIAGNOSIS_METHOD_STEPS.map((step, index) => {
             const active = methodSteps.includes(step.id);
             return (
               <button
                 key={step.id}
                 type="button"
+                aria-pressed={active}
+                aria-label={`${step.label}：${step.description}；${active ? '已查看' : '点击学习'}`}
                 onClick={() => selectMethodStep(step.id, step.label, step.description)}
-                className={`rounded-lg border p-3 text-left ${active ? 'border-emerald-400 bg-emerald-50' : 'bg-slate-50'}`}
+                className={`group cursor-pointer rounded-lg border p-3 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 ${active ? 'border-emerald-400 bg-emerald-50' : 'border-slate-200 bg-slate-50 hover:-translate-y-0.5 hover:border-blue-400 hover:bg-blue-50 hover:shadow-sm'}`}
               >
+                <span className={`text-[11px] font-medium ${active ? 'text-emerald-700' : 'text-blue-600'}`}>
+                  第 {index + 1} 步 · {active ? '已查看' : '点击学习'}
+                </span>
                 <span className="flex items-center justify-between gap-2">
                   <b className="text-lg text-blue-700">{step.label}</b>
                   {active && <CheckCircle2 className="size-4 text-emerald-600" />}
@@ -600,6 +672,14 @@ export function DiagnosisLearningStation({
             );
           })}
         </div>
+        <p
+          className={`mt-3 rounded-lg px-3 py-2 text-sm ${methodCompleted ? 'bg-emerald-50 text-emerald-800' : 'bg-blue-50 text-blue-800'}`}
+          aria-live="polite"
+        >
+          {methodCompleted
+            ? '五个诊断步骤均已查看，可以继续完成下方三层故障诊断。'
+            : `下一步：点击“${nextMethodStep?.label}”，了解${nextMethodStep?.description}。`}
+        </p>
       </section>
       <section className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_340px]">
         <div className="space-y-5">
@@ -693,10 +773,24 @@ export function DiagnosisLearningStation({
                   ].map(([id, label]) => (
                     <Button
                       key={id}
-                      variant={selectedLayers[scenarioId] === id ? 'default' : 'outline'}
+                      variant="outline"
+                      className={judgmentOptionClass({
+                        selected: selectedLayers[scenarioId] === id,
+                        result:
+                          selectedLayers[scenarioId] === id && messages[scenarioId]
+                            ? latestScenarioCorrect[scenarioId]
+                            : undefined,
+                      })}
+                      aria-pressed={selectedLayers[scenarioId] === id}
                       onClick={() => {
                         setActiveSceneId(scenarioSceneId);
                         setSelectedLayers((current) => ({ ...current, [scenarioId]: id }));
+                        setMessages((current) => ({ ...current, [scenarioId]: '' }));
+                        setLatestScenarioCorrect((current) => {
+                          const next = { ...current };
+                          delete next[scenarioId];
+                          return next;
+                        });
                         void record({
                           stationId: 'station-05-diagnosis',
                           knowledgePointId: 'K15',
@@ -715,6 +809,14 @@ export function DiagnosisLearningStation({
                       }}
                     >
                       {label}
+                      <JudgmentOptionIndicator
+                        selected={selectedLayers[scenarioId] === id}
+                        result={
+                          selectedLayers[scenarioId] === id && messages[scenarioId]
+                            ? latestScenarioCorrect[scenarioId]
+                            : undefined
+                        }
+                      />
                     </Button>
                   ))}
                 </div>
@@ -748,11 +850,10 @@ export function DiagnosisLearningStation({
                       ? '请至少选择一项关键证据。'
                       : '层级与证据已具备，可以提交验证。'}
                 </p>
-                {messages[scenarioId] && (
-                  <p className="mt-3 rounded bg-blue-50 p-3 text-sm text-blue-950">
-                    {messages[scenarioId]}
-                  </p>
-                )}
+                <JudgmentFeedback
+                  isCorrect={messages[scenarioId] ? latestScenarioCorrect[scenarioId] : undefined}
+                  message={messages[scenarioId]}
+                />
               </div>
             )}
             {remediation && (
@@ -771,9 +872,9 @@ export function DiagnosisLearningStation({
             <h2 className="font-semibold">M08完成情况</h2>
             <div className="mt-3 space-y-2 text-sm">
               {DIAGNOSIS_SCENARIOS.map((item) => (
-                <p key={item.id} className="flex justify-between">
+                <p key={item.id} className="flex items-center justify-between gap-3">
                   <span>{item.title}</span>
-                  <b>{completedScenarios[item.id] ? '已完成' : '未完成'}</b>
+                  <LearningTaskStatusBadge completed={Boolean(completedScenarios[item.id])} />
                 </p>
               ))}
             </div>
@@ -813,14 +914,33 @@ export function DiagnosisLearningStation({
       <section className="rounded-xl border border-cyan-200 bg-cyan-50 p-5" data-testid="signal-trace-challenge">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h2 className="flex items-center gap-2 font-semibold"><Timer className="size-5 text-cyan-700" />S05-04 · 60秒信号追踪挑战</h2>
+            <div className="flex flex-wrap items-center gap-2">
+              <h2 className="flex items-center gap-2 font-semibold"><Timer className="size-5 text-cyan-700" />S05-04 · 60秒信号追踪挑战</h2>
+              <LearningTaskStatusBadge completed={challengeCorrect === true} />
+            </div>
             <p className="mt-1 text-sm text-slate-600">状态：S2 ON → I0.2 ON → PLC逻辑成立 → Q0.1 ON → 电磁阀得电，但气缸未动作。请选择第一个状态矛盾节点。</p>
           </div>
           <Button onClick={startChallenge}>{challengeRunning ? `剩余 ${challengeRemaining}s` : '开始挑战'}</Button>
         </div>
         <div className="mt-4 grid gap-2 sm:grid-cols-3 lg:grid-cols-6" aria-describedby="signal-trace-action-status">
           {[['S2', 'S2'], ['I0.2', 'I0.2'], ['PLC Logic', 'PLC Logic'], ['Q0.1', 'Q0.1'], ['solenoid_valve', '电磁阀'], ['cylinder', '气缸']].map(([id, label]) => (
-            <button key={id} type="button" disabled={!challengeRunning} onClick={() => chooseChallengeNode(id)} className="rounded-lg border bg-white px-3 py-4 text-sm font-medium disabled:opacity-60">{label}</button>
+            <button
+              key={id}
+              type="button"
+              disabled={!challengeRunning}
+              aria-pressed={challengeSelection === id}
+              onClick={() => chooseChallengeNode(id)}
+              className={`${judgmentOptionClass({
+                selected: challengeSelection === id,
+                result: challengeSelection === id ? challengeCorrect : undefined,
+              })} flex items-center rounded-lg border px-3 py-4 text-sm font-medium disabled:opacity-60`}
+            >
+              {label}
+              <JudgmentOptionIndicator
+                selected={challengeSelection === id}
+                result={challengeSelection === id ? challengeCorrect : undefined}
+              />
+            </button>
           ))}
         </div>
         <p id="signal-trace-action-status" className="mt-2 text-xs text-slate-600">
@@ -830,7 +950,11 @@ export function DiagnosisLearningStation({
               ? '本轮已结束；点击“开始挑战”可再次尝试。'
               : '请先点击“开始挑战”，节点选择才会启用。'}
         </p>
-        {challengeMessage && <p className="mt-3 rounded-md bg-white p-3 text-sm text-slate-700">{challengeMessage}</p>}
+        <JudgmentFeedback
+          isCorrect={challengeCorrect}
+          message={challengeMessage}
+          pendingLabel={challengeSelection ? '已选择，等待验证' : '本轮未完成'}
+        />
       </section>
     </main>
   );
@@ -843,6 +967,7 @@ export function AssessmentLearningStation({
   courseId: string;
   previewMode?: boolean;
 }) {
+  const practiceMode = useStationPracticeMode();
   const [progress, setProgress] = useState<LearningCenterProgress>();
   const [profile, setProfile] = useState<LearningCenterProfile>();
   const [sessions, setSessions] = useState<PersistedVirtualLabSession[]>([]);
@@ -1007,6 +1132,13 @@ export function AssessmentLearningStation({
   >;
   const strongestDimension = [...dimensionEntries].sort((a, b) => b[1].score - a[1].score)[0];
   const priorityDimension = [...dimensionEntries].sort((a, b) => a[1].score - b[1].score)[0];
+  const currentRoundProgress = Math.round((viewedScenes.size / 3) * 100);
+  const assessmentSceneCompleted = (sceneId: 'S07-01' | 'S07-02' | 'S07-03') =>
+    sceneId === 'S07-01'
+      ? viewedScenes.has(sceneId) && Boolean(latestAssessment)
+      : sceneId === 'S07-02'
+        ? viewedScenes.has(sceneId) && activeConceptErrors.length === 0
+        : viewedScenes.has(sceneId) && !assessmentRemediation;
   const radarDimensions = dimensionEntries.map(([key, item]) => ({
     label: dimensionLabels[key],
     shortLabel:
@@ -1030,8 +1162,16 @@ export function AssessmentLearningStation({
         stationId="station-07-assessment"
         title="我哪里会了，哪里还需要加强？"
         description="六维能力由知识学习、微练习和综合实训的真实表现汇总生成，AI只负责解释结果。"
-        progress={progress.stations['station-07-assessment'].progressPercent}
-        completed={progress.stations['station-07-assessment'].status === 'completed'}
+        progress={
+          practiceMode
+            ? currentRoundProgress
+            : progress.stations['station-07-assessment'].progressPercent
+        }
+        completed={
+          practiceMode
+            ? viewedScenes.size === 3
+            : progress.stations['station-07-assessment'].status === 'completed'
+        }
         previewMode={previewMode}
       />
       <nav className="grid gap-2 rounded-xl border bg-white p-3 md:grid-cols-3" aria-label="评价提升任务">
@@ -1040,8 +1180,16 @@ export function AssessmentLearningStation({
           ['S07-02', '六维画像与误区'],
           ['S07-03', '智能补练与再挑战'],
         ] as const).map(([sceneId, label], index) => (
-          <Button key={sceneId} type="button" variant={activeSceneId === sceneId ? 'default' : 'outline'} aria-current={activeSceneId === sceneId ? 'step' : undefined} onClick={() => viewScene(sceneId)}>
-            {index + 1}. {label}
+          <Button
+            key={sceneId}
+            type="button"
+            variant={activeSceneId === sceneId ? 'default' : 'outline'}
+            className="h-auto justify-between gap-3 py-3"
+            aria-current={activeSceneId === sceneId ? 'step' : undefined}
+            onClick={() => viewScene(sceneId)}
+          >
+            <span>{index + 1}. {label}</span>
+            <LearningTaskStatusBadge completed={assessmentSceneCompleted(sceneId)} />
           </Button>
         ))}
       </nav>
@@ -1051,7 +1199,10 @@ export function AssessmentLearningStation({
         previewMode={previewMode}
         completed={activeCompleted}
         consecutiveErrors={activeSceneId === 'S07-02' && activeConceptErrors.length > 0 ? Math.min(3, activeConceptErrors.length + 1) : 0}
-        actionCount={viewedScenes.has(activeSceneId) ? 1 : 0}
+        // Station 07 is a read-and-reflect experience. Once its real data has
+        // loaded, the learner is already reviewing evidence rather than
+        // waiting to operate a simulation object.
+        actionCount={1}
         progressSummary={
           activeSceneId === 'S07-01'
             ? latestAssessment ? `最近一次实训：${latestAssessment.overallScore}分 · 五项过程评分` : '尚无可回看的实训过程'
@@ -1065,10 +1216,13 @@ export function AssessmentLearningStation({
         <>
           <section className="grid gap-3 md:grid-cols-4">
             <div className="rounded-xl border bg-white p-5"><p className="text-sm text-slate-500">最近综合得分</p><b className="mt-2 block text-3xl text-blue-700">{latestAssessment?.overallScore ?? '—'}</b></div>
-            <div className="rounded-xl border bg-white p-5"><p className="text-sm text-slate-500">完成用时</p><b className="mt-2 block text-3xl text-blue-700">{latestAssessment ? `${latestAssessment.durationSeconds}s` : '—'}</b></div>
+            <div className="rounded-xl border bg-white p-5"><p className="text-sm text-slate-500">本次综合实训用时</p><b className="mt-2 block text-3xl text-blue-700">{latestAssessment ? `${latestAssessment.durationSeconds}s` : '—'}</b></div>
             <div className="rounded-xl border bg-white p-5"><p className="text-sm text-slate-500">关键证据</p><b className="mt-2 block text-3xl text-blue-700">{latestAssessment?.keyEvidenceCollected.length ?? 0}</b></div>
             <div className="rounded-xl border bg-white p-5"><p className="text-sm text-slate-500">AI提示</p><b className="mt-2 block text-3xl text-blue-700">{latestAssessment?.hintsUsed ?? 0}</b></div>
           </section>
+          <p className="rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-xs text-blue-800">
+            时间统计仅包含06综合实训，不包含知识站学习与评价浏览时间。
+          </p>
           <section className="rounded-xl border bg-white p-5" data-testid="station-07-process-assessment">
             <h2 className="font-semibold">确定性过程评分（5项）</h2>
             <p className="mt-1 text-sm text-slate-600">综合实训过程评价保持原有五项与100分权重；点击评分项只查看已确定的原因，不会重新评分。</p>
@@ -1184,7 +1338,7 @@ export function AssessmentLearningStation({
                 {profile.virtualLab.scoreChange !== null && profile.virtualLab.scoreChange >= 0
                   ? '+'
                   : ''}
-                {profile.virtualLab.scoreChange ?? '—'}；用时变化{' '}
+                {profile.virtualLab.scoreChange ?? '—'}；综合实训用时变化{' '}
                 {profile.virtualLab.durationChangeSeconds ?? '—'} 秒；提示变化{' '}
                 {profile.virtualLab.hintsChange ?? '—'} 次。
               </p>

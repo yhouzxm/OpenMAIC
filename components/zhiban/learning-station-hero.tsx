@@ -1,10 +1,32 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowLeft, CheckCircle2, Route, Timer } from 'lucide-react';
+import { useSyncExternalStore } from 'react';
+import { ArrowLeft, CheckCircle2, RotateCcw, Route, Timer } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { KNOWLEDGE_STATIONS } from '@/lib/zhiban/learning-center/registry';
 import type { StationId } from '@/lib/zhiban/learning-center';
+
+const PRACTICE_MODE_PARAM = 'practice';
+const PRACTICE_MODE_VALUE = 'restart';
+
+export function isStationPracticeMode(search = '') {
+  return new URLSearchParams(search).get(PRACTICE_MODE_PARAM) === PRACTICE_MODE_VALUE;
+}
+
+function subscribeToPracticeMode(onChange: () => void) {
+  window.addEventListener('popstate', onChange);
+  return () => window.removeEventListener('popstate', onChange);
+}
+
+export function useStationPracticeMode() {
+  return useSyncExternalStore(
+    subscribeToPracticeMode,
+    () => isStationPracticeMode(window.location.search),
+    () => false,
+  );
+}
 
 export function LearningStationHero({
   courseId,
@@ -23,6 +45,7 @@ export function LearningStationHero({
   completed?: boolean;
   previewMode?: boolean;
 }) {
+  const practiceMode = useStationPracticeMode();
   const stationIndex = KNOWLEDGE_STATIONS.findIndex((item) => item.id === stationId);
   const station = KNOWLEDGE_STATIONS[stationIndex];
   if (!station) return null;
@@ -31,6 +54,12 @@ export function LearningStationHero({
   const learningCenterPath = previewMode
     ? `/zhiban/teacher/courses/${courseId}/learning-center`
     : `/zhiban/student/courses/${courseId}/learning-center`;
+  const restartStation = () => {
+    const url = new URL(window.location.href);
+    url.searchParams.set(PRACTICE_MODE_PARAM, PRACTICE_MODE_VALUE);
+    url.searchParams.set('practiceRun', String(Date.now()));
+    window.location.assign(url.toString());
+  };
 
   return (
     <header className="relative overflow-hidden rounded-2xl border border-blue-900/20 bg-gradient-to-br from-[#071b48] via-[#123d71] to-[#0f766e] p-5 text-white shadow-lg md:p-6">
@@ -58,10 +87,16 @@ export function LearningStationHero({
               <Badge className="border border-white/15 bg-white/15 text-white hover:bg-white/15">
                 {stationNumber} · {station.title}
               </Badge>
-              {completed && (
+              {completed && !practiceMode && (
                 <Badge className="bg-emerald-500 text-white hover:bg-emerald-500">
                   <CheckCircle2 className="mr-1 size-3" aria-hidden="true" />
                   本站已完成
+                </Badge>
+              )}
+              {practiceMode && !previewMode && (
+                <Badge className="border border-cyan-200/40 bg-cyan-300/15 text-cyan-50 hover:bg-cyan-300/15">
+                  <RotateCcw className="mr-1 size-3" aria-hidden="true" />
+                  复习练习中
                 </Badge>
               )}
               {previewMode && (
@@ -74,6 +109,11 @@ export function LearningStationHero({
               {headline}
             </h1>
             <p className="mt-2 max-w-4xl text-sm leading-6 text-blue-50/90">{description}</p>
+            {practiceMode && !previewMode && (
+              <p className="mt-2 text-xs leading-5 text-cyan-50/90">
+                历史完成记录与学习画像不会清除；本轮操作会继续记录为新的练习表现。
+              </p>
+            )}
           </div>
 
           <div className="rounded-xl border border-white/15 bg-slate-950/20 p-3.5 backdrop-blur-sm">
@@ -97,6 +137,18 @@ export function LearningStationHero({
                   />
                 </div>
               </div>
+            )}
+            {(completed || practiceMode) && !previewMode && (
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                className="mt-3 w-full border-white/25 bg-white/10 text-white hover:bg-white/20 hover:text-white"
+                onClick={restartStation}
+              >
+                <RotateCcw className="mr-1.5 size-3.5" aria-hidden="true" />
+                {practiceMode ? '重新开始本轮练习' : '重新练习本站'}
+              </Button>
             )}
           </div>
         </div>

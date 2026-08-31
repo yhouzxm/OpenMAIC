@@ -52,6 +52,27 @@ describe('Station 07 guidance and full-course feature freeze', () => {
     }
   });
 
+  it('treats the loaded assessment as an active review instead of a pending operation', () => {
+    const source = readFileSync(
+      resolve(
+        process.cwd(),
+        'components/zhiban/diagnosis-assessment-learning-stations.tsx',
+      ),
+      'utf8',
+    );
+    expect(source).toContain('actionCount={1}');
+  });
+
+  it('identifies duration as Station 06 Virtual Lab time on Station 07', () => {
+    const source = readFileSync(
+      resolve(process.cwd(), 'components/zhiban/diagnosis-assessment-learning-stations.tsx'),
+      'utf8',
+    );
+    expect(source).toContain('本次综合实训用时');
+    expect(source).toContain('时间统计仅包含06综合实训');
+    expect(source).toContain('综合实训用时变化');
+  });
+
   it('covers exactly all 25 frozen Scene IDs with guidance', () => {
     expect(SCENE_DEFINITIONS.map((scene) => scene.id)).toEqual(allSceneIds);
     expect(SCENE_DEFINITIONS.filter((scene) => scene.guidance)).toHaveLength(25);

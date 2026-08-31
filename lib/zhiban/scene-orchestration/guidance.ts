@@ -2,6 +2,7 @@ import type {
   ConceptErrorCode,
   LearningEvent,
 } from '@/lib/zhiban/learning-center/types';
+import { isValidKnowledgePointCompletion } from '@/lib/zhiban/learning-center/progress';
 import type { SceneDefinition, SceneId } from './types';
 import type { TrainingAction } from '@/lib/zhiban/virtual-lab/ai/types';
 import type { MechLabSceneStatePayload } from '@/lib/zhiban/virtual-lab/types';
@@ -558,7 +559,7 @@ function isDefinitionCompleted(definition: SceneDefinition, events: LearningEven
       events.some(
         (event) =>
           event.knowledgePointId === knowledgePointId &&
-          (event.eventType === 'COMPLETE_KNOWLEDGE_POINT' ||
+          (isValidKnowledgePointCompletion(event) ||
             (event.eventType === 'SUBMIT_MICRO_EXERCISE' && event.isCorrect === true)),
       ),
     )

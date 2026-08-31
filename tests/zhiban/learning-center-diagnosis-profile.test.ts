@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import {
   CONCEPT_ERROR_STATION_MAP,
@@ -80,6 +82,26 @@ function session(attemptNumber: number, score: number): PersistedVirtualLabSessi
 }
 
 describe('Learning Center final diagnosis and assessment integration', () => {
+  it('keeps Station 05 writes alive and merges slow persisted hydration with local progress', () => {
+    const source = readFileSync(
+      resolve(
+        process.cwd(),
+        'components/zhiban/diagnosis-assessment-learning-stations.tsx',
+      ),
+      'utf8',
+    );
+    const service = readFileSync(
+      resolve(process.cwd(), 'lib/zhiban/learning-center/service.ts'),
+      'utf8',
+    );
+    expect(source).toContain('keepalive: true');
+    expect(source).toContain('body.diagnosisMilestones ??');
+    expect(source).toContain('...new Set([...milestones.methodSteps, ...current])');
+    expect(source).toContain('...milestones.completedScenarios');
+    expect(source).toContain('...current');
+    expect(service).toContain('diagnosisMilestones: deriveDiagnosisLearningMilestones(events)');
+  });
+
   it('distinguishes sensing, control and actuation scenarios from evidence', () => {
     for (const scenario of DIAGNOSIS_SCENARIOS) {
       expect(evaluateM08(scenario, scenario.correctLayer, scenario.keyEvidence)).toMatchObject({

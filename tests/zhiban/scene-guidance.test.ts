@@ -296,6 +296,29 @@ describe('shared scene teaching guidance layer', () => {
     ]).mode).toBe('FULL');
   });
 
+  it('does not treat the legacy Station 03 ready event as S03-01 completion', () => {
+    const definition = getScene('S03-01')!;
+    const legacyState = deriveSceneGuidanceState(definition, [
+      event({
+        stationId: 'station-03-control',
+        knowledgePointId: 'K09',
+        eventType: 'COMPLETE_KNOWLEDGE_POINT',
+        payload: { sceneId: 'S03-01' },
+      }),
+    ]);
+    expect(legacyState.completed).toBe(false);
+
+    const verifiedState = deriveSceneGuidanceState(definition, [
+      event({
+        stationId: 'station-03-control',
+        knowledgePointId: 'K09',
+        eventType: 'COMPLETE_KNOWLEDGE_POINT',
+        payload: { sceneId: 'S03-01', verifiedBy: 'input-output-inspection' },
+      }),
+    ]);
+    expect(verifiedState.completed).toBe(true);
+  });
+
   it('allows a real Scene re-entry while deduplicating the same mounted entry', () => {
     const first = resolveSceneEntryDecision({
       lastRecordedKey: null, courseId: 'course-a', sceneId: 'S01-02',
@@ -427,6 +450,22 @@ describe('shared scene teaching guidance layer', () => {
     expect(getScene('S04-03')?.guidance?.objective).toContain('PLC有输出不等于执行成功');
   });
 
+  it('shows visible completion status for K09 through K15 tasks', () => {
+    const control = readFileSync(
+      resolve(process.cwd(), 'components/zhiban/control-actuation-learning-stations.tsx'),
+      'utf8',
+    );
+    const diagnosis = readFileSync(
+      resolve(process.cwd(), 'components/zhiban/diagnosis-assessment-learning-stations.tsx'),
+      'utf8',
+    );
+    for (const label of ['K09 PLC输入/输出识别', 'K10 · M06 地址映射', 'K11 PLC三步扫描', 'K12 · M07 梯形图验证', 'K13 执行链探索', 'K14 执行状态判断'])
+      expect(control).toContain(label);
+    expect(control).toContain('LearningTaskStatus');
+    expect(diagnosis).toContain('K15 · 察—查—测—断—验');
+    expect(diagnosis).toContain('bg-emerald-100 text-emerald-700');
+  });
+
   it('does not identify a concrete failed actuator in S04-03 guidance', () => {
     for (const consecutiveErrors of [1, 2, 3]) {
       const feedback = resolveGuidanceForError({
@@ -469,6 +508,10 @@ describe('shared scene teaching guidance layer', () => {
       'utf8',
     );
     expect(source).toContain('aria-label="五步循证诊断导航"');
+    expect(source).toContain('交互任务');
+    expect(source).toContain('点击学习');
+    expect(source).toContain('aria-pressed={active}');
+    expect(source).toContain('下一步：点击');
     expect(source).toContain('已有证据');
     expect(source).toContain('仍需关注');
     expect(source).toContain('aria-label="控制层输入逻辑输出证据链"');

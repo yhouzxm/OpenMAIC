@@ -74,6 +74,10 @@ describe('automatic production line learning center', () => {
           stationId: 'station-03-control',
           knowledgePointId,
           eventType: 'COMPLETE_KNOWLEDGE_POINT',
+          payload:
+            knowledgePointId === 'K09'
+              ? { verifiedBy: 'input-output-inspection' }
+              : {},
         }),
       ),
       event({

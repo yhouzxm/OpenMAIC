@@ -2,10 +2,13 @@
 
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Bot, CheckCircle2, Send, Sparkles } from 'lucide-react';
+import { Bot, Send, Sparkles } from 'lucide-react';
 import { InteractiveIframeHost } from '@/components/scene-renderers/InteractiveIframeHost';
 import { InteractiveRenderer } from '@/components/scene-renderers/interactive-renderer';
-import { LearningStationHero } from '@/components/zhiban/learning-station-hero';
+import {
+  isStationPracticeMode,
+  LearningStationHero,
+} from '@/components/zhiban/learning-station-hero';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -21,6 +24,7 @@ import { getStation } from '@/lib/zhiban/learning-center/registry';
 import { attachClassroomSceneContext } from '@/lib/zhiban/classroom/client-scene-context';
 import {
   emptyLearningCenterProgress,
+  createStationPracticeProgress,
   type ConceptErrorCode,
   type LearningCenterProgress,
   type LearningEventInput,
@@ -29,6 +33,12 @@ import { getMechLabActivity } from '@/lib/zhiban/virtual-lab/registry';
 import { isMechLabMessageForContext, type MechLabMessage } from '@/lib/zhiban/virtual-lab/types';
 import { SmartRemediationCard } from '@/components/zhiban/smart-remediation-card';
 import { SceneGuidanceLayer } from '@/components/zhiban/scene-guidance-layer';
+import { LearningTaskStatusBadge } from '@/components/zhiban/learning-task-status-badge';
+import {
+  JudgmentFeedback,
+  JudgmentOptionIndicator,
+  judgmentOptionClass,
+} from '@/components/zhiban/judgment-feedback';
 import {
   resolveRemediationScene,
   type RemediationRecommendation,
@@ -79,6 +89,10 @@ export function SensingLearningStation({
   const [powerMeasured, setPowerMeasured] = useState(false);
   const [m04Message, setM04Message] = useState('');
   const [m05Message, setM05Message] = useState('');
+  const [m04Selection, setM04Selection] = useState<string>();
+  const [m04Correct, setM04Correct] = useState<boolean>();
+  const [m05Selection, setM05Selection] = useState<string>();
+  const [m05Correct, setM05Correct] = useState<boolean>();
   const [mappingDirections, setMappingDirections] = useState<string[]>([]);
   const [syncWarning, setSyncWarning] = useState('');
   const [aiQuestion, setAiQuestion] = useState('');
@@ -95,6 +109,7 @@ export function SensingLearningStation({
   const completedPoints = useRef(new Set<string>());
   const stationCompletedReported = useRef(false);
   const m03ByPosition = useRef<Record<string, boolean>>({});
+  const m03AttemptBase = useRef(0);
   const conceptErrors = useRef<ConceptErrorCode[]>([]);
   const startedAt = useRef(Date.now());
   const predictionInProgress = useRef(false);
@@ -167,9 +182,19 @@ export function SensingLearningStation({
         if (body.progress) {
           stationCompletedReported.current =
             body.progress.stations[stationId].status === 'completed';
-          setProgress(body.progress);
+          const practiceMode = isStationPracticeMode(window.location.search);
+          setProgress(
+            practiceMode
+              ? createStationPracticeProgress(body.progress, stationId)
+              : body.progress,
+          );
+          m03AttemptBase.current = practiceMode
+            ? body.progress.knowledgePoints.K05.attempts
+            : 0;
           setActiveSceneId(
-            !body.progress.knowledgePoints.K04.completed
+            practiceMode
+              ? 'S02-01'
+              : !body.progress.knowledgePoints.K04.completed
               ? 'S02-01'
               : !body.progress.knowledgePoints.K05.completed
                 ? 'S02-02'
@@ -178,9 +203,10 @@ export function SensingLearningStation({
                   ? 'S02-03'
                   : 'S02-04',
           );
-          ['K04', 'K05', 'K06', 'K07', 'K08'].forEach((id) => {
-            if (body.progress?.knowledgePoints[id]?.completed) completedPoints.current.add(id);
-          });
+          if (!practiceMode)
+            ['K04', 'K05', 'K06', 'K07', 'K08'].forEach((id) => {
+              if (body.progress?.knowledgePoints[id]?.completed) completedPoints.current.add(id);
+            });
         }
       })
       .catch(() => setSyncWarning('学习记录暂未同步，不影响本次学习。'));
@@ -312,7 +338,7 @@ export function SensingLearningStation({
           knowledgePointId: 'K05',
           eventType: 'SUBMIT_MICRO_EXERCISE',
           isCorrect,
-          attempt: Object.keys(m03ByPosition.current).length,
+          attempt: m03AttemptBase.current + Object.keys(m03ByPosition.current).length,
           payload: {
             exercise: 'M03',
             predictedState: payload.predictedState,
@@ -451,6 +477,8 @@ export function SensingLearningStation({
   const answerM04 = (option: string) => {
     setActiveSceneId('S02-03');
     const result = evaluateM04(option);
+    setM04Selection(option);
+    setM04Correct(result.isCorrect);
     if (result.conceptError && !conceptErrors.current.includes(result.conceptError))
       conceptErrors.current.push(result.conceptError);
     void record({
@@ -524,6 +552,8 @@ export function SensingLearningStation({
   const answerM05 = (option: string) => {
     setActiveSceneId('S02-03');
     const result = evaluateM05(option);
+    setM05Selection(option);
+    setM05Correct(result.isCorrect);
     void record({
       stationId,
       knowledgePointId: 'K07',
@@ -791,16 +821,22 @@ export function SensingLearningStation({
                   <Button
                     key={key}
                     variant="outline"
-                    className="justify-start text-left"
+                    className={judgmentOptionClass({
+                      selected: m04Selection === key,
+                      result: m04Selection === key ? m04Correct : undefined,
+                    })}
+                    aria-pressed={m04Selection === key}
                     onClick={() => answerM04(key)}
                   >
                     {key}. {label}
+                    <JudgmentOptionIndicator
+                      selected={m04Selection === key}
+                      result={m04Selection === key ? m04Correct : undefined}
+                    />
                   </Button>
                 ))}
               </div>
-              {m04Message && (
-                <p className="mt-3 rounded-lg bg-blue-50 p-3 text-sm text-blue-950">{m04Message}</p>
-              )}
+              <JudgmentFeedback isCorrect={m04Correct} message={m04Message} />
             </section>
           )}
           {remediation && (
@@ -829,16 +865,22 @@ export function SensingLearningStation({
                   <Button
                     key={key}
                     variant="outline"
-                    className="justify-start bg-white text-left"
+                    className={judgmentOptionClass({
+                      selected: m05Selection === key,
+                      result: m05Selection === key ? m05Correct : undefined,
+                    })}
+                    aria-pressed={m05Selection === key}
                     onClick={() => answerM05(key)}
                   >
                     {key}. {label}
+                    <JudgmentOptionIndicator
+                      selected={m05Selection === key}
+                      result={m05Selection === key ? m05Correct : undefined}
+                    />
                   </Button>
                 ))}
               </div>
-              {m05Message && (
-                <p className="mt-3 rounded-lg bg-white p-3 text-sm text-slate-800">{m05Message}</p>
-              )}
+              <JudgmentFeedback isCorrect={m05Correct} message={m05Message} />
             </section>
           )}
         </div>
@@ -863,7 +905,10 @@ export function SensingLearningStation({
                 输出：<b>{snapshot.s2Output ? '24.0 V' : '0 V'}</b>
               </p>
               <p>
-                PLC I0.2：<b>{snapshot.plcI02 ? 'ON' : 'OFF'}</b>
+                PLC I0.2：
+                <b className={snapshot.plcI02 ? 'text-emerald-700' : 'text-red-700'}>
+                  {snapshot.plcI02 ? 'ON' : 'OFF'}
+                </b>
               </p>
             </div>
             <div className="mt-4 h-2 overflow-hidden rounded bg-slate-100">
@@ -877,19 +922,17 @@ export function SensingLearningStation({
             </p>
           </section>
           <section className="rounded-xl border bg-white p-5">
-            <h2 className="font-semibold">K08 双向映射</h2>
+            <div className="flex items-center justify-between gap-3">
+              <h2 className="font-semibold">K08 双向映射</h2>
+              <LearningTaskStatusBadge completed={k08Completed} />
+            </div>
             <p className="mt-2 text-sm text-slate-600">
               在场景中分别点击 S2 和 PLC I0.2，沿高亮信号线查看双向对应。
             </p>
             <p className="mt-3 text-sm">
               已完成：{k08Completed ? 2 : mappingDirections.length} / 2
             </p>
-            {k08Completed && (
-              <p className="mt-2 flex items-center gap-1 text-sm text-emerald-700">
-                <CheckCircle2 className="size-4" />
-                S2 ↔ I0.2 映射已建立
-              </p>
-            )}
+            {k08Completed && <p className="mt-2 text-sm text-emerald-700">S2 ↔ I0.2 映射已建立</p>}
           </section>
           <section className="rounded-xl border bg-white p-5">
             <div className="flex items-center gap-2 font-semibold">
@@ -958,12 +1001,7 @@ function KnowledgeStatus({ title, text, done }: { title: string; text: string; d
     <section className="rounded-xl border bg-white p-4">
       <div className="flex items-center justify-between">
         <b className="text-sm">{title}</b>
-        {done && (
-          <Badge className="gap-1 bg-emerald-100 text-emerald-700 hover:bg-emerald-100">
-            <CheckCircle2 className="size-3.5" />
-            已完成
-          </Badge>
-        )}
+        <LearningTaskStatusBadge completed={done} />
       </div>
       <p className="mt-2 text-xs leading-5 text-slate-600">{text}</p>
     </section>

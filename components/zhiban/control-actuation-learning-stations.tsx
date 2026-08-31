@@ -4,7 +4,11 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Bot, CheckCircle2, Send, Sparkles } from 'lucide-react';
 import { InteractiveIframeHost } from '@/components/scene-renderers/InteractiveIframeHost';
 import { InteractiveRenderer } from '@/components/scene-renderers/interactive-renderer';
-import { LearningStationHero } from '@/components/zhiban/learning-station-hero';
+import { useWidgetIframeStore } from '@/lib/store/widget-iframe';
+import {
+  isStationPracticeMode,
+  LearningStationHero,
+} from '@/components/zhiban/learning-station-hero';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -22,6 +26,8 @@ import { getStation } from '@/lib/zhiban/learning-center/registry';
 import { attachClassroomSceneContext } from '@/lib/zhiban/classroom/client-scene-context';
 import {
   emptyLearningCenterProgress,
+  createStationPracticeProgress,
+  isValidKnowledgePointCompletion,
   type ConceptErrorCode,
   type LearningCenterProgress,
   type LearningEventInput,
@@ -31,6 +37,12 @@ import { getMechLabActivity } from '@/lib/zhiban/virtual-lab/registry';
 import { isMechLabMessageForContext, type MechLabMessage } from '@/lib/zhiban/virtual-lab/types';
 import { SmartRemediationCard } from '@/components/zhiban/smart-remediation-card';
 import { SceneGuidanceLayer } from '@/components/zhiban/scene-guidance-layer';
+import { LearningTaskStatusBadge } from '@/components/zhiban/learning-task-status-badge';
+import {
+  JudgmentFeedback,
+  JudgmentOptionIndicator,
+  judgmentOptionClass,
+} from '@/components/zhiban/judgment-feedback';
 import {
   resolveRemediationScene,
   type RemediationRecommendation,
@@ -75,7 +87,7 @@ function useKnowledgeStation(courseId: string, spec: StationSpec, previewMode = 
       point.attempts = Math.max(point.attempts, event.attempt ?? 1);
       point.lastEventAt = event.timestamp ?? new Date().toISOString();
       if (typeof event.isCorrect === 'boolean') point.correct = event.isCorrect;
-      if (event.eventType === 'COMPLETE_KNOWLEDGE_POINT') point.completed = true;
+      if (isValidKnowledgePointCompletion(event)) point.completed = true;
       const station = getStation(event.stationId);
       const stationProgress = next.stations[event.stationId];
       const points = (station?.knowledgePointIds ?? [])
@@ -93,7 +105,10 @@ function useKnowledgeStation(courseId: string, spec: StationSpec, previewMode = 
   }, []);
   const record = useCallback(
     async (input: LearningEventInput) => {
-      const event = attachClassroomSceneContext({ ...input, timestamp: input.timestamp ?? new Date().toISOString() });
+      const event = attachClassroomSceneContext({
+        ...input,
+        timestamp: input.timestamp ?? new Date().toISOString(),
+      });
       // Update the visible progress optimistically so a completed knowledge
       // point is reflected immediately; persistence is deliberately
       // best-effort and must not make the progress bar wait on the network.
@@ -132,12 +147,17 @@ function useKnowledgeStation(courseId: string, spec: StationSpec, previewMode = 
         if (!response.ok) throw new Error('progress');
         const body = (await response.json()) as { progress?: LearningCenterProgress };
         if (!body.progress) return;
-        completeReported.current =
-          body.progress.stations[spec.stationId].status === 'completed';
-        setProgress(body.progress);
-        spec.points.forEach((point) => {
-          if (body.progress?.knowledgePoints[point]?.completed) completed.current.add(point);
-        });
+        completeReported.current = body.progress.stations[spec.stationId].status === 'completed';
+        const practiceMode = isStationPracticeMode(window.location.search);
+        setProgress(
+          practiceMode
+            ? createStationPracticeProgress(body.progress, spec.stationId)
+            : body.progress,
+        );
+        if (!practiceMode)
+          spec.points.forEach((point) => {
+            if (body.progress?.knowledgePoints[point]?.completed) completed.current.add(point);
+          });
       })
       .catch(() => setSyncWarning('学习记录暂未同步，不影响本次学习。'));
   }, [courseId, spec.points, spec.stationId]);
@@ -231,7 +251,8 @@ function KnowledgeCompanion({
         `${body.message ?? '请先观察当前信号链。'}${body.notice ? `\n${body.notice}` : ''}`,
       );
     } catch {
-      if (latestRequestId.current !== requestId || currentSceneId.current !== requestSceneId) return;
+      if (latestRequestId.current !== requestId || currentSceneId.current !== requestSceneId)
+        return;
       setAnswer('AI学习伙伴暂时繁忙，请沿当前信号链逐个观察输入、输出和现场动作。');
     } finally {
       if (latestRequestId.current === requestId && currentSceneId.current === requestSceneId) {
@@ -301,13 +322,17 @@ export function ControlLearningStation({ courseId, previewMode = false }: Props)
   const [scanSteps, setScanSteps] = useState<string[]>([]);
   const [m06, setM06] = useState<Record<string, string>>({});
   const [m06Message, setM06Message] = useState('');
+  const [m06Submitted, setM06Submitted] = useState(false);
+  const [m06Correct, setM06Correct] = useState<boolean>();
   const [m07Message, setM07Message] = useState('');
   const [m07Submitted, setM07Submitted] = useState(false);
+  const [m07Prediction, setM07Prediction] = useState<boolean>();
+  const [m07Verified, setM07Verified] = useState(false);
   const [errors, setErrors] = useState<ConceptErrorCode[]>([]);
   const [remediation, setRemediation] = useState<RemediationRecommendation | null>(null);
-  const [activeSceneId, setActiveSceneId] = useState<
-    'S03-01' | 'S03-02' | 'S03-03' | 'S03-04'
-  >('S03-01');
+  const [activeSceneId, setActiveSceneId] = useState<'S03-01' | 'S03-02' | 'S03-03' | 'S03-04'>(
+    'S03-01',
+  );
   const [guidanceFeedback, setGuidanceFeedback] = useState<
     Partial<Record<'S03-01' | 'S03-02' | 'S03-03' | 'S03-04', SceneActionFeedback>>
   >({});
@@ -315,6 +340,8 @@ export function ControlLearningStation({ courseId, previewMode = false }: Props)
   const [mappingErrors, setMappingErrors] = useState(0);
   const [m07ConsecutiveErrors, setM07ConsecutiveErrors] = useState(0);
   const [latestM07Correct, setLatestM07Correct] = useState<boolean>();
+  const inspectedIoTypes = useRef(new Set<'input' | 'output'>());
+  const [inspectedIoTypeCount, setInspectedIoTypeCount] = useState(0);
   const started = useRef(0);
   useEffect(() => {
     started.current = Date.now();
@@ -331,7 +358,6 @@ export function ControlLearningStation({ courseId, previewMode = false }: Props)
           eventType: 'VIEW_KNOWLEDGE_POINT',
           payload: { panel: 'PLC I/O', sceneId: 'S03-01' },
         });
-        complete('K09', { sceneId: 'S03-01' });
         return;
       }
       if (message.type !== 'MECH_ACTION') return;
@@ -339,12 +365,21 @@ export function ControlLearningStation({ courseId, previewMode = false }: Props)
       if (p.detail === 'LADDER_TOGGLE') {
         setActiveSceneId('S03-04');
         setI02(p.i02 === true);
-        setGuidanceFeedback((current) => ({ ...current, 'S03-04': {
-          action: `已设置I0.2情境为${p.i02 === true ? 'ON' : 'OFF'}`,
-          result: '输入情境已确定，Q0.1逻辑结果尚未通过扫描验证。',
-          nextFocus: '先预测Q0.1，再运行INPUT→LOGIC→OUTPUT进行比较。',
-          tone: 'neutral',
-        } }));
+        setScanSteps([]);
+        setM07Submitted(false);
+        setM07Prediction(undefined);
+        setM07Verified(false);
+        setLatestM07Correct(undefined);
+        setM07Message('I0.2输入情境已改变，请根据新状态重新预测Q0.1。');
+        setGuidanceFeedback((current) => ({
+          ...current,
+          'S03-04': {
+            action: `已设置I0.2情境为${p.i02 === true ? 'ON' : 'OFF'}`,
+            result: '输入情境已确定，Q0.1逻辑结果尚未通过扫描验证。',
+            nextFocus: '先预测Q0.1，再运行INPUT→LOGIC→OUTPUT进行比较。',
+            tone: 'neutral',
+          },
+        }));
         void record({
           stationId: spec.stationId,
           knowledgePointId: 'K12',
@@ -353,15 +388,43 @@ export function ControlLearningStation({ courseId, previewMode = false }: Props)
         });
       }
       if (p.detail === 'MAP_IO') {
-        setActiveSceneId('S03-02');
+        const endpoints = [String(p.from), String(p.to)];
+        const ioType: 'input' | 'output' | null = endpoints.includes('i02')
+          ? 'input'
+          : endpoints.includes('q01')
+            ? 'output'
+            : null;
+        if (ioType) {
+          inspectedIoTypes.current.add(ioType);
+          setInspectedIoTypeCount(inspectedIoTypes.current.size);
+          void record({
+            stationId: spec.stationId,
+            knowledgePointId: 'K09',
+            eventType: 'SELECT_IO_TYPE',
+            payload: { ioType, from: p.from, to: p.to, sceneId: 'S03-01' },
+          });
+        }
+        const inputAndOutputInspected = inspectedIoTypes.current.size === 2;
+        setActiveSceneId(inputAndOutputInspected ? 'S03-02' : 'S03-01');
         const key = `${p.from}->${p.to}`;
         setMappings((current) => (current.includes(key) ? current : [...current, key]));
-        setGuidanceFeedback((current) => ({ ...current, 'S03-02': {
-          action: `已选择${String(p.from)}并追踪到${String(p.to)}`,
-          result: '场景已高亮现场对象与PLC地址之间的信号关系。',
-          nextFocus: '继续判断该信号是进入PLC，还是由PLC发送给执行侧。',
-          tone: 'neutral',
-        } }));
+        setGuidanceFeedback((current) => ({
+          ...current,
+          [inputAndOutputInspected ? 'S03-02' : 'S03-01']: {
+            action: `已选择${String(p.from)}并追踪到${String(p.to)}`,
+            result: '场景已高亮现场对象与PLC地址之间的信号关系。',
+            nextFocus: inputAndOutputInspected
+              ? '已分别观察输入与输出方向，可以继续完成现场设备与PLC地址匹配。'
+              : `还需要观察PLC${ioType === 'input' ? '输出' : '输入'}区与现场设备的信号方向。`,
+            tone: inputAndOutputInspected ? 'success' : 'neutral',
+          },
+        }));
+        if (inputAndOutputInspected)
+          complete('K09', {
+            sceneId: 'S03-01',
+            verifiedBy: 'input-output-inspection',
+            ioTypes: ['input', 'output'],
+          });
         void record({
           stationId: spec.stationId,
           knowledgePointId: 'K10',
@@ -410,7 +473,9 @@ export function ControlLearningStation({ courseId, previewMode = false }: Props)
             output: {
               action: '已刷新PLC输出',
               result: 'PLC已更新Q0.1，一个完整扫描周期完成。',
-              nextFocus: m07Submitted ? '把实际结果与预测进行比较。' : '继续进入动态梯形图预测验证。',
+              nextFocus: m07Submitted
+                ? '把实际结果与预测进行比较。'
+                : '继续进入动态梯形图预测验证。',
               tone: 'success',
             },
           };
@@ -428,6 +493,12 @@ export function ControlLearningStation({ courseId, previewMode = false }: Props)
           complete('K11', { sceneId: 'S03-03' });
           if (m07Submitted) {
             complete('K12', { exercise: 'M07', verifiedBy: 'plc-scan', sceneId: 'S03-04' });
+            setM07Verified(true);
+            setM07Message(
+              latestM07Correct
+                ? `扫描结果为 Q0.1 ${p.q01 === true ? 'ON' : 'OFF'}，与刚才的预测一致。`
+                : '预测与扫描结果不一致。请重新观察 I0.2 触点是否满足导通条件。',
+            );
             setGuidanceFeedback((current) => ({
               ...current,
               'S03-04': latestM07Correct
@@ -466,6 +537,8 @@ export function ControlLearningStation({ courseId, previewMode = false }: Props)
     ] as const;
     const result = pairs.map(([field, io]) => evaluateM06(field, io ?? ''));
     const correct = result.every((item) => item.isCorrect);
+    setM06Submitted(true);
+    setM06Correct(correct);
     const newErrors = result.flatMap((item) => item.conceptErrors);
     setErrors((current) => [...new Set([...current, ...newErrors])]);
     result.forEach(
@@ -511,12 +584,15 @@ export function ControlLearningStation({ courseId, previewMode = false }: Props)
     );
     if (correct) {
       setMappingErrors(0);
-      setGuidanceFeedback((current) => ({ ...current, 'S03-02': {
-        action: '已提交现场设备与PLC地址映射',
-        result: '现场输入信号与PLC输入区、PLC输出与执行侧的方向关系一致。',
-        nextFocus: '进入PLC扫描，观察输入如何经过逻辑变成输出。',
-        tone: 'success',
-      } }));
+      setGuidanceFeedback((current) => ({
+        ...current,
+        'S03-02': {
+          action: '已提交现场设备与PLC地址映射',
+          result: '现场输入信号与PLC输入区、PLC输出与执行侧的方向关系一致。',
+          nextFocus: '进入PLC扫描，观察输入如何经过逻辑变成输出。',
+          tone: 'success',
+        },
+      }));
     } else {
       setMappingErrors((current) => {
         const next = current + 1;
@@ -534,7 +610,29 @@ export function ControlLearningStation({ courseId, previewMode = false }: Props)
   const submitM07 = (prediction: boolean) => {
     setActiveSceneId('S03-04');
     const result = evaluateM07(i02, prediction);
+    // M07 is a new prediction-and-verification round. Reset only the teaching
+    // simulation's scan cursor while preserving the learner-selected I0.2 state.
+    // K11's persisted completion remains unchanged.
+    setScanSteps([]);
+    if (context) {
+      useWidgetIframeStore.getState().getSendMessage('learning-center-control-plc')?.(
+        'MECH_ACTION',
+        {
+          source: 'zhiban-virtual-lab',
+          version: '1.0',
+          activityId: context.activityId,
+          scenarioId: context.scenarioId,
+          payload: {
+            action: 'KNOWLEDGE_INTERACTION',
+            detail: 'RESET_PLC_SCAN',
+            preserveI02: true,
+          },
+        },
+      );
+    }
     setLatestM07Correct(result.isCorrect);
+    setM07Prediction(prediction);
+    setM07Verified(false);
     setErrors((current) => [...new Set([...current, ...result.conceptErrors])]);
     void record({
       stationId: spec.stationId,
@@ -553,13 +651,18 @@ export function ControlLearningStation({ courseId, previewMode = false }: Props)
       },
     });
     setM07Submitted(true);
-    setM07Message('预测已记录。请在上方依次点击 INPUT → LOGIC → OUTPUT，运行后再比较实际结果。');
-    setGuidanceFeedback((current) => ({ ...current, 'S03-04': {
-      action: `已预测Q0.1为${prediction ? 'ON' : 'OFF'}`,
-      result: '预测已记录，真实输出将在完成PLC扫描后揭示。',
-      nextFocus: '按INPUT→LOGIC→OUTPUT执行扫描，观察梯形图信号传递。',
-      tone: 'neutral',
-    } }));
+    setM07Message(
+      '预测已记录，新的PLC扫描周期已就绪。请依次点击 INPUT → LOGIC → OUTPUT 进行验证。',
+    );
+    setGuidanceFeedback((current) => ({
+      ...current,
+      'S03-04': {
+        action: `已预测Q0.1为${prediction ? 'ON' : 'OFF'}`,
+        result: '预测已记录，真实输出将在完成PLC扫描后揭示。',
+        nextFocus: '按INPUT→LOGIC→OUTPUT执行扫描，观察梯形图信号传递。',
+        tone: 'neutral',
+      },
+    }));
     if (result.isCorrect) {
       setM07ConsecutiveErrors(0);
     } else {
@@ -631,9 +734,9 @@ export function ControlLearningStation({ courseId, previewMode = false }: Props)
         }
         recentChallengeCorrect={
           activeSceneId === 'S03-04'
-            ? latestM07Correct ?? progress.knowledgePoints.K12.correct ?? undefined
+            ? (latestM07Correct ?? progress.knowledgePoints.K12.correct ?? undefined)
             : activeSceneId === 'S03-02'
-              ? progress.knowledgePoints.K10.correct ?? undefined
+              ? (progress.knowledgePoints.K10.correct ?? undefined)
               : undefined
         }
         consecutiveErrors={
@@ -675,6 +778,47 @@ export function ControlLearningStation({ courseId, previewMode = false }: Props)
           <section className="h-[min(67vh,650px)] min-h-[530px] overflow-hidden rounded-xl border bg-slate-950">
             <InteractiveRenderer content={content} sceneId="learning-center-control-plc" />
           </section>
+          <section
+            className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4"
+            aria-label="控制推演任务完成情况"
+          >
+            <LearningTaskStatus
+              title="K09 PLC输入/输出识别"
+              done={progress.knowledgePoints.K09.completed}
+              text={
+                progress.knowledgePoints.K09.completed
+                  ? '已分别确认输入信号与输出信号的方向'
+                  : `已观察 ${inspectedIoTypeCount} / 2 类I/O方向`
+              }
+            />
+            <LearningTaskStatus
+              title="K10 · M06 地址映射"
+              done={progress.knowledgePoints.K10.completed}
+              text={
+                progress.knowledgePoints.K10.completed
+                  ? '现场设备与PLC地址映射已完成'
+                  : '完成3组现场设备与PLC地址匹配'
+              }
+            />
+            <LearningTaskStatus
+              title="K11 PLC三步扫描"
+              done={progress.knowledgePoints.K11.completed}
+              text={
+                progress.knowledgePoints.K11.completed
+                  ? '读取输入、执行逻辑、更新输出已完成'
+                  : `已完成 ${scanSteps.length} / 3 个扫描步骤`
+              }
+            />
+            <LearningTaskStatus
+              title="K12 · M07 梯形图验证"
+              done={progress.knowledgePoints.K12.completed}
+              text={
+                progress.knowledgePoints.K12.completed
+                  ? '预测结果已通过完整扫描验证'
+                  : '先预测Q0.1，再执行PLC扫描验证'
+              }
+            />
+          </section>
           <section id="M06" className="rounded-xl border bg-white p-5">
             <Badge variant="outline">K10 · M06</Badge>
             <h2 className="mt-2 text-lg font-semibold">把现场设备连接到正确的 PLC 地址</h2>
@@ -686,17 +830,31 @@ export function ControlLearningStation({ courseId, previewMode = false }: Props)
                 >
                   <b className="min-w-32">{label}</b>
                   <select
-                    className="rounded border px-3 py-2"
+                    className={`rounded border px-3 py-2 transition-colors ${
+                      m06Submitted
+                        ? evaluateM06(id, m06[id] ?? '').isCorrect
+                          ? 'border-emerald-600 bg-emerald-50 text-emerald-950'
+                          : 'border-orange-600 bg-orange-50 text-orange-950'
+                        : m06[id]
+                          ? 'border-blue-500 bg-blue-50 text-blue-950'
+                          : ''
+                    }`}
                     value={m06[id] ?? ''}
                     onChange={(event) => {
                       setActiveSceneId('S03-02');
                       setM06((current) => ({ ...current, [id]: event.target.value }));
-                      setGuidanceFeedback((current) => ({ ...current, 'S03-02': {
-                        action: `已为${label}选择一个PLC地址`,
-                        result: '当前映射已暂存，提交后系统才会验证信号方向。',
-                        nextFocus: '继续判断该设备提供输入信息还是接收输出控制。',
-                        tone: 'neutral',
-                      } }));
+                      setM06Submitted(false);
+                      setM06Correct(undefined);
+                      setM06Message('');
+                      setGuidanceFeedback((current) => ({
+                        ...current,
+                        'S03-02': {
+                          action: `已为${label}选择一个PLC地址`,
+                          result: '当前映射已暂存，提交后系统才会验证信号方向。',
+                          nextFocus: '继续判断该设备提供输入信息还是接收输出控制。',
+                          tone: 'neutral',
+                        },
+                      }));
                     }}
                   >
                     <option value="">选择 PLC 地址</option>
@@ -709,12 +867,23 @@ export function ControlLearningStation({ courseId, previewMode = false }: Props)
                 </label>
               ))}
             </div>
-            <Button className="mt-4" onClick={submitM06}>
+            <Button
+              className="mt-4"
+              disabled={!m06Targets.every(({ id }) => Boolean(m06[id]))}
+              aria-describedby="m06-submit-requirement"
+              onClick={submitM06}
+            >
               提交映射
             </Button>
-            {m06Message && (
-              <p className="mt-3 rounded bg-blue-50 p-3 text-sm text-blue-950">{m06Message}</p>
-            )}
+            <p id="m06-submit-requirement" className="mt-2 text-xs text-slate-500">
+              {m06Targets.every(({ id }) => Boolean(m06[id]))
+                ? '所有设备均已选择地址，可以提交验证。'
+                : '请先为每个现场设备选择一个PLC地址。'}
+            </p>
+            <JudgmentFeedback
+              isCorrect={m06Submitted ? m06Correct : undefined}
+              message={m06Message}
+            />
           </section>
           {remediation && (
             <SmartRemediationCard
@@ -731,16 +900,42 @@ export function ControlLearningStation({ courseId, previewMode = false }: Props)
               OUTPUT 执行扫描验证。
             </p>
             <div className="mt-4 flex gap-2">
-              <Button variant="outline" onClick={() => submitM07(true)}>
+              <Button
+                variant="outline"
+                className={judgmentOptionClass({
+                  selected: m07Prediction === true,
+                  result: m07Prediction === true && m07Verified ? latestM07Correct : undefined,
+                })}
+                aria-pressed={m07Prediction === true}
+                onClick={() => submitM07(true)}
+              >
                 预测 Q0.1 ON
+                <JudgmentOptionIndicator
+                  selected={m07Prediction === true}
+                  result={m07Prediction === true && m07Verified ? latestM07Correct : undefined}
+                />
               </Button>
-              <Button variant="outline" onClick={() => submitM07(false)}>
+              <Button
+                variant="outline"
+                className={judgmentOptionClass({
+                  selected: m07Prediction === false,
+                  result: m07Prediction === false && m07Verified ? latestM07Correct : undefined,
+                })}
+                aria-pressed={m07Prediction === false}
+                onClick={() => submitM07(false)}
+              >
                 预测 Q0.1 OFF
+                <JudgmentOptionIndicator
+                  selected={m07Prediction === false}
+                  result={m07Prediction === false && m07Verified ? latestM07Correct : undefined}
+                />
               </Button>
             </div>
-            {m07Message && (
-              <p className="mt-3 rounded bg-blue-50 p-3 text-sm text-blue-950">{m07Message}</p>
-            )}
+            <JudgmentFeedback
+              isCorrect={m07Verified ? latestM07Correct : undefined}
+              message={m07Message}
+              pendingLabel="预测已选择，等待扫描验证"
+            />
             <p className="mt-2 text-xs text-slate-500">
               已正确推进扫描：{scanSteps.join(' → ') || '尚未开始'}
             </p>
@@ -795,6 +990,8 @@ export function ActuationLearningStation({ courseId, previewMode = false }: Prop
   const [q01, setQ01] = useState(false);
   const [nodes, setNodes] = useState<string[]>([]);
   const [message, setMessage] = useState('');
+  const [checkpointSelection, setCheckpointSelection] = useState<string>();
+  const [checkpointCorrect, setCheckpointCorrect] = useState<boolean>();
   const [remediation, setRemediation] = useState<RemediationRecommendation | null>(null);
   const [errors, setErrors] = useState<ConceptErrorCode[]>([]);
   const [activeSceneId, setActiveSceneId] = useState<'S04-01' | 'S04-02' | 'S04-03'>('S04-01');
@@ -838,12 +1035,15 @@ export function ActuationLearningStation({ courseId, previewMode = false }: Prop
           air: '继续确认气缸是否产生真实机械动作。',
           cylinder: '回看Q0.1到气缸的完整状态传递是否连续。',
         };
-        setGuidanceFeedback((current) => ({ ...current, 'S04-01': {
-          action: `已观察${nodeLabel[node] ?? node}`,
-          result: `当前节点状态已确认：Q0.1 ${p.q01 === true ? 'ON' : 'OFF'}。`,
-          nextFocus: nextNode[node] ?? '沿执行链继续观察下一个节点。',
-          tone: 'neutral',
-        } }));
+        setGuidanceFeedback((current) => ({
+          ...current,
+          'S04-01': {
+            action: `已观察${nodeLabel[node] ?? node}`,
+            result: `当前节点状态已确认：Q0.1 ${p.q01 === true ? 'ON' : 'OFF'}。`,
+            nextFocus: nextNode[node] ?? '沿执行链继续观察下一个节点。',
+            tone: 'neutral',
+          },
+        }));
         void record({
           stationId: spec.stationId,
           knowledgePointId: 'K13',
@@ -859,25 +1059,33 @@ export function ActuationLearningStation({ courseId, previewMode = false }: Prop
         setActiveSceneId(outputSceneId);
         setQ01(p.q01 === true);
         setMode(nextMode);
-        setGuidanceFeedback((current) => ({ ...current, [outputSceneId]: {
-          action: `已把Q0.1切换为${p.q01 === true ? 'ON' : 'OFF'}`,
-          result:
-            p.q01 === true
-              ? p.cylinderExtended === true
-                ? '控制信号已沿执行链传递，气缸产生了机械动作。'
-                : 'PLC输出已经存在，但气缸没有产生真实动作。'
-              : 'PLC输出关闭，执行链保持未动作状态。',
-          nextFocus:
-            outputSceneId === 'S04-03'
-              ? '继续比较电磁阀、气路和气缸中间状态。'
-              : '沿电磁阀和气路观察控制信号如何变成机械动作。',
-          tone: p.q01 === true && p.cylinderExtended !== true ? 'warning' : 'neutral',
-        } }));
+        setGuidanceFeedback((current) => ({
+          ...current,
+          [outputSceneId]: {
+            action: `已把Q0.1切换为${p.q01 === true ? 'ON' : 'OFF'}`,
+            result:
+              p.q01 === true
+                ? p.cylinderExtended === true
+                  ? '控制信号已沿执行链传递，气缸产生了机械动作。'
+                  : 'PLC输出已经存在，但气缸没有产生真实动作。'
+                : 'PLC输出关闭，执行链保持未动作状态。',
+            nextFocus:
+              outputSceneId === 'S04-03'
+                ? '继续比较电磁阀、气路和气缸中间状态。'
+                : '沿电磁阀和气路观察控制信号如何变成机械动作。',
+            tone: p.q01 === true && p.cylinderExtended !== true ? 'warning' : 'neutral',
+          },
+        }));
         void record({
           stationId: spec.stationId,
           knowledgePointId: 'K13',
           eventType: 'OUTPUT_TOGGLE',
-          payload: { q01: p.q01, cylinderExtended: p.cylinderExtended, mode: p.mode, sceneId: outputSceneId },
+          payload: {
+            q01: p.q01,
+            cylinderExtended: p.cylinderExtended,
+            mode: p.mode,
+            sceneId: outputSceneId,
+          },
         });
       }
       if (p.detail === 'SET_EXECUTION_MODE') {
@@ -885,15 +1093,24 @@ export function ActuationLearningStation({ courseId, previewMode = false }: Prop
         const modeSceneId = nextMode === 'ACTUATION_FAILURE_DEMO' ? 'S04-03' : 'S04-02';
         setMode(nextMode);
         setActiveSceneId(modeSceneId);
-        setGuidanceFeedback((current) => ({ ...current, [modeSceneId]: {
-          action: nextMode === 'ACTUATION_FAILURE_DEMO' ? '已切换到执行失败推演' : '已切换到正常执行情境',
-          result:
-            nextMode === 'ACTUATION_FAILURE_DEMO'
-              ? '情境已准备，尚需打开Q0.1形成控制输出与机械动作的对比。'
-              : '正常执行链情境已恢复。',
-          nextFocus: nextMode === 'ACTUATION_FAILURE_DEMO' ? '把Q0.1切换为ON，再观察气缸是否动作。' : '切换Q0.1并逐级观察执行链。',
-          tone: 'neutral',
-        } }));
+        setGuidanceFeedback((current) => ({
+          ...current,
+          [modeSceneId]: {
+            action:
+              nextMode === 'ACTUATION_FAILURE_DEMO'
+                ? '已切换到执行失败推演'
+                : '已切换到正常执行情境',
+            result:
+              nextMode === 'ACTUATION_FAILURE_DEMO'
+                ? '情境已准备，尚需打开Q0.1形成控制输出与机械动作的对比。'
+                : '正常执行链情境已恢复。',
+            nextFocus:
+              nextMode === 'ACTUATION_FAILURE_DEMO'
+                ? '把Q0.1切换为ON，再观察气缸是否动作。'
+                : '切换Q0.1并逐级观察执行链。',
+            tone: 'neutral',
+          },
+        }));
         void record({
           stationId: spec.stationId,
           knowledgePointId: nextMode === 'ACTUATION_FAILURE_DEMO' ? 'K14' : 'K13',
@@ -908,6 +1125,8 @@ export function ActuationLearningStation({ courseId, previewMode = false }: Prop
   const submitCheckpoint = (layer: string) => {
     setActiveSceneId('S04-03');
     const result = evaluateExecutionCheckpoint(layer);
+    setCheckpointSelection(layer);
+    setCheckpointCorrect(result.isCorrect);
     setErrors((current) => [...new Set([...current, ...result.conceptErrors])]);
     void record({
       stationId: spec.stationId,
@@ -943,12 +1162,15 @@ export function ActuationLearningStation({ courseId, previewMode = false }: Prop
     );
     if (result.isCorrect) {
       setCheckpointErrors(0);
-      setGuidanceFeedback((current) => ({ ...current, 'S04-03': {
-        action: '已提交执行侧情境判断',
-        result: 'Q0.1 ON只证明PLC已输出控制，现场机械动作仍需单独验证。',
-        nextFocus: '沿Q0.1之后的执行链逐级确认状态传递。',
-        tone: 'success',
-      } }));
+      setGuidanceFeedback((current) => ({
+        ...current,
+        'S04-03': {
+          action: '已提交执行侧情境判断',
+          result: 'Q0.1 ON只证明PLC已输出控制，现场机械动作仍需单独验证。',
+          nextFocus: '沿Q0.1之后的执行链逐级确认状态传递。',
+          tone: 'success',
+        },
+      }));
     } else {
       setCheckpointErrors((current) => {
         const next = current + 1;
@@ -990,7 +1212,7 @@ export function ActuationLearningStation({ courseId, previewMode = false }: Prop
         }
         recentChallengeCorrect={
           activeSceneId === 'S04-03'
-            ? progress.knowledgePoints.K14.correct ?? undefined
+            ? (progress.knowledgePoints.K14.correct ?? undefined)
             : undefined
         }
         consecutiveErrors={activeSceneId === 'S04-03' ? checkpointErrors : 0}
@@ -1017,6 +1239,26 @@ export function ActuationLearningStation({ courseId, previewMode = false }: Prop
           <section className="h-[min(67vh,650px)] min-h-[520px] overflow-hidden rounded-xl border bg-slate-950">
             <InteractiveRenderer content={content} sceneId="learning-center-actuation-cylinder" />
           </section>
+          <section className="grid gap-4 sm:grid-cols-2" aria-label="执行探索任务完成情况">
+            <LearningTaskStatus
+              title="K13 执行链探索"
+              done={progress.knowledgePoints.K13.completed}
+              text={
+                progress.knowledgePoints.K13.completed
+                  ? 'Q0.1→电磁阀→气路→气缸执行链已观察'
+                  : `已观察 ${nodes.length} / 4 个执行链节点`
+              }
+            />
+            <LearningTaskStatus
+              title="K14 执行状态判断"
+              done={progress.knowledgePoints.K14.completed}
+              text={
+                progress.knowledgePoints.K14.completed
+                  ? '“有输出不等于有动作”情境判断已完成'
+                  : '建立执行失败情境并完成层级判断'
+              }
+            />
+          </section>
           <section id="K14-checkpoint" className="rounded-xl border bg-white p-5">
             <Badge variant="outline">K14 · 知识检查点</Badge>
             <h2 className="mt-2 text-lg font-semibold">有输出 ≠ 一定有动作</h2>
@@ -1034,17 +1276,24 @@ export function ActuationLearningStation({ courseId, previewMode = false }: Prop
                 <Button
                   key={id}
                   variant="outline"
+                  className={judgmentOptionClass({
+                    selected: checkpointSelection === id,
+                    result: checkpointSelection === id ? checkpointCorrect : undefined,
+                  })}
                   disabled={!failureReady}
                   aria-describedby="execution-checkpoint-status"
+                  aria-pressed={checkpointSelection === id}
                   onClick={() => submitCheckpoint(id)}
                 >
                   {label}
+                  <JudgmentOptionIndicator
+                    selected={checkpointSelection === id}
+                    result={checkpointSelection === id ? checkpointCorrect : undefined}
+                  />
                 </Button>
               ))}
             </div>
-            {message && (
-              <p className="mt-3 rounded bg-blue-50 p-3 text-sm text-blue-950">{message}</p>
-            )}
+            <JudgmentFeedback isCorrect={checkpointCorrect} message={message} />
           </section>
           {remediation && (
             <SmartRemediationCard
@@ -1129,6 +1378,18 @@ function ProgressCard({
         <div className="h-full rounded bg-blue-600" style={{ width: `${progress}%` }} />
       </div>
       <p className="mt-2 text-xs text-slate-500">本站进度 {progress}%</p>
+    </section>
+  );
+}
+
+function LearningTaskStatus({ title, text, done }: { title: string; text: string; done: boolean }) {
+  return (
+    <section className="rounded-xl border bg-white p-4">
+      <div className="flex items-start justify-between gap-3">
+        <b className="text-sm">{title}</b>
+        <LearningTaskStatusBadge completed={done} />
+      </div>
+      <p className="mt-2 text-xs leading-5 text-slate-600">{text}</p>
     </section>
   );
 }

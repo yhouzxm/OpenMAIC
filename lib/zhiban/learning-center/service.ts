@@ -5,6 +5,7 @@ import { withZhibanTenant } from '@/lib/zhiban/db/tenant-context';
 import type { ZhibanDatabasePool } from '@/lib/zhiban/db/types';
 import { getKnowledgePoint, getStation, isStationId } from './registry';
 import { deriveLearningCenterProgress } from './progress';
+import { deriveDiagnosisLearningMilestones } from './diagnosis';
 import {
   buildLearningCenterAccessState,
   isReviewDemoPrincipal,
@@ -249,6 +250,7 @@ export async function getLearningCenterIntegratedSummary(
   const conceptErrorStates = deriveConceptErrorStates(events);
   return {
     progress,
+    diagnosisMilestones: deriveDiagnosisLearningMilestones(events),
     profile: calculateLearningCenterProfile(courseId, events, sessions),
     sessions,
     conceptErrorStates,
@@ -266,6 +268,7 @@ export async function getLearningCenterSummaryForPrincipal(
   if (accessState.preview) {
     return {
       ...accessState,
+      diagnosisMilestones: deriveDiagnosisLearningMilestones([]),
       profile: calculateLearningCenterProfile(courseId, [], []),
       conceptErrorStates: [],
       remediationRuns: [],

@@ -3,10 +3,25 @@ import { deriveDiagnosisLearningMilestones } from './diagnosis';
 import type {
   LearningCenterProgress,
   LearningEvent,
+  LearningEventInput,
   KnowledgePointProgress,
   StationId,
   StationProgress,
 } from './types';
+
+/**
+ * K09 used to be completed by the iframe MECH_READY event.  A valid K09
+ * completion now requires evidence that the learner inspected both PLC input
+ * and output relationships.  Keeping the check here also prevents legacy
+ * auto-ready events from inflating persisted progress after a refresh.
+ */
+export function isValidKnowledgePointCompletion(
+  event: Pick<LearningEventInput, 'eventType' | 'knowledgePointId' | 'payload'>,
+) {
+  if (event.eventType !== 'COMPLETE_KNOWLEDGE_POINT') return false;
+  if (event.knowledgePointId !== 'K09') return true;
+  return event.payload?.verifiedBy === 'input-output-inspection';
+}
 
 export function emptyLearningCenterProgress(
   courseId: string,
@@ -38,6 +53,30 @@ export function emptyLearningCenterProgress(
   return { courseId, stations, knowledgePoints, eventCount: 0, persistenceAvailable };
 }
 
+/**
+ * Builds the visible progress for a new practice round without deleting the
+ * learner's persisted completion history. Attempt counters are retained so
+ * new submissions remain a later attempt, while completion and correctness
+ * must be demonstrated again in the current round.
+ */
+export function createStationPracticeProgress(
+  persisted: LearningCenterProgress,
+  stationId: StationId,
+): LearningCenterProgress {
+  const practice = emptyLearningCenterProgress(
+    persisted.courseId,
+    persisted.persistenceAvailable,
+  );
+  practice.eventCount = persisted.eventCount;
+  const station = KNOWLEDGE_STATIONS.find((item) => item.id === stationId);
+  for (const knowledgePointId of station?.knowledgePointIds ?? []) {
+    const previous = persisted.knowledgePoints[knowledgePointId];
+    const current = practice.knowledgePoints[knowledgePointId];
+    if (previous && current) current.attempts = previous.attempts;
+  }
+  return practice;
+}
+
 export function deriveLearningCenterProgress(
   courseId: string,
   events: LearningEvent[],
@@ -60,7 +99,7 @@ export function deriveLearningCenterProgress(
       // scenarios). Components emit COMPLETE_KNOWLEDGE_POINT only after their
       // complete teaching rule is satisfied, so that explicit event is the
       // single completion source.
-      if (event.eventType === 'COMPLETE_KNOWLEDGE_POINT') point.completed = true;
+      if (isValidKnowledgePointCompletion(event)) point.completed = true;
     }
   }
   const diagnosisMilestones = deriveDiagnosisLearningMilestones(events);

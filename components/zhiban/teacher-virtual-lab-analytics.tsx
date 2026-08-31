@@ -21,7 +21,7 @@ const metricLabels: Record<string, string> = {
   completedStudents: '实训完成人数',
   completionRate: '实训完成率',
   averageScore: '已完成实训平均分',
-  averageDurationSeconds: '平均用时',
+  averageDurationSeconds: '平均综合实训用时',
   averageHintsUsed: '平均提示',
 };
 const assessmentDimensionLabels: Record<AssessmentDimensionKey, string> = {
@@ -176,6 +176,9 @@ export function TeacherVirtualLabAnalytics({ requestedCourseId }: { requestedCou
           </div>
         ))}
       </section>
+      <p className="rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-xs text-blue-800">
+        用时数据仅统计学生在06综合实训中的已完成记录，不包含知识站学习与评价浏览时间。
+      </p>
       <section
         className="rounded-xl border bg-white p-5"
         data-testid="teacher-learning-center-analytics"
@@ -347,7 +350,7 @@ export function TeacherVirtualLabAnalytics({ requestedCourseId }: { requestedCou
                     <th className="px-4 py-3">学生</th>
                     <th>完成次数</th>
                     <th>最近 / 最高得分</th>
-                    <th>最近用时</th>
+                    <th>最近实训用时</th>
                     <th>提示</th>
                     <th>主要薄弱点</th>
                     <th>最近完成</th>
@@ -495,7 +498,7 @@ export function TeacherVirtualLabAnalytics({ requestedCourseId }: { requestedCou
           <div className="mt-5 border-t pt-4">
             <h3 className="font-medium">历史尝试趋势</h3>
             <p className="mt-1 text-sm text-slate-500">
-              分别比较得分、完成用时和提示次数，避免不同量纲混在一张图中。
+              分别比较综合实训得分、实训用时和提示次数，避免不同量纲混在一张图中。
             </p>
             {selectedHistory.length ? (
               <TeacherAttemptTrendChart sessions={selectedHistory} />
