@@ -21,7 +21,7 @@ describe('learning task completion visibility', () => {
     expect(completed).toContain('text-emerald-700');
   });
 
-  it('uses the shared task status across all seven station carriers', () => {
+  it('uses the shared task status for actual exercises, but not Station 07 review navigation', () => {
     const files = [
       'components/zhiban/learning-station.tsx',
       'components/zhiban/sensing-learning-station.tsx',
@@ -32,7 +32,12 @@ describe('learning task completion visibility', () => {
 
     expect(files.every((source) => source.includes('LearningTaskStatusBadge'))).toBe(true);
     expect(files[1]).toContain('<LearningTaskStatusBadge completed={k08Completed} />');
-    expect(files[3]).toContain('assessmentSceneCompleted(sceneId)');
+    const station07Navigation = files[3].slice(
+      files[3].indexOf('aria-label="评价提升任务"'),
+      files[3].indexOf('<SceneGuidanceLayer', files[3].indexOf('aria-label="评价提升任务"')),
+    );
+    expect(station07Navigation).not.toContain('LearningTaskStatusBadge');
+    expect(station07Navigation).toContain("aria-current={activeSceneId === sceneId ? 'step' : undefined}");
   });
 
   it('makes PLC I0.2 OFF or pending red and ON green in the sensing interaction', () => {

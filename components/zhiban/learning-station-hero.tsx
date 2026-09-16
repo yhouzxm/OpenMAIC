@@ -87,7 +87,7 @@ export function LearningStationHero({
               <Badge className="border border-white/15 bg-white/15 text-white hover:bg-white/15">
                 {stationNumber} · {station.title}
               </Badge>
-              {completed && !practiceMode && (
+              {completed && (!practiceMode || stationId === 'station-07-assessment') && (
                 <Badge className="bg-emerald-500 text-white hover:bg-emerald-500">
                   <CheckCircle2 className="mr-1 size-3" aria-hidden="true" />
                   本站已完成

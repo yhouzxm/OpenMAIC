@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { SmartRemediationCard } from '@/components/zhiban/smart-remediation-card';
+import { LearningStationHero } from '@/components/zhiban/learning-station-hero';
 import { LEARNING_CENTER_DIMENSIONS } from '@/lib/zhiban/learning-center';
 import {
   conceptErrorStatusLabel,
@@ -39,6 +40,32 @@ const conceptCodes = [
 ] as const;
 
 describe('Station 07 guidance and full-course feature freeze', () => {
+  it('shows Station 07 as completed on entry for a teacher preview', () => {
+    const html = renderToStaticMarkup(createElement(LearningStationHero, {
+      courseId: 'mech-mechatronics-system',
+      stationId: 'station-07-assessment',
+      headline: '评价提升',
+      description: '查看学习结果',
+      progressPercent: 100,
+      completed: true,
+      previewMode: true,
+    }));
+    expect(html).toContain('本站已完成');
+    expect(html).toContain('本站进度');
+    expect(html).toContain('100%');
+    expect(html).toContain('教师预览');
+  });
+
+  it('records student completion once while leaving teacher preview read-only', () => {
+    const source = readFileSync(resolve(process.cwd(), 'components/zhiban/diagnosis-assessment-learning-stations.tsx'), 'utf8');
+    const station07 = source.slice(source.indexOf('export function AssessmentLearningStation'));
+    expect(station07).toContain("initial.progress.stations['station-07-assessment'].status === 'completed'");
+    expect(station07).toContain('!previewMode && !alreadyCompleted && !completionSent.current');
+    expect(station07).toContain("eventType: 'COMPLETE_STATION'");
+    expect(station07).toContain("progressPercent: 100");
+    expect(station07).toContain('学习记录暂未同步，不影响本次学习。');
+  });
+
   it('registers complete guidance for S07-01 through S07-03', () => {
     for (const sceneId of ['S07-01', 'S07-02', 'S07-03'] as const) {
       const guidance = getScene(sceneId)?.guidance;
@@ -235,7 +262,7 @@ describe('Station 07 guidance and full-course feature freeze', () => {
 
   it('keeps teacher preview free of Station 07 student completion and help events', () => {
     const source = readFileSync(resolve(process.cwd(), 'components/zhiban/diagnosis-assessment-learning-stations.tsx'), 'utf8');
-    expect(source).toContain('if (!previewMode && !completionSent.current)');
+    expect(source).toContain('if (!previewMode && !alreadyCompleted && !completionSent.current)');
     expect(source).toContain('if (previewMode || viewedEventSent.current.has(sceneId)) return');
     expect(source).toContain('previewMode={previewMode}');
   });

@@ -89,6 +89,16 @@ describe('shared scene teaching guidance layer', () => {
     expect(reduceSceneBriefingVisibility(opened, 'TOGGLE', fullState)).toBe(false);
   });
 
+  it('does not auto-open or scroll the briefing on later task switches', () => {
+    const source = readFileSync(resolve(process.cwd(), 'components/zhiban/scene-guidance-layer.tsx'), 'utf8');
+    expect(source).toContain('if (!autoBriefingHandledRef.current)');
+    expect(source).toContain('autoBriefingHandledRef.current = true');
+    expect(source).toContain('loadedSceneId !== sceneId');
+    expect(source).toContain('onClick={closeBriefing}');
+    expect(source).toContain("if (event.key === 'Escape') closeBriefing()");
+    expect(source).not.toContain('scrollIntoView');
+  });
+
   it('renders updated inline action feedback with aria-live', () => {
     const first: SceneActionFeedback = {
       action: '已选择预测', result: '预测已记录', nextFocus: '点击验证', tone: 'neutral',

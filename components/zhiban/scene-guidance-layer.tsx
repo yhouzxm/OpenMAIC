@@ -71,6 +71,8 @@ export function SceneGuidanceLayer({
   const scene = getScene(sceneId);
   const [persisted, setPersisted] = useState<SceneGuidanceState>(() => emptyState(sceneId));
   const [loaded, setLoaded] = useState(false);
+  const [loadedSceneId, setLoadedSceneId] = useState<SceneId | null>(null);
+  const autoBriefingHandledRef = useRef(false);
   const mergedStateRef = useRef<SceneGuidanceState>(emptyState(sceneId));
   const [briefingOpen, dispatchBriefing] = useReducer(
     (current: boolean, action: 'AUTO_OPEN' | 'OPEN' | 'CLOSE' | 'TOGGLE') =>
@@ -83,7 +85,6 @@ export function SceneGuidanceLayer({
   const completedReportedRef = useRef(false);
   const latestRequestIdRef = useRef<string | null>(null);
   const currentSceneIdRef = useRef(sceneId);
-  const briefingRef = useRef<HTMLElement | null>(null);
 
   const mergedState = useMemo<SceneGuidanceState>(() => {
     const nextCompleted = completed === true || persisted.completed;
@@ -115,11 +116,13 @@ export function SceneGuidanceLayer({
     latestRequestIdRef.current = null;
     completedReportedRef.current = false;
     setHelpFeedback(null);
+    dispatchBriefing('CLOSE');
   }, [sceneId]);
 
   useEffect(() => {
     let active = true;
     setLoaded(false);
+    setLoadedSceneId(null);
     void fetch(`/api/zhiban/student/courses/${courseId}/learning-center`)
       .then(async (response) => {
         if (!response.ok) throw new Error('guidance state unavailable');
@@ -132,7 +135,10 @@ export function SceneGuidanceLayer({
         if (active) setPersisted(emptyState(sceneId));
       })
       .finally(() => {
-        if (active) setLoaded(true);
+        if (active) {
+          setLoadedSceneId(sceneId);
+          setLoaded(true);
+        }
       });
     return () => {
       active = false;
@@ -140,8 +146,11 @@ export function SceneGuidanceLayer({
   }, [courseId, sceneId]);
 
   useEffect(() => {
-    if (!loaded) return;
-    dispatchBriefing('AUTO_OPEN');
+    if (!loaded || loadedSceneId !== sceneId) return;
+    if (!autoBriefingHandledRef.current) {
+      autoBriefingHandledRef.current = true;
+      dispatchBriefing('AUTO_OPEN');
+    }
     const decision = resolveSceneEntryDecision({
       lastRecordedKey: enteredKeyRef.current,
       courseId,
@@ -151,7 +160,11 @@ export function SceneGuidanceLayer({
     if (!decision.shouldRecord) return;
     enteredKeyRef.current = decision.key;
     void postSceneEvent(courseId, enterScene(sceneId)).catch(() => undefined);
-  }, [courseId, loaded, previewMode, sceneId]);
+  }, [courseId, loaded, loadedSceneId, previewMode, sceneId]);
+
+  const closeBriefing = useCallback(() => {
+    dispatchBriefing('CLOSE');
+  }, []);
 
   useEffect(() => {
     if (!loaded || previewMode || !mergedState.completed || persisted.completed)
@@ -163,13 +176,12 @@ export function SceneGuidanceLayer({
 
   useEffect(() => {
     if (!briefingOpen) return;
-    briefingRef.current?.scrollIntoView({ block: 'nearest' });
     const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') dispatchBriefing('CLOSE');
+      if (event.key === 'Escape') closeBriefing();
     };
     window.addEventListener('keydown', closeOnEscape);
     return () => window.removeEventListener('keydown', closeOnEscape);
-  }, [briefingOpen]);
+  }, [briefingOpen, closeBriefing]);
 
   const requestHelp = useCallback(async () => {
     if (!scene?.guidance || helpLoading) return;
@@ -267,7 +279,10 @@ export function SceneGuidanceLayer({
               aria-label={`${briefingOpen ? '收起' : '查看'}${scene.title}任务说明`}
               aria-expanded={briefingOpen}
               aria-controls={`scene-task-briefing-${sceneId}`}
-              onClick={() => dispatchBriefing('TOGGLE')}
+              onClick={() => {
+                if (briefingOpen) closeBriefing();
+                else dispatchBriefing('OPEN');
+              }}
             >
               <BookOpen className="mr-1 size-4" /> {briefingOpen ? '收起说明' : '任务说明'}
             </Button>
@@ -290,7 +305,6 @@ export function SceneGuidanceLayer({
         {briefingOpen && (
           <section
             id={`scene-task-briefing-${sceneId}`}
-            ref={briefingRef}
             role="dialog"
             aria-modal="false"
             aria-label={`${scene.title}任务说明`}
@@ -309,7 +323,7 @@ export function SceneGuidanceLayer({
               size="icon"
               variant="ghost"
               aria-label="关闭任务说明"
-              onClick={() => dispatchBriefing('CLOSE')}
+              onClick={closeBriefing}
             >
               <X className="size-4" />
             </Button>
@@ -345,7 +359,7 @@ export function SceneGuidanceLayer({
               )}
             </div>
           </div>
-          <Button type="button" className="mt-4" onClick={() => dispatchBriefing('CLOSE')}>
+          <Button type="button" className="mt-4" onClick={closeBriefing}>
             开始任务
           </Button>
           </section>

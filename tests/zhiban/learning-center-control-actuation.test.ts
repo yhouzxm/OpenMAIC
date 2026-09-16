@@ -10,7 +10,10 @@ import {
   evaluateM07,
   type LearningEvent,
 } from '@/lib/zhiban/learning-center';
-import { createControlInteractiveContent } from '@/lib/zhiban/learning-center/control-actuation-interactive-template';
+import {
+  createActuationInteractiveContent,
+  createControlInteractiveContent,
+} from '@/lib/zhiban/learning-center/control-actuation-interactive-template';
 
 function event(overrides: Partial<LearningEvent>): LearningEvent {
   return {
@@ -81,6 +84,18 @@ describe('Station 03 control and Station 04 actuation knowledge models', () => {
       solenoidEnergized: true,
       cylinderExtended: false,
     });
+  });
+
+  it('highlights only the selected execution mode with the same green treatment', () => {
+    const content = createActuationInteractiveContent({
+      activityId: 'mech-lab-line-stop',
+      scenarioId: 'line-stop-001',
+    });
+    if (content.type !== 'interactive') throw new Error('expected interactive content');
+    expect(content.html).toContain('.panel button.warn:not(.active){background:#123b5c');
+    expect(content.html).toContain('.panel button.active,.panel button.warn.active{background:#157f5c');
+    expect(content.html).toContain("state.mode==='NORMAL_EXECUTION'?'active':''");
+    expect(content.html).toContain("state.mode==='ACTUATION_FAILURE_DEMO'?'warn active':'warn'");
   });
 
   it('records the output equals action misconception for the execution checkpoint', () => {

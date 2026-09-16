@@ -9,7 +9,6 @@ import { Input } from '@/components/ui/input';
 import {
   isStationPracticeMode,
   LearningStationHero,
-  useStationPracticeMode,
 } from '@/components/zhiban/learning-station-hero';
 import { LearningProfileRadar } from '@/components/zhiban/learning-profile-radar';
 import { getCurrentModelConfig } from '@/lib/utils/model-config';
@@ -967,7 +966,6 @@ export function AssessmentLearningStation({
   courseId: string;
   previewMode?: boolean;
 }) {
-  const practiceMode = useStationPracticeMode();
   const [progress, setProgress] = useState<LearningCenterProgress>();
   const [profile, setProfile] = useState<LearningCenterProfile>();
   const [sessions, setSessions] = useState<PersistedVirtualLabSession[]>([]);
@@ -978,6 +976,7 @@ export function AssessmentLearningStation({
     Partial<Record<'S07-01' | 'S07-02' | 'S07-03', SceneActionFeedback>>
   >({});
   const [feedback, setFeedback] = useState('');
+  const [syncWarning, setSyncWarning] = useState(false);
   const [loading, setLoading] = useState(true);
   const completionSent = useRef(false);
   const viewedEventSent = useRef(new Set<string>());
@@ -988,22 +987,44 @@ export function AssessmentLearningStation({
       const endpoint = `/api/zhiban/student/courses/${courseId}/learning-center`;
       const response = await fetch(endpoint);
       if (!response.ok) throw new Error('load');
-      if (!previewMode && !completionSent.current) {
-        completionSent.current = true;
-        await postLearningEvent(courseId, {
-          stationId: 'station-07-assessment',
-          eventType: 'COMPLETE_STATION',
-          payload: { mode: 'assessment_mentor' },
-        });
-      }
-      const refreshed = await fetch(endpoint);
-      const body = (await (refreshed.ok ? refreshed : response).json()) as {
+      const initial = (await response.json()) as {
         progress: LearningCenterProgress;
         profile: LearningCenterProfile;
         sessions: PersistedVirtualLabSession[];
         conceptErrorStates?: ConceptErrorStateRecord[];
       };
-      setProgress(body.progress);
+      let completionSaved = true;
+      const alreadyCompleted = initial.progress.stations['station-07-assessment'].status === 'completed';
+      if (!previewMode && !alreadyCompleted && !completionSent.current) {
+        completionSent.current = true;
+        try {
+          await postLearningEvent(courseId, {
+            stationId: 'station-07-assessment',
+            eventType: 'COMPLETE_STATION',
+            payload: { mode: 'assessment_mentor' },
+          });
+        } catch {
+          completionSaved = false;
+          setSyncWarning(true);
+        }
+      }
+      const refreshed = completionSaved && !previewMode && !alreadyCompleted
+        ? await fetch(endpoint)
+        : null;
+      const body = refreshed?.ok
+        ? (await refreshed.json()) as typeof initial
+        : initial;
+      setProgress({
+        ...body.progress,
+        stations: {
+          ...body.progress.stations,
+          'station-07-assessment': {
+            ...body.progress.stations['station-07-assessment'],
+            status: 'completed',
+            progressPercent: 100,
+          },
+        },
+      });
       setProfile(body.profile);
       setSessions(body.sessions);
       setConceptErrorStates(body.conceptErrorStates ?? []);
@@ -1132,13 +1153,6 @@ export function AssessmentLearningStation({
   >;
   const strongestDimension = [...dimensionEntries].sort((a, b) => b[1].score - a[1].score)[0];
   const priorityDimension = [...dimensionEntries].sort((a, b) => a[1].score - b[1].score)[0];
-  const currentRoundProgress = Math.round((viewedScenes.size / 3) * 100);
-  const assessmentSceneCompleted = (sceneId: 'S07-01' | 'S07-02' | 'S07-03') =>
-    sceneId === 'S07-01'
-      ? viewedScenes.has(sceneId) && Boolean(latestAssessment)
-      : sceneId === 'S07-02'
-        ? viewedScenes.has(sceneId) && activeConceptErrors.length === 0
-        : viewedScenes.has(sceneId) && !assessmentRemediation;
   const radarDimensions = dimensionEntries.map(([key, item]) => ({
     label: dimensionLabels[key],
     shortLabel:
@@ -1162,18 +1176,15 @@ export function AssessmentLearningStation({
         stationId="station-07-assessment"
         title="我哪里会了，哪里还需要加强？"
         description="六维能力由知识学习、微练习和综合实训的真实表现汇总生成，AI只负责解释结果。"
-        progress={
-          practiceMode
-            ? currentRoundProgress
-            : progress.stations['station-07-assessment'].progressPercent
-        }
-        completed={
-          practiceMode
-            ? viewedScenes.size === 3
-            : progress.stations['station-07-assessment'].status === 'completed'
-        }
+        progress={progress.stations['station-07-assessment'].progressPercent}
+        completed={progress.stations['station-07-assessment'].status === 'completed'}
         previewMode={previewMode}
       />
+      {syncWarning && (
+        <p className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-2 text-sm text-amber-900" role="status">
+          学习记录暂未同步，不影响本次学习。
+        </p>
+      )}
       <nav className="grid gap-2 rounded-xl border bg-white p-3 md:grid-cols-3" aria-label="评价提升任务">
         {([
           ['S07-01', '过程评价与路径'],
@@ -1184,12 +1195,11 @@ export function AssessmentLearningStation({
             key={sceneId}
             type="button"
             variant={activeSceneId === sceneId ? 'default' : 'outline'}
-            className="h-auto justify-between gap-3 py-3"
+            className="h-auto justify-start py-3"
             aria-current={activeSceneId === sceneId ? 'step' : undefined}
             onClick={() => viewScene(sceneId)}
           >
             <span>{index + 1}. {label}</span>
-            <LearningTaskStatusBadge completed={assessmentSceneCompleted(sceneId)} />
           </Button>
         ))}
       </nav>
