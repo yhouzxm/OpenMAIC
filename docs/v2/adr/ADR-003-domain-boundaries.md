@@ -2,7 +2,9 @@
 
 ## Status
 
-Proposed; validate during Phase 1 planning.
+PROPOSED
+
+Validate bounded contexts individually during planning. Phase 1A freeze does not accept ADR-003 globally. Identity refinement does not validate Course, Learning, Assessment, Profile, Intervention, Classroom or VirtualLab.
 
 ## Context
 

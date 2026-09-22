@@ -2,7 +2,9 @@
 
 ## Status
 
-Accepted for architecture; storage design deferred.
+Accepted for architecture; storage implementation deferred.
+
+Detailed storage design remains deferred; this wording clarification does not accept a schema or change data ownership.
 
 ## Context
 
