@@ -1,25 +1,25 @@
 # Phase 1B 实施计划
 
-Status: FROZEN。13 个独立小批次（1B-0 至 1B-12）；以下 Files 全部是未来建议路径，不是本阶段创建文件的授权。每批单独审阅，禁止一次铺开。
-Phase 1A Final Freeze 仅修改文档；ADR-007 至 ADR-011 已 ACCEPTED，ADR-012 保持 PROPOSED。后续实施须另行授权，每批仍独立 review。1B-0 是首个技术批次，必须先于数据库 schema 实施完成。保留 Phase 0 Linux/Node22测试作为回归门槛；不得为通过测试改OpenMAIC core。
+Status: GATE REBASELINED BY HUMAN REVIEW（1B-0R-CLOSEOUT）；Phase 1A领域结论仍FROZEN。13 个独立小批次（1B-0 至 1B-12）；以下 Files 全部是未来建议路径，不是本阶段创建文件的授权。每批单独审阅，禁止一次铺开。
+Phase 1A Final Freeze 仅修改文档；ADR-007 至 ADR-011 已 ACCEPTED，ADR-012 保持 PROPOSED。后续实施须另行授权，每批仍独立 review。1B-0A已完成，1B-0R目标架构已接受；0B为capability-specific诊断子Gate，不再是Identity Track总前置。Identity 1B-3仅在1B-1/2及其独立schema review后实施；OpenMAIC mapping不属于该批。保留 Phase 0 Linux/Node22测试作为回归门槛；不得为通过测试改OpenMAIC core。
 
 | 批次                                      | Files（拟议）                                                                                         | Dependencies                                                    | Tests                                                                                                                  | Exit Criteria                                                                  | Rollback                                                                      |
 | ----------------------------------------- | ----------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
-| 1B-0 OpenMAIC Authorization Surface Spike | `docs/v2/phase1/openmaic-authorization-surface-spike.md`（未来只读诊断报告）                          | Final Freeze 完成；单独授权技术诊断                             | 0A静态证据；不足标需0B隔离诊断，另行授权；本次不执行                                                                   | 原10类及扩展项逐项完整；所需0B另授且完成；必需能力无未解决阻塞；先于schema实施 | 停止诊断、保持入口关闭；0A无数据变更；0B仅按独立授权处置隔离fixture，保留证据 |
-| 1B-1 Identity Domain Contracts            | `lib/zhiban/domain/identity/*.ts`；`tests/zhiban/identity/domain/*`                                   | 1B-0 完成；ADR-007/008/009 已接受；该批 review                  | 聚合不变量、多角色、纯依赖、禁用优先                                                                                   | 无框架/store依赖，概念契约评审通过                                             | 撤回独立代码批次，无持久数据                                                  |
+| 1B-0 OpenMAIC Authorization Surface Spike | `docs/v2/phase1/openmaic-authorization-surface-spike.md`（未来只读诊断报告）                          | Final Freeze 完成；单独授权技术诊断                             | 0A静态证据；不足标需0B隔离诊断，另行授权；本次不执行                                                                   | 0A证据完整保留；0R目标架构收口；每项能力实现/开放前完成对应另授0B，不阻塞纯Identity schema | 停止诊断、保持入口关闭；0A无数据变更；0B仅按独立授权处置隔离fixture，保留证据 |
+| 1B-1 Identity Domain Contracts            | `lib/zhiban/domain/identity/*.ts`；`tests/zhiban/identity/domain/*`                                   | Phase 1A frozen；ADR-007/008/009 accepted；0R architecture closeout accepted；该批 review                  | 聚合不变量、多角色、纯依赖、禁用优先                                                                                   | 无框架/store依赖，概念契约评审通过                                             | 撤回独立代码批次，无持久数据                                                  |
 | 1B-2 Repository / External Ports          | `lib/zhiban/application/identity/ports/*.ts`；`tests/zhiban/identity/contracts/*`                     | 1B-1                                                            | fake实现契约、缺失Tenant拒绝、错误分类                                                                                 | Port不泄漏PG/Next/OpenMAIC DTO                                                 | 撤回Port批次，保持旧应用未接入                                                |
-| 1B-3 PostgreSQL Schema + RLS              | `lib/zhiban/infrastructure/identity/postgres/migrations/*`；`docs/v2/phase1/schema-review.md`         | 1B-0 完成且无未解决必需能力阻塞；1B-1/2；数据库所有权 review    | 真实 non-superuser/non-owner/non-BYPASSRLS；missing/wrong/unknown context、composite FK、unique constraints            | 只独立V2测试库；未改OpenMAIC表；备份恢复演练                                   | 未上线测试库可重建；有数据时仅经批准补偿，不自动drop                          |
+| 1B-3 Identity PostgreSQL Schema + RLS              | `lib/zhiban/infrastructure/identity/postgres/migrations/*`；`docs/v2/phase1/schema-review.md`         | 1B-1/2 review通过；独立Identity schema/数据库所有权 review；不依赖全量0B或ADR-012    | 真实 non-superuser/non-owner/non-BYPASSRLS；missing/wrong/unknown context、composite FK、unique constraints            | 只独立V2测试库；未改OpenMAIC表；备份恢复演练                                   | 未上线测试库可重建；有数据时仅经批准补偿，不自动drop                          |
 | 1B-4 PostgreSQL Repositories              | `lib/zhiban/infrastructure/identity/postgres/repositories/*`；`tests/zhiban/identity/postgres/*`      | 1B-3                                                            | connection pool reuse、rollback reuse、cross tenant id、batch operations、background jobs、cache keys、复合FK/唯一约束 | tenant隔离负例全部通过                                                         | 停用新repository入口，保留数据/审计                                           |
 | 1B-5 Credential Authentication            | `lib/zhiban/application/identity/authenticate.ts`；`lib/zhiban/infrastructure/identity/credentials/*` | 1B-2/4；验证hash依赖                                            | Argon2兼容fixture、限速、无用户统一错误、敏感日志                                                                      | 无真实V1 hash/明文；密钥与参数评审                                             | 禁用认证入口，不放宽验证兜底                                                  |
 | 1B-6 Server Session                       | `lib/zhiban/application/identity/session/*`；`lib/zhiban/infrastructure/identity/session/*`           | 1B-5                                                            | logout/expiry/rotation/CSRF/disabled/store故障                                                                         | cookie与服务端撤销链可验证                                                     | 关闭新入口并撤销新sessions，保留旧项目原样                                    |
 | 1B-7 Authorization Policies               | `lib/zhiban/domain/identity/policies/*`；`lib/zhiban/application/identity/authorize.ts`               | 1B-1/4/6                                                        | scope关系、grant ceiling、最后管理员并发、撤权                                                                         | API无关纯Policy和事务复核通过                                                  | 禁用受影响操作，默认deny                                                      |
 | 1B-8 Application Use Cases + Minimal API  | `lib/zhiban/application/identity/use-cases/*`；`app/api/zhiban/identity/**`                           | 1B-7；需后续明确允许源码开发                                    | 所有入口认证/tenant/权限、DTO脱敏、幂等                                                                                | 只Identity用例，无Course业务迁移                                               | 撤入口/feature flag，保留审计与schema                                         |
-| 1B-9 OpenMAIC Bridge Implementation       | `lib/zhiban/infrastructure/openmaic/identity/*`；`tests/zhiban/openmaic/identity-contract/*`          | 1B-0 证据证明可安全实施 + ADR-012 明确接受；1B-2/7；该批 review | 原始端点旁路、Stage/Asset/Runtime/stream/iframe、伪造owner                                                             | 只实现1B-0已验证可行路径；不改core/principal，不使用insecure dev auth          | 关闭launch并撤销handles，底座保持原样                                         |
+| 1B-9 OpenMAIC Bridge Implementation       | `lib/zhiban/infrastructure/openmaic/identity/*`；`tests/zhiban/openmaic/identity-contract/*`          | 对应必需capability的0B通过 + ADR-012明确人工接受 + 无P0 unresolved blocker；1B-2/7；该批 review | 原始端点旁路、Stage/Asset/Runtime/stream/iframe、伪造owner                                                             | 只实现1B-0已验证可行路径；不改core/principal，不使用insecure dev auth          | 关闭launch并撤销handles，底座保持原样                                         |
 | 1B-10 Security + Integration Gate         | `tests/zhiban/identity/security/*`；`e2e/zhiban-identity/*`                                           | 1B-4–9；threat model                                            | 权限矩阵负例、跨租户、迁移脱敏fixture、上游回归                                                                        | P0/P1测试通过；桥接不通过则保持关闭并阻止相关发布                              | 保留门禁失败，不跳过测试                                                      |
 | 1B-11 Minimal Login / Tenant Switch UI    | `app/zhiban/login/*`；`components/zhiban/identity/*`                                                  | 1B-8/10                                                         | 登录、退出、选择Tenant、权限变化、可访问性                                                                             | UI隐藏非安全边界；不开发教学功能                                               | 移除UI入口，服务端仍deny                                                      |
 | 1B-12 Review / Dry-run Handoff            | `docs/v2/phase1/phase1b-verification.md`                                                              | 1B-0–11                                                         | 全套CI与独立测试库演练、文档核对                                                                                       | 人工签收；无V1写入/真实数据迁移/部署                                           | 不批准上线；保持V1独立与V2隔离                                                |
 
-Tests 是每批交付的一部分，不延迟到 1B-10 才写。1B-0 必须先完成；1B-9 仅为经证据验证后的生产 Adapter 实现计划，不能同时承担首次可行性判定。任何必需能力依赖 Category C/D 核心修改时，输出 BLOCKED_FOR_ARCHITECTURE_REVIEW，停止后续 schema/bridge 实施，不扩权修改。
+Tests 是每批交付的一部分，不延迟到 1B-10 才写。Identity 1B-1至1B-8按自身前置顺序执行、每批独立人工review；不以未解决Bridge整体阻塞。1B-9 仅为经证据验证后的生产 Adapter 实现计划，不能同时承担首次可行性判定。任何必需能力依赖 Category C/D 核心修改时，输出 BLOCKED_FOR_ARCHITECTURE_REVIEW，停止对应OpenMAIC能力/bridge实施，不阻塞不依赖它的Identity-owned schema，不扩权修改。
 
 ## 数据与版本保护
 
@@ -29,11 +29,11 @@ main 只作 OpenMAIC 上游同步，refactor/zhiban-v2 为 V2开发，feature/zh
 
 ## Review checklist
 
-确认首个 Tenant 实际责任主体与恢复渠道；按已冻结的三个 tenant-scoped role + 独立 SystemAdminGrant 实施；OrganizationUnit 延期保持；Session 8h/30min 作为可配置初始策略；审核 UUIDv7 依赖；落实受限DB角色；1B-0 先验证 bridge 入口覆盖。未满足对应项不得启动相关批次。
+确认首个 Tenant 实际责任主体与恢复渠道；按已冻结的三个 tenant-scoped role + 独立 SystemAdminGrant 实施；OrganizationUnit 延期保持；Session 8h/30min 作为可配置初始策略；审核 UUIDv7 依赖；落实受限DB角色；1B-0A保留bridge入口覆盖证据；对应OpenMAIC能力实现前完成其0B，不作为Identity总前置。未满足对应项不得启动相关批次。
 
 ## 1B-0 证据模板与裁决
 
-本次仅冻结要求，不执行 spike。后续1B-0A只读静态审计，不创建schema、migration、API、Adapter、测试文件，不修改OpenMAIC core，不写数据库。必要的动态验证归1B-0B，未来独立授权隔离环境；不属于0A权限。
+以下保留0A审计规范（0A已完成，历史报告不变）。1B-0A只读静态审计，不创建schema、migration、API、Adapter、测试文件，不修改OpenMAIC core，不写数据库。必要的动态验证归1B-0B，未来独立授权隔离环境；不属于0A权限。
 
 必须分别列举 Stage、Scene / Document、Asset、Runtime、Agent、Media / Download、Interactive iframe、Streaming endpoints、Server Actions、Direct URLs。每类列出全部实际入口；重叠入口标关联，不因重复而漏掉旁路。不存在的入口也须记录搜索证据。不得仅报告一个 launch 路由。
 
@@ -87,11 +87,11 @@ left 表示已离开 Tenant 业务资格；历史 Membership 保留供审计、�
 
 1B-1覆盖状态机/Policy；1B-4覆盖真实事务和并发；1B-6/7覆盖Session版本与恢复授权；1B-8覆盖显式命令及幂等；1B-10汇总门禁。任一恢复负例失败不得签收相关批次。
 
-## Phase 1B-0 内部验证层次（冻结）
+## Phase 1B-0 内部验证层次（Gate已重定基线）
 
 1B-0A — STATIC AUTHORIZATION SURFACE AUDIT：只读源码/配置、枚举 route 和 server action、追踪调用、分析 principal/cookie/header/token/network exposure/public contract/adapter feasibility/direct browser bypass。读取配置应脱敏，不读取或泄露真实用户凭据。禁止写数据库、创建Stage/Runtime、写Asset、调用可能持久化的Agent、修改OpenMAIC、启用insecure dev auth、创建production Adapter或Identity实现。
 1B-0B — ISOLATED DIAGNOSTIC VERIFICATION：仅在确有需要且未来独立授权时，用隔离非生产环境与合成身份/数据验证动态行为。不得访问生产数据、修改V1、使用真实用户凭据、启用insecure production auth或修改OpenMAIC core。动态写入也只能在另行批准的隔离范围内；本次不执行。
-0A/0B只是Phase 1B-0内部两个验证层次，不增加正式Phase或把13个批次改成14个。
+0A、0R、capability-specific 0B均属于1B-0内部子阶段；0B不是新增顶级编号，仍保留1B-0至1B-12。0R为RESOLVED_FOR_TARGET_ARCHITECTURE；individual capability validation尚未完成。
 
 | 字段                          | 允许值与规则                                                                         |
 | ----------------------------- | ------------------------------------------------------------------------------------ |
@@ -103,7 +103,7 @@ left 表示已离开 Tenant 业务资格；历史 Membership 保留供审计、�
 
 只有源码、正式契约、配置、已存在测试证据足够支持所述安全结论时，才可标STATIC_CONFIRMED；“已有测试”须注明版本、覆盖和实际证据，不能凭文件名或CI整体绿灯推定。静态确认配置不能代替目标部署连通性证据。
 证据不足时：DYNAMIC_VERIFICATION_REQUIRED=YES、VERIFICATION_STATUS=REQUIRES_ISOLATED_DIAGNOSTIC；VERDICT按事实选NETWORK_ISOLATION_REQUIRED、UPSTREAM_EXTENSION_REQUIRED或BLOCKED，不得SAFE_ADAPTER。PENDING_DYNAMIC_VERIFICATION不是正式VERDICT值，不增加第五值。
-未来0B结果以证据/结果记录另行评审；不得冒称STATIC_CONFIRMED来表示动态通过，也不在本次扩展状态枚举。0A报告写完不等于所有安全门禁通过；必需能力尚需0B而未完成时，1B-0不能算已满足schema/bridge前置门槛。
+未来0B结果以证据/结果记录另行评审；不得冒称STATIC_CONFIRMED来表示动态通过，也不在本次扩展状态枚举。0A报告写完不等于所有安全门禁通过；必需能力尚需0B而未完成时，不能满足对应OpenMAIC bridge前置门槛；不再阻塞Identity 1B-1至1B-8自身Gate。
 
 优先核查 @openmaic/dsl、@openmaic/storage published interfaces、published package entry points、明确导出的supported contracts。导出本身不是稳定性承诺，须给正式支持证据。
 `lib/store/**`、`lib/server/agent-runtime/**`、`lib/utils/iframe*`、Next route内部JSON、private helper、internal Zustand action、Postgres internal schema均不得自动当作稳定契约。安全桥接若只能依赖内部实现，禁止SAFE_ADAPTER；至少UPSTREAM_EXTENSION_REQUIRED或NETWORK_ISOLATION_REQUIRED并解释风险，不能证明可隔离则BLOCKED。
@@ -147,7 +147,7 @@ left 表示已离开 Tenant 业务资格；历史 Membership 保留供审计、�
 
 ## Network Boundary 候选对比任务
 
-Zhiban server-side gateway + private OpenMAIC instance = PREFERRED CANDIDATE，不是ACCEPTED DEPLOYMENT。本阶段不修改部署；下表是1B-0需验证的比较问题，不是验证结果。
+历史0A网络候选比较保留如下。当前已接受Model B Package Host与private capability boundary（ADR-013/014），不要求独立原生Web进程；不是ACCEPTED DEPLOYMENT。本阶段不修改部署；下表是网络证据问题，不是动态验证结果，且其A/B/C与0R集成模型编号不同。
 
 | 维度                   | A 同一Next应用、原始route浏览器可达 | B 公开Zhiban Gateway、OpenMAIC route私网不可达 | C 独立OpenMAIC服务、仅server-to-server |
 | ---------------------- | ----------------------------------- | ---------------------------------------------- | -------------------------------------- |
@@ -162,3 +162,13 @@ Zhiban server-side gateway + private OpenMAIC instance = PREFERRED CANDIDATE，�
 | upstream compatibility | 不允许修改核心补门禁                | 验证现有公开契约能否完整代理                   | 验证已支持服务契约，不假定存在         |
 
 1B-0必须为各格补证据、可行性、限制和所需动态验证；不以“私网”二字代替完整授权。B为优先候选，C需明确服务契约，A若不能防浏览器旁路不得作为安全桥接方案。
+
+## Closeout批准后的Track与scope
+
+权威Gate摘要见[phase1b-gate-map.md](phase1b-gate-map.md)。1B-1 ALLOWED；1B-2 ALLOWED_AFTER_1B1；IDENTITY_SCHEMA_1B3 ALLOWED_AFTER_1B1_AND_1B2_REVIEW；1B-9仍BLOCKED。本轮仅文档，不开始1B-1。
+
+1B-2仅Identity相关ports：IdentityRepositoryPort、TenantRepositoryPort、MembershipRepositoryPort、RoleCatalogPort、CredentialVerifierPort、SessionRepositoryPort、AuditPort、ClockPort、IdGeneratorPort，以及冻结Application边界。不得实现OpenMAIC Adapter，不泄漏route DTO/store type/PG implementation type。
+
+1B-3仅Identity-owned schema候选：User、Tenant、Membership、Role、RoleGrant、Permission、SystemAdminGrant、Credential、Session、identity audit、legacy identity mapping；并非必须全部建表，具体设计仍独立review。禁止Stage/Activity→Stage mapping、runtimeHandle、ownerHandle、Asset/Agent/deployment mapping、bridge session、OpenMAIC credential。这些mapping persistence归未来1B-9或其独立子批次，仍为Zhiban-owned，不改OpenMAIC表。
+
+两Track在真实调用OpenMAIC的Application boundary汇合，不允许Identity API顺带开启Bridge。1B-10至1B-12保留编号和既有综合验收依赖；其未通过不追溯阻止已批准的纯Identity 1B-1至1B-8批次，也不授权部署。
