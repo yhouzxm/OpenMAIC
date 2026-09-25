@@ -2,6 +2,8 @@
 
 Status: **SYNC CANDIDATE / NOT APPROVED FOR V2 MERGE**. This review records a Git merge and static/test evidence, not a deployment, Identity bridge acceptance, or permission to begin 1B-3A.
 
+The Stage B findings below are a historical Windows snapshot. The **Stage C compatibility closeout** at the end supersedes its pending Linux and package-compatibility gates; it does not authorize merging this candidate into V2.
+
 ## Git provenance and scope
 
 | Item | Value |
@@ -80,3 +82,44 @@ ADR-013 **UNCHANGED**: OpenMAIC remains a PRIVATE CAPABILITY RUNTIME; public sur
 No unresolved merge conflict or demonstrated P0/P1 Identity/source compatibility blocker was found. However **READY_TO_MERGE_SYNC_INTO_V2 = NO** pending official-like Ubuntu/Node 22 validation of generation's full suite, render-service Linux resource tests, root build/unit baseline, representative E2E, and capability-specific 0B deployment isolation. The importer default ZIP limits and changed generated-content validation need explicit product compatibility review. These are review gates; do not alter frozen ADR status, change OpenMAIC core, or begin 1B-3A to resolve them.
 
 The sync branch may be pushed as a **candidate for human review** if the Git scope remains only the upstream merge plus this review document. A pushed sync candidate is not permission to merge it into `refactor/zhiban-v2`.
+
+## Stage C compatibility closeout — Linux / Node 22
+
+The CI-only Draft PR [#2](https://github.com/yhouzxm/OpenMAIC/pull/2) tested sync head `35a760a3b5bafe302e086baf3c29d76a01181e96` against `main` on the repository's `ubuntu-latest` / Node 22 GitHub Actions workflow. [Main CI run](https://github.com/yhouzxm/OpenMAIC/actions/runs/36094188334) and [PostgreSQL 16 storage contract run](https://github.com/yhouzxm/OpenMAIC/actions/runs/36094188333) completed successfully: Issue Triage; root Prettier, ESLint, TypeScript, i18n and unit tests; Importer, DSL, Generation and Storage package tests; Generation and Storage typechecks; Generation Node consumer smoke; production build and E2E; render-service typecheck, unit tests and container build; main-image deps/builder; and PostgreSQL 16 storage contract. Failed checks: **0**. This is Linux CI evidence, not proof that native OpenMAIC routes are safe to expose to Zhiban browsers.
+
+### Generation 0.3.10 → 0.3.13
+
+The published root `.` export and its source barrel remain in place; `./browser` is additive and deliberately exports browser-safe operations without the Node-only prompt loader/orchestration barrel. The new classic-inline-script syntax validator parses HTML and compiles scripts without executing them; generation rejects invalid model output. This is **expected behavior/security hardening**, not a removed public API. Full Generation tests and its Node consumer smoke passed on Linux. The one prior Windows asset-path assertion failure did not recur: `WINDOWS_GENERATION_FAILURE = ENVIRONMENT_SPECIFIC_CONFIRMED`; `GENERATION_API_CHANGE = ADDITIVE`; `GENERATION_COMPATIBILITY = PASS_WITH_PLATFORM_NOTE`. The validator is not an authorization or isolated iframe-host contract.
+
+### Importer 0.2.5 → 0.3.0
+
+The root export, `parse(buffer, options?)`, and `parseZip(buffer, limits?)` remain source-compatible; `DEFAULT_ZIP_PARSE_LIMITS` and `ZipParseLimits` are additive exports. An ordinary `parse` caller supplies no new argument and keeps the normal PPTX path. **Limit overrides are exposed through `parseZip`, not through `parse`'s `ParseOptions`**. The default values in `src/parser/ZipParser.ts` are:
+
+| Bound | Default |
+| --- | ---: |
+| Non-directory entries (`maxEntries`) | 10,000 |
+| Single uncompressed entry (`maxEntryUncompressedBytes`) | 1 GiB |
+| Total uncompressed entries (`maxTotalUncompressedBytes`) | 2 GiB |
+| Uncompressed media (`maxMediaBytes`) | 1 GiB |
+| Text-part compression ratio (`maxCompressionRatio`) | 200:1 |
+| Concurrent entry reads (`maxConcurrency`) | 8 |
+
+Each `parseZip` bound resolves independently, so overriding one retains the other defaults. `Number.POSITIVE_INFINITY` explicitly disables an individual bound; `NaN` and unsupported nonfinite values throw rather than silently disabling it. Entry-count and concurrency bounds additionally reject nonpositive/noninteger values. A negative finite size/ratio bound is not rejected at construction, but denies ordinary positive-sized input rather than disabling its check. Exceeding a checked limit throws `PPTX zip limit exceeded: ...` before the declared-size-based read where possible. The full Importer Linux suite passed. This is **SAFE_HARDENING / PASS_WITH_LIMIT_CHANGE**, not a source API break: exceptionally large or anomalous decks may now be rejected. When the future Zhiban material-import capability is implemented, its teacher-facing flow must translate limit errors into a clear “file too large / abnormal structure / import limit exceeded” outcome rather than an opaque 500 (`DEFERRED_TO_IMPORT_CAPABILITY_IMPLEMENTATION`).
+
+ZIP-bomb protection is **IMPROVED_NOT_COMPLETE**. The pre-inflate size checks trust ZIP central-directory declarations; a malicious entry that understates its size can still be inflated by JSZip before its size mismatch is detected. The source explicitly documents this residual allocation risk. Do not treat the new bounds as a complete hostile-archive isolation boundary.
+
+### Shared owner, persistence authentication and Pi/chat
+
+`PERSISTENCE_SHARED_OWNER_ID` is a deployment-wide OpenMAIC owner for a single-tenant native installation. It requires `ACCESS_CODE`; an invalid value or configured owner without an access code is rejected. Owner resolution is: explicit `authenticatedOwnerId` **first**, configured shared owner **second**, valid anonymous cookie or newly minted anonymous owner **third**. When unset, the shared-owner setting changes none of the existing anonymous-owner behavior. The value is server configuration, not a client-selected tenant. It is not Zhiban `TenantId`, `MembershipId`, `TenantContext`, `RoleGrant`, RLS, membership validation, tenant isolation, or authorization proof. `SHARED_OWNER_COLLISION = NO` in the target design; `SHARED_OWNER_SECURITY_MODEL = COMPATIBLE_WITH_PRIVATE_NATIVE_RUNTIME` only. Native Web and persistence routes remain private/disabled for the Zhiban public surface.
+
+`lib/persistence/server-auth.ts` still labels its token authenticator development-only: its public token cannot isolate users, document reads remain capability-by-ID, and `x-learner-key` is client-supplied rather than authorization proof. Production needs real server-controlled session/learner verification. `NATIVE_PERSISTENCE_AUTH_SUFFICIENT_FOR_ZHIBAN = NO`; this is not a sync blocker because native persistence is not the public Zhiban authorization boundary.
+
+No new `/api/chat` route path was added: existing `/api/chat` and `/api/chat/pi` are modified. Pi chat is shipped default-on, while courseware reference and native-child capabilities have separate flags. The routes accept client model/provider credentials, base URL, thinking configuration and `x-model-routes`; those are native OpenMAIC product inputs, not trusted Zhiban AI authorization context. Direct Zhiban reuse is **FORBIDDEN_WITHOUT_ADAPTER**. Future Zhiban AI calls must flow through an Application use case and `AIServicePort`/Adapter with controlled server-side configuration. `PI/CHAT_AUTHORIZATION_IMPACT = DELTA_REQUIRES_0B`, not a new architecture blocker while the native Agent/API remain `DISABLED_TARGET`.
+
+Capability-specific 0B must cover: shared owner configured and unconfigured; `ACCESS_CODE` requirement; authenticated-owner precedence; Pi chat's shipped default; client `x-model-routes`/model routing; native-child runtime feature flags; and proof that raw native routes remain inaccessible from the Zhiban public surface. This closeout does **not** execute 0B.
+
+### Architecture and decision
+
+ADR-013 remains **UNCHANGED**: OpenMAIC is a private capability runtime. ADR-014 remains **UNCHANGED**: Package Host is the default strategy and coverage is `PARTIAL_IMPROVED`, not FULL. U01 (supported multi-scene Classroom/Playback host) and U02 (isolated Interactive host) remain open. ADR-012 remains **PROPOSED**. No frozen Phase 1A ADR is changed.
+
+`P0_SYNC_BLOCKERS = 0` and `P1_COMPATIBILITY_BLOCKERS = 0` for the controlled sync candidate. Linux CI and this semantic review permit **Sync Final Review**, not a merge into `refactor/zhiban-v2`, Bridge implementation, 1B-3A, or deployment. Human sync signoff and a later V2 regression checkpoint remain required.
