@@ -1,0 +1,77 @@
+name: Zhiban Identity PG16 Security
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - verify/identity-pg16-3b2
+
+jobs:
+  identity-pg16:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: zhiban_pg16_test
+          POSTGRES_PASSWORD: ci-temporary-pg16-password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d zhiban_pg16_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      ZB_PG16_ADMIN_URL: postgresql://postgres:ci-temporary-pg16-password@localhost:5432/zhiban_pg16_test
+      ZB_PG16_ROLE_PASSWORD: ci-temporary-runtime-password
+      ZB_PG16_REQUIRED: '1'
+      ZB_PG16_DISPOSABLE: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: pnpm
+      - name: Install frozen dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Verify actual PostgreSQL 16 service and psql client
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v psql >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y postgresql-client
+          fi
+          psql -X -v ON_ERROR_STOP=1 "$ZB_PG16_ADMIN_URL" -c 'SELECT version();' -c 'SHOW server_version;'
+          major="$(psql -X -At -v ON_ERROR_STOP=1 "$ZB_PG16_ADMIN_URL" -c 'SHOW server_version;' | cut -d. -f1)"
+          if [ "$major" != 16 ]; then
+            echo WRONG_POSTGRES_VERSION
+            exit 1
+          fi
+      - name: Real PostgreSQL 16 security suite (two complete runs)
+        shell: bash
+        run: |
+          set -euo pipefail
+          for pass in 1 2; do
+            echo "PG16 SUITE RUN ${pass}"
+            pnpm exec vitest run tests/zhiban/identity/postgres/pg16-role-bootstrap.test.ts
+            pnpm exec vitest run tests/zhiban/identity/postgres/pg16-migration-runner.test.ts
+            pnpm exec vitest run tests/zhiban/identity/postgres/pg16-schema-security.test.ts
+            pnpm exec vitest run tests/zhiban/identity/postgres/pg16-rls.test.ts
+            echo "PG16 SUITE RUN ${pass} PASS"
+          done
+      - name: Identity static, Domain and Port contract regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          pnpm exec vitest run tests/zhiban/identity/postgres/bootstrap-role-contract.test.ts tests/zhiban/identity/postgres/migration-contract.test.ts tests/zhiban/identity/postgres/migrate-runner.test.ts
+          pnpm exec vitest run tests/zhiban/identity/domain tests/zhiban/identity/contracts
+      - name: Root lint and typecheck
+        shell: bash
+        run: |
+          set -euo pipefail
+          pnpm lint
+          NODE_OPTIONS=--max-old-space-size=8192 pnpm exec tsc --noEmit
