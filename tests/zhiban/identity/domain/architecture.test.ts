@@ -1,8 +1,10 @@
 import { readFileSync, readdirSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { resolve, dirname, relative, isAbsolute } from 'node:path';
 import ts from 'typescript';
 import { describe, expect, it } from 'vitest';
 import * as identity from '@/lib/zhiban/domain/identity';
+import { privilegedCapabilityViolations, projectSourceFileIdentities } from './privileged-capability-guard';
 
 const root = resolve('lib/zhiban/domain/identity');
 function sourceFiles(directory: string): string[] {
@@ -86,4 +88,29 @@ describe('identity dependency boundary', () => {
       expect(identity).toHaveProperty(name);
     }
   });
+});
+
+describe('DH07 privileged rehydration boundary', () => {
+  it('does not expose reconstruction through the standard barrel', () => {
+    for (const name of Object.keys(identity)) expect(name).not.toMatch(/ForPersistence$/);
+    const entrypoint = readFileSync(resolve('lib/zhiban/domain/identity/index.ts'), 'utf8');
+    expect(entrypoint).not.toContain('persistence-rehydration');
+    expect(entrypoint).not.toContain('persistence-validation');
+  });
+  it('guards the actual repository source graph', () => {
+    const configuredFiles = projectSourceFileIdentities();
+    const paths = execFileSync(
+      'git',
+      ['ls-files', '--cached', '--others', '--exclude-standard', '-z'],
+      { encoding: 'utf8' },
+    )
+      .split('\0')
+      .filter((file) => {
+        const absolute = resolve(file).replaceAll('\\', '/');
+        const identity = process.platform === 'win32' ? absolute.toLowerCase() : absolute;
+        return /\.[cm]?[jt]sx?$/.test(file) && configuredFiles.has(identity);
+      });
+    const sources = new Map(paths.map((file) => [file, readFileSync(resolve(file), 'utf8')]));
+    expect(privilegedCapabilityViolations(sources)).toEqual([]);
+  }, 60_000);
 });
