@@ -8,8 +8,10 @@ import {
 
 const root = '@/lib/zhiban/domain/identity/persistence-rehydration';
 const importCapability = `import { rehydrateMembershipForPersistence as privileged } from '${root}';`;
-const infrastructure = 'lib/zhiban/infrastructure/identity/fixture-a.ts';
-const secondHop = 'lib/zhiban/infrastructure/identity/fixture-b.ts';
+// Exercise ALL old attack shapes inside the new, most sensitive import-allowed
+// boundary. Only relocation changes; their bodies and assertions remain intact.
+const infrastructure = 'lib/zhiban/infrastructure/identity/postgres/mappers/fixture-a.ts';
+const secondHop = 'lib/zhiban/infrastructure/identity/postgres/mappers/fixture-b.ts';
 const application = 'lib/zhiban/application/identity/fixture.ts';
 const source = (body: string, file = infrastructure): ModuleSources => new Map([[file, body]]);
 const violations = (entries: ModuleSources): string[] => privilegedCapabilityViolations(entries);
@@ -74,7 +76,7 @@ describe('semantic privileged capability guard', () => {
         new Map([
           [infrastructure, `${importCapability} export const loader = privileged;`],
           [secondHop, "export { loader as forwarded } from './fixture-a';"],
-          [application, "import { forwarded } from '@/lib/zhiban/infrastructure/identity/fixture-b';"],
+          [application, "import { forwarded } from '@/lib/zhiban/infrastructure/identity/postgres/mappers/fixture-b';"],
         ]),
       ),
     ).toHaveLength(3);
