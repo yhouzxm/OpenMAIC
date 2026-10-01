@@ -306,10 +306,11 @@ describe('precise terminal PostgreSQL mapper boundary', () => {
         `${mapper}: UNRESOLVED_PROJECT_LOCAL_MODULE ${missing}`,
       );
   });
-  it('MB-N33 forbids even direct mapper imports into non-repository consumers', () => {
+  it('MB-N33 forbids mapper imports outside repositories and Identity postgres tests', () => {
     for (const consumer of [
       'app/fixture.ts', 'lib/zhiban/application/identity/fixture.ts',
       'lib/zhiban/infrastructure/other/fixture.ts', 'tests/helper-fixture.ts',
+      'tests/zhiban/identity/domain/fixture.ts', 'tests/zhiban/identity/postgres-extra/fixture.ts',
     ]) expect(findings(terminal, mapper, new Map([[consumer,
       `import { fromRow } from '@/lib/zhiban/infrastructure/identity/postgres/mappers/fixture-user';`,
     ]]))).toContain(`${consumer}: forbidden terminal mapper import`);
@@ -336,5 +337,84 @@ describe('precise terminal PostgreSQL mapper boundary', () => {
       [`tests/mapper-fixture-${i}.ts`, 'export const info = 1;']));
     extra.set('app/fixture.ts', `import { fromRow } from '@/lib/zhiban/infrastructure/identity/postgres/mappers/fixture-user';`);
     expect(findings(terminal, mapper, extra)).toContain('app/fixture.ts: forbidden terminal mapper import');
+  });
+});
+
+describe('test-only terminal mapper consumption', () => {
+  const consumer = 'tests/zhiban/identity/postgres/mappers.test.ts';
+  const importMapper = "import { fromRow } from '@/lib/zhiban/infrastructure/identity/postgres/mappers/fixture-user';";
+  const testFindings = (body: string, code = terminal) =>
+    findings(code, mapper, new Map([[consumer, importMapper + body]]));
+
+  it('TST-P01 permits direct import and consumption of a certified terminal result', () => {
+    expect(testFindings('const loaded = fromRow(row); check(loaded.value, loaded.revision);')).toEqual([]);
+  });
+  it('TST-P02 permits Membership aggregate results inside a runtime test callback', () => {
+    expect(membershipFindings(membershipFixture, membershipMapper, new Map([[consumer,
+      "import { membershipFromRows } from '@/lib/zhiban/infrastructure/identity/postgres/mappers/fixture-membership'; it('roundtrip', () => { const loaded = membershipFromRows(parent, children); check(loaded.value, loaded.revision); });",
+    ]]))).toEqual([]);
+  });
+  it('TST-P03 permits namespace calls but not namespace export', () => {
+    const namespace = "import * as mapper from '@/lib/zhiban/infrastructure/identity/postgres/mappers/fixture-user';";
+    expect(findings(terminal, mapper, new Map([[consumer, namespace + 'const loaded = mapper.fromRow(row); check(loaded);']]))).toEqual([]);
+    expect(findings(terminal, mapper, new Map([[consumer, namespace + 'export { mapper };']]))).toContain(consumer + ': forbidden privileged capability export');
+  });
+  it('TST-N01 rejects a direct root import even alongside a legal terminal import', () => {
+    expect(testFindings(`import { rehydrateUserForPersistence } from '${root}';`))
+      .toContain(consumer + ': forbidden privileged capability import');
+  });
+  it('TST-N02 rejects terminal re-export', () => {
+    expect(testFindings('export { fromRow };')).toContain(consumer + ': forbidden privileged capability export');
+  });
+  for (const [kind, body] of [
+    ['alias', 'export const loader = fromRow;'],
+    ['object', 'export const api = { loader: fromRow };'],
+    ['class', 'export class API { static loader = fromRow; }'],
+    ['function wrapper', 'export function load(row) { return fromRow(row); }'],
+    ['arrow wrapper', 'export const load = row => fromRow(row);'],
+    ['object method wrapper', 'export const api = { load(row) { return fromRow(row); } };'],
+    ['class method wrapper', 'export class API { load(row) { return fromRow(row); } }'],
+  ]) {
+    it(`TST-N03 rejects exported ${kind}`, () => {
+      expect(testFindings(body)).toContain(consumer + ': forbidden privileged capability export');
+    });
+  }
+  it('TST-N04 rejects generic reconstruction in the test area', () => {
+    expect(testFindings(`import { rehydrateUserForPersistence as raw } from '${root}'; export function reconstruct(state) { return raw(state); }`))
+      .toContain(consumer + ': forbidden privileged capability export');
+  });
+  it('TST-N05 production consumers gain no test permission', () => {
+    for (const file of ['lib/zhiban/application/identity/fixture.ts', 'lib/zhiban/domain/consumer.ts',
+      'lib/zhiban/openmaic/fixture.ts', 'lib/zhiban/infrastructure/other/fixture.ts'])
+      expect(findings(terminal, mapper, new Map([[file, importMapper]])))
+        .toContain(file + ': forbidden terminal mapper import');
+  });
+  it('TST-N06 rejects unrelated test consumers', () => {
+    for (const file of ['tests/helper.ts', 'tests/zhiban/identity/domain/fixture.ts',
+      'tests/zhiban/identity/postgres/../contracts/fixture.ts'])
+      expect(findings(terminal, mapper, new Map([[file, importMapper]]))).not.toEqual([]);
+  });
+  it('TST-N07 does not exempt an uncertified wrapper or a mixed raw binding', () => {
+    expect(testFindings('', 'export function fromRow(state) { return reconstruct(state); }'))
+      .toContain(consumer + ': forbidden privileged capability import');
+    const extra = terminal + 'export { reconstruct as raw };';
+    expect(findings(extra, mapper, new Map([[consumer,
+      "import { fromRow, raw } from '@/lib/zhiban/infrastructure/identity/postgres/mappers/fixture-user';",
+    ]]))).toContain(consumer + ': forbidden privileged capability import');
+  });
+  it('TST-N08 forbids dynamic import and ambient require instead of static consumption', () => {
+    for (const body of [
+      "const mapper = import('@/lib/zhiban/infrastructure/identity/postgres/mappers/fixture-user');",
+      "const mapper = require('@/lib/zhiban/infrastructure/identity/postgres/mappers/fixture-user');",
+      'const mapper = import(callerPath);',
+    ]) expect(testFindings(body)).toContain(consumer + ': forbidden dynamic test module load');
+  });
+  it('TST-P04 retains the narrow test rule in repository-sized graphs', () => {
+    const extra = new Map(Array.from({ length: 101 }, (_, i) =>
+      [`tests/amendment-fixture-${i}.ts`, 'export const info = 1;']));
+    extra.set(consumer, importMapper + 'const loaded = fromRow(row);');
+    expect(findings(terminal, mapper, extra)).toEqual([]);
+    extra.set(consumer, importMapper + 'export { fromRow };');
+    expect(findings(terminal, mapper, extra)).toContain(consumer + ': forbidden privileged capability export');
   });
 });

@@ -24,6 +24,7 @@ const validationFile = resolve(domainDirectory, 'persistence-validation.ts');
 const aggregatorFile = resolve(domainDirectory, 'persistence-rehydration.ts');
 const mapperDirectory = resolve('lib/zhiban/infrastructure/identity/postgres/mappers');
 const repositoryDirectory = resolve('lib/zhiban/infrastructure/identity/postgres/repositories');
+const mapperTestDirectory = resolve('tests/zhiban/identity/postgres');
 function inside(file: string, directory: string): boolean {
   return canonical(file).startsWith(canonical(directory) + '/');
 }
@@ -158,7 +159,7 @@ function environment(sources: ModuleSources) {
       ? sources
       : new Map(
           [...sources].filter(([file, source]) => {
-            if (inside(file, mapperDirectory)) return true;
+            if (inside(file, mapperDirectory) || inside(file, mapperTestDirectory)) return true;
             const ast = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true);
             return ast.statements.some((statement) => {
               if (!ts.isImportDeclaration(statement) && !ts.isExportDeclaration(statement))
@@ -215,6 +216,11 @@ export function privilegedCapabilityViolations(sources: ModuleSources): string[]
   function symbol(node: ts.Node): ts.Symbol | undefined {
     const found = checker.getSymbolAtLocation(node);
     return found && alias(found);
+  }
+  function testTerminal(node: ts.Node): boolean {
+    const found = symbol(node);
+    return inside(node.getSourceFile().fileName, mapperTestDirectory) &&
+      found !== undefined && terminalSymbols.has(found) && !tainted.has(found);
   }
   for (const file of privilegedFiles) {
     const source = program.getSourceFile(file);
@@ -296,6 +302,7 @@ export function privilegedCapabilityViolations(sources: ModuleSources): string[]
       // Arguments still run through the existing escape engine: a helper which
       // acquired taint later in the fixed point cannot launder it via this call.
       if (terminalCalls.has(expression) ||
+          testTerminal(expression.expression) ||
           (inside(expression.getSourceFile().fileName, repositoryDirectory) &&
            symbol(expression.expression) !== undefined && terminalSymbols.has(symbol(expression.expression)!)))
         return expression.arguments.some((argument) => expressionTainted(argument));
@@ -340,6 +347,14 @@ export function privilegedCapabilityViolations(sources: ModuleSources): string[]
     });
   }
   function bodyTainted(body: ts.ConciseBody): boolean {
+    // Tests may consume terminal RESULTS, not publish a new callable service.
+    // Keep callable wrappers tainted even though their invocation results are data.
+    if (inside(body.getSourceFile().fileName, mapperTestDirectory)) {
+      const invokesTerminal = (node: ts.Node): boolean =>
+        (ts.isCallExpression(node) && testTerminal(node.expression)) ||
+        ts.forEachChild(node, invokesTerminal) === true;
+      if (invokesTerminal(body)) return true;
+    }
     if (!ts.isBlock(body)) return expressionTainted(body);
     let leaked = false;
     const visit = (node: ts.Node): void => {
@@ -451,6 +466,18 @@ export function privilegedCapabilityViolations(sources: ModuleSources): string[]
   for (const file of sourceFiles) {
     const name = relative(resolve('.'), file.fileName).replaceAll(sep, '/');
     const identity = canonical(file.fileName);
+    const mapperTest = inside(file.fileName, mapperTestDirectory);
+    if (mapperTest) {
+      const visit = (node: ts.Node): void => {
+        if (ts.isCallExpression(node) &&
+            (node.expression.kind === ts.SyntaxKind.ImportKeyword ||
+             (ts.isIdentifier(node.expression) && node.expression.text === 'require' &&
+              !symbol(node.expression)?.declarations?.some((declaration) => !declaration.getSourceFile().isDeclarationFile))))
+          violations.add(`${name}: forbidden dynamic test module load`);
+        ts.forEachChild(node, visit);
+      };
+      visit(file);
+    }
     const allowImport =
       inside(file.fileName, mapperDirectory) ||
       allowedTests.has(name) ||
@@ -470,7 +497,7 @@ export function privilegedCapabilityViolations(sources: ModuleSources): string[]
           (clause.name && terminalSymbols.has(symbol(clause.name)!)) ||
           (bindings && ts.isNamedImports(bindings) && bindings.elements.some((item) => terminalSymbols.has(symbol(item.name)!))) ||
           (bindings && ts.isNamespaceImport(bindings) && target !== undefined && inside(target, mapperDirectory));
-        if (importsTerminal && !inside(file.fileName, repositoryDirectory))
+        if (importsTerminal && !inside(file.fileName, repositoryDirectory) && !mapperTest)
           violations.add(`${name}: forbidden terminal mapper import`);
         if (allowImport) continue;
         if (target === canonical(validationFile) && !rootFiles.has(identity)) {
@@ -480,8 +507,10 @@ export function privilegedCapabilityViolations(sources: ModuleSources): string[]
         // Repository-owned direct mapper consumption is data mapping, not a
         // raw root import exemption. Raw roots remain forbidden here.
         if (importsTerminal && inside(file.fileName, repositoryDirectory)) continue;
-        const named = bindings && ts.isNamedImports(bindings) && bindings.elements.some((item) => !item.isTypeOnly && has(item.name));
-        const defaulted = clause.name && has(clause.name);
+        // Only certified terminal bindings gain test consumption permission.
+        // Other bindings in the SAME import retain raw/forwarded capability checks.
+        const named = bindings && ts.isNamedImports(bindings) && bindings.elements.some((item) => !item.isTypeOnly && has(item.name) && !testTerminal(item.name));
+        const defaulted = clause.name && has(clause.name) && !testTerminal(clause.name);
         const namespace = bindings && ts.isNamespaceImport(bindings) && target && rootFiles.has(target);
         const targetSourceFile = target && program.getSourceFile(target);
         const forwardedNamespace = bindings && ts.isNamespaceImport(bindings) && targetSourceFile && exportsCapability(targetSourceFile);
