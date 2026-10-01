@@ -111,7 +111,7 @@ describe('tenant-scoped membership contract', () => {
       code: 'TENANT_SCOPE_VIOLATION',
     });
     await expect(
-      repo.save(contextB, member, repositoryRevision('wrong-tenant-token')),
+      repo.save(contextB, member, repositoryRevision('999')),
     ).rejects.toMatchObject({
       code: 'TENANT_SCOPE_VIOLATION',
     });
@@ -134,7 +134,7 @@ describe('tenant-scoped membership contract', () => {
       await expect(repo.create(context, member)).rejects.toMatchObject({
         code: 'TENANT_SCOPE_VIOLATION',
       });
-      await expect(repo.save(context, member, repositoryRevision('x'))).rejects.toMatchObject({
+      await expect(repo.save(context, member, repositoryRevision('999'))).rejects.toMatchObject({
         code: 'TENANT_SCOPE_VIOLATION',
       });
     }
@@ -182,7 +182,8 @@ describe('tenant-scoped membership contract', () => {
     expect((await repo.findById(context, MEMBER))?.revision).toBe(first.revision);
 
     const equal = await repo.save(context, pending, first.revision);
-    expect(equal.revision).not.toBe(first.revision);
+    expect(equal).toBe(first);
+    expect(equal.revision).toBe(first.revision);
     expect(equal.value.authorizationVersion).toBe(0);
     const active = pending.activatePending({
       now: LATER,

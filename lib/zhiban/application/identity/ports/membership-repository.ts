@@ -7,7 +7,11 @@ import type { TenantContext } from './tenant-context';
  * On save, the stored id/userId/tenantId must equal the supplied aggregate's identifiers.
  * AuthorizationVersion must never decrease; an equal version is valid only when the
  * authorization-relevant state is unchanged. The expected persistence revision is
- * checked independently and atomically, and each successful write returns a fresh revision.
+ * checked independently and atomically before integrity checks or no-op comparison.
+ * Each state-changing save returns a fresh per-row revision. A verified full-state TRUE_NO_OP
+ * returns the current stored Loaded value and unchanged revision, never the candidate wrapper.
+ * Higher authorizationVersion (including jumps and equivalent facts) is state-changing.
+ * Full ordered grant history is append-or-first-revoke only under the parent CAS boundary.
  */
 export interface MembershipRepositoryPort {
   findById(context: TenantContext, id: MembershipId): Promise<Loaded<Membership> | null>;

@@ -47,14 +47,56 @@ import {
 type Entry<T> = Loaded<T>;
 
 function next<T>(value: T, number: number): Entry<T> {
-  return Object.freeze({ value, revision: repositoryRevision(`fake-${number}`) });
+  // Existing Session support only: canonicalize its test counter, without changing lifecycle.
+  return Object.freeze({ value, revision: repositoryRevision(number.toString()) });
+}
+function initial<T>(value: T): Entry<T> {
+  return Object.freeze({ value, revision: repositoryRevision('1') });
+}
+function advance<T>(value: T, revision: RepositoryRevision): Entry<T> {
+  const incremented = BigInt(revision) + BigInt(1);
+  if (incremented > BigInt('9223372036854775807')) throw new IdentityPortError('INTEGRITY_FAILURE');
+  return Object.freeze({ value, revision: repositoryRevision(incremented.toString()) });
 }
 function checkRevision(actual: RepositoryRevision, expected: RepositoryRevision): void {
+  repositoryRevision(expected);
   if (actual !== expected) throw new IdentityPortError('STALE_WRITE');
 }
 
+function integrity(condition: boolean): void {
+  if (!condition) throw new IdentityPortError('INTEGRITY_FAILURE');
+}
+function sameUser(before: User, after: User): boolean {
+  return before.id === after.id && before.status === after.status &&
+    before.createdAt === after.createdAt && before.updatedAt === after.updatedAt &&
+    before.disabledAt === after.disabledAt && before.disabledReason === after.disabledReason;
+}
+function sameTenant(before: Tenant, after: Tenant): boolean {
+  return before.code === after.code && before.displayName === after.displayName &&
+    before.id === after.id && before.status === after.status &&
+    before.createdAt === after.createdAt && before.updatedAt === after.updatedAt &&
+    before.disabledAt === after.disabledAt && before.disabledReason === after.disabledReason;
+}
+function sameAdminImmutable(before: SystemAdminGrant, after: SystemAdminGrant): boolean {
+  return before.id === after.id && before.userId === after.userId &&
+    before.createdAt === after.createdAt && before.validFrom === after.validFrom &&
+    before.validUntil === after.validUntil;
+}
+function checkGrantHistory(before: Membership, after: Membership): void {
+  integrity(after.roleGrants.length >= before.roleGrants.length);
+  before.roleGrants.forEach((old, index) => {
+    const grant = after.roleGrants[index];
+    integrity(old.id === grant.id && old.roleCode === grant.roleCode &&
+      old.scope.type === grant.scope.type && old.scope.scopeId === grant.scope.scopeId &&
+      old.createdAt === grant.createdAt && old.validFrom === grant.validFrom &&
+      old.validUntil === grant.validUntil &&
+      (old.revokedAt === null || old.revokedAt === grant.revokedAt));
+  });
+}
+
 function sameAuthorizationState(before: Membership, after: Membership): boolean {
-  if (before.status !== after.status || before.roleGrants.length !== after.roleGrants.length)
+  if (before.status !== after.status || before.disabledAt !== after.disabledAt ||
+    before.disabledReason !== after.disabledReason || before.roleGrants.length !== after.roleGrants.length)
     return false;
   return before.roleGrants.every((old, index) => {
     const current = after.roleGrants[index];
@@ -71,17 +113,24 @@ function sameAuthorizationState(before: Membership, after: Membership): boolean 
   });
 }
 
+function sameMembership(before: Membership, after: Membership): boolean {
+  return before.id === after.id && before.userId === after.userId &&
+    before.tenantId === after.tenantId &&
+    before.authorizationVersion === after.authorizationVersion &&
+    before.createdAt === after.createdAt && before.updatedAt === after.updatedAt &&
+    sameAuthorizationState(before, after);
+}
+
 export class FakeIdentityRepository implements IdentityRepositoryPort {
   private readonly users = new Map<UserId, Entry<User>>();
   private readonly adminGrants = new Map<SystemAdminGrantId, Entry<SystemAdminGrant>>();
-  private sequence = 0;
 
   async findById(id: UserId): Promise<Entry<User> | null> {
     return this.users.get(id) ?? null;
   }
   async create(user: User): Promise<Entry<User>> {
     if (this.users.has(user.id)) throw new IdentityPortError('CONFLICT');
-    const entry = next(user, ++this.sequence);
+    const entry = initial(user);
     this.users.set(user.id, entry);
     return entry;
   }
@@ -89,7 +138,9 @@ export class FakeIdentityRepository implements IdentityRepositoryPort {
     const current = this.users.get(user.id);
     if (!current) throw new IdentityPortError('CONFLICT');
     checkRevision(current.revision, expectedRevision);
-    const entry = next(user, ++this.sequence);
+    integrity(user.createdAt === current.value.createdAt && user.updatedAt >= current.value.updatedAt);
+    if (sameUser(current.value, user)) return current;
+    const entry = advance(user, current.revision);
     this.users.set(user.id, entry);
     return entry;
   }
@@ -98,7 +149,7 @@ export class FakeIdentityRepository implements IdentityRepositoryPort {
   }
   async createSystemAdminGrant(grant: SystemAdminGrant): Promise<Entry<SystemAdminGrant>> {
     if (this.adminGrants.has(grant.id)) throw new IdentityPortError('CONFLICT');
-    const entry = next(grant, ++this.sequence);
+    const entry = initial(grant);
     this.adminGrants.set(grant.id, entry);
     return entry;
   }
@@ -109,7 +160,10 @@ export class FakeIdentityRepository implements IdentityRepositoryPort {
     const current = this.adminGrants.get(grant.id);
     if (!current) throw new IdentityPortError('CONFLICT');
     checkRevision(current.revision, expectedRevision);
-    const entry = next(grant, ++this.sequence);
+    integrity(sameAdminImmutable(current.value, grant) &&
+      (current.value.revokedAt === null || current.value.revokedAt === grant.revokedAt));
+    if (current.value.revokedAt === grant.revokedAt) return current;
+    const entry = advance(grant, current.revision);
     this.adminGrants.set(grant.id, entry);
     return entry;
   }
@@ -117,7 +171,6 @@ export class FakeIdentityRepository implements IdentityRepositoryPort {
 
 export class FakeTenantRepository implements TenantRepositoryPort {
   private readonly tenants = new Map<TenantId, Entry<Tenant>>();
-  private sequence = 0;
   async findById(id: TenantId): Promise<Entry<Tenant> | null> {
     return this.tenants.get(id) ?? null;
   }
@@ -128,7 +181,7 @@ export class FakeTenantRepository implements TenantRepositoryPort {
     if (this.tenants.has(tenant.id) || (await this.findByCode(tenant.code))) {
       throw new IdentityPortError('CONFLICT');
     }
-    const entry = next(tenant, ++this.sequence);
+    const entry = initial(tenant);
     this.tenants.set(tenant.id, entry);
     return entry;
   }
@@ -136,7 +189,11 @@ export class FakeTenantRepository implements TenantRepositoryPort {
     const current = this.tenants.get(tenant.id);
     if (!current) throw new IdentityPortError('CONFLICT');
     checkRevision(current.revision, expectedRevision);
-    const entry = next(tenant, ++this.sequence);
+    integrity(tenant.createdAt === current.value.createdAt && tenant.code === current.value.code &&
+      tenant.displayName === current.value.displayName && tenant.updatedAt >= current.value.updatedAt &&
+      (current.value.status !== 'ARCHIVED' || sameTenant(current.value, tenant)));
+    if (sameTenant(current.value, tenant)) return current;
+    const entry = advance(tenant, current.revision);
     this.tenants.set(tenant.id, entry);
     return entry;
   }
@@ -144,7 +201,6 @@ export class FakeTenantRepository implements TenantRepositoryPort {
 
 export class FakeMembershipRepository implements MembershipRepositoryPort {
   private readonly memberships = new Map<MembershipId, Entry<Membership>>();
-  private sequence = 0;
   async findById(context: TenantContext, id: MembershipId): Promise<Entry<Membership> | null> {
     const tenant = requireTenantContext(context);
     const entry = this.memberships.get(id);
@@ -169,7 +225,7 @@ export class FakeMembershipRepository implements MembershipRepositoryPort {
     ) {
       throw new IdentityPortError('CONFLICT');
     }
-    const entry = next(membership, ++this.sequence);
+    const entry = initial(membership);
     this.memberships.set(membership.id, entry);
     return entry;
   }
@@ -184,6 +240,7 @@ export class FakeMembershipRepository implements MembershipRepositoryPort {
       throw new IdentityPortError('TENANT_SCOPE_VIOLATION');
     }
     if (!current) throw new IdentityPortError('CONFLICT');
+    checkRevision(current.revision, expectedRevision);
     if (
       current.value.id !== membership.id ||
       current.value.userId !== membership.userId ||
@@ -192,16 +249,19 @@ export class FakeMembershipRepository implements MembershipRepositoryPort {
     ) {
       throw new IdentityPortError('INTEGRITY_FAILURE');
     }
-    checkRevision(current.revision, expectedRevision);
+    checkGrantHistory(current.value, membership);
     if (
       membership.authorizationVersion < current.value.authorizationVersion ||
-      membership.updatedAt < current.value.updatedAt ||
-      (membership.authorizationVersion === current.value.authorizationVersion &&
-        !sameAuthorizationState(current.value, membership))
+      membership.updatedAt < current.value.updatedAt
     ) {
       throw new IdentityPortError('INTEGRITY_FAILURE');
     }
-    const entry = next(membership, ++this.sequence);
+    if (membership.authorizationVersion === current.value.authorizationVersion) {
+      // No reviewed metadata-only operation exists: equal versions require full state equality.
+      integrity(sameMembership(current.value, membership));
+      return current;
+    }
+    const entry = advance(membership, current.revision);
     this.memberships.set(membership.id, entry);
     return entry;
   }
