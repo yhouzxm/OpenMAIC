@@ -72,6 +72,7 @@
     "@modelcontextprotocol/sdk": "^1.27.1",
     "@mozilla/readability": "^0.6.0",
     "@napi-rs/canvas": "^0.1.88",
+    "@node-rs/argon2": "2.2.1",
     "@openmaic/dsl": "workspace:*",
     "@openmaic/editor": "workspace:*",
     "@openmaic/generation": "workspace:*",

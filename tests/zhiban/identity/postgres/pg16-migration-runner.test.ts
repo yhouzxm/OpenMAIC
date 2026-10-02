@@ -39,7 +39,7 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity migration r
   beforeEach(emptyReadyDatabase);
   afterAll(resetDisposableIdentity);
 
-  it('applies 0001–0003 from empty database and a second CLI run is a no-op', async () => {
+  it('applies 0001–0004 from empty database and a second CLI run is a no-op', async () => {
     const admin = adminClient();
     await admin.connect();
     try {
@@ -62,7 +62,7 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity migration r
     });
     const first = run();
     expect(first.status, first.stderr).toBe(0);
-    expect(first.stdout).toContain('0001, 0002, 0003');
+    expect(first.stdout).toContain('0001, 0002, 0003, 0004');
     const second = run();
     expect(second.status, second.stderr).toBe(0);
     expect(second.stdout).toContain('none');
@@ -72,7 +72,7 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity migration r
       const ledger = await check.query(
         'SELECT version, checksum, applied_at IS NOT NULL AS has_time FROM zhiban_identity.schema_migrations ORDER BY version',
       );
-      expect(ledger.rows.map((row) => row.version)).toEqual(['0001', '0002', '0003']);
+      expect(ledger.rows.map((row) => row.version)).toEqual(['0001', '0002', '0003', '0004']);
       expect(ledger.rows.every((row) => /^[0-9a-f]{64}$/.test(row.checksum) && row.has_time)).toBe(true);
     } finally {
       await check.end();
@@ -80,7 +80,7 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity migration r
   });
 
   it('rejects checksum drift without changing the ledger', async () => {
-    expect(await applyRealMigrations()).toEqual(['0001', '0002', '0003']);
+    expect(await applyRealMigrations()).toEqual(['0001', '0002', '0003', '0004']);
     const admin = adminClient();
     await admin.connect();
     try {
@@ -103,13 +103,13 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity migration r
     }
   });
 
-  it('rolls back a test-only failed 0004 migration and its ledger entry', async () => {
-    expect(await applyRealMigrations()).toEqual(['0001', '0002', '0003']);
+  it('rolls back a test-only failed 0005 migration and its ledger entry', async () => {
+    expect(await applyRealMigrations()).toEqual(['0001', '0002', '0003', '0004']);
     const files = await loadMigrationFiles();
     const failing = planMigrations([
       ...files.map(({ name, sql }) => ({ name, sql })),
       {
-        name: '0004_test_failure.sql',
+        name: '0005_test_failure.sql',
         sql: 'CREATE TABLE zhiban_identity.pg16_failure_probe (id int); SELECT 1 / 0;',
       },
     ]);
@@ -126,7 +126,7 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity migration r
     await admin.connect();
     try {
       const result = await admin.query(
-        "SELECT to_regclass('zhiban_identity.pg16_failure_probe') AS table_name, (SELECT count(*)::int FROM zhiban_identity.schema_migrations WHERE version = '0004') AS ledger_count",
+        "SELECT to_regclass('zhiban_identity.pg16_failure_probe') AS table_name, (SELECT count(*)::int FROM zhiban_identity.schema_migrations WHERE version = '0005') AS ledger_count",
       );
       expect(result.rows[0]).toMatchObject({ table_name: null, ledger_count: 0 });
     } finally {
@@ -144,7 +144,7 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity migration r
         applyMigrations(migrationConnection(first), files),
         applyMigrations(migrationConnection(second), files),
       ]);
-      expect(results.map((result) => result.length).sort()).toEqual([0, 3]);
+      expect(results.map((result) => result.length).sort()).toEqual([0, 4]);
     } finally {
       await Promise.all([first.end(), second.end()]);
     }
@@ -158,6 +158,7 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity migration r
         { version: '0001', count: 1 },
         { version: '0002', count: 1 },
         { version: '0003', count: 1 },
+        { version: '0004', count: 1 },
       ]);
     } finally {
       await admin.end();
