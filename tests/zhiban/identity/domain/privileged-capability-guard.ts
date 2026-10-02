@@ -33,16 +33,30 @@ function inside(file: string, directory: string): boolean {
 // Global scalar terminals stay separate from the Membership-only child contract.
 const terminalProjections: Readonly<Record<string, Readonly<Record<string, string>>>> = {
   rehydrateUserForPersistence: {
-    id: 'user_id', status: 'status', createdAt: 'created_at', updatedAt: 'updated_at',
-    disabledAt: 'disabled_at', disabledReason: 'disabled_reason',
+    id: 'user_id',
+    status: 'status',
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
+    disabledAt: 'disabled_at',
+    disabledReason: 'disabled_reason',
   },
   rehydrateTenantForPersistence: {
-    id: 'tenant_id', code: 'code', displayName: 'display_name', status: 'status',
-    createdAt: 'created_at', updatedAt: 'updated_at', disabledAt: 'disabled_at', disabledReason: 'disabled_reason',
+    id: 'tenant_id',
+    code: 'code',
+    displayName: 'display_name',
+    status: 'status',
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
+    disabledAt: 'disabled_at',
+    disabledReason: 'disabled_reason',
   },
   rehydrateSystemAdminGrantForPersistence: {
-    id: 'grant_id', userId: 'user_id', createdAt: 'created_at', validFrom: 'valid_from',
-    validUntil: 'valid_until', revokedAt: 'revoked_at',
+    id: 'grant_id',
+    userId: 'user_id',
+    createdAt: 'created_at',
+    validFrom: 'valid_from',
+    validUntil: 'valid_until',
+    revokedAt: 'revoked_at',
   },
 };
 const allowedTests = new Set([
@@ -58,10 +72,21 @@ function canonical(path: string): string {
 function configuration(): ts.ParsedCommandLine {
   const configPath = resolve('tsconfig.json');
   const config = ts.readConfigFile(configPath, ts.sys.readFile);
-  if (config.error) throw new Error(ts.flattenDiagnosticMessageText(config.error.messageText, '\n'));
-  const parsed = ts.parseJsonConfigFileContent(config.config, ts.sys, resolve('.'), undefined, configPath);
+  if (config.error)
+    throw new Error(ts.flattenDiagnosticMessageText(config.error.messageText, '\n'));
+  const parsed = ts.parseJsonConfigFileContent(
+    config.config,
+    ts.sys,
+    resolve('.'),
+    undefined,
+    configPath,
+  );
   if (parsed.errors.length > 0)
-    throw new Error(parsed.errors.map((error) => ts.flattenDiagnosticMessageText(error.messageText, '\n')).join('\n'));
+    throw new Error(
+      parsed.errors
+        .map((error) => ts.flattenDiagnosticMessageText(error.messageText, '\n'))
+        .join('\n'),
+    );
   return parsed;
 }
 
@@ -71,7 +96,12 @@ export function projectSourceFileIdentities(): ReadonlySet<string> {
 }
 
 function environment(sources: ModuleSources) {
-  const options: ts.CompilerOptions = { ...configuration().options, noLib: true, types: [], incremental: false };
+  const options: ts.CompilerOptions = {
+    ...configuration().options,
+    noLib: true,
+    types: [],
+    incremental: false,
+  };
   const overlays = new Map([...sources].map(([file, source]) => [canonical(file), source]));
   const host = ts.createCompilerHost(options);
   const originalReadFile = host.readFile.bind(host);
@@ -80,13 +110,17 @@ function environment(sources: ModuleSources) {
   const originalDirectoryExists = host.directoryExists?.bind(host);
   const overlayDirectories = new Set<string>();
   for (const file of overlays.keys()) {
-    for (let directory = dirname(file); dirname(directory) !== directory; directory = dirname(directory))
+    for (
+      let directory = dirname(file);
+      dirname(directory) !== directory;
+      directory = dirname(directory)
+    )
       overlayDirectories.add(canonical(directory));
   }
   // Fixture-only virtual directories must participate in the SAME TS resolver;
   // no physical production mapper directory is created to make fixtures resolve.
-  host.directoryExists = (directory) => overlayDirectories.has(canonical(directory)) ||
-    (originalDirectoryExists?.(directory) ?? false);
+  host.directoryExists = (directory) =>
+    overlayDirectories.has(canonical(directory)) || (originalDirectoryExists?.(directory) ?? false);
   host.readFile = (file) => overlays.get(canonical(file)) ?? originalReadFile(file);
   host.fileExists = (file) => overlays.has(canonical(file)) || originalFileExists(file);
   host.getSourceFile = (file, languageVersion, onError, _shouldCreateNewSourceFile) => {
@@ -97,27 +131,38 @@ function environment(sources: ModuleSources) {
   };
   const resolutionCache = ts.createModuleResolutionCache(resolve('.'), canonical, options);
   const resolved = (file: string, specifier: string): string | undefined => {
-    const result = ts.resolveModuleName(specifier, resolve(file), options, host, resolutionCache).resolvedModule;
+    const result = ts.resolveModuleName(
+      specifier,
+      resolve(file),
+      options,
+      host,
+      resolutionCache,
+    ).resolvedModule;
     return result ? canonical(result.resolvedFileName) : undefined;
   };
   // Locality classifies incomplete analysis only. Capability identity still comes
   // exclusively from the TypeScript resolver and checker.
-  const pathsBase = typeof options.pathsBasePath === 'string'
-    ? options.pathsBasePath
-    : options.baseUrl ?? resolve('.');
-  const localAliases = Object.entries(options.paths ?? {}).filter(([, targets]) =>
-    targets.some((target) => {
-      const path = relative(resolve('.'), resolve(pathsBase, target));
-      return path !== '..' && !path.startsWith(`..${sep}`) && !isAbsolute(path);
-    }),
-  ).map(([pattern]) => pattern);
+  const pathsBase =
+    typeof options.pathsBasePath === 'string'
+      ? options.pathsBasePath
+      : (options.baseUrl ?? resolve('.'));
+  const localAliases = Object.entries(options.paths ?? {})
+    .filter(([, targets]) =>
+      targets.some((target) => {
+        const path = relative(resolve('.'), resolve(pathsBase, target));
+        return path !== '..' && !path.startsWith(`..${sep}`) && !isAbsolute(path);
+      }),
+    )
+    .map(([pattern]) => pattern);
   function projectLocal(specifier: string): boolean {
     const normalized = specifier.replaceAll('\\', '/');
     if (normalized.startsWith('./') || normalized.startsWith('../')) return true;
     return localAliases.some((pattern) => {
       const star = pattern.indexOf('*');
-      return star < 0 ? specifier === pattern :
-        specifier.startsWith(pattern.slice(0, star)) && specifier.endsWith(pattern.slice(star + 1));
+      return star < 0
+        ? specifier === pattern
+        : specifier.startsWith(pattern.slice(0, star)) &&
+            specifier.endsWith(pattern.slice(star + 1));
     });
   }
   // Next permits side-effect stylesheet imports, which are resources rather than
@@ -131,12 +176,18 @@ function environment(sources: ModuleSources) {
       return host.fileExists(resolve(dirname(resolve(file)), specifier));
     return Object.entries(options.paths ?? {}).some(([pattern, targets]) => {
       const star = pattern.indexOf('*');
-      if (star < 0) return specifier === pattern && targets.some((target) => host.fileExists(resolve(pathsBase, target)));
+      if (star < 0)
+        return (
+          specifier === pattern &&
+          targets.some((target) => host.fileExists(resolve(pathsBase, target)))
+        );
       const prefix = pattern.slice(0, star);
       const suffix = pattern.slice(star + 1);
       if (!specifier.startsWith(prefix) || !specifier.endsWith(suffix)) return false;
       const matched = specifier.slice(prefix.length, specifier.length - suffix.length);
-      return targets.some((target) => host.fileExists(resolve(pathsBase, target.replace('*', matched))));
+      return targets.some((target) =>
+        host.fileExists(resolve(pathsBase, target.replace('*', matched))),
+      );
     });
   }
   const resolutionFailures: string[] = [];
@@ -145,9 +196,13 @@ function environment(sources: ModuleSources) {
     for (const statement of ast.statements) {
       if (!ts.isImportDeclaration(statement) && !ts.isExportDeclaration(statement)) continue;
       const specifier = statement.moduleSpecifier;
-      if (specifier && ts.isStringLiteral(specifier) && projectLocal(specifier.text) &&
-          !resolved(file, specifier.text) &&
-          !(ts.isImportDeclaration(statement) && existingStylesheet(file, statement)))
+      if (
+        specifier &&
+        ts.isStringLiteral(specifier) &&
+        projectLocal(specifier.text) &&
+        !resolved(file, specifier.text) &&
+        !(ts.isImportDeclaration(statement) && existingStylesheet(file, statement))
+      )
         resolutionFailures.push(`${file}: UNRESOLVED_PROJECT_LOCAL_MODULE ${specifier.text}`);
     }
   }
@@ -175,7 +230,9 @@ function environment(sources: ModuleSources) {
             });
           }),
         );
-  const roots = [...new Set([...checkedSources.keys(), ...privilegedFiles].map((file) => resolve(file)))];
+  const roots = [
+    ...new Set([...checkedSources.keys(), ...privilegedFiles].map((file) => resolve(file))),
+  ];
   const program = ts.createProgram(roots, options, host);
   const checker = program.getTypeChecker();
   return { program, checker, resolved, checkedSources, resolutionFailures };
@@ -191,7 +248,7 @@ function propertyName(node: ts.PropertyName): string | undefined {
     ? node.text
     : ts.isComputedPropertyName(node) && ts.isStringLiteral(node.expression)
       ? node.expression.text
-    : undefined;
+      : undefined;
 }
 
 /** Detect statically forwarded reconstruction callables without tainting normal Infrastructure exports. */
@@ -219,8 +276,12 @@ export function privilegedCapabilityViolations(sources: ModuleSources): string[]
   }
   function testTerminal(node: ts.Node): boolean {
     const found = symbol(node);
-    return inside(node.getSourceFile().fileName, mapperTestDirectory) &&
-      found !== undefined && terminalSymbols.has(found) && !tainted.has(found);
+    return (
+      inside(node.getSourceFile().fileName, mapperTestDirectory) &&
+      found !== undefined &&
+      terminalSymbols.has(found) &&
+      !tainted.has(found)
+    );
   }
   for (const file of privilegedFiles) {
     const source = program.getSourceFile(file);
@@ -229,7 +290,8 @@ export function privilegedCapabilityViolations(sources: ModuleSources): string[]
     for (const item of checker.getExportsOfModule(moduleSymbol)) {
       if (privilegedNames.includes(item.name as (typeof privilegedNames)[number])) {
         rootSymbols.add(alias(item));
-        if (terminalProjections[item.name]) projectionRoots.set(alias(item), terminalProjections[item.name]);
+        if (terminalProjections[item.name])
+          projectionRoots.set(alias(item), terminalProjections[item.name]);
       }
     }
   }
@@ -243,11 +305,23 @@ export function privilegedCapabilityViolations(sources: ModuleSources): string[]
   }
   function has(node: ts.Node): boolean {
     const found = symbol(node);
-    return found !== undefined && (rootSymbols.has(found) || terminalSymbols.has(found) || internalSymbols.has(found) || tainted.has(found));
+    return (
+      found !== undefined &&
+      (rootSymbols.has(found) ||
+        terminalSymbols.has(found) ||
+        internalSymbols.has(found) ||
+        tainted.has(found))
+    );
   }
   function shorthandTainted(node: ts.ShorthandPropertyAssignment): boolean {
     const value = checker.getShorthandAssignmentValueSymbol(node);
-    return !!value && (rootSymbols.has(alias(value)) || terminalSymbols.has(alias(value)) || internalSymbols.has(alias(value)) || tainted.has(alias(value)));
+    return (
+      !!value &&
+      (rootSymbols.has(alias(value)) ||
+        terminalSymbols.has(alias(value)) ||
+        internalSymbols.has(alias(value)) ||
+        tainted.has(alias(value)))
+    );
   }
   function propertiesOf(expression: ts.Expression): Set<string> {
     if (ts.isParenthesizedExpression(expression)) return propertiesOf(expression.expression);
@@ -255,11 +329,24 @@ export function privilegedCapabilityViolations(sources: ModuleSources): string[]
       const result = new Set(objectProperties.get(symbol(expression)!) ?? []);
       for (const property of checker.getTypeAtLocation(expression).getProperties()) {
         const target = alias(property);
-        if (target.declarations?.some((declaration) =>
-          (ts.isPropertyDeclaration(declaration) || ts.isMethodDeclaration(declaration) ||
-           ts.isGetAccessorDeclaration(declaration) || ts.isSetAccessorDeclaration(declaration)) &&
-          !publicMember(declaration))) continue;
-        if (rootSymbols.has(target) || terminalSymbols.has(target) || internalSymbols.has(target) || tainted.has(target)) result.add(property.name);
+        if (
+          target.declarations?.some(
+            (declaration) =>
+              (ts.isPropertyDeclaration(declaration) ||
+                ts.isMethodDeclaration(declaration) ||
+                ts.isGetAccessorDeclaration(declaration) ||
+                ts.isSetAccessorDeclaration(declaration)) &&
+              !publicMember(declaration),
+          )
+        )
+          continue;
+        if (
+          rootSymbols.has(target) ||
+          terminalSymbols.has(target) ||
+          internalSymbols.has(target) ||
+          tainted.has(target)
+        )
+          result.add(property.name);
       }
       return result;
     }
@@ -271,8 +358,13 @@ export function privilegedCapabilityViolations(sources: ModuleSources): string[]
           if (name && expressionTainted(property.initializer)) result.add(name);
         } else if (ts.isShorthandPropertyAssignment(property) && shorthandTainted(property)) {
           result.add(property.name.text);
-        } else if ((ts.isMethodDeclaration(property) || ts.isGetAccessorDeclaration(property) || ts.isSetAccessorDeclaration(property)) &&
-                   property.body && bodyTainted(property.body)) {
+        } else if (
+          (ts.isMethodDeclaration(property) ||
+            ts.isGetAccessorDeclaration(property) ||
+            ts.isSetAccessorDeclaration(property)) &&
+          property.body &&
+          bodyTainted(property.body)
+        ) {
           const name = propertyName(property.name);
           if (name) result.add(name);
         } else if (ts.isSpreadAssignment(property)) {
@@ -290,10 +382,17 @@ export function privilegedCapabilityViolations(sources: ModuleSources): string[]
     if (ts.isPropertyAccessExpression(expression)) {
       return has(expression.name) || propertiesOf(expression.expression).has(expression.name.text);
     }
-    if (ts.isElementAccessExpression(expression) && ts.isStringLiteral(expression.argumentExpression)) {
+    if (
+      ts.isElementAccessExpression(expression) &&
+      ts.isStringLiteral(expression.argumentExpression)
+    ) {
       return propertiesOf(expression.expression).has(expression.argumentExpression.text);
     }
-    if (ts.isParenthesizedExpression(expression) || ts.isAsExpression(expression) || ts.isSatisfiesExpression(expression))
+    if (
+      ts.isParenthesizedExpression(expression) ||
+      ts.isAsExpression(expression) ||
+      ts.isSatisfiesExpression(expression)
+    )
       return expressionTainted(expression.expression);
     if (ts.isAwaitExpression(expression)) return expressionTainted(expression.expression);
     if (ts.isNewExpression(expression)) return expressionTainted(expression.expression);
@@ -301,10 +400,13 @@ export function privilegedCapabilityViolations(sources: ModuleSources): string[]
       // Capability VALUE and a certified terminal CALL RESULT are distinct.
       // Arguments still run through the existing escape engine: a helper which
       // acquired taint later in the fixed point cannot launder it via this call.
-      if (terminalCalls.has(expression) ||
-          testTerminal(expression.expression) ||
-          (inside(expression.getSourceFile().fileName, repositoryDirectory) &&
-           symbol(expression.expression) !== undefined && terminalSymbols.has(symbol(expression.expression)!)))
+      if (
+        terminalCalls.has(expression) ||
+        testTerminal(expression.expression) ||
+        (inside(expression.getSourceFile().fileName, repositoryDirectory) &&
+          symbol(expression.expression) !== undefined &&
+          terminalSymbols.has(symbol(expression.expression)!))
+      )
         return expression.arguments.some((argument) => expressionTainted(argument));
       if (expressionTainted(expression.expression)) return true;
       if (
@@ -315,34 +417,57 @@ export function privilegedCapabilityViolations(sources: ModuleSources): string[]
         return true;
       return expression.arguments.some((argument) => expressionTainted(argument));
     }
-    if (ts.isArrowFunction(expression) || ts.isFunctionExpression(expression)) return bodyTainted(expression.body);
+    if (ts.isArrowFunction(expression) || ts.isFunctionExpression(expression))
+      return bodyTainted(expression.body);
     if (ts.isClassExpression(expression)) return classSurfaceTainted(expression);
     if (ts.isObjectLiteralExpression(expression)) return propertiesOf(expression).size > 0;
-    if (ts.isArrayLiteralExpression(expression)) return expression.elements.some((item) => ts.isExpression(item) && expressionTainted(item));
+    if (ts.isArrayLiteralExpression(expression))
+      return expression.elements.some((item) => ts.isExpression(item) && expressionTainted(item));
     return false;
   }
   function publicMember(member: ts.ClassElement): boolean {
     if (member.name && ts.isPrivateIdentifier(member.name)) return false;
     const modifiers = ts.canHaveModifiers(member) ? ts.getModifiers(member) : undefined;
-    return !modifiers?.some((modifier) =>
-      modifier.kind === ts.SyntaxKind.PrivateKeyword || modifier.kind === ts.SyntaxKind.ProtectedKeyword);
+    return !modifiers?.some(
+      (modifier) =>
+        modifier.kind === ts.SyntaxKind.PrivateKeyword ||
+        modifier.kind === ts.SyntaxKind.ProtectedKeyword,
+    );
   }
   function classSurfaceTainted(declaration: ts.ClassLikeDeclaration): boolean {
-    if (declaration.heritageClauses?.some((clause) =>
-      clause.token === ts.SyntaxKind.ExtendsKeyword &&
-      clause.types.some((base) => expressionTainted(base.expression)))) return true;
+    if (
+      declaration.heritageClauses?.some(
+        (clause) =>
+          clause.token === ts.SyntaxKind.ExtendsKeyword &&
+          clause.types.some((base) => expressionTainted(base.expression)),
+      )
+    )
+      return true;
     return declaration.members.some((member) => {
       if (!publicMember(member)) return false;
       if (ts.isPropertyDeclaration(member))
         return has(member.name) || (!!member.initializer && expressionTainted(member.initializer));
-      if ((ts.isMethodDeclaration(member) || ts.isGetAccessorDeclaration(member) || ts.isSetAccessorDeclaration(member)) && member.body)
+      if (
+        (ts.isMethodDeclaration(member) ||
+          ts.isGetAccessorDeclaration(member) ||
+          ts.isSetAccessorDeclaration(member)) &&
+        member.body
+      )
         return bodyTainted(member.body);
       if (ts.isConstructorDeclaration(member))
-        return member.parameters.some((parameter) =>
-          ts.isParameterPropertyDeclaration(parameter, member) &&
-          !ts.getModifiers(parameter)?.some((modifier) =>
-            modifier.kind === ts.SyntaxKind.PrivateKeyword || modifier.kind === ts.SyntaxKind.ProtectedKeyword) &&
-          !!parameter.initializer && expressionTainted(parameter.initializer));
+        return member.parameters.some(
+          (parameter) =>
+            ts.isParameterPropertyDeclaration(parameter, member) &&
+            !ts
+              .getModifiers(parameter)
+              ?.some(
+                (modifier) =>
+                  modifier.kind === ts.SyntaxKind.PrivateKeyword ||
+                  modifier.kind === ts.SyntaxKind.ProtectedKeyword,
+              ) &&
+            !!parameter.initializer &&
+            expressionTainted(parameter.initializer),
+        );
       return false;
     });
   }
@@ -359,10 +484,18 @@ export function privilegedCapabilityViolations(sources: ModuleSources): string[]
     let leaked = false;
     const visit = (node: ts.Node): void => {
       if (leaked || (node !== body && ts.isFunctionLike(node))) return;
-      if (ts.isCallExpression(node) && expressionTainted(node.expression) &&
-          !terminalCalls.has(node) &&
-          !(inside(node.getSourceFile().fileName, repositoryDirectory) && terminalSymbols.has(symbol(node.expression)!))) leaked = true;
-      if (ts.isReturnStatement(node) && node.expression && expressionTainted(node.expression)) leaked = true;
+      if (
+        ts.isCallExpression(node) &&
+        expressionTainted(node.expression) &&
+        !terminalCalls.has(node) &&
+        !(
+          inside(node.getSourceFile().fileName, repositoryDirectory) &&
+          terminalSymbols.has(symbol(node.expression)!)
+        )
+      )
+        leaked = true;
+      if (ts.isReturnStatement(node) && node.expression && expressionTainted(node.expression))
+        leaked = true;
       ts.forEachChild(node, visit);
     };
     visit(body);
@@ -391,18 +524,26 @@ export function privilegedCapabilityViolations(sources: ModuleSources): string[]
     } else if (ts.isObjectBindingPattern(name)) {
       const names = propertiesOf(value);
       for (const element of name.elements) {
-        const key = element.propertyName ? propertyName(element.propertyName) : ts.isIdentifier(element.name) ? element.name.text : undefined;
-        if (key && names.has(key) && ts.isIdentifier(element.name)) changed = mark(element.name) || changed;
+        const key = element.propertyName
+          ? propertyName(element.propertyName)
+          : ts.isIdentifier(element.name)
+            ? element.name.text
+            : undefined;
+        if (key && names.has(key) && ts.isIdentifier(element.name))
+          changed = mark(element.name) || changed;
       }
     } else if (ts.isArrayBindingPattern(name) && expressionTainted(value)) {
       for (const element of name.elements)
-        if (ts.isBindingElement(element) && ts.isIdentifier(element.name)) changed = mark(element.name) || changed;
+        if (ts.isBindingElement(element) && ts.isIdentifier(element.name))
+          changed = mark(element.name) || changed;
     }
     return changed;
   }
   function capabilityParameter(type: ts.TypeNode): boolean {
     if (ts.isTypeQueryNode(type)) return has(type.exprName);
-    return ts.forEachChild(type, (node) => ts.isTypeNode(node) && capabilityParameter(node)) === true;
+    return (
+      ts.forEachChild(type, (node) => ts.isTypeNode(node) && capabilityParameter(node)) === true
+    );
   }
 
   // Symbol identities make aliases and lexical shadowing distinct. Repeat for local and module hops.
@@ -416,13 +557,24 @@ export function privilegedCapabilityViolations(sources: ModuleSources): string[]
           changed = processBinding(node.name, node.initializer) || changed;
         if (ts.isParameter(node) && node.type && capabilityParameter(node.type))
           changed = mark(node.name) || changed;
-        if (ts.isBinaryExpression(node) && node.operatorToken.kind === ts.SyntaxKind.EqualsToken && expressionTainted(node.right)) {
+        if (
+          ts.isBinaryExpression(node) &&
+          node.operatorToken.kind === ts.SyntaxKind.EqualsToken &&
+          expressionTainted(node.right)
+        ) {
           if (ts.isIdentifier(node.left)) changed = mark(node.left) || changed;
           if (ts.isPropertyAccessExpression(node.left)) changed = mark(node.left.name) || changed;
         }
         if (ts.isFunctionDeclaration(node) && node.name && node.body && bodyTainted(node.body))
           changed = mark(node.name) || changed;
-        if ((ts.isMethodDeclaration(node) || ts.isGetAccessorDeclaration(node) || ts.isSetAccessorDeclaration(node)) && node.name && node.body && bodyTainted(node.body))
+        if (
+          (ts.isMethodDeclaration(node) ||
+            ts.isGetAccessorDeclaration(node) ||
+            ts.isSetAccessorDeclaration(node)) &&
+          node.name &&
+          node.body &&
+          bodyTainted(node.body)
+        )
           changed = mark(node.name) || changed;
         if (ts.isClassDeclaration(node) && node.name && classSurfaceTainted(node))
           changed = mark(node.name) || changed;
@@ -435,33 +587,54 @@ export function privilegedCapabilityViolations(sources: ModuleSources): string[]
   const violations = new Set<string>(resolutionFailures);
   function exportedSymbolTainted(item: ts.Symbol, visited = new Set<ts.Symbol>()): boolean {
     const target = alias(item);
-    if (rootSymbols.has(target) || terminalSymbols.has(target) || internalSymbols.has(target) || tainted.has(target)) return true;
+    if (
+      rootSymbols.has(target) ||
+      terminalSymbols.has(target) ||
+      internalSymbols.has(target) ||
+      tainted.has(target)
+    )
+      return true;
     if (visited.has(target)) return false;
     visited.add(target);
     if (target.flags & (ts.SymbolFlags.ValueModule | ts.SymbolFlags.NamespaceModule))
-      return checker.getExportsOfModule(target).some((member) => exportedSymbolTainted(member, visited));
+      return checker
+        .getExportsOfModule(target)
+        .some((member) => exportedSymbolTainted(member, visited));
     // Anonymous default declarations have no local identifier to mark. Inspect
     // their declaration surface using the same expression/body/member analysis.
-    return target.declarations?.some((declaration) => {
-      if (ts.isClassDeclaration(declaration)) return classSurfaceTainted(declaration);
-      if (ts.isFunctionDeclaration(declaration) && declaration.body) return bodyTainted(declaration.body);
-      if (ts.isVariableDeclaration(declaration) && declaration.initializer)
-        return expressionTainted(declaration.initializer);
-      if (ts.isExportAssignment(declaration)) return expressionTainted(declaration.expression);
-      return false;
-    }) ?? false;
+    return (
+      target.declarations?.some((declaration) => {
+        if (ts.isClassDeclaration(declaration)) return classSurfaceTainted(declaration);
+        if (ts.isFunctionDeclaration(declaration) && declaration.body)
+          return bodyTainted(declaration.body);
+        if (ts.isVariableDeclaration(declaration) && declaration.initializer)
+          return expressionTainted(declaration.initializer);
+        if (ts.isExportAssignment(declaration)) return expressionTainted(declaration.expression);
+        return false;
+      }) ?? false
+    );
   }
   function exportsCapability(file: ts.SourceFile): boolean {
     const moduleSymbol = checker.getSymbolAtLocation(file);
-    return !!moduleSymbol && checker.getExportsOfModule(moduleSymbol).some((item) => {
-      const target = alias(item);
-      // Only the original named declaration may export its terminal mapper.
-      // Re-exports/aliases/defaults/barrels get no exception, even within mappers.
-      if (terminalSymbols.has(target) && !tainted.has(target) && item === target &&
-          target.declarations?.some((declaration) => ts.isFunctionDeclaration(declaration) && declaration.getSourceFile() === file))
-        return false;
-      return exportedSymbolTainted(item);
-    });
+    return (
+      !!moduleSymbol &&
+      checker.getExportsOfModule(moduleSymbol).some((item) => {
+        const target = alias(item);
+        // Only the original named declaration may export its terminal mapper.
+        // Re-exports/aliases/defaults/barrels get no exception, even within mappers.
+        if (
+          terminalSymbols.has(target) &&
+          !tainted.has(target) &&
+          item === target &&
+          target.declarations?.some(
+            (declaration) =>
+              ts.isFunctionDeclaration(declaration) && declaration.getSourceFile() === file,
+          )
+        )
+          return false;
+        return exportedSymbolTainted(item);
+      })
+    );
   }
   for (const file of sourceFiles) {
     const name = relative(resolve('.'), file.fileName).replaceAll(sep, '/');
@@ -469,10 +642,15 @@ export function privilegedCapabilityViolations(sources: ModuleSources): string[]
     const mapperTest = inside(file.fileName, mapperTestDirectory);
     if (mapperTest) {
       const visit = (node: ts.Node): void => {
-        if (ts.isCallExpression(node) &&
-            (node.expression.kind === ts.SyntaxKind.ImportKeyword ||
-             (ts.isIdentifier(node.expression) && node.expression.text === 'require' &&
-              !symbol(node.expression)?.declarations?.some((declaration) => !declaration.getSourceFile().isDeclarationFile))))
+        if (
+          ts.isCallExpression(node) &&
+          (node.expression.kind === ts.SyntaxKind.ImportKeyword ||
+            (ts.isIdentifier(node.expression) &&
+              node.expression.text === 'require' &&
+              !symbol(node.expression)?.declarations?.some(
+                (declaration) => !declaration.getSourceFile().isDeclarationFile,
+              )))
+        )
           violations.add(`${name}: forbidden dynamic test module load`);
         ts.forEachChild(node, visit);
       };
@@ -483,7 +661,11 @@ export function privilegedCapabilityViolations(sources: ModuleSources): string[]
       allowedTests.has(name) ||
       identity === canonical(aggregatorFile);
     for (const statement of file.statements) {
-      if (ts.isExportDeclaration(statement) && statement.moduleSpecifier && ts.isStringLiteral(statement.moduleSpecifier)) {
+      if (
+        ts.isExportDeclaration(statement) &&
+        statement.moduleSpecifier &&
+        ts.isStringLiteral(statement.moduleSpecifier)
+      ) {
         const target = resolved(file.fileName, statement.moduleSpecifier.text);
         if (target === canonical(validationFile) && !rootFiles.has(identity))
           violations.add(`${name}: forbidden internal persistence helper export`);
@@ -495,8 +677,13 @@ export function privilegedCapabilityViolations(sources: ModuleSources): string[]
         const bindings = clause.namedBindings;
         const importsTerminal =
           (clause.name && terminalSymbols.has(symbol(clause.name)!)) ||
-          (bindings && ts.isNamedImports(bindings) && bindings.elements.some((item) => terminalSymbols.has(symbol(item.name)!))) ||
-          (bindings && ts.isNamespaceImport(bindings) && target !== undefined && inside(target, mapperDirectory));
+          (bindings &&
+            ts.isNamedImports(bindings) &&
+            bindings.elements.some((item) => terminalSymbols.has(symbol(item.name)!))) ||
+          (bindings &&
+            ts.isNamespaceImport(bindings) &&
+            target !== undefined &&
+            inside(target, mapperDirectory));
         if (importsTerminal && !inside(file.fileName, repositoryDirectory) && !mapperTest)
           violations.add(`${name}: forbidden terminal mapper import`);
         if (allowImport) continue;
@@ -509,12 +696,28 @@ export function privilegedCapabilityViolations(sources: ModuleSources): string[]
         if (importsTerminal && inside(file.fileName, repositoryDirectory)) continue;
         // Only certified terminal bindings gain test consumption permission.
         // Other bindings in the SAME import retain raw/forwarded capability checks.
-        const named = bindings && ts.isNamedImports(bindings) && bindings.elements.some((item) => !item.isTypeOnly && has(item.name) && !testTerminal(item.name));
+        const named =
+          bindings &&
+          ts.isNamedImports(bindings) &&
+          bindings.elements.some(
+            (item) => !item.isTypeOnly && has(item.name) && !testTerminal(item.name),
+          );
         const defaulted = clause.name && has(clause.name) && !testTerminal(clause.name);
-        const namespace = bindings && ts.isNamespaceImport(bindings) && target && rootFiles.has(target);
+        const namespace =
+          bindings && ts.isNamespaceImport(bindings) && target && rootFiles.has(target);
         const targetSourceFile = target && program.getSourceFile(target);
-        const forwardedNamespace = bindings && ts.isNamespaceImport(bindings) && targetSourceFile && exportsCapability(targetSourceFile);
-        if (named || defaulted || namespace || forwardedNamespace || (target === canonical(aggregatorFile) && !bindings))
+        const forwardedNamespace =
+          bindings &&
+          ts.isNamespaceImport(bindings) &&
+          targetSourceFile &&
+          exportsCapability(targetSourceFile);
+        if (
+          named ||
+          defaulted ||
+          namespace ||
+          forwardedNamespace ||
+          (target === canonical(aggregatorFile) && !bindings)
+        )
           violations.add(`${name}: forbidden privileged capability import`);
       }
       if (ts.isExportAssignment(statement) && expressionTainted(statement.expression))

@@ -49,7 +49,9 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity ownership a
         "SELECT p.proname, p.proowner::regrole::text AS owner, p.prosecdef FROM pg_proc p WHERE p.pronamespace = 'zhiban_identity'::regnamespace",
       );
       expect(functions.rows.length).toBeGreaterThanOrEqual(10);
-      expect(functions.rows.every((row) => row.owner === 'zhiban_identity_owner' && !row.prosecdef)).toBe(true);
+      expect(
+        functions.rows.every((row) => row.owner === 'zhiban_identity_owner' && !row.prosecdef),
+      ).toBe(true);
       const roles = await admin.query(
         "SELECT rolname, rolcanlogin, rolsuper, rolcreatedb, rolcreaterole, rolreplication, rolbypassrls, rolinherit FROM pg_roles WHERE rolname LIKE 'zhiban_%'",
       );
@@ -71,9 +73,7 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity ownership a
       const edges = await admin.query(
         "SELECT member::regrole::text AS member, roleid::regrole::text AS target FROM pg_auth_members WHERE member IN (SELECT oid FROM pg_roles WHERE rolname LIKE 'zhiban_%')",
       );
-      expect(edges.rows).toEqual([
-        { member: 'zhiban_migrator', target: 'zhiban_identity_owner' },
-      ]);
+      expect(edges.rows).toEqual([{ member: 'zhiban_migrator', target: 'zhiban_identity_owner' }]);
     } finally {
       await admin.end();
     }
@@ -125,7 +125,10 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity ownership a
     const auth = runtimeClient('zhiban_auth_runtime');
     await auth.connect();
     try {
-      expect((await auth.query('SELECT count(*)::int AS count FROM zhiban_identity.users')).rows[0].count).toBe(0);
+      expect(
+        (await auth.query('SELECT count(*)::int AS count FROM zhiban_identity.users')).rows[0]
+          .count,
+      ).toBe(0);
       for (const table of ['memberships', 'role_grants', 'tenants', 'system_admin_grants']) {
         await expectPermissionDenied(auth, `SELECT * FROM zhiban_identity.${table}`);
       }
@@ -143,7 +146,10 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity ownership a
         "INSERT INTO zhiban_identity.tenants(tenant_id,code,display_name,status,created_at,updated_at) VALUES($1,'security-test','Security Test','ACTIVE',1000,1000)",
         [ids.tenantA],
       );
-      expect((await control.query('SELECT count(*)::int AS count FROM zhiban_identity.tenants')).rows[0].count).toBe(1);
+      expect(
+        (await control.query('SELECT count(*)::int AS count FROM zhiban_identity.tenants')).rows[0]
+          .count,
+      ).toBe(1);
       for (const table of ['memberships', 'role_grants']) {
         await expectPermissionDenied(control, `SELECT * FROM zhiban_identity.${table}`);
       }
@@ -155,14 +161,19 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity ownership a
           'INSERT INTO zhiban_identity.sessions(session_id,user_id,token_digest,created_at,last_seen_at,absolute_expires_at,idle_expires_at) VALUES($1,$2,$3,1000,1000,9000,5000)',
           ['test-session', ids.userA, '0'.repeat(64)],
         );
-        expect((await authSession.query('SELECT count(*)::int AS count FROM zhiban_identity.sessions')).rows[0].count).toBe(1);
+        expect(
+          (await authSession.query('SELECT count(*)::int AS count FROM zhiban_identity.sessions'))
+            .rows[0].count,
+        ).toBe(1);
       } finally {
         await authSession.end();
       }
       await control.query(
         "UPDATE zhiban_identity.sessions SET revoked_at = 2000, repository_revision = 2 WHERE session_id = 'test-session'",
       );
-      expect((await control.query('SELECT revoked_at FROM zhiban_identity.sessions')).rows[0].revoked_at).toBe('2000');
+      expect(
+        (await control.query('SELECT revoked_at FROM zhiban_identity.sessions')).rows[0].revoked_at,
+      ).toBe('2000');
     } finally {
       await control.end();
     }
@@ -177,7 +188,9 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity ownership a
       );
       const names = columns.rows.map((row) => row.column_name);
       expect(names).toContain('token_digest');
-      expect(names).not.toEqual(expect.arrayContaining(['raw_token', 'token', 'cookie', 'secret', 'credential']));
+      expect(names).not.toEqual(
+        expect.arrayContaining(['raw_token', 'token', 'cookie', 'secret', 'credential']),
+      );
       const acl = await admin.query(
         "SELECT has_function_privilege('zhiban_runtime','zhiban_identity.current_tenant_id()','EXECUTE') AS resolver, has_function_privilege('zhiban_runtime','zhiban_identity.guard_membership_update()','EXECUTE') AS guard, has_sequence_privilege('zhiban_runtime','zhiban_identity.audit_events_event_id_seq','USAGE') AS sequence_usage, has_sequence_privilege('zhiban_runtime','zhiban_identity.audit_events_event_id_seq','UPDATE') AS sequence_update",
       );

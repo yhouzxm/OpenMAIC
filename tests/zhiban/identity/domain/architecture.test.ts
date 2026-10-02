@@ -4,7 +4,10 @@ import { resolve, dirname, relative, isAbsolute } from 'node:path';
 import ts from 'typescript';
 import { describe, expect, it } from 'vitest';
 import * as identity from '@/lib/zhiban/domain/identity';
-import { privilegedCapabilityViolations, projectSourceFileIdentities } from './privileged-capability-guard';
+import {
+  privilegedCapabilityViolations,
+  projectSourceFileIdentities,
+} from './privileged-capability-guard';
 
 const root = resolve('lib/zhiban/domain/identity');
 function sourceFiles(directory: string): string[] {

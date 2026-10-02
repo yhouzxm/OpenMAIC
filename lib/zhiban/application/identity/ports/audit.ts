@@ -18,7 +18,12 @@ import {
   type UserId,
 } from '@/lib/zhiban/domain/identity';
 import { sessionId, type SessionId } from './session-repository';
-import { credentialId, securityEpoch, type CredentialId, type SecurityEpoch } from './credential-repository';
+import {
+  credentialId,
+  securityEpoch,
+  type CredentialId,
+  type SecurityEpoch,
+} from './credential-repository';
 import { repositoryRevision, type RepositoryRevision } from './repository-types';
 
 declare const auditEventBrand: unique symbol;
@@ -100,10 +105,28 @@ export type IdentityAuditEventInput = CommonFacts &
       }
     | { readonly type: 'SESSION_REVOKED'; readonly sessionId: SessionId; readonly userId: UserId }
     | { readonly type: 'AUTHENTICATION_REJECTED' }
-    | { readonly type: 'CREDENTIAL_CREATED'; readonly userId: UserId; readonly credentialId: CredentialId; readonly repositoryRevisionAfter: RepositoryRevision; readonly securityEpochAfter: SecurityEpoch }
-    | (CredentialMutationFacts & { readonly type: 'CREDENTIAL_REPLACED'; readonly priorCredentialId: CredentialId | null; readonly securityEpochBefore: SecurityEpoch; readonly securityEpochAfter: SecurityEpoch })
-    | (CredentialMutationFacts & { readonly type: 'CREDENTIAL_REVOKED'; readonly securityEpochBefore: SecurityEpoch; readonly securityEpochAfter: SecurityEpoch })
-    | (CredentialMutationFacts & { readonly type: 'CREDENTIAL_REHASHED'; readonly securityEpoch: SecurityEpoch })
+    | {
+        readonly type: 'CREDENTIAL_CREATED';
+        readonly userId: UserId;
+        readonly credentialId: CredentialId;
+        readonly repositoryRevisionAfter: RepositoryRevision;
+        readonly securityEpochAfter: SecurityEpoch;
+      }
+    | (CredentialMutationFacts & {
+        readonly type: 'CREDENTIAL_REPLACED';
+        readonly priorCredentialId: CredentialId | null;
+        readonly securityEpochBefore: SecurityEpoch;
+        readonly securityEpochAfter: SecurityEpoch;
+      })
+    | (CredentialMutationFacts & {
+        readonly type: 'CREDENTIAL_REVOKED';
+        readonly securityEpochBefore: SecurityEpoch;
+        readonly securityEpochAfter: SecurityEpoch;
+      })
+    | (CredentialMutationFacts & {
+        readonly type: 'CREDENTIAL_REHASHED';
+        readonly securityEpoch: SecurityEpoch;
+      })
   );
 
 export type IdentityAuditType = IdentityAuditEventInput['type'];
@@ -209,12 +232,20 @@ function seal(input: IdentityAuditEventInput): IdentityAuditEvent {
 function credentialMutation(input: CredentialMutationFacts): CredentialMutationFacts {
   const before = repositoryRevision(input.repositoryRevisionBefore);
   const after = repositoryRevision(input.repositoryRevisionAfter);
-  if (BigInt(after) !== BigInt(before) + BigInt(1)) throw new TypeError('Invalid credential revision transition.');
-  return { userId: userId(input.userId), credentialId: credentialId(input.credentialId), repositoryRevisionBefore: before, repositoryRevisionAfter: after };
+  if (BigInt(after) !== BigInt(before) + BigInt(1))
+    throw new TypeError('Invalid credential revision transition.');
+  return {
+    userId: userId(input.userId),
+    credentialId: credentialId(input.credentialId),
+    repositoryRevisionBefore: before,
+    repositoryRevisionAfter: after,
+  };
 }
 function epochMutation(before: SecurityEpoch, after: SecurityEpoch) {
-  const a = securityEpoch(before), b = securityEpoch(after);
-  if (BigInt(b) !== BigInt(a) + BigInt(1)) throw new TypeError('Invalid credential epoch transition.');
+  const a = securityEpoch(before),
+    b = securityEpoch(after);
+  if (BigInt(b) !== BigInt(a) + BigInt(1))
+    throw new TypeError('Invalid credential epoch transition.');
   return { securityEpochBefore: a, securityEpochAfter: b };
 }
 
@@ -285,17 +316,41 @@ export function createIdentityAuditEvent(input: IdentityAuditEventInput): Identi
     case 'AUTHENTICATION_REJECTED':
       return seal({ ...base, type: input.type });
     case 'CREDENTIAL_CREATED':
-      if (input.repositoryRevisionAfter !== '1' || input.securityEpochAfter !== '1') throw new TypeError('Invalid initial credential version.');
-      return seal({ ...base, type: input.type, userId: userId(input.userId), credentialId: credentialId(input.credentialId), repositoryRevisionAfter: repositoryRevision(input.repositoryRevisionAfter), securityEpochAfter: securityEpoch(input.securityEpochAfter) });
+      if (input.repositoryRevisionAfter !== '1' || input.securityEpochAfter !== '1')
+        throw new TypeError('Invalid initial credential version.');
+      return seal({
+        ...base,
+        type: input.type,
+        userId: userId(input.userId),
+        credentialId: credentialId(input.credentialId),
+        repositoryRevisionAfter: repositoryRevision(input.repositoryRevisionAfter),
+        securityEpochAfter: securityEpoch(input.securityEpochAfter),
+      });
     case 'CREDENTIAL_REPLACED': {
       const prior = input.priorCredentialId === null ? null : credentialId(input.priorCredentialId);
       if (prior === input.credentialId) throw new TypeError('Credential identity must be fresh.');
-      return seal({ ...base, type: input.type, ...credentialMutation(input), priorCredentialId: prior, ...epochMutation(input.securityEpochBefore, input.securityEpochAfter) });
+      return seal({
+        ...base,
+        type: input.type,
+        ...credentialMutation(input),
+        priorCredentialId: prior,
+        ...epochMutation(input.securityEpochBefore, input.securityEpochAfter),
+      });
     }
     case 'CREDENTIAL_REVOKED':
-      return seal({ ...base, type: input.type, ...credentialMutation(input), ...epochMutation(input.securityEpochBefore, input.securityEpochAfter) });
+      return seal({
+        ...base,
+        type: input.type,
+        ...credentialMutation(input),
+        ...epochMutation(input.securityEpochBefore, input.securityEpochAfter),
+      });
     case 'CREDENTIAL_REHASHED':
-      return seal({ ...base, type: input.type, ...credentialMutation(input), securityEpoch: securityEpoch(input.securityEpoch) });
+      return seal({
+        ...base,
+        type: input.type,
+        ...credentialMutation(input),
+        securityEpoch: securityEpoch(input.securityEpoch),
+      });
     default:
       throw new TypeError('Unknown identity audit event.');
   }

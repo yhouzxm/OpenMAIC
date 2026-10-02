@@ -39,19 +39,37 @@ const authenticityCases: readonly {
   rehydrate: (value: User | Tenant | SystemAdminGrant | Membership) => unknown;
   assert: (value: unknown) => void;
 }[] = [
-  { name: 'User', create: () => User.create(USER, NOW),
-    rehydrate: value => rehydrateUserForPersistence({ ...value }),
-    assert: assertAuthenticUserForPersistence },
-  { name: 'Tenant', create: () => Tenant.create(TENANT, 'school', 'School', NOW),
-    rehydrate: value => rehydrateTenantForPersistence({ ...value }),
-    assert: assertAuthenticTenantForPersistence },
-  { name: 'SystemAdminGrant', create: () => SystemAdminGrant.create({
-    id: systemAdminGrantId(uuid(40)), userId: USER, createdAt: BEFORE, validFrom: NOW, validUntil: null,
-  }), rehydrate: value => rehydrateSystemAdminGrantForPersistence({ ...value }),
-    assert: assertAuthenticSystemAdminGrantForPersistence },
-  { name: 'Membership', create: () => active(),
-    rehydrate: value => rehydrateMembershipForPersistence({ ...value }),
-    assert: assertAuthenticMembershipForPersistence },
+  {
+    name: 'User',
+    create: () => User.create(USER, NOW),
+    rehydrate: (value) => rehydrateUserForPersistence({ ...value }),
+    assert: assertAuthenticUserForPersistence,
+  },
+  {
+    name: 'Tenant',
+    create: () => Tenant.create(TENANT, 'school', 'School', NOW),
+    rehydrate: (value) => rehydrateTenantForPersistence({ ...value }),
+    assert: assertAuthenticTenantForPersistence,
+  },
+  {
+    name: 'SystemAdminGrant',
+    create: () =>
+      SystemAdminGrant.create({
+        id: systemAdminGrantId(uuid(40)),
+        userId: USER,
+        createdAt: BEFORE,
+        validFrom: NOW,
+        validUntil: null,
+      }),
+    rehydrate: (value) => rehydrateSystemAdminGrantForPersistence({ ...value }),
+    assert: assertAuthenticSystemAdminGrantForPersistence,
+  },
+  {
+    name: 'Membership',
+    create: () => active(),
+    rehydrate: (value) => rehydrateMembershipForPersistence({ ...value }),
+    assert: assertAuthenticMembershipForPersistence,
+  },
 ];
 
 describe('persistence original-candidate authenticity', () => {
@@ -80,7 +98,13 @@ describe('persistence original-candidate authenticity', () => {
       const forged = Object.create(Object.getPrototypeOf(original));
       const reads = vi.fn();
       for (const [key, value] of Object.entries(original)) {
-        Object.defineProperty(forged, key, { enumerable: true, get: () => { reads(); return value; } });
+        Object.defineProperty(forged, key, {
+          enumerable: true,
+          get: () => {
+            reads();
+            return value;
+          },
+        });
       }
       Object.freeze(forged);
       expectError(() => assert(forged), 'INVALID_ENTITY');
@@ -107,22 +131,32 @@ describe('persistence original-candidate authenticity', () => {
   });
 
   it('does not invoke business commands or eligibility queries to assert authenticity', () => {
-    const candidates = authenticityCases.map(item => item.create());
+    const candidates = authenticityCases.map((item) => item.create());
     const spies = [
-      vi.spyOn(User.prototype, 'disable'), vi.spyOn(User.prototype, 'restore'),
-      vi.spyOn(Tenant.prototype, 'disable'), vi.spyOn(Tenant.prototype, 'restore'), vi.spyOn(Tenant.prototype, 'archive'),
-      vi.spyOn(SystemAdminGrant.prototype, 'revoke'), vi.spyOn(SystemAdminGrant.prototype, 'isEffectiveAt'),
+      vi.spyOn(User.prototype, 'disable'),
+      vi.spyOn(User.prototype, 'restore'),
+      vi.spyOn(Tenant.prototype, 'disable'),
+      vi.spyOn(Tenant.prototype, 'restore'),
+      vi.spyOn(Tenant.prototype, 'archive'),
+      vi.spyOn(SystemAdminGrant.prototype, 'revoke'),
+      vi.spyOn(SystemAdminGrant.prototype, 'isEffectiveAt'),
       vi.spyOn(SystemAdminGrant.prototype, 'isRevoked', 'get'),
-      vi.spyOn(Membership.prototype, 'activatePending'), vi.spyOn(Membership.prototype, 'disable'),
-      vi.spyOn(Membership.prototype, 'reactivate'), vi.spyOn(Membership.prototype, 'leave'),
-      vi.spyOn(Membership.prototype, 'rejoin'), vi.spyOn(Membership.prototype, 'grantRole'),
-      vi.spyOn(Membership.prototype, 'revokeGrant'), vi.spyOn(Membership.prototype, 'replaceGrants'),
+      vi.spyOn(Membership.prototype, 'activatePending'),
+      vi.spyOn(Membership.prototype, 'disable'),
+      vi.spyOn(Membership.prototype, 'reactivate'),
+      vi.spyOn(Membership.prototype, 'leave'),
+      vi.spyOn(Membership.prototype, 'rejoin'),
+      vi.spyOn(Membership.prototype, 'grantRole'),
+      vi.spyOn(Membership.prototype, 'revokeGrant'),
+      vi.spyOn(Membership.prototype, 'replaceGrants'),
       vi.spyOn(Membership.prototype, 'effectiveGrantsAt'),
     ];
     try {
       authenticityCases.forEach((item, index) => item.assert(candidates[index]));
       for (const spy of spies) expect(spy).not.toHaveBeenCalled();
-    } finally { for (const spy of spies) spy.mockRestore(); }
+    } finally {
+      for (const spy of spies) spy.mockRestore();
+    }
   });
 
   it('keeps validation-only APIs out of the standard barrel and supports unknown narrowing', () => {
@@ -130,9 +164,12 @@ describe('persistence original-candidate authenticity', () => {
     assertAuthenticUserForPersistence(candidate);
     expect(candidate.id).toBe(USER);
     for (const name of [
-      'assertAuthenticUserForPersistence', 'assertAuthenticTenantForPersistence',
-      'assertAuthenticSystemAdminGrantForPersistence', 'assertAuthenticMembershipForPersistence',
-    ]) expect(publicIdentity).not.toHaveProperty(name);
+      'assertAuthenticUserForPersistence',
+      'assertAuthenticTenantForPersistence',
+      'assertAuthenticSystemAdminGrantForPersistence',
+      'assertAuthenticMembershipForPersistence',
+    ])
+      expect(publicIdentity).not.toHaveProperty(name);
   });
 });
 

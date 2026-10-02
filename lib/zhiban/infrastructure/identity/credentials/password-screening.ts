@@ -8,17 +8,27 @@ import { IdentityPortError } from '@/lib/zhiban/application/identity/ports/error
 export class LocalCompromisedPasswordScreening implements PasswordScreeningPort {
   private readonly corpus: ReadonlySet<string>;
   constructor(approvedCorpus: readonly string[]) {
-    if (!Array.isArray(approvedCorpus) || approvedCorpus.length < 1 || approvedCorpus.length > 100000)
+    if (
+      !Array.isArray(approvedCorpus) ||
+      approvedCorpus.length < 1 ||
+      approvedCorpus.length > 100000
+    )
       throw new IdentityPortError('INTEGRITY_FAILURE');
     const values: string[] = [];
     for (let i = 0; i < approvedCorpus.length; i++) {
       const field = Object.getOwnPropertyDescriptor(approvedCorpus, i.toString());
       const value: unknown = field && 'value' in field ? field.value : undefined;
-      if (typeof value !== 'string' || value.length === 0 || Buffer.byteLength(value, 'utf8') > 1024)
+      if (
+        typeof value !== 'string' ||
+        value.length === 0 ||
+        Buffer.byteLength(value, 'utf8') > 1024
+      )
         throw new IdentityPortError('INTEGRITY_FAILURE');
       values.push(value);
     }
     this.corpus = new Set(values);
   }
-  async isCompromised(secret: string): Promise<boolean> { return this.corpus.has(secret); }
+  async isCompromised(secret: string): Promise<boolean> {
+    return this.corpus.has(secret);
+  }
 }

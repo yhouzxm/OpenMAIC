@@ -36,7 +36,10 @@ async function roles(): Promise<{ rolname: string; rolsuper: boolean; rolbypassr
       rolname: string;
       rolsuper: boolean;
       rolbypassrls: boolean;
-    }>('SELECT rolname, rolsuper, rolbypassrls FROM pg_roles WHERE rolname = ANY($1::text[]) ORDER BY rolname', [roleNames]);
+    }>(
+      'SELECT rolname, rolsuper, rolbypassrls FROM pg_roles WHERE rolname = ANY($1::text[]) ORDER BY rolname',
+      [roleNames],
+    );
     return result.rows;
   } finally {
     await client.end();
@@ -59,7 +62,9 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 role bootstrap R01â€
 
   it('R02: accepts safe pre-existing roles without changing security attributes', async () => {
     for (const role of roleNames) {
-      await adminSql(`CREATE ROLE ${role} ${role === 'zhiban_identity_owner' ? 'NOLOGIN' : 'LOGIN'} ${safeAttrs}`);
+      await adminSql(
+        `CREATE ROLE ${role} ${role === 'zhiban_identity_owner' ? 'NOLOGIN' : 'LOGIN'} ${safeAttrs}`,
+      );
     }
     await adminSql(
       'GRANT zhiban_identity_owner TO zhiban_migrator WITH ADMIN FALSE, INHERIT FALSE, SET TRUE',
@@ -80,7 +85,9 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 role bootstrap R01â€
   it('R04: rejects a pre-existing BYPASSRLS runtime', async () => {
     await adminSql('CREATE ROLE zhiban_runtime LOGIN BYPASSRLS NOINHERIT');
     expect(runBootstrap().success).toBe(false);
-    expect((await roles()).find((role) => role.rolname === 'zhiban_runtime')?.rolbypassrls).toBe(true);
+    expect((await roles()).find((role) => role.rolname === 'zhiban_runtime')?.rolbypassrls).toBe(
+      true,
+    );
   });
 
   it('R05: rejects a direct runtime-to-owner role grant', async () => {
@@ -115,7 +122,9 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 role bootstrap R01â€
     const client = adminClient();
     await client.connect();
     try {
-      const schema = await client.query("SELECT to_regnamespace('zhiban_identity') AS identity_schema");
+      const schema = await client.query(
+        "SELECT to_regnamespace('zhiban_identity') AS identity_schema",
+      );
       expect(schema.rows[0].identity_schema).toBeNull();
     } finally {
       await client.end();

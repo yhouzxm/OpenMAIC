@@ -110,9 +110,7 @@ describe('tenant-scoped membership contract', () => {
     await expect(repo.create(contextB, member)).rejects.toMatchObject({
       code: 'TENANT_SCOPE_VIOLATION',
     });
-    await expect(
-      repo.save(contextB, member, repositoryRevision('999')),
-    ).rejects.toMatchObject({
+    await expect(repo.save(contextB, member, repositoryRevision('999'))).rejects.toMatchObject({
       code: 'TENANT_SCOPE_VIOLATION',
     });
   });

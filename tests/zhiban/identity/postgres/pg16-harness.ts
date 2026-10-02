@@ -1,7 +1,10 @@
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { Client, Pool, type QueryResultRow } from 'pg';
-import { applyMigrations, loadMigrationFiles } from '@/lib/zhiban/infrastructure/identity/postgres/migrate';
+import {
+  applyMigrations,
+  loadMigrationFiles,
+} from '@/lib/zhiban/infrastructure/identity/postgres/migrate';
 
 const adminUrl = process.env.ZB_PG16_ADMIN_URL;
 export const configured = Boolean(adminUrl);
@@ -18,11 +21,7 @@ const roleNames = [
   'zhiban_identity_owner',
   'zhiban_pg16_intermediate',
 ] as const;
-const runtimeNames = [
-  'zhiban_runtime',
-  'zhiban_auth_runtime',
-  'zhiban_control_runtime',
-] as const;
+const runtimeNames = ['zhiban_runtime', 'zhiban_auth_runtime', 'zhiban_control_runtime'] as const;
 type RuntimeName = (typeof runtimeNames)[number];
 export type IdentityTestRole = RuntimeName | 'zhiban_migrator';
 
@@ -62,7 +61,8 @@ export function runtimePool(role: RuntimeName): Pool {
 
 function rolePassword(): string {
   const password = process.env.ZB_PG16_ROLE_PASSWORD;
-  if (!password || password.length < 12) throw new Error('Dedicated test-role password is required.');
+  if (!password || password.length < 12)
+    throw new Error('Dedicated test-role password is required.');
   return password;
 }
 
@@ -76,7 +76,7 @@ export async function verifyPg16(): Promise<string> {
       database_name: string;
       session_user: string;
     }>(
-      'SELECT version(), current_setting(\'server_version\') AS server_version, ' +
+      "SELECT version(), current_setting('server_version') AS server_version, " +
         'current_database() AS database_name, session_user',
     );
     const row = result.rows[0];
@@ -187,7 +187,11 @@ export async function prepareSchema(): Promise<void> {
   }
 }
 
-export async function expectDenied(client: Client, sql: string, parameters?: unknown[]): Promise<void> {
+export async function expectDenied(
+  client: Client,
+  sql: string,
+  parameters?: unknown[],
+): Promise<void> {
   await client.query('BEGIN');
   try {
     let denied = false;

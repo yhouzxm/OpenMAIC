@@ -19,7 +19,9 @@ function assertIssued(grant: unknown): void {
 }
 
 /** Validate the original persistence candidate; never reconstruct or transition it. */
-export function assertAuthenticSystemAdminGrantForPersistence(value: unknown): asserts value is SystemAdminGrant {
+export function assertAuthenticSystemAdminGrantForPersistence(
+  value: unknown,
+): asserts value is SystemAdminGrant {
   assertIssued(value);
 }
 

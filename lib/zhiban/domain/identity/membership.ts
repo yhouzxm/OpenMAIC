@@ -30,7 +30,9 @@ function assertIssued(membership: unknown): void {
 }
 
 /** Validate the original persistence candidate; never reconstruct or transition it. */
-export function assertAuthenticMembershipForPersistence(value: unknown): asserts value is Membership {
+export function assertAuthenticMembershipForPersistence(
+  value: unknown,
+): asserts value is Membership {
   assertIssued(value);
 }
 

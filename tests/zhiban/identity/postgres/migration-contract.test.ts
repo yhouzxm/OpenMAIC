@@ -15,7 +15,14 @@ const bootstrap = readFileSync(
 describe('Identity PostgreSQL 16 migration contract (static; not a PG16 verification)', () => {
   it('has unique, contiguous, checksummed migrations', async () => {
     const files = await loadMigrationFiles();
-    expect(files.map((file) => file.version)).toEqual(['0001', '0002', '0003', '0004', '0005', '0006']);
+    expect(files.map((file) => file.version)).toEqual([
+      '0001',
+      '0002',
+      '0003',
+      '0004',
+      '0005',
+      '0006',
+    ]);
     for (const file of files) expect(file.checksum).toMatch(/^[0-9a-f]{64}$/);
   });
 
@@ -30,7 +37,10 @@ describe('Identity PostgreSQL 16 migration contract (static; not a PG16 verifica
 
   it('keeps the original 3B tables unchanged, before the additive 1B-5 credential migration', async () => {
     const files = await loadMigrationFiles();
-    const sql = files.slice(0, 3).map((file) => file.sql).join('\n');
+    const sql = files
+      .slice(0, 3)
+      .map((file) => file.sql)
+      .join('\n');
     const tables = [...sql.matchAll(/CREATE TABLE zhiban_identity\.([a-z_]+)\s*\(/g)].map(
       (match) => match[1],
     );

@@ -14,17 +14,30 @@ import {
 } from './pg16-harness';
 
 const tenantEvents = [
-  'MEMBERSHIP_DISABLED', 'MEMBERSHIP_LEFT', 'MEMBERSHIP_REACTIVATED',
-  'MEMBERSHIP_ACTIVATED', 'MEMBERSHIP_REJOINED', 'ROLE_GRANTS_REPLACED',
-  'ROLE_GRANT_GRANTED', 'ROLE_GRANT_REVOKED',
+  'MEMBERSHIP_DISABLED',
+  'MEMBERSHIP_LEFT',
+  'MEMBERSHIP_REACTIVATED',
+  'MEMBERSHIP_ACTIVATED',
+  'MEMBERSHIP_REJOINED',
+  'ROLE_GRANTS_REPLACED',
+  'ROLE_GRANT_GRANTED',
+  'ROLE_GRANT_REVOKED',
 ] as const;
 const controlEvents = [
-  'USER_CREATED', 'USER_DISABLED', 'USER_RESTORED',
-  'TENANT_CREATED', 'TENANT_DISABLED', 'TENANT_RESTORED',
-  'SYSTEM_ADMIN_GRANT_GRANTED', 'SYSTEM_ADMIN_GRANT_REVOKED',
+  'USER_CREATED',
+  'USER_DISABLED',
+  'USER_RESTORED',
+  'TENANT_CREATED',
+  'TENANT_DISABLED',
+  'TENANT_RESTORED',
+  'SYSTEM_ADMIN_GRANT_GRANTED',
+  'SYSTEM_ADMIN_GRANT_REVOKED',
 ] as const;
 const authEvents = ['SESSION_REVOKED', 'AUTHENTICATION_REJECTED'] as const;
-type AuditType = (typeof tenantEvents)[number] | (typeof controlEvents)[number] | (typeof authEvents)[number];
+type AuditType =
+  | (typeof tenantEvents)[number]
+  | (typeof controlEvents)[number]
+  | (typeof authEvents)[number];
 
 const grantFact = {
   id: ids.grantA,
@@ -36,7 +49,11 @@ const grantFact = {
 
 function auditPayload(type: AuditType): object {
   if (type === 'MEMBERSHIP_REACTIVATED') {
-    return { mode: 'PRESERVE_EXISTING_VALID_GRANTS', priorGrantIds: [ids.grantA], approvedGrants: [grantFact] };
+    return {
+      mode: 'PRESERVE_EXISTING_VALID_GRANTS',
+      priorGrantIds: [ids.grantA],
+      approvedGrants: [grantFact],
+    };
   }
   if (['MEMBERSHIP_ACTIVATED', 'MEMBERSHIP_REJOINED', 'ROLE_GRANTS_REPLACED'].includes(type)) {
     return { priorGrantIds: [], approvedGrants: [grantFact] };
@@ -61,10 +78,18 @@ type AuditChange = {
   payload?: object;
 };
 
-async function insertAudit(client: Client, type: AuditType, change: AuditChange = {}): Promise<void> {
+async function insertAudit(
+  client: Client,
+  type: AuditType,
+  change: AuditChange = {},
+): Promise<void> {
   const tenantEvent = tenantEvents.some((item) => item === type);
   const tenantControl = type.startsWith('TENANT_');
-  const userSubject = tenantEvent || type.startsWith('USER_') || type.startsWith('SYSTEM_ADMIN_') || type === 'SESSION_REVOKED';
+  const userSubject =
+    tenantEvent ||
+    type.startsWith('USER_') ||
+    type.startsWith('SYSTEM_ADMIN_') ||
+    type === 'SESSION_REVOKED';
   await client.query(
     `INSERT INTO zhiban_identity.audit_events
       (event_shape_version,event_type,event_scope,occurred_at,actor_type,actor_user_id,reason,
@@ -77,9 +102,17 @@ async function insertAudit(client: Client, type: AuditType, change: AuditChange 
       change.actorType ?? 'SYSTEM',
       change.actorUserId ?? null,
       change.reason ?? 'ADMIN_REQUEST',
-      change.tenantId === undefined ? (tenantEvent || tenantControl ? ids.tenantA : null) : change.tenantId,
+      change.tenantId === undefined
+        ? tenantEvent || tenantControl
+          ? ids.tenantA
+          : null
+        : change.tenantId,
       change.subjectUserId === undefined ? (userSubject ? ids.userA : null) : change.subjectUserId,
-      change.subjectMembershipId === undefined ? (tenantEvent ? ids.membershipA : null) : change.subjectMembershipId,
+      change.subjectMembershipId === undefined
+        ? tenantEvent
+          ? ids.membershipA
+          : null
+        : change.subjectMembershipId,
       tenantEvent ? 0 : null,
       tenantEvent ? 1 : null,
       JSON.stringify(change.payload ?? auditPayload(type)),
@@ -87,7 +120,11 @@ async function insertAudit(client: Client, type: AuditType, change: AuditChange 
   );
 }
 
-async function tenantTransaction<T>(client: Pick<Client, 'query'>, tenantId: string, work: () => Promise<T>): Promise<T> {
+async function tenantTransaction<T>(
+  client: Pick<Client, 'query'>,
+  tenantId: string,
+  work: () => Promise<T>,
+): Promise<T> {
   await client.query('BEGIN');
   try {
     await client.query("SELECT set_config('app.tenant_id',$1,true)", [tenantId]);
@@ -100,7 +137,12 @@ async function tenantTransaction<T>(client: Pick<Client, 'query'>, tenantId: str
   }
 }
 
-async function tenantDenied(client: Client, tenantId: string, sql: string, params: unknown[] = []): Promise<void> {
+async function tenantDenied(
+  client: Client,
+  tenantId: string,
+  sql: string,
+  params: unknown[] = [],
+): Promise<void> {
   await client.query('BEGIN');
   try {
     await client.query("SELECT set_config('app.tenant_id',$1,true)", [tenantId]);
@@ -124,16 +166,34 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity RLS and aud
     const runtime = runtimeClient('zhiban_runtime');
     await runtime.connect();
     try {
-      expect((await runtime.query('SELECT zhiban_identity.current_tenant_id() AS tenant')).rows[0].tenant).toBeNull();
-      for (const value of ['', 'garbage', '00000000-0000-7000-8000-bad', '00000000-0000-4000-8000-000000000001']) {
+      expect(
+        (await runtime.query('SELECT zhiban_identity.current_tenant_id() AS tenant')).rows[0]
+          .tenant,
+      ).toBeNull();
+      for (const value of [
+        '',
+        'garbage',
+        '00000000-0000-7000-8000-bad',
+        '00000000-0000-4000-8000-000000000001',
+      ]) {
         await tenantTransaction(runtime, value, async () => {
-          expect((await runtime.query('SELECT zhiban_identity.current_tenant_id() AS tenant')).rows[0].tenant).toBeNull();
-          expect((await runtime.query('SELECT * FROM zhiban_identity.memberships')).rows).toHaveLength(0);
+          expect(
+            (await runtime.query('SELECT zhiban_identity.current_tenant_id() AS tenant')).rows[0]
+              .tenant,
+          ).toBeNull();
+          expect(
+            (await runtime.query('SELECT * FROM zhiban_identity.memberships')).rows,
+          ).toHaveLength(0);
         });
       }
       await tenantTransaction(runtime, ids.tenantUnknown, async () => {
-        expect((await runtime.query('SELECT zhiban_identity.current_tenant_id() AS tenant')).rows[0].tenant).toBe(ids.tenantUnknown);
-        expect((await runtime.query('SELECT * FROM zhiban_identity.memberships')).rows).toHaveLength(0);
+        expect(
+          (await runtime.query('SELECT zhiban_identity.current_tenant_id() AS tenant')).rows[0]
+            .tenant,
+        ).toBe(ids.tenantUnknown);
+        expect(
+          (await runtime.query('SELECT * FROM zhiban_identity.memberships')).rows,
+        ).toHaveLength(0);
       });
     } finally {
       await runtime.end();
@@ -145,25 +205,45 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity RLS and aud
     await runtime.connect();
     try {
       await tenantTransaction(runtime, ids.tenantA, async () => {
-        expect((await runtime.query('SELECT membership_id FROM zhiban_identity.memberships')).rows).toEqual([{ membership_id: ids.membershipA }]);
-        expect((await runtime.query('SELECT grant_id FROM zhiban_identity.role_grants')).rows).toEqual([{ grant_id: ids.grantA }]);
+        expect(
+          (await runtime.query('SELECT membership_id FROM zhiban_identity.memberships')).rows,
+        ).toEqual([{ membership_id: ids.membershipA }]);
+        expect(
+          (await runtime.query('SELECT grant_id FROM zhiban_identity.role_grants')).rows,
+        ).toEqual([{ grant_id: ids.grantA }]);
       });
       await tenantTransaction(runtime, ids.tenantB, async () => {
-        expect((await runtime.query('SELECT membership_id FROM zhiban_identity.memberships')).rows).toEqual([{ membership_id: ids.membershipB }]);
-        expect((await runtime.query('SELECT grant_id FROM zhiban_identity.role_grants')).rows).toEqual([{ grant_id: ids.grantB }]);
+        expect(
+          (await runtime.query('SELECT membership_id FROM zhiban_identity.memberships')).rows,
+        ).toEqual([{ membership_id: ids.membershipB }]);
+        expect(
+          (await runtime.query('SELECT grant_id FROM zhiban_identity.role_grants')).rows,
+        ).toEqual([{ grant_id: ids.grantB }]);
       });
-      await tenantDenied(runtime, ids.tenantA,
+      await tenantDenied(
+        runtime,
+        ids.tenantA,
         "INSERT INTO zhiban_identity.memberships(membership_id,tenant_id,user_id,status,created_at,updated_at) VALUES($1,$2,$3,'PENDING',1000,1000)",
-        [ids.weak, ids.tenantB, ids.userA]);
-      await tenantDenied(runtime, ids.tenantA,
+        [ids.weak, ids.tenantB, ids.userA],
+      );
+      await tenantDenied(
+        runtime,
+        ids.tenantA,
         "INSERT INTO zhiban_identity.role_grants(grant_id,tenant_id,membership_id,grant_ordinal,role_code,scope_kind,created_at,valid_from) VALUES($1,$2,$3,1,'STUDENT','SELF',1000,1000)",
-        [ids.weak, ids.tenantB, ids.membershipB]);
-      await tenantDenied(runtime, ids.tenantA,
+        [ids.weak, ids.tenantB, ids.membershipB],
+      );
+      await tenantDenied(
+        runtime,
+        ids.tenantA,
         'UPDATE zhiban_identity.memberships SET tenant_id=$1, repository_revision=2 WHERE membership_id=$2',
-        [ids.tenantB, ids.membershipA]);
-      await tenantDenied(runtime, ids.tenantA,
+        [ids.tenantB, ids.membershipA],
+      );
+      await tenantDenied(
+        runtime,
+        ids.tenantA,
         'UPDATE zhiban_identity.role_grants SET tenant_id=$1 WHERE grant_id=$2',
-        [ids.tenantB, ids.grantA]);
+        [ids.tenantB, ids.grantA],
+      );
       await expectDenied(runtime, 'DELETE FROM zhiban_identity.memberships');
       await expectDenied(runtime, 'DELETE FROM zhiban_identity.role_grants');
     } finally {
@@ -175,21 +255,54 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity RLS and aud
     const admin = adminClient();
     await admin.connect();
     try {
-      await expect(admin.query(
-        "INSERT INTO zhiban_identity.role_grants(grant_id,tenant_id,membership_id,grant_ordinal,role_code,scope_kind,created_at,valid_from) VALUES($1,$2,$3,1,'STUDENT','SELF',1000,1000)",
-        [ids.weak, ids.tenantB, ids.membershipA],
-      )).rejects.toMatchObject({ code: '23503' });
-      await expectDenied(admin, 'UPDATE zhiban_identity.memberships SET user_id=$1, repository_revision=2 WHERE membership_id=$2', [ids.userB, ids.membershipA]);
-      await expectDenied(admin, "UPDATE zhiban_identity.role_grants SET role_code='TEACHER' WHERE grant_id=$1", [ids.grantA]);
-      await expect(admin.query(
-        "INSERT INTO zhiban_identity.role_grants(grant_id,tenant_id,membership_id,grant_ordinal,role_code,scope_kind,created_at,valid_from) VALUES($1,$2,$3,1,'SYSTEM_ADMIN','SELF',1000,1000)",
-        [ids.weak, ids.tenantA, ids.membershipA],
-      )).rejects.toMatchObject({ code: '23514' });
-      await admin.query('UPDATE zhiban_identity.role_grants SET revoked_at=2000 WHERE grant_id=$1', [ids.grantA]);
-      await admin.query('UPDATE zhiban_identity.role_grants SET revoked_at=2000 WHERE grant_id=$1', [ids.grantA]);
-      await expectDenied(admin, 'UPDATE zhiban_identity.role_grants SET revoked_at=NULL WHERE grant_id=$1', [ids.grantA]);
-      await expectDenied(admin, 'UPDATE zhiban_identity.role_grants SET revoked_at=3000 WHERE grant_id=$1', [ids.grantA]);
-      expect((await admin.query('SELECT revoked_at FROM zhiban_identity.role_grants WHERE grant_id=$1', [ids.grantA])).rows[0].revoked_at).toBe('2000');
+      await expect(
+        admin.query(
+          "INSERT INTO zhiban_identity.role_grants(grant_id,tenant_id,membership_id,grant_ordinal,role_code,scope_kind,created_at,valid_from) VALUES($1,$2,$3,1,'STUDENT','SELF',1000,1000)",
+          [ids.weak, ids.tenantB, ids.membershipA],
+        ),
+      ).rejects.toMatchObject({ code: '23503' });
+      await expectDenied(
+        admin,
+        'UPDATE zhiban_identity.memberships SET user_id=$1, repository_revision=2 WHERE membership_id=$2',
+        [ids.userB, ids.membershipA],
+      );
+      await expectDenied(
+        admin,
+        "UPDATE zhiban_identity.role_grants SET role_code='TEACHER' WHERE grant_id=$1",
+        [ids.grantA],
+      );
+      await expect(
+        admin.query(
+          "INSERT INTO zhiban_identity.role_grants(grant_id,tenant_id,membership_id,grant_ordinal,role_code,scope_kind,created_at,valid_from) VALUES($1,$2,$3,1,'SYSTEM_ADMIN','SELF',1000,1000)",
+          [ids.weak, ids.tenantA, ids.membershipA],
+        ),
+      ).rejects.toMatchObject({ code: '23514' });
+      await admin.query(
+        'UPDATE zhiban_identity.role_grants SET revoked_at=2000 WHERE grant_id=$1',
+        [ids.grantA],
+      );
+      await admin.query(
+        'UPDATE zhiban_identity.role_grants SET revoked_at=2000 WHERE grant_id=$1',
+        [ids.grantA],
+      );
+      await expectDenied(
+        admin,
+        'UPDATE zhiban_identity.role_grants SET revoked_at=NULL WHERE grant_id=$1',
+        [ids.grantA],
+      );
+      await expectDenied(
+        admin,
+        'UPDATE zhiban_identity.role_grants SET revoked_at=3000 WHERE grant_id=$1',
+        [ids.grantA],
+      );
+      expect(
+        (
+          await admin.query(
+            'SELECT revoked_at FROM zhiban_identity.role_grants WHERE grant_id=$1',
+            [ids.grantA],
+          )
+        ).rows[0].revoked_at,
+      ).toBe('2000');
     } finally {
       await admin.end();
     }
@@ -226,7 +339,9 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity RLS and aud
     const admin = adminClient();
     await admin.connect();
     try {
-      const result = await admin.query('SELECT count(*)::int AS count, count(DISTINCT event_type)::int AS types, min(event_id) AS first_id FROM zhiban_identity.audit_events');
+      const result = await admin.query(
+        'SELECT count(*)::int AS count, count(DISTINCT event_type)::int AS types, min(event_id) AS first_id FROM zhiban_identity.audit_events',
+      );
       expect(result.rows[0]).toMatchObject({ count: 18, types: 18 });
       expect(Number(result.rows[0].first_id)).toBeGreaterThan(0);
     } finally {
@@ -264,7 +379,9 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity RLS and aud
         await runtime.query('BEGIN');
         try {
           await runtime.query("SELECT set_config('app.tenant_id',$1,true)", [ids.tenantA]);
-          await expect(insertAudit(runtime, 'ROLE_GRANT_GRANTED', { payload })).rejects.toMatchObject({ code: '23514' });
+          await expect(
+            insertAudit(runtime, 'ROLE_GRANT_GRANTED', { payload }),
+          ).rejects.toMatchObject({ code: '23514' });
         } finally {
           await runtime.query('ROLLBACK');
         }
@@ -275,7 +392,9 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity RLS and aud
     const admin = adminClient();
     await admin.connect();
     try {
-      await expect(insertAudit(admin, 'MEMBERSHIP_DISABLED', { tenantId: ids.tenantUnknown })).rejects.toMatchObject({ code: '23503' });
+      await expect(
+        insertAudit(admin, 'MEMBERSHIP_DISABLED', { tenantId: ids.tenantUnknown }),
+      ).rejects.toMatchObject({ code: '23503' });
     } finally {
       await admin.end();
     }
@@ -285,9 +404,14 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity RLS and aud
     const runtime = runtimeClient('zhiban_runtime');
     await runtime.connect();
     try {
-      await tenantTransaction(runtime, ids.tenantA, () => insertAudit(runtime, 'MEMBERSHIP_DISABLED', {
-        actorType: 'USER', actorUserId: ids.weak, subjectUserId: ids.weak, subjectMembershipId: ids.weak,
-      }));
+      await tenantTransaction(runtime, ids.tenantA, () =>
+        insertAudit(runtime, 'MEMBERSHIP_DISABLED', {
+          actorType: 'USER',
+          actorUserId: ids.weak,
+          subjectUserId: ids.weak,
+          subjectMembershipId: ids.weak,
+        }),
+      );
     } finally {
       await runtime.end();
     }
@@ -299,16 +423,27 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity RLS and aud
     const control = runtimeClient('zhiban_control_runtime');
     await Promise.all([tenant.connect(), auth.connect(), control.connect()]);
     try {
-      await tenantDenied(tenant, ids.tenantA,
-        "INSERT INTO zhiban_identity.audit_events(event_shape_version,event_type,event_scope,occurred_at,actor_type,reason,event_payload) VALUES(1,'AUTHENTICATION_REJECTED','GLOBAL',2000,'SYSTEM','CREDENTIAL_REJECTED','{}'::jsonb)");
+      await tenantDenied(
+        tenant,
+        ids.tenantA,
+        "INSERT INTO zhiban_identity.audit_events(event_shape_version,event_type,event_scope,occurred_at,actor_type,reason,event_payload) VALUES(1,'AUTHENTICATION_REJECTED','GLOBAL',2000,'SYSTEM','CREDENTIAL_REJECTED','{}'::jsonb)",
+      );
       await expectDenied(auth, 'SELECT * FROM zhiban_identity.memberships');
       await expectDenied(control, 'SELECT * FROM zhiban_identity.role_grants');
       await expectDenied(tenant, 'SELECT * FROM zhiban_identity.audit_events');
       await expectDenied(tenant, 'UPDATE zhiban_identity.audit_events SET reason=reason');
       await expectDenied(tenant, 'DELETE FROM zhiban_identity.audit_events');
       await expectDenied(tenant, 'TRUNCATE zhiban_identity.audit_events');
-      await expectDenied(auth, "INSERT INTO zhiban_identity.audit_events(event_shape_version,event_type,event_scope,occurred_at,actor_type,reason,tenant_id,subject_user_id,subject_membership_id,authorization_version_before,authorization_version_after,event_payload) VALUES(1,'MEMBERSHIP_DISABLED','TENANT',2000,'SYSTEM','ADMIN_REQUEST',$1,$2,$3,0,1,'{}'::jsonb)", [ids.tenantA, ids.userA, ids.membershipA]);
-      await expectDenied(control, "INSERT INTO zhiban_identity.audit_events(event_shape_version,event_type,event_scope,occurred_at,actor_type,reason,tenant_id,subject_user_id,subject_membership_id,authorization_version_before,authorization_version_after,event_payload) VALUES(1,'MEMBERSHIP_DISABLED','TENANT',2000,'SYSTEM','ADMIN_REQUEST',$1,$2,$3,0,1,'{}'::jsonb)", [ids.tenantA, ids.userA, ids.membershipA]);
+      await expectDenied(
+        auth,
+        "INSERT INTO zhiban_identity.audit_events(event_shape_version,event_type,event_scope,occurred_at,actor_type,reason,tenant_id,subject_user_id,subject_membership_id,authorization_version_before,authorization_version_after,event_payload) VALUES(1,'MEMBERSHIP_DISABLED','TENANT',2000,'SYSTEM','ADMIN_REQUEST',$1,$2,$3,0,1,'{}'::jsonb)",
+        [ids.tenantA, ids.userA, ids.membershipA],
+      );
+      await expectDenied(
+        control,
+        "INSERT INTO zhiban_identity.audit_events(event_shape_version,event_type,event_scope,occurred_at,actor_type,reason,tenant_id,subject_user_id,subject_membership_id,authorization_version_before,authorization_version_after,event_payload) VALUES(1,'MEMBERSHIP_DISABLED','TENANT',2000,'SYSTEM','ADMIN_REQUEST',$1,$2,$3,0,1,'{}'::jsonb)",
+        [ids.tenantA, ids.userA, ids.membershipA],
+      );
     } finally {
       await Promise.all([tenant.end(), auth.end(), control.end()]);
     }
@@ -320,21 +455,32 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity RLS and aud
       const first = await pool.connect();
       try {
         await tenantTransaction(first, ids.tenantA, async () => {
-          expect((await first.query('SELECT membership_id FROM zhiban_identity.memberships')).rows).toEqual([{ membership_id: ids.membershipA }]);
+          expect(
+            (await first.query('SELECT membership_id FROM zhiban_identity.memberships')).rows,
+          ).toEqual([{ membership_id: ids.membershipA }]);
         });
       } finally {
         first.release();
       }
       const second = await pool.connect();
       try {
-        expect((await second.query('SELECT zhiban_identity.current_tenant_id() AS tenant')).rows[0].tenant).toBeNull();
-        expect((await second.query('SELECT membership_id FROM zhiban_identity.memberships')).rows).toHaveLength(0);
+        expect(
+          (await second.query('SELECT zhiban_identity.current_tenant_id() AS tenant')).rows[0]
+            .tenant,
+        ).toBeNull();
+        expect(
+          (await second.query('SELECT membership_id FROM zhiban_identity.memberships')).rows,
+        ).toHaveLength(0);
         await second.query('BEGIN');
         await second.query("SELECT set_config('app.tenant_id',$1,true)", [ids.tenantA]);
         await second.query('ROLLBACK');
-        expect((await second.query('SELECT membership_id FROM zhiban_identity.memberships')).rows).toHaveLength(0);
+        expect(
+          (await second.query('SELECT membership_id FROM zhiban_identity.memberships')).rows,
+        ).toHaveLength(0);
         await tenantTransaction(second, ids.tenantB, async () => {
-          expect((await second.query('SELECT membership_id FROM zhiban_identity.memberships')).rows).toEqual([{ membership_id: ids.membershipB }]);
+          expect(
+            (await second.query('SELECT membership_id FROM zhiban_identity.memberships')).rows,
+          ).toEqual([{ membership_id: ids.membershipB }]);
         });
         await second.query('BEGIN');
         await second.query("SELECT set_config('app.tenant_id',$1,true)", [ids.tenantA]);
@@ -345,8 +491,13 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity RLS and aud
       }
       const third = await pool.connect();
       try {
-        expect((await third.query('SELECT zhiban_identity.current_tenant_id() AS tenant')).rows[0].tenant).toBeNull();
-        expect((await third.query('SELECT membership_id FROM zhiban_identity.memberships')).rows).toHaveLength(0);
+        expect(
+          (await third.query('SELECT zhiban_identity.current_tenant_id() AS tenant')).rows[0]
+            .tenant,
+        ).toBeNull();
+        expect(
+          (await third.query('SELECT membership_id FROM zhiban_identity.memberships')).rows,
+        ).toHaveLength(0);
       } finally {
         third.release();
       }

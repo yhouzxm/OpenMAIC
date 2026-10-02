@@ -13,7 +13,11 @@ const constructionToken = Symbol('Tenant construction');
 const issuedTenants = new WeakSet<Tenant>();
 
 function assertIssued(tenant: unknown): void {
-  invariant(issuedTenants.has(tenant as Tenant), 'INVALID_ENTITY', 'An authentic tenant is required.');
+  invariant(
+    issuedTenants.has(tenant as Tenant),
+    'INVALID_ENTITY',
+    'An authentic tenant is required.',
+  );
 }
 
 /** Validate the original persistence candidate; never reconstruct or transition it. */

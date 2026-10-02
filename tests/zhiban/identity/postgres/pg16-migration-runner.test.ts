@@ -54,12 +54,13 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity migration r
     url.username = 'zhiban_migrator';
     url.password = process.env.ZB_PG16_ROLE_PASSWORD || '';
     const cli = 'lib/zhiban/infrastructure/identity/postgres/migrate-cli.ts';
-    const run = () => spawnSync('pnpm', ['exec', 'tsx', cli], {
-      cwd: process.cwd(),
-      env: { ...process.env, ZHIBAN_IDENTITY_MIGRATOR_DATABASE_URL: url.toString() },
-      encoding: 'utf8',
-      timeout: 60_000,
-    });
+    const run = () =>
+      spawnSync('pnpm', ['exec', 'tsx', cli], {
+        cwd: process.cwd(),
+        env: { ...process.env, ZHIBAN_IDENTITY_MIGRATOR_DATABASE_URL: url.toString() },
+        encoding: 'utf8',
+        timeout: 60_000,
+      });
     const first = run();
     expect(first.status, first.stderr).toBe(0);
     expect(first.stdout).toContain('0001, 0002, 0003, 0004, 0005, 0006');
@@ -72,8 +73,17 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity migration r
       const ledger = await check.query(
         'SELECT version, checksum, applied_at IS NOT NULL AS has_time FROM zhiban_identity.schema_migrations ORDER BY version',
       );
-      expect(ledger.rows.map((row) => row.version)).toEqual(['0001', '0002', '0003', '0004', '0005', '0006']);
-      expect(ledger.rows.every((row) => /^[0-9a-f]{64}$/.test(row.checksum) && row.has_time)).toBe(true);
+      expect(ledger.rows.map((row) => row.version)).toEqual([
+        '0001',
+        '0002',
+        '0003',
+        '0004',
+        '0005',
+        '0006',
+      ]);
+      expect(ledger.rows.every((row) => /^[0-9a-f]{64}$/.test(row.checksum) && row.has_time)).toBe(
+        true,
+      );
     } finally {
       await check.end();
     }
