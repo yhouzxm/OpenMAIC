@@ -20,6 +20,30 @@ describe('Credential schema and security boundary STATIC (not real PostgreSQL ev
     // Protect this known parser regression; this is not a PL/pgSQL parser or real PG16 proof.
     expect(slotGuard).toMatch(/NEW\.generation\s*<>\s*OLD\.generation\s*\+\s*\(\s*CASE\s+WHEN\s+NEW\.active_credential_id\s+IS\s+NULL\s+THEN\s+0\s+ELSE\s+1\s+END\s*\)\s+THEN/);
   });
+  it('0005 replaces only the consistency function and changes only the ambiguous relation alias', async () => {
+    const migrations = await loadMigrationFiles();
+    const original = migrations[3].sql.match(/CREATE FUNCTION zhiban_identity\.credential_consistency\(\)[\s\S]*?END \$\$;/)?.[0];
+    expect(original).toBeDefined();
+    expect(migrations[4].version).toBe('0005');
+    const replacement = migrations[4].sql.replace(/^--[^\n]*(?:\n|$)/gm, '').trim();
+    // Compare actual definitions, not a SQL snapshot or an assertion about all PL/pgSQL.
+    const expected = original!
+      .replace('CREATE FUNCTION', 'CREATE OR REPLACE FUNCTION')
+      .replace('credentials old JOIN', 'credentials prior_credential JOIN')
+      .replace(/\bold\./g, 'prior_credential.');
+    expect(replacement.replace(/\s+/g, ' ')).toBe(expected.replace(/\s+/g, ' '));
+    expect(replacement).not.toMatch(/\b(?:FROM|JOIN)\s+\S+\s+(?:AS\s+)?old\b/i);
+  });
+  it('PUBLIC column ACL regression uses nullable catalog ACL directly, without an empty-array fallback', () => {
+    const source = readFileSync(resolve('tests/zhiban/identity/postgres/pg16-credentials.test.ts'), 'utf8');
+    const publicTest = source.split("it('CRED-PG05 ")[1].split("it('CRED-PG06 ")[0];
+    expect(publicTest).not.toContain("'{}'::aclitem[]");
+    expect(publicTest).toContain('aclexplode(a.attacl)');
+    expect(publicTest).toContain('a.attacl IS NOT NULL AND acl.grantee=0');
+    expect(publicTest).toContain("aclexplode(coalesce(c.relacl,acldefault('r',c.relowner)))");
+    expect(publicTest).toContain("aclexplode(coalesce(p.proacl,acldefault('f',p.proowner)))");
+    expect(publicTest.match(/\.count\)\.toBe\(0\)/g)).toHaveLength(3);
+  });
   it('no business or Domain barrel exposes provider/verifier extraction', () => {
     for (const path of ['lib/zhiban/domain/identity/index.ts','lib/zhiban/application/identity/ports/index.ts'])
       expect(readFileSync(resolve(path),'utf8')).not.toMatch(/password-hashing|verifier-material|credential-records|argon2/);

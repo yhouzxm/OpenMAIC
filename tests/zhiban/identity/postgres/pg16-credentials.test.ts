@@ -126,7 +126,7 @@ describe.skipIf(!configured).sequential('real PG16 Credential security and concu
     try {
       const result = await admin.query("SELECT count(*)::int AS count FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace CROSS JOIN LATERAL aclexplode(coalesce(c.relacl,acldefault('r',c.relowner))) a WHERE n.nspname='zhiban_identity' AND c.relname IN ('credentials','credential_slots') AND a.grantee=0");
       expect(result.rows[0].count).toBe(0);
-      expect((await admin.query("SELECT count(*)::int AS count FROM pg_attribute a JOIN pg_class c ON c.oid=a.attrelid JOIN pg_namespace n ON n.oid=c.relnamespace CROSS JOIN LATERAL aclexplode(coalesce(a.attacl,'{}'::aclitem[])) acl WHERE n.nspname='zhiban_identity' AND c.relname IN ('credentials','credential_slots') AND acl.grantee=0")).rows[0].count).toBe(0);
+      expect((await admin.query("SELECT count(*)::int AS count FROM pg_attribute a JOIN pg_class c ON c.oid=a.attrelid JOIN pg_namespace n ON n.oid=c.relnamespace CROSS JOIN LATERAL aclexplode(a.attacl) acl WHERE n.nspname='zhiban_identity' AND c.relname IN ('credentials','credential_slots') AND a.attacl IS NOT NULL AND acl.grantee=0")).rows[0].count).toBe(0);
       expect((await admin.query("SELECT count(*)::int AS count FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace CROSS JOIN LATERAL aclexplode(coalesce(p.proacl,acldefault('f',p.proowner))) acl WHERE n.nspname='zhiban_identity' AND (p.proname LIKE 'credential_%' OR p.proname='audit_payload_valid') AND acl.grantee=0")).rows[0].count).toBe(0);
     } finally { await admin.end(); }
   });

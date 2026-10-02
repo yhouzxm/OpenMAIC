@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   applyMigrations,
+  loadMigrationFiles,
   planMigrations,
   type MigrationConnection,
 } from '@/lib/zhiban/infrastructure/identity/postgres/migrate';
@@ -110,6 +111,25 @@ describe('dedicated Identity migration runner (connection contract)', () => {
     await applyMigrations(db, files());
     db.calls.length = 0;
     expect(await applyMigrations(db, files())).toEqual([]);
+    expect(db.calls).not.toContain('BEGIN');
+  });
+
+  it('upgrades an applied 0004 ledger with only 0005, keeps old checksums and then becomes a no-op', async () => {
+    const plan = await loadMigrationFiles();
+    const db = new FakeConnection();
+    db.schemaExists = true;
+    for (const migration of plan.slice(0, 4)) db.ledger.set(migration.version, migration.checksum);
+    const oldLedger = [...db.ledger];
+    expect(await applyMigrations(db, plan)).toEqual(['0005']);
+    expect([...db.ledger].slice(0, 4)).toEqual(oldLedger);
+    expect(db.calls.filter(call => call === 'BEGIN')).toHaveLength(1);
+    expect(db.calls).toContain(plan[4].sql);
+    for (const migration of plan.slice(0, 4)) expect(db.calls).not.toContain(migration.sql);
+    db.calls.length = 0;
+    expect(await applyMigrations(db, plan)).toEqual([]);
+    expect(db.calls).not.toContain('BEGIN');
+    db.ledger.set('0004', '0'.repeat(64));
+    await expect(applyMigrations(db, plan)).rejects.toThrow('checksum drift');
     expect(db.calls).not.toContain('BEGIN');
   });
 
