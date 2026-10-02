@@ -54,7 +54,7 @@ BEGIN
     END IF;
     IF NEW.active_credential_id IS DISTINCT FROM OLD.active_credential_id THEN
       IF OLD.security_epoch = 9223372036854775807 OR NEW.security_epoch <> OLD.security_epoch + 1
-        OR NEW.generation <> OLD.generation + CASE WHEN NEW.active_credential_id IS NULL THEN 0 ELSE 1 END THEN
+        OR NEW.generation <> OLD.generation + (CASE WHEN NEW.active_credential_id IS NULL THEN 0 ELSE 1 END) THEN
         RAISE EXCEPTION USING ERRCODE = '23514', MESSAGE = 'Invalid credential security mutation';
       END IF;
     ELSIF NEW.security_epoch <> OLD.security_epoch OR NEW.generation <> OLD.generation OR NEW.active_credential_id IS NULL THEN

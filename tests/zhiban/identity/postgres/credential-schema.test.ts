@@ -14,6 +14,12 @@ describe('Credential schema and security boundary STATIC (not real PostgreSQL ev
     expect(sql).toContain('TO zhiban_auth_runtime');
     expect(sql).not.toMatch(/GRANT (?:DELETE|TRUNCATE|ALL)/);
   });
+  it('keeps the slot generation CASE parenthesized inside the PL/pgSQL IF condition (static regression only)', async () => {
+    const sql = (await loadMigrationFiles())[3].sql;
+    const slotGuard = sql.split('CREATE FUNCTION zhiban_identity.credential_slot_guard()')[1].split('CREATE TRIGGER credential_slot_guard')[0];
+    // Protect this known parser regression; this is not a PL/pgSQL parser or real PG16 proof.
+    expect(slotGuard).toMatch(/NEW\.generation\s*<>\s*OLD\.generation\s*\+\s*\(\s*CASE\s+WHEN\s+NEW\.active_credential_id\s+IS\s+NULL\s+THEN\s+0\s+ELSE\s+1\s+END\s*\)\s+THEN/);
+  });
   it('no business or Domain barrel exposes provider/verifier extraction', () => {
     for (const path of ['lib/zhiban/domain/identity/index.ts','lib/zhiban/application/identity/ports/index.ts'])
       expect(readFileSync(resolve(path),'utf8')).not.toMatch(/password-hashing|verifier-material|credential-records|argon2/);
