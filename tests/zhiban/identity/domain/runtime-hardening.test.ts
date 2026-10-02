@@ -1,4 +1,9 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+import { assertAuthenticUserForPersistence } from '@/lib/zhiban/domain/identity/user';
+import { assertAuthenticTenantForPersistence } from '@/lib/zhiban/domain/identity/tenant';
+import { assertAuthenticSystemAdminGrantForPersistence } from '@/lib/zhiban/domain/identity/system-admin-grant';
+import { assertAuthenticMembershipForPersistence } from '@/lib/zhiban/domain/identity/membership';
+import * as publicIdentity from '@/lib/zhiban/domain/identity';
 import {
   Membership,
   RoleGrant,
@@ -25,7 +30,111 @@ import {
   grant,
   pending,
   uuid,
+  expectError,
 } from './fixtures';
+
+const authenticityCases: readonly {
+  name: string;
+  create: () => User | Tenant | SystemAdminGrant | Membership;
+  rehydrate: (value: User | Tenant | SystemAdminGrant | Membership) => unknown;
+  assert: (value: unknown) => void;
+}[] = [
+  { name: 'User', create: () => User.create(USER, NOW),
+    rehydrate: value => rehydrateUserForPersistence({ ...value }),
+    assert: assertAuthenticUserForPersistence },
+  { name: 'Tenant', create: () => Tenant.create(TENANT, 'school', 'School', NOW),
+    rehydrate: value => rehydrateTenantForPersistence({ ...value }),
+    assert: assertAuthenticTenantForPersistence },
+  { name: 'SystemAdminGrant', create: () => SystemAdminGrant.create({
+    id: systemAdminGrantId(uuid(40)), userId: USER, createdAt: BEFORE, validFrom: NOW, validUntil: null,
+  }), rehydrate: value => rehydrateSystemAdminGrantForPersistence({ ...value }),
+    assert: assertAuthenticSystemAdminGrantForPersistence },
+  { name: 'Membership', create: () => active(),
+    rehydrate: value => rehydrateMembershipForPersistence({ ...value }),
+    assert: assertAuthenticMembershipForPersistence },
+];
+
+describe('persistence original-candidate authenticity', () => {
+  describe.each(authenticityCases)('$name', ({ create, rehydrate, assert }) => {
+    it('accepts fresh issued and persistence-rehydrated instances without returning a value', () => {
+      const original = create();
+      expect(assert(original)).toBeUndefined();
+      const loaded = rehydrate(original);
+      expect(loaded).not.toBe(original);
+      expect(assert(loaded)).toBeUndefined();
+    });
+    it('rejects prototype-only, frozen, complete-copy and plain-object forgeries', () => {
+      const original = create();
+      const prototype = Object.getPrototypeOf(original);
+      const copy = Object.assign(Object.create(prototype), original);
+      expect(copy).toBeInstanceOf(original.constructor);
+      expect(copy).toEqual(original);
+      expectError(() => assert(Object.create(prototype)), 'INVALID_ENTITY');
+      expectError(() => assert(Object.freeze(Object.create(prototype))), 'INVALID_ENTITY');
+      expectError(() => assert(copy), 'INVALID_ENTITY');
+      expectError(() => assert(Object.freeze(copy)), 'INVALID_ENTITY');
+      expectError(() => assert(Object.freeze({ ...original })), 'INVALID_ENTITY');
+    });
+    it('does not read forged getters even when they return the complete legitimate state', () => {
+      const original = create();
+      const forged = Object.create(Object.getPrototypeOf(original));
+      const reads = vi.fn();
+      for (const [key, value] of Object.entries(original)) {
+        Object.defineProperty(forged, key, { enumerable: true, get: () => { reads(); return value; } });
+      }
+      Object.freeze(forged);
+      expectError(() => assert(forged), 'INVALID_ENTITY');
+      expect(reads).not.toHaveBeenCalled();
+    });
+    it('preserves all original and rehydrated own state and nested references', () => {
+      for (const value of [create(), rehydrate(create())]) {
+        const before = Object.getOwnPropertyDescriptors(value);
+        assert(value);
+        assert(value);
+        const after = Object.getOwnPropertyDescriptors(value);
+        expect(after).toEqual(before);
+        for (const key of Object.keys(before)) expect(after[key].value).toBe(before[key].value);
+        expect(Object.isFrozen(value)).toBe(true);
+      }
+    });
+    it('rejects null, primitives and wrong aggregate roots using INVALID_ENTITY', () => {
+      for (const value of [null, undefined, 1, 'User', Symbol('candidate'), {}, [], () => create()])
+        expectError(() => assert(value), 'INVALID_ENTITY');
+      for (const other of authenticityCases) {
+        if (other.assert !== assert) expectError(() => assert(other.create()), 'INVALID_ENTITY');
+      }
+    });
+  });
+
+  it('does not invoke business commands or eligibility queries to assert authenticity', () => {
+    const candidates = authenticityCases.map(item => item.create());
+    const spies = [
+      vi.spyOn(User.prototype, 'disable'), vi.spyOn(User.prototype, 'restore'),
+      vi.spyOn(Tenant.prototype, 'disable'), vi.spyOn(Tenant.prototype, 'restore'), vi.spyOn(Tenant.prototype, 'archive'),
+      vi.spyOn(SystemAdminGrant.prototype, 'revoke'), vi.spyOn(SystemAdminGrant.prototype, 'isEffectiveAt'),
+      vi.spyOn(SystemAdminGrant.prototype, 'isRevoked', 'get'),
+      vi.spyOn(Membership.prototype, 'activatePending'), vi.spyOn(Membership.prototype, 'disable'),
+      vi.spyOn(Membership.prototype, 'reactivate'), vi.spyOn(Membership.prototype, 'leave'),
+      vi.spyOn(Membership.prototype, 'rejoin'), vi.spyOn(Membership.prototype, 'grantRole'),
+      vi.spyOn(Membership.prototype, 'revokeGrant'), vi.spyOn(Membership.prototype, 'replaceGrants'),
+      vi.spyOn(Membership.prototype, 'effectiveGrantsAt'),
+    ];
+    try {
+      authenticityCases.forEach((item, index) => item.assert(candidates[index]));
+      for (const spy of spies) expect(spy).not.toHaveBeenCalled();
+    } finally { for (const spy of spies) spy.mockRestore(); }
+  });
+
+  it('keeps validation-only APIs out of the standard barrel and supports unknown narrowing', () => {
+    const candidate: unknown = User.create(USER, NOW);
+    assertAuthenticUserForPersistence(candidate);
+    expect(candidate.id).toBe(USER);
+    for (const name of [
+      'assertAuthenticUserForPersistence', 'assertAuthenticTenantForPersistence',
+      'assertAuthenticSystemAdminGrantForPersistence', 'assertAuthenticMembershipForPersistence',
+    ]) expect(publicIdentity).not.toHaveProperty(name);
+  });
+});
 
 describe('runtime Domain integrity', () => {
   it('DH01 has no externally callable internal Membership transition', () => {

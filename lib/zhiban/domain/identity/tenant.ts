@@ -12,8 +12,13 @@ export type TenantStatus = 'ACTIVE' | 'DISABLED' | 'ARCHIVED';
 const constructionToken = Symbol('Tenant construction');
 const issuedTenants = new WeakSet<Tenant>();
 
-function assertIssued(tenant: Tenant): void {
-  invariant(issuedTenants.has(tenant), 'INVALID_ENTITY', 'An authentic tenant is required.');
+function assertIssued(tenant: unknown): void {
+  invariant(issuedTenants.has(tenant as Tenant), 'INVALID_ENTITY', 'An authentic tenant is required.');
+}
+
+/** Validate the original persistence candidate; never reconstruct or transition it. */
+export function assertAuthenticTenantForPersistence(value: unknown): asserts value is Tenant {
+  assertIssued(value);
 }
 
 export class Tenant {

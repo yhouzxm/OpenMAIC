@@ -10,12 +10,17 @@ import {
 const constructionToken = Symbol('SystemAdminGrant construction');
 const issuedGrants = new WeakSet<SystemAdminGrant>();
 
-function assertIssued(grant: SystemAdminGrant): void {
+function assertIssued(grant: unknown): void {
   invariant(
-    issuedGrants.has(grant),
+    issuedGrants.has(grant as SystemAdminGrant),
     'INVALID_ENTITY',
     'An authentic system administrator grant is required.',
   );
+}
+
+/** Validate the original persistence candidate; never reconstruct or transition it. */
+export function assertAuthenticSystemAdminGrantForPersistence(value: unknown): asserts value is SystemAdminGrant {
+  assertIssued(value);
 }
 
 export class SystemAdminGrant {

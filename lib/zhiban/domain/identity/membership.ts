@@ -21,12 +21,17 @@ import {
 const constructionToken = Symbol('Membership construction');
 const issuedMemberships = new WeakSet<Membership>();
 
-function assertIssued(membership: Membership): void {
+function assertIssued(membership: unknown): void {
   invariant(
-    issuedMemberships.has(membership),
+    issuedMemberships.has(membership as Membership),
     'INVALID_ENTITY',
     'An authentic membership is required.',
   );
+}
+
+/** Validate the original persistence candidate; never reconstruct or transition it. */
+export function assertAuthenticMembershipForPersistence(value: unknown): asserts value is Membership {
+  assertIssued(value);
 }
 
 export type MembershipStatus = 'PENDING' | 'ACTIVE' | 'DISABLED' | 'LEFT';

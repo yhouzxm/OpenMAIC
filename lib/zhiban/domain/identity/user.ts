@@ -12,8 +12,13 @@ export type UserStatus = 'ACTIVE' | 'DISABLED';
 const constructionToken = Symbol('User construction');
 const issuedUsers = new WeakSet<User>();
 
-function assertIssued(user: User): void {
-  invariant(issuedUsers.has(user), 'INVALID_ENTITY', 'An authentic user is required.');
+function assertIssued(user: unknown): void {
+  invariant(issuedUsers.has(user as User), 'INVALID_ENTITY', 'An authentic user is required.');
+}
+
+/** Validate the original persistence candidate; never reconstruct or transition it. */
+export function assertAuthenticUserForPersistence(value: unknown): asserts value is User {
+  assertIssued(value);
 }
 
 export class User {
