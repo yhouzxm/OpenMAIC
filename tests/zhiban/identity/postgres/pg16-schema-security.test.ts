@@ -153,7 +153,7 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity ownership a
       try {
         await authSession.query(
           'INSERT INTO zhiban_identity.sessions(session_id,user_id,token_digest,created_at,last_seen_at,absolute_expires_at,idle_expires_at) VALUES($1,$2,$3,1000,1000,9000,5000)',
-          ['test-session', ids.userA, 'digest-fixture'],
+          ['test-session', ids.userA, '0'.repeat(64)],
         );
         expect((await authSession.query('SELECT count(*)::int AS count FROM zhiban_identity.sessions')).rows[0].count).toBe(1);
       } finally {

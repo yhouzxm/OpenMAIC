@@ -114,16 +114,17 @@ describe('dedicated Identity migration runner (connection contract)', () => {
     expect(db.calls).not.toContain('BEGIN');
   });
 
-  it('upgrades an applied 0004 ledger with only 0005, keeps old checksums and then becomes a no-op', async () => {
+  it('upgrades an applied 0004 ledger with 0005–0006, keeps old checksums and then becomes a no-op', async () => {
     const plan = await loadMigrationFiles();
     const db = new FakeConnection();
     db.schemaExists = true;
     for (const migration of plan.slice(0, 4)) db.ledger.set(migration.version, migration.checksum);
     const oldLedger = [...db.ledger];
-    expect(await applyMigrations(db, plan)).toEqual(['0005']);
+    expect(await applyMigrations(db, plan)).toEqual(['0005', '0006']);
     expect([...db.ledger].slice(0, 4)).toEqual(oldLedger);
-    expect(db.calls.filter(call => call === 'BEGIN')).toHaveLength(1);
+    expect(db.calls.filter(call => call === 'BEGIN')).toHaveLength(2);
     expect(db.calls).toContain(plan[4].sql);
+    expect(db.calls).toContain(plan[5].sql);
     for (const migration of plan.slice(0, 4)) expect(db.calls).not.toContain(migration.sql);
     db.calls.length = 0;
     expect(await applyMigrations(db, plan)).toEqual([]);
@@ -143,6 +144,17 @@ describe('dedicated Identity migration runner (connection contract)', () => {
     await expect(applyMigrations(db, changed)).rejects.toThrow('checksum drift');
     db.ledger.set('9999', '0'.repeat(64));
     await expect(applyMigrations(db, files())).rejects.toThrow('Unknown applied');
+  });
+
+  it('upgrades applied 0005 with only Session migration 0006, preserving all old checksums', async () => {
+    const plan = await loadMigrationFiles(), db = new FakeConnection(); db.schemaExists = true;
+    for (const migration of plan.slice(0, 5)) db.ledger.set(migration.version, migration.checksum);
+    const prior = [...db.ledger];
+    expect(await applyMigrations(db, plan)).toEqual(['0006']);
+    expect([...db.ledger].slice(0, 5)).toEqual(prior);
+    expect(db.calls.filter(call => call === 'BEGIN')).toHaveLength(1);
+    for (const migration of plan.slice(0, 5)) expect(db.calls).not.toContain(migration.sql);
+    expect(await applyMigrations(db, plan)).toEqual([]);
   });
 
   it('rejects an applied ledger gap before attempting a new migration', async () => {

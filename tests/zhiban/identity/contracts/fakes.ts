@@ -46,10 +46,6 @@ import {
 
 type Entry<T> = Loaded<T>;
 
-function next<T>(value: T, number: number): Entry<T> {
-  // Existing Session support only: canonicalize its test counter, without changing lifecycle.
-  return Object.freeze({ value, revision: repositoryRevision(number.toString()) });
-}
 function initial<T>(value: T): Entry<T> {
   return Object.freeze({ value, revision: repositoryRevision('1') });
 }
@@ -296,10 +292,9 @@ export class FakeCredentialVerifier implements CredentialVerifierPort {
 
 export class FakeSessionRepository implements SessionRepositoryPort {
   private readonly sessions = new Map<SessionId, Entry<SessionRecord>>();
-  private sequence = 0;
   async create(session: SessionRecord): Promise<Entry<SessionRecord>> {
-    if (this.sessions.has(session.id)) throw new IdentityPortError('CONFLICT');
-    const entry = next(session, ++this.sequence);
+    if (this.sessions.has(session.id) || [...this.sessions.values()].some(entry => entry.value.tokenDigest === session.tokenDigest)) throw new IdentityPortError('CONFLICT');
+    const entry = initial(Object.freeze({ id: session.id, userId: session.userId, tokenDigest: session.tokenDigest, createdAt: session.createdAt, lastSeenAt: session.lastSeenAt, absoluteExpiresAt: session.absoluteExpiresAt, idleExpiresAt: session.idleExpiresAt, revokedAt: session.revokedAt }));
     this.sessions.set(session.id, entry);
     return entry;
   }
@@ -316,14 +311,18 @@ export class FakeSessionRepository implements SessionRepositoryPort {
     if (!current) return null;
     checkRevision(current.revision, expectedRevision);
     if (current.value.revokedAt !== null) return null;
-    const entry = next({ ...current.value, lastSeenAt, idleExpiresAt }, ++this.sequence);
+    if (lastSeenAt >= current.value.absoluteExpiresAt || lastSeenAt >= current.value.idleExpiresAt) return null;
+    integrity(lastSeenAt >= current.value.lastSeenAt && idleExpiresAt > lastSeenAt && idleExpiresAt >= current.value.idleExpiresAt && idleExpiresAt <= current.value.absoluteExpiresAt);
+    if (lastSeenAt === current.value.lastSeenAt && idleExpiresAt === current.value.idleExpiresAt) return current;
+    const entry = advance(Object.freeze({ ...current.value, lastSeenAt, idleExpiresAt }), current.revision);
     this.sessions.set(id, entry);
     return entry;
   }
   async revoke(id: SessionId, at: Instant): Promise<void> {
     const current = this.sessions.get(id);
     if (current && current.value.revokedAt === null) {
-      this.sessions.set(id, next({ ...current.value, revokedAt: at }, ++this.sequence));
+      integrity(at >= current.value.lastSeenAt);
+      this.sessions.set(id, advance(Object.freeze({ ...current.value, revokedAt: at }), current.revision));
     }
   }
   async revokeAllForUser(user: UserId, at: Instant): Promise<void> {

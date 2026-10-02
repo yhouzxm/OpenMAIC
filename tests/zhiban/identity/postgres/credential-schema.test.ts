@@ -52,7 +52,9 @@ describe('Credential schema and security boundary STATIC (not real PostgreSQL ev
     for (const path of consumers) {
       const source = readFileSync(path,'utf8');
       if (source.includes('verifier-material')) expect([...approved].some(value => path.replaceAll('\\','/').endsWith('/'+value))).toBe(true);
-      if (/from ['"][^'"]*repositories\/credential(?:-records)?['"]/.test(source)) expect(path.replaceAll('\\','/')).toMatch(/\/infrastructure\/identity\/(credentials\/credential-verifier|postgres\/repositories\/credential)\.ts$/);
+      // Session authentication composition is the one new security-only consumer:
+      // it captures the exact verified snapshot for issuance, never extracts PHC.
+      if (/from ['"][^'"]*repositories\/credential(?:-records)?['"]/.test(source)) expect(path.replaceAll('\\','/')).toMatch(/\/infrastructure\/identity\/(credentials\/credential-verifier|postgres\/repositories\/credential|sessions\/session-authenticator)\.ts$/);
       if (path.includes('domain')) expect(source).not.toMatch(/@node-rs\/argon2|PasswordVerifierHandle|verifier_material/);
     }
   });

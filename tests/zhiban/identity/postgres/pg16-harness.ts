@@ -182,7 +182,7 @@ export async function prepareSchema(): Promise<void> {
   if (!bootstrap.success) throw new Error(`Identity bootstrap failed: ${bootstrap.output}`);
   await provisionRolePasswords();
   const completed = await applyRealMigrations();
-  if (completed.join(',') !== '0001,0002,0003,0004,0005') {
+  if (completed.join(',') !== '0001,0002,0003,0004,0005,0006') {
     throw new Error('Identity migrations did not apply from an empty database.');
   }
 }

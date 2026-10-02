@@ -17,7 +17,11 @@ export function tokenDigest(value: string): TokenDigest {
   return value as TokenDigest;
 }
 
-/** Only global identity and session lifecycle data; no tenant or authorization snapshot. */
+/** Only global identity and session lifecycle data; no tenant or authorization snapshot.
+ * SessionId generation belongs to the Session service, NOT Domain IdGenerator.
+ * Storage receives a cryptographic digest only, never the bearer token. Epoch/User
+ * freshness bindings are infrastructure security metadata, not authorization.
+ */
 export interface SessionRecord {
   readonly id: SessionId;
   readonly userId: UserId;
@@ -37,6 +41,7 @@ export interface SessionRepositoryPort {
    * lastSeenAt/idleExpiresAt; it must never clear revokedAt. A stale revision,
    * including one invalidated by revoke, fails with STALE_WRITE. A currently
    * revoked session returns null without changing the record.
+   * Complete current no-op keeps revision; a real mutation increments exactly once.
    */
   touch(
     id: SessionId,
