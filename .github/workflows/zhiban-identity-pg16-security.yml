@@ -61,6 +61,8 @@ jobs:
             pnpm exec vitest run tests/zhiban/identity/postgres/pg16-migration-runner.test.ts
             pnpm exec vitest run tests/zhiban/identity/postgres/pg16-schema-security.test.ts
             pnpm exec vitest run tests/zhiban/identity/postgres/pg16-rls.test.ts
+            pnpm exec vitest run tests/zhiban/identity/postgres/pg16-transactions.test.ts
+            pnpm exec vitest run tests/zhiban/identity/postgres/pg16-repository-signoff.test.ts
             echo "PG16 SUITE RUN ${pass} PASS"
           done
       - name: Identity static, Domain and Port contract regression
