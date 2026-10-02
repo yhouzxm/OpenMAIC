@@ -19,6 +19,11 @@ const blocked = (body: string, file = infrastructure): void => {
   expect(violations(source(body, file))).not.toEqual([]);
 };
 
+function expectedCanonicalPath(path: string): string {
+  const normalized = path.replaceAll('\\', '/');
+  return process.platform === 'win32' ? normalized.toLowerCase() : normalized;
+}
+
 describe('semantic privileged capability guard', () => {
   it('SG01 blocks a direct forbidden import', () => {
     blocked(importCapability, application);
@@ -109,7 +114,7 @@ describe('semantic privileged capability guard', () => {
   });
   it('SG21 resolves canonical alias without string-based identity matching', () => {
     expect(resolvedModuleIdentity(application, root)).toBe(
-      resolve('lib/zhiban/domain/identity/persistence-rehydration.ts').replaceAll('\\', '/').toLowerCase(),
+      expectedCanonicalPath(resolve('lib/zhiban/domain/identity/persistence-rehydration.ts')),
     );
     blocked(importCapability, application);
   });
