@@ -1,6 +1,7 @@
 name: CI
 
 on:
+  workflow_dispatch:
   push:
     # Integration branches are listed here as well as below: a pull_request run
     # only ever proves one part merged into the branch, so without a push
