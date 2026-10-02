@@ -71,7 +71,8 @@ describe('Credential schema and security boundary STATIC (not real PostgreSQL ev
     expect(publicTest).toContain('a.attacl IS NOT NULL AND acl.grantee=0');
     expect(publicTest).toContain("aclexplode(coalesce(c.relacl,acldefault('r',c.relowner)))");
     expect(publicTest).toContain("aclexplode(coalesce(p.proacl,acldefault('f',p.proowner)))");
-    expect(publicTest.match(/\.count\)\.toBe\(0\)/g)).toHaveLength(3);
+    // Whitespace/trailing commas do not change the three real PUBLIC ACL assertions.
+    expect(publicTest.match(/\.count\s*,?\s*\)\.toBe\(0\)/g)).toHaveLength(3);
   });
   it('no business or Domain barrel exposes provider/verifier extraction', () => {
     for (const path of [

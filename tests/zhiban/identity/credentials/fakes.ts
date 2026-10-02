@@ -163,19 +163,17 @@ export class FakeCredentialRepository implements CredentialRepositoryPort {
       securityEpochBefore: stored.value.securityEpoch,
       securityEpochAfter: epoch,
     });
-    const rows = this.histories
-      .get(id)!
-      .map((row) =>
-        row.credentialId === current
-          ? Object.freeze({
-              ...row,
-              status: 'REPLACED' as const,
-              updatedAt: at,
-              replacedAt: at,
-              replacedByCredentialId: newId,
-            })
-          : row,
-      );
+    const rows = this.histories.get(id)!.map((row) =>
+      row.credentialId === current
+        ? Object.freeze({
+            ...row,
+            status: 'REPLACED' as const,
+            updatedAt: at,
+            replacedAt: at,
+            replacedByCredentialId: newId,
+          })
+        : row,
+    );
     rows.push(this.newHistory(id, newId, at, generation));
     const loaded = Object.freeze({
       revision: next,
