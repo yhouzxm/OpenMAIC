@@ -848,6 +848,12 @@ describe
         await expect(e.subject.authentication.me(e.subject.handle)).rejects.toBeInstanceOf(
           IdentityPortError,
         );
+        const subjectSessions = await rows(
+          'SELECT revoked_at FROM zhiban_identity.sessions WHERE user_id=$1',
+          [e.subject.id],
+        );
+        expect(subjectSessions).toHaveLength(1);
+        expect(subjectSessions[0].revoked_at).not.toBeNull();
         const restore = await e.manifest('USER_RESTORE', {
           target_user_id: e.subject.id,
           expected_user_revision: '2',
@@ -861,7 +867,9 @@ describe
             )
           )[0],
         ).toEqual({ status: 'ACTIVE', repository_revision: '3' });
-        expect(await e.subject.authentication.authenticate(e.subject.raw)).toBeNull();
+        await expect(e.subject.authentication.authenticate(e.subject.raw)).rejects.toMatchObject({
+          code: 'CONFLICT',
+        });
       });
       it('C8-PG36 Tenant restore requires current operational and governance admins', async () => {
         const e = await fixture(),

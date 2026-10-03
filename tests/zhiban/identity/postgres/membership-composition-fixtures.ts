@@ -206,23 +206,24 @@ export async function fixture() {
     status: 'ACTIVE' | 'PENDING' = 'ACTIVE',
     t = tenant,
   ) {
+    const at = instant(Date.now());
     let m = Membership.create({
       id: ids.nextMembershipId(),
       userId: who.id,
       tenantId: t,
-      now: instant(Date.now()),
+      now: at,
     });
     if (status === 'ACTIVE')
       m = m.activatePending({
-        now: instant(Date.now()),
+        now: at,
         expectedAuthorizationVersion: 0,
         approvedGrants: [
           RoleGrant.create({
             id: ids.nextRoleGrantId(),
             roleCode: code,
             scope: code === 'TENANT_ADMIN' ? tenantScope() : selfScope(),
-            createdAt: instant(Date.now()),
-            validFrom: instant(Date.now()),
+            createdAt: at,
+            validFrom: at,
             validUntil: null,
           }),
         ],
