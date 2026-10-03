@@ -5,7 +5,6 @@ import type {
   OwnIdentity,
   OwnSpace,
 } from '@/lib/zhiban/application/identity/use-cases/authentication';
-import { IdentityPortError } from '@/lib/zhiban/application/identity/ports/errors';
 import { repositoryRevision } from '@/lib/zhiban/application/identity/ports/repository-types';
 import { securityEpoch } from '@/lib/zhiban/application/identity/ports/credential-repository';
 import type { PasswordHashingPort } from '@/lib/zhiban/application/identity/ports/password-hashing';
@@ -40,6 +39,7 @@ import { IdentityIds } from './ids';
 import { SharedAdmission, type TransportFacts } from './admission';
 import { audit, changed, now, ref, run, reject, type Client } from './support';
 import { MembershipSecurity } from './membership-security';
+import { refuse } from './refusals';
 
 interface Binding {
   readonly digest: string;
@@ -95,7 +95,7 @@ export class IdentityAuthentication implements OwnAuthenticationPort {
     const locator = canonicalLoginIdentifier(identifier);
     // Invalid bounded input shares the verifier's genuine invalid-locator dummy path.
     if (!(await this.admission.reserve('LOGIN', transport, locator ?? 'invalid')))
-      throw new IdentityPortError('UNAVAILABLE');
+      refuse('ADMISSION_DENIED', 'UNAVAILABLE');
     let issued: Awaited<ReturnType<SessionAuthenticator['issue']>>;
     try {
       issued = await this.authenticator.issue(
@@ -167,9 +167,11 @@ export class IdentityAuthentication implements OwnAuthenticationPort {
       row !== null &&
         Object.keys(row).length === 3 &&
         row.user_id === user &&
-        row.user_status === 'ACTIVE',
+        ['ACTIVE', 'DISABLED'].includes(row.user_status),
     );
-    return repositoryRevision(row.user_revision);
+    const revision = repositoryRevision(row.user_revision);
+    if (row.user_status !== 'ACTIVE') refuse('SESSION_REJECTED', 'INTEGRITY_FAILURE');
+    return revision;
   }
   private async locked(
     client: Client,
@@ -205,7 +207,7 @@ export class IdentityAuthentication implements OwnAuthenticationPort {
       'SELECT',
       true,
     );
-    if (!row) reject();
+    if (!row) refuse('SESSION_REJECTED');
     const session = sessionFromRow(row),
       at = await now(client);
     if (
@@ -220,7 +222,7 @@ export class IdentityAuthentication implements OwnAuthenticationPort {
       at >= session.value.idleExpiresAt ||
       at >= session.value.absoluteExpiresAt
     )
-      reject();
+      refuse('SESSION_REJECTED');
     return { session, slot, at, userRevision };
   }
   private async finalTime(
@@ -233,7 +235,7 @@ export class IdentityAuthentication implements OwnAuthenticationPort {
       at >= state.session.value.idleExpiresAt ||
       at >= state.session.value.absoluteExpiresAt
     )
-      reject();
+      refuse('SESSION_REJECTED');
   }
   async authenticate(raw: unknown): Promise<AuthenticatedRequestHandle | null> {
     const digest = digestBearer(raw);
@@ -284,6 +286,16 @@ export class IdentityAuthentication implements OwnAuthenticationPort {
       });
     });
   }
+  async passwordState(handle: AuthenticatedRequestHandle) {
+    const binding = this.binding(handle);
+    return run(this.pool, async (client) => {
+      const state = await this.locked(client, binding, 'SHARE');
+      await this.finalTime(client, state);
+      return Object.freeze({
+        credentialRevision: repositoryRevision(state.slot.repository_revision),
+      });
+    });
+  }
   csrfToken(handle: AuthenticatedRequestHandle) {
     return run(this.pool, async (client) => {
       const state = await this.locked(client, this.binding(handle), 'SHARE');
@@ -294,7 +306,8 @@ export class IdentityAuthentication implements OwnAuthenticationPort {
   async assertUnsafe(handle: AuthenticatedRequestHandle, origin: unknown, csrf: unknown) {
     // This is a protocol-neutral adapter contract, not authorization of a later write.
     const binding = this.binding(handle);
-    if (!this.csrf.permitsUnsafeRequest(origin, csrf, this.idsSession(binding.session))) reject();
+    if (!this.csrf.permitsUnsafeRequest(origin, csrf, this.idsSession(binding.session)))
+      refuse('POLICY_DENIED');
     await this.me(handle);
   }
   private idsSession(value: string) {
@@ -465,14 +478,16 @@ export class IdentityAuthentication implements OwnAuthenticationPort {
     // Admission precedes screening/hash; old-password proof and new KDF remain outside locks.
     const binding = this.binding(handle);
     if (!(await this.admission.reserve('PASSWORD_CHANGE', transport, binding.user, binding.user)))
-      throw new IdentityPortError('UNAVAILABLE');
+      refuse('ADMISSION_DENIED', 'UNAVAILABLE');
     const snapshot = await this.credentials.verificationSnapshot(userId(binding.user));
-    if (!snapshot || (await this.hashing.verify(password, snapshot.verifier)) !== true) reject();
+    if (!snapshot || (await this.hashing.verify(password, snapshot.verifier)) !== true)
+      refuse('REAUTH_REJECTED');
     const proofAt = performance.now(),
       verifier = await this.hashing.hash(newPassword),
       newId = this.ids.nextCredentialId();
     return run(this.pool, async (client) => {
       const state = await this.locked(client, binding, 'UPDATE');
+      if (state.slot.repository_revision !== expected) refuse('REQUEST_STALE', 'STALE_WRITE');
       expectedRevision(
         repositoryRevision(state.slot.repository_revision),
         repositoryRevision(expected),
@@ -570,11 +585,12 @@ export class IdentityAuthentication implements OwnAuthenticationPort {
     ref(requestId);
     const binding = this.binding(handle);
     if (!(await this.admission.reserve(purpose, transport, binding.user, binding.user)))
-      throw new IdentityPortError('UNAVAILABLE');
+      refuse('ADMISSION_DENIED', 'UNAVAILABLE');
     const before = await this.me(handle);
     const snapshot = await this.credentials.verificationSnapshot(before.userId),
       proofAt = performance.now();
-    if (!snapshot || (await this.hashing.verify(password, snapshot.verifier)) !== true) reject();
+    if (!snapshot || (await this.hashing.verify(password, snapshot.verifier)) !== true)
+      refuse('REAUTH_REJECTED');
     await run(this.pool, async (client) => {
       // Exclusive barrier BEFORE any slot/session locks; no shared-to-exclusive upgrade.
       const state = await this.locked(client, binding, 'SHARE', true);

@@ -2,6 +2,7 @@ import {
   IdentityPortError,
   type IdentityPortErrorCode,
 } from '@/lib/zhiban/application/identity/ports/errors';
+import { preserveRefusal } from '../composition/refusals';
 
 const codes: readonly IdentityPortErrorCode[] = [
   'CONFLICT',
@@ -23,9 +24,12 @@ export function sanitizedCredentialError(error: unknown): IdentityPortError {
   } catch {
     /* A hostile Proxy is not a source of error details. */
   }
-  return new IdentityPortError(
-    typeof code === 'string' && codes.includes(code as IdentityPortErrorCode)
-      ? (code as IdentityPortErrorCode)
-      : 'UNAVAILABLE',
+  return preserveRefusal(
+    error,
+    new IdentityPortError(
+      typeof code === 'string' && codes.includes(code as IdentityPortErrorCode)
+        ? (code as IdentityPortErrorCode)
+        : 'UNAVAILABLE',
+    ),
   );
 }

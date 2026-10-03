@@ -57,6 +57,7 @@ import {
 } from './membership-intent';
 import { appendMemberAudit } from './member-audit';
 import { now, changed, type Client } from './support';
+import { refuse } from './refusals';
 
 interface Ledger {
   command_id: string;
@@ -360,7 +361,7 @@ export class MemberCommands implements MembershipCompositionPort {
         integrity(
           existing === null ||
             (existing.command_id === commandId &&
-              existing.intent_digest === digest &&
+              /^[0-9a-f]{64}$/.test(existing.intent_digest) &&
               ['APPLIED', 'TRUE_NO_OP'].includes(existing.outcome_kind) &&
               /^(0|[1-9][0-9]*)$(?![\s\S])/.test(existing.completed_at) &&
               BigInt(existing.completed_at) <= BigInt(at)),
@@ -378,6 +379,19 @@ export class MemberCommands implements MembershipCompositionPort {
         const states = new Map<UserId, 'ACTIVE' | 'DISABLED'>(
           [...globals.users.values()].map((f) => [f.userId, f.status]),
         );
+        if (existing !== null && existing.intent_digest !== digest) {
+          for (const q of queries)
+            if (
+              authorizeRead(
+                { ...q, action: 'MEMBERSHIP_READ' },
+                { globals, actor, target: members.get(q.targetMembershipId!)! },
+                catalog,
+                at,
+              ).decision !== 'ALLOW'
+            )
+              refuse('TARGET_HIDDEN', 'INTEGRITY_FAILURE');
+          refuse('REQUEST_STALE', 'INTEGRITY_FAILURE');
+        }
         const plans: {
           target: MembershipCommandTarget;
           before: Loaded<Membership>;
@@ -402,7 +416,18 @@ export class MemberCommands implements MembershipCompositionPort {
               at,
               existing !== null,
             );
-          integrity(decision.decision === 'ALLOW');
+          if (decision.decision !== 'ALLOW') {
+            const visible = authorizeRead(
+              { ...queries[i], action: 'MEMBERSHIP_READ' },
+              { globals, actor, target: before },
+              catalog,
+              at,
+            );
+            refuse(
+              visible.decision === 'ALLOW' ? 'POLICY_DENIED' : 'TARGET_HIDDEN',
+              'INTEGRITY_FAILURE',
+            );
+          }
           if (existing !== null) {
             const effect = oneRow(
               await client.query<{
@@ -520,22 +545,23 @@ export class MemberCommands implements MembershipCompositionPort {
                 : after.roleGrants.filter(
                     (g) => !before.value.roleGrants.some((old) => old.id === g.id),
                   );
-            integrity(
-              grants.length <= 16 &&
-                grants.every((g) =>
-                  mayDelegate({
-                    actor: actor.value,
-                    actorGrant: authorityGrant,
-                    target: before.value,
-                    targetUserStatus: globals.users.get(before.value.id)!.status,
-                    proposed: g,
-                    catalog: catalog.snapshot,
-                    now: at,
-                    preserve,
-                    resourceRelationshipVerified: false,
-                  }),
-                ),
-            );
+            integrity(grants.length <= 16);
+            if (
+              !grants.every((g) =>
+                mayDelegate({
+                  actor: actor.value,
+                  actorGrant: authorityGrant,
+                  target: before.value,
+                  targetUserStatus: globals.users.get(before.value.id)!.status,
+                  proposed: g,
+                  catalog: catalog.snapshot,
+                  now: at,
+                  preserve,
+                  resourceRelationshipVerified: false,
+                }),
+              )
+            )
+              refuse('POLICY_DENIED', 'INTEGRITY_FAILURE');
             plans.push({ target: t, before, after, intent, authorityId: decision.grantId });
             candidates.set(after.id, { value: after, revision: before.revision });
           }
@@ -547,7 +573,8 @@ export class MemberCommands implements MembershipCompositionPort {
           catalog.snapshot,
           at,
         );
-        integrity(count.governance > 0 && count.operational > 0);
+        if (!(count.governance > 0 && count.operational > 0))
+          refuse('POLICY_DENIED', 'INTEGRITY_FAILURE');
         if (existing === null) {
           await capacity(
             client,

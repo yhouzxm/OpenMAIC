@@ -20,6 +20,7 @@ import { sanitizedCredentialError } from '../credentials/credential-errors';
 import { compositionAction, closedCompositionArray } from './membership-intent';
 import { SharedAdmission } from './admission';
 import { now, ref, run, type Client } from './support';
+import { refuse } from './refusals';
 
 interface SessionBinding {
   readonly user: string;
@@ -169,10 +170,14 @@ export class MembershipSecurity {
       const intent = copyIntent(input),
         binding = this.resolve(handle);
       integrity(typeof secret === 'string');
-      integrity(
-        (await this.admission.reserve('REAUTHENTICATE', transport, binding.user, binding.user)) ===
-          true,
+      const allowed = await this.admission.reserve(
+        'REAUTHENTICATE',
+        transport,
+        binding.user,
+        binding.user,
       );
+      if (allowed === false) refuse('ADMISSION_DENIED', 'INTEGRITY_FAILURE');
+      integrity(allowed === true);
       const monotonic = performance.now();
       const anchor = await run(this.pool, async (client) => {
         const row = oneRow(
@@ -192,7 +197,9 @@ export class MembershipSecurity {
       }); // release auth client before snapshot and expensive KDF
       const snapshot = await this.credentials.verificationSnapshot(userId(binding.user));
       const verified = await this.hashing.verify(secret, snapshot?.verifier ?? this.dummy);
-      integrity(snapshot !== null && verified === true && snapshot.userId === binding.user);
+      integrity(typeof verified === 'boolean');
+      if (snapshot === null || verified === false) refuse('REAUTH_REJECTED', 'INTEGRITY_FAILURE');
+      integrity(snapshot.userId === binding.user);
       const elapsed = performance.now() - monotonic;
       integrity(elapsed >= 0 && elapsed < 300000);
       const handleProof: RecentMembershipReauthentication = Object.freeze({

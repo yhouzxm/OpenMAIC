@@ -267,6 +267,44 @@ async function harness() {
   };
 }
 describe('own authentication composition SQL contract (not real PostgreSQL evidence)', () => {
+  it('D8 password-state reuses full validated lock path and projects only canonical revision', async () => {
+    const h = await harness(),
+      handle = await h.security.authenticate(raw);
+    h.calls.length = 0;
+    expect(await h.security.passwordState(handle!)).toEqual({ credentialRevision: '1' });
+    const sql = h.calls.map((c) => c.sql);
+    expect(sql.findIndex((s) => s.includes('identity_auth_user_anchor'))).toBeLessThan(
+      sql.findIndex((s) => s.includes('pg_advisory')),
+    );
+    expect(sql.findIndex((s) => s.includes('credential_slots'))).toBeLessThan(
+      sql.findIndex((s) => s.includes('FROM zhiban_identity.credentials')),
+    );
+    expect(sql.findIndex((s) => s.includes('FROM zhiban_identity.credentials'))).toBeLessThan(
+      sql.findIndex((s) => s.includes('FROM zhiban_identity.sessions')),
+    );
+    expect(sql.at(-1)).toBe('COMMIT');
+    expect(sql.some((s) => s.startsWith('UPDATE'))).toBe(false);
+  });
+  it('D8 password-state refuses counterfeit private handle before SQL', async () => {
+    const h = await harness();
+    h.calls.length = 0;
+    await expect(h.security.passwordState({ kind: 'AUTHENTICATED_REQUEST' })).rejects.toThrow();
+    expect(h.calls).toEqual([]);
+  });
+  it('D8 password-state fails closed on malformed credential aggregate', async () => {
+    const h = await harness(),
+      handle = await h.security.authenticate(raw);
+    h.slot({ generation: '2' });
+    await expect(h.security.passwordState(handle!)).rejects.toThrow();
+  });
+  it('D8 password-state rejects current epoch mismatch and releases client', async () => {
+    const h = await harness(),
+      handle = await h.security.authenticate(raw);
+    h.session({ security_epoch: '2' });
+    await expect(h.security.passwordState(handle!)).rejects.toThrow();
+    expect(h.calls.at(-1)?.sql).toBe('ROLLBACK');
+    expect(h.release).toHaveBeenCalled();
+  });
   it('touch locks User/barrier/slot/session before fresh clock; CAS/secret-safe DTO', async () => {
     const h = await harness(),
       handle = await h.security.authenticate(raw);

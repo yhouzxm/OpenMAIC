@@ -17,6 +17,11 @@ export async function middleware(request: NextRequest) {
     return new NextResponse('Not found', { status: 404 });
   }
 
+  // Exact Identity segment delegates to its mandatory Node Session/Origin/CSRF gate.
+  if (pathname === '/api/zhiban/identity' || pathname.startsWith('/api/zhiban/identity/')) {
+    return NextResponse.next();
+  }
+
   const accessCode = process.env.ACCESS_CODE;
   if (!accessCode) {
     return NextResponse.next();

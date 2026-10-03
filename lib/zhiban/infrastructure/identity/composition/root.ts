@@ -28,6 +28,8 @@ import { membershipCompositionPolicy } from './membership-intent';
 import { MembershipCommands } from '@/lib/zhiban/application/identity/use-cases/memberships';
 import type { MembershipCompositionPolicy } from '@/lib/zhiban/application/identity/ports/membership-composition';
 import type { MembershipOperatorApprovalStore } from './control-approval';
+import { IdentitySafeQueries } from '@/lib/zhiban/application/identity/use-cases/safe-queries';
+import { IdentitySafeQueryComposition } from './safe-queries';
 
 export interface IdentityCompositionConfig {
   readonly origin: string;
@@ -178,10 +180,21 @@ export async function createIdentityComposition(
           );
     let members: MembershipCommands | null = null,
       control: ControlCommands | null = null;
+    let queries: IdentitySafeQueries | null = null;
     if (config.membership !== undefined && config.membership !== null) {
       const memberPolicy = membershipCompositionPolicy(config.membership.policy);
       integrity(memberPolicy.environmentRef === config.admission.environment);
       const bridge = await security.membershipSecurity();
+      queries = new IdentitySafeQueries(
+        new IdentitySafeQueryComposition(
+          security,
+          pools.tenant,
+          bridge,
+          catalog,
+          memberPolicy,
+          config.membership.operator,
+        ),
+      );
       members = new MembershipCommands(
         new MemberCommands(pools.tenant, bridge, catalog, ids, memberPolicy),
         new MemberAdmissions(
@@ -211,6 +224,7 @@ export async function createIdentityComposition(
       catalog,
       operator,
       members,
+      queries,
       control,
       cookiePolicy: sessionCookiePolicy(true),
     });
