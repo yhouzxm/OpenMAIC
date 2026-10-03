@@ -595,7 +595,7 @@ describe.skipIf(!configured)('real PG16 authorization A7-03 + transaction signof
     expect([...read.globals.users.keys()]).toEqual([actor.id, student.id]);
     expect(await new PostgresMembershipRepository(e.p).findById(context, foreign.id)).toBeNull();
     const policies = await rows(
-      "SELECT tablename,roles,cmd,qual FROM pg_policies WHERE policyname LIKE '%authorization_owner_read'",
+      "SELECT tablename,roles::text[] AS roles,cmd,qual FROM pg_policies WHERE policyname LIKE '%authorization_owner_read'",
     );
     expect(policies).toHaveLength(2);
     for (const p of policies) {
