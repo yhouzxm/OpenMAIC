@@ -75,6 +75,18 @@ describe('D8 bounded protocol before secret processing', () => {
     expect(() =>
       headers(request('me', 'GET', undefined, { 'X-Large': 'a'.repeat(8192) }), origin, false),
     ).toThrow());
+  it('missing Cookie represents an anonymous request', () => {
+    const r = request('login', 'POST', {});
+    expect(r.headers.has('Cookie')).toBe(false);
+    expect(cookie(r)).toBeNull();
+  });
+  it('explicit empty Cookie is rejected rather than treated as anonymous', () => {
+    const r = request('login', 'POST', {}, { Cookie: '' });
+    expect(r.headers.has('Cookie')).toBe(true);
+    expect(() => cookie(r)).toThrow(
+      expect.objectContaining({ status: 400, message: 'Identity protocol rejected.' }),
+    );
+  });
   it.each([
     '__Host-zhiban_session=a',
     '__Host-zhiban_session=' + 'a'.repeat(43) + '; __Host-zhiban_session=' + 'b'.repeat(43),

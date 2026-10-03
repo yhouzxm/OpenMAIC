@@ -74,12 +74,19 @@ async function browser(
     }),
   );
   servers.push(server);
-  const call = (path: string, method = 'GET', value?: unknown, extra: HeadersInit = {}) =>
+  const call = (
+    path: string,
+    method = 'GET',
+    value?: unknown,
+    extra: HeadersInit = {},
+    authenticated = true,
+  ) =>
     fetch(server.base + path, {
       method,
       headers: {
         ...protocol,
-        Cookie: '__Host-zhiban_session=' + who.raw,
+        // Anonymous requests omit Cookie; an empty header is malformed protocol input.
+        ...(authenticated ? { Cookie: '__Host-zhiban_session=' + who.raw } : {}),
         ...Object.fromEntries(new Headers(extra)),
       },
       ...(value === undefined ? {} : { body: JSON.stringify(value) }),
@@ -87,6 +94,8 @@ async function browser(
   const proof = await (await call('csrf')).json();
   return {
     call,
+    anonymous: (path: string, method = 'GET', value?: unknown, extra: HeadersInit = {}) =>
+      call(path, method, value, extra, false),
     unsafe: (path: string, value: unknown, key = ids.nextCommandId()) =>
       call(path, 'POST', value, { 'X-Zhiban-CSRF': proof.csrfToken, 'Idempotency-Key': key }),
     server,
@@ -160,7 +169,7 @@ describe.skipIf(!configured).sequential('D8 real PG16 roles + actual HTTP adapte
       [e.manager.id, 'wrong', 401],
       [ids.nextUserId(), password, 401],
     ] as const) {
-      const r = await b.call('login', 'POST', { userId: locator, password: p }, { Cookie: '' });
+      const r = await b.anonymous('login', 'POST', { userId: locator, password: p });
       expect(r.status).toBe(expected);
       if (expected === 200) {
         expect(Object.keys(await r.json()).sort()).toEqual([
@@ -683,12 +692,7 @@ describe.skipIf(!configured).sequential('D8 real PG16 roles + actual HTTP adapte
       "UPDATE zhiban_identity.admission_buckets SET used_count=$1 WHERE purpose='LOGIN' AND dimension='GLOBAL'",
       [limit.toString()],
     );
-    const refused = await b.call(
-      'login',
-      'POST',
-      { userId: e.manager.id, password },
-      { Cookie: '' },
-    );
+    const refused = await b.anonymous('login', 'POST', { userId: e.manager.id, password });
     expect(refused.status).toBe(429);
     expect(refused.headers.get('Retry-After')).toBe('30');
     expect((await b.call('me', 'GET', undefined, { 'X-Zhiban-Client-IP': '' })).status).toBe(503);

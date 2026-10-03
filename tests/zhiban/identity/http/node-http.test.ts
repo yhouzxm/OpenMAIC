@@ -3,6 +3,38 @@ import { setup, origin, id, secret } from './fixtures';
 import { listen } from './node-harness';
 
 describe('D8 actual Node HTTP requests through production adapter', () => {
+  it('missing Cookie permits anonymous login; empty Cookie is rejected before authentication', async () => {
+    const e = setup(),
+      server = await listen(e.facade);
+    const headers = {
+      'X-Zhiban-Request': 'identity-v1',
+      'X-Zhiban-Client-IP': '127.0.0.1',
+      Origin: origin,
+      'Content-Type': 'application/json',
+    };
+    try {
+      const malformed = await fetch(server.base + 'login', {
+        method: 'POST',
+        headers: { ...headers, Cookie: '' },
+        body: JSON.stringify({ userId: id, password: secret }),
+      });
+      expect(malformed.status).toBe(400);
+      expect(malformed.headers.has('set-cookie')).toBe(false);
+      expect(e.security.authenticate).not.toHaveBeenCalled();
+      expect(e.security.login).not.toHaveBeenCalled();
+      const anonymous = await fetch(server.base + 'login', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ userId: id, password: secret }),
+      });
+      expect(anonymous.status).toBe(200);
+      expect(anonymous.headers.has('set-cookie')).toBe(true);
+      expect(e.security.login).toHaveBeenCalledTimes(1);
+      expect(e.security.authenticate).not.toHaveBeenCalled();
+    } finally {
+      await server.close();
+    }
+  });
   it('independent cookie jars, CSRF unsafe logout, cache and method policy', async () => {
     const e = setup(),
       server = await listen(e.facade);
