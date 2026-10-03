@@ -68,12 +68,24 @@ Local post-format verification exposed one format-sensitive static regression: `
 
 The first HTTP/1.1 push of this commit failed with connection reset; the last verified remote sync ref remains `f7044814`. Three dispatches made before push confirmation consequently bound to that old SHA (37076896743, 37076899826, 37076903394); cancellation was requested for all three and none is used as new-candidate evidence. The user allowed one push retry; it failed to connect to GitHub port 443 after 21068 ms. No further retry, force push, SSH fallback or persistent Git config change was performed. The local candidate (including the small test compatibility follow-up) requires a successful push, independently read-back remote SHA, and fresh dispatches. Do not rerun the old formatting-failing SHA to claim closure.
 
-## Integration gate
+## Final candidate verification and approved V2 integration
 
-SYNC_COMPATIBILITY: PENDING_FORMATTED_CANDIDATE_CI
+The pending push/CI descriptions above are historical. The subsequent candidate `6c08f4dcbd8fd84105c9823d3a5229565d96a85d` was successfully pushed to `sync/openmaic-1.1.2` and independently read back before dispatch. All three new runs used `workflow_dispatch` and that exact head SHA:
 
-READY_FOR_HUMAN_SYNC_SIGNOFF: NO
+| Final candidate gate | Evidence |
+| --- | --- |
+| [CI 37077902289](https://github.com/yhouzxm/OpenMAIC/actions/runs/37077902289) | SUCCESS; Prettier, lint (0 errors / 20 existing warnings), typecheck and i18n passed; root 9890 passed / 219 skipped; importer 271, DSL 252, generation 199; storage without PG 1137 passed / 184 skipped; production build, E2E 65/65, Render Service and main Docker deps/builder passed. Existing environment-dependent skips are not claimed as passing real-PG tests. |
+| [Storage PG16 37077906212](https://github.com/yhouzxm/OpenMAIC/actions/runs/37077906212) | SUCCESS; 1314 passed / 7 skipped; all four mandatory real-PG suites (32 + 28 + 8 + 39) passed; required suite collection and 12-table write audit passed; app-domain PG 18/18 passed. |
+| [Identity PG16 37077909383](https://github.com/yhouzxm/OpenMAIC/actions/runs/37077909383) | SUCCESS; PostgreSQL 16.15, Node v22.23.3 linux/x64; all eight suites passed in both complete runs (121/121 each); 905/905 static/Domain/Port/Credential/Session/repository regression; actual native Argon2 execution, lint and typecheck passed. |
 
-V2_INTEGRATION: NOT_PERFORMED
+After this evidence, the human explicitly approved integration into V2. `refactor/zhiban-v2` was fast-forwarded from `9c99299d6f2a121dbaced4a1c62f5471a75af6b3` to the exact tested candidate `6c08f4dcbd8fd84105c9823d3a5229565d96a85d`, pushed using HTTP/1.1 with command-scoped postBuffer, and the remote ref was read back at the same SHA. The worktree was clean. No additional merge commit, production deployment or business implementation occurred. Root version is 1.1.2; migration 0001–0006, lockfile and workspace package sources remain unchanged from the V2 base.
 
-Human approval after the compatibility evidence is complete remains required before merging this sync branch into `refactor/zhiban-v2`. Keep the pinned V2 base available; a candidate branch can be rejected without altering V2. Do not use a Git rollback to undo applied database state; this sync creates no migration.
+## Integration gate (final state; supersedes pending markers above)
+
+SYNC_COMPATIBILITY: PASS
+
+HUMAN_SYNC_SIGNOFF: APPROVED
+
+V2_INTEGRATION: COMPLETE
+
+Human approval after complete compatibility evidence was obtained before this integration. Future upgrades require their own exact-candidate verification and human approval. Keep the pinned prior V2 base available. Do not use a Git rollback to undo applied database state; this sync creates no migration. This gate does not close U01/U02, approve ADR-012, expose native OpenMAIC routes, authorize V1 data migration or certify production cutover.
