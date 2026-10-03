@@ -13,6 +13,7 @@ describe('Session migration static contracts (NOT parser/runtime evidence)', () 
       '0005',
       '0006',
       '0007',
+      '0008',
     ]);
     const sql = files[5].sql;
     expect(sql).toContain('ADD COLUMN security_epoch bigint');

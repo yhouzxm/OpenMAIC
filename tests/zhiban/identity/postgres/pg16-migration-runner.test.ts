@@ -39,7 +39,7 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity migration r
   beforeEach(emptyReadyDatabase);
   afterAll(resetDisposableIdentity);
 
-  it('applies 0001–0007 from empty database and a second CLI run is a no-op', async () => {
+  it('applies 0001–0008 from empty database and a second CLI run is a no-op', async () => {
     const admin = adminClient();
     await admin.connect();
     try {
@@ -63,7 +63,7 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity migration r
       });
     const first = run();
     expect(first.status, first.stderr).toBe(0);
-    expect(first.stdout).toContain('0001, 0002, 0003, 0004, 0005, 0006, 0007');
+    expect(first.stdout).toContain('0001, 0002, 0003, 0004, 0005, 0006, 0007, 0008');
     const second = run();
     expect(second.status, second.stderr).toBe(0);
     expect(second.stdout).toContain('none');
@@ -81,6 +81,7 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity migration r
         '0005',
         '0006',
         '0007',
+        '0008',
       ]);
       expect(ledger.rows.every((row) => /^[0-9a-f]{64}$/.test(row.checksum) && row.has_time)).toBe(
         true,
@@ -99,6 +100,7 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity migration r
       '0005',
       '0006',
       '0007',
+      '0008',
     ]);
     const admin = adminClient();
     await admin.connect();
@@ -122,7 +124,7 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity migration r
     }
   });
 
-  it('rolls back a test-only failed 0008 migration and its ledger entry', async () => {
+  it('rolls back a test-only failed 0009 migration and its ledger entry', async () => {
     expect(await applyRealMigrations()).toEqual([
       '0001',
       '0002',
@@ -131,12 +133,13 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity migration r
       '0005',
       '0006',
       '0007',
+      '0008',
     ]);
     const files = await loadMigrationFiles();
     const failing = planMigrations([
       ...files.map(({ name, sql }) => ({ name, sql })),
       {
-        name: '0008_test_failure.sql',
+        name: '0009_test_failure.sql',
         sql: 'CREATE TABLE zhiban_identity.pg16_failure_probe (id int); SELECT 1 / 0;',
       },
     ]);
@@ -153,7 +156,7 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity migration r
     await admin.connect();
     try {
       const result = await admin.query(
-        "SELECT to_regclass('zhiban_identity.pg16_failure_probe') AS table_name, (SELECT count(*)::int FROM zhiban_identity.schema_migrations WHERE version = '0008') AS ledger_count",
+        "SELECT to_regclass('zhiban_identity.pg16_failure_probe') AS table_name, (SELECT count(*)::int FROM zhiban_identity.schema_migrations WHERE version = '0009') AS ledger_count",
       );
       expect(result.rows[0]).toMatchObject({ table_name: null, ledger_count: 0 });
     } finally {
@@ -171,7 +174,7 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity migration r
         applyMigrations(migrationConnection(first), files),
         applyMigrations(migrationConnection(second), files),
       ]);
-      expect(results.map((result) => result.length).sort()).toEqual([0, 7]);
+      expect(results.map((result) => result.length).sort()).toEqual([0, 8]);
     } finally {
       await Promise.all([first.end(), second.end()]);
     }
@@ -189,6 +192,7 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity migration r
         { version: '0005', count: 1 },
         { version: '0006', count: 1 },
         { version: '0007', count: 1 },
+        { version: '0008', count: 1 },
       ]);
     } finally {
       await admin.end();

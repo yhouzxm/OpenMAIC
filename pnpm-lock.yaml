@@ -401,6 +401,9 @@ importers:
       use-stick-to-bottom:
         specifier: ^1.1.1
         version: 1.1.3(react@19.2.3)
+      uuid:
+        specifier: 14.0.2
+        version: 14.0.2
       zod:
         specifier: ^4.3.5
         version: 4.3.6
@@ -12988,6 +12991,10 @@ packages:
 
   uuid@13.0.0:
     resolution: {integrity: sha512-XQegIaBTVUjSHliKqcnFqYypAd4S+WCYt5NIeRs6w/UAry7z8Y9j5ZwRRL4kzq9U3sD6v+85er9FvkEaBpji2w==}
+    hasBin: true
+
+  uuid@14.0.2:
+    resolution: {integrity: sha512-xZe/16rV4aa+HGSOCiY2YeLT1OybRLrrkL/Rqaq7p7GMVXjFh+6wN4oMYgjFmnSnhY8t6Xpdl2l9qmnHYuMHwQ==}
     hasBin: true
 
   uuid@3.4.0:
@@ -27730,6 +27737,8 @@ snapshots:
   uuid@11.1.1: {}
 
   uuid@13.0.0: {}
+
+  uuid@14.0.2: {}
 
   uuid@3.4.0: {}
 

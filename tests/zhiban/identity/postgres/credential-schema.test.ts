@@ -87,6 +87,10 @@ describe('Credential schema and security boundary STATIC (not real PostgreSQL ev
       'lib/zhiban/infrastructure/identity/credentials/verifier-material.ts',
       'lib/zhiban/infrastructure/identity/postgres/repositories/credential.ts',
       'lib/zhiban/infrastructure/identity/postgres/repositories/credential-records.ts',
+      // Appendix B narrowly authorizes these same-client security-only commands.
+      // No Application/Domain barrel receives PHC extraction or hydration authority.
+      'lib/zhiban/infrastructure/identity/composition/authentication.ts',
+      'lib/zhiban/infrastructure/identity/composition/operator.ts',
     ]);
     const consumers = files(resolve('lib')).filter(
       (path) => path.endsWith('.ts') || path.endsWith('.tsx'),
@@ -101,7 +105,7 @@ describe('Credential schema and security boundary STATIC (not real PostgreSQL ev
       // it captures the exact verified snapshot for issuance, never extracts PHC.
       if (/from ['"][^'"]*repositories\/credential(?:-records)?['"]/.test(source))
         expect(path.replaceAll('\\', '/')).toMatch(
-          /\/infrastructure\/identity\/(credentials\/credential-verifier|postgres\/repositories\/credential|sessions\/session-authenticator)\.ts$/,
+          /\/infrastructure\/identity\/(credentials\/credential-verifier|postgres\/repositories\/credential|sessions\/session-authenticator|composition\/(authentication|operator|root))\.ts$/,
         );
       if (path.includes('domain'))
         expect(source).not.toMatch(/@node-rs\/argon2|PasswordVerifierHandle|verifier_material/);

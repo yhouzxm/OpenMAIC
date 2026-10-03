@@ -10,7 +10,7 @@ describe('A7-03 exact authorization helper exception', () => {
         .filter((x) => x.endsWith('.sql'))
         .map((x) => x.slice(0, 4))
         .sort(),
-    ).toEqual(['0001', '0002', '0003', '0004', '0005', '0006', '0007']);
+    ).toEqual(['0001', '0002', '0003', '0004', '0005', '0006', '0007', '0008']);
     expect(sql.match(/CREATE FUNCTION/g)).toHaveLength(1);
     expect(sql.match(/CREATE POLICY/g)).toHaveLength(2);
     expect(sql).not.toMatch(

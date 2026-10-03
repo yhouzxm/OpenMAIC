@@ -66,6 +66,7 @@ jobs:
             pnpm exec vitest run tests/zhiban/identity/postgres/pg16-credentials.test.ts
             pnpm exec vitest run tests/zhiban/identity/postgres/pg16-sessions.test.ts
             pnpm exec vitest run tests/zhiban/identity/postgres/pg16-authorization.test.ts
+            pnpm exec vitest run tests/zhiban/identity/postgres/pg16-identity-composition.test.ts
             echo "PG16 SUITE RUN ${pass} PASS"
           done
       - name: Identity static, Domain and Port contract regression
@@ -78,6 +79,7 @@ jobs:
           pnpm exec vitest run tests/zhiban/identity/sessions tests/zhiban/identity/postgres/session-repository.test.ts tests/zhiban/identity/postgres/session-schema.test.ts
           pnpm exec vitest run tests/zhiban/identity/postgres/global-repositories.test.ts tests/zhiban/identity/postgres/membership-repository.test.ts tests/zhiban/identity/postgres/mappers.test.ts tests/zhiban/identity/postgres/transactions.test.ts tests/zhiban/identity/postgres/persistence-authenticity.test.ts
           pnpm exec vitest run tests/zhiban/identity/authorization tests/zhiban/identity/postgres/authorization-repository.test.ts tests/zhiban/identity/postgres/authorization-schema.test.ts
+          pnpm exec vitest run tests/zhiban/identity/use-cases tests/zhiban/identity/postgres/identity-composition-schema.test.ts
       - name: Root lint and typecheck
         shell: bash
         run: |

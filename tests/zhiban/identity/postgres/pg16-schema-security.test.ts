@@ -46,21 +46,36 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity ownership a
         });
       }
       const functions = await admin.query(
-        "SELECT p.proname, p.proowner::regrole::text AS owner, p.prosecdef, p.proconfig, p.oid = 'zhiban_identity.authorization_state(uuid,uuid,uuid[],text)'::regprocedure AS approved FROM pg_proc p WHERE p.pronamespace = 'zhiban_identity'::regnamespace",
+        "SELECT p.proname, p.oid::regprocedure::text AS signature, p.proowner::regrole::text AS owner, p.prosecdef, p.proconfig, p.provolatile, p.proparallel FROM pg_proc p WHERE p.pronamespace = 'zhiban_identity'::regnamespace",
       );
       expect(functions.rows.length).toBeGreaterThanOrEqual(10);
-      expect(
-        functions.rows.every(
-          (row) => row.owner === 'zhiban_identity_owner' && row.prosecdef === row.approved,
-        ),
-      ).toBe(true);
-      expect(functions.rows.filter((row) => row.prosecdef)).toHaveLength(1);
-      expect(functions.rows.find((row) => row.approved).proconfig).toEqual(
-        expect.arrayContaining([
-          'search_path=pg_catalog, zhiban_identity, pg_temp',
-          'row_security=on',
-        ]),
+      expect(functions.rows.every((row) => row.owner === 'zhiban_identity_owner')).toBe(true);
+      const expectedSignatures = [
+        'zhiban_identity.authorization_state(uuid,uuid,uuid[],text)',
+        'zhiban_identity.identity_auth_user_anchor(uuid)',
+        'zhiban_identity.identity_session_guard(text,uuid)',
+        'zhiban_identity.identity_session_spaces(text,uuid,integer)',
+        'zhiban_identity.identity_platform_bootstrap_lock()',
+        'zhiban_identity.identity_admission_reserve(text,text,text[])',
+        'zhiban_identity.identity_admission_prune(text,text,integer)',
+        'zhiban_identity.identity_bootstrap_consistency()',
+        'zhiban_identity.identity_provision_consistency()',
+      ].map((s) => s.replace('zhiban_identity.', ''));
+      // regprocedure suppresses namespace already visible in the fixed trusted search_path.
+      const definers = functions.rows.filter((row) => row.prosecdef);
+      expect(definers.map((row) => row.signature.replace('zhiban_identity.', '')).sort()).toEqual(
+        expectedSignatures.sort(),
       );
+      for (const row of definers) {
+        expect(row.provolatile).toBe('v');
+        expect(row.proparallel).toBe('u');
+        expect(row.proconfig).toEqual(
+          expect.arrayContaining([
+            'search_path=pg_catalog, zhiban_identity, pg_temp',
+            'row_security=on',
+          ]),
+        );
+      }
       const roles = await admin.query(
         "SELECT rolname, rolcanlogin, rolsuper, rolcreatedb, rolcreaterole, rolreplication, rolbypassrls, rolinherit FROM pg_roles WHERE rolname LIKE 'zhiban_%'",
       );
