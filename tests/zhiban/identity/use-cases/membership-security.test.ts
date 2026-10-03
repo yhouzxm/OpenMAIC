@@ -12,6 +12,8 @@ import type { AuthenticatedRequestHandle } from '@/lib/zhiban/application/identi
 import type { TransactionPool } from '@/lib/zhiban/infrastructure/identity/postgres/transactions';
 import type { PostgresCredentialRepository } from '@/lib/zhiban/infrastructure/identity/postgres/repositories/credential';
 import type { SharedAdmission } from '@/lib/zhiban/infrastructure/identity/composition/admission';
+import { Argon2PasswordHasher } from '@/lib/zhiban/infrastructure/identity/credentials/argon2-password-hasher';
+import { syntheticPasswordScreening } from '../credentials/fixture-policy';
 
 const ids = new IdentityIds(),
   user = ids.nextUserId(),
@@ -103,6 +105,25 @@ async function fixture() {
 }
 afterEach(() => vi.restoreAllMocks());
 describe('C8 private recent membership reauthentication proof', () => {
+  it('initializes a real Argon2 dummy with the synthetic base64url screening policy', async () => {
+    const urlSafeSecret = 'A'.repeat(62) + '-_';
+    expect(await syntheticPasswordScreening.isCompromised(urlSafeSecret)).toBe(false);
+    expect(await syntheticPasswordScreening.isCompromised('A'.repeat(62) + '+/')).toBe(false);
+    expect(await syntheticPasswordScreening.isCompromised('A'.repeat(63) + '!')).toBe(true);
+    const provider = new Argon2PasswordHasher(syntheticPasswordScreening);
+    const verifier = await provider.hash(urlSafeSecret);
+    expect(await provider.verify(urlSafeSecret, verifier)).toBe(true);
+    const security = await MembershipSecurity.create(
+      () => {
+        throw new Error('unused');
+      },
+      {} as TransactionPool,
+      { verificationSnapshot: async () => null },
+      provider,
+      {} as SharedAdmission,
+    );
+    expect(security).toBeInstanceOf(MembershipSecurity);
+  });
   it('binds handle/intent/User+slot revisions+epoch, sanitizes returned proof and sends no raw secret to SQL', async () => {
     const f = await fixture(),
       proof = await f.security.prepare(f.handle, intent, secret, transport);

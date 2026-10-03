@@ -5,7 +5,7 @@ export const syntheticPasswordScreening: PasswordScreeningPort = {
     return (
       !secret.startsWith('Synthetic') &&
       !secret.startsWith('  Unicode') &&
-      !/^[A-Za-z0-9+/]{64}$/.test(secret)
+      !/^(?:[A-Za-z0-9+/]{64}|[A-Za-z0-9_-]{64})$/.test(secret)
     );
   },
 };
