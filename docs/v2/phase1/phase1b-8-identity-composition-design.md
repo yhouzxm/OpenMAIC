@@ -6,7 +6,7 @@ Date: 2026-10-03. Branch: `refactor/zhiban-v2`. Design base HEAD: `bf3f9139f28a1
 
 2026-10-03 用户明确批准：“批准1B-8A 设计”。本批准冻结本文已描述的 A8-01–05 设计选择与推荐方向，包括 UserId-first、注册用户邀请/consent/fresh approval、Session-at-write 与本人空间发现边界、有限 bootstrap 和闭集 provenance/幂等要求。本文中“提案/推荐”是方案形成时的称谓，审批状态以第 15 节为准；不再表示这些已描述方向尚待产品选择。
 
-批准不扩展为实施授权，不批准本文尚未给出的逐字段 schema/完整 ACL/RLS SQL、部署阈值/代理配置/具名运营责任，也不批准受控人工恢复的具体能力。精确 schema/ACL 补充与人工恢复仍保留独立审批 Gate。本文不实现 Application use case、HTTP、配置、数据库对象、测试或 workflow，不 commit/push/dispatch。下一步为文档 checkpoint、独立远端核验；随后补充精确 schema/ACL 设计并另行授权 BUILD。
+批准不扩展为实施授权。2026-10-03 用户进一步明确“批准附录 B 的 B8-S01–S06”，并要求审阅：附录 B 的精确 8B schema/ACL 契约现已人工批准并冻结；未列入附录 B 的 8C/恢复能力、部署阈值/代理配置/具名运营责任仍需独立审批。本文不实现 Application use case、HTTP、配置、数据库对象、测试或 workflow，不 commit/push/dispatch。下一步为本补充文档 checkpoint、独立远端核验，之后另行授权 8B BUILD。
 
 ## 1. 权威、实际资产与设计缺口
 
@@ -300,13 +300,15 @@ HTTP验收真实request/response/cookie，不只调用policy函数。每个受�
 
 ## 15. 审批清单、Frozen / Deferred 与最终状态
 
+2026-10-03 已完成 8A 文档 checkpoint，commit `01cf79b2dd337918cbff29d1e2404e88777f6d36`，parent `bf3f9139f28a1f87edc7e15aa3ab8d97452aaadd`，message `docs(zhiban-v2): freeze identity composition design`；GitHub API 独立核验三者一致。补充设计基线同该 checkpoint，开始设计时 worktree CLEAN。用户已明确批准附录 B 的 B8-S01–S06；本次审阅/批准收口开始时 worktree 仅包含本文件补充。以下是获准精确设计，不是 BUILD 授权；第 2–14 节方向不重开，旧段落的待精确审批措辞对 8B 以附录 B 为准，对 8C/恢复仍有效。
+
 | 项 | 本轮状态 | 已批准范围 / 后续独立 Gate |
 | --- | --- | --- |
 | A8-01 MVP/HTTP契约 | HUMAN_APPROVED_DESIGN_CLOSED | UserId-first、公共recovery关闭、registered-userinvite→consent→freshapproval、无publicsignup/selfleave/controlHTTP、JSON/CSRF/body限值 |
 | A8-02 ID/config/admission/step-up | HUMAN_APPROVED_DESIGN / CONFIG_VALUES_PENDING | uuid v7 provider方向、生产catalog准备、逐命令recentpasswordproof、PGsharedbudget、单processCSRF限制已批准；provider精确版本实施前核验，deployment阈值/代理/责任另行配置批准 |
-| A8-03 同事务认证/发现能力 | HUMAN_APPROVED_DESIGN_DIRECTION / EXACT_SCHEMA_ACL_REVIEW_PENDING | 窄Sessionguard签名/投影/锁序、本人spacequery与最小ownerSELECT例外方向已批准；完整SQL/对象许可须精确审阅；无directsecretsGRANT |
-| A8-04 durableapproval/consent/idempotency/audit | HUMAN_APPROVED_DESIGN_DIRECTION / EXACT_SCHEMA_REVIEW_PENDING | provenance/consent/幂等/有限新closedaudit及same-client消费要求已批准；专用tables逐字段/约束/ACL、helper/event shape、retention/expiry需精确设计批准 |
-| A8-05 operatorbootstrap/recovery | HUMAN_APPROVED_BOOTSTRAP_DESIGN_DIRECTION / OPERATOR_RECOVERY_APPROVAL_PENDING | firstadmin/onboarding有限one-time方向已批准；exacthelper/ownerDML须精确审阅，具名责任/独立批准/演练尚未配置；no-admin与password人工恢复仍分别批准 |
+| A8-03 同事务认证/发现能力 | HUMAN_APPROVED_8B_EXACT_DESIGN / 8C_STEP_UP_SUPPLEMENT_PENDING | 附录 B 的窄Sessionguard/anchor/discovery签名、投影、锁序及最小ownerSELECT例外已批准；无directsecretsGRANT；tenant/control写入step-up精确能力留8C |
+| A8-04 durableapproval/consent/idempotency/audit | HUMAN_APPROVED_8B_EXACT_DESIGN / 8C_SCHEMA_REVIEW_PENDING | 附录 B 的global预算、bootstrap/provision绑定与audit ID关联已批准；tenant consent/approval/command ledger、pending helper及新closed audit仍须8C精确批准 |
+| A8-05 operatorbootstrap/recovery | HUMAN_APPROVED_PLATFORM_BOOTSTRAP_EXACT_DESIGN / OPERATOR_RECOVERY_APPROVAL_PENDING | 附录 B 的平台引导/首次password精确设计已批准；firstTenantadmin ownerDML留8C；具名责任/独立批准/演练未配置，no-admin/password人工恢复仍分别批准 |
 
 FROZEN_EXISTING / PRESERVED：GLOBALownership、opaque/digest/privatecrypto、Sessionepoch/Userrevision/terminalexpiry、单grantauthorization/closedscope、approvedcatalog/ceiling、lastadminguard、CAS/BigInt/stale-before-no-op/noautoretry、Domain/mapper/role边界、0001–0007不可改、OpenMAIC资源机制非Zhibanauth。
 
@@ -330,7 +332,7 @@ HUMAN_DESIGN_APPROVAL: 2026-10-03
 
 FROZEN_CONTRACT_CONFLICT: NO_OBSERVED
 
-SCHEMA_ACL_SUPPLEMENT: REQUIRED_PRECISE_DESIGN_REVIEW_BEFORE_BUILD
+SCHEMA_ACL_SUPPLEMENT: APPENDIX_B_S01_S06_HUMAN_APPROVED_FROZEN
 
 PRODUCTION_IMPLEMENTED: NO
 
@@ -342,6 +344,224 @@ PUSH: NO
 
 READY_FOR_1B8A_REVIEW: COMPLETE_HUMAN_APPROVED
 
-READY_FOR_1B8A_DESIGN_CHECKPOINT: YES
+READY_FOR_1B8A_DESIGN_CHECKPOINT: COMPLETE_REMOTE_VERIFIED
 
-READY_FOR_1B8B: NO_PENDING_CHECKPOINT_SCHEMA_ACL_REVIEW_AND_SEPARATE_BUILD_AUTHORIZATION
+READY_FOR_1B8B: NO_PENDING_SUPPLEMENT_CHECKPOINT_REMOTE_VERIFICATION_AND_SEPARATE_BUILD_AUTHORIZATION
+
+## 附录 B. 1B-8B 精确 schema / ACL 补充（人工批准，冻结，未实现）
+
+Approval date: 2026-10-03。人类授权：“批准附录 B 的 B8-S01–S06”；随后要求审阅并批准。已完成本附录的对象数量/精确权限/锁序/消费与审计关联/跨池边界一致性审阅；批准仅覆盖下列设计及测试要求。没有批准执行生产 bootstrap、部署配置、8C/8D/8E 或实际 migration 应用，也没有开始 BUILD。
+
+### B.1 单元边界、实际审计与迁移 inventory
+
+本附录重新读取 0001–0007、bootstrap-roles.pg16.sql、migrate.ts、transactions.ts、repository-support.ts、User/SystemAdminGrant/Credential/Session repositories、session-records、Audit Port、ApprovedIdentityCatalog、migration/ACL/authorization static 与 PG16 tests、PG16 harness 和 workflow。事实：auth 可 SELECT users，但没有任何 users UPDATE；audit runtime 可 INSERT 固定列并有 sequence USAGE，却没有 audit SELECT；0007 的 owner Membership SELECT policy 仅 current Tenant；现有 PG16 catalog test **只允许一个 definer**，不能增加函数后原样声称旧断言仍适用。
+
+范围只覆盖 8B：global authentication/use-case composition、首个平台管理员及其首次 Credential provisioning、共享 admission、为未来 tenant/control 写入准备的 Session guard、本人空间查询。**不提前实现** 8C 的 consent/tenant approval/command ledger、pending helper、first Tenant admin owner DML、新 Membership/decision audit events、control User/Tenant 状态管理用例；它们仍须独立 8C 精确补充。人工 password/no-admin recovery 保持单独审批且默认关闭。平台 bootstrap 不替代 Tenant onboarding。
+
+获准设计的唯一新 migration：`0008_identity_authentication_composition.sql`。BUILD 开始重新查 inventory，0008 已占用则 STOP。旧 0001–0007 **byte/checksum 不变**；不修改 bootstrap role 属性/graph，不新增 role、extension、schema、startup DDL 或第二套 runner/workflow。空库 0001→0008，与已应用 0007 只追加 0008 的最终定义一致；runner 同事务写 ledger，second-run NO-OP/checksum drift/失败 rollback/advisory serialization 继续适用。本轮不创建该 SQL 文件。
+
+| 新对象集合（均在 zhiban_identity） | 数量 | 精确职责 |
+| --- | --- | --- |
+| admission_policies / admission_gate / admission_buckets | 3 tables | 固定生产 policy、永久容量锚、短生命周期 HMAC 预算计数 |
+| identity_platform_bootstrap / identity_credential_provisions | 2 tables | 永久 one-time outcome、仅首次 password 的批准消费记录 |
+| identity_auth_user_anchor / identity_session_guard / identity_session_spaces / identity_platform_bootstrap_lock | 4 definer functions | 只锁定/读固定安全投影，无业务 DML；bootstrap helper只锁精确一个表 |
+| identity_admission_reserve / identity_admission_prune | 2 definer functions | 仅 budget/gate 有限 DML，不触及 User/Session/Credential |
+| identity_bootstrap_guard / identity_provision_guard / identity_admission_policy_immutable | 3 invoker trigger functions | 生命周期/不可变性/配置不可变约束，不是 runtime-callable API |
+| identity_bootstrap_consistency / identity_provision_consistency | 2 definer constraint-trigger functions | deferred 审计/批准/结果关联校验，只读且无 runtime EXECUTE |
+| memberships_identity_discovery_owner_read / audit_identity_provenance_owner_read | 2 SELECT policies | owner 的精确读取例外；无 owner INSERT/UPDATE tenant policy |
+| memberships_identity_discovery_idx / admission_buckets_expiry_idx | 2 indexes | 本人 bounded discovery、预算 bounded cleanup |
+
+因此 0008 精确新增 **8 个 definer（6 个入口 + 2 个不可直接调用的 constraint trigger）**；加上原 authorization_state，总数 9。不新增 generic audit helper/任意 SQL dispatcher。实现若需额外 definer、table、policy 或业务 DML能力，先回到 DESIGN，不临时扩大 allowlist。
+
+### B.2 统一列/输入/错误契约
+
+所有 uuid ID（含 approvalId/commandId/CredentialId）以 `is_uuid_v7` CHECK；FK `ON DELETE RESTRICT`。时间 bigint Unix ms，0..8640000000000000，跨列严格时序；revision/epoch/generation 均正 signed int8，node-pg string + BigInt，不 Number；epoch 采用实际 1B-5 int8 契约，不改成 JS safe number。非空 bounded refs 用 ASCII `^[A-Za-z0-9._:-]{1,128}$`、`COLLATE "C"`；digest/fingerprint 为 lowercase hex64 + octet_length=64。不以这些 refs/digest 当 bearer authentication。
+
+新 JSON 不存 request body、任意 metadata 或 grant/secret 快照；budget keys 只有 Infrastructure 从已验证配置/transport facts 生成的 HMAC，不能接客户端 key。Admission/guard 函数不得 RAISE 参数值/SQL DETAIL；应用 boundary 构造新的闭集 sanitized error，不保留 cause/code/driver row。函数里不吞 SQL error 然后允许写入；guard 拒绝使用固定 `42501` 内部错误，storage/malformed/time overflow 一律 fail closed。budget 正常拒绝为 false，backend failure 不是成功。HTTP 分类仍第 10 节，不直接暴露 SQLSTATE。
+
+全部新 definer：owner `zhiban_identity_owner`（NOLOGIN）；`LANGUAGE plpgsql VOLATILE PARALLEL UNSAFE SECURITY DEFINER`；`SET search_path = pg_catalog, zhiban_identity, pg_temp`；`SET row_security = on`；schema-qualified relations/sequence/functions，无 dynamic SQL；校验 `session_user` 精确 role。迁移内先创建并 REVOKE 全部 PUBLIC/runtime EXECUTE，再仅 GRANT 下表精确 signatures；默认 PUBLIC EXECUTE 撤销继续保持。没有 overload/default args，禁止 runtime CREATE/SET ROLE。constraint trigger 不以可设置 GUC 作批准证据。
+
+PG16 行锁需要至少一列 UPDATE privilege；`INSERT ... RETURNING event_id` 也需要 SELECT，而现有角色没有此权限。本设计不通过 grants 补齐这两项广泛能力，采用 B.3 的 read-only anchor 和 B.8 的预分配 audit ID。依据 [SELECT privilege / row locks](https://www.postgresql.org/docs/16/sql-select.html)、[INSERT RETURNING / identity override](https://www.postgresql.org/docs/16/sql-insert.html)、[definer search_path / PUBLIC](https://www.postgresql.org/docs/16/sql-createfunction.html#SQL-CREATEFUNCTION-SECURITY)。这些是语义依据，不是本轮已执行 PG16 证明。
+
+### B.3 Session-at-write 与 auth User 行锁
+
+精确签名/返回：
+
+```text
+identity_auth_user_anchor(p_user_id uuid)
+  RETURNS TABLE(user_id uuid, user_status text, user_revision bigint)
+  EXECUTE: zhiban_auth_runtime only
+
+identity_session_guard(p_digest text, p_expected_user_id uuid)
+  RETURNS TABLE(user_id uuid, user_revision bigint, security_epoch bigint,
+                absolute_expires_at bigint, idle_expires_at bigint)
+  EXECUTE: zhiban_runtime, zhiban_control_runtime only
+```
+
+anchor 只对 canonical p_user_id 的 users 行 `FOR SHARE`，校验完整 persisted User lifecycle/timestamps/revision 后返回三列；缺失/非 ACTIVE 拒绝，无列表、无 INSERT/UPDATE、无 Credential/Session读写。auth 原本已能读 User，这不是新增枚举 API。它补第 6.4 节 auth command 无权执行 User FOR SHARE 的实际缺口；不给 auth 任意 users UPDATE。这里只锁 User，**不先锁 Session/slot/barrier**，避免密码 command slot SHARE→UPDATE 或 logout-all shared→exclusive 升级。
+
+Session guard 按第 6.2 节：hint 只来自 canonical digest，实际 expected User 是 authenticated request-private binding。User SHARE→shared User advisory barrier→slot SHARE→Session SHARE；fresh re-read 匹配 digest/User，User ACTIVE + session.user_revision=current user revision + session.security_epoch=current slot epoch；slot active pointer非空且对应该 User、ACTIVE 同 generation 的 Credential 元数据（不 SELECT verifier_material）；Session 未 revoked/binding非NULL。全部 positive revisions、ses_格式、时间链由 mapper 等价规则校验。函数仅输出上列，不返回 SessionId/digest/verifier、slot revision 或 grant。tenant/control使用私有step-up proof时，以同client再次读取当前slot revision校验不能从这个五列投影取得；**不得因此临时加列或SELECTslot**。该复核由后续8C精确step-up helper设计提供，8B只实现有既有slot ACL的auth命令step-up；tenant/control写用例在该Gate关闭前不开启。
+
+可信 DB 时间使用锁后 `floor(extract(epoch from pg_catalog.clock_timestamp()) * 1000)`，校验 bigint/Instant 范围；不是事务固定 CURRENT_TIMESTAMP，不接受 caller `p_now`。要求 now≥last_seen_at 且 now<idle/absolute deadline；guard 不 touch。tenant/control command final check 可再次调用同 guard，仍同 client/transaction，不能释放锁换池。known locks重入不引入新 User/Tenant。auth 自己经 anchor +既有权限执行相同内部 read；自身换密码/logout的 final check按批准 post-state，不错误要求已合法失效的旧 Session 仍有效。
+
+auth password：anchor→shared barrier→slot直接UPDATE→Session直接UPDATE→proof/CAS→旧状态终态化/新generation/audit→final expected post-state。auth logout-all：anchor→exclusive barrier→slot SHARE→Session locks→fresh authentication→revoke/audit；不得先 shared guard 再升级 barrier。锁外完成 hash/screening/current password proof；proof绑定旧 User/slot revisions、epoch、本 request/command/action，锁后复核。保持 standalone旧 repositories/issuance协议不变；新 composition不可在 private collaborator 内重新 connect。
+
+### B.4 本人空间查询与精确 RLS
+
+```text
+identity_session_spaces(p_digest text, p_after_membership_id uuid, p_limit integer)
+  RETURNS TABLE(tenant_id uuid, tenant_code text,
+                tenant_display_name text, membership_id uuid)
+  EXECUTE: zhiban_auth_runtime only
+```
+
+只有上述 signature；cursor nullable UUIDv7，limit nonNULL 1..50，返回≤limit。内部按 B.3 等价 owner-safe读锁验证完整 Session、User/slot/expiry（不能调用只允许 tenant/control 的 guard偷换role）；不接受 UserId/TenantId/role参数，不更新 Session。查询 `(user_id, membership_id)` 有序，cursor严格 `membership_id > cursor`。先 bounded读取该 User **全部状态**候选最多1001，>1000统一拒绝，不只检查当前page；不执行无限 count/materialize。仅返回 ACTIVE Membership + ACTIVE Tenant。导航不是授权，下一写入仍 fresh-check。
+
+index `memberships_identity_discovery_idx ON memberships(user_id, membership_id)`，不改变已有 unique/FK。函数保存 prior `app.identity_discovery_user`，覆盖为有效 Session导出的 UserId，`set_config(..., true)`；成功/可捕获异常均恢复prior，缺prior恢复空字串。调用异常必须使外层事务 rollback，不能 catch-and-continue。pool reuse测试检查无上下文残留。
+
+唯一新增 Membership policy：`memberships_identity_discovery_owner_read FOR SELECT TO zhiban_identity_owner`；USING 严格等价 `user_id = CASE WHEN octet_length(current_setting('app.identity_discovery_user',true))=36 AND canonical UUIDv7 regex THEN current_setting(...)::uuid ELSE NULL::uuid END`。表达式内 cast须 CASE 保护，不靠 AND求值顺序。无 runtime/auth/control policy变化，无 RoleGrant policy、无 owner DML。owner旧 tenant SELECT policy继续存在，所以函数查询还必须显式 `m.user_id=validated_user_id`，不能依赖 policy OR组合自动过滤。恶意 current Tenant/discovery GUC从不授caller认证；新旧 definer各自所有SQL显式 subject/Tenant绑定。owner tenant policy的范围不扩大，原 authorization_state仍逐参数校验。
+
+最终取得 fresh clock并验证 Session仍live才返回，不承诺结果导航在未来不变。不给 auth Membership/Tenant SELECT，不给 tenant/control digest读取；没有 global list、permission目录或资源 loader。
+
+### B.5 共享 admission 的逐字段 schema 与容量上限
+
+以下三表 global，无 tenant RLS；**所有 runtime 禁止直接读写 buckets、禁止直接读/UPDATE/DELETE gate**；唯一 gate直接权限为control配置事务的INSERT(purpose)，见B.9。owner仅作为有限函数执行主体，migrator只维护schema，不充当应用连接。
+
+`admission_policies`：`purpose text PRIMARY KEY` 闭集 LOGIN/REAUTHENTICATE/PASSWORD_CHANGE/INITIAL_PROVISION；`policy_digest text UNIQUE NOT NULL` hex64；`approval_ref text NOT NULL` bounded ref；`environment_ref text NOT NULL` bounded ref；`created_at bigint NOT NULL` Instant；`window_ms bigint NOT NULL CHECK 1..3600000`；`global_limit bigint NOT NULL CHECK 1..1000000`；`ip_limit/locator_limit/pair_limit/user_limit bigint NULL` 同正范围；`max_buckets bigint NOT NULL CHECK 1..1000000`。CHECK分支 IS TRUE：LOGIN必须ip/locator/pair且user=NULL；REAUTHENTICATE/PASSWORD_CHANGE必须ip/locator/pair/user全部非NULL；INITIAL_PROVISION必须user且ip/locator/pair=NULL。这些是 schema硬上界而非默认生产限速值；初始 thresholds/window/capacity必须批准负载配置，没有默认policy seed。
+
+control runtime仅 `SELECT, INSERT` 固定上述列；不得 UPDATE/DELETE/多版本旁路。`identity_admission_policy_immutable()` BEFORE UPDATE OR DELETE invoker trigger统一拒绝；policy PK每purpose最多一行，不接受config热更新。生产配置改变需要 close/drain 后另行批准维护步骤，不能新增第二purpose alias避限速。批准配置由 operator工具校验获准 manifest/environment/digest再插入；HTTP不接收policy配置。缺policy/manifest不一致启动或admissionfailclosed；CI用显式fixturepolicy并标非production。auth仅 via reserve函数核对digest，不 SELECT approval配置。
+
+`admission_gate`：`purpose text PRIMARY KEY FK admission_policies(purpose)`；`bucket_count bigint NOT NULL DEFAULT 0 CHECK 0..1000000`；`repository_revision bigint NOT NULL DEFAULT 1 CHECK >0`。policy插入后的operator事务 INSERT匹配gate（control只授 INSERT(purpose)，defaults无callercount）。auth无directACL；新增gate失败与policy一起rollback。gate永久、禁止runtime删除。函数每次锁gate FOR UPDATE再fresh核验policy/capacity；计数变更revision+1，maxint8拒绝，不应用repository CAS到每条短期counter。
+
+`admission_buckets`：`purpose text NOT NULL FK gate(purpose)`；`dimension text NOT NULL` 闭集 GLOBAL/IP/LOCATOR/IP_LOCATOR/USER；`key_hmac text NOT NULL` hex64；`window_start bigint NOT NULL` Instant；`expires_at bigint NOT NULL CHECK window_start<expires_at≤InstantMax`；`used_count bigint NOT NULL CHECK 1..1000000`；PK `(purpose,dimension,key_hmac,window_start)`；index `admission_buckets_expiry_idx(purpose,expires_at,dimension,key_hmac,window_start)`。无 raw IP/locator、UserId、token/password、body或secret hash；HMAC secret不入DB。purpose/维度/window/计数值只能函数从已批准policy生成。
+
+```text
+identity_admission_reserve(p_purpose text, p_policy_digest text, p_keys text[])
+  RETURNS boolean; EXECUTE auth_runtime only
+identity_admission_prune(p_purpose text, p_policy_digest text, p_limit integer)
+  RETURNS integer; EXECUTE auth_runtime only
+```
+
+keys数组必须1维、lower bound=1、非NULL元素hex64：LOGIN固定序 GLOBAL/IP/LOCATOR/IP_LOCATOR（4）；REAUTHENTICATE/PASSWORD_CHANGE加USER（5）；INITIAL_PROVISION固定GLOBAL/USER（2）。不能靠选择少数维度、重复purpose/NULL降低预算。keys由 server HMAC(namespace/environment/purpose/dimension/canonicalfact)构成，GLOBAL为固定批准environment的常量输入；DB验证格式和policy绑定，不能验证HMAC secret，可信 composition负责禁止caller影响key。INITIAL_PROVISION是operator限定，不走public HTTP或伪造clientIP。
+
+reserve独立短auth事务，在任何User/slot/business锁/KDF前完成并checked COMMIT后才开始昂贵工作。gate锁→核验配置/digest→锁后DB clock→`window_start=floor(now/window_ms)*window_ms`→读取全部required bucket→计算全部计数/新增容量→全部通过才写。任一超限/capacity/maxrevision/时间边界：不留下部分维度更新；正常限速false，结构/异常sanitizedfailure。拒绝时不延长expiry，不把跨窗口旧row当新budget。counter最多exactly+1，newbucket初始化1，gate count只加实际新row数量，多个独立连接由同purpose永久锚序列化。此首版稳定串行锚限制吞吐，不宣称高并发无限扩容。
+
+prune只允许limit 1..500；同gate锁下，只删除 `expires_at <= fresh now`，按expiry/PK稳定序取至多limit，更新bucket_count减少真实deleted数、gate revision+1；0行TRUE NO-OP保持revision。不会删User/Session/audit/history或未过期bucket。无自动无界循环，受控worker重复调用需要部署cleanup责任；capacity满时拒绝而非未授权prune活跃budget。新policy/gate最多4行；buckets全量最大4×批准max_buckets且有schema上界；permit cap=2和Argon2参数不变，无plaintext队列。budget消费不因后续认证失败退款，防止wrongpassword绕预算。
+
+### B.6 首个平台管理员：永久锚与独立审批
+
+`identity_platform_bootstrap` global table，migration仅 seed `singleton_key='PLATFORM', repository_revision=1` 的 **EMPTY** row，无用户、密码、RoleId、approval或已完成状态。PK text CHECK唯一PLATFORM；`repository_revision bigint >0`；以下 nullable列：`approval_id uuid UNIQUE`、`command_id uuid UNIQUE`、`environment_ref/approval_ref/operator_ref/approver_ref/request_id text` bounded；`manifest_digest text` hex64；`target_user_id uuid FK users`；`user_revision bigint >0`；`system_admin_grant_id uuid UNIQUE FK system_admin_grants`；`issued_at/expires_at/completed_at bigint` Instant；`created_user boolean`；`user_created_event_id bigint UNIQUE FK audit_events(event_id)`；`grant_created_event_id bigint UNIQUE FK audit_events(event_id)`；`credential_provision_id uuid UNIQUE FK identity_credential_provisions(approval_id) DEFERRABLE INITIALLY DEFERRED`。operator_ref与approver_ref必须不同；0<expires-issued≤86400000且issued≤completed<expires。bootstrap EMPTY要求除revision/key外全部NULL；COMPLETED要求上述列全部非NULL，唯`user_created_event_id`按created_user分支：true必须有event，false必须NULL（核验既有User）；CHECK整个逻辑 IS TRUE。
+
+control有 SELECT全列、UPDATE仅上述nullable结果列+repository_revision；无 INSERT（seed由migration）、DELETE/TRUNCATE。`identity_bootstrap_guard()` BEFORE UPDATE/DELETE invoker：EMPTY→COMPLETED且revision1→2仅一次；COMPLETED所有UPDATE或DELETE拒绝（TRUE NO-OP由Application不发SQL）；不得重置锚/改target/ticket/grant/outcome。所有id/manifest不可在已消费后改变。bootstrap读取不作为Web授权；秘密不存任何列。
+
+Operator流程：明确工具defaultclosed、当前environment/manifest/corpus/admission配置通过；纸面/组织审批形成purpose=FIRST_PLATFORM_ADMIN、targetUser/newGrant/provisionApproval/commandID/environment/expiry的不可变manifest，operator和独立approver具名ref，工具通过受控存储读取核验approval，不接受命令行一个`approved=true`替代。生产approval ref、保管责任和独立核验人尚待用户配置，不自动生成“批准记录”。DB schema只约束绑定和不可逆消费，不声称FK能证明human consent或抗DB凭据泄漏。
+
+control同事务先锁PLATFORM anchor FOR UPDATE；已完成仅可在匹配同ticket/command/target、当前outcome仍一致及独立审批允许确认时返回安全IDs，不能重发grant。EMPTY时先以B.10精确锁helper冻结SystemAdmin历史表写入（下段）并检查**任何历史SystemAdminGrant都不存在**，不只count有效grant；再目标User必要FOR UPDATE/创建ACTIVE User；新grantId+Domain合法validity；USER_CREATED（仅新User）和SYSTEM_ADMIN_GRANT_GRANTED按原shape追加；插入对应credential provision批准记录；一次绑定anchor全部outcome，final clock/manifest expiry，COMMIT。无Credential还不能登录，不能假称跨control/auth已经完成一个ACID用例。EMPTY seed须在附加consistency trigger之前创建，不能给migrator应用身份检查例外。
+
+bootstrap唯一例外表锁由 B.10 的 `identity_platform_bootstrap_lock()` 在任何grant/User写入**之前**取得。不得在已INSERTgrant的deferred trigger中才申请表锁，也不得把RETURNS trigger函数当普通入口。永久锚串行化两个获准bootstrap；精确表锁排除不遵守新锚的旧grant writer，使fresh历史检查与首次grant写入同事务。无锁count或应用mutex不能代替，不依赖control列级UPDATE能否LOCK的假设。表锁粒度只用于一次operatorbootstrap，不用于正常tenant/Session写入。[PG16 LOCK permissions / order](https://www.postgresql.org/docs/16/sql-lock.html)
+
+### B.7 首次 Credential provisioning 的逐字段与跨池边界
+
+`identity_credential_provisions` global table：`approval_id uuid PRIMARY KEY`；`command_id uuid UNIQUE NOT NULL`；`user_id uuid UNIQUE NOT NULL FK users`；`expected_user_revision bigint NOT NULL >0`；`purpose text NOT NULL CHECK ='FIRST_PASSWORD'`；`environment_ref/approval_ref/operator_ref/approver_ref/request_id text NOT NULL` bounded且operator≠approver；`manifest_digest text NOT NULL` hex64；`issued_at/expires_at bigint NOT NULL` Instant且0<expires-issued≤86400000（24h硬上限）；`consumed_at bigint NULL`；`credential_id uuid NULL UNIQUE`；`credential_event_id bigint NULL UNIQUE FK audit_events(event_id) DEFERRABLE INITIALLY DEFERRED`。CHECK消费三列全NULL，或全非NULL且issued≤consumed<expires，整式IS TRUE。同User只能一条首次批准，失败不改target或新发ticket覆盖；过期后未消费重新审批策略必须另行设计，不通过删除记录绕过。没有resetpurpose、rawsecret/material或client批准boolean。
+
+control仅 SELECT与INSERT不含后三个消费列；auth SELECT与UPDATE `(consumed_at,credential_id,credential_event_id)`；tenant/PUBLIC全部deny，control不得consumption，auth不得INSERT/批准字段UPDATE。无需tenant RLS。`identity_provision_guard()` BEFORE INSERT/UPDATE/DELETE invoker：INSERT消费列全NULL；UPDATE只允许一次全NULL→全非NULL，批准字段全等，issued≤consumed<expires；terminal不可变；DELETE拒绝。normal-noop不发SQL。FK `(user_id,credential_id)`→credentials(user_id,credential_id) **DEFERRABLE INITIALLY DEFERRED**，而不仅单CredentialId FK。
+
+当前8B仅消费platform anchor精确绑定的provisionApproval/User；auth不能创建或替换自己的批准。future一般User初始provision须单独批准operator途径，不把schema FIRST_PASSWORD自动开放为tenantadmin全球设密码。expiry/manifest/ref只由trustedoperator读取，秘密来自关闭echo且非argv/log的短生命周期输入；screening/hash在DB锁外。
+
+auth同事务：anchor helper锁目标User SHARE并核验ACTIVE/revision→shared User barrier→provision行FOR UPDATE→freshmanifest/time/绑定核验→检查**slot从未存在**（revoked空pointer仍存在，拒绝）；INSERT credential slot/credential（各generation/revision/epoch1，旧trigger保持）→CREDENTIAL_CREATED按原shape/auditID→填唯一consumption→deferred FK/consistency→COMMIT。并发同ticket一胜，loser不能重新hash覆盖或清历史；并发旧createPassword仍由slot PK约束导致至多一胜，若另一路胜出则审批不消费且保留安全人工处理，不自动把未知credential当ticket的成功。corruption/auditfail整笔rollback。
+
+User/grant/control audit先提交、Credential/auth audit后提交；中断安全resume必须同immutableticket/target且未消费未过期，不能补偿DELETE grant/slot/history。consumed安全outcome确认检查User/revision、对应Credential仍当前有效并匹配原outcome，不返回hash/token；后来替换/撤销不能旧ticket复活。最终login为新的正常认证，不cache/replaybearer。
+
+### B.8 audit ID与跨记录一致性：不授runtime审计读取
+
+保留现有AuditEvent union/payload/ownership/event_shape_version=1，0008不添加8C新事件，不改audit_payload_valid链。所有audit仍同client/transaction。仅 auth/control追加 `GRANT INSERT(event_id)`；现有sequence USAGE保持，不增加sequence UPDATE/SELECT、audit SELECT/UPDATE/DELETE/新runtime SELECT policy。Infrastructure在同client以nextval分配int8 eventId，作为安全内部string，再 `INSERT ... (event_id,...已批准列) OVERRIDING SYSTEM VALUE VALUES (...)`；不使用RETURNING/SELECTaudit。耗掉sequence编号但rollback的gap合法，不能用连续ID判断完整审计；序列最大值失败整笔rollback。
+
+该column INSERT允许显式ID但不允许覆写既有event；正常用例只能使用现场nextval值，不允许client传eventId、setval或改audit历史。所有新ledger FK记录实际eventId；runtime能读provisionoutcome的安全ID不等于能读eventpayload。
+
+新增 owner policy `audit_identity_provenance_owner_read FOR SELECT TO zhiban_identity_owner`，USING仅 `event_scope='GLOBAL' AND tenant_id IS NULL` 且以下关联之一：event_id等于PLATFORM anchor的user_created_event_id并subject_user_id等于target且type USER_CREATED；或等于grant_created_event_id且同target且type SYSTEM_ADMIN_GRANT_GRANTED；或等于 provision的credential_event_id且同user且type CREDENTIAL_CREATED。全都显式exclude其他events/tenants，不依赖 caller GUC；table引用无RLS（globalledgers），避免recursiveauditpolicy。**不加 owner INSERT policy**；审计仍由实际auth/controlruntime现有INSERTpolicy执行。
+
+`identity_bootstrap_consistency()`、`identity_provision_consistency()` 精确为 `RETURNS trigger` definer，**仅 DEFERRABLE INITIALLY DEFERRED AFTER UPDATE/INSERT constraint trigger**；runtime EXECUTE全部deny，无输入signature普通调用，无DML。检查最终row而非中间 NEW旧快照：bootstrap已完成时User/grant User FK/createdAt/manifest target、matching USER_CREATED或允许existingUser分支、grant event payload精确grantId/subject/reason/request一致、matchingprovisionexpected revision等；provision批准或消费均核验其approvalId/user/manifest等绑定已完成的PLATFORM anchor，消费时还匹配Credential user/newid/generation1、初始slot/revision/epoch1、matching CREDENTIAL_CREATED payload/subject/时间/request。关联读取由owner constraint trigger完成，不能为auth增加PLATFORM表SELECT。任何缺event/其他User事件/错grant/错eventtype/falsepayload关联/批准消费无业务完成不能commit。provision未消费没有Credentialoutcome不代表可以假装成功。
+
+这些trigger是新增ledger一致性约束，不改旧Credential状态机；只在审批/消费commit时要求初始状态，未来Credential替换不重新触发已terminalapproval从而错误禁止正常更换。bootstrap consistency不把未来Userdisable/grantrevoke误认为历史审计非法。无对旧tables新增会重检首次outcome的trigger。operatorbootstrap审计actor固定SERVICE/`identity_bootstrap`，provision固定SERVICE/`identity_provision`，reason ADMIN_REQUEST、绑定serverrequestId；这两个servicecode仅描述已核验的operator操作，不作为授权证据。event occurredAt分别与completed_at/consumed_at一致且final DB时钟仍未越批准expiry。
+
+### B.9 精确 ACL 总表与验收例外
+
+| 对象/能力 | auth | tenant runtime | control | PUBLIC |
+| --- | --- | --- | --- | --- |
+| identity_auth_user_anchor(uuid) | EXECUTE | deny | deny | deny |
+| identity_session_guard(text,uuid) | deny（内部等价检查） | EXECUTE | EXECUTE | deny |
+| identity_session_spaces(text,uuid,integer) | EXECUTE | deny | deny | deny |
+| identity_platform_bootstrap_lock() | deny | deny | EXECUTE | deny |
+| identity_admission_reserve(text,text,text[]) / prune(text,text,integer) | EXECUTE | deny | deny | deny |
+| 两个consistency / 三个invoker trigger functions | 无直接EXECUTE | 无直接EXECUTE | 无直接EXECUTE | deny |
+| admission_policies | 无directACL | deny | SELECT / fixed-column INSERT | deny |
+| admission_gate | 无directACL | deny | INSERT(purpose) only | deny |
+| admission_buckets | 无directACL | deny | deny | deny |
+| identity_platform_bootstrap | deny | deny | SELECT / fixed-column UPDATE | deny |
+| identity_credential_provisions | SELECT / consume三列UPDATE | deny | SELECT / approve固定列INSERT | deny |
+| audit_events新delta | INSERT(event_id) | 无delta | INSERT(event_id) | deny |
+
+新表全部owner-owned、不使用identity sequence（UUID在Infrastructure发行），5个新globaltable均无tenant RLS且精确ACLdeny其他角色；原Member/Grant/audit FORCE RLS保持。owner读取例外只两项，tenant/control仍不能SELECTtoken_digest/verifier、auth仍不能UPDATEusers或SELECTmemberships/tenants。catalog真实RoleIds/配置/approval签署不会在migration里制造fixture默认值。
+
+未来tests只准精确更新：migrationinventory0001–0008、失败probe改当前next序号0009、CLIsecondNOOP/checksum/rollback并发expectedcount；PG16 definer allowlist用**完整regprocedure signatures**列原authorization_state+上表6入口+2triggers，断言实际集合完全相等、owner/path/RLS/roleACL各自精确，而非`anydefinerapproved`；保留旧0007文件专属1function/2policy断言与无secret查询；不能把旧断言删除。新index/policies按exact集合验证，public columnACL用aclexplode(nonNULL attacl)，不得空数组fallback。
+
+BUILD targeted unit/SQL/securitytests覆盖五类入口、budgetmulti维原子、capacity/prune/maxfailclosed、operatorpermission/provenance、exactcolumnGRANT、sameclient/auditID/rollback/failedCOMMIT、secretserialization、形状错误和生产config缺失。真实suite建议 `pg16-identity-composition.test.ts`，追加既有两轮：受限authanchor成功且auth直接UserFORSHARE/UPDATE仍denied；guard各caller/输入/缺epoch/expiry/max时间/freshrollback；discoveryforeignGUC/cursor/cap1000/上下文恢复；budget并发超限/不退款/capacitycleanup；twooperatorbootstrap/oldgrantwriter竞争/历史grant阻止再bootstrap；provision两连接一胜/错User/auditevent伪关联拒绝/每故障点整笔rollback；任意runtime/PUBLIC不能读秘密或调用trigger；pool/clientrelease。竞争用independentclients+acknowledgedlocks，no sleep-only。
+
+保留全部旧168 PG16每轮与1017 Identity回归；新增suite actualcount单独汇总，不能用旧CI签收新objects。Node22/Linux、frozeninstall/Argon2、lint0errors/typecheck、HTTP以后真实验证仍必需。当前docs-only不运行这些测试/PG16/typecheck，不把设计检查写成ACL/concurrency实际PASS。
+
+### B.10 自审收口：bootstrap表锁最小能力
+
+为让精确审批不依赖未经验证的control列权限，本补充固定采用以下 **已人工批准的read-only锁helper设计**，不提供实施时任择两种方案：
+
+```text
+identity_platform_bootstrap_lock()
+  RETURNS void; SECURITY DEFINER（同B.2所有属性）
+  EXECUTE zhiban_control_runtime only
+```
+
+只执行精确 `LOCK TABLE zhiban_identity.system_admin_grants IN SHARE ROW EXCLUSIVE MODE`，无SQL参数、无rows返回、无业务DML，无User/tenant/secrets查询；调用者核验session_user=control。锁只持到当前transaction末尾，不自己BEGIN/COMMIT。不授control新tableUPDATE/owner能力。control先PLATFORM anchor UPDATE→该锁helper→fresh全部历史grants查询→User必要锁→newgrant/audit/provision→consumeanchor。明确firstbootstrap没有credential证明，依赖上述独立operatorapproval；工具不能暴露helper或bootstrap为HTTPendpoint。
+
+该精确helper已获 **B8-S06** 人工批准，计入 B.1/B.9 的inventory与ACL；constraint函数始终只deferredread，不承担BEFORE/表锁或普通调用。实施时若该边界无法安全成立，回到精确设计，不临时增加tableUPDATE或其他helper。这是无UserUPDATE/新role的最小能力补充，不是重开SystemAdmin业务授权。
+
+设计审阅已核对：auth User锁窄能力、audit ID路径、ownerTenantpolicy OR下的显式subject过滤、可信时间、bootstrap历史检查/表锁、跨池分步、预算容量/cleanup、terminal审批、旧Credential后续mutation不重新检查初始outcome。收口明确gate列级INSERT例外、EMPTY seed先于trigger、platform/provision关联由已有owner trigger核验；不新增对象或权限。该设计审阅不代替真实PG16/SQL/parser/并发签收。B8-S01–S06已人工批准；remaining审批仅生产配置/具名operator证据及范围外8C/恢复，不批准fakeproductioncorpus。
+
+| 审批项 | 精确范围 | 当前状态 |
+| --- | --- | --- |
+| B8-S01 | anchor/guard/spaces三函数、Member owner SELECT policy/index，固定锁序与投影 | HUMAN_APPROVED / FROZEN |
+| B8-S02 | 三budget表/两函数、policy immutable trigger、capacity/cleanup、精确operatorconfigACL | HUMAN_APPROVED / FROZEN |
+| B8-S03 | PLATFORM永久锚、控制面one-time流程/guard/consistency、provision关联 | HUMAN_APPROVED / FROZEN |
+| B8-S04 | FIRST_PASSWORD专用批准表/guard/consistency、auth/control精确ACL、跨池显式resume | HUMAN_APPROVED / FROZEN |
+| B8-S05 | audit事件ID INSERT仅auth/control、owner关联SELECT policy、exactsignatures测试allowlist | HUMAN_APPROVED / FROZEN |
+| B8-S06 | bootstrap只锁一个表的zero-argument definer，无业务DML或tableUPDATE扩权 | HUMAN_APPROVED / FROZEN |
+
+仅配置准备/运营内容待部署：policy实际threshold/window/capacity、HMACkey/rotation、proxy/sourceIP、environment/approvalrefs及独立审批人、catalog/corpus/backup；其缺失只允许运行显式fixturetests、不开放入口或productionbootstrap。8C精确schema/ACL/firstTenantadmin、8D HTTPwiring、8E人工恢复另行授权，本补充不一次批准它们。
+
+### B.11 当前结果与下一步
+
+PRECISE_SCHEMA_ACL_DESIGN: HUMAN_APPROVED_FROZEN
+
+SUPPLEMENT_HUMAN_APPROVAL_DATE: 2026-10-03
+
+APPROVED_ITEMS: B8-S01_B8-S06
+
+SUPPLEMENT_BASE_HEAD: 01cf79b2dd337918cbff29d1e2404e88777f6d36
+
+OLD_MIGRATIONS_0001_0007: UNCHANGED
+
+MIGRATION_CREATED: NO
+
+PRODUCTION_FILES_MODIFIED: 0
+
+TEST_WORKFLOW_PACKAGE_FILES_MODIFIED: 0
+
+SCHEMA_ACL_IMPLEMENTED_OR_REAL_PG16_PROVEN: NO
+
+FROZEN_CONTRACT_CONFLICT: NO_OBSERVED
+
+READY_FOR_SUPPLEMENT_HUMAN_REVIEW: COMPLETE_APPROVAL_RECORDED
+
+READY_FOR_SUPPLEMENT_DOC_CHECKPOINT: YES
+
+READY_FOR_1B8B_BUILD: NO_PENDING_SUPPLEMENT_CHECKPOINT_REMOTE_VERIFICATION_AND_SEPARATE_BUILD_AUTHORIZATION
+
+下一步：补充文档checkpoint（GPT-6.1 Sol / Low）→独立remoteHEAD/message/parent（Low）→单独授权8B BUILD与同轮安全自审（High，NOcommit/push/dispatch）。当前不执行后续步骤。生产参数/具名operator配置未批准时相应入口关闭，8C/8D/8E不随8B自动授权。
