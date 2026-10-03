@@ -136,6 +136,23 @@ describe('C8 exact schema/ACL and FIRST terminal supplement (static, not a PG16 
     expect(sql).toContain('audit_events.subject_user_id IS NOT DISTINCT FROM e.target_user_id');
     expect(sql).not.toMatch(/GRANT SELECT[^;]*audit_events/);
   });
+  it('keeps tenant and global provenance branches inside one enclosing USING expression', () => {
+    const policy = sql
+      .split('CREATE POLICY audit_identity_member_provenance_owner_read ')[1]
+      .split(';')[0];
+    const expression = policy.slice(policy.indexOf('USING ') + 'USING '.length).trim();
+    expect(expression).toContain("OR (event_scope='GLOBAL' AND EXISTS (");
+    // This checks delimiter structure only; the real PG16 suite remains the SQL parser proof.
+    const delimiters = [...expression.matchAll(/'(?:''|[^'])*'|[()]/g)].filter(
+      ([token]) => token === '(' || token === ')',
+    );
+    let depth = 0;
+    for (const [index, [token]] of delimiters.entries()) {
+      depth += token === '(' ? 1 : -1;
+      if (index < delimiters.length - 1) expect(depth).toBeGreaterThan(0);
+    }
+    expect(depth).toBe(0);
+  });
   it('admission capacity is bounded before INSERT and does not turn a GUC into permission proof', () => {
     const f = body('identity_member_admission_register');
     expect(f).toContain('LIMIT (v_capacity::bigint+1)');

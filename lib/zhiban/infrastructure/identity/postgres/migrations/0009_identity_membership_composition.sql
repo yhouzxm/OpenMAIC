@@ -874,7 +874,7 @@ CREATE POLICY audit_identity_member_provenance_owner_read ON zhiban_identity.aud
    OR (EXISTS (SELECT 1 FROM zhiban_identity.identity_tenant_onboarding AS o WHERE o.tenant_id=audit_events.tenant_id AND o.user_id=audit_events.subject_user_id
      AND o.membership_id=audit_events.subject_membership_id AND audit_events.actor_type='SERVICE' AND audit_events.actor_service_code='identity_tenant_onboarding'
      AND ((o.pending_event_id=audit_events.event_id AND audit_events.event_type='MEMBERSHIP_PENDING_CREATED')
-       OR (o.activation_event_id=audit_events.event_id AND audit_events.event_type='MEMBERSHIP_ACTIVATED'))))))
+       OR (o.activation_event_id=audit_events.event_id AND audit_events.event_type='MEMBERSHIP_ACTIVATED')))))
  OR (event_scope='GLOBAL' AND EXISTS (
    SELECT 1 FROM zhiban_identity.identity_control_command_effects AS e JOIN zhiban_identity.identity_control_commands AS c ON c.command_id=e.command_id
    WHERE e.audit_event_id=audit_events.event_id AND e.target_kind IN ('USER','TENANT') AND audit_events.event_type=c.action || 'D'
