@@ -494,12 +494,50 @@ describe
       const e = await setup(),
         current = await e.users.findById(e.id);
       if (!current) throw new Error('Synthetic user missing.');
-      current.value.disable(instant(Date.now()), 'security fixture');
-      const disabled = await e.users.save(current.value, current.revision);
+      expect(current.value.status).toBe('ACTIVE');
+      expect(current.revision).toBe('1');
+      const disabledAt = instant(Date.now()),
+        disabled = await e.users.save(
+          current.value.disable(disabledAt, 'security fixture'),
+          current.revision,
+        );
+      const disabledRevision = (BigInt(current.revision) + BigInt(1)).toString();
+      expect(disabled).toMatchObject({
+        revision: disabledRevision,
+        value: { status: 'DISABLED', disabledAt, disabledReason: 'security fixture' },
+      });
+      expect(await e.users.findById(e.id)).toMatchObject({
+        revision: disabledRevision,
+        value: { status: 'DISABLED', disabledAt, disabledReason: 'security fixture' },
+      });
       await expect(e.security.me(e.handle)).rejects.toThrow();
-      disabled.value.restore(instant(Date.now()));
-      await e.users.save(disabled.value, disabled.revision);
+      await expect(
+        e.control.query('SELECT * FROM zhiban_identity.identity_session_guard($1,$2)', [
+          digestBearer(e.raw),
+          e.id,
+        ]),
+      ).rejects.toThrow();
+      const restored = await e.users.save(
+        disabled.value.restore(instant(Date.now())),
+        disabled.revision,
+      );
+      const restoredRevision = (BigInt(disabled.revision) + BigInt(1)).toString();
+      expect(restored).toMatchObject({
+        revision: restoredRevision,
+        value: { status: 'ACTIVE', disabledAt: null, disabledReason: null },
+      });
+      expect(await e.users.findById(e.id)).toMatchObject({
+        revision: restoredRevision,
+        value: { status: 'ACTIVE', disabledAt: null, disabledReason: null },
+      });
       await expect(e.security.me(e.handle)).rejects.toThrow();
+      await expect(
+        e.control.query('SELECT * FROM zhiban_identity.identity_session_guard($1,$2)', [
+          digestBearer(e.raw),
+          e.id,
+        ]),
+      ).rejects.toThrow();
+      expect((await e.security.login(e.id, original, transport, 'restored')).status).toBe('ISSUED');
     });
     it('B8-PG17 discovery ignores malicious tenant/discovery GUC, restores prior value, exact cursor', async () => {
       const e = await setup(),
