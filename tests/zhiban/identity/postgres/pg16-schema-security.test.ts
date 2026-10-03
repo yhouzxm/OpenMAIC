@@ -46,12 +46,21 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity ownership a
         });
       }
       const functions = await admin.query(
-        "SELECT p.proname, p.proowner::regrole::text AS owner, p.prosecdef FROM pg_proc p WHERE p.pronamespace = 'zhiban_identity'::regnamespace",
+        "SELECT p.proname, p.proowner::regrole::text AS owner, p.prosecdef, p.proconfig, p.oid = 'zhiban_identity.authorization_state(uuid,uuid,uuid[],text)'::regprocedure AS approved FROM pg_proc p WHERE p.pronamespace = 'zhiban_identity'::regnamespace",
       );
       expect(functions.rows.length).toBeGreaterThanOrEqual(10);
       expect(
-        functions.rows.every((row) => row.owner === 'zhiban_identity_owner' && !row.prosecdef),
+        functions.rows.every(
+          (row) => row.owner === 'zhiban_identity_owner' && row.prosecdef === row.approved,
+        ),
       ).toBe(true);
+      expect(functions.rows.filter((row) => row.prosecdef)).toHaveLength(1);
+      expect(functions.rows.find((row) => row.approved).proconfig).toEqual(
+        expect.arrayContaining([
+          'search_path=pg_catalog, zhiban_identity, pg_temp',
+          'row_security=on',
+        ]),
+      );
       const roles = await admin.query(
         "SELECT rolname, rolcanlogin, rolsuper, rolcreatedb, rolcreaterole, rolreplication, rolbypassrls, rolinherit FROM pg_roles WHERE rolname LIKE 'zhiban_%'",
       );

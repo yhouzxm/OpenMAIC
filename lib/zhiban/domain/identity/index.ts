@@ -53,3 +53,6 @@ export type {
   MembershipReactivation,
   ApprovedMembershipCommand,
 } from './membership';
+
+// Safe decision types only; no privileged reconstruction or infrastructure capability.
+export type { AuthorizationDecision, DenialReason } from './policies/authorization';

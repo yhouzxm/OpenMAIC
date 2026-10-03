@@ -3,7 +3,7 @@ import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { loadMigrationFiles } from '@/lib/zhiban/infrastructure/identity/postgres/migrate';
 describe('Session migration static contracts (NOT parser/runtime evidence)', () => {
-  it('inventory adds only 0006; security binding cannot be overwritten and global ACL not broadened', async () => {
+  it('Session migration remains 0006 in additive inventory; security binding cannot be overwritten and global ACL not broadened', async () => {
     const files = await loadMigrationFiles();
     expect(files.map((file) => file.version)).toEqual([
       '0001',
@@ -12,6 +12,7 @@ describe('Session migration static contracts (NOT parser/runtime evidence)', () 
       '0004',
       '0005',
       '0006',
+      '0007',
     ]);
     const sql = files[5].sql;
     expect(sql).toContain('ADD COLUMN security_epoch bigint');

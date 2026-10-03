@@ -204,6 +204,96 @@ function verify(
   return loaded;
 }
 
+/** Internal same-client persistence; caller owns transaction/locks/audit. Never re-export. */
+export async function loadMembershipOnClient(
+  client: Client,
+  tenant: TenantId,
+  id: MembershipId,
+  lock = false,
+): Promise<Loaded<Membership> | null> {
+  membershipId(id);
+  const parent = oneRow(
+    await client.query<MembershipRow>(selectId + (lock ? ' FOR UPDATE' : ''), [tenant, id]),
+    'SELECT',
+    true,
+  );
+  if (parent === null) return null;
+  scopedParent(parent, tenant, id);
+  return membershipFromRows(parent, await children(client, tenant, id));
+}
+export async function saveMembershipOnClient(
+  client: Client,
+  context: TenantContext,
+  candidate: Membership,
+  revision: RepositoryRevision,
+): Promise<Loaded<Membership>> {
+  assertAuthenticMembershipForPersistence(candidate);
+  const tenant = requireTenantContext(context);
+  if (candidate.tenantId !== tenant) throw new IdentityPortError('TENANT_SCOPE_VIOLATION');
+  validateRevision(revision);
+  const parent = oneRow(
+    await client.query<MembershipRow>(selectId + ' FOR UPDATE', [tenant, candidate.id]),
+    'SELECT',
+    true,
+  );
+  if (parent === null) throw new IdentityPortError('CONFLICT');
+  scopedParent(parent, tenant, candidate.id);
+  expectedRevision(storedRevision(parent.repository_revision), revision);
+  const storedChildren = await children(client, tenant, candidate.id);
+  const current = membershipFromRows(parent, storedChildren);
+  integrity(
+    candidate.id === current.value.id &&
+      candidate.userId === current.value.userId &&
+      candidate.tenantId === current.value.tenantId &&
+      candidate.createdAt === current.value.createdAt &&
+      candidate.updatedAt >= current.value.updatedAt &&
+      candidate.authorizationVersion >= current.value.authorizationVersion,
+  );
+  history(current.value, candidate);
+  const write = candidateRows(candidate);
+  if (candidate.authorizationVersion === current.value.authorizationVersion) {
+    integrity(same(current.value, candidate));
+    return current;
+  }
+  const next = nextRevision(current.revision);
+  const row = write.membership;
+  const returned = oneRow(
+    await client.query<MembershipRow>(updateParent, [
+      row.status,
+      row.authorization_version,
+      row.updated_at,
+      row.disabled_at,
+      row.disabled_reason,
+      tenant,
+      candidate.id,
+      revision,
+    ]),
+    'UPDATE',
+  );
+  integrity(returned !== null);
+  verify(returned, write.roleGrants, candidate, next);
+  for (let index = 0; index < write.roleGrants.length; index++) {
+    const grant = write.roleGrants[index];
+    if (index >= current.value.roleGrants.length) await append(client, grant);
+    else if (
+      current.value.roleGrants[index].revokedAt === null &&
+      candidate.roleGrants[index].revokedAt !== null
+    ) {
+      const revoked = oneRow(
+        await client.query<RoleGrantRow>(revokeChild, [
+          grant.revoked_at,
+          tenant,
+          candidate.id,
+          grant.grant_id,
+        ]),
+        'UPDATE',
+      );
+      integrity(revoked !== null && sameChild(revoked, grant));
+    }
+  }
+  return verify(returned, await children(client, tenant, candidate.id), candidate, next);
+}
+
 /** Isolated TENANT_RUNTIME persistence; audited use cases require later same-client composition. */
 export class PostgresMembershipRepository implements MembershipRepositoryPort {
   constructor(private readonly pool: TransactionPool) {}
@@ -296,69 +386,9 @@ export class PostgresMembershipRepository implements MembershipRepositoryPort {
       const tenant = requireTenantContext(context);
       if (candidate.tenantId !== tenant) throw new IdentityPortError('TENANT_SCOPE_VIOLATION');
       validateRevision(revision);
-      return tenantTransaction(this.pool, tenantScopeContext(tenant), async (client) => {
-        const parent = oneRow(
-          await client.query<MembershipRow>(selectId + ' FOR UPDATE', [tenant, candidate.id]),
-          'SELECT',
-          true,
-        );
-        if (parent === null) throw new IdentityPortError('CONFLICT');
-        scopedParent(parent, tenant, candidate.id);
-        expectedRevision(storedRevision(parent.repository_revision), revision);
-        const storedChildren = await children(client, tenant, candidate.id);
-        const current = membershipFromRows(parent, storedChildren);
-        integrity(
-          candidate.id === current.value.id &&
-            candidate.userId === current.value.userId &&
-            candidate.tenantId === current.value.tenantId &&
-            candidate.createdAt === current.value.createdAt &&
-            candidate.updatedAt >= current.value.updatedAt &&
-            candidate.authorizationVersion >= current.value.authorizationVersion,
-        );
-        history(current.value, candidate);
-        const write = candidateRows(candidate);
-        if (candidate.authorizationVersion === current.value.authorizationVersion) {
-          integrity(same(current.value, candidate));
-          return current;
-        }
-        const next = nextRevision(current.revision);
-        const row = write.membership;
-        const returned = oneRow(
-          await client.query<MembershipRow>(updateParent, [
-            row.status,
-            row.authorization_version,
-            row.updated_at,
-            row.disabled_at,
-            row.disabled_reason,
-            tenant,
-            candidate.id,
-            revision,
-          ]),
-          'UPDATE',
-        );
-        integrity(returned !== null);
-        verify(returned, write.roleGrants, candidate, next);
-        for (let index = 0; index < write.roleGrants.length; index++) {
-          const grant = write.roleGrants[index];
-          if (index >= current.value.roleGrants.length) await append(client, grant);
-          else if (
-            current.value.roleGrants[index].revokedAt === null &&
-            candidate.roleGrants[index].revokedAt !== null
-          ) {
-            const revoked = oneRow(
-              await client.query<RoleGrantRow>(revokeChild, [
-                grant.revoked_at,
-                tenant,
-                candidate.id,
-                grant.grant_id,
-              ]),
-              'UPDATE',
-            );
-            integrity(revoked !== null && sameChild(revoked, grant));
-          }
-        }
-        return verify(returned, await children(client, tenant, candidate.id), candidate, next);
-      });
+      return tenantTransaction(this.pool, tenantScopeContext(tenant), (client) =>
+        saveMembershipOnClient(client, context, candidate, revision),
+      );
     }, childConstraints);
   }
 }

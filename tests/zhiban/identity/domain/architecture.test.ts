@@ -18,6 +18,12 @@ function sourceFiles(directory: string): string[] {
 }
 const files = sourceFiles(root);
 
+function localDomainImport(file: string, specifier: string): boolean {
+  const target = resolve(dirname(resolve(root, file)), specifier);
+  const local = relative(root, target);
+  return /^\.{1,2}\//.test(specifier) && !local.startsWith('..') && !isAbsolute(local);
+}
+
 describe('identity dependency boundary', () => {
   it('contains only synchronous pure TypeScript with local domain imports', () => {
     expect(files.length).toBeGreaterThan(0);
@@ -44,9 +50,7 @@ describe('identity dependency boundary', () => {
         if (ts.isImportDeclaration(node) || ts.isExportDeclaration(node)) {
           const specifier = node.moduleSpecifier;
           if (specifier && ts.isStringLiteral(specifier)) {
-            const target = resolve(dirname(resolve(root, file)), specifier.text);
-            const local = relative(root, target);
-            if (!specifier.text.startsWith('./') || local.startsWith('..') || isAbsolute(local)) {
+            if (!localDomainImport(file, specifier.text)) {
               failures.push(file + ': nonlocal module ' + specifier.text);
             }
           }
@@ -71,6 +75,19 @@ describe('identity dependency boundary', () => {
       visit(ast);
     }
     expect(failures).toEqual([]);
+  });
+  it('permits local policy subdirectory imports but rejects every domain escape or external module', () => {
+    expect(localDomainImport('policies/authorization.ts', '../membership')).toBe(true);
+    expect(localDomainImport('index.ts', './policies/authorization')).toBe(true);
+    for (const path of [
+      '../../infrastructure/identity',
+      '../../../application/identity',
+      'pg',
+      'node:crypto',
+      '@/lib/zhiban/domain/identity',
+      '.fake',
+    ])
+      expect(localDomainImport('policies/authorization.ts', path)).toBe(false);
   });
   it('keeps internal validation helpers out of the root public entrypoint', () => {
     for (const name of ['invariant', 'nonBlank', 'atOrAfter', 'validateValidity']) {
