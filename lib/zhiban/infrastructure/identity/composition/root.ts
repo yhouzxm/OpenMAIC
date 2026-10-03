@@ -21,6 +21,13 @@ import { IdentityAuthentication } from './authentication';
 import { IdentityIds } from './ids';
 import { PlatformIdentityOperator, type OperatorApprovalStore } from './operator';
 import { ref, run } from './support';
+import { MemberCommands } from './member-commands';
+import { MemberAdmissions } from './member-admissions';
+import { ControlCommands } from './control-commands';
+import { membershipCompositionPolicy } from './membership-intent';
+import { MembershipCommands } from '@/lib/zhiban/application/identity/use-cases/memberships';
+import type { MembershipCompositionPolicy } from '@/lib/zhiban/application/identity/ports/membership-composition';
+import type { MembershipOperatorApprovalStore } from './control-approval';
 
 export interface IdentityCompositionConfig {
   readonly origin: string;
@@ -36,6 +43,11 @@ export interface IdentityCompositionConfig {
   readonly operator: OperatorApprovalStore | null;
   readonly transportApprovalRef: string;
   readonly deployment: 'SINGLE_PROCESS_HTTPS';
+  /** No approved capacity/evidence configuration means these entrypoints remain closed. */
+  readonly membership?: {
+    readonly policy: MembershipCompositionPolicy;
+    readonly operator: MembershipOperatorApprovalStore | null;
+  } | null;
 }
 /** Explicit server-only root. No env defaults, fixture import, HTTP or startup DDL. */
 export async function createIdentityComposition(
@@ -93,14 +105,25 @@ export async function createIdentityComposition(
             `SELECT NOT EXISTS (SELECT 1 FROM unnest(ARRAY[
             'schema_migrations','users','tenants','memberships','role_grants','system_admin_grants',
             'sessions','audit_events','credential_slots','credentials','admission_policies','admission_gate',
-            'admission_buckets','identity_platform_bootstrap','identity_credential_provisions']) AS t(name)
+            'admission_buckets','identity_platform_bootstrap','identity_credential_provisions',
+            'identity_member_admissions','identity_member_consents','identity_member_approvals','identity_member_approval_grants',
+            'identity_tenant_commands','identity_tenant_command_effects','identity_control_approvals',
+            'identity_control_commands','identity_control_command_effects','identity_tenant_onboarding']) AS t(name)
             WHERE to_regclass('zhiban_identity.' || t.name) IS NULL)
             AND NOT EXISTS (SELECT 1 FROM unnest(ARRAY[
             'authorization_state(uuid,uuid,uuid[],text)','identity_auth_user_anchor(uuid)',
             'identity_session_guard(text,uuid)','identity_session_spaces(text,uuid,integer)',
             'identity_platform_bootstrap_lock()','identity_admission_reserve(text,text,text[])',
             'identity_admission_prune(text,text,integer)','identity_bootstrap_consistency()',
-            'identity_provision_consistency()']) AS f(signature)
+            'identity_provision_consistency()',
+            'identity_session_step_up_guard(text,uuid,bigint,bigint,bigint,bigint)',
+            'identity_member_admission_state(uuid,uuid,uuid)',
+            'identity_member_consent_context(text,uuid,uuid,uuid,uuid)',
+            'identity_member_admission_register(text,uuid,uuid,uuid)',
+            'identity_tenant_restore_guard(uuid,uuid)',
+            'identity_first_tenant_admin_lock(uuid,uuid)',
+            'identity_first_tenant_admin_apply(uuid,uuid,uuid,bigint)',
+            'identity_membership_composition_consistency()']) AS f(signature)
             WHERE to_regprocedure('zhiban_identity.' || f.signature) IS NULL) AS ready`,
           ),
           'SELECT',
@@ -153,6 +176,33 @@ export async function createIdentityComposition(
             admission,
             ids,
           );
+    let members: MembershipCommands | null = null,
+      control: ControlCommands | null = null;
+    if (config.membership !== undefined && config.membership !== null) {
+      const memberPolicy = membershipCompositionPolicy(config.membership.policy);
+      integrity(memberPolicy.environmentRef === config.admission.environment);
+      const bridge = await security.membershipSecurity();
+      members = new MembershipCommands(
+        new MemberCommands(pools.tenant, bridge, catalog, ids, memberPolicy),
+        new MemberAdmissions(
+          pools.tenant,
+          bridge,
+          catalog,
+          ids,
+          memberPolicy,
+          config.membership.operator,
+        ),
+      );
+      if (config.membership.operator !== null)
+        control = new ControlCommands(
+          pools.control,
+          bridge,
+          catalog,
+          config.membership.operator,
+          ids,
+          memberPolicy,
+        );
+    }
     return Object.freeze({
       application: new OwnAuthentication(security),
       security,
@@ -160,6 +210,8 @@ export async function createIdentityComposition(
       ids,
       catalog,
       operator,
+      members,
+      control,
       cookiePolicy: sessionCookiePolicy(true),
     });
   } catch {

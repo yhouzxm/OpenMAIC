@@ -669,7 +669,7 @@ control intent 还必须包含该 closed purpose 的所有业务字段：actual/
 
 确认路径不重复执行原 transition 的 pre-state predicate（例如 target 已 ACTIVE，不能再要求 PENDING），但必须检查当前主体、原 action 的当前权限/ceiling、被确认 grants 当前有效、outcome versions/对象精确相等；ACTIVATE 等用于执行的 consent/approval 允许识别本 command 已消费记录，不再次消费。过期 operator ticket 不能执行或确认新的业务动作；API 后续只允许经当前授权的安全查询另取状态。数据库 audit、effect、approval/source consume 与 parent/history 任一失败，整笔 rollback；COMMIT status uncertain 不返回 APPLIED，由后续合法确认解决，绝不自动 retry。
 
-确认时，immutable approval 中原 target expected versions 只与该 outcome 的 before versions 对照，不能要求已变化的当前 target 仍等于旧 pre-state，也不能更新 approval；请求的新 expected versions 必须等于 outcome after 和当前行。未变化的 actor/global/catalog 条件仍须当前匹配。FIRST 确认核对已完成 anchor/精确产物，不重新要求 EMPTY；Tenant restore 确认仍须当前完整有效管理员 guard。未消费 approval 永远不能走这种确认例外。
+确认时，immutable approval 中原 target expected versions 只与该 outcome 的 before versions 对照，不能要求已变化的当前 target 仍等于旧 pre-state，也不能更新 approval；请求的新 expected versions 必须等于 outcome after 和当前行。未变化的 actor/global/catalog 条件仍须当前匹配。FIRST 确认核对已完成 anchor/精确产物，不重新要求 EMPTY；具体读路径采用 C.6.1 的既有 FIRST lock helper terminal-state 分支，不授 C direct Membership/RoleGrant SELECT。Tenant restore 确认仍须当前完整有效管理员 guard。未消费 approval 永远不能走这种确认例外。
 
 最小永久 command identity/outcome 与 consumed source 保留以阻止过期 key 再用；expires_at 只控制执行，不代表删除后 key 可复用。本期不提供 runtime DELETE/prune command/approval/consent，也不存附件。每 Tenant 的记录总上限及 control 总上限为**批准的配置**，缺失关闭入口；在 Tenant anchor / control serialization point 内 bounded `LIMIT cap+1` 检查与提交，达到容量 fail closed。无需猜测生产上限；运维压缩/归档保留永久去重 tombstone 的方案另审，不能为了可用性清 ledger。HTTP/IP 非 KDF 写预算留 8D；现有 REAUTHENTICATE budget 必须在 KDF 前使用。
 
@@ -712,14 +712,38 @@ Tenant command 先 Tenant anchor→完整 sorted Users SHARE（含 actor）→ex
 | `identity_session_step_up_guard(text,uuid,bigint,bigint,bigint,bigint)` | tenant/control；boolean true only | C.5 的 private proof freshness；无业务 DML/secret 输出 |
 | `identity_member_admission_state(uuid,uuid,uuid)` | tenant；八列与 0007 authorization_state 同名同类型 | 参数 Tenant、actor Membership、admission；Tenant UPDATE 后从 immutable admission hint 得 target User，汇总 actor/admin roster/已有 target（若恢复）+admitted User，≤256 sorted Users SHARE；只本 Tenant facts；新增 fact_kind=ADMISSION_USER，未创建 member 时 membership_id=NULL；不放宽旧 0007 modes |
 | `identity_member_consent_context(text,uuid,uuid,uuid,uuid)` | tenant；membership_id uuid?、member_revision bigint?、auth_version bigint?、purpose text、expires_at bigint | digest、expected self User、Tenant、admission?、control approval?（两者 exactly one）；Tenant UPDATE→self User SHARE→existing session_guard→对应 source/已有 member scoped SELECT；outer T随后以既有T UPDATE ACL锁定ordinary member并重读；只该 Session User 的资格，返回普通/first consent 五个安全事实；不是 User/Tenant list，不产生 grant |
-| `identity_member_admission_register(text,uuid,uuid,uuid)` | control；admission_id uuid | digest、actor User、control approval、new admission ID；精确 MEMBER_ADMISSION source producer；校验 C.7 control eligibility/versions/manifest、Tenant与sortedUsers、approval SHARE；只 INSERT 一条 tenant admission，不消费 approval/写 member/grant/audit；outer ledger/approval completion 同 C |
+| `identity_member_admission_register(text,uuid,uuid,uuid)` | control；admission_id uuid | digest、actor User、control approval、admission ID；未消费批准沿原精确 MEMBER_ADMISSION producer INSERT；已消费批准仅按 C.14 只读复核原成功链和仍未消费的原 admission。保留 Tenant/sortedUsers/Session/approval/current SystemAdmin 锁与资格；不消费 approval/写 member/grant/audit，不扩 signature/返回/ACL |
 | `identity_tenant_restore_guard(uuid,uuid)` | control only；void | 参数 Tenant、private authenticated actor User；Tenant UPDATE→完整 admin roster + actor 的 ≤256 sorted Users SHARE→fresh DB clock；按 C.7 重查 governance/operational counts 均≥1。仅 scoped 读取与锁，无成员/grant输出或业务 DML；不新增旧 authorization_state mode 或给 C 其 EXECUTE |
-| `identity_first_tenant_admin_lock(uuid,uuid)` | control；void | Tenant、FIRST approval；Tenant UPDATE 后检查 NEW anchor、initial/expected Tenant revision、**全部** Membership/grant history为空，锁定一致的 sorted actor/target Users与anchor；no business DML，供随后 Session/proof/approval 锁序；不得以 current admin count=0 当 empty |
+| `identity_first_tenant_admin_lock(uuid,uuid)` | control；void | Tenant、FIRST approval；Tenant UPDATE→sorted actor/target Users SHARE→anchor UPDATE 后从实际 anchor 分支：revision1 EMPTY 沿原首次建立条件；revision2 terminal 仅按 C.6.1 严格复核原成功链及当前精确产物。两分支均无业务 DML、无成员/grant输出；不得以 current admin count=0 当 empty；不扩 signature/EXECUTE/table ACL |
 | `identity_first_tenant_admin_apply(uuid,uuid,uuid,bigint)` | control；membership_id uuid、member_revision bigint、authorization_version bigint、grant_id uuid | Tenant、FIRST approval、consent、locked approved time；C.7 固定首次 PENDING→ACTIVE + TENANT_ADMIN/TENANT，不收任意 role/scope/SQL；安全投影，不自己 commit，审计/ledger/anchor terminalization留 outer same-client C |
 
 admission_state 在 Tenant 锁后先无锁读取 immutable source/roster 做锁集合规划，随后 sorted Users，再由 wrapper 验证 actor Session、锁 parents/source 并重读；hint 不是 approval，source expiry/consume/version 与 unique tenant/user 必须在写前重查。返回数据仍不能由客户端决定 actor/relationship/permission。consent_context 的 expected User 同样必须来自 private handle，不信 caller 自报；scope/版本/expiry 错误统一拒绝，不从 unknown IDs 返回全局存在性。
 
 first apply 中 p_at 是 outer 的同 client DB clock 结果，函数另读 clock，检查不在未来/不回退/仍在全部有效期；不是客户端业务时间。apply 重新确认空 history/anchor、target ACTIVE、完整 manifest、consent 与 actor current Session/control eligibility（通过 outer 已建立并持有的 locks）；固定 IDs/validity来自 immutable FIRST approval，无普通 actor Membership receipt。helper不能单独被视为 Application授权，outer步骤由 closed facade enforce，并由 C.9 deferred consistency 拒绝孤立 partial write。
+
+#### C.6.1 FIRST lock 的 EMPTY / terminal-state 分支（最小批准补充）
+
+本补充只闭合 C.4 已冻结的 FIRST 安全确认读路径。沿用 `identity_first_tenant_admin_lock(p_tenant_id uuid,p_approval_id uuid) RETURNS void`：owner、SECURITY DEFINER/INVOKER 边界、固定 search_path/row_security、control-only EXECUTE 与固定安全错误完全不变。无新 callable、参数/mode、table ACL、RLS policy、owner UPDATE policy、sequence privilege 或新增输出。仍为 C8-S08 的 10表/7callables/3triggerfunctions/25policies/22triggers/5secondaryindexes；C 不获得 direct Membership/RoleGrant SELECT。terminal-state 是只读复核能力，不是恢复或第二次 FIRST 建立能力。
+
+**分支与锁序。** wrapper 在任何 User 锁前先核对 immutable manifest 的 operator_user_id 等于 private authenticated handle User，hint 不可替换真实 actor。helper 沿 Tenant UPDATE→匹配 Tenant/approval 的 immutable FIRST hint→完整去重并排序的 operator/target Users SHARE→onboarding anchor UPDATE；随后重读实际 anchor 与批准链，再决定分支。不得由客户端 status/boolean/GUC、旧 receipt 或只看 anchor 的缓存决定。helper 自行建立 validated Tenant LOCAL context 并在成功/异常时恢复；所有查询显式绑定 Tenant/User/approval/command，不能靠 owner OR policies 或 caller GUC 扩大读取。Member、grant、append-only consent/command/effect/audit 只 scoped SELECT，不取 FOR SHARE/UPDATE；其成员写竞争由已有 Tenant serialization anchor 排序，不为行锁增授 owner UPDATE。
+
+- revision1、完整 EMPTY anchor：保留原 ACTIVE Tenant/initial expected revision、未消费匹配 FIRST approval、全部 Tenant Membership/RoleGrant history 为空、目标 User ACTIVE 等首次建立条件；不以有效管理员 count=0 替代空历史。
+- revision2、完整 terminal anchor：仅允许下列全部条件成立的原成功结果复核。只 SELECT、必要 anchor/User/Tenant locks 和 LOCAL context 设置/恢复；无 INSERT/UPDATE/DELETE、nextval、新 ID、audit、approval/source 再消费、revision/authVersion 递增、anchor 重置或 grant 复活。
+- anchor 缺失、其他 revision、NULL/部分 terminal fields、异 Tenant/approval、malformed chain 均统一 fail closed。合法 terminal helper 返回 void 也不批准动作、不代表 Session/step-up/SystemAdmin qualification 已通过。
+
+**terminal 分支必须复核实际行，不以 terminal snapshot 代替 current facts：**
+
+1. anchor 的 approval/command/consent/User/member/grant/两 audit FK 精确指向该 FIRST 成功链；immutable approval purpose=FIRST_TENANT_ADMIN，Tenant/target/operator、planned member/grant IDs、validity 与 catalog/action/delegation/manifest 绑定一致。operator 与 target 不同，独立审批来源及本人 consent 规则不变。
+2. actual control command 的 actor/action/approval/command binding 一致，outcome=APPLIED；其唯一 FIRST effect 对应同 Tenant/User/member/grant，after member revision=2、authVersion=1、status=ACTIVE，两 audit IDs 与 anchor 相同。无额外/错误 effect，consumed approval/anchor/command completion 时间按原成功链一致；原 immutable expected fields 不更新或重签。原 Tenant/两 User 的未变化 expected revisions 与当前 ACTIVE 行仍相符，disable 后 restore 的更高 revision 不被同 status 掩盖。
+3. actual FIRST consent 匹配 approval/Tenant/target User/manifest digest/subject User revision，且有真实本人 command/audit provenance。检查首次完成时批准/consent有效及其消费关系；识别本 command 已消费事实，不重新要求 unconsumed/EMPTY。仍执行 C.4/C.5 规定的确认时效及当前 consent/operator approval expiry 检查，terminal 分支不续期或豁免有效期。
+4. 两条 actual audit 行的 FK、TENANT scope、Tenant/User/member、SERVICE `identity_tenant_onboarding`、发生时间/request binding 与闭集 payload 正确；PENDING_CREATED before=NULL/after=0，ACTIVATED before=0/after=1、批准的初始 grant facts 匹配。consent audit 仍 USER=target、FIRST purpose、member/both authVersions=NULL。不能仅凭相同数字 event ID 或任意 SERVICE 事件假定 provenance 成立。
+5. **当前** member 精确为该 Tenant/User/member、ACTIVE、repository revision=2、authorizationVersion=1，created/updated timestamps 与原完成时间一致且无 disabled metadata；**当前** initial grant 精确为该 grant ID/member/Tenant、ordinal=0、TENANT_ADMIN/TENANT/null scope ID，createdAt=validFrom=原完成时间、validUntil=原批准值、revokedAt=NULL，fresh DB clock 下仍有效。该 member 的 grant/history 集合仍恰为原初始 singleton；新增 grant/history 也拒绝旧结果确认，不能拼接其他 grant 凑当前管理员资格。
+
+任何后续 member version/status/authVersion 变化（即使再回 ACTIVE）、grant revoke/expiry/future/字段变化/新增历史、User/Tenant disable-restore version 漂移、缺失/损坏或异主体 provenance 均 DENY；这不是禁止合法后续 mutation 的新数据库 invariant，只是在确认旧 command 时拒绝。**其他成员**后来合法加入不要求整个 Tenant 再为空：terminal 仅复核原目标及成功链，不能把 EMPTY 分支的全 Tenant 无历史条件复制过来。
+
+**outer composition 与 apply 隔离。** helper 之后继续既有 actor Session/proof→SystemAdminGrant SHARE→control serialization→approval/key 锁序，保留 C.4 的 stale-before-no-op、same actor/action/key/command/safe intent、请求 expected=current/outcome after、原批准 expected 对原 before、current catalog/qualification 等检查。最终同 client 再调用 FIRST lock terminal 分支及 Session/step-up guard，使用锁等待后 fresh DB clock 重查期限，再 checked COMMIT；有 ledger 不得跳过 entry/final 复核，helper 不输出历史/资源存在性供 DTO。新 FIRST 在同事务写齐 audit/effect/ledger/approval consumption/terminal anchor 后，也可用该 terminal 分支完成 final 复核；缺任何产物拒绝并 rollback，不自动 retry。
+
+`identity_first_tenant_admin_apply` 必须在任何 DML 前重新要求 **revision1 EMPTY anchor、未消费匹配 approval、全 Tenant 空 member/grant history** 及原全部建立条件。调用 lock helper 成功不能替代这项检查；terminal void success 后 apply 必须拒绝第二次建立。三项原 owner DML shape 与 C.9 isolated-partial-write deferred constraints 原样保留，不能因为确认路径放宽消费、写入或重开 anchor。所有失败仍安全闭集，无 DB details、secret 或 provenance 输出；上述是待 BUILD/真实 PG16 证明的契约，不是已实现声明。
 
 restore guard 显式覆写/恢复 validated Tenant LOCAL context，复用 0007 已有 owner scoped SELECT policies；不需新 owner UPDATE policy，对 member/grant 只 SELECT，不取 FOR SHARE/UPDATE。普通成员 writers 被 Tenant anchor 序列化，global User writers 被 sorted Users SHARE 阻挡；锁集合按所有 ACTIVE membership 的未撤销 TENANT_ADMIN candidate 规划（包括最终计数前的 future/expired candidate），超 256 完整拒绝。仅允许 Tenant DISABLED（执行）或 ACTIVE（final/安全确认），ARCHIVED/malformed/empty/expired/future/revoked/disabled-member/admin-User-disabled 均不能凑数。governance 计数沿 1B-7；operational 计数另要求 User ACTIVE、TENANT scope 及当前已批准 identity-v1 TENANT_ADMIN 的管理 permissions。RoleCatalog 在 outer entry/final 与 approval 的 digest/版本精确核验，缺条目/漂移拒绝；SQL count 条件须测试与已冻结 Domain 双计数等价。此 boolean-free void helper 不批准 control action，必须随后通过 Session/proof、SystemAdminGrant、purpose/expected versions，再在提交前重调用。
 
@@ -733,7 +757,7 @@ Control Tenant create/disable/restore：existing/new Tenant anchor（new ID uniq
 
 Tenant RESTORE 对上述锁序的精确补充是：首个 Tenant 锁后由 restore guard 规划并锁定完整 admin User roster（含实际 actor），而非只锁 actor；然后才 Session/proof/SystemAdmin/control serialization/approval/key。入口与 final guard 都要求当前双计数成立，否则即使 SystemAdmin/operator 批准有效也 DENY；不把恢复 Tenant 当无管理员 recovery。CREATE 的 EMPTY bootstrap 是独立 one-time 协议，不套 restore，DISABLE 的安全停用不被零管理员阻止。未完成 onboarding 的 Tenant 若被停用且仍无有效管理员，本期 restore/FIRST 均不得绕过 ACTIVE/管理员条件，后续处理另行批准。guard 不增加 C 的 direct Membership/grant SELECT，不输出其他 Tenant/成员/权限事实。
 
-FIRST_TENANT_ADMIN 仅针对 **8C 新 Tenant create 的 EMPTY anchor**。旧 Tenant 无 anchor、有任何 membership/grant history、已完成后所有管理员过期/离开，都不 eligible。锁序：Tenant UPDATE→immutable FIRST hint确定 sorted actor/target Users SHARE +EMPTY anchor→actor Session/proof→SystemAdminGrant SHARE→serialization→approval UPDATE + append-only consent SELECT→fresh资格/时间/empty-history→固定 apply→两条 tenant audit→control outcome/approval consumed/anchor revision2→final guard/time→COMMIT。target User 与执行 operator User 不同；具名独立审批者不得是 target 的自批准。本人 consent 不能由operator代签。
+FIRST_TENANT_ADMIN 的**首次建立 mutation**仅针对 **8C 新 Tenant create 的 EMPTY anchor**。旧 Tenant 无 anchor、有任何 membership/grant history、已完成后所有管理员过期/离开，都不 eligible 再建立。锁序：Tenant UPDATE→immutable FIRST hint确定 sorted actor/target Users SHARE +EMPTY anchor→actor Session/proof→SystemAdminGrant SHARE→serialization→approval UPDATE + append-only consent SELECT→fresh资格/时间/empty-history→固定 apply→两条 tenant audit→control outcome/approval consumed/anchor revision2→final guard/time→COMMIT。同 command 丢响应后的安全确认采用 C.6.1 terminal-state 只读分支，不属于第二次建立，不套 EMPTY pre-state，也不豁免 current qualification/version/validity。target User 与执行 operator User 不同；具名独立审批者不得是 target 的自批准。本人 consent 不能由operator代签。
 
 control Tenant-related wrapper在首个Tenant锁确定后，以validated manifest的TenantId设置并finally恢复 LOCAL app.tenant_id；第一Tenantapply/register ownerhelper也自行覆写/恢复其内部上下文，不能只依赖调用者。普通control User命令不设置Tenant或获取Tenant锁。新增 C EXECUTE `current_tenant_id()` 仅供其限定FIRST audit policy的scope解析，函数仍是旧只读parser，不授任何Tenant授权；不能通过因permission denied而删掉policy条件解决。
 
@@ -812,7 +836,8 @@ owner audit新增 **SELECT** policy仅actual new command-effect/consent/onboardi
 | Session-at-write | 初始authenticate成功后Session revoke/logout-all/rotation、credentialreplace/revoke/rehash、Userdisable+restore；两种先后顺序；entry与finalhelper都实际执行；forgedhandle/proof/跨command/target/age拒绝；KDF在锁外、outage/errorsecret-free |
 | Member concurrency | two独立PGconnections+acknowledgedlockbarriers；双方invite同Userexactlyone；revoke/restore、两管理员双撤权、atomictransfer两目标任一步失败全部rollback；freshrecheck确在lockwait之后 |
 | Control | currentSystemAdmin不是Tenantfallback；actionallowlist/independentoperator/evidence失败默认关闭；User/Tenant CAS+audit+ledger同client；globaldisable不复活Session、不改MembershipauthVersion；Tenantdisable/restore与成员写双向serialization；restore入口/final完整双计数、缺/过期/未来/停用管理员拒绝、read-only helper与Domain计数等价、C仍无directmember/grantSELECT |
-| First Tenant | 无anchor/已有任意history/terminal不eligible；target本人consent/独立source/批准时限；并发onlyone；插member/grant/audit/source/ledger/COMMIT逐点faultrollback；isolatedhelperpartialcommit被constraint拒绝；不是noadminrecovery |
+| First Tenant mutation | 无anchor/已有任意history/terminal不eligible再建立；target本人consent/独立source/批准时限；并发onlyone；插member/grant/audit/source/ledger/COMMIT逐点faultrollback；isolatedhelperpartialcommit被constraint拒绝；terminal lock成功后apply仍在DML前拒绝；不是noadminrecovery |
+| FIRST terminal confirmation | 丢响应同key/intent+当前expected确认，entry/final实际读原产物及批准链，无写入/nextval/新增audit/IDs/消费；member rev3/authVersion变化、停用/离开/再激活、grant撤销/过期/未来/额外history、User/Tenant disable-restore、损坏链/异Tenant/actor、stale/异intent/失效Session或ticket全部拒绝；其他成员合法加入不误套全Tenant空历史。独立PGconnections+acknowledged barriers证明成员writer先胜则拒绝、helper先锁Tenant则writer等待；锁等待后fresh read/time，无sleep-onlyrace，LOCALctx成功/异常均恢复，C direct member/grant SELECT仍拒绝 |
 | ACL/RLS/parser | 真实restrictedsession_user而非ownerSETROLE；每newfunctionsignature/search_path/PUBLIC/temp/GUCspoof/overload；T/C无secretSELECT、A无newTenantaccess、C无directmemberDML、FIRSTowner仅三shape；PUBLIC表/列/function仍拒绝；六Tenant表FORCERLS、crossTenantFK与ownerOR过滤 |
 | Records / regressions | invalid/null/extra/ID/timestamp/rev/epoch/manifestclosedshape failclosed；auditevent ownership两newtype边界且旧events unchanged；无secret/digest/prooffingerprint入Domain/DTO/ledger/audit/error；maxrevision/authversion failclosed；pool/localcontext/permitcleanup |
 
@@ -860,3 +885,83 @@ READY_FOR_1B8C_DESIGN_CHECKPOINT: YES
 READY_FOR_1B8C_BUILD: NO_PENDING_DOC_CHECKPOINT_REMOTE_VERIFICATION_AND_SEPARATE_BUILD_AUTHORIZATION
 
 下一步：设计文档 checkpoint（GPT-6.1 Sol / Low，须单独授权）→独立 GitHub HEAD/message/parent核验（GPT-6.1 Sol / Low）→单独授权1B-8C BUILD/test/securityreview（GPT-6.1 Sol / High，NO COMMIT/PUSH/DISPATCH）→实现checkpoint（GPT-6.1 Sol / Low）→独立remote核验（GPT-6.1 Sol / Low）→独立授权新candidateCI签收（GPT-6.1 Sol / High）。任何一步不自动扩大为下一步授权。8D HTTP/8E恢复/生产配置责任仍另行批准。
+
+### C.13 FIRST terminal-state 最小补充批准（后续状态，优先于 C.12 的历史交付记录）
+
+2026-10-03 用户明确批准：“批准最小设计补充，为现有 FIRST lock helper 增加严格的 terminal-state 只读复核分支，不扩大表权限。”本次对 C8-S03 的安全确认与 C8-S07 的 FIRST helper 读路径作 C.6.1 精确补充；保留 EMPTY 建立、apply 写入条件、原七 helper inventory、全部 ACL/RLS 与 C8-S08 对象数量。已发现的 EMPTY-only helper 无法读取 terminal 当前产物的设计缺口在契约层闭合，不通过 C 的 direct SELECT 扩权解决。
+
+本轮基线 HEAD=`c13bf115d9ad5af0eebf7e2046da9f98041cbcfa`，branch=`refactor/zhiban-v2`。开始时已有前轮 1B-8C BUILD 的 14 个未提交草稿文件；本轮只改本设计文档，草稿不编辑、不清理、不提交，生产/测试/migration/workflow 修改均为本轮 0。历史 C.12 的文档 checkpoint 及批准记录保留，本节不把已暂停的 BUILD 声明为完成或通过。
+
+FIRST_TERMINAL_DESIGN_SUPPLEMENT: HUMAN_APPROVED / FROZEN
+
+FIRST_TERMINAL_CONFIRMATION_CONTRACT: SPECIFIED
+
+TABLE_ACL_RLS_AND_HELPER_INVENTORY: UNCHANGED
+
+FROZEN_CONTRACT_GAP: RESOLVED_AT_DESIGN_LEVEL
+
+IMPLEMENTATION_AND_TARGETED_TESTS: PENDING_RESUMED_BUILD
+
+REAL_PG16_PROOF: PENDING_IMPLEMENTATION_CHECKPOINT_AND_SEPARATE_CI_AUTHORIZATION
+
+DESIGN_REVIEW: PASS (minimal read branch; not implementation/security-test signoff)
+
+DOC_FILES_MODIFIED_THIS_TURN: 1
+
+PRODUCTION_TEST_MIGRATION_WORKFLOW_PACKAGE_FILES_MODIFIED_THIS_TURN: 0
+
+COMMIT: NO. PUSH: NO. CI_DISPATCH: NO.
+
+READY_FOR_1B8C_CI_CHECKPOINT: NO_BUILD_INCOMPLETE
+
+下一步：单独授权恢复 **1B-8C BUILD（GPT-6.1 Sol / High）**，按本补充完成 helper/outer/apply 隔离、targeted unit/contracts、真实 PG16 测试计划、现有回归与安全自审，NO COMMIT/PUSH/CI DISPATCH。本次设计批准不自动继续实施；当前已有 BUILD 草稿，不能把整个 worktree 冒称为单文件 docs-only checkpoint。
+
+### C.14 Admission 安全确认最小补充批准
+
+2026-10-03 用户明确“批准”前轮提出的最小补充：现有 `identity_member_admission_register(text,uuid,uuid,uuid)` 增加严格只读确认分支，不增加 helper、overload、表/列权限或返回字段。C.4 安全确认需要当前 source 事实，而 control 无 Tenant admission SELECT；不能仅凭历史 ledger 成功，也不能换池、SET ROLE 或新增通用查询绕过同 client 边界。
+
+分支必须来自锁内重读的实际 approval.consumed_at，而非客户端 mode。未消费批准维持原 producer 条件和唯一 INSERT；已消费批准仅接受同一个原 admission ID，并复核：原 MEMBER_ADMISSION approval、APPLIED control command、唯一 ADMISSION effect 的完整身份/manifest/时间/FK 链；原 admission 的全部 immutable fields 与 approval 精确相等，revision=1、未消费、command/audit=NULL；有效期、当前 ACTIVE Tenant/User 及其原未变化 revision、current SystemAdminGrant 仍匹配。INVITE 仍无该 Tenant/User 的 Membership；REACTIVATE/REJOIN 的原 Membership ID/revision/authVersion/status 仍精确匹配。source 已消费、已过期、目标历史/版本已变化、链不完整/错 Tenant/actor/ID 一律拒绝。C 的 independent store、catalog、Session、request expected versions 与 recent KDF proof 仍由 outer 在锁内 entry/final 核验，不以 helper UUID 输出充当授权。
+
+terminal 分支不 INSERT/UPDATE/DELETE、不分配 ID/sequence、不消耗批准、不创建 audit，不检查新增记录容量；只返回已复核的原 admission UUID。同 client Tenant→sorted Users→Session→approval/SystemAdmin 的既定 locks 与 LOCAL context 恢复保留。outer 在同 key/intent/current expected 的确认路径读取原 effect admission ID，分别在确认入口和最后 fresh clock/Session/proof/current control qualification 后调用该 helper；任何复核失败整笔 rollback。若首次执行完成后 admission 随后被 invite/recovery 消费，旧登记成功不能再次被确认为“当前未变”。
+
+保持 C8-S08 inventory：10 tables、7 callable helpers、1 non-callable definer、2 new invoker trigger functions、25 policies、22 triggers、5 secondary indexes；0001–0008、Identity/Credential/Session/Authorization 语义、未消费 producer 不变。仅现有未提交 0009 草稿实现本分支。测试须覆盖未变化确认成功、消费/过期/错链/变版本拒绝、entry/final 都执行、确认无写入/新 ID/audit/consume、独立连接锁等待后 fresh reread与 context cleanup；真实 PG16 仍待新 candidate CI，不把 static assertion 当 parser/runtime 证明。
+
+ADMISSION_CONFIRMATION_SUPPLEMENT: HUMAN_APPROVED / FROZEN
+
+READ_CAPABILITY_GAP: RESOLVED_AT_DESIGN_LEVEL
+
+IMPLEMENTATION_AND_REAL_PG16_SIGNOFF: PENDING_BUILD_AND_CI
+
+本轮继续已授权 1B-8C BUILD（GPT-6.1 Sol / High），NO COMMIT / NO PUSH / NO CI DISPATCH。下一步只有完整实现、回归和安全自审门禁满足后，才申请 implementation checkpoint（GPT-6.1 Sol / Low）；当前不宣称可 checkpoint。
+
+### C.15 Resumed BUILD 本地交付记录（当前状态，优先于前述历史 pending 状态）
+
+基线仍为 `refactor/zhiban-v2` / `c13bf115d9ad5af0eebf7e2046da9f98041cbcfa`。按已批准 C8-S01–S08、C.13 与 C.14 完成 protocol-neutral member/control composition、私有 Session/KDF step-up、source/consent/manager approval 分离、append-only command/effect/provenance、CAS 与原子 audit、FIRST/restore 精确 helper 及现有 root/workflow 接入。没有公共 HTTP adapter、恢复/自注册入口、配置默认批准或自动 retry。
+
+当前 delta 为 38 个文件：18 production TypeScript、1 migration（`0009_identity_membership_composition.sql`）、17 tests/support、1 现有 workflow、1 本设计文档。0001–0008 的 Git blob 均与 HEAD 相同；Domain、Credential/Session production、安全 role bootstrap、package files 未改。旧 repository 的 public transaction/CAS contract 保留，仅提供同 client 内部 collaborators；opaque request/transport type 移至 sibling Port 并从原位置兼容 re-export。
+
+本地验证：完整串行非 PG Identity 回归 **1187/1187 PASS**（原 1091 + 新增 96）；C8 targeted 四个 suite **96/96 PASS**，加 migration contract/runner 的六个 targeted suite **118/118 PASS**；root typecheck（仅命令进程 8GiB heap）PASS；root lint **0 errors / 20 existing warnings**；tracked 与 untracked 文件分别检查 whitespace，均 PASS。NODE_OPTIONS/GODEBUG 未持久化。未重写旧测试 assertion，旧 PG suites 只补 migration/definer inventory；原 workflow 命令全部保留。
+
+High 自审在冻结契约内修正：planned CREATE locator 的 current-after CAS 确认；NEW grant 初次审批与 final existing-fact ceiling 复核的分离；consent 的实际短 TTL/final clock；closed record/array accessor 拒绝；安全确认逐字段复核 approved grant 与闭集 effect；fresh sanitized error 的 cause/custom detail 隔离；helper 在所有早期失败前捕获 LOCAL context；PUBLIC function catalog check 包含 NULL ACL 的默认 EXECUTE 语义。没有以 direct control SELECT、SET ROLE、扩充 helper inventory 或改变旧状态机解决问题。
+
+新增 real PG16 member/control suite **50 项**，已追加到现有两轮 workflow：原 **206 项/轮** + 新 **50 项/轮**，预期 **256 项/轮 ×2**，最终以实际 CI logs 为准。涵盖 source/consent/approval、safe confirmation、stale/no-op、F05 provenance、leave/rejoin terminal history、control create/disable/restore、FIRST terminal/isolated apply、逐点 rollback、PUBLIC/role ACL、独立连接与 acknowledged lock barriers 的 invite/last-admin/FIRST races、secret-free records 及 cleanup。部分 malformed-state 负例使用仅限 disposable PG harness 的 privileged fixture writer，不代表 runtime 具备这些权限；生产 facade 并发另用 restricted runtime pools。
+
+LOCAL_PG16: UNAVAILABLE（本机仅发现 PG18，未作为替代执行）。50 项仅收集并 SKIPPED，没有 PG16 parser/apply、ACL、trigger、concurrency 或 atomicity 的实际成功证据，不能将 static/unit 结果冒充数据库签收。
+
+IMPLEMENTATION_LOCAL_BUILD: PASS
+
+HIGH_SELF_REVIEW_KNOWN_P0: 0
+
+HIGH_SELF_REVIEW_KNOWN_P1: 0
+
+P2: 1 — real PG16 / Linux Node22 new-candidate signoff pending
+
+REAL_PG16_SIGNOFF: PENDING_CHECKPOINT_AND_SEPARATE_CI_AUTHORIZATION
+
+READY_FOR_1B8C_CI_CHECKPOINT: YES
+
+PHASE_1B8C: NOT_YET_COMPLETE
+
+COMMIT: NO. PUSH: NO. CI_DISPATCH: NO.
+
+下一步须单独授权：**1B-8C 精确范围 implementation checkpoint（GPT-6.1 Sol / Low）** → 独立 GitHub HEAD/message/parent 核验（GPT-6.1 Sol / Low）→ 新 candidate CI 两轮签收及完整回归证据审阅（GPT-6.1 Sol / High）。本轮不自动执行上述任何一步；1B-8D HTTP/API 尚未授权。

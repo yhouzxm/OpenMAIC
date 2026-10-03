@@ -295,6 +295,36 @@ export async function saveMembershipOnClient(
 }
 
 /** Isolated TENANT_RUNTIME persistence; audited use cases require later same-client composition. */
+/** Client-bound producer remains in the repository terminal boundary. */
+export async function createMembershipOnClient(
+  client: Client,
+  context: TenantContext,
+  candidate: Membership,
+) {
+  assertAuthenticMembershipForPersistence(candidate);
+  const tenant = requireTenantContext(context);
+  integrity(candidate.tenantId === tenant);
+  const write = candidateRows(candidate),
+    row = write.membership;
+  const parent = oneRow(
+    await client.query<MembershipRow>(insertParent, [
+      row.membership_id,
+      row.user_id,
+      row.tenant_id,
+      row.status,
+      row.authorization_version,
+      row.created_at,
+      row.updated_at,
+      row.disabled_at,
+      row.disabled_reason,
+    ]),
+    'INSERT',
+  );
+  integrity(parent !== null);
+  verify(parent, write.roleGrants, candidate, '1');
+  for (const grant of write.roleGrants) await append(client, grant);
+  return verify(parent, await children(client, tenant, candidate.id), candidate, '1');
+}
 export class PostgresMembershipRepository implements MembershipRepositoryPort {
   constructor(private readonly pool: TransactionPool) {}
 

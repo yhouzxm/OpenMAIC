@@ -197,7 +197,7 @@ describe
           (
             await c.query('SELECT version FROM zhiban_identity.schema_migrations ORDER BY version')
           ).rows.map((row) => row.version),
-        ).toEqual(['0001', '0002', '0003', '0004', '0005', '0006', '0007', '0008']);
+        ).toEqual(['0001', '0002', '0003', '0004', '0005', '0006', '0007', '0008', '0009']);
         expect(
           (
             await c.query(

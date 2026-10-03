@@ -105,7 +105,7 @@ describe('Credential schema and security boundary STATIC (not real PostgreSQL ev
       // it captures the exact verified snapshot for issuance, never extracts PHC.
       if (/from ['"][^'"]*repositories\/credential(?:-records)?['"]/.test(source))
         expect(path.replaceAll('\\', '/')).toMatch(
-          /\/infrastructure\/identity\/(credentials\/credential-verifier|postgres\/repositories\/credential|sessions\/session-authenticator|composition\/(authentication|operator|root))\.ts$/,
+          /\/infrastructure\/identity\/(credentials\/credential-verifier|postgres\/repositories\/credential|sessions\/session-authenticator|composition\/(authentication|operator|root|membership-security))\.ts$/,
         );
       if (path.includes('domain'))
         expect(source).not.toMatch(/@node-rs\/argon2|PasswordVerifierHandle|verifier_material/);

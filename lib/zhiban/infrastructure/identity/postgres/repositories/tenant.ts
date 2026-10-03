@@ -25,6 +25,78 @@ const selectCode = `SELECT ${columns} FROM zhiban_identity.tenants WHERE code = 
 const insert = `INSERT INTO zhiban_identity.tenants (${columns}) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 1) RETURNING ${columns}`;
 const update = `UPDATE zhiban_identity.tenants SET status = $1, updated_at = $2, disabled_at = $3, disabled_reason = $4, repository_revision = repository_revision + 1 WHERE tenant_id = $5 AND repository_revision = $6::bigint RETURNING ${columns}`;
 
+/** Client-bound composition writer; frozen public repository transactions are unchanged. */
+export async function loadTenantOnClient(
+  client: Pick<import('pg').PoolClient, 'query'>,
+  id: TenantId,
+  lock = false,
+) {
+  tenantId(id);
+  const row = oneRow(
+    await client.query<TenantRow>(selectId + (lock ? ' FOR UPDATE' : ''), [id]),
+    'SELECT',
+    true,
+  );
+  if (row === null) return null;
+  const loaded = tenantFromRow(row);
+  integrity(loaded.value.id === id);
+  return loaded;
+}
+export async function writeTenantOnClient(
+  client: Pick<import('pg').PoolClient, 'query'>,
+  candidate: Tenant,
+  revision: RepositoryRevision | null,
+) {
+  assertAuthenticTenantForPersistence(candidate);
+  const write = candidateRow(candidate);
+  if (revision === null) {
+    const row = oneRow(
+      await client.query<TenantRow>(insert, [
+        write.tenant_id,
+        write.code,
+        write.display_name,
+        write.status,
+        write.created_at,
+        write.updated_at,
+        write.disabled_at,
+        write.disabled_reason,
+      ]),
+      'INSERT',
+    );
+    integrity(row !== null);
+    const loaded = tenantFromRow(row);
+    integrity(loaded.revision === '1' && same(loaded.value, candidate));
+    return loaded;
+  }
+  const current = await loadTenantOnClient(client, candidate.id, true);
+  integrity(current !== null);
+  expectedRevision(current.revision, revision);
+  integrity(
+    candidate.createdAt === current.value.createdAt &&
+      candidate.code === current.value.code &&
+      candidate.displayName === current.value.displayName &&
+      candidate.updatedAt >= current.value.updatedAt &&
+      (current.value.status !== 'ARCHIVED' || same(candidate, current.value)),
+  );
+  if (same(current.value, candidate)) return current;
+  const next = nextRevision(revision),
+    row = oneRow(
+      await client.query<TenantRow>(update, [
+        write.status,
+        write.updated_at,
+        write.disabled_at,
+        write.disabled_reason,
+        candidate.id,
+        revision,
+      ]),
+      'UPDATE',
+    );
+  integrity(row !== null);
+  const loaded = tenantFromRow(row);
+  integrity(loaded.revision === next && same(loaded.value, candidate));
+  return loaded;
+}
+
 function same(a: Tenant, b: Tenant): boolean {
   return (
     a.id === b.id &&

@@ -83,6 +83,23 @@ export type IdentityAuditEventInput = CommonFacts &
         readonly tenantId: TenantId;
       }
     | (MembershipFacts & { readonly type: 'MEMBERSHIP_DISABLED' | 'MEMBERSHIP_LEFT' })
+    | {
+        readonly type: 'MEMBERSHIP_PENDING_CREATED';
+        readonly membershipId: MembershipId;
+        readonly tenantId: TenantId;
+        readonly userId: UserId;
+        readonly authorizationVersionBefore: null;
+        readonly authorizationVersionAfter: 0;
+      }
+    | {
+        readonly type: 'MEMBERSHIP_CONSENT_RECORDED';
+        readonly membershipId: MembershipId | null;
+        readonly tenantId: TenantId;
+        readonly userId: UserId;
+        readonly purpose: 'ACTIVATE' | 'REACTIVATE' | 'REJOIN' | 'FIRST_TENANT_ADMIN';
+        readonly authorizationVersionBefore: number | null;
+        readonly authorizationVersionAfter: number | null;
+      }
     | (MembershipFacts & {
         readonly type: 'MEMBERSHIP_REACTIVATED';
         readonly mode: MembershipReactivationMode;
@@ -261,6 +278,54 @@ export function createIdentityAuditEvent(input: IdentityAuditEventInput): Identi
     case 'TENANT_DISABLED':
     case 'TENANT_RESTORED':
       return seal({ ...base, type: input.type, tenantId: tenantId(input.tenantId) });
+    case 'MEMBERSHIP_PENDING_CREATED':
+      if (
+        input.authorizationVersionBefore !== null ||
+        input.authorizationVersionAfter !== 0 ||
+        !(
+          base.actor.kind === 'USER' ||
+          (base.actor.kind === 'SERVICE' && base.actor.serviceCode === 'identity_tenant_onboarding')
+        )
+      )
+        throw new TypeError('Invalid pending membership audit.');
+      return seal({
+        ...base,
+        type: input.type,
+        membershipId: membershipId(input.membershipId),
+        tenantId: tenantId(input.tenantId),
+        userId: userId(input.userId),
+        authorizationVersionBefore: null,
+        authorizationVersionAfter: 0,
+      });
+    case 'MEMBERSHIP_CONSENT_RECORDED': {
+      const subject = userId(input.userId),
+        first = input.purpose === 'FIRST_TENANT_ADMIN';
+      if (
+        base.actor.kind !== 'USER' ||
+        base.actor.userId !== subject ||
+        !['ACTIVATE', 'REACTIVATE', 'REJOIN', 'FIRST_TENANT_ADMIN'].includes(input.purpose) ||
+        (first
+          ? input.membershipId !== null ||
+            input.authorizationVersionBefore !== null ||
+            input.authorizationVersionAfter !== null
+          : input.membershipId === null ||
+            !Number.isSafeInteger(input.authorizationVersionBefore) ||
+            input.authorizationVersionBefore === null ||
+            input.authorizationVersionBefore < 0 ||
+            input.authorizationVersionBefore !== input.authorizationVersionAfter)
+      )
+        throw new TypeError('Invalid membership consent audit.');
+      return seal({
+        ...base,
+        type: input.type,
+        tenantId: tenantId(input.tenantId),
+        userId: subject,
+        membershipId: first ? null : membershipId(input.membershipId!),
+        purpose: input.purpose,
+        authorizationVersionBefore: input.authorizationVersionBefore,
+        authorizationVersionAfter: input.authorizationVersionAfter,
+      });
+    }
     case 'MEMBERSHIP_DISABLED':
     case 'MEMBERSHIP_LEFT':
       return seal({ ...base, type: input.type, ...membershipFacts(input) });

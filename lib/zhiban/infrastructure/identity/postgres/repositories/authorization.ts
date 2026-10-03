@@ -126,7 +126,8 @@ function copyIntent(intent: MembershipMutationIntent): MembershipMutationIntent 
       return reject('UNSUPPORTED_ACTION');
   }
 }
-function transition(before: Membership, intent: MembershipMutationIntent, now: Instant) {
+/** Infrastructure-only same-client composition collaborator; frozen public execute is unchanged. */
+export function transition(before: Membership, intent: MembershipMutationIntent, now: Instant) {
   const command = { now, expectedAuthorizationVersion: before.authorizationVersion };
   const make = (spec: NewAuthorizationGrant) =>
     RoleGrant.create({ ...spec, createdAt: now, validFrom: now });
@@ -169,7 +170,7 @@ function transition(before: Membership, intent: MembershipMutationIntent, now: I
 type WithoutAuditCommon<T> = T extends unknown
   ? Omit<T, 'occurredAt' | 'actor' | 'reason' | 'requestId'>
   : never;
-function auditInput(
+export function auditInput(
   before: Membership,
   after: Membership,
   intent: MembershipMutationIntent,
@@ -248,8 +249,13 @@ async function audit(client: Client, input: IdentityAuditEventInput): Promise<vo
         approvedGrants: event.approvedGrants,
       };
       break;
-    default:
+    case 'MEMBERSHIP_ACTIVATED':
+    case 'MEMBERSHIP_REJOINED':
+    case 'ROLE_GRANTS_REPLACED':
       payload = { priorGrantIds: event.priorGrantIds, approvedGrants: event.approvedGrants };
+      break;
+    default:
+      return reject('INVALID_FACTS');
   }
   const result = await client.query(
     `INSERT INTO zhiban_identity.audit_events (event_shape_version,event_type,event_scope,occurred_at,actor_type,actor_user_id,actor_service_code,request_id,reason,tenant_id,subject_user_id,subject_membership_id,authorization_version_before,authorization_version_after,event_payload)

@@ -1,13 +1,13 @@
 import type { UserId, TenantId, MembershipId } from '@/lib/zhiban/domain/identity';
 
-/** Request-local opaque capability, not a DTO or permission/tenant proof. */
-export interface AuthenticatedRequestHandle {
-  readonly kind: 'AUTHENTICATED_REQUEST';
-}
-/** Server-observed transport handle, never a caller-supplied IP/header DTO. */
-export interface AuthenticationTransport {
-  readonly kind: 'SERVER_TRANSPORT';
-}
+import type {
+  AuthenticatedRequestHandle,
+  AuthenticationTransport,
+} from '../ports/authenticated-request';
+export type {
+  AuthenticatedRequestHandle,
+  AuthenticationTransport,
+} from '../ports/authenticated-request';
 export interface OwnIdentity {
   readonly userId: UserId;
   readonly absoluteExpiresAt: number;

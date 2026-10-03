@@ -39,6 +39,7 @@ import { canonicalLoginIdentifier } from './identifier';
 import { IdentityIds } from './ids';
 import { SharedAdmission, type TransportFacts } from './admission';
 import { audit, changed, now, ref, run, reject, type Client } from './support';
+import { MembershipSecurity } from './membership-security';
 
 interface Binding {
   readonly digest: string;
@@ -49,6 +50,7 @@ const rejected = Object.freeze({ status: 'REJECTED' as const });
 /** No public HTTP routes. Password/cookie inputs exist only for this call; never retained. */
 export class IdentityAuthentication implements OwnAuthenticationPort {
   #handles = new WeakMap<AuthenticatedRequestHandle, Binding>();
+  #membershipSecurity: Promise<MembershipSecurity> | undefined;
   private constructor(
     private readonly pool: TransactionPool,
     private readonly sessions: PostgresSessionRepository,
@@ -131,6 +133,16 @@ export class IdentityAuthentication implements OwnAuthenticationPort {
     const binding = this.#handles.get(handle);
     integrity(binding !== undefined);
     return binding;
+  }
+  /** Infrastructure composition only. Keeps one registry/bridge for all 8C requests. */
+  membershipSecurity(): Promise<MembershipSecurity> {
+    return (this.#membershipSecurity ??= MembershipSecurity.create(
+      (handle) => this.binding(handle),
+      this.pool,
+      this.credentials,
+      this.hashing,
+      this.admission,
+    ));
   }
   private async hint(client: Client, digest: string) {
     const row = oneRow(

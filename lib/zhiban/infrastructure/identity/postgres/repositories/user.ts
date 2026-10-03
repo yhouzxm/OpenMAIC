@@ -22,6 +22,73 @@ const select = `SELECT ${columns} FROM zhiban_identity.users WHERE user_id = $1`
 const insert = `INSERT INTO zhiban_identity.users (${columns}) VALUES ($1, $2, $3, $4, $5, $6, 1) RETURNING ${columns}`;
 const update = `UPDATE zhiban_identity.users SET status = $1, updated_at = $2, disabled_at = $3, disabled_reason = $4, repository_revision = repository_revision + 1 WHERE user_id = $5 AND repository_revision = $6::bigint RETURNING ${columns}`;
 
+/** Exact client-bound collaborator, not a public transaction API or hydration capability. */
+export async function loadUserOnClient(
+  client: Pick<import('pg').PoolClient, 'query'>,
+  id: UserId,
+  lock: 'SHARE' | 'UPDATE' | null = null,
+) {
+  userId(id);
+  const row = oneRow(
+    await client.query<UserRow>(select + (lock === null ? '' : ` FOR ${lock}`), [id]),
+    'SELECT',
+    true,
+  );
+  if (row === null) return null;
+  const loaded = userFromRow(row);
+  integrity(loaded.value.id === id);
+  return loaded;
+}
+export async function writeUserOnClient(
+  client: Pick<import('pg').PoolClient, 'query'>,
+  candidate: User,
+  revision: RepositoryRevision | null,
+) {
+  assertAuthenticUserForPersistence(candidate);
+  const write = candidateRow(candidate);
+  if (revision === null) {
+    const row = oneRow(
+      await client.query<UserRow>(insert, [
+        write.user_id,
+        write.status,
+        write.created_at,
+        write.updated_at,
+        write.disabled_at,
+        write.disabled_reason,
+      ]),
+      'INSERT',
+    );
+    integrity(row !== null);
+    const loaded = userFromRow(row);
+    integrity(loaded.revision === '1' && same(loaded.value, candidate));
+    return loaded;
+  }
+  const current = await loadUserOnClient(client, candidate.id, 'UPDATE');
+  integrity(current !== null);
+  expectedRevision(current.revision, revision);
+  integrity(
+    candidate.createdAt === current.value.createdAt &&
+      candidate.updatedAt >= current.value.updatedAt,
+  );
+  if (same(candidate, current.value)) return current;
+  const next = nextRevision(revision),
+    row = oneRow(
+      await client.query<UserRow>(update, [
+        write.status,
+        write.updated_at,
+        write.disabled_at,
+        write.disabled_reason,
+        candidate.id,
+        revision,
+      ]),
+      'UPDATE',
+    );
+  integrity(row !== null);
+  const loaded = userFromRow(row);
+  integrity(loaded.revision === next && same(loaded.value, candidate));
+  return loaded;
+}
+
 function same(a: User, b: User): boolean {
   return (
     a.id === b.id &&
