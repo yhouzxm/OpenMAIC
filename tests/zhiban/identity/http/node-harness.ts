@@ -2,6 +2,18 @@ import { createServer } from 'node:http';
 import { Readable } from 'node:stream';
 import type { HttpFacade } from '@/lib/zhiban/infrastructure/identity/http/adapter';
 
+/** Fixture overrides are case-insensitive replacements; omission is explicit. */
+export function requestHeaders(
+  defaults: HeadersInit,
+  overrides: HeadersInit = {},
+  omitted: readonly string[] = [],
+) {
+  const headers = new Headers(defaults);
+  for (const [name, value] of new Headers(overrides)) headers.set(name, value);
+  for (const name of omitted) headers.delete(name);
+  return headers;
+}
+
 /** Real transport, not a direct handler call. Bound only to loopback; no raw request logging. */
 export async function listen(facade: HttpFacade) {
   const server = createServer({ maxHeaderSize: 8192 }, async (incoming, outgoing) => {

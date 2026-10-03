@@ -31,7 +31,7 @@ import {
   acknowledgeBlocked,
   type IdentityFixture,
 } from './membership-composition-fixtures';
-import { listen } from '../http/node-harness';
+import { listen, requestHeaders } from '../http/node-harness';
 
 type Environment = Awaited<ReturnType<typeof fixture>>;
 const protocol = {
@@ -80,15 +80,19 @@ async function browser(
     value?: unknown,
     extra: HeadersInit = {},
     authenticated = true,
+    omitted: readonly string[] = [],
   ) =>
     fetch(server.base + path, {
       method,
-      headers: {
-        ...protocol,
-        // Anonymous requests omit Cookie; an empty header is malformed protocol input.
-        ...(authenticated ? { Cookie: '__Host-zhiban_session=' + who.raw } : {}),
-        ...Object.fromEntries(new Headers(extra)),
-      },
+      headers: requestHeaders(
+        {
+          ...protocol,
+          // Anonymous requests omit Cookie; an empty header is malformed protocol input.
+          ...(authenticated ? { Cookie: '__Host-zhiban_session=' + who.raw } : {}),
+        },
+        extra,
+        omitted,
+      ),
       ...(value === undefined ? {} : { body: JSON.stringify(value) }),
     });
   const proof = await (await call('csrf')).json();
@@ -695,7 +699,9 @@ describe.skipIf(!configured).sequential('D8 real PG16 roles + actual HTTP adapte
     const refused = await b.anonymous('login', 'POST', { userId: e.manager.id, password });
     expect(refused.status).toBe(429);
     expect(refused.headers.get('Retry-After')).toBe('30');
-    expect((await b.call('me', 'GET', undefined, { 'X-Zhiban-Client-IP': '' })).status).toBe(503);
+    expect((await b.call('me', 'GET', undefined, {}, true, ['X-Zhiban-Client-IP'])).status).toBe(
+      503,
+    );
   });
 });
 import { repositoryRevision } from '@/lib/zhiban/application/identity/ports/repository-types';

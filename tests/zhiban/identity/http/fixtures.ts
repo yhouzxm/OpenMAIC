@@ -1,4 +1,5 @@
 import { vi } from 'vitest';
+import { requestHeaders } from './node-harness';
 import { userId, instant } from '@/lib/zhiban/domain/identity';
 import { repositoryRevision } from '@/lib/zhiban/application/identity/ports/repository-types';
 import {
@@ -128,11 +129,13 @@ export function setup() {
   return { facade, security, application, queries, members, live, load, telemetry };
 }
 export function request(path: string, method = 'GET', value?: unknown, extras: HeadersInit = {}) {
-  const h = new Headers({
-    'X-Zhiban-Request': 'identity-v1',
-    'X-Zhiban-Client-IP': '127.0.0.1',
-    ...Object.fromEntries(new Headers(extras)),
-  });
+  const h = requestHeaders(
+    {
+      'X-Zhiban-Request': 'identity-v1',
+      'X-Zhiban-Client-IP': '127.0.0.1',
+    },
+    extras,
+  );
   if (method === 'POST') {
     if (!h.has('Origin')) h.set('Origin', origin);
     if (!h.has('Content-Type')) h.set('Content-Type', 'application/json');

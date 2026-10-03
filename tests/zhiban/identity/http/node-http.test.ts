@@ -1,8 +1,70 @@
 import { describe, expect, it } from 'vitest';
 import { setup, origin, id, secret } from './fixtures';
-import { listen } from './node-harness';
+import { listen, requestHeaders } from './node-harness';
 
 describe('D8 actual Node HTTP requests through production adapter', () => {
+  it.each(['replacement', 'empty', 'omitted'] as const)(
+    'fixture proxy header %s reaches the intended real HTTP path',
+    async (mode) => {
+      const e = setup(),
+        server = await listen(e.facade);
+      const defaults = {
+        'X-Zhiban-Request': 'identity-v1',
+        'X-Zhiban-Client-IP': '127.0.0.1',
+        Origin: origin,
+        'Content-Type': 'application/json',
+      };
+      const headers = requestHeaders(
+        defaults,
+        { 'x-zhiban-client-ip': mode === 'replacement' ? '127.0.0.2' : '' },
+        mode === 'omitted' ? ['X-ZHIBAN-CLIENT-IP'] : [],
+      );
+      expect(headers.get('X-Zhiban-Client-IP')).toBe(
+        mode === 'omitted' ? null : mode === 'empty' ? '' : '127.0.0.2',
+      );
+      expect(defaults['X-Zhiban-Client-IP']).toBe('127.0.0.1');
+      try {
+        const response = await fetch(server.base + 'login', {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({ userId: id, password: secret }),
+        });
+        expect(response.status).toBe(mode === 'replacement' ? 200 : 503);
+        expect(e.security.authenticate).not.toHaveBeenCalled();
+        if (mode === 'replacement') expect(e.security.login).toHaveBeenCalledTimes(1);
+        else {
+          expect(e.security.login).not.toHaveBeenCalled();
+          expect(response.headers.has('set-cookie')).toBe(false);
+          expect((await response.json()).error.code).toBe('SERVICE_UNAVAILABLE');
+        }
+      } finally {
+        await server.close();
+      }
+    },
+  );
+  it('actual combined proxy header remains rejected before authentication', async () => {
+    const e = setup(),
+      server = await listen(e.facade);
+    const headers = requestHeaders({
+      'X-Zhiban-Request': 'identity-v1',
+      'X-Zhiban-Client-IP': '127.0.0.1',
+      Origin: origin,
+      'Content-Type': 'application/json',
+    });
+    headers.append('x-zhiban-client-ip', '127.0.0.2');
+    try {
+      const response = await fetch(server.base + 'login', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ userId: id, password: secret }),
+      });
+      expect(response.status).toBe(400);
+      expect(e.security.authenticate).not.toHaveBeenCalled();
+      expect(e.security.login).not.toHaveBeenCalled();
+    } finally {
+      await server.close();
+    }
+  });
   it('missing Cookie permits anonymous login; empty Cookie is rejected before authentication', async () => {
     const e = setup(),
       server = await listen(e.facade);
