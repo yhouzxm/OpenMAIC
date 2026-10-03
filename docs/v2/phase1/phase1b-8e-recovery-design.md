@@ -2,6 +2,8 @@
 
 STATUS: HUMAN_APPROVED_DESIGN / FROZEN
 
+Status scope: E8-S01–S08 channel/lifecycle decisions and Appendix E's E8-P01–P08 exact schema/ACL/private transport contracts are human approved and frozen. E.12 records the 2026-10-04 review corrections included in that approval. Implementation and deployment remain separate gates.
+
 Date: 2026-10-04. Branch: `refactor/zhiban-v2`. Audited HEAD: `95e96b64a53e772eff0c65f739dac7573513681e` (`docs(zhiban-v2): close out identity http api layer`), parent `a82f101becebd26343a53224ab61a5274d597b3f`. Preflight worktree: CLEAN.
 
 本单元按用户“单独决定 1B-8E 恢复渠道与受控人工恢复方案”形成方案。2026-10-04 用户随后明确要求“审阅并批准 E8-S01–S08”；八项经实际契约审阅与第 10 节限定澄清后 HUMAN_APPROVED_DESIGN / FROZEN。原有公共找回关闭继续生效，具体现场人工恢复方向已获本次设计批准。此前“推荐/提案”描述方案形成过程，不代表以下八项仍待选择；精确 schema/ACL/私有 transport、具名运营配置和实施验收仍是独立 gate。本文不建立渠道、数据库对象、HTTP 接口或生产恢复能力，不 commit/push/dispatch。
@@ -222,3 +224,319 @@ READY_FOR_1B8E_DESIGN_CHECKPOINT: YES
 READY_FOR_1B8E_BUILD: NO_PENDING_PRECISE_SCHEMA_ACL_TRANSPORT_DESIGN_AND_BUILD_AUTHORIZATION
 
 下一步：1B-8E已批准设计单文档checkpoint与独立GitHubHEAD/message/parent核验（GPT-6.1 Sol / Low），然后单独开展1B-8E精确schema/ACL/私有transport补充（GPT-6.1 Sol / High）。恢复生产配置、特殊管理员恢复及BUILD均有各自明确gate；本次批准只记录八项设计与审阅澄清，不执行checkpoint或实施。
+
+## Appendix E — Exact schema / ACL / private transport supplement
+
+SUPPLEMENT_STATUS: HUMAN_APPROVED_DESIGN / FROZEN
+
+Supplement date: 2026-10-04. Base HEAD: `1a8c706c5f5b4ddda14b8f581f1e7bf80c810a7c`, branch `refactor/zhiban-v2`, supplement preflight CLEAN. GitHub HEAD/message/parent independently verified in the preceding unit. Approval review started with only this document modified. Sections 1–10 retain the approved E8-S01–S08 channel decision; historical next-step labels yield to the current approval state below. The user explicitly requested “审阅并批准 E8-P01–P08”; all eight exact contracts are approved after the bounded review corrections in E.12. This approval does not perform or authorize BUILD/checkpoint/CI/deployment.
+
+### E.1. Actual implementation audit and allowed delta
+
+Re-read actual `authentication.ts`, `membership-security.ts`, `control-approval.ts`, `admission.ts`, `support.ts`, Credential/Session/SystemAdminGrant repositories, transaction wrapper, migrations 0002/0003/0004/0006/0008/0009, HTTP root/protocol, browser security policy, Argon2 provider, existing design appendices and current workflow. Inventory contains exactly 0001–0009; 0010 is available. `controlTransaction` supplies READ_COMMITTED on the supplied restricted pool, not a role elevation. Recovery uses the auth pool exclusively for completion.
+
+Relevant audit findings and resolutions:
+
+| Actual fact | Exact supplement resolution |
+| --- | --- |
+| Standalone Credential repository owns its transaction; composition audit helper fixes reason to USER_REQUEST | New recovery-specific same-client composition writes the existing closed CREDENTIAL_REPLACED payload with ACCOUNT_RECOVERY. No nested standalone repository call or generic audit reason expansion |
+| Low-level SystemAdmin INSERT relies on immediate User FK; revoke locks only grant | Case-bound target User FOR UPDATE blocks FK KEY SHARE; actor grant FOR SHARE prevents concurrent revoke. Fresh privileged-history query follows User acquisition |
+| Old Credential mutation is slot-first; Session INSERT trigger is slot-first before FK/barrier | Recovery uses NOWAIT row locks and shared advisory try-lock, releasing all locks on conflict; it cannot wait on a legacy slot while holding target User |
+| Existing admission purpose lists are closed in SQL and TypeScript | New recovery-only policy/budget tables and helper, with distinct purpose. Existing admission_policies and old helper signatures remain unchanged |
+| auth lacks SystemAdmin SELECT; audit owner is subject to FORCE RLS | Case-bound authority helper returns only eligibility/bound revisions; new narrowly scoped audit owner-read policy joins recovery outcome evidence |
+| HTTP root is a sealed approved singleton, existing origin/CSRF configuration is specific | Separate recovery singleton/listener and CSRF purpose; existing root, public routes and middleware exceptions are not broadened |
+
+Allowed future implementation delta: recovery security-specific Application interfaces, Infrastructure evidence validation/material/registry/composition/private protocol modules; proposed `0010_identity_manual_recovery.sql`; targeted tests plus existing workflow additions. No Domain recovery aggregate containing secret material; no frozen Port signature changes; no edits to migration files 0001–0009. No new provider/dependency is necessary: reuse Node crypto Ed25519 verification/CSPRNG/SHA-256, existing UUIDv7 issuer, Argon2 and screening.
+
+### E.2. Exact approval items
+
+| Item | Human-approved exact scope |
+| --- | --- |
+| E8-P01 | Eight named global tables, column families below, immutable/terminal/CAS/commit consistency constraints, 0010 inventory |
+| E8-P02 | Signed original evidence manifests, three versioned source anchors, registration/revocation ordering and two-person separation |
+| E8-P03 | Auth-only completion, fixed lock order/NOWAIT/try-lock, privileged-history phantom exclusion, revision/epoch and rollback proof |
+| E8-P04 | Exact table/column ACL, six callable helpers, two internal trigger functions, one narrow FORCE-RLS audit owner-read exception |
+| E8-P05 | Private operator/subject HTTPS protocol, transport-authenticated lane/site, exact bodies/headers/cookies and uniform failures |
+| E8-P06 | Process-private submission/ceremony registry, single-use digest encoding, expiry/reissue/outcome semantics |
+| E8-P07 | Durable closed provenance/outcome/notification, shared admission and finite capacity/operational manifest gates |
+| E8-P08 | Required static/unit/provider/real PG16/Node HTTP proofs, implementation scope and acceptance sequence |
+
+### E.3. E8-P01 — Table and column contract
+
+All new tables are global security records owned by `zhiban_identity_owner`, with no tenant columns or tenant RLS. Common types: IDs are server-issued UUIDv7 with `is_uuid_v7` checks; User FK uses ON DELETE RESTRICT. Revision/source-version/credential-generation counters are positive signed int8, represented as canonical decimal strings and incremented through BigInt validation only. Exceptions: case ticket_generation starts0 before first issue, issued ticket_generation≥1, ticket attempts starts0; these are bounded nonnegative int8 counters. `security_epoch` follows the existing signed-int8 Credential contract, not Membership authorizationVersion. Time columns are int8 milliseconds within 0..8640000000000000; application checks monotonic elapsed time too. References match `[A-Za-z0-9._:-]{1,128}`, digests lowercase 64 hex. No arbitrary JSON, free text, raw request, private key, contact address, person identifier, ticket, CSRF material, password or verifier columns.
+
+Inventory, exactly eight new tables:
+
+| Table | Required columns and keys |
+| --- | --- |
+| `identity_recovery_policy` | `environment_ref` PK; immutable `policy_digest`, `approval_ref`, `created_at`; operational `enabled`, `repository_revision`, `updated_at`; finite `window_ms`, `global_limit`, `site_limit`, `subject_limit`, `max_buckets`, `max_live_cases`, `max_registered_per_subject`, `max_total_cases`, `max_pending_notifications`, `max_notification_age_ms`, `registered_ttl_ms`, `submission_ttl_ms`, `ceremony_ttl_ms`, `max_submissions`, `max_attempts_per_ticket`, `max_process_requests`, `body_timeout_ms`, `statement_timeout_ms`. Values form the approved canonical policy manifest |
+| `identity_recovery_sources` | `source_id` PK; `environment_ref`, `source_kind` in ENROLLMENT/APPOINTMENT/CONTACT, `source_ref`, `bound_user_id`, `source_version`, `manifest_digest`, `issuer_ref`, `key_ref`, `attested_at`, `valid_until`, `state` CURRENT/BLOCKED, `repository_revision`, `created_at`, `updated_at`, `blocked_at`. Unique(environment_ref,source_kind,source_ref,source_version); immutable identity binding; BLOCKED terminal |
+| `identity_recovery_cases` | `case_id` PK; `environment_ref`, `site_ref`, `subject_user_id`, `verifier_user_id`, `actor_user_id`; three `*_source_id`/`expected_*_source_revision` pairs; immutable `registration_manifest_digest`, `registration_key_ref`; `approval_ref` unique per environment, `approval_manifest_digest`, `approval_key_ref` nullable until APPROVED; `intent` REPLACE_ACTIVE_PASSWORD/REESTABLISH_REVOKED_PASSWORD, nullable `security_clearance_ref` only required for revoked reestablishment; `expected_subject_user_revision`, `expected_verifier_user_revision`, `expected_slot_revision`, `expected_security_epoch`, nullable `expected_credential_id`, `expected_generation`; actor `expected_actor_user_revision`, `expected_actor_slot_revision`, `expected_actor_security_epoch`, `actor_admin_grant_id`, `expected_admin_grant_revision`; `state`, `repository_revision`, `ticket_generation`, `created_at`, `registered_expires_at`, nullable `verified_at`, `approved_at`, `expires_at`, `completed_at`, `terminal_at`, closed `terminal_reason`; `pre_notice_receipt_ref`, `delivery_receipt_ref` nullable until required. No bearer/Session digest field |
+| `identity_recovery_tickets` | `ticket_id` PK; `(case_id,ticket_generation)` unique; `ticket_digest` unique; `state` ACTIVE/CANCELLED/CONSUMED/EXPIRED; `attempts`, `created_at`, `expires_at`, `terminal_at`; positive `repository_revision`. Case FK and composite binding to case/site/environment through case ownership; partial unique(case_id) WHERE state=ACTIVE |
+| `identity_recovery_events` | `(case_id,case_revision)` PK; `event_id` UUIDv7 unique; `event_type`, `occurred_at`, `actor_user_id` nullable only for approved service maintenance, `service_code` nullable, `request_id`, optional `ticket_id`, `source_id`, `receipt_ref`. Closed mutually exclusive actor/service shape; event rows append-only |
+| `identity_recovery_outcomes` | `case_id` PK; `command_id` UUIDv7 unique; `ticket_id` unique; `completed_case_revision`, `ticket_generation`, `actor_user_id`, `subject_user_id`, nullable `prior_credential_id`, `credential_id`, `generation_before/after`, `slot_revision_before/after`, `security_epoch_before/after`, `credential_event_id` unique FK to audit_events, `completed_at`. Safe success evidence; append-only, no request fingerprint/password hash |
+| `identity_recovery_notifications` | `(case_id,notice_kind)` PK, notice_kind PRE_RESET/COMPLETED; `route_source_id`, `route_source_revision`, `verifier_user_id`, `state` PENDING/ACKNOWLEDGED, `created_at`, `due_at`, nullable `acknowledged_at`, `receipt_ref`; `repository_revision`. PRE_RESET inserted acknowledged by trusted receipt before ticket issue; COMPLETED inserted pending in reset transaction |
+| `identity_recovery_admission_buckets` | `(environment_ref,phase,dimension,key_hmac,window_start)` PK; phase REGISTER/ISSUE/SUBMIT/COMPLETE/READ/ACK; dimension GLOBAL/SITE/SUBJECT; `key_hmac` 64 hex, `used`, `expires_at`. Bounded shared counters, helper-only; no secret fingerprint or plain IP/subject locator |
+
+Constraints must name and enforce all of the following. Three people differ; sources bind respectively subject, verifier and subject; source kind/environment match using composite unique/FKs, not solely application tests. Sources have UNIQUE(source_id,environment_ref,source_kind,bound_user_id) in addition to their PK, with case kind-discriminator columns fixed by CHECK for the three composite FKs. Case environment and source environment reference the policy PK. Case subject/actor/verifier IDs reference users; grant FK references existing grant_id PK DEFERRABLE INITIALLY DEFERRED, with deferred owner check requiring grant.user_id=case.actor_user_id; no unsupported composite FK or change to existing table unique keys. Tickets/events/outcomes/notifications reference case_id; outcomes/events with ticket_id reference UNIQUE(case_id,ticket_id) on new tickets. Outcome credential IDs use existing UNIQUE(user_id,credential_id); contact notice FK/owner check binds route source to the same case subject. All use ON DELETE RESTRICT; nullable refs only where the closed state permits. Cases/outcomes never refer to mutable current case ticket_generation through a historical FK.
+
+Expected subject/actor/verifier User revisions, source/slot versions and intent are fixed at REGISTERED; later signed evidence cannot replace them. Registration imports a signed registration manifest with no future receipt/verified timestamp requirement. VERIFIED validates its signed independent evidence receipt, then records DB verified_at and expires_at=verified_at+1800000. APPROVED imports a separately signed final approval matching those actual times, original registration digest/expected versions and signed pre-notice receipt, and fills approval_manifest_digest/key once. Ticket expiry=min(created_at+600000,case.expires_at). REGISTERED uses a separate finite deadline; no later approval or reissue refreshes either deadline. This order avoids requiring a signature over not-yet-created notification/verification facts.
+
+State machine: REGISTERED→VERIFIED→APPROVED→TICKET_ISSUED→COMPLETED; incomplete states can become REJECTED/CANCELLED/EXPIRED, never reopen. Ticket reissue is TICKET_ISSUED→TICKET_ISSUED with different ticket_id, generation+1 and case revision+1, old ACTIVE→CANCELLED. Consume ACTIVE→CONSUMED only on matching completed outcome. Case state/receipt/ticket mutation advances case revision exactly once; each ticket attempts/state mutation advances ticket revision once. Stale expected revisions reject before terminal/no-op checks; maxima fail closed. Notifications have their own revision: ACK of already acknowledged notice is true no-op only with current revision and exact same receipt; stale ACK rejects.
+
+Indexes: cases(environment_ref,state,expires_at), cases(subject_user_id,state), cases by each source_id/state, tickets(case_id,ticket_generation), unique live ticket, events(event_id), notifications(state,due_at,case_id), buckets(expires_at). Notification environment filtering joins its case using indexed case_id; no cross-table index expression. No sequence except existing audit sequence; UUID issuer supplies all new IDs. New migration is forward, single transaction, no startup DDL or CREATE INDEX CONCURRENTLY. It seeds no enabled policy, staff, identity binding, real contact, evidence or default recovery account.
+
+Two new internal functions: `identity_recovery_transition_guard() RETURNS trigger` checks OLD/NEW closed immutable/lifecycle/CAS/monotonic shapes and rejects DELETE on source/case/ticket/provenance/outcome/notification; `identity_recovery_consistency() RETURNS trigger` is a deferred commit validator for the case aggregate. Its checks require state/provenance revision coverage, bound source kinds, actor/subject separation, unique live generation, matching notice/receipts and exactly one outcome for COMPLETED. `RETURN NULL` on successful deferred validation; no SQL alias named `old`/`new` competing with PL/pgSQL trigger variables.
+
+For a newly COMPLETED case, commit checks exact current Credential post-state, terminal prior record/new record, case/ticket consumption, audit and pending notification. For later notification ACK or case-outcome reads, the immutable outcome/audit keeps exact completion before/after versions, while Credential identity/User/generation/created_at proves historical linkage. The recovered credential's current slot_revision may be ≥ recorded completion revision, updated_at may be later, and its state may have changed legally through rehash/replacement/revoke; do not permanently require equality, ACTIVE, original verifier or current pointer/epoch. A subsequent normal password change/rehash/revoke must remain legal. Deferred checks must not require a consumed ticket still ACTIVE or the target's old epoch still current. Source BLOCKED may coexist with historical COMPLETED cases; it cancels only incomplete cases.
+
+### E.4. E8-P02 — Evidence registry and revocation
+
+Approved evidence store signs bounded canonical manifests with Ed25519; server uses `node:crypto.verify` against explicitly approved public-key references, no signing key in recovery browser/service DB. Canonical input is UTF-8 JSON of a versioned ordered field-pair array, exact field set, explicit null values, no duplicate keys/accessors/unknown fields. Maximum 16 KiB; signature exactly 64 decoded bytes, unpadded canonical base64url. Digest is SHA-256 of this safe manifest, never a digest of identity document contents, password or person identifier. Node's standard key parser/algorithm is used; no custom signature algorithm.
+
+Key trust configuration pins issuer, purpose MANUAL_PASSWORD_RECOVERY, environment, allowed source kind, validity/revocation and verifier appointment. Signed enrollment/source manifest binds the original enrollment approval/version and UserId with opaque refs. The signed registration fixes all three expected User revisions, actor grant, source/slot versions, site/intent/case; final approval additionally binds registration digest, actual verified_at/expires_at and pre-notice receipt. Registration key must match its approved enrollment-source key; verification/approval/delivery/notice receipt key must match the appointment-source key and approved store issuer/purpose. The evidence service attests which independently appointed verifier performed each act; signature does not itself prove physical presence. This explicit key-to-source binding allows key revocation to block every affected source/case before external revocation is published. A valid signature alone is insufficient: approved issuer and current DB source anchors are also required. For Ed25519 use standard Node `crypto.verify(null, canonicalBytes, approvedKey, signature)` and require key type ed25519, not inferred caller algorithm/key types. [Node 22 verify contract](https://nodejs.org/docs/latest-v22.x/api/crypto.html#cryptoverifyalgorithm-data-key-signature-callback)
+
+Control runtime may register policy/source records only through a dedicated approved provisioning command loaded from the trusted evidence store. No HTTP body, CLI boolean or fixture store becomes evidence. A source starts CURRENT revision1; later BLOCKED terminal revision+1. Replacement source is a new ID/version, with old source blocked first. Controlled source/key/appointment/contact revocation calls the blocking helper on all affected anchors; it atomically blocks new execution and cancels logically-live incomplete cases/tickets before the external change becomes effective. Already-expired rows remain permanently ineligible by DB deadline checks even if maintenance has not written EXPIRED; they need not be scanned/cancelled as a prerequisite to blocking. Cancel batch includes all still-executable states including REGISTERED and is bounded by the approved global live-case cap; no partially completed blocking batch. Losing contact after completion does not erase a durable completion notification; route resolution is held for independently approved contact remediation.
+
+If the external store permits uncontrolled revocation, lacks synchronization acknowledgement, reports an uncertain key/source state, or provisioning fails, disable the recovery service at admission. No remote evidence call under PG critical locks. No cross-store atomicity claim: production configuration must prove that external authority changes follow this acknowledged order. Original source data absent in today's repository remains a deployment prerequisite; BUILD may supply interface/validator plus synthetic fixtures, never a guessed production record or V1 mapping.
+
+### E.5. E8-P03 — Exact same-client write protocol
+
+All recovery SQL commands start READ_COMMITTED on one restricted auth client. No recovery callback/raw client escapes Infrastructure. No auto retry; 55P03/try-lock=false means closed `RECOVERY_BUSY`, 40001/40P01 and transport failures sanitize and roll back. Statement/idle transaction timeouts are finite approved manifest values, connection failures return generic unavailable. Table-level/implicit waits are bounded by statement timeout; NOWAIT addresses explicit row conflicts, not an overall guarantee that PostgreSQL never waits.
+
+For issue/reissue and complete, read a safe case hint only to identify fixed bindings, then use this order:
+
+1. `identity_recovery_gate(environment,policyDigest)` locks the singleton recovery policy row FOR UPDATE NOWAIT, checks enable/config/time/capacity. It serializes new recovery-only writers and source revocation; it is not a lock used by old Credential writers.
+2. Case-bound helper acquires the complete three User set in canonical UUID order: subject FOR UPDATE NOWAIT, actor/verifier FOR SHARE NOWAIT, no upgrades or extra Users afterward. ACTIVE/User revisions checked. A new statement after target lock checks absence of **all** SystemAdminGrant history. This is stronger than FOR NO KEY UPDATE and conflicts with immediate FK KEY SHARE of an old grant INSERT. Existing grant insert that already holds FK lock causes recovery BUSY; insert starting after recovery's target lock waits and linearizes after reset.
+3. Try shared `zhiban-session-user:<actor>` transaction advisory barrier with `pg_try_advisory_xact_lock_shared`. False aborts. No subject barrier and no exclusive barrier/revoke-all nesting: subject epoch change invalidates its sessions. The strong subject User lock already serializes disable/restore/FK-bound issuance.
+4. Actor/subject slots in UserId order: actor FOR SHARE NOWAIT, subject **direct FOR UPDATE NOWAIT**. Load security-specific history and fail-closed mapper; compare exact approved slot revision/epoch/pointer/generation. Verifier's credentials/Session are not authorization facts.
+5. Actor's bound Session FOR SHARE NOWAIT, then case-bound actor SystemAdminGrant FOR SHARE NOWAIT through helper. Check digest, expected authenticated identity, current User revision/epoch, terminal/expiry, grant owner/revision/validity and exact intent-bound request step-up, under DB and monotonic clocks.
+6. Source anchors sorted by source_id FOR SHARE NOWAIT, case FOR UPDATE NOWAIT, current ticket FOR UPDATE NOWAIT. Recheck all expected source/case/ticket revisions, signed safe manifest/site/ceremony/submission generation, expiry/notice receipts and no privileged target; helpers never return grant history or target secrets.
+7. One transaction: slot CAS pointer/generation/revision/epoch exactly+1; prior ACTIVE terminalize REPLACED and clear verifier (skip when pointer null with approved clearance); insert new ACTIVE CredentialId; ticket consume and case COMPLETED CAS once; existing audit CREDENTIAL_REPLACED/ACCOUNT_RECOVERY with actual actor; append outcome/provenance and COMPLETED pending notice.
+8. Validate exact new credential aggregate/post-state; fresh DB clock plus monotonic elapsed checks for actor Session/grant/step-up, case/ticket/submission, source deadline. `SET CONSTRAINTS ALL IMMEDIATE` runs deferred case/credential checks before final time check; propagate failure without catch-and-continue. COMMIT tag must be COMMIT. Hold all locks until transaction ends.
+
+KDF/screening/operator step-up happens before step1. Neither a real password nor a verifier is passed to a SQL helper. New verifier is only an Infrastructure SQL INSERT parameter; query diagnostics cannot serialize params. Recovery-specific audit writer takes only the exact six existing payload fields, ACCOUNT_RECOVERY fixed reason and safe IDs/versions; do not broaden generic `support.audit` or mutate IdentityAuditEvent union.
+
+Legacy cycle proof obligation: if a legacy writer holds subject slot and later wants User FK while recovery holds target User, recovery's slot NOWAIT aborts and releases User immediately; it never waits for that writer. If a grant/Session insert already holds target FK, target NOWAIT aborts before taking slots. Actor logout-all holding exclusive barrier causes try-lock failure. Actor revoke holding grant/session causes NOWAIT failure. If recovery owns all required locks first, competitors wait or reject stale after its commit; two completions share gate/case/slot CAS and cannot both commit. Unexpected deadlock detection still rolls back; no success claim based on tolerated deadlocks. Real independent-connection PG16 proofs below must establish these cases before signoff.
+
+REGISTER/VERIFY/APPROVE/CANCEL/READ/ACK commands use only the subset needed but acquire the gate first for all mutations. LIVE mutations collect the complete sorted User set before actor authentication locks, source before case/ticket. Register uses the source-bound form of user_locks below **before** any case/User FK INSERT; it does not need direct auth User UPDATE capability or a case row already present. The actor grant FK is deferred so the case can be staged, then the case-bound grant NOWAIT check runs before constraints/commit without an earlier implicit FK wait on that grant. Target slot/source/registration-proof checks remain within this one transaction. Cancellation, source blocking and expiry maintenance do not require target ACTIVE and do not mutate Credential.
+
+Outcome query is a separate authenticated **safe read**, requiring current actor Session/SystemAdmin/step-up and case actor binding, never old target revisions, ticket liveness or unchanged source versions. It may read terminal or incomplete status to resolve uncertainty, but cannot resume/issue/complete. Acquire policy gate NOWAIT first (disabled permitted for this read), actor-only authentication locks, then case FOR SHARE NOWAIT and a fresh outcome SELECT. If original transaction is still holding the gate/case, return OUTCOME_UNKNOWN/BUSY, never infer rollback from an unlocked snapshot. Once locks are acquired after rollback, an incomplete case reports NOT_COMPLETED; after commit, immutable outcome reports COMPLETED. Neither response authorizes automatic replay or reconstructs ticket/submission; unknown issue delivery likewise requires an explicitly authorized new reissue with fresh revision. This bounded read clarification adds no write permission or public endpoint.
+
+### E.6. E8-P04 — Exact privileges and helper capabilities
+
+No role attributes change, no runtime ownership/SUPERUSER/BYPASSRLS/CREATEROLE or SET ROLE. REVOKE PUBLIC and all runtime grants on each new object in the same migration before exact grants. Existing Credential/session auth privileges are reused. No auth SELECT on system_admin_grants, no auth generic User UPDATE, no new control Credential verifier/session digest access.
+
+| Object | auth_runtime | control_runtime | tenant runtime / PUBLIC |
+| --- | --- | --- | --- |
+| policy | SELECT only; lock/reserve through helper | SELECT; INSERT exact immutable policy/config columns; UPDATE(enabled,repository_revision,updated_at) with transition guard and current revision | NONE |
+| sources | SELECT safe references/versions | SELECT; INSERT listed source columns excluding mutable terminal fields; BLOCK through helper only | NONE |
+| cases | SELECT; INSERT listed registration/binding columns with state=REGISTERED, revision1; UPDATE(state,repository_revision,ticket_generation,verified_at,approved_at,expires_at,completed_at,terminal_at,terminal_reason,pre_notice_receipt_ref,delivery_receipt_ref,approval_manifest_digest,approval_key_ref) guarded | no direct SELECT/DML | NONE |
+| tickets | SELECT including security-only ticket_digest; INSERT listed columns initial ACTIVE; UPDATE(state,attempts,terminal_at,repository_revision) guarded | NONE | NONE |
+| events / outcomes | SELECT safe fields; INSERT listed closed columns, no UPDATE/DELETE | NONE | NONE |
+| notifications | SELECT; INSERT listed closed columns; UPDATE(state,acknowledged_at,receipt_ref,repository_revision) guarded | NONE | NONE |
+| admission_buckets | no direct SELECT/DML | NONE | NONE |
+| existing users/grants/audit | no additional direct grants | existing frozen privileges only | existing frozen privileges only |
+
+TABLE SELECT is granted only where all columns are appropriate for that role; no secrets appear in ordinary query return mapping. Locking functions run as existing non-login `zhiban_identity_owner`. Own new tables do not need RLS owner exceptions; audit_events FORCE RLS does. Exactly one new owner SELECT policy on audit_events permits a row only when referenced by a recovery outcome and event_scope=GLOBAL, event_type=CREDENTIAL_REPLACED, reason=ACCOUNT_RECOVERY, actor_type=USER and actor/subject/occurredAt match case outcome. No runtime audit SELECT policy, no general owner allow-all, no grant to read other audit events.
+
+Six externally callable fixed-signature helpers, all `LANGUAGE plpgsql VOLATILE PARALLEL UNSAFE SECURITY DEFINER`, `SET search_path=pg_catalog,zhiban_identity,pg_temp`, `SET row_security=on`, owner `zhiban_identity_owner`; fully qualified relations, no dynamic SQL, parameterized mode allowlists, no default args/overloads. Validate session_user explicitly, not only inherited EXECUTE; invalid/null/malformed params raise static sanitized rejection.
+
+| Signature | Caller / exact behavior and return |
+| --- | --- |
+| `identity_recovery_gate(p_environment text,p_policy_digest text)` | auth/control; exactly one permanent policy row FOR UPDATE NOWAIT, matching environment/config digest; returns `(policy_revision bigint,enabled boolean,checked_at bigint)`. LIVE command adapter/DB transition guards require enabled and finite capacity. Maintenance may lock disabled policy but cannot issue/complete; no caller boolean bypass |
+| `identity_recovery_user_locks(p_case_id uuid,p_session_digest text,p_source_ids uuid[])` | auth only; exactly3 ordered ENROLLMENT/APPOINTMENT/CONTACT IDs, canonical64hex security-only Session digest. Existing LIVE case: source IDs/session-hint actor must match case. Absent case: registration-only, derive subject/verifier from the three approved CURRENT source rows in one environment, actor from own Session hint; no arbitrary UserId parameter. Lock bound policy first, then exactly three distinct ACTIVE Users sorted, target UPDATE / others SHARE NOWAIT, fresh no target grant history; return `(user_id uuid,user_revision bigint)` exactly3 rows. Caller signed registration/expected versions and later actor guard must match before commit. Safe-read/CANCEL use actor guard instead |
+| `identity_recovery_actor_guard(p_case_id uuid,p_session_digest text,p_mode text)` | auth only; closed modes LIVE/OUTCOME/CANCEL; internally acquire bound policy gate first and required sorted User lock subset, actor shared try-barrier, slots/Session/grant NOWAIT, exact current ACTIVE/revision/epoch/liveness/grant eligibility. LIVE acquires both actor SHARE and subject direct UPDATE slots in UserId order before Session/grant, or re-acquires exactly those already held locks; it never grants actor slot SHARE first then upgrades the subject slot later. User locks precede slots; source IDs derive from immutable case. OUTCOME locks actor only for safe read of terminal/incomplete case, no target version checks, no write authorization. CANCEL locks actor only for an incomplete case, ignores target/source staleness/expiry, authorizes only cancellation. OUTCOME/CANCEL use fresh actor versions and one currently effective grant for the same bound actor (deterministic grant_id order, LIMIT1, SHARE NOWAIT), not obsolete case versions/grant; LIVE requires its originally bound grant/expected versions. Returns `(actor_user_id uuid,actor_user_revision bigint,actor_slot_revision bigint,actor_security_epoch bigint,admin_grant_revision bigint,absolute_expires_at bigint,idle_expires_at bigint,grant_valid_until bigint)`; last column nullable, no verifier/token digest/history |
+| `identity_recovery_source_block(p_source_id uuid,p_expected_revision bigint,p_request_id text)` | control only; gate first, current source CAS; BLOCK source and all logically-live incomplete dependent cases/tickets, provenance same client, already-dead rows remain ineligible without cleanup; returns void, no Credential mutation/secret SELECT. Expected source revision precedes already-BLOCKED no-op; no delete. Reject true live-capacity violation rather than partially cancel a batch |
+| `identity_recovery_reserve(p_environment text,p_policy_digest text,p_phase text,p_keys text[])` | auth only; exactly three GLOBAL/SITE/SUBJECT purpose-HMAC keys in that order, closed phase; gate NOWAIT; DB-time finite window/bucket count/caps, reserve all dimensions atomically or false with no partial increment; returns boolean, no bucket rows |
+| `identity_recovery_prune(p_environment text,p_policy_digest text,p_limit integer)` | auth only; gate NOWAIT, delete expired buckets only, limit1..500; returns integer. No recovery history/case/outcome deletion capability |
+
+Gate helper's returned policy projection is not a transferable permit; command adapter must enforce enable before LIVE actions, and transition/consistency guard rechecks enabled/matching case environment for newly issued/completed rows. Source-block function locks the gate directly in maintenance mode; browser has no mode to invoke it. Policy enable/disable command obtains the same gate before UPDATE; CREATE/registration provisioning follows gate→sources, with bounded NOWAIT locks. Definer helpers are fixed capabilities and also enforce their own prerequisite lock order when directly invoked; no GUC, passed permit or claim about prior locks bypasses it. Policy enable mutation cannot enable missing/expired config/evidence service. Direct SQL login is a trusted server capability, not an HTTP caller; a browser cannot obtain these roles or construct server handles.
+
+Two trigger functions from E.3 also use owner SECURITY DEFINER/fixed path/row_security and are not externally callable: REVOKE EXECUTE from PUBLIC and all runtimes; trigger firing still works. They receive only NEW/OLD closed table rows. The only owner read exception beyond existing capabilities is the scoped audit policy. Do not modify existing functions to add recovery purpose; existing admission, Session guard, FIRST and control allowlists remain frozen.
+
+### E.7. E8-P05 — Private transport and exact operations
+
+Deployment mode `SINGLE_PROCESS_ATTENDED_HTTPS_V1`. One dedicated recovery service process owns both lane registries and auth pool; independent private HTTPS listener/backend, not Next.js route registration or public Identity namespace. Approved reverse proxy mounts the private listener at the **same exact configured HTTPS origin** as staff's existing Identity Session but exposes recovery paths only to authenticated approved terminal certificates/private network. Public proxy must return a fixed 404 for the recovery prefix; no wildcard forwarding. Staff log in using the existing normal login flow; private recovery adds no public/private login endpoint or identifier resolver.
+
+Two dedicated managed browsers/terminals have distinct proxy-verified client certificates assigned OPERATOR vs SUBJECT. Proxy overwrites lane/site/environment identity headers, strips all caller copies, backend reachable only from that proxy over approved authenticated link; Node adapter constructs a registry-backed TransportHandle from actual peer/proxy evidence. A caller header, shared certificate, same device/browser profile or body `lane/site/actor` cannot establish authority. Physical procedure gives only the SUBJECT browser to the person setting the password; staff cannot access its page/recording. Concrete DNS/cert/proxy/network/personnel values remain deploy-approved configuration; no implicit local fixture/default install.
+
+All endpoints POST under private `/_zhiban_recovery/v1/`, same-origin JSON, X-Zhiban-Request=`manual-recovery-v1`, exact Origin, Sec-Fetch-Site compatible with same-origin, no Authorization/URL query/fragment/token redirects; duplicate/ambiguous security headers reject. Body≤8192 bytes, headers≤8192 bytes, finite body timeout, unexpected keys reject, no content encoding/CORS/third-party scripts. Existing generic Request/Node header parsing may be reused without changing public 8D protocol. Request IDs server-created safe refs, no request/body/token logging.
+
+| Operation | Lane / exact input and output |
+| --- | --- |
+| `operator/context` | OPERATOR; body `{}` plus current Session cookie. Returns private CSRF proof plus safe current actor metadata; no role/grant roster |
+| `operator/register` | OPERATOR; `{enrollmentRef,appointmentRef,contactRef,approvalRef,currentPassword}`; refs resolve trusted signed store. CaseId/expected versions/people are server bound; returns `{caseId,revision,state}` |
+| `operator/verify` / `operator/approve` | OPERATOR; `{caseId,expectedRevision,evidenceReceiptRef,currentPassword}` / `{caseId,expectedRevision,preNoticeReceiptRef,currentPassword}`. Trusted store independently validates fixed receipt and manifest; no `verified:true`. Returns safe case state/revision |
+| `operator/pair` | OPERATOR; `{caseId,expectedRevision,currentPassword}` after APPROVED. Trusted deployment maps this operator station to one distinct SUBJECT terminal. Returns process-private pairingCode through secret response boundary plus safe case reference; the code is a pairing locator, not recovery ticket/normal Session. Display transiently for the assigned subject terminal; no persistence/URL/log |
+| `operator/issue` | OPERATOR; `{caseId,expectedRevision,deliveryReceiptRef,currentPassword}`. Initial/reissue distinguished by persisted state, fixed approved intent; raw ticket goes only through the Infrastructure delivery boundary to paired SUBJECT context, never operator response. Returns safe state/revision/generation |
+| `subject/context` | SUBJECT; `{pairingCode}` in body, exact Origin/custom header. One-use process-local pairing locator typed `mpair1_`+32 random bytes, generated after case approval, transferred transiently without secret URL. Returns subject-only ceremony CSRF proof, sets separate ceremony cookie; no subject User metadata |
+| `subject/ticket` | SUBJECT; body `{}` plus ceremony cookie/CSRF after successful issue. Exactly-once Infrastructure response `{ticket}` for this paired terminal; generation registry marks delivery before sending. Lost response requires authorized reissue; pending/foreign/already-delivered has fixed no-ticket response, no account facts |
+| `subject/submit` | SUBJECT; `{ticket,newPassword}` plus subject ceremony/CSRF. Hashing occurs within receiver security boundary; returns `{status:'READY'}` only. Server delivers a safe submission locator to the paired operator's case view; no verifier or target password in response |
+| `operator/ready` | OPERATOR; `{caseId,currentPassword}`; current authentication/approval read returns safe `{state,submissionRef,caseRevision,ticketGeneration}`, submissionRef nullable when not ready; no secret/verifier. Reading never grants completion permission |
+| `operator/complete` | OPERATOR; `{caseId,expectedRevision,submissionRef,currentPassword}`. New step-up binds exact server submission/approved intent and current request. Returns `{status:'COMPLETED',caseId,commandRef,notification:'PENDING'}` on confirmed commit; no Session issue |
+| `operator/cancel` | OPERATOR; `{caseId,expectedRevision,currentPassword}`; current authorized executor only, CAS terminalizes active tickets. No user-disable/credential-revoke side effect |
+| `operator/outcome` | OPERATOR; `{caseId,currentPassword}`; current actor/step-up safe-read branch, reports COMPLETED/NOT_COMPLETED/OUTCOME_UNKNOWN plus safe case revision/state/command/notification as available. Locks resolve incomplete as well as terminal status; COMMIT uncertainty is queried here, never auto replayed |
+| `operator/ack` | OPERATOR; `{caseId,noticeKind,expectedRevision,receiptRef,currentPassword}`; store proves independently appointed verifier's manual delivery receipt, exact case/route/version. Executor cannot fabricate delivery boolean |
+
+The register step imports the fixed independent appointment/enrollment/contact records; VERIFIED/APPROVED receipts come from the separately signed evidence store. Because all case bindings/expected target versions are fixed at registration, any later change requires a new case, no registration-time default source substitution. Pairing is completed through operator/pair→subject/context before issue, under trusted terminal assignment, not arbitrary URL/body endpoint. Issue commits ticket digest first and holds raw ticket only in this bounded paired delivery registry until subject/ticket reads it once; a process crash loses that value and requires reissue. Pairing and raw ticket cannot be queried from a successful outcome. Delivery failure after ticket commit cancels ticket through fresh authorized mutation; never replays a retained response.
+
+`deliveryReceiptRef` proves the verified person's physical handover to the assigned private terminal and readiness for this planned ticket generation, independently attested before issue; it does not claim a future network response was received. Actual subject ticket possession is additionally checked at submit/completion. Every reissue requires a new generation-bound handover receipt. Disable/backlog closes REGISTER/VERIFY/APPROVE/PAIR/ISSUE/SUBMIT/COMPLETE; authorized CANCEL/OUTCOME/ACK and source blocking remain available through their explicit closed branches, with admission still bounded. Cancel does not require target ACTIVE or source freshness, so an abandoned case can safely terminate after those facts change.
+
+Staff cookie remains existing `__Host-zhiban_session`, HttpOnly/Secure/Lax/Path=/, no Domain. Separate `__Host-zhiban_recovery` cookie contains a CSPRNG ceremony locator (no normal Session authority), HttpOnly/Secure/Strict/Path=/, no Domain, expiry min(case deadline,ceremony TTL). SUBJECT receiver ignores any normal Session cookie as authority. Only subject context response sets it; cancel/expiry/completion clears it and registry state. OPERATOR requests use a recovery-purpose Session-bound synchronizer proof; SUBJECT requests use ceremony/site/lane-bound synchronizer proof. Keys are per service process; process restart invalidates them. SameSite alone is insufficient; exact Origin and custom proof are required, including cancellation/reads carrying sensitive refs.
+
+Explicit bootstrap exceptions: operator/context has no preexisting recovery CSRF proof, so requires approved OPERATOR transport, exact Origin/custom header and current staff Session; it is a safe read issuing a new proof, not a case mutation. subject/context likewise requires approved assigned SUBJECT transport, exact Origin/custom header and one-use pairingCode; it can only create its bound ceremony and initial proof. Every other operation requires the respective synchronizer proof in `X-Zhiban-CSRF`. Fresh step-up binds request identity, case/target/site, operation and exact expected revision/submission/receipt intent; successful prior context/ready is not permission for completion.
+
+All responses Cache-Control:no-store, Referrer-Policy:no-referrer, CSP default-src 'none' with only explicitly approved self UI script/style/connect sources, frame-ancestors 'none', form-action 'self', base-uri 'none'; no inline untrusted code/APM/session replay/service worker. Subject UI clears input immediately after submit/expiry/cancel, disables clipboard/persistence/debug capture according to managed-terminal policy, never asserts reliable JS memory erasure. No localStorage/sessionStorage/URL bearer. Minimal private terminal interface is confined to recovery ceremony, not a Portal or OpenMAIC UI.
+
+Unknown/wrong/foreign/expired/cancelled ticket, missing pairing or malformed security state all map to fixed `RECOVERY_REJECTED` without target existence/version details; oversized/method/origin requests use generic protocol status. Busy/admission/storage outage returns fixed `RECOVERY_UNAVAILABLE`; current actor auth failure returns normalized rejection. Completion transport loss returns `OUTCOME_UNKNOWN` internally; operator asks outcome with fresh authentication. No error cause/provider text/SQLSTATE/params in HTTP/log/audit. Status/error timing is not claimed overall constant-time; random ticket strength, limited admission and no existence metadata are the first-line controls.
+
+### E.8. E8-P06 — Material and single-process registries
+
+Ticket encoding `mrec1_` followed by canonical unpadded base64url of exactly32 random bytes (43 chars). Strict decode→reencode equality, no Unicode/whitespace/truncation/alternate prefix. Digest preimage is UTF-8 fixed label `zhiban-manual-recovery-ticket-v1`, a NUL separator, fixed environment/site/case UUID/generation with NUL separators, and decoded random32 bytes. Hash SHA-256; digest/PHC material stays security-specific Infrastructure. Separate contexts/keys for pairing, ceremony, submission locators and CSRF; never accept Session/CSRF token as ticket. Input digest can be derived only after case-bound ceremony identifies generation; querying arbitrary supplied target IDs is disallowed.
+
+Process maps keyed by unguessable server locators hold ceremony binding and submission: caseId, actor/subject/site/lane, ticketId/generation, expected case/source/User/slot versions, manifest/intent digest, request/command refs, DB-issued deadline and monotonic start, one valid PasswordVerifierHandle. Ordinary Application receives an opaque handle or safe locator only; registry lookup and ownership authenticate it. No durable submission verifier, no generic queue/Redis/file/session DTO. The independent signed approval remains immutable; the final request-scoped step-up safe intent additionally binds submissionRef, case revision, ticket generation and original approval digest. It is not a digest/fingerprint of password/verifier and does not rewrite the signed approval.
+
+Create a dedicated `RecoverySecurity` registry/bridge with its own request handles and step-up proof allowlist. It resolves current staff bearer in Infrastructure, validates existing Session/credential state, issues request-bound proof for the exact recovery action/intent and consumes it once. Reuse existing pure material validators and provider, not the MembershipSecurity action union, FIRST proof purpose or fabricated existing AuthenticatedRequestHandle. Existing public Ports/private binding registries remain unchanged; new composition accepts only handles issued by its own actual registry.
+
+Subject ticket remains ACTIVE while hashing; after hash, a short validation transaction rechecks ceremony/case/ticket/source/version bindings and attempt budget before publishing the in-memory submission. Hashing may fail or race cancellation; discard result, never consume ticket on screening/hash failure. Admission/attempt reservation happens **before** KDF in its own short transaction, so rollback of reset cannot erase guesses from budget. Ticket attempts CAS does not advance case revision; issue-generation/case binding is unchanged. Reissue/cancel makes every old submission unusable immediately by DB checks, even if a process map has not been pruned.
+
+Exactly one latest submission per live ticket; new successful subject submission invalidates prior one and its intent-bound step-up. Completion atomically claims registry entry before SQL so concurrent operator requests cannot share it. Confirmed rollback discards verifier/handle and allows bounded fresh subject submission while ticket live; uncertain COMMIT quarantines/discards handle, outcome query only. No retry reuses the handle. Raw password exists only during input/hash; no permit-wait queue. Restart loses ticket-delivery/ceremony/submission material; DB cases stay coherent but resumption requires authorized reissue or new case, not secret reconstruction.
+
+Case lifetime30min/ticket10min fixed. Approved ceilings: ceremonyTTL≤10min, submissionTTL≤5min and never beyond case/ticket deadline, registry maximum≤256 and finite request cap≤64; concrete smaller values pinned in deployment manifest. Step-up remains ≤5min and checked both wall/monotonic. If elapsed negative, database time backwards relative to locked state, source/Session deadline exhausted, registry missing or deployment changed, reject. Hash time does not extend ticket lifetime.
+
+### E.9. E8-P07 — Provenance, notifications, bounded configuration
+
+Provenance event closed vocabulary: REGISTERED, VERIFIED, APPROVED, TICKET_ISSUED, TICKET_REISSUED, COMPLETED, REJECTED, CANCELLED, EXPIRED. Exactly one case event per changed case revision; attempt counters and notice ACK are distinct ticket/notification mutations. Source-block cancellation emits CANCELLED with closed reason SOURCE_BLOCKED and approved service actor. Other terminal reasons USER_REQUEST/VERIFICATION_REJECTED/DEADLINE_REACHED/DELIVERY_FAILED/SECURITY_POLICY; no free-text evidence. Outcome uses existing audit payload unchanged (priorCredentialId nullable, credentialId, revision before/after, epoch before/after); deferred validator requires correct actual actor/subject/time/reason and corresponding Credential history.
+
+Notification fixed PRE_RESET/COMPLETED payload is reconstructed from safe case/event fields and routeRef, never stored arbitrary text. PRE_RESET trusted ACK is prerequisite to issue; COMPLETED PENDING created in reset transaction, dueAt from policy. Manual verifier delivers and evidence store signs closed receipt binding case/kind/source version/verifier/delivery time; operator records ACK with own fresh authority and step-up. Failure keeps PENDING, disables new issuance at backlog/age thresholds, preserves success outcome. No automatic repeated reset or secret resend; contact remedy uses independent approved registry process.
+
+Canonical approved deployment record supplies policy fields from E.3 plus fixed origin/environment/site/certificate allowlist, single-process topology, staff trust/key references, evidence/receipt backchannel, private proxy acceptance, auth-only DSN secret reference, production corpus, process capacity/timeouts and responsibility/retention approvals. Defaults do not enable recovery. Safe policy digest excludes secrets and includes all numeric budgets; configure once, immutable digest. This first implementation permits only enable/disable CAS on the permanent environment row, no runtime config replacement/delete. A later policy-value change requires disabling recovery and a separately reviewed migration/configuration change with incomplete-case cancellation; it cannot create a second independent gate for the same environment or renew old deadlines.
+
+Approved finite validation ceilings: registeredTTL≤24h, windows≤1h, limits/maxBuckets/maxTotalCases≤1,000,000, maxLiveCases≤256, per-subject registered≤4, attempts/ticket≤5, maxPending≤256, pendingAge/delivery interval≤24h, SQL/body timeouts≤30s. All positive and internally compatible, no zero/unlimited sentinel. Live-case capacity counts REGISTERED before its deadline plus VERIFIED/APPROVED/TICKET_ISSUED before case deadline, so source blocking never relies on an unbounded executable batch. Activation requires Node22/production Argon2 capacity and terminal drill to choose actual values; these upper bounds are not performance claims. Enrollment/appointment/contact validity is independently finite and cannot exceed their actual approved records.
+
+Shared reserve uses purpose-specific HMAC-SHA256 keys with approved server secret, environment/phase/dimension separation; actual site and canonical subject come from trusted transport/case, not request IP/user claims. Unknown pairing attempts have one approved site-scoped unknown bucket; invalid bodies are admission-bounded before parse/KDF. Bucket expiry/prune is bounded and concurrency-safe under gate. Case/source/provenance history has no runtime deletion/archive capability: finite maxTotalCases yields explicit unavailable before exhaustion, registered/live count and notice backlog are checked using DB time independent of cleanup. Long-term archive/delete/privacy retention is separate operations approval; BUILD cannot silently purge history or claim unbounded production longevity.
+
+### E.10. E8-P08 — Verification matrix and delivery gates
+
+No tests or migrations executed in this design-only unit. BUILD must add targeted unit/contracts and a real `pg16-manual-recovery.test.ts` to existing two complete PG16 runs; retain all twelve old suites and 282 per-run baseline tests, current 1331 non-PG Identity tests, lint/typecheck/frozen install and production Argon2 policy. Report actual new counts, not a guessed final number. No CI dispatch before approved BUILD/checkpoint/remote verification.
+
+| Proof group | Mandatory concrete assertions |
+| --- | --- |
+| Schema/migration | 0001–0009 Git blobs and ledger checksums unchanged; 0010 parser/apply/second-run NO-OP/drift/rollback/advisory lock; UUID/int8/time/shape/FK/terminal guards, wrong owner/role/overloads fail |
+| Evidence | Real Node Ed25519 signed fixture valid; exact ed25519/null-algorithm API; wrong issuer/key/purpose/environment/case/version/appointment/revoked source reject; register→verified DB deadline→signed final approval chronology; forged boolean/body store reject; source BLOCK cancels live incomplete cases atomically before new external version, already-dead rows cannot block revocation; completed history preserved |
+| People/authority | Subject/verifier/actor separation; tenant admin alone deny; all target SystemAdmin histories deny; verifier disable/restore revision and appointment revocation invalidate old approval; actor revoked/expired/future grant, disabled/restore, logout/slot change invalidate proof; no whole grant-table SELECT |
+| Material/provider | Actual production Argon2 screening false-only; nonboolean/throw fail closed; dummy initialization and salt behaviors retain old coverage; fake/foreign registry handles reject; ticket decode canonical/purpose isolation/32byteCSPRNG; exception/log/audit/DB assertions contain no raw material |
+| Lifecycle/time | Case VERIFIED deadline, registered deadline, approval/reissue no renewal; attempts before KDF; stale-before-no-op; repeated ACK exact idempotence; ticket/submission/ceremony/step-up/Session/grant/source expiry boundaries and clock rollback; max revision/epoch/generation fail closed |
+| Atomicity | Fault at each slot/history/audit/case/ticket/event/outcome/notice write rolls all mutations back; same password still +1; revoked reestablishment requires clearance/new generation; COMMIT tag/uncertain disconnect never returns confirmed success or auto replays |
+| Concurrency | Independent connections and acknowledged locks for dual consume, source-block/reset, reset/change/revoke/rehash, actor logout/logout-all/grant revoke, User disable/restore, Session INSERT both orders, grant INSERT both orders including uncommitted FK holder; old slot-first writer must induce immediate recovery rejection, not a User↔slot wait cycle |
+| ACL/RLS | Actual auth SQL roles execute only exact helpers; tenant/control/PUBLIC table/column/function secret access denied; helper caller/NULL/foreign case/closed mode tests; source-bound pre-case registration without generic User UPDATE; direct helper invocation retains gate/User/slot order; narrow owner audit policy does not expose unrelated audit; no tenant context leakage or altered policies |
+| Private Node HTTP | Actual Node incoming requests/proxy fixture, overwritten lane headers and approved distinct terminal certificates; public prefix inaccessible; explicit context bootstrap proof acquisition and all subsequent proof requirements; omitted/duplicate Cookie/header/origin/CSRF/body timeout/encoding/oversize tests; SUBJECT cannot use operator cookie as proof; OPERATOR cannot send/read newPassword/verifier/raw ticket |
+| Registry/outcome/notice | Cancellation/reissue/restart clears or DB-invalidates old handles; competing completion one registry claim and at most one committed outcome; old Session denied; safe outcome read works after target epoch/source changes, returns unknown while original commit unresolved and NOT_COMPLETED after confirmed rollback; later normal change/rehash/revoke plus notification ACK succeeds with immutable outcome; pending notice survives process loss and blocks new issuance when overdue |
+
+Synthetic PG fixtures need current consistent DB clocks and real production provider dummy initialization; never lower cost, alter encoding to skip screening, use fixture-only authority in production default, or assert old Session rejection by weakening verification. Parallel tests must acknowledge barriers/locks; no sleep-only race. Every lock helper is exercised at restricted runtime, superuser only for isolated seed/catalog/cleanup. Any parser/SQL/assertion failure has ordinary fix in the authorized build scope; frozen semantics conflict stops implementation.
+
+Implementation sequence after precise approval: 0010/ACL/constraint and contract tests → evidence/material/registry/admission → same-client issue/complete/outcome/notice → private protocol/synthetic terminal harness → targeted/full Identity/typecheck/lint → High review/normal fixes → separately authorized exact checkpoint/remote check → new CI two-run signoff → closeout → separate real operational acceptance. Actual enrollment/contact/personnel/private HTTPS/certificates/signing issuer/corpus are not created from this design. Special platform administrator recovery remains CLOSED; production release must state that limitation and satisfy the separately approved governance gate.
+
+### E.11. Design review and final supplement state
+
+High design review corrected lock-cycle avoidance, evidence revocation state, safe outcome reads independent of stale target epoch and unresolved commit, historical consistency after later credential mutation, source-bound pre-case lock acquisition, signed approval chronology, bootstrap CSRF and subject-only raw ticket/password lanes. E.12 records all approval-review closures. No observed need to change frozen Domain/Credential/Session semantics, role model, old migration content or public route allowlist. These are design conclusions, not real PG16 or deployment evidence.
+
+Reference support: [PostgreSQL 16 locking](https://www.postgresql.org/docs/16/explicit-locking.html) describes UPDATE versus KEY SHARE and conflict behavior; [function security](https://www.postgresql.org/docs/16/sql-createfunction.html) supports fixed trusted search paths; [column privileges](https://www.postgresql.org/docs/16/ddl-priv.html) informs exact grants; [OWASP CSRF guidance](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html) supports origin/proof checks beyond SameSite. Project-specific composition and race outcomes still require the tests above.
+
+E8_S01_S08: HUMAN_APPROVED_AND_FROZEN
+
+EXACT_SUPPLEMENT: HUMAN_APPROVED_AND_FROZEN
+
+EXACT_APPROVAL_ITEMS: E8-P01–P08
+
+EXACT_APPROVAL_STATUS: ALL_EIGHT_HUMAN_APPROVED
+
+EXACT_REVIEW_VERDICT: PASS
+
+APPROVED_MIGRATION: 0010_identity_manual_recovery.sql
+
+APPROVED_NEW_TABLES: 8
+
+APPROVED_CALLABLE_HELPERS: 6
+
+APPROVED_INTERNAL_TRIGGER_FUNCTIONS: 2
+
+APPROVED_OWNER_AUDIT_RLS_EXCEPTION: RECOVERY_OUTCOME_LINKED_READ_ONLY
+
+PUBLIC_RECOVERY: CLOSED
+
+PRIVATE_TRANSPORT: PRECISE_DESIGN_FROZEN / NOT_INSTALLED
+
+PRODUCTION_CONFIGURATION: NOT_APPROVED_OR_INSTALLED
+
+APPLIED_MIGRATIONS_0001_0009: UNCHANGED
+
+FROZEN_CONTRACT_CONFLICT: NO_OBSERVED
+
+SCHEMA_BLOCKER: NONE_OBSERVED_AT_DESIGN_STAGE
+
+CURRENT_SUPPLEMENT_DESIGN_P0: 0
+
+CURRENT_SUPPLEMENT_DESIGN_P1: 0
+
+CURRENT_SUPPLEMENT_DESIGN_P2: 0
+
+IMPLEMENTATION: NOT_STARTED
+
+TEST_EXECUTION: NONE_DOC_ONLY
+
+COMMIT: NO
+
+PUSH: NO
+
+CI_DISPATCH: NO
+
+READY_FOR_EXACT_SUPPLEMENT_REVIEW: COMPLETED
+
+READY_FOR_1B8E_SUPPLEMENT_CHECKPOINT: YES
+
+READY_FOR_1B8E_BUILD: NO_PENDING_SUPPLEMENT_CHECKPOINT_REMOTE_VERIFICATION_AND_BUILD_AUTHORIZATION
+
+Next task: approved single-document exact supplement checkpoint and independent GitHub HEAD/message/parent verification (GPT-6.1 Sol / Low), followed by separately authorized BUILD (GPT-6.1 Sol / High). Deployment values and special administrator recovery retain separate approval/acceptance gates.
+
+### E.12. Human approval review closure
+
+Approval date: 2026-10-04. Human request: **“审阅并批准 E8-P01–P08”**. Review baseline `1a8c706c5f5b4ddda14b8f581f1e7bf80c810a7c`; worktree before review contained only this design supplement. Review re-read the actual existing grants/ACL, Credential mutation/history, User and Session FK/barriers, transaction wrapper, public HTTP proof handling and Appendix E, and checked official PostgreSQL16/Node22 semantics. No production/test/migration/workflow/package edit or test/CI execution.
+
+| Item | Final result |
+| --- | --- |
+| E8-P01 | PASS / APPROVED; eight-table inventory with explicit historical FKs, initial counter/null shapes and subsequent Credential mutation-safe consistency |
+| E8-P02 | PASS / APPROVED; signed registration/verification/final-approval chronology, key-to-source revocation binding, all three User revisions |
+| E8-P03 | PASS / APPROVED; one-client CAS/epoch/audit/notice, gate/User/slot non-waiting lock order, no unresolved-COMMIT replay |
+| E8-P04 | PASS / APPROVED; six exact helpers including source-bound registration before case FK, closed safe-read/cancel modes and narrow owner audit-read exception |
+| E8-P05 | PASS / APPROVED; fixed private operations, two transport-verified terminals, explicit CSRF bootstrap and proof requirements |
+| E8-P06 | PASS / APPROVED; ticket/delivery/submission single-use registries, bounded lifetimes, uncertain commit queries without secret reconstruction |
+| E8-P07 | PASS / APPROVED; immutable provenance/outcome, durable notification and finite live/history/admission limits, bounded source revocation |
+| E8-P08 | PASS / APPROVED; restricted-role migration/ACL/real races/provider/Node HTTP proofs plus all old regression suites retained |
+
+| Review finding | Resolution included in this approval |
+| --- | --- |
+| Later Credential mutation changes recovered row slot_revision/status | Keep completion versions in immutable outcome/audit; historical linkage uses immutable ID/User/generation/created_at and allows legal later revision/state |
+| Terminal-only read cannot distinguish a rolled-back unknown completion | OUTCOME is an actor-authenticated safe read of incomplete or terminal state, serialized by gate/case locks; busy remains unknown, never auto retry |
+| Pre-case registration cannot call a case-only User helper | Six-helper inventory retained; user_locks has exact source-ID/Session-digest form, derives only registered people, locks before User FK INSERT; no generic User UPDATE grant |
+| Missing verifier revision / initial counter shape / exact FKs | Add expected_verifier_user_revision, case generation0 and attempts0, new-table composite constraints and deferred existing grant PK association check |
+| Approval signature references future notification/verified time | Separate immutable registration and signed final approval after actual DB verification time/pre-notice receipt; approval fields fill once at APPROVED |
+| No CSRF proof exists at first context request | Only two explicit context bootstrap operations may create proof after exact Origin/custom header and real lane/Session or pairing; every other operation requires proof |
+| Historical expired case backlog can prevent source blocking | Block source and cancel bounded logically-live set atomically; deadline alone keeps old rows dead, without cleanup prerequisite |
+
+The user approval freezes these review-corrected exact contracts. This E.12 approval state supersedes earlier historical labels saying exact schema/ACL/transport approval is still pending, while the S01–S08 channel decisions remain unchanged. Approval does not configure real evidence/personnel/certificates/contacts, permit privileged administrator recovery, claim PG16 execution or authorize implementation. Current design P0=0, P1=0, P2=0; BUILD/operational findings remain for their actual acceptance stages.
+
+E8_P01_P08: HUMAN_APPROVED_AND_FROZEN
+
+APPROVAL_REVIEW: COMPLETE / PASS
+
+READY_FOR_1B8E_SUPPLEMENT_CHECKPOINT: YES
+
+IMPLEMENTATION: NOT_STARTED
+
+COMMIT: NO
+
+PUSH: NO
+
+CI_DISPATCH: NO
