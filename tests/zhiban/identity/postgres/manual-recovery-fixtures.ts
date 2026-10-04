@@ -1,4 +1,4 @@
-import { Pool } from 'pg';
+import { Pool, type PoolClient } from 'pg';
 import { User, instant } from '@/lib/zhiban/domain/identity';
 import { repositoryRevision } from '@/lib/zhiban/application/identity/ports/repository-types';
 import { PostgresIdentityRepository } from '@/lib/zhiban/infrastructure/identity/postgres/repositories/user';
@@ -126,16 +126,64 @@ export async function recoveryFixture(pools: Set<Pool>) {
     expected_admin_grant_revision: '1',
   });
   const security = new RecoverySecurity(auth, credentials, h, 256),
-    registry = new RecoveryRegistry(256, 600000, 300000),
-    service = new ManualRecovery(
-      auth,
-      signed.evidence,
-      h,
-      security,
-      registry,
-      budgets,
-      new Uint8Array(32).fill(11),
-    );
+    registry = new RecoveryRegistry(256, 600000, 300000);
+  let sqlFailure: { stage: string; code: string } | null = null;
+  let lastStage = 'NONE';
+  const observed = {
+    connect: async () => {
+      const client = await auth.connect();
+      return {
+        release: (destroy?: boolean) => client.release(destroy),
+        query: (async (sql: string, params?: unknown[]) => {
+          const stage = sql.startsWith('SELECT * FROM zhiban_identity.identity_recovery_user_locks')
+            ? 'USER_LOCKS'
+            : sql.startsWith('SELECT * FROM zhiban_identity.identity_recovery_actor_guard')
+              ? 'ACTOR_GUARD'
+              : sql.startsWith('SELECT * FROM zhiban_identity.identity_recovery_gate')
+                ? 'GATE'
+                : sql.startsWith('INSERT INTO zhiban_identity.identity_recovery_cases')
+                  ? 'CASE_INSERT'
+                  : sql.startsWith('INSERT INTO zhiban_identity.identity_recovery_events')
+                    ? 'EVENT_INSERT'
+                    : sql === 'SET CONSTRAINTS ALL IMMEDIATE'
+                      ? 'CONSTRAINTS'
+                      : sql.startsWith('SELECT')
+                        ? 'READ'
+                        : 'OTHER';
+          if (!['BEGIN', 'COMMIT', 'ROLLBACK'].includes(sql) && !sql.startsWith('SELECT set_config'))
+            lastStage = stage;
+          try {
+            return await client.query(sql, params);
+          } catch (error) {
+            // Test-only diagnostic: fixed stage and SQLSTATE, never SQL parameters or secrets.
+            let code: unknown;
+            try {
+              code =
+                error !== null && typeof error === 'object'
+                  ? Object.getOwnPropertyDescriptor(error, 'code')?.value
+                  : undefined;
+            } catch {
+              code = undefined;
+            }
+            sqlFailure = {
+              stage,
+              code: typeof code === 'string' && /^[A-Z0-9]{5}$/.test(code) ? code : 'UNKNOWN',
+            };
+            throw error;
+          }
+        }) as PoolClient['query'],
+      };
+    },
+  };
+  const service = new ManualRecovery(
+    observed,
+    signed.evidence,
+    h,
+    security,
+    registry,
+    budgets,
+    new Uint8Array(32).fill(11),
+  );
   let csrf = (await security.context(raw)).csrf;
   const proof = async (
     op: string,
@@ -268,6 +316,8 @@ export async function recoveryFixture(pools: Set<Pool>) {
     security,
     registry,
     service,
+    sqlFailure: () => sqlFailure,
+    lastStage: () => lastStage,
     proof,
     receipt,
     register,

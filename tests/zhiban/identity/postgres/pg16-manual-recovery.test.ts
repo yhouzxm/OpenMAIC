@@ -200,7 +200,16 @@ describe
       }
     });
     it('E8-PG05 signed source-bound registration, version/provenance coverage', async () => {
-      expect(await f.register()).toMatchObject({ state: 'REGISTERED', revision: '1' });
+      let registered;
+      try {
+        registered = await f.register();
+      } catch {
+        const failure = f.sqlFailure();
+        if (failure)
+          throw new Error(`Synthetic registration SQL failure: ${failure.stage}/${failure.code}`);
+        throw new Error(`Synthetic registration non-SQL failure after ${f.lastStage()}`);
+      }
+      expect(registered).toMatchObject({ state: 'REGISTERED', revision: '1' });
       const c = (
         await adminRows('SELECT * FROM zhiban_identity.identity_recovery_cases WHERE case_id=$1', [
           f.caseId,
@@ -1011,14 +1020,20 @@ describe
       async (column) => {
         const c = adminClient();
         await c.connect();
+        let slotGuardDisabled = false;
+        let historyGuardDisabled = false;
+        let inTransaction = false;
         try {
-          await c.query('BEGIN');
           await c.query(
             'ALTER TABLE zhiban_identity.credential_slots DISABLE TRIGGER credential_slot_guard',
           );
+          slotGuardDisabled = true;
           await c.query(
             'ALTER TABLE zhiban_identity.credentials DISABLE TRIGGER credential_history_guard',
           );
+          historyGuardDisabled = true;
+          await c.query('BEGIN');
+          inTransaction = true;
           await c.query(
             `UPDATE zhiban_identity.credential_slots SET ${column}=9223372036854775807 WHERE user_id=$1`,
             [f.subject],
@@ -1028,16 +1043,25 @@ describe
               `UPDATE zhiban_identity.credentials SET ${column === 'repository_revision' ? 'slot_revision' : 'generation'}=9223372036854775807 WHERE user_id=$1`,
               [f.subject],
             );
-          await c.query(
-            'ALTER TABLE zhiban_identity.credential_slots ENABLE TRIGGER credential_slot_guard',
-          );
-          await c.query(
-            'ALTER TABLE zhiban_identity.credentials ENABLE TRIGGER credential_history_guard',
-          );
           await c.query('COMMIT');
+          inTransaction = false;
         } finally {
-          await c.query('ROLLBACK');
-          await c.end();
+          try {
+            if (inTransaction) await c.query('ROLLBACK');
+            if (historyGuardDisabled)
+              await c.query(
+                'ALTER TABLE zhiban_identity.credentials ENABLE TRIGGER credential_history_guard',
+              );
+          } finally {
+            try {
+              if (slotGuardDisabled)
+                await c.query(
+                  'ALTER TABLE zhiban_identity.credential_slots ENABLE TRIGGER credential_slot_guard',
+                );
+            } finally {
+              await c.end();
+            }
+          }
         }
         const slot = (await f.credentials.findSlot(f.subject))!,
           fields = Object.fromEntries(JSON.parse(f.signed.records.get('register')!.canonical));
