@@ -77,3 +77,22 @@ jobs:
             tests/persistence/document-asset-references.pg.test.ts \
             tests/persistence/asset-reference-backfill.pg.test.ts \
             tests/persistence/workbench-tool-asset-references.pg.test.ts
+
+      - name: Diagnostic setup — exact official reference and browser
+        run: |
+          git -c http.version=HTTP/1.1 fetch --no-tags --depth=1 https://github.com/THU-MAIC/OpenMAIC.git 1f05a70ac93e09c67fb4d3aafb9c2b068d14fcce
+          test "$(git rev-parse FETCH_HEAD)" = "1f05a70ac93e09c67fb4d3aafb9c2b068d14fcce"
+          pnpm exec playwright install --with-deps chromium
+
+      - name: OpenMAIC isolated diagnostics — fresh artifacts, two passes
+        shell: bash
+        run: |
+          set -euo pipefail
+          setup_log="$RUNNER_TEMP/b0-setup.log"
+          node tests/zhiban/openmaic/prepare-workspace.mjs | tee "$setup_log"
+          diagnostic_workspace="$(sed -n 's/^DIAGNOSTIC_WORKSPACE=//p' "$setup_log")"
+          test -n "$diagnostic_workspace"
+          trap 'node "$GITHUB_WORKSPACE/tests/zhiban/openmaic/cleanup-workspace.mjs" "$diagnostic_workspace"' EXIT
+          cd "$diagnostic_workspace"
+          pnpm exec tsc -p tests/zhiban/openmaic/tsconfig.json
+          node tests/zhiban/openmaic/run-diagnostics.mjs
