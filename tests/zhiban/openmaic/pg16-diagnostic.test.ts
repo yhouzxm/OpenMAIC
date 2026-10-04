@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, test } from 'vitest';
 import { PgRuntimeStore, type Queryable } from '@openmaic/storage/runtime/pg';
+import { validateStage } from '@openmaic/dsl';
 import { DiagnosticBoundary, DiagnosticRejected } from './boundary';
 import { createPgFixture } from './pg-harness';
 import { document } from './fixtures';
@@ -183,13 +184,23 @@ describe.skipIf(!enabled)('D01-D07 real PG16 package boundary proof', () => {
     expect((await store.loadDocument(f.stages.A))?.stage.name).toBe('Updated synthetic name');
   });
   test('B0-PG16 invalid external write cannot activate pending mapping or alter persisted document', async () => {
+    const mapping = f.authority.mappings.get(f.stages.A)!;
+    const store = f.stores.get(mapping.owner)!;
+    const before = await store.loadDocument(f.stages.A);
+    const freshness = await store.readFreshnessManifest(f.stages.A);
     const invalid = document(f.stages.A);
-    invalid.stage.name = '';
+    // The official DSL accepts empty strings. A wrong runtime type is genuinely invalid.
+    invalid.stage.name = 42 as unknown as string;
+    expect(validateStage(invalid.stage).valid).toBe(false);
     await expect(f.boundary.save('teacherA', f.stages.A, '1', invalid)).rejects.toThrow(
       DiagnosticRejected,
     );
-    expect(f.authority.mappings.get(f.stages.A)!.state).toBe('ORPHAN');
-    const store = f.stores.get(f.authority.mappings.get(f.stages.A)!.owner)!;
+    expect(mapping.state).toBe('ORPHAN');
+    expect(mapping.revision).toBe('2');
+    expect(f.boundary.calls.write).toBe(1);
+    await expect(f.boundary.document('studentA1', f.stages.A)).rejects.toThrow(DiagnosticRejected);
+    expect(await store.loadDocument(f.stages.A)).toEqual(before);
+    expect(await store.readFreshnessManifest(f.stages.A)).toEqual(freshness);
     expect((await store.loadDocument(f.stages.A))?.stage.name).toBe('Duplicate fixture name');
   });
   test('B0-PG17 disabled subject and foreign deployment fail before package call', async () => {
@@ -257,16 +268,28 @@ describe.skipIf(!enabled)('D01-D07 real PG16 package boundary proof', () => {
     expect((await f.runtime.listRecords(f.sessions.A)).length).toBe(0);
     expect(f.pool.totalCount - f.pool.idleCount).toBe(0);
   });
-  test('B0-PG22 persisted runtime identity corruption is not repaired or accepted', async () => {
-    await f.pool.query('UPDATE runtime_sessions SET learner_key = $1 WHERE id = $2', [
-      'foreign-learner',
-      f.sessions.A,
-    ]);
+  test('B0-PG22 persisted public runtime JSON identity corruption is not repaired or accepted', async () => {
+    const before = await f.runtime.getSession(f.sessions.A);
+    expect(before?.learnerKey).toBe(f.authority.bindings.get(f.sessions.A)!.learner);
+    // getSession reads JSONB data, not learner_key. Poison the actual public envelope too.
+    const corrupted = await f.pool.query<{ learner_key: string; data: unknown }>(
+      `UPDATE runtime_sessions SET learner_key = $1,
+       data = jsonb_set(data, '{learnerKey}', to_jsonb($1::text), false)
+       WHERE id = $2 RETURNING learner_key, data`,
+      ['foreign-learner', f.sessions.A],
+    );
+    expect(corrupted.rowCount).toBe(1);
+    expect(corrupted.rows[0].learner_key).toBe('foreign-learner');
+    expect(corrupted.rows[0].data).toEqual({ ...before, learnerKey: 'foreign-learner' });
+    expect((await f.runtime.getSession(f.sessions.A))?.learnerKey).toBe('foreign-learner');
     await expect(f.boundary.runtime('studentA1', f.sessions.A)).rejects.toThrow(DiagnosticRejected);
-    const persisted = await f.pool.query<{ learner_key: string }>(
-      'SELECT learner_key FROM runtime_sessions WHERE id = $1',
+    const persisted = await f.pool.query<{ learner_key: string; data: unknown }>(
+      'SELECT learner_key, data FROM runtime_sessions WHERE id = $1',
       [f.sessions.A],
     );
+    expect(persisted.rowCount).toBe(1);
     expect(persisted.rows[0].learner_key).toBe('foreign-learner');
+    expect(persisted.rows[0]).toEqual(corrupted.rows[0]);
+    expect((await f.runtime.getSession(f.sessions.A))?.learnerKey).toBe('foreign-learner');
   });
 });

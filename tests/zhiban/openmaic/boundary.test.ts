@@ -1,4 +1,6 @@
 import { describe, expect, test, vi } from 'vitest';
+import { validateStage } from '@openmaic/dsl';
+import { PgRuntimeStore, type Queryable } from '@openmaic/storage/runtime/pg';
 import { DiagnosticBoundary, DiagnosticRejected, safeMedia } from './boundary';
 import { createMemoryFixture } from './memory-harness';
 import { document, PNG } from './fixtures';
@@ -153,6 +155,54 @@ describe('D02-D06 local public-backend boundary contracts', () => {
     ).rejects.toThrow(DiagnosticRejected);
     expect(f.authority.mappings.get(f.stages.A)!.state).toBe('ORPHAN');
     await expect(f.boundary.document('studentA1', f.stages.A)).rejects.toThrow(DiagnosticRejected);
+  });
+  test('wrong-type stage name fails the public validator/store without changing persisted content', async () => {
+    const f = await createMemoryFixture();
+    const before = await f.docs.loadDocument(f.stages.A);
+    const invalid = document(f.stages.A);
+    invalid.stage.name = '';
+    expect(validateStage(invalid.stage).valid).toBe(true);
+    invalid.stage.name = 42 as unknown as string;
+    expect(validateStage(invalid.stage).valid).toBe(false);
+    await expect(f.boundary.save('teacherA', f.stages.A, '1', invalid)).rejects.toThrow(
+      DiagnosticRejected,
+    );
+    expect(f.authority.mappings.get(f.stages.A)!.state).toBe('ORPHAN');
+    expect(f.authority.mappings.get(f.stages.A)!.revision).toBe('2');
+    expect(f.boundary.calls.write).toBe(1);
+    expect(await f.docs.loadDocument(f.stages.A)).toEqual(before);
+    await expect(f.boundary.document('studentA1', f.stages.A)).rejects.toThrow(DiagnosticRejected);
+  });
+  test('public PgRuntimeStore JSON identity mismatch is rejected without a repair write', async () => {
+    const f = await createMemoryFixture();
+    const persisted = {
+      ...(await f.runtime.getSession(f.sessions.A))!,
+      learnerKey: 'foreign-learner',
+    };
+    const before = structuredClone(persisted);
+    // A query double exercises the actual published getter/validator, not a real PG database.
+    const query = vi.fn(async (sql: string, params: unknown[]) => {
+      expect(sql.replace(/\s+/g, ' ').trim()).toBe(
+        'SELECT data FROM runtime_sessions WHERE id = $1',
+      );
+      expect(params).toEqual([f.sessions.A]);
+      return { rows: [{ data: structuredClone(persisted) }] };
+    });
+    const withTransaction = vi.fn(async () => {
+      throw new Error('UNEXPECTED_TEST_TRANSACTION');
+    });
+    const runtime = new PgRuntimeStore({ query } as unknown as Queryable, { withTransaction });
+    const boundary = new DiagnosticBoundary(f.authority, {
+      document: () => f.docs,
+      asset: { resolve: async () => null },
+      runtime,
+    });
+    expect((await runtime.getSession(f.sessions.A))?.learnerKey).toBe('foreign-learner');
+    await expect(boundary.runtime('studentA1', f.sessions.A)).rejects.toThrow(DiagnosticRejected);
+    expect((await runtime.getSession(f.sessions.A))?.learnerKey).toBe('foreign-learner');
+    expect(query).toHaveBeenCalledTimes(3);
+    expect(withTransaction).not.toHaveBeenCalled();
+    expect(persisted).toEqual(before);
   });
   test.each(['writer', 'owner', 'tenant', 'deployment'] as const)(
     'save cannot reactivate a mapping after asynchronous %s change',
