@@ -209,7 +209,7 @@ describe
         (await rows('SELECT version FROM zhiban_identity.schema_migrations ORDER BY version')).map(
           (r) => r.version,
         ),
-      ).toEqual(['0001', '0002', '0003', '0004', '0005', '0006', '0007', '0008', '0009']);
+      ).toEqual(['0001', '0002', '0003', '0004', '0005', '0006', '0007', '0008', '0009', '0010']);
       const tables = await rows(
         "SELECT relname,relrowsecurity,relowner::regrole::text AS owner FROM pg_class WHERE relnamespace='zhiban_identity'::regnamespace AND relname=ANY($1::text[])",
         [

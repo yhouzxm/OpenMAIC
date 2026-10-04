@@ -91,6 +91,8 @@ describe('Credential schema and security boundary STATIC (not real PostgreSQL ev
       // No Application/Domain barrel receives PHC extraction or hydration authority.
       'lib/zhiban/infrastructure/identity/composition/authentication.ts',
       'lib/zhiban/infrastructure/identity/composition/operator.ts',
+      // Approved E8-P03: only the private same-client recovery write boundary.
+      'lib/zhiban/infrastructure/identity/recovery/composition.ts',
     ]);
     const consumers = files(resolve('lib')).filter(
       (path) => path.endsWith('.ts') || path.endsWith('.tsx'),
@@ -105,7 +107,7 @@ describe('Credential schema and security boundary STATIC (not real PostgreSQL ev
       // it captures the exact verified snapshot for issuance, never extracts PHC.
       if (/from ['"][^'"]*repositories\/credential(?:-records)?['"]/.test(source))
         expect(path.replaceAll('\\', '/')).toMatch(
-          /\/infrastructure\/identity\/(credentials\/credential-verifier|postgres\/repositories\/credential|sessions\/session-authenticator|composition\/(authentication|operator|root|membership-security))\.ts$/,
+          /\/infrastructure\/identity\/(credentials\/credential-verifier|postgres\/repositories\/credential|sessions\/session-authenticator|composition\/(authentication|operator|root|membership-security)|recovery\/(composition|security|root))\.ts$/,
         );
       if (path.includes('domain'))
         expect(source).not.toMatch(/@node-rs\/argon2|PasswordVerifierHandle|verifier_material/);

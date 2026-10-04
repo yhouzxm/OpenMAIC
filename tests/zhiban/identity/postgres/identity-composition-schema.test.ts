@@ -19,6 +19,7 @@ describe('B8-S01–S06 exact schema/ACL contract (static, NOT a PG16 parser proo
       '0007',
       '0008',
       '0009',
+      '0010',
     ]);
     expect(
       [...sql.matchAll(/CREATE TABLE zhiban_identity\.([a-z_]+)/g)].map((m) => m[1]).sort(),

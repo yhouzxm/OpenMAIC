@@ -120,9 +120,16 @@ describe('dedicated Identity migration runner (connection contract)', () => {
     db.schemaExists = true;
     for (const migration of plan.slice(0, 4)) db.ledger.set(migration.version, migration.checksum);
     const oldLedger = [...db.ledger];
-    expect(await applyMigrations(db, plan)).toEqual(['0005', '0006', '0007', '0008', '0009']);
+    expect(await applyMigrations(db, plan)).toEqual([
+      '0005',
+      '0006',
+      '0007',
+      '0008',
+      '0009',
+      '0010',
+    ]);
     expect([...db.ledger].slice(0, 4)).toEqual(oldLedger);
-    expect(db.calls.filter((call) => call === 'BEGIN')).toHaveLength(5);
+    expect(db.calls.filter((call) => call === 'BEGIN')).toHaveLength(6);
     expect(db.calls).toContain(plan[6].sql);
     expect(db.calls).toContain(plan[4].sql);
     expect(db.calls).toContain(plan[5].sql);
@@ -153,9 +160,9 @@ describe('dedicated Identity migration runner (connection contract)', () => {
     db.schemaExists = true;
     for (const migration of plan.slice(0, 5)) db.ledger.set(migration.version, migration.checksum);
     const prior = [...db.ledger];
-    expect(await applyMigrations(db, plan)).toEqual(['0006', '0007', '0008', '0009']);
+    expect(await applyMigrations(db, plan)).toEqual(['0006', '0007', '0008', '0009', '0010']);
     expect([...db.ledger].slice(0, 5)).toEqual(prior);
-    expect(db.calls.filter((call) => call === 'BEGIN')).toHaveLength(4);
+    expect(db.calls.filter((call) => call === 'BEGIN')).toHaveLength(5);
     expect(db.calls).toContain(plan[6].sql);
     for (const migration of plan.slice(0, 5)) expect(db.calls).not.toContain(migration.sql);
     expect(await applyMigrations(db, plan)).toEqual([]);
@@ -167,9 +174,9 @@ describe('dedicated Identity migration runner (connection contract)', () => {
     db.schemaExists = true;
     for (const migration of plan.slice(0, 6)) db.ledger.set(migration.version, migration.checksum);
     const prior = [...db.ledger];
-    expect(await applyMigrations(db, plan)).toEqual(['0007', '0008', '0009']);
+    expect(await applyMigrations(db, plan)).toEqual(['0007', '0008', '0009', '0010']);
     expect([...db.ledger].slice(0, 6)).toEqual(prior);
-    expect(db.calls.filter((call) => call === 'BEGIN')).toHaveLength(3);
+    expect(db.calls.filter((call) => call === 'BEGIN')).toHaveLength(4);
     expect(db.calls).toContain(plan[7].sql);
     for (const migration of plan.slice(0, 6)) expect(db.calls).not.toContain(migration.sql);
     db.calls.length = 0;

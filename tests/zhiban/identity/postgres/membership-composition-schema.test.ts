@@ -20,7 +20,7 @@ const callable = [
 describe('C8 exact schema/ACL and FIRST terminal supplement (static, not a PG16 parser proof)', () => {
   it('appends 0009 to the existing contiguous inventory', async () => {
     expect((await loadMigrationFiles()).map((f) => f.version)).toEqual(
-      Array.from({ length: 9 }, (_, i) => String(i + 1).padStart(4, '0')),
+      Array.from({ length: 10 }, (_, i) => String(i + 1).padStart(4, '0')),
     );
   });
   it('has exactly ten tables, seven callable and one constraint definer, two invokers, 25 policies, 22 triggers and five secondary indexes', () => {
