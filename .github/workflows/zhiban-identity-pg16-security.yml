@@ -2,6 +2,15 @@ name: Zhiban Identity PG16 Security
 
 on:
   workflow_dispatch:
+    inputs:
+      suite:
+        description: 'Full signoff or targeted recovery verification'
+        type: choice
+        required: true
+        default: full
+        options:
+          - full
+          - recovery
   push:
     branches:
       - verify/identity-pg16-3b2
@@ -28,8 +37,17 @@ jobs:
       ZB_PG16_ROLE_PASSWORD: ci-temporary-runtime-password
       ZB_PG16_REQUIRED: '1'
       ZB_PG16_DISPOSABLE: '1'
+      IDENTITY_SUITE: ${{ github.event_name == 'workflow_dispatch' && inputs.suite || 'full' }}
     steps:
       - uses: actions/checkout@v4
+      - name: Validate selected suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "$IDENTITY_SUITE" in
+            full|recovery) printf 'IDENTITY SUITE: %s\n' "$IDENTITY_SUITE" ;;
+            *) echo INVALID_IDENTITY_SUITE; exit 1 ;;
+          esac
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v5
         with:
@@ -52,6 +70,7 @@ jobs:
             exit 1
           fi
       - name: Real PostgreSQL 16 security suite (two complete runs)
+        if: env.IDENTITY_SUITE == 'full'
         shell: bash
         run: |
           set -euo pipefail
@@ -72,7 +91,19 @@ jobs:
             pnpm exec vitest run tests/zhiban/identity/postgres/pg16-manual-recovery.test.ts
             echo "PG16 SUITE RUN ${pass} PASS"
           done
+      - name: Recovery PostgreSQL 16 verification (two complete runs)
+        if: env.IDENTITY_SUITE == 'recovery'
+        shell: bash
+        run: |
+          set -euo pipefail
+          for pass in 1 2; do
+            echo "RECOVERY PG16 RUN ${pass}"
+            pnpm exec vitest run tests/zhiban/identity/postgres/pg16-migration-runner.test.ts --reporter=verbose
+            pnpm exec vitest run tests/zhiban/identity/postgres/pg16-manual-recovery.test.ts --reporter=verbose
+            echo "RECOVERY PG16 RUN ${pass} PASS"
+          done
       - name: Identity static, Domain and Port contract regression
+        if: env.IDENTITY_SUITE == 'full'
         shell: bash
         run: |
           set -euo pipefail
@@ -86,7 +117,14 @@ jobs:
           pnpm exec vitest run tests/zhiban/identity/postgres/membership-composition-schema.test.ts
           pnpm exec vitest run tests/zhiban/identity/http --maxWorkers=1 --no-file-parallelism
           pnpm exec vitest run tests/zhiban/identity/recovery tests/zhiban/identity/postgres/manual-recovery-schema.test.ts --maxWorkers=1 --no-file-parallelism
+      - name: Recovery repair static and composition regression
+        if: env.IDENTITY_SUITE == 'recovery'
+        shell: bash
+        run: |
+          set -euo pipefail
+          pnpm exec vitest run tests/zhiban/identity/postgres/migration-contract.test.ts tests/zhiban/identity/postgres/migrate-runner.test.ts tests/zhiban/identity/postgres/manual-recovery-schema.test.ts tests/zhiban/identity/recovery/composition.test.ts --maxWorkers=1 --no-file-parallelism
       - name: Root lint and typecheck
+        if: env.IDENTITY_SUITE == 'full'
         shell: bash
         run: |
           set -euo pipefail
