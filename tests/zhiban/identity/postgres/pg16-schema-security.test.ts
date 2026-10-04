@@ -68,6 +68,14 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity ownership a
         'zhiban_identity.identity_first_tenant_admin_lock(uuid,uuid)',
         'zhiban_identity.identity_first_tenant_admin_apply(uuid,uuid,uuid,bigint)',
         'zhiban_identity.identity_membership_composition_consistency()',
+        'zhiban_identity.identity_recovery_gate(text,text)',
+        'zhiban_identity.identity_recovery_user_locks(uuid,text,uuid[])',
+        'zhiban_identity.identity_recovery_actor_guard(uuid,text,text)',
+        'zhiban_identity.identity_recovery_source_block(uuid,bigint,text,uuid[])',
+        'zhiban_identity.identity_recovery_reserve(text,text,text,text[])',
+        'zhiban_identity.identity_recovery_prune(text,text,integer)',
+        'zhiban_identity.identity_recovery_transition_guard()',
+        'zhiban_identity.identity_recovery_consistency()',
       ].map((s) => s.replace('zhiban_identity.', ''));
       // regprocedure suppresses namespace already visible in the fixed trusted search_path.
       const definers = functions.rows.filter((row) => row.prosecdef);
