@@ -40,7 +40,7 @@ function registered() {
   });
   return c;
 }
-function sqlFixture() {
+function sqlFixture(enabled = false) {
   let c = registered(),
     saved = { ...c };
   const calls: { sql: string; params: unknown[] }[] = [],
@@ -64,7 +64,11 @@ function sqlFixture() {
     }
     if (command === 'COMMIT') return { ...result(), command: commit };
     if (sql.includes('identity_recovery_gate('))
-      return result([{ policy_revision: '1', enabled: false, checked_at: Date.now().toString() }]);
+      return result([{ policy_revision: '1', enabled, checked_at: Date.now().toString() }]);
+    if (sql.includes('identity_recovery_reserve('))
+      return result([{ identity_recovery_reserve: true }]);
+    if (sql.startsWith('SELECT token_digest FROM zhiban_identity.sessions'))
+      return result([{ token_digest: 'd'.repeat(64) }]);
     if (sql.includes('identity_recovery_actor_guard(')) return result([{}]);
     if (sql.includes('FROM zhiban_identity.identity_recovery_cases')) return result([{ ...c }]);
     if (sql.includes('clock_timestamp()')) return result([{ at: Date.now().toString() }]);
@@ -97,9 +101,10 @@ function sqlFixture() {
     needsRehash: vi.fn(() => false),
     rehashVerified: vi.fn(async () => null),
   };
+  const signed = signedStore();
   const service = new ManualRecovery(
     { connect: async () => ({ query: query as unknown as PoolClient['query'], release }) },
-    signedStore().evidence,
+    signed.evidence,
     hashing,
     security,
     new RecoveryRegistry(2, 600000, 300000),
@@ -113,6 +118,7 @@ function sqlFixture() {
     calls,
     events,
     release,
+    signed,
     get row() {
       return c;
     },
@@ -126,6 +132,48 @@ function sqlFixture() {
   };
 }
 describe('private recovery SQL ordering/atomic composition (unit, not PG16 proof)', () => {
+  it('pre-KDF submission reservation fails closed on owner source-lock guard failure', async () => {
+    const f = sqlFixture(true),
+      id = f.row.case_id!;
+    f.signed.put('synthetic-approval', 'REGISTRATION', f.row);
+    const registration = await f.signed.evidence.load('synthetic-approval', 'REGISTRATION');
+    f.row.registration_manifest_digest = registration.digest;
+    f.row.registration_key_ref = registration.keyRef;
+    const pairing = f.service.registry.pair({
+      caseId: id,
+      actor: f.row.actor_user_id!,
+      subject: f.row.subject_user_id!,
+      site: 'site-a',
+      operatorTerminal: 'operator',
+      subjectTerminal: 'subject',
+      caseRevision: '1',
+      deadline: Date.now() + 600000,
+    });
+    const ceremony = f.service.registry.open(pairing, 'site-a', 'subject');
+    f.setFail('SELECT * FROM zhiban_identity.identity_recovery_actor_guard');
+    await expect(
+      f.service.submit(
+        ceremony.cookie,
+        ceremony.csrf,
+        'site-a',
+        'subject',
+        null,
+        'Synthetic-input',
+      ),
+    ).rejects.toMatchObject({ code: 'RECOVERY_UNAVAILABLE' });
+    expect(
+      f.calls.filter((call) => call.sql.includes('identity_recovery_actor_guard')),
+    ).toHaveLength(1);
+    expect(
+      f.calls.find((call) => call.sql.includes('identity_recovery_actor_guard'))!.params,
+    ).toEqual([id, 'd'.repeat(64), 'LIVE']);
+    expect(
+      f.calls.some((call) => call.sql.includes('FROM zhiban_identity.identity_recovery_sources')),
+    ).toBe(false);
+    expect(f.calls.some((call) => call.sql.startsWith('UPDATE'))).toBe(false);
+    expect(f.calls.at(-1)?.sql).toBe('ROLLBACK');
+    expect(f.hashing.hash).not.toHaveBeenCalled();
+  });
   it('CANCEL uses gate/current actor/CAS/event/constraints on one client; no stale target required', async () => {
     const f = sqlFixture(),
       id = f.row.case_id!;

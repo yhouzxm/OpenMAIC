@@ -205,8 +205,9 @@ export class ManualRecovery {
   }
   private async sources(client: Client, c: CaseRecord, at: number) {
     const ids = [c.enrollment_source_id, c.appointment_source_id, c.contact_source_id].sort();
+    // LIVE actor_guard owns these source locks on this same client; auth has SELECT only.
     const rows = await client.query(
-      'SELECT source_id,environment_ref,source_kind,bound_user_id,repository_revision,state,valid_until,attested_at,key_ref FROM zhiban_identity.identity_recovery_sources WHERE source_id=ANY($1::uuid[]) ORDER BY source_id FOR SHARE NOWAIT',
+      'SELECT source_id,environment_ref,source_kind,bound_user_id,repository_revision,state,valid_until,attested_at,key_ref FROM zhiban_identity.identity_recovery_sources WHERE source_id=ANY($1::uuid[]) ORDER BY source_id',
       [ids],
     );
     must(rows.command === 'SELECT' && rows.rows.length === 3 && rows.rowCount === 3);
@@ -826,9 +827,9 @@ export class ManualRecovery {
     const validate = async (client: Client, reserveAttempt: boolean) => {
       await this.gate(client);
       const hint = await this.load(client, id);
-      if (!reserveAttempt) {
-        await this.subjectActor(client, hint);
-      }
+      // Both the pre-KDF attempt reservation and post-KDF read need the same
+      // case-bound owner locks before any SELECT-only source read.
+      await this.subjectActor(client, hint);
       const at = await now(client);
       await this.sources(client, hint, at);
       const c = await this.load(client, id, 'FOR SHARE NOWAIT');

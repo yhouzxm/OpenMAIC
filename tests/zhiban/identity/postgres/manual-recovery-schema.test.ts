@@ -3,9 +3,10 @@ import { createHash } from 'node:crypto';
 import { describe, expect, it } from 'vitest';
 import { loadMigrationFiles } from '@/lib/zhiban/infrastructure/identity/postgres/migrate';
 const root = 'lib/zhiban/infrastructure/identity/postgres/migrations/',
-  sql = readFileSync(root + '0010_identity_manual_recovery.sql', 'utf8');
-// Exact frozen Git-byte SHA256 values at fcdf7872. This works in Actions' shallow
-// candidate checkout without fetching history or treating current bytes as their own oracle.
+  sql = readFileSync(root + '0010_identity_manual_recovery.sql', 'utf8'),
+  repair = readFileSync(root + '0011_identity_recovery_source_locks.sql', 'utf8');
+// Exact frozen Git-byte SHA256 values: 0001–0009 at fcdf7872, 0010 at 9c4a75f7.
+// This works in Actions' shallow checkout without treating current bytes as their own oracle.
 const frozenChecksums = [
   'bd81a6bef9241e3173eea297e276d97787446d757c5b2b79bf4e6b8a4a1cb235',
   '6289d7bc1a53a63d4d66a8a79f6d9c0d96f5d59643911a4a395a5fc0be9f4703',
@@ -16,14 +17,15 @@ const frozenChecksums = [
   '20d6ad486cd4c2afc8f3ab75591dfd7895b62118a07a3a086b469c77b3f5ef27',
   '0ace96db7b9fa5747219c47f42bdfd2cbc1a60bebf2f54b7fbe9afb8a19fe992',
   '91d064abb0238b57e1f2afe7a50f441befb947568789ca31b9a1e6277449753a',
+  '97dd2306cca1f1e8c6976329c50293aa733ffb3bd843636f9383c2b8eb83c03b',
 ] as const;
 describe('E8 exact migration/ACL (static, not PG16 parser proof)', () => {
-  it('adds only 0010 and preserves old Git bytes/checksums', async () => {
+  it('includes 0010–0011 and preserves old Git bytes/checksums', async () => {
     const files = await loadMigrationFiles();
     expect(files.map((f) => f.version)).toEqual(
-      Array.from({ length: 10 }, (_, i) => (i + 1).toString().padStart(4, '0')),
+      Array.from({ length: 11 }, (_, i) => (i + 1).toString().padStart(4, '0')),
     );
-    for (const [i, file] of files.slice(0, 9).entries()) {
+    for (const [i, file] of files.slice(0, 10).entries()) {
       expect(
         createHash('sha256')
           .update(readFileSync(root + file.name))
@@ -31,6 +33,53 @@ describe('E8 exact migration/ACL (static, not PG16 parser proof)', () => {
       ).toBe(frozenChecksums[i]);
       expect(file.checksum).toBe(frozenChecksums[i]);
     }
+  });
+  it('0011 changes only LIVE case-bound source locking, not authority, signature or ACL', () => {
+    const original = sql.match(
+      /CREATE FUNCTION zhiban_identity\.identity_recovery_actor_guard[\s\S]*?END \$\$;/,
+    )![0];
+    const replacement = repair.match(/CREATE OR REPLACE FUNCTION[\s\S]*?END \$\$;/)![0];
+    const lockBlock = replacement.match(
+      / -- The LIVE case[\s\S]*? IF source_count<>3[^\n]*\n END IF;\n/,
+    )![0];
+    expect(lockBlock).toContain("IF p_mode='LIVE' THEN");
+    expect(lockBlock).toContain('WHERE environment_ref=c.environment_ref');
+    expect(lockBlock).toContain(
+      'ARRAY[c.enrollment_source_id,c.appointment_source_id,c.contact_source_id]',
+    );
+    expect(lockBlock).toContain('ORDER BY source_id FOR SHARE NOWAIT');
+    expect(lockBlock).toContain('GET DIAGNOSTICS source_count=ROW_COUNT');
+    expect(replacement.indexOf(lockBlock)).toBeGreaterThan(
+      replacement.indexOf('IF g.user_id IS DISTINCT FROM c.actor_user_id'),
+    );
+    expect(
+      replacement
+        .replace('CREATE OR REPLACE FUNCTION', 'CREATE FUNCTION')
+        .replace(' pd text; source_count integer;', ' pd text;')
+        .replace(lockBlock, ''),
+    ).toBe(original);
+    expect(repair).not.toMatch(/^\s*(?:GRANT|REVOKE|ALTER|CREATE TABLE)\b/im);
+    expect(repair.match(/CREATE OR REPLACE FUNCTION/g)).toHaveLength(1);
+  });
+  it('auth sources reads use owner locks, including pre-KDF attempt reservation', () => {
+    const composition = readFileSync(
+      'lib/zhiban/infrastructure/identity/recovery/composition.ts',
+      'utf8',
+    );
+    const sourceRead = composition
+      .split('private async sources(')[1]
+      .split('private async ticket(')[0];
+    expect(sourceRead).toContain('ORDER BY source_id');
+    expect(sourceRead).not.toMatch(/FOR SHARE|FOR UPDATE/);
+    const reservation = composition.split(
+      'const validate = async (client: Client, reserveAttempt: boolean)',
+    )[1];
+    expect(reservation.indexOf('await this.subjectActor(client, hint)')).toBeLessThan(
+      reservation.indexOf('await this.sources(client, hint, at)'),
+    );
+    expect(reservation.split('const at = await now(client)')[0]).not.toContain(
+      'if (!reserveAttempt)',
+    );
   });
   it('eight global closed tables, six callable helpers and two internal functions', () => {
     expect(

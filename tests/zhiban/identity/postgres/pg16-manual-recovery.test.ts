@@ -176,6 +176,14 @@ describe
         await expectDenied(c, "UPDATE zhiban_identity.users SET status='DISABLED'");
         await expectDenied(
           c,
+          'SELECT source_id FROM zhiban_identity.identity_recovery_sources FOR SHARE',
+        );
+        await expectDenied(
+          c,
+          "UPDATE zhiban_identity.identity_recovery_sources SET state='BLOCKED' WHERE false",
+        );
+        await expectDenied(
+          c,
           "SELECT zhiban_identity.identity_recovery_source_block(NULL,1,'ref',ARRAY[]::uuid[])",
         );
       } finally {
@@ -224,6 +232,47 @@ describe
           [f.caseId],
         ),
       ).toEqual([{ event_type: 'REGISTERED', case_revision: '1' }]);
+    });
+    it('E8-PG05a LIVE helper locks exactly bound sources; OUTCOME/CANCEL do not', async () => {
+      await f.register();
+      const auth = runtimeClient('zhiban_auth_runtime');
+      const independent = adminClient();
+      await Promise.all([auth.connect(), independent.connect()]);
+      try {
+        for (const mode of ['LIVE', 'OUTCOME', 'CANCEL']) {
+          await auth.query('BEGIN');
+          const guard = await auth.query(
+            'SELECT * FROM zhiban_identity.identity_recovery_actor_guard($1,$2,$3)',
+            [f.caseId, f.digest, mode],
+          );
+          expect(guard.rows.map((row) => row.actor_user_id)).toEqual([f.actor]);
+          for (const source of f.src) {
+            await independent.query('BEGIN');
+            try {
+              const lock = independent.query(
+                'SELECT source_id FROM zhiban_identity.identity_recovery_sources WHERE source_id=$1 FOR UPDATE NOWAIT',
+                [source],
+              );
+              if (mode === 'LIVE') await expect(lock).rejects.toMatchObject({ code: '55P03' });
+              else expect((await lock).rows).toEqual([{ source_id: source }]);
+            } finally {
+              await independent.query('ROLLBACK');
+            }
+          }
+          await auth.query('ROLLBACK');
+        }
+        const released = await independent.query(
+          'SELECT source_id FROM zhiban_identity.identity_recovery_sources WHERE source_id=ANY($1::uuid[]) ORDER BY source_id FOR UPDATE NOWAIT',
+          [f.src],
+        );
+        expect(released.rows.map((row) => row.source_id)).toEqual([...f.src].sort());
+      } finally {
+        try {
+          await Promise.all([auth.query('ROLLBACK'), independent.query('ROLLBACK')]);
+        } finally {
+          await Promise.all([auth.end(), independent.end()]);
+        }
+      }
     });
     it('E8-PG06 chronology: VERIFIED DB time +30min; approval does not renew it', async () => {
       await f.approve();
@@ -1062,6 +1111,24 @@ describe
               await c.end();
             }
           }
+        }
+        if (column === 'generation') {
+          // A max generation with only one history row is corrupt, not a valid
+          // completion fixture: the frozen mapper requires history starting at 1.
+          const before = await resultState();
+          const metadata = () =>
+            adminRows(
+              'SELECT credential_id,generation,status,slot_revision,verifier_material IS NOT NULL AS verifier_present FROM zhiban_identity.credentials WHERE user_id=$1 ORDER BY generation',
+              [f.subject],
+            );
+          const historyBefore = await metadata();
+          await expect(f.credentials.findSlot(f.subject)).rejects.toMatchObject({
+            code: 'INTEGRITY_FAILURE',
+          });
+          await expect(f.register()).rejects.toThrow();
+          expect(await resultState()).toEqual(before);
+          expect(await metadata()).toEqual(historyBefore);
+          return;
         }
         const slot = (await f.credentials.findSlot(f.subject))!,
           fields = Object.fromEntries(JSON.parse(f.signed.records.get('register')!.canonical));
