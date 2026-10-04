@@ -56,11 +56,13 @@ STATUS: HUMAN_APPROVED_EXECUTION_PLAN / DOCUMENTATION_ONLY
 - **R3 完整扩展能力**：经批准的完整 Classroom/Playback、Interactive/VirtualLab、PBL、EMA、AI Peer 等。属于 V1 REVIEW 的能力在批准前不是必做实现，也不是已取消。
 - **生产迁移**：按实际批准的 R1/R2/R3 release manifest 单独演练和切换。可以在 R1 时批准有限试点，不等于已完成全量 V1 迁移。
 
+2026-10-04 首发依赖决定（用户明确授权审阅并决定）：[ADR-012 限定接受评审](adr/ADR-012-openmaic-identity-bridge.md) 接受已验证 D02–D05 的受控包宿主架构。**U01 完整 Classroom/Playback 与 U02 Interactive/VirtualLab 均非 R1 硬要求，继续 REQUIRED_LATER，默认由 R3 的 7A/7B 完成。** R1 实际活动清单和教学规则仍在 2C/3A/3B/4A 冻结；只开放通过各自 Gate 的用例。单 slide 预览不满足完整课堂或学习完成验收，相关未支持执行入口保持关闭。U01/U02 的完整迁移需求保留，后续将它们列为某 release 必需时，须显式修改 manifest 并将未关闭项作为该 release 的 P0 阻塞。该决定不批准 BUILD、实际发布或生产 cutover。
+
 以下事项必须由人批准，Codex 可以提出选项但不能代填决定：
 
 | 决策 | 最迟关闭位置 |
 | --- | --- |
-| 首发范围、必须支持的活动类型；完整课堂/Interactive 是否首发硬要求 | DOC-01 / 对应 0B 前；若硬要求未满足，阻止该 release，不用 slide preview 冒充 |
+| 首发范围、必须支持的活动类型；完整课堂/Interactive 是否首发硬要求 | 2026-10-04 已决定 U01/U02 非 R1 硬要求；具体活动清单仍须对应设计批准，若后来纳入 release 必需则未满足时阻止发布 |
 | role catalog 的精确 permission 集、显式 delegation ceiling、首个 Tenant/SystemAdmin 的引导与恢复责任人 | 1B-7A / 1B-8A |
 | 登录 identifier、规范化/冲突策略、邀请和 pending-origin approval（1B1-F05） | 1B-8A |
 | 恢复渠道、重认证证据、限速部署后端、密码语料配置责任 | 1B-8A/E；未配置时相关能力关闭，不 fail open |
@@ -275,6 +277,8 @@ R1 可以在第 8 行完成后，针对 **R1 manifest** 另行批准第 11 行�
 - **前置**：诊断资源明确授权；只用合成身份/数据、fake AICallFn。
 - **步骤/Tests**：D01原生路径/存储旁路不可达；D02字节读取/range/cache/撤权/active HTML；D03 runtime caller learner伪造、同tenant横向读取/跨tenant、stage-attempt绑定；D04 document/mapping pending/orphan/CAS；D05只支持的slide preview；D06/7关闭负例，正向等正式契约；D08–10只在editor/generation/import获批时验证。
 - **Gate**：每能力列 version、正式契约、边界证据、支持类型、失败原因、未覆盖生产配置。未知 NOT_VERIFIED，不 SAFE。报告供人类明确接受 ADR-012（按批准资源范围），Codex不能自动把 PROPOSED 改 ACCEPTED。
+
+当前完成证据见 [1B-0B-B closeout](phase1/phase1b-0b-b-review.md)。2026-10-04 后续显式 [ADR-012 评审](adr/ADR-012-openmaic-identity-bridge.md) 已限定接受 D02–D05 架构；生产 D01 隔离、真实授权组合和 scalar/JSON 所需完整性门禁保留。1B-9A 可在文档 checkpoint 后单独授权设计；这不是 1B-9B/C BUILD 或 deployment 授权。
 
 ### 1B-9A — Bridge/mapping/lifecycle design
 

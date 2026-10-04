@@ -5,6 +5,14 @@ P0 IDENTITY BLOCKERS: 0。
 Bridge仍BLOCKED；本报告不声称P0 BRIDGE BLOCKERS为0。保留0A的9项UPSTREAM_EXTENSION_REQUIRED原始分类；本表按MODEL B必要能力重新计算。
 当前真正剩余2项，均P1、面向后续学习产品完整能力；当前Identity基础阶段P0 upstream blockers为0。这不表示Bridge实施已过Gate，也不表示完整V2无阻塞。若完整课堂/Interactive成为首发硬要求，对应项升级为该发布P0，须人工重新确定范围。
 
+## 2026-10-04 首发依赖决定
+
+用户明确授权审阅并决定后，[ADR-012](../adr/ADR-012-openmaic-identity-bridge.md) 已限定接受 D02–D05 的受控公开包宿主架构，证据为 [1B-0B-B closeout](phase1b-0b-b-review.md)。上面的 Bridge BLOCKED 表述保留为原 0R 状态；当前允许在 checkpoint 后单独授权对应 1B-9A DESIGN，生产实现/开放仍需后续门禁。
+
+**U01/U02 都不是 R1 硬要求，仍为 REQUIRED_LATER / UPSTREAM_EXTENSION_REQUIRED，默认交付位置 R3 的 7A/7B。** R1 是通过独立设计与测试的智伴教学闭环，只使用已批准活动与资源能力。完整 Classroom/Playback、Quiz/PBL 编排、Interactive/VirtualLab 的执行入口保持关闭；预览不能冒充这些功能，客户端 Runtime/观察不能直接作为可信成绩。
+
+两项保留为完整迁移验收要求，不删除、不降低为维护性 P2。当前是 required-later P1 产品阻塞；若后续 release 明确依赖，则其未解决成为该 release 的 P0 阻塞并前置对应契约/诊断。R1 具体活动和学习完成规则由后续业务 DESIGN 冻结。本轮不发送上游请求、不批准自建引擎或私有 helper 接入。
+
 ## U01 — Supported multi-scene classroom/playback execution host
 
 CAPABILITY: 不依赖原生页面、Stage Zustand store的完整课堂/Playback/Quiz/PBL执行宿主。
