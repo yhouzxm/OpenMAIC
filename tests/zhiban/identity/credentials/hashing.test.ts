@@ -193,6 +193,8 @@ describe.sequential('credential real Argon2id provider and private handles', () 
       encoded.replace('t=3', 't=1'),
       encoded.replace('p=1', 'p=2'),
       encoded.replace('v=19', 'v=16'),
+      // A 32-byte hash cannot end in B without nonzero base64 pad bits.
+      encoded.slice(0, -1) + 'B',
       '',
       'x'.repeat(1025),
     ])

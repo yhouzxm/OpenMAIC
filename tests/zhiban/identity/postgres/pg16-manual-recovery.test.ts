@@ -1037,31 +1037,51 @@ describe
     });
     it('E8-PG37 malformed persisted verifier fails closed before credential mutation', async () => {
       const r = await f.ready(),
+        proof = await f.proof('complete', '4', r.submission),
         c = adminClient();
+      // SQL permits this PHC shape, but its hash has noncanonical base64 pad bits.
+      // Keep the DB CHECK enabled so the fixture reaches the security mapper.
+      const corruptVerifier =
+        '$argon2id$v=19$m=32768,t=3,p=1$' + 'A'.repeat(22) + '$' + 'A'.repeat(42) + 'B';
       await c.connect();
+      let historyGuardDisabled = false;
       try {
         await c.query(
           'ALTER TABLE zhiban_identity.credentials DISABLE TRIGGER credential_history_guard',
         );
-        await c.query(
-          "UPDATE zhiban_identity.credentials SET verifier_material='synthetic-corrupt-verifier' WHERE user_id=$1 AND status='ACTIVE'",
-          [f.subject],
+        historyGuardDisabled = true;
+        const updated = await c.query(
+          "UPDATE zhiban_identity.credentials SET verifier_material=$2 WHERE user_id=$1 AND status='ACTIVE'",
+          [f.subject, corruptVerifier],
         );
+        expect(updated.rowCount).toBe(1);
+        const installed = await c.query(
+          "SELECT verifier_material=$2 AS fixture_installed FROM zhiban_identity.credentials WHERE user_id=$1 AND status='ACTIVE'",
+          [f.subject, corruptVerifier],
+        );
+        expect(installed.rows).toEqual([{ fixture_installed: true }]);
       } finally {
-        await c.query(
-          'ALTER TABLE zhiban_identity.credentials ENABLE TRIGGER credential_history_guard',
-        );
-        await c.end();
+        try {
+          if (historyGuardDisabled)
+            await c.query(
+              'ALTER TABLE zhiban_identity.credentials ENABLE TRIGGER credential_history_guard',
+            );
+        } finally {
+          await c.end();
+        }
       }
+      const before = await resultState();
+      const historySql =
+        'SELECT credential_id,generation,status,slot_revision FROM zhiban_identity.credentials WHERE user_id=$1 ORDER BY generation';
+      const historyBefore = (await f.auth.query(historySql, [f.subject])).rows;
+      await expect(f.credentials.findSlot(f.subject)).rejects.toMatchObject({
+        code: 'INTEGRITY_FAILURE',
+      });
       await expect(
-        f.service.complete(
-          await f.proof('complete', '4', r.submission),
-          f.caseId,
-          '4',
-          r.submission,
-          'corrupt',
-        ),
-      ).rejects.toThrow();
+        f.service.complete(proof, f.caseId, '4', r.submission, 'corrupt'),
+      ).rejects.toMatchObject({ code: 'RECOVERY_UNAVAILABLE' });
+      expect(await resultState()).toEqual(before);
+      expect((await f.auth.query(historySql, [f.subject])).rows).toEqual(historyBefore);
       expect((await resultState()).slots[0].repository_revision).toBe('1');
     });
     it.each(['repository_revision', 'security_epoch', 'generation'] as const)(
@@ -1193,17 +1213,38 @@ describe
         snap = await f.credentials.verificationSnapshot(f.subject);
       if (!snap) throw new Error('Synthetic verification missing');
       const approved = newApproved(snap);
-      const gate = pausePool(f.auth, 'INSERT INTO zhiban_identity.sessions');
+      // A paused INSERT must not monopolize the recovery pool's only client.
+      const other = runtimePool('zhiban_auth_runtime');
+      other.options.statement_timeout = 5000;
+      pools.add(other);
+      const gate = pausePool(other, 'INSERT INTO zhiban_identity.sessions');
+      const before = await resultState();
+      let writerPid: number;
+      const writer = await other.connect();
+      try {
+        writerPid = (await writer.query('SELECT pg_backend_pid() AS pid')).rows[0].pid;
+      } finally {
+        writer.release();
+      }
       const session = new PostgresSessionRepository(gate.wrapped).create(approved.record);
+      let completion: ReturnType<typeof f.service.complete> | undefined;
       try {
         await barrier(gate.reached, session);
-        await expect(
-          f.service.complete(proof, f.caseId, '4', r.submission, 'session-first'),
-        ).rejects.toThrow();
+        const recoveryPid = (await f.auth.query('SELECT pg_backend_pid() AS pid')).rows[0].pid;
+        expect(recoveryPid).not.toBe(writerPid);
+        completion = f.service.complete(proof, f.caseId, '4', r.submission, 'session-first');
+        await expect(completion).rejects.toMatchObject({ code: 'RECOVERY_UNAVAILABLE' });
       } finally {
         gate.resume();
+        try {
+          await Promise.allSettled([session, ...(completion ? [completion] : [])]);
+        } finally {
+          await other.end();
+          pools.delete(other);
+        }
       }
       await session;
+      expect(await resultState()).toEqual(before);
       expect((await resultState()).slots[0].repository_revision).toBe('1');
       expect(
         await f.sessions.validateAndTouch(bearerForCookie(approved.bearer), instant(Date.now())),
