@@ -70,6 +70,17 @@ jobs:
             echo WRONG_POSTGRES_VERSION
             exit 1
           fi
+      - name: Runtime foundation — exact official provider receipt
+        if: env.IDENTITY_SUITE == 'full' || env.IDENTITY_SUITE == 'bridge-recheck'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git -c http.version=HTTP/1.1 fetch --no-tags --depth=1 https://github.com/THU-MAIC/OpenMAIC.git 1f05a70ac93e09c67fb4d3aafb9c2b068d14fcce
+          test "$(git rev-parse FETCH_HEAD)" = "1f05a70ac93e09c67fb4d3aafb9c2b068d14fcce"
+          git diff --exit-code FETCH_HEAD HEAD -- packages/@openmaic
+          pnpm --filter @openmaic/dsl build
+          pnpm --filter @openmaic/storage build
+          node tests/zhiban/runtime/prepare-provider.mjs --receipt "$RUNNER_TEMP/c9-provider.json"
       - name: Real PostgreSQL 16 security suite (two complete runs)
         if: env.IDENTITY_SUITE == 'full'
         shell: bash
@@ -91,6 +102,7 @@ jobs:
             pnpm exec vitest run tests/zhiban/identity/postgres/pg16-identity-http.test.ts
             pnpm exec vitest run tests/zhiban/identity/postgres/pg16-manual-recovery.test.ts
             pnpm exec vitest run tests/zhiban/identity/postgres/pg16-bridge.test.ts --reporter=verbose
+            C9_PG16_REQUIRED=1 C9_PROVIDER_RECEIPT="$RUNNER_TEMP/c9-provider.json" pnpm exec vitest run tests/zhiban/identity/postgres/pg16-runtime-foundation.test.ts --reporter=verbose
             echo "PG16 SUITE RUN ${pass} PASS"
           done
       - name: Recovery PostgreSQL 16 verification (two complete runs)
@@ -126,6 +138,7 @@ jobs:
             pnpm exec vitest run tests/zhiban/identity/postgres/pg16-identity-http.test.ts
             pnpm exec vitest run tests/zhiban/identity/postgres/pg16-manual-recovery.test.ts
             pnpm exec vitest run tests/zhiban/identity/postgres/pg16-bridge.test.ts --reporter=verbose
+            C9_PG16_REQUIRED=1 C9_PROVIDER_RECEIPT="$RUNNER_TEMP/c9-provider.json" pnpm exec vitest run tests/zhiban/identity/postgres/pg16-runtime-foundation.test.ts --reporter=verbose
             echo "BRIDGE PG16 RECHECK RUN ${pass} PASS"
           done
       - name: Identity static, Domain and Port contract regression
@@ -146,6 +159,7 @@ jobs:
           pnpm --filter @openmaic/dsl build
           pnpm --filter @openmaic/storage build
           pnpm exec vitest run tests/zhiban/bridge --maxWorkers=1 --no-file-parallelism
+          pnpm exec vitest run tests/zhiban/runtime/contracts.test.ts tests/zhiban/runtime/records.test.ts tests/zhiban/runtime/protocol.test.ts tests/zhiban/runtime/native-provider.test.ts tests/zhiban/runtime/admission.test.ts tests/zhiban/runtime/ai.test.ts tests/zhiban/runtime/schema-acl.test.ts --maxWorkers=1 --no-file-parallelism
       - name: Recovery repair static and composition regression
         if: env.IDENTITY_SUITE == 'recovery'
         shell: bash

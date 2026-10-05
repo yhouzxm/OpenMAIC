@@ -123,10 +123,17 @@ jobs:
           cp -R "$GITHUB_WORKSPACE/lib/zhiban" "$diagnostic_workspace/lib/"
           mkdir -p "$diagnostic_workspace/tests/zhiban/bridge"
           cp -R "$GITHUB_WORKSPACE/tests/zhiban/bridge/." "$diagnostic_workspace/tests/zhiban/bridge/"
+          mkdir -p "$diagnostic_workspace/tests/zhiban/runtime"
+          cp -R "$GITHUB_WORKSPACE/tests/zhiban/runtime/." "$diagnostic_workspace/tests/zhiban/runtime/"
           for pass in 1 2; do
             echo "B9 NATIVE/BROWSER PG16 RUN ${pass}"
             B9_NATIVE_REQUIRED=1 B9_BROWSER_REQUIRED=1 pnpm exec vitest run --config tests/zhiban/bridge/vitest.config.ts --reporter=verbose
             echo "B9 NATIVE/BROWSER PG16 RUN ${pass} PASS"
+          done
+          for pass in 1 2; do
+            echo "C9 NATIVE PG16 RUN ${pass}"
+            C9_NATIVE_REQUIRED=1 pnpm exec vitest run --config tests/zhiban/runtime/vitest.native.config.ts tests/zhiban/runtime/native-pg.test.ts --reporter=verbose
+            echo "C9 NATIVE PG16 RUN ${pass} PASS"
           done
       # Rebuild the pinned official artifacts, then run only the native contract
       # blocked by the prior bootstrap failure. Prior diagnostics/browser proof is retained.
@@ -146,8 +153,15 @@ jobs:
           cp -R "$GITHUB_WORKSPACE/lib/zhiban" "$diagnostic_workspace/lib/"
           mkdir -p "$diagnostic_workspace/tests/zhiban/bridge"
           cp -R "$GITHUB_WORKSPACE/tests/zhiban/bridge/." "$diagnostic_workspace/tests/zhiban/bridge/"
+          mkdir -p "$diagnostic_workspace/tests/zhiban/runtime"
+          cp -R "$GITHUB_WORKSPACE/tests/zhiban/runtime/." "$diagnostic_workspace/tests/zhiban/runtime/"
           for pass in 1 2; do
             echo "B9 NATIVE PG16 RECHECK RUN ${pass}"
             B9_NATIVE_REQUIRED=1 pnpm exec vitest run --config tests/zhiban/bridge/vitest.config.ts tests/zhiban/bridge/native-pg.test.ts --reporter=verbose
             echo "B9 NATIVE PG16 RECHECK RUN ${pass} PASS"
+          done
+          for pass in 1 2; do
+            echo "C9 NATIVE PG16 RUN ${pass}"
+            C9_NATIVE_REQUIRED=1 pnpm exec vitest run --config tests/zhiban/runtime/vitest.native.config.ts tests/zhiban/runtime/native-pg.test.ts --reporter=verbose
+            echo "C9 NATIVE PG16 RUN ${pass} PASS"
           done
