@@ -160,6 +160,16 @@ describe
       await bridgeTransaction(runtime, null, new Deadline(), async (c) => {
         await c.query('SET LOCAL search_path=pg_catalog,public,pg_temp');
         expect(await catalogFingerprint(c, 'public')).toBe(receipt.fingerprint);
+        expect(
+          (
+            await c.query(
+              "SELECT n.nspname AS schema,c.relname AS name,pg_get_userbyid(c.relowner) AS owner FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE c.relname IN ('asset_blobs','document_stages') ORDER BY c.relname",
+            )
+          ).rows,
+        ).toEqual([
+          { schema: 'public', name: 'asset_blobs', owner: 'zhiban_openmaic_owner' },
+          { schema: 'public', name: 'document_stages', owner: 'zhiban_openmaic_owner' },
+        ]);
       });
     });
     it('B9-N02 runtime is non-owner/no role edge/no DDL/TEMP or forbidden delete', async () => {

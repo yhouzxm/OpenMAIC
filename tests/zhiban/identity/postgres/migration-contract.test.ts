@@ -28,6 +28,7 @@ describe('Identity PostgreSQL 16 migration contract (static; not a PG16 verifica
       '0010',
       '0011',
       '0012',
+      '0013',
     ]);
     for (const file of files) expect(file.checksum).toMatch(/^[0-9a-f]{64}$/);
   });

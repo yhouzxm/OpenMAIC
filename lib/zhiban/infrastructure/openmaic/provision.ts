@@ -25,7 +25,8 @@ export async function provisionNative(
     );
     check(count.rows[0]?.n === 0); // Subsequent maintenance verifies receipt; ensure* is not an upgrade strategy.
     await client.query('SET LOCAL ROLE zhiban_openmaic_owner');
-    await client.query('SET LOCAL search_path=pg_catalog,public,pg_temp');
+    // Public ensure* DDL is unqualified; only maintenance creates in the owner-only schema.
+    await client.query('SET LOCAL search_path=public,pg_catalog,pg_temp');
     const queryable = {
       query: async <R extends Record<string, unknown>>(sql: string, params?: unknown[]) => ({
         rows: (await client.query<R>(sql, params)).rows,
@@ -33,6 +34,7 @@ export async function provisionNative(
     };
     await ensureAssetSchema(queryable);
     await ensureDocumentSchema(queryable);
+    await client.query('SET LOCAL search_path=pg_catalog,public,pg_temp');
     await client.query(
       'REVOKE ALL ON ALL TABLES IN SCHEMA public FROM PUBLIC,zhiban_openmaic_runtime',
     );

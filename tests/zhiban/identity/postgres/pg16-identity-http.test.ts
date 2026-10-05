@@ -157,7 +157,7 @@ describe.skipIf(!configured).sequential('D8 real PG16 roles + actual HTTP adapte
       (await rows('SELECT version FROM zhiban_identity.schema_migrations ORDER BY version')).map(
         (r) => r.version,
       ),
-    ).toEqual(Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(4, '0')));
+    ).toEqual(Array.from({ length: 13 }, (_, i) => String(i + 1).padStart(4, '0')));
   });
   it('D8-PG02 own canonical revision is secret-free and belongs to authenticated User', async () => {
     const e = await fixture(),

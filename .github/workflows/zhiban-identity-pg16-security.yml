@@ -104,8 +104,8 @@ jobs:
             pnpm exec vitest run tests/zhiban/identity/postgres/pg16-manual-recovery.test.ts --reporter=verbose
             echo "RECOVERY PG16 RUN ${pass} PASS"
           done
-      # The preceding candidate passed role bootstrap and migration runner.
-      # Resume at the failed schema contract, then run every previously unexecuted suite twice.
+      # Role bootstrap proof is retained. The new 0013 fix needs migration upgrade proof.
+      # Resume affected migration/schema contracts and complete the remaining suites twice.
       - name: Bridge PostgreSQL 16 recheck (two runs)
         if: env.IDENTITY_SUITE == 'bridge-recheck'
         shell: bash
@@ -113,6 +113,7 @@ jobs:
           set -euo pipefail
           for pass in 1 2; do
             echo "BRIDGE PG16 RECHECK RUN ${pass}"
+            pnpm exec vitest run tests/zhiban/identity/postgres/pg16-migration-runner.test.ts
             pnpm exec vitest run tests/zhiban/identity/postgres/pg16-schema-security.test.ts
             pnpm exec vitest run tests/zhiban/identity/postgres/pg16-rls.test.ts
             pnpm exec vitest run tests/zhiban/identity/postgres/pg16-transactions.test.ts

@@ -23,6 +23,7 @@ describe('A7-03 exact authorization helper exception', () => {
       '0010',
       '0011',
       '0012',
+      '0013',
     ]);
     expect(sql.match(/CREATE FUNCTION/g)).toHaveLength(1);
     expect(sql.match(/CREATE POLICY/g)).toHaveLength(2);

@@ -316,12 +316,12 @@ describe
       });
     });
     afterAll(resetDisposableIdentity);
-    it('B9-PG01 inventory contains twelve applied checksummed migrations', async () => {
+    it('B9-PG01 inventory contains thirteen applied checksummed migrations', async () => {
       expect(
         (await query('SELECT version FROM zhiban_identity.schema_migrations ORDER BY version')).map(
           (r) => r.version,
         ),
-      ).toEqual(Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(4, '0')));
+      ).toEqual(Array.from({ length: 13 }, (_, i) => String(i + 1).padStart(4, '0')));
     });
     it('B9-PG02 six tenant tables FORCE RLS; global deployment is not tenant state', async () => {
       const rows = await query(
@@ -389,7 +389,7 @@ describe
           ).rows[0].n,
         ).toBe(0);
         await expectDenied(c, 'SELECT token_digest FROM zhiban_identity.sessions');
-        await expectDenied(c, 'SELECT verifier FROM zhiban_identity.credentials');
+        await expectDenied(c, 'SELECT verifier_material FROM zhiban_identity.credentials');
         await expectDenied(c, 'DELETE FROM zhiban_bridge.resource_slots');
         expect(
           (
@@ -523,7 +523,7 @@ describe
           );
         if (kind === 'membership')
           await query(
-            "UPDATE zhiban_identity.memberships SET status='DISABLED',disabled_at=$1,disabled_reason='synthetic',updated_at=$1,repository_revision=repository_revision+1 WHERE membership_id=$2",
+            "UPDATE zhiban_identity.memberships SET status='DISABLED',disabled_at=$1,disabled_reason='synthetic',updated_at=$1,repository_revision=repository_revision+1,authorization_version=authorization_version+1 WHERE membership_id=$2",
             [Date.now(), ids.membershipA],
           );
         await expect(
@@ -918,7 +918,7 @@ describe
                 : kind === 'tenant'
                   ? "UPDATE zhiban_identity.tenants SET status='DISABLED',disabled_at=$1,disabled_reason='synthetic',updated_at=$1,repository_revision=repository_revision+1 WHERE tenant_id=$2"
                   : kind === 'membership'
-                    ? "UPDATE zhiban_identity.memberships SET status='DISABLED',disabled_at=$1,disabled_reason='synthetic',updated_at=$1,repository_revision=repository_revision+1 WHERE membership_id=$2"
+                    ? "UPDATE zhiban_identity.memberships SET status='DISABLED',disabled_at=$1,disabled_reason='synthetic',updated_at=$1,repository_revision=repository_revision+1,authorization_version=authorization_version+1 WHERE membership_id=$2"
                     : 'UPDATE zhiban_identity.role_grants SET revoked_at=$1 WHERE grant_id=$2';
             mutation = writer.query(sql, [
               Date.now(),
@@ -932,7 +932,7 @@ describe
             ]);
           }
           const observed = mutation.then(
-            () => true,
+            (result) => !writer || (result as { rowCount: number }).rowCount === 1,
             () => false,
           ); // Attach rejection handler before observing wait.
           const deadline = performance.now() + 4000;
@@ -954,6 +954,17 @@ describe
           await holder.query('COMMIT');
           expect(await observed).toBe(true);
           if (writer) await writer.query('COMMIT');
+          if (kind === 'membership') {
+            const [member] = await query(
+              'SELECT status,repository_revision,authorization_version FROM zhiban_identity.memberships WHERE membership_id=$1',
+              [ids.membershipA],
+            );
+            expect(member).toMatchObject({
+              status: 'DISABLED',
+              repository_revision: '2',
+              authorization_version: '1',
+            });
+          }
           if (kind === 'grant')
             await bridgeTransaction(pool(), context, new Deadline(), async (c) => {
               expect((await helper(c, issued.record.tokenDigest)).rows[0].effective_grants).toEqual(

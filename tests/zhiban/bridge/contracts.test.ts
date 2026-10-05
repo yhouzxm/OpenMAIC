@@ -42,10 +42,10 @@ function connection(commit = 'COMMIT') {
   return { calls, release, client, pool: { connect: async () => client } };
 }
 describe('Bridge migration and composition contracts', () => {
-  it('adds only 0012 and preserves every applied migration byte-for-byte', async () => {
+  it('adds only 0013 and preserves every applied migration including 0012', async () => {
     const migrations = await loadMigrationFiles();
-    expect(migrations).toHaveLength(12);
-    for (const file of migrations.slice(0, 11)) {
+    expect(migrations).toHaveLength(13);
+    for (const file of migrations.slice(0, 12)) {
       const expected = execFileSync('git', ['show', `HEAD:${root}/${file.name}`], {
         maxBuffer: 1024 * 1024,
       });
@@ -54,6 +54,39 @@ describe('Bridge migration and composition contracts', () => {
       );
     }
     expect(migrations[11].name).toBe('0012_openmaic_bridge_foundation.sql');
+    expect(migrations[12].name).toBe('0013_openmaic_bridge_consistency_fix.sql');
+  });
+  it('0013 changes only table dispatch and preserves the complete consistency function', () => {
+    const fix = readFileSync(`${root}/0013_openmaic_bridge_consistency_fix.sql`, 'utf8');
+    const functionSql =
+      /CREATE (?:OR REPLACE )?FUNCTION zhiban_bridge\.mapping_consistency\(\)[\s\S]+?\n\$\$;/;
+    const prior = sql.replaceAll('\r\n', '\n').match(functionSql)![0];
+    const replacement = fix.match(functionSql)![0];
+    const nested = `  -- Separate table dispatch from record-field access: other trigger rows lack these fields.
+  IF TG_TABLE_NAME='resource_slots' THEN
+    IF (TG_OP='UPDATE' OR NEW.last_generation>0)
+      AND NOT EXISTS(SELECT 1 FROM zhiban_bridge.audit_events AS e WHERE e.tenant_id=NEW.tenant_id AND e.slot_id=NEW.slot_id AND e.slot_revision_after=NEW.repository_revision) THEN
+      RAISE EXCEPTION 'Bridge mutation audit missing' USING ERRCODE='23514';
+    END IF;
+  END IF;`;
+    const original = `  IF TG_TABLE_NAME='resource_slots' AND (TG_OP='UPDATE' OR NEW.last_generation>0)
+    AND NOT EXISTS(SELECT 1 FROM zhiban_bridge.audit_events AS e WHERE e.tenant_id=NEW.tenant_id AND e.slot_id=NEW.slot_id AND e.slot_revision_after=NEW.repository_revision) THEN
+    RAISE EXCEPTION 'Bridge mutation audit missing' USING ERRCODE='23514';
+  END IF;`;
+    expect(replacement).toContain(nested);
+    expect(
+      replacement
+        .replace('CREATE OR REPLACE FUNCTION', 'CREATE FUNCTION')
+        .replace(nested, original),
+    ).toBe(prior);
+    expect(
+      fix
+        .replace(functionSql, '')
+        .replace(/--[^\n]*/g, '')
+        .trim(),
+    ).toBe('');
+    expect(replacement).toContain('SECURITY DEFINER');
+    expect(replacement).toContain('SET row_security=on');
   });
   it('keeps shipped business gate false without environment/GUC override', () => {
     const gate = sql.slice(

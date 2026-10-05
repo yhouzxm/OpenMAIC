@@ -89,7 +89,7 @@ describe
           (
             await rows('SELECT version FROM zhiban_identity.schema_migrations ORDER BY version')
           ).map((r) => r.version),
-        ).toEqual(Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(4, '0')));
+        ).toEqual(Array.from({ length: 13 }, (_, i) => String(i + 1).padStart(4, '0')));
         const tables = await rows(
           "SELECT relname,relrowsecurity,relforcerowsecurity,relowner::regrole::text AS owner FROM pg_class WHERE relnamespace='zhiban_identity'::regnamespace AND relname LIKE 'identity_%' AND relkind='r'",
         );

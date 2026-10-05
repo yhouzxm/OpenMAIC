@@ -39,7 +39,7 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity migration r
   beforeEach(emptyReadyDatabase);
   afterAll(resetDisposableIdentity);
 
-  it('applies 0001–0012 from empty database and a second CLI run is a no-op', async () => {
+  it('applies 0001–0013 from empty database and a second CLI run is a no-op', async () => {
     const admin = adminClient();
     await admin.connect();
     try {
@@ -64,7 +64,7 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity migration r
     const first = run();
     expect(first.status, first.stderr).toBe(0);
     expect(first.stdout).toContain(
-      '0001, 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0010, 0011, 0012',
+      '0001, 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0010, 0011, 0012, 0013',
     );
     const second = run();
     expect(second.status, second.stderr).toBe(0);
@@ -88,12 +88,60 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity migration r
         '0010',
         '0011',
         '0012',
+        '0013',
       ]);
       expect(ledger.rows.every((row) => /^[0-9a-f]{64}$/.test(row.checksum) && row.has_time)).toBe(
         true,
       );
     } finally {
       await check.end();
+    }
+  });
+
+  it('upgrades applied 0012 with only 0013, preserving checksum, trigger identity and function security', async () => {
+    const files = await loadMigrationFiles();
+    const migrator = runtimeClient('zhiban_migrator'),
+      check = adminClient();
+    await migrator.connect();
+    await check.connect();
+    try {
+      await applyMigrations(migrationConnection(migrator), files.slice(0, 12));
+      const priorLedger = (
+        await check.query(
+          'SELECT version,checksum FROM zhiban_identity.schema_migrations ORDER BY version',
+        )
+      ).rows;
+      const metadata = () =>
+        check.query(
+          "SELECT oid::text,proowner::text,prosecdef,proconfig,proacl::text FROM pg_proc WHERE oid='zhiban_bridge.mapping_consistency()'::regprocedure",
+        );
+      const triggers = () =>
+        check.query(
+          "SELECT oid::text,tgfoid::text,tgdeferrable,tginitdeferred FROM pg_trigger WHERE tgfoid='zhiban_bridge.mapping_consistency()'::regprocedure ORDER BY oid",
+        );
+      const priorFunction = (await metadata()).rows;
+      const priorTriggers = (await triggers()).rows;
+      expect(priorTriggers).toHaveLength(6);
+      expect(await applyMigrations(migrationConnection(migrator), files)).toEqual(['0013']);
+      expect(
+        (
+          await check.query(
+            "SELECT version,checksum FROM zhiban_identity.schema_migrations WHERE version<='0012' ORDER BY version",
+          )
+        ).rows,
+      ).toEqual(priorLedger);
+      expect((await metadata()).rows).toEqual(priorFunction);
+      expect((await triggers()).rows).toEqual(priorTriggers);
+      const definition = (
+        await check.query(
+          "SELECT pg_get_functiondef('zhiban_bridge.mapping_consistency()'::regprocedure) AS definition",
+        )
+      ).rows[0].definition;
+      expect(definition).toContain("IF TG_TABLE_NAME='resource_slots' THEN");
+      expect(definition).not.toContain("IF TG_TABLE_NAME='resource_slots' AND");
+      expect(await applyMigrations(migrationConnection(migrator), files)).toEqual([]);
+    } finally {
+      await Promise.all([migrator.end(), check.end()]);
     }
   });
 
@@ -111,6 +159,7 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity migration r
       '0010',
       '0011',
       '0012',
+      '0013',
     ]);
     const admin = adminClient();
     await admin.connect();
@@ -134,7 +183,7 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity migration r
     }
   });
 
-  it('rolls back a test-only failed 0012 migration and its ledger entry', async () => {
+  it('rolls back a test-only failed 0014 migration and its ledger entry', async () => {
     expect(await applyRealMigrations()).toEqual([
       '0001',
       '0002',
@@ -148,12 +197,13 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity migration r
       '0010',
       '0011',
       '0012',
+      '0013',
     ]);
     const files = await loadMigrationFiles();
     const failing = planMigrations([
       ...files.map(({ name, sql }) => ({ name, sql })),
       {
-        name: '0013_test_failure.sql',
+        name: '0014_test_failure.sql',
         sql: 'CREATE TABLE zhiban_identity.pg16_failure_probe (id int); SELECT 1 / 0;',
       },
     ]);
@@ -170,7 +220,7 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity migration r
     await admin.connect();
     try {
       const result = await admin.query(
-        "SELECT to_regclass('zhiban_identity.pg16_failure_probe') AS table_name, (SELECT count(*)::int FROM zhiban_identity.schema_migrations WHERE version = '0013') AS ledger_count",
+        "SELECT to_regclass('zhiban_identity.pg16_failure_probe') AS table_name, (SELECT count(*)::int FROM zhiban_identity.schema_migrations WHERE version = '0014') AS ledger_count",
       );
       expect(result.rows[0]).toMatchObject({ table_name: null, ledger_count: 0 });
     } finally {
@@ -188,7 +238,7 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity migration r
         applyMigrations(migrationConnection(first), files),
         applyMigrations(migrationConnection(second), files),
       ]);
-      expect(results.map((result) => result.length).sort()).toEqual([0, 12]);
+      expect(results.map((result) => result.length).sort()).toEqual([0, 13]);
     } finally {
       await Promise.all([first.end(), second.end()]);
     }
@@ -211,6 +261,7 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity migration r
         { version: '0010', count: 1 },
         { version: '0011', count: 1 },
         { version: '0012', count: 1 },
+        { version: '0013', count: 1 },
       ]);
     } finally {
       await admin.end();
