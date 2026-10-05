@@ -52,6 +52,7 @@ describe.skipIf(!configured).sequential('real PostgreSQL 16 Identity ownership a
       expect(functions.rows.every((row) => row.owner === 'zhiban_identity_owner')).toBe(true);
       const expectedSignatures = [
         'zhiban_identity.authorization_state(uuid,uuid,uuid[],text)',
+        'zhiban_identity.bridge_identity_context(uuid,text,uuid,uuid,uuid[])',
         'zhiban_identity.identity_auth_user_anchor(uuid)',
         'zhiban_identity.identity_session_guard(text,uuid)',
         'zhiban_identity.identity_session_spaces(text,uuid,integer)',

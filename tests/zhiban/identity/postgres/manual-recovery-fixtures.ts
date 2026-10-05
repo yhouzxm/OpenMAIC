@@ -150,7 +150,10 @@ export async function recoveryFixture(pools: Set<Pool>) {
                       : sql.startsWith('SELECT')
                         ? 'READ'
                         : 'OTHER';
-          if (!['BEGIN', 'COMMIT', 'ROLLBACK'].includes(sql) && !sql.startsWith('SELECT set_config'))
+          if (
+            !['BEGIN', 'COMMIT', 'ROLLBACK'].includes(sql) &&
+            !sql.startsWith('SELECT set_config')
+          )
             lastStage = stage;
           try {
             return await client.query(sql, params);

@@ -22,9 +22,7 @@ export interface RecoveryOutcomeView extends RecoveryCaseView {
 }
 /** Explicit server backchannel; never instantiated from request/argv data. */
 export interface RecoveryEvidenceStore {
-  read(
-    reference: string,
-  ): Promise<{
+  read(reference: string): Promise<{
     readonly canonical: string;
     readonly keyRef: string;
     readonly signature: string;

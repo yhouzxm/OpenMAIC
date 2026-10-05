@@ -10,12 +10,12 @@ DO $$ DECLARE n text; r record; BEGIN
     SELECT * INTO r FROM pg_roles WHERE rolname=n;
     IF r.rolsuper OR r.rolinherit OR r.rolcreatedb OR r.rolcreaterole OR r.rolbypassrls OR r.rolreplication OR r.rolcanlogin<>(n<>'zhiban_openmaic_owner') THEN RAISE EXCEPTION 'Native role contract rejected'; END IF;
   END LOOP;
-  IF EXISTS(SELECT 1 FROM pg_roles AS r WHERE r.rolname IN ('zhiban_openmaic_runtime','zhiban_openmaic_migrator') AND (
-      EXISTS(SELECT 1 FROM pg_class WHERE relowner=r.oid)
-      OR EXISTS(SELECT 1 FROM pg_proc WHERE proowner=r.oid)
-      OR EXISTS(SELECT 1 FROM pg_namespace WHERE nspowner=r.oid)
-      OR EXISTS(SELECT 1 FROM pg_type WHERE typowner=r.oid)
-      OR EXISTS(SELECT 1 FROM pg_database WHERE datdba=r.oid))) THEN
+  IF EXISTS(SELECT 1 FROM pg_roles AS native_role WHERE native_role.rolname IN ('zhiban_openmaic_runtime','zhiban_openmaic_migrator') AND (
+      EXISTS(SELECT 1 FROM pg_class WHERE relowner=native_role.oid)
+      OR EXISTS(SELECT 1 FROM pg_proc WHERE proowner=native_role.oid)
+      OR EXISTS(SELECT 1 FROM pg_namespace WHERE nspowner=native_role.oid)
+      OR EXISTS(SELECT 1 FROM pg_type WHERE typowner=native_role.oid)
+      OR EXISTS(SELECT 1 FROM pg_database WHERE datdba=native_role.oid))) THEN
     RAISE EXCEPTION 'Native runtime ownership rejected';
   END IF;
   IF EXISTS(SELECT 1 FROM pg_auth_members AS m JOIN pg_roles AS a ON a.oid=m.roleid JOIN pg_roles AS b ON b.oid=m.member
