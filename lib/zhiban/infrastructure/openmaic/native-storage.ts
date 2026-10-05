@@ -6,7 +6,13 @@ import type { AssetRef } from '@openmaic/dsl';
 import type { TransactionPool } from '../identity/postgres/transactions';
 import { bridgeTransaction, type Deadline } from './transactions';
 import { check, opaque, principal, BridgeError, exact } from './validation';
-import { boundedJson, validateBytes, validateDocument, type AssetExpectations } from './content';
+import {
+  boundedJson,
+  nativeDocument,
+  validateBytes,
+  validateDocument,
+  type AssetExpectations,
+} from './content';
 
 /** Infrastructure-only. No generic store, folder/collector/replace/runtime methods. */
 export class NativeStorage {
@@ -58,7 +64,7 @@ export class NativeStorage {
       const { documents } = this.scope(owner, deadline, finalCheck);
       // Public existence check plus one-use dispatch and unique reserved StageRef; never overwrite published data.
       check((await documents.loadDocument(stage)) === null);
-      await documents.saveDocument(snapshot);
+      await documents.saveDocument(nativeDocument(snapshot, 'WRITE'));
       deadline.assert();
     } catch {
       throw new BridgeError();
@@ -77,8 +83,9 @@ export class NativeStorage {
       check((await documents.readFreshnessManifest(opaque(stage))) !== null); // Public owner-scoped guard before the ID-capable load.
       const result = await documents.loadDocument(stage);
       check(result !== null);
-      check(validateDocument(result, stage, refs).digest === expectedDigest);
-      return result;
+      const document = nativeDocument(result, 'READ');
+      check(validateDocument(document, stage, refs).digest === expectedDigest);
+      return document;
     } catch {
       throw new BridgeError();
     }

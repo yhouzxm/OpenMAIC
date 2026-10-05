@@ -1,9 +1,10 @@
 import { describe, it, expect, vi } from 'vitest';
 import type { MaicDocument } from '@openmaic/storage';
-import type { Slide } from '@openmaic/dsl';
+import { DSL_VERSION, type Slide } from '@openmaic/dsl';
 import { planCandidate, consumeCandidate } from '@/lib/zhiban/infrastructure/openmaic/candidate';
 import {
   preview,
+  nativeDocument,
   validateDocument,
   validateBytes,
 } from '@/lib/zhiban/infrastructure/openmaic/content';
@@ -36,7 +37,7 @@ function document(ref = 'planned', byteDigest = 'a'.repeat(64)) {
     (id) => `asset:${id}`,
   );
   const doc: MaicDocument = {
-    dslVersion: '0.11.2',
+    dslVersion: DSL_VERSION,
     stage: { id: stage, name: 'Synthetic', createdAt: 1000, updatedAt: 1000 },
     scenes: [
       {
@@ -53,6 +54,49 @@ function document(ref = 'planned', byteDigest = 'a'.repeat(64)) {
   return { candidate, doc, refs };
 }
 describe('Bridge frozen candidate and closed content', () => {
+  it('round-trips native bare AssetRefs without changing Bridge content identity', () => {
+    const { doc, refs } = document();
+    const native = nativeDocument(doc, 'WRITE');
+    expect((native.scenes[0].content as { canvas: Slide }).canvas.elements[0]).toMatchObject({
+      src: 'planned',
+    });
+    const restored = nativeDocument(native, 'READ');
+    expect(restored).toEqual(doc);
+    expect(validateDocument(restored, doc.stage.id, refs)).toEqual(
+      validateDocument(doc, doc.stage.id, refs),
+    );
+  });
+  it.each(['url', 'prefixed', 'extra', 'foreign'] as const)(
+    'native conversion cannot repair unsafe or unbound persisted content: %s',
+    (kind) => {
+      const { doc, refs } = document();
+      const native = nativeDocument(doc, 'WRITE');
+      const canvas = (native.scenes[0].content as { canvas: Slide }).canvas;
+      if (kind === 'extra') Object.assign(canvas, { arbitraryScript: 'unapproved' });
+      else
+        Object.assign(canvas.elements[0], {
+          src:
+            kind === 'url'
+              ? 'https://foreign.invalid/asset'
+              : kind === 'prefixed'
+                ? 'asset:planned'
+                : 'foreign',
+        });
+      expect(() => validateDocument(nativeDocument(native, 'READ'), doc.stage.id, refs)).toThrow(
+        BridgeError,
+      );
+    },
+  );
+  it.each(['0.11.2', '0.2.0', '99.0.0', undefined])(
+    'rejects a package, stale, future or absent document protocol stamp: %s',
+    (version) => {
+      const { doc, refs } = document();
+      expect(validateDocument(doc, doc.stage.id, refs).digest).toMatch(/^[0-9a-f]{64}$/);
+      if (version === undefined) delete doc.dslVersion;
+      else doc.dslVersion = version;
+      expect(() => validateDocument(doc, doc.stage.id, refs)).toThrow(BridgeError);
+    },
+  );
   it('allocates IDs/principal before hashing and only admits the server-issued intention once', () => {
     const candidate = planCandidate();
     expect(candidate.generationId).not.toBe(candidate.stageRef);

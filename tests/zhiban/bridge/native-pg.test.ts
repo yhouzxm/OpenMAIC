@@ -14,7 +14,7 @@ import { bridgeTransaction, Deadline } from '@/lib/zhiban/infrastructure/openmai
 import { BridgeError, newPrincipal } from '@/lib/zhiban/infrastructure/openmaic/validation';
 import { preview, validateDocument } from '@/lib/zhiban/infrastructure/openmaic/content';
 import type { MaicDocument } from '@openmaic/storage';
-import type { Slide } from '@openmaic/dsl';
+import { DSL_VERSION, type Slide } from '@openmaic/dsl';
 
 const configured = process.env.B9_NATIVE_REQUIRED === '1';
 const database = 'zhiban_9b_native_test',
@@ -269,7 +269,7 @@ describe
         (id) => `asset:${id}`,
       );
       doc = {
-        dslVersion: '0.11.2',
+        dslVersion: DSL_VERSION,
         stage: { id: stage, name: 'Synthetic closed preview', createdAt: 1000, updatedAt: 1000 },
         scenes: [
           {
@@ -300,6 +300,14 @@ describe
       expect(manifest.rev).toBeGreaterThan(0);
       expect(manifest.scenes).toHaveLength(1);
       await administrator(true, async (c) => {
+        expect(
+          (await c.query('SELECT data FROM document_stages WHERE id=$1', [stage])).rows[0].data
+            .dslVersion,
+        ).toBe(DSL_VERSION);
+        expect(
+          (await c.query('SELECT data FROM document_scenes WHERE stage_id=$1', [stage])).rows[0]
+            .data.content.canvas.elements[0].src,
+        ).toBe(asset.ref);
         expect(
           (
             await c.query('SELECT count(*)::int AS n FROM document_asset_refs WHERE stage_id=$1', [

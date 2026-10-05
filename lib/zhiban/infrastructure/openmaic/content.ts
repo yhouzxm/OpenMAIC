@@ -1,5 +1,5 @@
 import type { MaicDocument } from '@openmaic/storage';
-import type { Slide } from '@openmaic/dsl';
+import { DSL_VERSION, type Slide } from '@openmaic/dsl';
 import { check, hash, opaque, digest } from './validation';
 export type AssetPurpose = 'IMAGE' | 'AUDIO' | 'VIDEO' | 'POSTER' | 'BACKGROUND';
 export type AssetExpectations =
@@ -53,6 +53,13 @@ export function preview(
   slide: Slide,
   resolve: (asset: string, purpose: AssetPurpose) => string,
 ): Slide {
+  return projectSlide(slide, resolve, false);
+}
+function projectSlide(
+  slide: Slide,
+  resolve: (asset: string, purpose: AssetPurpose) => string,
+  native: boolean,
+): Slide {
   boundedJson(slide);
   const number = (v: unknown) => {
     check(typeof v === 'number' && Number.isFinite(v) && Math.abs(v) <= 9600);
@@ -68,8 +75,8 @@ export function preview(
     return v;
   };
   const src = (v: unknown, purpose: AssetPurpose) => {
-    check(typeof v === 'string' && v.startsWith('asset:'));
-    const id = opaque(v.slice(6));
+    check(typeof v === 'string' && (native || v.startsWith('asset:')));
+    const id = opaque(native ? v : v.slice(6));
     check(!/[\s:/?#\\]/.test(id));
     return resolve(id, purpose);
   };
@@ -132,6 +139,30 @@ export function preview(
     },
   } as Slide;
 }
+/** Public storage embeds the allocated AssetRef itself; Bridge intentions retain asset:<id>. */
+export function nativeDocument(document: MaicDocument, direction: 'WRITE' | 'READ'): MaicDocument {
+  boundedJson(document);
+  check(Array.isArray(document.scenes));
+  return {
+    ...document,
+    scenes: document.scenes.map((scene) => {
+      check(scene.type === 'slide' && scene.content.type === 'slide');
+      const canvas = projectSlide(
+        scene.content.canvas,
+        (ref) => (direction === 'READ' ? `asset:${ref}` : ref),
+        direction === 'READ',
+      );
+      if (direction === 'READ') {
+        // A corrupt/unsafe persisted canvas must not be repaired by stripping fields.
+        check(
+          canonicalJson(projectSlide(canvas, (ref) => ref, false)) ===
+            canonicalJson(scene.content.canvas),
+        );
+      }
+      return { ...scene, content: { ...scene.content, canvas } };
+    }),
+  };
+}
 export function validateDocument(
   document: MaicDocument,
   stageRef: string,
@@ -139,7 +170,8 @@ export function validateDocument(
 ) {
   boundedJson(document);
   check(
-    document.dslVersion === '0.11.2' &&
+    // Document protocol stamp is independent of the pinned DSL package version.
+    document.dslVersion === DSL_VERSION &&
       document.stage.id === opaque(stageRef) &&
       document.outline === undefined,
   );
