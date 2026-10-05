@@ -28,7 +28,7 @@ import { BridgeError } from '@/lib/zhiban/infrastructure/openmaic/validation';
 import { planCandidate } from '@/lib/zhiban/infrastructure/openmaic/candidate';
 import { preview, validateDocument } from '@/lib/zhiban/infrastructure/openmaic/content';
 import type { MaicDocument } from '@openmaic/storage';
-import type { Slide } from '@openmaic/dsl';
+import { DSL_VERSION, type Slide } from '@openmaic/dsl';
 import { IdentityAuthentication } from '@/lib/zhiban/infrastructure/identity/composition/authentication';
 import { IdentityIds } from '@/lib/zhiban/infrastructure/identity/composition/ids';
 import {
@@ -1334,7 +1334,7 @@ describe
         () => 'unused',
       );
       const doc: MaicDocument = {
-        dslVersion: '0.11.2',
+        dslVersion: DSL_VERSION,
         stage: { id: candidate.stageRef, name: 'Synthetic', createdAt: 1000, updatedAt: 1000 },
         scenes: [
           {
