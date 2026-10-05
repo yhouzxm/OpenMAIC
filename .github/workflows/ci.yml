@@ -2,6 +2,15 @@ name: CI
 
 on:
   workflow_dispatch:
+    inputs:
+      suite:
+        description: 'Full CI or Bridge signoff recheck'
+        type: choice
+        required: true
+        default: full
+        options:
+          - full
+          - bridge-recheck
   push:
     # Integration branches are listed here as well as below: a pull_request run
     # only ever proves one part merged into the branch, so without a push
@@ -29,6 +38,7 @@ concurrency:
 jobs:
   issue-triage:
     name: Issue Triage (offline contracts)
+    if: github.event_name != 'workflow_dispatch' || inputs.suite != 'bridge-recheck'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -46,10 +56,21 @@ jobs:
     name: Lint, Typecheck & Unit Tests
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      CI_SUITE: ${{ github.event_name == 'workflow_dispatch' && inputs.suite || 'full' }}
     steps:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
+
+      - name: Validate selected suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "$CI_SUITE" in
+            full|bridge-recheck) printf 'CI SUITE: %s\n' "$CI_SUITE" ;;
+            *) echo INVALID_CI_SUITE; exit 1 ;;
+          esac
 
       # Cheap bash-only check so a broken helper fails before pnpm install.
       # Quiet annotations: the expected-failure case would otherwise paint
@@ -139,12 +160,17 @@ jobs:
       # These four do not share state. Sequential they were ~2 minutes; the
       # slowest (ESLint) is the new bound.
       - name: Prettier, ESLint, TypeScript, i18n
+        if: github.event_name != 'workflow_dispatch' || inputs.suite != 'bridge-recheck'
         run: |
           scripts/ci-run-parallel.sh \
             'prettier' 'pnpm check' \
             'eslint' 'pnpm lint' \
             'tsc' 'npx tsc --noEmit' \
             'i18n' 'pnpm check:i18n-keys'
+
+      - name: Bridge formatting recheck
+        if: github.event_name == 'workflow_dispatch' && inputs.suite == 'bridge-recheck'
+        run: pnpm check
 
       # Keep these sequential. Running root vitest alongside the storage
       # package on a 4-core runner made 5s-timeout tests flake (CPU
@@ -204,6 +230,7 @@ jobs:
 
   render-service:
     name: Render Service (typecheck + tests)
+    if: github.event_name != 'workflow_dispatch' || inputs.suite != 'bridge-recheck'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     # The producer dep bundles puppeteer; skip its Chromium download — the unit
@@ -240,6 +267,7 @@ jobs:
 
   e2e:
     name: E2E Tests
+    if: github.event_name != 'workflow_dispatch' || inputs.suite != 'bridge-recheck'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -359,6 +387,7 @@ jobs:
 
   docker-main-image:
     name: Main image (deps + builder)
+    if: github.event_name != 'workflow_dispatch' || inputs.suite != 'bridge-recheck'
     runs-on: ubuntu-latest
     timeout-minutes: 45
     # The main Dockerfile was never built in CI, so an install step that no

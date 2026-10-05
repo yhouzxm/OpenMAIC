@@ -102,7 +102,9 @@ function assertHyperframesGateContract(workflow: Workflow): void {
   const job = workflow.jobs.e2e;
   const materialize = step(workflow, 'e2e', 'Materialize Hyperframes lint samples');
 
-  expect(job.if).toBeUndefined();
+  expect(job.if).toBe(
+    "github.event_name != 'workflow_dispatch' || inputs.suite != 'bridge-recheck'",
+  );
   expect(job['continue-on-error']).toBeUndefined();
   expect(job.env?.HF_E2E_DIR).toBeUndefined();
   expect(materialize.if).toBeUndefined();

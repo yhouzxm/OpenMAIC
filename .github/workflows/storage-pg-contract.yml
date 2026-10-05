@@ -2,6 +2,15 @@ name: Storage PostgreSQL Contract
 
 on:
   workflow_dispatch:
+    inputs:
+      suite:
+        description: 'Full contract or targeted Bridge native recheck'
+        type: choice
+        required: true
+        default: full
+        options:
+          - full
+          - bridge-recheck
   push:
     branches: [main]
   pull_request:
@@ -32,6 +41,7 @@ jobs:
     env:
       PG_CONTRACT_URL: postgresql://postgres:postgres@localhost:5432/openmaic
       STORAGE_PG_CONTRACT_REQUIRED: '1'
+      STORAGE_SUITE: ${{ github.event_name == 'workflow_dispatch' && inputs.suite || 'full' }}
     steps:
       - uses: actions/checkout@v5
 
@@ -44,6 +54,15 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      - name: Validate selected suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "$STORAGE_SUITE" in
+            full|bridge-recheck) printf 'STORAGE SUITE: %s\n' "$STORAGE_SUITE" ;;
+            *) echo INVALID_STORAGE_SUITE; exit 1 ;;
+          esac
+
       # Baseline, then the run, then the audit against that baseline. The
       # in-module STORAGE_PG_CONTRACT_REQUIRED guard only covers a missing
       # database: it is a `throw` inside the test modules, so it cannot fire if
@@ -52,6 +71,7 @@ jobs:
       # `*.pg.test.ts` there would silence this whole job while it still
       # reported success.
       - name: Storage PostgreSQL contract
+        if: env.STORAGE_SUITE == 'full'
         env:
           STORAGE_VITEST_RESULTS: ${{ runner.temp }}/storage-vitest.json
           STORAGE_PG_BASELINE: ${{ runner.temp }}/storage-pg-baseline.json
@@ -71,6 +91,7 @@ jobs:
       # TRUNCATE, so each works inside a schema of its own and drops it again.
       # Both orders were checked, because nothing here guarantees one.
       - name: App-domain PostgreSQL contracts
+        if: env.STORAGE_SUITE == 'full'
         run: |
           pnpm exec vitest run \
             tests/lib/whiteboard/runtime-store.pg.test.ts \
@@ -85,6 +106,7 @@ jobs:
           pnpm exec playwright install --with-deps chromium
 
       - name: OpenMAIC isolated diagnostics — fresh artifacts, two passes
+        if: env.STORAGE_SUITE == 'full'
         shell: bash
         run: |
           set -euo pipefail
@@ -105,4 +127,27 @@ jobs:
             echo "B9 NATIVE/BROWSER PG16 RUN ${pass}"
             B9_NATIVE_REQUIRED=1 B9_BROWSER_REQUIRED=1 pnpm exec vitest run --config tests/zhiban/bridge/vitest.config.ts --reporter=verbose
             echo "B9 NATIVE/BROWSER PG16 RUN ${pass} PASS"
+          done
+      # Rebuild the pinned official artifacts, then run only the native contract
+      # blocked by the prior bootstrap failure. Prior diagnostics/browser proof is retained.
+      - name: Bridge native PostgreSQL 16 recheck (two runs)
+        if: env.STORAGE_SUITE == 'bridge-recheck'
+        shell: bash
+        run: |
+          set -euo pipefail
+          setup_log="$RUNNER_TEMP/b9-setup.log"
+          node tests/zhiban/openmaic/prepare-workspace.mjs | tee "$setup_log"
+          diagnostic_workspace="$(sed -n 's/^DIAGNOSTIC_WORKSPACE=//p' "$setup_log")"
+          test -n "$diagnostic_workspace"
+          trap 'node "$GITHUB_WORKSPACE/tests/zhiban/openmaic/cleanup-workspace.mjs" "$diagnostic_workspace"' EXIT
+          cd "$diagnostic_workspace"
+          pnpm exec tsc -p tests/zhiban/openmaic/tsconfig.json
+          mkdir -p "$diagnostic_workspace/lib"
+          cp -R "$GITHUB_WORKSPACE/lib/zhiban" "$diagnostic_workspace/lib/"
+          mkdir -p "$diagnostic_workspace/tests/zhiban/bridge"
+          cp -R "$GITHUB_WORKSPACE/tests/zhiban/bridge/." "$diagnostic_workspace/tests/zhiban/bridge/"
+          for pass in 1 2; do
+            echo "B9 NATIVE PG16 RECHECK RUN ${pass}"
+            B9_NATIVE_REQUIRED=1 pnpm exec vitest run --config tests/zhiban/bridge/vitest.config.ts tests/zhiban/bridge/native-pg.test.ts --reporter=verbose
+            echo "B9 NATIVE PG16 RECHECK RUN ${pass} PASS"
           done

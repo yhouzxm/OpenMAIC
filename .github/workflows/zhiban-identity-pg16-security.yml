@@ -4,13 +4,14 @@ on:
   workflow_dispatch:
     inputs:
       suite:
-        description: 'Full signoff or targeted recovery verification'
+        description: 'Full signoff or targeted recovery/Bridge verification'
         type: choice
         required: true
         default: full
         options:
           - full
           - recovery
+          - bridge-recheck
   push:
     branches:
       - verify/identity-pg16-3b2
@@ -45,7 +46,7 @@ jobs:
         run: |
           set -euo pipefail
           case "$IDENTITY_SUITE" in
-            full|recovery) printf 'IDENTITY SUITE: %s\n' "$IDENTITY_SUITE" ;;
+            full|recovery|bridge-recheck) printf 'IDENTITY SUITE: %s\n' "$IDENTITY_SUITE" ;;
             *) echo INVALID_IDENTITY_SUITE; exit 1 ;;
           esac
       - uses: pnpm/action-setup@v5
@@ -103,8 +104,31 @@ jobs:
             pnpm exec vitest run tests/zhiban/identity/postgres/pg16-manual-recovery.test.ts --reporter=verbose
             echo "RECOVERY PG16 RUN ${pass} PASS"
           done
+      # The preceding candidate passed role bootstrap and migration runner.
+      # Resume at the failed schema contract, then run every previously unexecuted suite twice.
+      - name: Bridge PostgreSQL 16 recheck (two runs)
+        if: env.IDENTITY_SUITE == 'bridge-recheck'
+        shell: bash
+        run: |
+          set -euo pipefail
+          for pass in 1 2; do
+            echo "BRIDGE PG16 RECHECK RUN ${pass}"
+            pnpm exec vitest run tests/zhiban/identity/postgres/pg16-schema-security.test.ts
+            pnpm exec vitest run tests/zhiban/identity/postgres/pg16-rls.test.ts
+            pnpm exec vitest run tests/zhiban/identity/postgres/pg16-transactions.test.ts
+            pnpm exec vitest run tests/zhiban/identity/postgres/pg16-repository-signoff.test.ts
+            pnpm exec vitest run tests/zhiban/identity/postgres/pg16-credentials.test.ts
+            pnpm exec vitest run tests/zhiban/identity/postgres/pg16-sessions.test.ts
+            pnpm exec vitest run tests/zhiban/identity/postgres/pg16-authorization.test.ts
+            pnpm exec vitest run tests/zhiban/identity/postgres/pg16-identity-composition.test.ts
+            pnpm exec vitest run tests/zhiban/identity/postgres/pg16-membership-composition.test.ts
+            pnpm exec vitest run tests/zhiban/identity/postgres/pg16-identity-http.test.ts
+            pnpm exec vitest run tests/zhiban/identity/postgres/pg16-manual-recovery.test.ts
+            pnpm exec vitest run tests/zhiban/identity/postgres/pg16-bridge.test.ts --reporter=verbose
+            echo "BRIDGE PG16 RECHECK RUN ${pass} PASS"
+          done
       - name: Identity static, Domain and Port contract regression
-        if: env.IDENTITY_SUITE == 'full'
+        if: env.IDENTITY_SUITE == 'full' || env.IDENTITY_SUITE == 'bridge-recheck'
         shell: bash
         run: |
           set -euo pipefail
