@@ -1,7 +1,6 @@
 import { execFileSync } from 'node:child_process';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
-import { createRequire } from 'node:module';
 import { RUNTIME_DSL_VERSION } from '@openmaic/dsl';
 import { PgRuntimeStore } from '@openmaic/storage/runtime/pg';
 const official = '1f05a70ac93e09c67fb4d3aafb9c2b068d14fcce';
@@ -19,8 +18,7 @@ if (
 execFileSync('git', ['diff', '--exit-code', official, 'HEAD', '--', 'packages/@openmaic']);
 const args = process.argv.slice(2);
 if (args.length !== 2 || args[0] !== '--receipt') throw Error('C9 receipt path required');
-const require = createRequire(import.meta.url),
-  artifact = require.resolve('@openmaic/storage/runtime/pg');
+const artifact = new URL(import.meta.resolve('@openmaic/storage/runtime/pg'));
 const hash = (value) => createHash('sha256').update(value).digest('hex');
 const source = execFileSync('git', ['rev-parse', 'HEAD:packages/@openmaic']);
 writeFileSync(

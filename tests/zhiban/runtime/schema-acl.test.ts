@@ -1,5 +1,9 @@
 import { it, expect } from 'vitest';
 import { readFileSync, readdirSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
 const sql = readFileSync('tests/zhiban/runtime/schema.sql', 'utf8');
 it('fixture inventory is outside 13 applied migrations; exact public and column capabilities', () => {
   expect(
@@ -69,4 +73,57 @@ it('workflow integration is additive, explicit and retains all signed-off loops/
     expect(source.includes('postgres:16')).toBe(true);
     expect(source.includes('--frozen-lockfile')).toBe(true);
   }
+});
+it('provider receipt preserves provenance and hashes the ESM-resolved artifact', () => {
+  const script = readFileSync('tests/zhiban/runtime/prepare-provider.mjs', 'utf8');
+  expect(script).not.toMatch(/createRequire|require\.resolve/);
+  for (const guard of [
+    "process.env.GITHUB_ACTIONS !== 'true'",
+    'head !== process.env.GITHUB_SHA',
+    "!process.version.startsWith('v22.')",
+    "process.platform !== 'linux'",
+    "process.arch !== 'x64'",
+    "RUNTIME_DSL_VERSION !== '0.1.0'",
+    "typeof PgRuntimeStore !== 'function'",
+    "['diff', '--exit-code', official, 'HEAD', '--', 'packages/@openmaic']",
+    'sourceDigest: hash(source)',
+    "lockDigest: hash(readFileSync('pnpm-lock.yaml'))",
+    'artifactDigest: hash(readFileSync(artifact))',
+  ])
+    expect(script).toContain(guard);
+});
+it('real Node resolves the import-only provider and hashes the exact loaded artifact', () => {
+  const script = readFileSync('tests/zhiban/runtime/prepare-provider.mjs', 'utf8'),
+    declaration = script.match(/^const artifact = .*;$/m)?.[0];
+  expect(declaration).toBeDefined();
+  // Execute the receipt script's actual resolver, not Vitest's transformed import resolver.
+  const result = JSON.parse(
+    execFileSync(
+      process.execPath,
+      [
+        '--input-type=module',
+        '--eval',
+        `import { readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { createRequire } from 'node:module';
+${declaration}
+const provider = await import(artifact.href);
+let commonJsError;
+try { createRequire(import.meta.url).resolve('@openmaic/storage/runtime/pg'); }
+catch (error) { commonJsError = error.code; }
+console.log(JSON.stringify({
+  artifact: artifact.href,
+  provider: typeof provider.PgRuntimeStore,
+  digest: createHash('sha256').update(readFileSync(artifact)).digest('hex'),
+  commonJsError,
+}));`,
+      ],
+      { cwd: process.cwd(), encoding: 'utf8', timeout: 10000 },
+    ),
+  );
+  const expected = resolve('packages/@openmaic/storage/dist/runtime/pg.js');
+  expect(result.artifact).toBe(pathToFileURL(expected).href);
+  expect(result.provider).toBe('function');
+  expect(result.digest).toBe(createHash('sha256').update(readFileSync(expected)).digest('hex'));
+  expect(result.commonJsError).toBe('ERR_PACKAGE_PATH_NOT_EXPORTED');
 });
