@@ -45,7 +45,7 @@ export type Stores = {
   runtimeMutation?: (check: () => void) => Pick<RuntimeStore, 'appendRecord'>;
 };
 
-const MAX_REVISION = 9223372036854775807n;
+const MAX_REVISION = BigInt('9223372036854775807');
 function validRevision(value: string): boolean {
   return /^[1-9]\d*$/.test(value) && BigInt(value) <= MAX_REVISION;
 }
@@ -291,7 +291,7 @@ export class DiagnosticBoundary {
       const mapping = this.authority.fresh(proof);
       // Test registry CAS reservation. An external write failure stays unreadable.
       // This is explicitly not a durable mapping or distributed transaction.
-      mapping.revision = (BigInt(mapping.revision) + 1n).toString();
+      mapping.revision = (BigInt(mapping.revision) + BigInt(1)).toString();
       mapping.state = 'PENDING';
       const reservation = mapping.revision;
       try {

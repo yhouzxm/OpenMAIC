@@ -96,3 +96,13 @@ jobs:
           cd "$diagnostic_workspace"
           pnpm exec tsc -p tests/zhiban/openmaic/tsconfig.json
           node tests/zhiban/openmaic/run-diagnostics.mjs
+          # Additive B9 evidence uses the same newly built official artifacts.
+          mkdir -p "$diagnostic_workspace/lib"
+          cp -R "$GITHUB_WORKSPACE/lib/zhiban" "$diagnostic_workspace/lib/"
+          mkdir -p "$diagnostic_workspace/tests/zhiban/bridge"
+          cp -R "$GITHUB_WORKSPACE/tests/zhiban/bridge/." "$diagnostic_workspace/tests/zhiban/bridge/"
+          for pass in 1 2; do
+            echo "B9 NATIVE/BROWSER PG16 RUN ${pass}"
+            B9_NATIVE_REQUIRED=1 B9_BROWSER_REQUIRED=1 pnpm exec vitest run --config tests/zhiban/bridge/vitest.config.ts --reporter=verbose
+            echo "B9 NATIVE/BROWSER PG16 RUN ${pass} PASS"
+          done

@@ -39,6 +39,7 @@ import { IdentityIds } from './ids';
 import { SharedAdmission, type TransportFacts } from './admission';
 import { audit, changed, now, ref, run, reject, type Client } from './support';
 import { MembershipSecurity } from './membership-security';
+import { BridgeSessionSecurity } from '../../openmaic/security';
 import { refuse } from './refusals';
 
 interface Binding {
@@ -51,6 +52,7 @@ const rejected = Object.freeze({ status: 'REJECTED' as const });
 export class IdentityAuthentication implements OwnAuthenticationPort {
   #handles = new WeakMap<AuthenticatedRequestHandle, Binding>();
   #membershipSecurity: Promise<MembershipSecurity> | undefined;
+  #bridgeSecurity: BridgeSessionSecurity | undefined;
   private constructor(
     private readonly pool: TransactionPool,
     private readonly sessions: PostgresSessionRepository,
@@ -143,6 +145,10 @@ export class IdentityAuthentication implements OwnAuthenticationPort {
       this.hashing,
       this.admission,
     ));
+  }
+  /** Infrastructure-only collaborator; the authentic registry and bindings remain private. */
+  bridgeSecurity(): BridgeSessionSecurity {
+    return (this.#bridgeSecurity ??= new BridgeSessionSecurity((handle) => this.binding(handle)));
   }
   private async hint(client: Client, digest: string) {
     const row = oneRow(

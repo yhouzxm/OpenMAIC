@@ -23,7 +23,7 @@ describe('E8 exact migration/ACL (static, not PG16 parser proof)', () => {
   it('includes 0010–0011 and preserves old Git bytes/checksums', async () => {
     const files = await loadMigrationFiles();
     expect(files.map((f) => f.version)).toEqual(
-      Array.from({ length: 11 }, (_, i) => (i + 1).toString().padStart(4, '0')),
+      Array.from({ length: 12 }, (_, i) => (i + 1).toString().padStart(4, '0')),
     );
     for (const [i, file] of files.slice(0, 10).entries()) {
       expect(

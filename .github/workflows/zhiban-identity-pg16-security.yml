@@ -89,6 +89,7 @@ jobs:
             pnpm exec vitest run tests/zhiban/identity/postgres/pg16-membership-composition.test.ts
             pnpm exec vitest run tests/zhiban/identity/postgres/pg16-identity-http.test.ts
             pnpm exec vitest run tests/zhiban/identity/postgres/pg16-manual-recovery.test.ts
+            pnpm exec vitest run tests/zhiban/identity/postgres/pg16-bridge.test.ts --reporter=verbose
             echo "PG16 SUITE RUN ${pass} PASS"
           done
       - name: Recovery PostgreSQL 16 verification (two complete runs)
@@ -117,6 +118,9 @@ jobs:
           pnpm exec vitest run tests/zhiban/identity/postgres/membership-composition-schema.test.ts
           pnpm exec vitest run tests/zhiban/identity/http --maxWorkers=1 --no-file-parallelism
           pnpm exec vitest run tests/zhiban/identity/recovery tests/zhiban/identity/postgres/manual-recovery-schema.test.ts --maxWorkers=1 --no-file-parallelism
+          pnpm --filter @openmaic/dsl build
+          pnpm --filter @openmaic/storage build
+          pnpm exec vitest run tests/zhiban/bridge --maxWorkers=1 --no-file-parallelism
       - name: Recovery repair static and composition regression
         if: env.IDENTITY_SUITE == 'recovery'
         shell: bash

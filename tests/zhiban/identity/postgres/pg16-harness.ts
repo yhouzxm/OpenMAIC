@@ -14,6 +14,7 @@ if (process.env.ZB_PG16_REQUIRED === '1' && !configured) {
 
 const databaseName = 'zhiban_pg16_test';
 const roleNames = [
+  'zhiban_bridge_runtime',
   'zhiban_runtime',
   'zhiban_auth_runtime',
   'zhiban_control_runtime',
@@ -21,7 +22,12 @@ const roleNames = [
   'zhiban_identity_owner',
   'zhiban_pg16_intermediate',
 ] as const;
-const runtimeNames = ['zhiban_runtime', 'zhiban_auth_runtime', 'zhiban_control_runtime'] as const;
+const runtimeNames = [
+  'zhiban_runtime',
+  'zhiban_auth_runtime',
+  'zhiban_control_runtime',
+  'zhiban_bridge_runtime',
+] as const;
 type RuntimeName = (typeof runtimeNames)[number];
 export type IdentityTestRole = RuntimeName | 'zhiban_migrator';
 
@@ -128,7 +134,13 @@ export function runBootstrap(): { success: boolean; output: string } {
       import.meta.url,
     ),
   );
-  const result = spawnSync('psql', ['-X', '-f', sqlPath], {
+  const bridgePath = fileURLToPath(
+    new URL(
+      '../../../../lib/zhiban/infrastructure/identity/postgres/bootstrap-bridge-roles.pg16.sql',
+      import.meta.url,
+    ),
+  );
+  const result = spawnSync('psql', ['-X', '-f', sqlPath, '-f', bridgePath], {
     env: {
       ...process.env,
       PGHOST: url.hostname,
@@ -182,7 +194,7 @@ export async function prepareSchema(): Promise<void> {
   if (!bootstrap.success) throw new Error(`Identity bootstrap failed: ${bootstrap.output}`);
   await provisionRolePasswords();
   const completed = await applyRealMigrations();
-  if (completed.join(',') !== '0001,0002,0003,0004,0005,0006,0007,0008,0009,0010,0011') {
+  if (completed.join(',') !== '0001,0002,0003,0004,0005,0006,0007,0008,0009,0010,0011,0012') {
     throw new Error('Identity migrations did not apply from an empty database.');
   }
 }
