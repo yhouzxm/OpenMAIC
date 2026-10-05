@@ -2,7 +2,6 @@ import { beforeAll, beforeEach, afterEach, afterAll, describe, it, expect } from
 import { readFile } from 'node:fs/promises';
 import type { Pool, Client } from 'pg';
 import { createHash } from 'node:crypto';
-import { createRequire } from 'node:module';
 import {
   configured,
   adminClient,
@@ -86,8 +85,8 @@ describe
         runtimeProtocol: '0.1.0',
       });
       expect(process.version).toMatch(/^v22\./);
-      const require = createRequire(import.meta.url),
-        bytes = await readFile(require.resolve('@openmaic/storage/runtime/pg'));
+      const artifact = new URL(import.meta.resolve('@openmaic/storage/runtime/pg'));
+      const bytes = await readFile(artifact);
       expect(createHash('sha256').update(bytes).digest('hex')).toBe(proof.artifactDigest);
       verifier = await new Argon2PasswordHasher(syntheticPasswordScreening).hash(
         'Synthetic-C9-PG16-password!',

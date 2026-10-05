@@ -127,3 +127,27 @@ console.log(JSON.stringify({
   expect(result.digest).toBe(createHash('sha256').update(readFileSync(expected)).digest('hex'));
   expect(result.commonJsError).toBe('ERR_PACKAGE_PATH_NOT_EXPORTED');
 });
+it('PG16 fixture uses ESM artifact resolution and retains its receipt hash comparison', () => {
+  const fixture = readFileSync(
+    'tests/zhiban/identity/postgres/pg16-runtime-foundation.test.ts',
+    'utf8',
+  );
+  expect(fixture).not.toMatch(/createRequire|require\.resolve/);
+  expect(fixture).toContain(
+    "const artifact = new URL(import.meta.resolve('@openmaic/storage/runtime/pg'));",
+  );
+  expect(fixture).toContain('const bytes = await readFile(artifact);');
+  expect(fixture).toContain(
+    "expect(createHash('sha256').update(bytes).digest('hex')).toBe(proof.artifactDigest);",
+  );
+  // The PG16 hook runs under Vitest; verify that runner's import resolver too.
+  const artifact = new URL(import.meta.resolve('@openmaic/storage/runtime/pg'));
+  expect(artifact.href).toBe(
+    pathToFileURL(resolve('packages/@openmaic/storage/dist/runtime/pg.js')).href,
+  );
+  expect(createHash('sha256').update(readFileSync(artifact)).digest('hex')).toBe(
+    createHash('sha256')
+      .update(readFileSync('packages/@openmaic/storage/dist/runtime/pg.js'))
+      .digest('hex'),
+  );
+});
