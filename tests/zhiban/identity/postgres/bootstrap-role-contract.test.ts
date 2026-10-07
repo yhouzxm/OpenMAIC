@@ -1,6 +1,26 @@
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import * as harness from './pg16-harness';
+
+const fixture = vi.hoisted(() => ({
+  query: vi.fn(),
+  connect: vi.fn(),
+  end: vi.fn(),
+  spawn: vi.fn(),
+}));
+vi.mock('node:child_process', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('node:child_process')>()),
+  spawnSync: fixture.spawn,
+}));
+vi.mock('pg', () => ({
+  Client: class {
+    query = fixture.query;
+    connect = fixture.connect;
+    end = fixture.end;
+  },
+  Pool: class {},
+}));
 
 const postgresRoot = new URL(
   '../../../../lib/zhiban/infrastructure/identity/postgres/',
@@ -132,4 +152,128 @@ describe('Identity role bootstrap static contract (real PG16 behavior remains un
       third.indexOf('GRANT SELECT, INSERT ON zhiban_identity.memberships'),
     );
   });
+});
+
+describe('disposable harness rejects unsafe LOCAL inputs before mutation', () => {
+  beforeEach(() => {
+    vi.stubEnv('ZB_PG16_EXECUTION_MODE', 'LOCAL');
+    vi.stubEnv('ZB_PG16_DISPOSABLE', '1');
+    vi.stubEnv('ZB_PG16_ADMIN_URL', 'postgresql://postgres@127.0.0.1:55432/zhiban_pg16_test');
+    vi.stubEnv('GITHUB_ACTIONS', undefined);
+    vi.stubEnv('GITHUB_SHA', undefined);
+    fixture.query.mockReset();
+    fixture.spawn.mockReset().mockReturnValue({ status: 0, stderr: '' });
+    fixture.query.mockImplementation(async (sql: string) => {
+      if (sql.includes('SELECT version()'))
+        return {
+          rows: [
+            {
+              version: 'PostgreSQL 16.0',
+              server_version: '16.0',
+              database_name: 'zhiban_pg16_test',
+              session_user: 'postgres',
+            },
+          ],
+        };
+      if (sql.includes("current_setting('port')"))
+        return { rows: [{ port: '55432', directory: '/var/lib/postgresql/16/zhiban_test' }] };
+      if (sql.includes('FROM pg_database'))
+        return { rows: [{ datname: 'zhiban_pg16_test' }, { datname: 'postgres' }] };
+      if (sql.includes('FROM pg_roles')) return { rows: [{ rolname: 'postgres' }] };
+      if (sql.includes('FROM pg_namespace')) return { rows: [{ nspname: 'public' }] };
+      return { rows: [{ count: '0' }] };
+    });
+  });
+  afterEach(() => vi.unstubAllEnvs());
+  it.each([
+    ['ZB_PG16_EXECUTION_MODE', 'UNKNOWN'],
+    ['ZB_PG16_DISPOSABLE', '0'],
+    ['GITHUB_ACTIONS', 'true'],
+    ['GITHUB_SHA', 'fake'],
+    ['ZB_PG16_ADMIN_URL', 'postgresql://postgres@127.0.0.1:5432/zhiban_pg16_test'],
+    ['ZB_PG16_ADMIN_URL', 'postgresql://postgres@remote:55432/zhiban_pg16_test'],
+    ['ZB_PG16_ADMIN_URL', 'postgresql://postgres@127.0.0.1:55432/production'],
+    ['ZB_PG16_ADMIN_URL', 'postgresql://application@127.0.0.1:55432/zhiban_pg16_test'],
+    [
+      'ZB_PG16_ADMIN_URL',
+      'postgresql://postgres@127.0.0.1:55432/zhiban_pg16_test?options=-csearch_path=public',
+    ],
+  ])('rejects %s=%s without a query', async (key, value) => {
+    vi.stubEnv(key, value);
+    await expect(harness.resetDisposableIdentity()).rejects.toThrow();
+    expect(fixture.query).not.toHaveBeenCalled();
+    expect(() => harness.runBootstrap()).toThrow();
+    expect(fixture.spawn).not.toHaveBeenCalled();
+  });
+  it.each([
+    [
+      'SELECT version()',
+      {
+        version: 'PostgreSQL 18.0',
+        server_version: '18.0',
+        database_name: 'zhiban_pg16_test',
+        session_user: 'postgres',
+      },
+    ],
+    ["current_setting('port')", { port: '55432', directory: '/var/lib/postgresql/16/main' }],
+    ['FROM pg_database', { datname: 'unrelated' }],
+    ['FROM pg_roles', { rolname: 'unrelated' }],
+    ['FROM pg_namespace', { nspname: 'unrelated' }],
+    ['SELECT count(*)', { count: '1' }],
+  ])('rejects cluster mismatch in %s before DROP', async (match, row) => {
+    const original = fixture.query.getMockImplementation()!;
+    fixture.query.mockImplementation((sql: string) =>
+      sql.includes(match) ? Promise.resolve({ rows: [row] }) : original(sql),
+    );
+    await expect(harness.resetDisposableIdentity()).rejects.toThrow();
+    expect(fixture.query.mock.calls.every(([sql]) => !/DROP|ALTER|CREATE/.test(sql))).toBe(true);
+  });
+  it('accepts only the dedicated PG16 cluster metadata', async () => {
+    expect(await harness.verifyPg16()).toBe('16.0');
+  });
+  it.each(['LOCAL', 'GITHUB_ACTIONS', undefined])(
+    'keeps bootstrap on the validated target despite libpq redirection in mode %s',
+    (mode) => {
+      vi.stubEnv('ZB_PG16_EXECUTION_MODE', mode);
+      if (mode !== 'LOCAL') vi.stubEnv('GITHUB_ACTIONS', 'true');
+      vi.stubEnv('PGSERVICE', 'unrelated-cluster');
+      vi.stubEnv('PGSERVICEFILE', '/unrelated/pg_service.conf');
+      vi.stubEnv('PGHOSTADDR', '127.0.0.2');
+      vi.stubEnv('PGHOST', 'unrelated');
+      vi.stubEnv('PGPORT', '55433');
+      vi.stubEnv('PGDATABASE', 'unrelated');
+      vi.stubEnv('PGUSER', 'unrelated');
+      vi.stubEnv('PGPASSFILE', '/local/test-only.pgpass');
+      vi.stubEnv(
+        'ZB_PG16_ADMIN_URL',
+        'postgresql://postgres:test%3Aonly%40bootstrap@127.0.0.1:55432/zhiban_pg16_test',
+      );
+      expect(harness.runBootstrap().success).toBe(true);
+      const [program, args, options] = fixture.spawn.mock.calls[0];
+      expect(program).toBe('psql');
+      expect(args.slice(0, 9)).toEqual([
+        '-X',
+        '--host',
+        '127.0.0.1',
+        '--port',
+        '55432',
+        '--dbname',
+        'zhiban_pg16_test',
+        '--username',
+        'postgres',
+      ]);
+      for (const key of ['PGSERVICE', 'PGSERVICEFILE', 'PGHOSTADDR'])
+        expect(options.env).not.toHaveProperty(key);
+      expect(options.env).toMatchObject({
+        PGHOST: '127.0.0.1',
+        PGPORT: '55432',
+        PGDATABASE: 'zhiban_pg16_test',
+        PGUSER: 'postgres',
+        PGPASSFILE: '/local/test-only.pgpass',
+        PGPASSWORD: 'test:only@bootstrap',
+      });
+      expect(args.join(' ')).not.toContain('test:only@bootstrap');
+      expect(args.join(' ')).not.toContain('test%3Aonly%40bootstrap');
+    },
+  );
 });

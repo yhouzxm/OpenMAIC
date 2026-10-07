@@ -32,17 +32,31 @@ type RuntimeName = (typeof runtimeNames)[number];
 export type IdentityTestRole = RuntimeName | 'zhiban_migrator';
 
 function testUrl(): URL {
+  const adminUrl = process.env.ZB_PG16_ADMIN_URL;
   if (!adminUrl) throw new Error('ZB_PG16_ADMIN_URL is not configured.');
   const url = new URL(adminUrl);
+  const local = process.env.ZB_PG16_EXECUTION_MODE === 'LOCAL';
+  const ci =
+    process.env.ZB_PG16_EXECUTION_MODE === undefined ||
+    process.env.ZB_PG16_EXECUTION_MODE === 'GITHUB_ACTIONS';
   if (
-    process.env.GITHUB_ACTIONS !== 'true' ||
+    !(local
+      ? process.env.GITHUB_ACTIONS === undefined &&
+        process.env.GITHUB_SHA === undefined &&
+        url.port === '55432' &&
+        process.version.startsWith('v22.') &&
+        process.platform === 'linux' &&
+        process.arch === 'x64'
+      : ci && process.env.GITHUB_ACTIONS === 'true') ||
     process.env.ZB_PG16_DISPOSABLE !== '1' ||
     !['postgres:', 'postgresql:'].includes(url.protocol) ||
     !['localhost', '127.0.0.1'].includes(url.hostname) ||
     url.pathname !== `/${databaseName}` ||
-    url.username !== 'postgres'
+    url.username !== 'postgres' ||
+    url.search !== '' ||
+    url.hash !== ''
   ) {
-    throw new Error('Refusing PostgreSQL tests outside the disposable GitHub Actions database.');
+    throw new Error('Refusing PostgreSQL tests outside the declared disposable environment.');
   }
   return url;
 }
@@ -95,13 +109,51 @@ export async function verifyPg16(): Promise<string> {
     ) {
       throw new Error('WRONG_POSTGRES_VERSION or non-disposable administrator connection.');
     }
+    if (process.env.ZB_PG16_EXECUTION_MODE === 'LOCAL') {
+      const identity = await client.query<{ port: string; directory: string }>(
+        "SELECT current_setting('port') AS port, current_setting('data_directory') AS directory",
+      );
+      const databases = await client.query<{ datname: string }>('SELECT datname FROM pg_database');
+      const roles = await client.query<{ rolname: string }>(
+        "SELECT rolname FROM pg_roles WHERE rolname !~ '^pg_'",
+      );
+      const schemas = await client.query<{ nspname: string }>(
+        "SELECT nspname FROM pg_namespace WHERE nspname !~ '^pg_'",
+      );
+      if (
+        identity.rows[0]?.port !== '55432' ||
+        identity.rows[0]?.directory !== '/var/lib/postgresql/16/zhiban_test' ||
+        databases.rows.some(
+          (r) => !['postgres', 'template0', 'template1', databaseName].includes(r.datname),
+        ) ||
+        roles.rows.some(
+          (r) => !['postgres', ...roleNames].includes(r.rolname as (typeof roleNames)[number]),
+        ) ||
+        schemas.rows.some(
+          (r) =>
+            ![
+              'public',
+              'information_schema',
+              'zhiban_identity',
+              'zhiban_bridge',
+              'zhiban_runtime_contract_test',
+            ].includes(r.nspname),
+        )
+      ) {
+        throw new Error('LOCAL cluster isolation rejected; no reset is allowed.');
+      }
+      const publicObjects = await client.query<{ count: string }>(
+        "SELECT count(*) FROM (SELECT oid FROM pg_class WHERE relnamespace='public'::regnamespace UNION ALL SELECT oid FROM pg_proc WHERE pronamespace='public'::regnamespace) objects",
+      );
+      if (publicObjects.rows[0]?.count !== '0') throw new Error('LOCAL public objects rejected.');
+    }
     return row.server_version;
   } finally {
     await client.end();
   }
 }
 
-/** Only callable after verifyPg16; all names and the database are fixed CI fixtures. */
+/** verifyPg16 guards every reset; all names and the dedicated cluster are test fixtures. */
 export async function resetDisposableIdentity(): Promise<void> {
   await verifyPg16();
   const client = adminClient();
@@ -140,19 +192,41 @@ export function runBootstrap(): { success: boolean; output: string } {
       import.meta.url,
     ),
   );
-  const result = spawnSync('psql', ['-X', '-f', sqlPath, '-f', bridgePath], {
-    env: {
-      ...process.env,
-      PGHOST: url.hostname,
-      PGPORT: url.port || '5432',
-      PGDATABASE: databaseName,
-      PGUSER: url.username,
-      PGPASSWORD: decodeURIComponent(url.password),
-      PGOPTIONS: '-c client_min_messages=warning',
+  // libpq service settings override environment defaults; hostaddr also bypasses host.
+  // Preserve pgpass authentication, but bind bootstrap to the validated URL only.
+  const environment = { ...process.env };
+  for (const key of ['PGSERVICE', 'PGSERVICEFILE', 'PGHOSTADDR']) delete environment[key];
+  const result = spawnSync(
+    'psql',
+    [
+      '-X',
+      '--host',
+      url.hostname,
+      '--port',
+      url.port || '5432',
+      '--dbname',
+      databaseName,
+      '--username',
+      url.username,
+      '-f',
+      sqlPath,
+      '-f',
+      bridgePath,
+    ],
+    {
+      env: {
+        ...environment,
+        PGHOST: url.hostname,
+        PGPORT: url.port || '5432',
+        PGDATABASE: databaseName,
+        PGUSER: url.username,
+        PGPASSWORD: decodeURIComponent(url.password),
+        PGOPTIONS: '-c client_min_messages=warning',
+      },
+      encoding: 'utf8',
+      timeout: 30_000,
     },
-    encoding: 'utf8',
-    timeout: 30_000,
-  });
+  );
   if (result.error) throw new Error(`psql bootstrap could not run: ${result.error.message}`);
   return { success: result.status === 0, output: (result.stderr || '').slice(0, 2000) };
 }

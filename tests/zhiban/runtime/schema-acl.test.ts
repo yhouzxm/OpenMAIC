@@ -1,9 +1,11 @@
 import { it, expect } from 'vitest';
-import { readFileSync, readdirSync } from 'node:fs';
+import { readFileSync, readdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { validateSuiteReport, localVitestArguments, localPg16Passes } from './run-local.mjs';
 const sql = readFileSync('tests/zhiban/runtime/schema.sql', 'utf8');
 it('fixture inventory is outside 13 applied migrations; exact public and column capabilities', () => {
   expect(
@@ -78,8 +80,13 @@ it('provider receipt preserves provenance and hashes the ESM-resolved artifact',
   const script = readFileSync('tests/zhiban/runtime/prepare-provider.mjs', 'utf8');
   expect(script).not.toMatch(/createRequire|require\.resolve/);
   for (const guard of [
-    "process.env.GITHUB_ACTIONS !== 'true'",
-    'head !== process.env.GITHUB_SHA',
+    "executionMode === 'GITHUB_ACTIONS'",
+    "process.env.GITHUB_ACTIONS === 'true'",
+    'head === process.env.GITHUB_SHA',
+    'head === process.env.ZB_PG16_EXPECTED_HEAD',
+    'process.env.GITHUB_ACTIONS === undefined',
+    'process.env.GITHUB_SHA === undefined',
+    'candidatePatchDigest:',
     "!process.version.startsWith('v22.')",
     "process.platform !== 'linux'",
     "process.arch !== 'x64'",
@@ -151,3 +158,150 @@ it('PG16 fixture uses ESM artifact resolution and retains its receipt hash compa
       .digest('hex'),
   );
 });
+
+it('LOCAL receipts reject mixed origin and tampered evidence without GitHub impersonation', () => {
+  const directory = mkdtempSync(resolve(tmpdir(), 'c9-local-receipt-'));
+  const path = resolve(directory, 'receipt.json');
+  const head = execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();
+  const env: NodeJS.ProcessEnv = {
+    ...process.env,
+    ZB_PG16_EXECUTION_MODE: 'LOCAL',
+    ZB_PG16_EXPECTED_HEAD: head,
+  };
+  delete env.GITHUB_ACTIONS;
+  delete env.GITHUB_SHA;
+  const run = (mode: string, environment = env) =>
+    execFileSync(process.execPath, ['tests/zhiban/runtime/prepare-provider.mjs', mode, path], {
+      env: environment,
+      stdio: 'pipe',
+    });
+  try {
+    run('--receipt');
+    const proof = JSON.parse(readFileSync(path, 'utf8'));
+    expect(proof.executionMode).toBe('LOCAL');
+    expect(proof.head).toBe(head);
+    run('--verify');
+    for (const field of [
+      'executionMode',
+      'head',
+      'node',
+      'sourceDigest',
+      'lockDigest',
+      'artifactDigest',
+      'candidatePatchDigest',
+    ]) {
+      writeFileSync(path, JSON.stringify({ ...proof, [field]: 'tampered' }));
+      expect(() => run('--verify')).toThrow();
+    }
+    writeFileSync(path, JSON.stringify(proof));
+    expect(() => run('--receipt', { ...env, GITHUB_ACTIONS: 'true' })).toThrow();
+    expect(() => run('--receipt', { ...env, GITHUB_SHA: head })).toThrow();
+    expect(() => run('--receipt', { ...env, ZB_PG16_EXPECTED_HEAD: 'wrong' })).toThrow();
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+}, 15000);
+
+const localRequiredFiles = [
+  'tests/zhiban/runtime/contracts.test.ts',
+  'tests/zhiban/runtime/records.test.ts',
+];
+it('LOCAL real-PG timing budget retains serial execution and never changes hermetic/hook/retry policy', () => {
+  const real = localVitestArguments(localRequiredFiles, '/tmp/real-report.json', true);
+  const hermetic = localVitestArguments(localRequiredFiles, '/tmp/hermetic-report.json');
+  expect(real.filter((a) => a.startsWith('--testTimeout='))).toEqual(['--testTimeout=15000']);
+  expect(hermetic.some((a) => a.startsWith('--testTimeout='))).toBe(false);
+  for (const args of [real, hermetic]) {
+    expect(args).toContain('--maxWorkers=1');
+    expect(args).toContain('--no-file-parallelism');
+    expect(args.some((a) => /hookTimeout|retry/.test(a))).toBe(false);
+  }
+});
+it('LOCAL explicit second pass runs only pass 2 while ordinary PG/full retain both passes', () => {
+  expect(localPg16Passes('pg-second')).toEqual([2]);
+  expect(localPg16Passes('pg')).toEqual([1, 2]);
+  expect(localPg16Passes('all')).toEqual([1, 2]);
+  expect(localPg16Passes('nonpg')).toEqual([]);
+  expect(() => localPg16Passes('unknown')).toThrow();
+});
+const localReport = () => ({
+  success: true,
+  testResults: localRequiredFiles.map((name) => ({
+    name: resolve(name),
+    status: 'passed',
+    assertionResults: [{ status: 'passed' }],
+  })),
+});
+it('LOCAL collection accepts every requested file exactly once regardless of report order', () => {
+  const result = localReport();
+  result.testResults.reverse();
+  expect(validateSuiteReport(localRequiredFiles, result)).toBe(2);
+  expect(() => validateSuiteReport([], { success: true, testResults: [] })).toThrow();
+  expect(() =>
+    validateSuiteReport([...localRequiredFiles, localRequiredFiles[0]], result),
+  ).toThrow();
+});
+it.each([
+  'missing',
+  'unexpected',
+  'duplicate',
+  'empty',
+  'skipped',
+  'pending',
+  'todo',
+  'failed',
+  'failed-suite',
+  'unsuccessful',
+])('LOCAL collection rejects %s evidence', (scenario) => {
+  const result = localReport();
+  const file = result.testResults[1];
+  switch (scenario) {
+    case 'missing':
+      result.testResults.pop();
+      break;
+    case 'unexpected':
+      file.name = resolve('tests/zhiban/runtime/unrequested.test.ts');
+      break;
+    case 'duplicate':
+      file.name = result.testResults[0].name;
+      break;
+    case 'empty':
+      file.assertionResults = [];
+      break;
+    case 'failed-suite':
+      file.status = 'failed';
+      break;
+    case 'unsuccessful':
+      result.success = false;
+      break;
+    default:
+      file.assertionResults[0].status = scenario;
+  }
+  expect(() => validateSuiteReport(localRequiredFiles, result)).toThrow();
+});
+it('LOCAL collection rejects a genuinely omitted Vitest file even when Vitest exits successfully', () => {
+  const directory = mkdtempSync(resolve(tmpdir(), 'c9-local-collection-'));
+  const path = resolve(directory, 'report.json');
+  const requested = [localRequiredFiles[0], resolve(directory, 'missing-required.test.ts')];
+  try {
+    execFileSync(
+      process.execPath,
+      [
+        'node_modules/vitest/vitest.mjs',
+        'run',
+        ...requested,
+        '--maxWorkers=1',
+        '--no-file-parallelism',
+        '--reporter=json',
+        '--outputFile=' + path,
+      ],
+      { stdio: 'pipe', timeout: 30000 },
+    );
+    const result = JSON.parse(readFileSync(path, 'utf8'));
+    expect(result.success).toBe(true);
+    expect(validateSuiteReport([requested[0]], result)).toBeGreaterThan(0);
+    expect(() => validateSuiteReport(requested, result)).toThrow();
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+}, 35000);

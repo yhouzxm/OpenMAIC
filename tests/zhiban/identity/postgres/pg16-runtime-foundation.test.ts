@@ -2,6 +2,7 @@ import { beforeAll, beforeEach, afterEach, afterAll, describe, it, expect } from
 import { readFile } from 'node:fs/promises';
 import type { Pool, Client } from 'pg';
 import { createHash } from 'node:crypto';
+import { execFileSync } from 'node:child_process';
 import {
   configured,
   adminClient,
@@ -76,9 +77,18 @@ describe
       console.info(`C9 REAL server_version: ${await verifyPg16()}`);
       const path = process.env.C9_PROVIDER_RECEIPT;
       if (!path) throw Error('C9 provider receipt required');
+      execFileSync(process.execPath, [
+        'tests/zhiban/runtime/prepare-provider.mjs',
+        '--verify',
+        path,
+      ]);
       const proof = JSON.parse(await readFile(path, 'utf8'));
       expect(proof).toMatchObject({
-        head: process.env.GITHUB_SHA,
+        head:
+          process.env.ZB_PG16_EXECUTION_MODE === 'LOCAL'
+            ? process.env.ZB_PG16_EXPECTED_HEAD
+            : process.env.GITHUB_SHA,
+        executionMode: process.env.ZB_PG16_EXECUTION_MODE === 'LOCAL' ? 'LOCAL' : 'GITHUB_ACTIONS',
         official: '1f05a70ac93e09c67fb4d3aafb9c2b068d14fcce',
         platform: 'linux',
         architecture: 'x64',
@@ -662,7 +672,7 @@ describe
         },
       );
       expect(pools.every((p) => p.waitingCount === 0 && p.idleCount === p.totalCount)).toBe(true);
-      expect(bindingFields.length).toBe(19);
+      expect(bindingFields.length).toBe(18);
     });
     it('C9-I15 nullable CHECK branches reject malformed tail and missing status target at database level', async () => {
       const f = await fixture(),

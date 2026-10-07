@@ -290,3 +290,7 @@ COMMIT: NO
 PUSH: NO
 
 CI_DISPATCH: NO
+
+## 2026-10-07 LOCAL execution environment supplement
+
+The separately authorized [Ubuntu LOCAL PG16 continuation](phase1b-9c-local-pg16.md) adds an explicit disposable LOCAL branch to the C9-P02/P07 execution-environment gate. It preserves the original GitHub Actions path and all frozen production/schema/ACL contracts, requires dedicated-cluster verification and marks local provenance/results LOCAL. It does not replace required CI signoff or authorize commit/push/dispatch.

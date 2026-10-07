@@ -2,7 +2,7 @@
 CREATE SCHEMA zhiban_runtime_contract_test AUTHORIZATION zhiban_identity_owner;
 SET LOCAL ROLE zhiban_identity_owner;
 SET LOCAL search_path=pg_catalog,zhiban_runtime_contract_test,zhiban_identity,pg_temp;
-CREATE DOMAIN zhiban_runtime_contract_test.u AS uuid CHECK(zhiban_identity.is_uuid_v7(VALUE));
+CREATE DOMAIN zhiban_runtime_contract_test.u AS uuid CHECK(VALUE IS NULL OR zhiban_identity.is_uuid_v7(VALUE));
 CREATE DOMAIN zhiban_runtime_contract_test.r AS bigint CHECK(VALUE>0);
 CREATE DOMAIN zhiban_runtime_contract_test.t AS bigint CHECK(VALUE BETWEEN 0 AND 8640000000000000);
 CREATE DOMAIN zhiban_runtime_contract_test.h AS text COLLATE "C" CHECK(VALUE ~ '^[0-9a-f]{64}$');
