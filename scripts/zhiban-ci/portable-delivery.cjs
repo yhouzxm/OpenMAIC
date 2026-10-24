@@ -90,19 +90,27 @@ def require(ok,msg):
  if not ok: raise RuntimeError(msg)
 with tarfile.open(sys.argv[1],'r:gz') as t:
  members=t.getmembers();require(len(members)<=20000,'entry count')
- seen=set();total=0
+ seen=set();dirs=set();files=set();total=0;entries=[]
  for m in members:
-  p=pathlib.PurePosixPath(m.name)
-  require(m.isfile() and m.type in (tarfile.REGTYPE,tarfile.AREGTYPE) and not m.sparse,'regular files only')
-  require(not p.is_absolute() and str(p)==m.name and '..' not in p.parts and '\\' not in m.name and len(m.name)<=512 and all(ord(c)>=32 for c in m.name),'path rejected')
-  require(m.name.startswith(('install/','restore/')) or m.name in ('DELIVERY.json','baseline.json','LOCAL_CLOSEOUT.json'),'unexpected top level')
-  require(m.name not in seen and 0<=m.size<=536870912,'duplicate/large entry');seen.add(m.name);total+=m.size
- require(total<=2147483648 and 'DELIVERY.json' in seen,'size/manifest')
+  name=m.name.rstrip('/') if m.isdir() else m.name
+  p=pathlib.PurePosixPath(name)
+  require((m.isfile() and m.type in (tarfile.REGTYPE,tarfile.AREGTYPE) and not m.sparse) or (m.isdir() and m.type==tarfile.DIRTYPE and m.size==0),'regular files/directories only')
+  require(not p.is_absolute() and str(p)==name and '..' not in p.parts and chr(92) not in name and len(name)<=512 and all(ord(c)>=32 for c in name),'path rejected')
+  require(m.name in (name,name+'/') and (not m.name.endswith('/') or m.isdir()),'canonical entry')
+  require(name.startswith(('install/','restore/')) or name in ('install','restore','DELIVERY.json','baseline.json','LOCAL_CLOSEOUT.json'),'unexpected top level')
+  require(name not in seen and 0<=m.size<=536870912,'duplicate/large entry');seen.add(name);total+=m.size
+  (dirs if m.isdir() else files).add(name);entries.append((m,name))
+ require(total<=2147483648 and 'DELIVERY.json' in files,'size/manifest')
  manifest=json.load(t.extractfile('DELIVERY.json'))
- require(manifest.get('kind')=='ZHIBAN_PORTABLE_CI_DELIVERY_V1' and manifest.get('evidenceOrigin')=='LOCAL' and manifest.get('githubActions') is False,'manifest kind')
- require(set(manifest['files'])|{'DELIVERY.json'}==seen,'file closure')
- for m in members:
-  target=out/m.name;target.parent.mkdir(parents=True,exist_ok=True,mode=0o700)
+ require(manifest.get('kind')=='ZHIBAN_PORTABLE_CI_DELIVERY_V2' and manifest.get('evidenceOrigin')=='LOCAL' and manifest.get('githubActions') is False,'manifest kind')
+ require(set(manifest['files'])|{'DELIVERY.json'}==files,'file closure')
+ require(isinstance(manifest.get('directories'),list) and len(manifest['directories'])==len(set(manifest['directories'])) and set(manifest['directories'])==dirs,'directory closure')
+ require(all(str(parent) in dirs for name in seen for parent in pathlib.PurePosixPath(name).parents if str(parent)!='.'),'parent directory closure')
+ for name in sorted(dirs,key=lambda n:(n.count('/'),n)):
+  (out/name).mkdir(mode=0o700)
+ for m,name in entries:
+  if m.isdir():continue
+  target=out/name
   h=hashlib.sha256()
   with open(target,'xb') as f:
    stream=t.extractfile(m)
@@ -111,7 +119,7 @@ with tarfile.open(sys.argv[1],'r:gz') as t:
     if not chunk:break
     h.update(chunk);f.write(chunk)
   os.chmod(target,0o600)
-  if m.name!='DELIVERY.json':require(h.hexdigest()==manifest['files'][m.name],'file hash')
+  if name!='DELIVERY.json':require(h.hexdigest()==manifest['files'][name],'file hash')
 `;
 function extractDelivery(archive, destination) {
   newPath(destination);
@@ -127,14 +135,34 @@ function extractDelivery(archive, destination) {
     throw Error('Delivery extraction rejected; no published plaintext directory');
   }
 }
+function directories(root, prefix = '') {
+  const result = [];
+  for (const entry of fs.readdirSync(path.join(root, prefix), { withFileTypes: true })) {
+    check(
+      !entry.isSymbolicLink() && (entry.isFile() || entry.isDirectory()),
+      'Directory closure type rejected',
+    );
+    if (entry.isDirectory()) {
+      const name = path.posix.join(prefix, entry.name);
+      result.push(name, ...directories(root, name));
+    }
+  }
+  return result.sort();
+}
 function validateDelivery(root) {
   portable.privatePath(root, true);
   const m = readJson(path.join(root, 'DELIVERY.json'));
   check(
-    m.kind === 'ZHIBAN_PORTABLE_CI_DELIVERY_V1' &&
+    m.kind === 'ZHIBAN_PORTABLE_CI_DELIVERY_V2' &&
       m.evidenceOrigin === 'LOCAL' &&
       m.githubActions === false,
     'Delivery origin rejected',
+  );
+  check(
+    Array.isArray(m.directories) &&
+      m.directories.every((name) => typeof name === 'string') &&
+      JSON.stringify([...m.directories].sort()) === JSON.stringify(directories(root)),
+    'Delivery directory closure rejected',
   );
   const actual = portable.tree(root, '', true);
   delete actual['DELIVERY.json'];
@@ -239,7 +267,7 @@ async function prepare(kit, restore, baseline, closeout, output, keyFile) {
     privateTree(stage);
     phase = 'TRANSPORT_MANIFEST';
     const delivery = {
-      kind: 'ZHIBAN_PORTABLE_CI_DELIVERY_V1',
+      kind: 'ZHIBAN_PORTABLE_CI_DELIVERY_V2',
       evidenceOrigin: 'LOCAL',
       githubActions: false,
       installManifestSha256: c.release.manifestSha256,
@@ -251,6 +279,7 @@ async function prepare(kit, restore, baseline, closeout, output, keyFile) {
       sourceUid: process.getuid(),
       dataScope: 'EXISTING_SYNTHETIC_LOCAL_THREE_DATABASES_NOT_PRODUCTION',
       createdAt: new Date().toISOString(),
+      directories: directories(stage),
       files: portable.tree(stage, '', true),
     };
     fs.writeFileSync(path.join(stage, 'DELIVERY.json'), JSON.stringify(delivery), {
@@ -262,10 +291,14 @@ async function prepare(kit, restore, baseline, closeout, output, keyFile) {
     phase = 'ARCHIVE_ENCRYPTION';
     const list = path.join(output, '.tar-list'),
       archive = path.join(output, '.plaintext.tar.gz');
-    fs.writeFileSync(list, ['DELIVERY.json', ...Object.keys(delivery.files)].join('\0') + '\0', {
-      mode: 0o600,
-      flag: 'wx',
-    });
+    fs.writeFileSync(
+      list,
+      ['DELIVERY.json', ...delivery.directories, ...Object.keys(delivery.files)].join('\0') + '\0',
+      {
+        mode: 0o600,
+        flag: 'wx',
+      },
+    );
     try {
       cp.execFileSync(
         'tar',
@@ -303,6 +336,8 @@ async function prepare(kit, restore, baseline, closeout, output, keyFile) {
       ciphertextSha256: await fileHash(path.join(output, 'portable-delivery.enc')),
       bytes: fs.statSync(path.join(output, 'portable-delivery.enc')).size,
       keyFile,
+      deliveryManifestKind: delivery.kind,
+      directoryCount: delivery.directories.length,
       sourceDigest: install.sourceDigest,
       installManifestSha256: delivery.installManifestSha256,
       restoreManifestSha256: delivery.restoreManifestSha256,
@@ -384,4 +419,5 @@ module.exports = {
   validateDelivery,
   prepare,
   privateTree,
+  directories,
 };

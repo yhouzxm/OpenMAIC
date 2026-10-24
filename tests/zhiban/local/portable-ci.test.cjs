@@ -77,11 +77,18 @@ function tarFixture(root, mode) {
     String.raw`
 import tarfile,io,json,hashlib,sys
 mode=sys.argv[2];plain=b'fixture'
-manifest={'kind':'ZHIBAN_PORTABLE_CI_DELIVERY_V1','evidenceOrigin':'LOCAL','githubActions':False,'files':{'baseline.json':hashlib.sha256(plain).hexdigest()}}
-if mode=='nested':manifest['files']['restore/one/two/fixture']=hashlib.sha256(plain).hexdigest()
+manifest={'kind':'ZHIBAN_PORTABLE_CI_DELIVERY_V2','evidenceOrigin':'LOCAL','githubActions':False,'directories':['restore','restore/empty'],'files':{'baseline.json':hashlib.sha256(plain).hexdigest()}}
+if mode=='nested':
+ manifest['files']['restore/one/two/fixture']=hashlib.sha256(plain).hexdigest();manifest['directories']+=['restore/one','restore/one/two']
+if mode=='legacy':manifest['kind']='ZHIBAN_PORTABLE_CI_DELIVERY_V1'
 with tarfile.open(sys.argv[1],'w:gz') as t:
  def put(name,data):
   m=tarfile.TarInfo(name);m.size=len(data);t.addfile(m,io.BytesIO(data))
+ for directory in manifest['directories']:
+  if mode=='missingdir' and directory=='restore/empty':continue
+  m=tarfile.TarInfo(directory);m.type=tarfile.DIRTYPE;t.addfile(m)
+ if mode in ('extradir','dirlink','duplicate-dir'):
+  m=tarfile.TarInfo('restore/unmanifested' if mode=='extradir' else 'restore/empty');m.type=tarfile.SYMTYPE if mode=='dirlink' else tarfile.DIRTYPE;m.linkname='/etc';t.addfile(m)
  put('DELIVERY.json',json.dumps(manifest).encode());put('baseline.json',plain)
  if mode=='nested':put('restore/one/two/fixture',plain)
  if mode=='traversal':put('restore/../../outside',b'blocked')
@@ -100,9 +107,21 @@ test('delivery extraction verifies exact file set and creates owner-only files',
   const destination = path.join(f.root, 'delivery');
   extractDelivery(tarFixture(f.root, 'valid'), destination);
   assert.equal(fs.readFileSync(path.join(destination, 'baseline.json'), 'utf8'), 'fixture');
+  assert.equal(fs.statSync(path.join(destination, 'restore/empty')).mode & 0o777, 0o700);
+  assert.deepEqual(fs.readdirSync(path.join(destination, 'restore/empty')), []);
   assert.equal(fs.statSync(path.join(destination, 'baseline.json')).mode & 0o777, 0o600);
 });
-for (const mode of ['traversal', 'duplicate', 'link', 'extra'])
+for (const mode of [
+  'traversal',
+  'duplicate',
+  'link',
+  'extra',
+  'missingdir',
+  'extradir',
+  'duplicate-dir',
+  'dirlink',
+  'legacy',
+])
   test('delivery ' + mode + ' rejects and removes its new directory', (t) => {
     const f = fixture(t);
     const destination = path.join(f.root, 'delivery');
