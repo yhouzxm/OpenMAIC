@@ -27,10 +27,6 @@ jobs:
     environment: zhiban-portable-acceptance
     env:
       PG16_DEB_VERSION: '16.15-1.pgdg24.04+2'
-      ACCEPTANCE_ROOT: ${{ runner.temp }}/zhiban-portable-${{ github.run_id }}-${{ github.run_attempt }}
-      ACCEPTANCE_REPORT: ${{ runner.temp }}/zhiban-portable-report-${{ github.run_id }}-${{ github.run_attempt }}.json
-      npm_config_store_dir: ${{ runner.temp }}/zhiban-portable-${{ github.run_id }}-${{ github.run_attempt }}/pnpm-store
-      npm_config_cache: ${{ runner.temp }}/zhiban-portable-${{ github.run_id }}-${{ github.run_attempt }}/npm-cache
     steps:
       - name: Require reviewed workflow revision and validated inputs
         env:
@@ -42,7 +38,13 @@ jobs:
           [[ "$APPROVED_WORKFLOW_SHA" =~ ^[a-f0-9]{40}$ && "$GITHUB_SHA" == "$APPROVED_WORKFLOW_SHA" ]]
           [[ "$ASSET_ID" =~ ^[0-9]+$ && "$CIPHER_SHA256" =~ ^[a-f0-9]{64}$ ]]
           umask 077
+          ACCEPTANCE_ROOT="$RUNNER_TEMP/zhiban-portable-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          ACCEPTANCE_REPORT="$RUNNER_TEMP/zhiban-portable-report-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT.json"
           mkdir "$ACCEPTANCE_ROOT"
+          printf '%s\n' "ACCEPTANCE_ROOT=$ACCEPTANCE_ROOT" \
+            "ACCEPTANCE_REPORT=$ACCEPTANCE_REPORT" \
+            "npm_config_store_dir=$ACCEPTANCE_ROOT/pnpm-store" \
+            "npm_config_cache=$ACCEPTANCE_ROOT/npm-cache" >> "$GITHUB_ENV"
           git config --global http.version HTTP/1.1
 
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
