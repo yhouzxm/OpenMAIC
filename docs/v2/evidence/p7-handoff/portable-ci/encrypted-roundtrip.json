@@ -1,0 +1,15 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-24T09:55:28.186Z",
+  "scope": "ACTUAL_FROZEN_PAYLOAD_ENCRYPT_AUTHENTICATE_EXTRACT_AND_VALIDATE_ONLY_NO_REMOTE_RUN",
+  "ciphertextSha256": "a35f89f43c05f529bd8191b7b877d1a19dbda35bfb6a82452f1bcf18f054c3f8",
+  "bytes": 267167876,
+  "files": 3128,
+  "sourceDigest": "a310b5758e14af73e614935f44dde97b933b4b2f9f15f6ddbd2a41548e47a18d",
+  "keyNeverLogged": true,
+  "uploaded": false,
+  "githubSecretsConfigured": false,
+  "ciExecuted": false
+}

@@ -1,0 +1,10 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "yaml": "js-yaml parse and workflow contract assertions",
+  "embeddedBashSteps": 6,
+  "prerequisiteScript": "bash -n PASS",
+  "actionsPins": "Exact official tag commits read via git HTTP/1.1",
+  "remoteExecution": false
+}

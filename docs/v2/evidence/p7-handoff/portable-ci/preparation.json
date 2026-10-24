@@ -1,0 +1,74 @@
+{
+  "kind": "LOCAL_PORTABLE_CI_PREPARATION_V1",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PREPARED_TECHNICALLY_REVIEWED_NOT_REMOTE_ACCEPTED",
+  "at": "2026-10-24T10:13:18.534Z",
+  "branch": "refactor/zhiban-v2",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "workflow": ".github/workflows/zhiban-portable-acceptance.yml",
+  "sourceHashes": {
+    ".github/workflows/zhiban-portable-acceptance.yml": "3a2e94755b5bb264bda6f3ec7ba9a0f2d84e1a1bfa0df771d9838b4f49bd0813",
+    "scripts/zhiban-ci/portable-delivery.cjs": "c0586fc96f46b7ef5a05feda0ba813bc8f875b9387c86563d718b00eae9055a2",
+    "scripts/zhiban-ci/portable-acceptance.cjs": "0c080c9e6e783db584aff89fe61352f4ff9b9553afaa6382bdc74708c73de3af",
+    "scripts/zhiban-ci/install-portable-prerequisites.sh": "8531401c9afcc4b8ede8e0d30e5cfc756e876ce6bff12ddc885d1553f0372ab5",
+    "scripts/zhiban-portable.cjs": "adc0b0dc7e92af13c643598e9dff7bd1a85ef3000a31b6b5336a9ea8c638db84",
+    "tests/zhiban/local/portable-ci.test.cjs": "e5f5d0b1b41bc8af03976066b7da51faa6fcddb3891515638be08e6a2a3b65d6",
+    "docs/v2/zhiban-v2-portable-ci-acceptance.md": "03577b606fa229bb30dacd1605b9ecb1e6021d55f6032d337026aa4682f0e43e",
+    "docs/v2/zhiban-v2-migration-completion-plan.md": "81b0c3c9361f6cc256ac42de597633a474881ccac3f09b2e342912fe5253ae48"
+  },
+  "applicationSourceDigest": "a310b5758e14af73e614935f44dde97b933b4b2f9f15f6ddbd2a41548e47a18d",
+  "transport": {
+    "ciphertext": "/home/zxm/.local/share/zhiban-portable-ci/delivery-20261024/portable-delivery.enc",
+    "ciphertextSha256": "a35f89f43c05f529bd8191b7b877d1a19dbda35bfb6a82452f1bcf18f054c3f8",
+    "bytes": 267167876,
+    "algorithm": "AES-256-GCM; random 256-bit per-delivery key and 96-bit nonce; header authenticated",
+    "keyDisposition": "0600 separate local keys directory; not emitted, uploaded or configured in GitHub",
+    "deliveryReview": "/home/zxm/.local/share/zhiban-portable-ci/delivery-20261024/REVIEW.json",
+    "localRoundtrip": "PASS actual 3128-file frozen payload; plaintext verification directory removed",
+    "privateScope": "synthetic three-database state, synthetic membership operator/approver keys, existing localhost TLS private key; excludes CA signing key/model keys/old operational Native authority"
+  },
+  "validation": {
+    "nodeBoundaryTests": 18,
+    "workflowYamlAndEmbeddedBash": "PASS",
+    "nodeSyntax": "PASS",
+    "changedFileLint": "PASS",
+    "cryptoActualPayload": "PASS",
+    "unrelatedPidRefusedAndPrivateNamespacePurged": "CONTROLLED_LOCAL_FAULT_PASS",
+    "remoteExecution": "NOT_RUN",
+    "emptyCacheInstall": "PENDING_REMOTE_RUN",
+    "runnerNssTrust": "PENDING_REMOTE_RUN",
+    "pinnedPgAptAvailability": "PENDING_REMOTE_RUN",
+    "pgRepositorySetup": "Official postgresql-common helper; downloaded and preexisting key fingerprint checked; no parallel conflicting Signed-By source"
+  },
+  "originalInstance": {
+    "preserved": true,
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "stopped": false,
+    "newBackup": false,
+    "newMigrations": false
+  },
+  "externalActions": {
+    "uploaded": false,
+    "environmentCreated": false,
+    "secretConfigured": false,
+    "commit": false,
+    "push": false,
+    "ciDispatch": false
+  },
+  "authorizationStillRequired": [
+    "Confirm private TLS and synthetic approval keys may be delivered to GitHub inside ciphertext",
+    "Approve minimal bootstrap dependency checkpoint including previously untracked scripts/zhiban-portable.cjs",
+    "Resolve workflow registration without silently pushing main or dispatching unrelated suites",
+    "Configure protected Environment and approved workflow SHA; no repository-secret fallback",
+    "Approve ciphertext asset upload and one manual acceptance run"
+  ],
+  "productionSignoff": false,
+  "evidenceHashes": {
+    "boundaries.tap": "1bb9c0b98e78fecde48bcc58937b77fe2a9f8d51d4720ab17bb774c1324fa6fa",
+    "workflow-static.json": "e00d984a7269d98a45b41f227941d9efd41d1e98bf7208150bb1f3bbecd26693",
+    "encrypted-roundtrip.json": "71810ec723ec9be2dfd08d8e9e65647aa9aca29b6e3c6dcde930c26bba5bf987",
+    "original-instance-info.txt": "4dd79bf40c17145c0eeb84581661747c84c2e4bfbd7617a3110bb3cb5214dd2b"
+  }
+}
