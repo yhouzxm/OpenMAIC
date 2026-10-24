@@ -175,7 +175,11 @@ test('workflow is manual, pinned, no cache, key scoped to decrypt and upload lim
   const job = workflow.jobs['remote-acceptance'];
   assert.equal(job.environment, 'zhiban-portable-acceptance');
   assert.equal(job['runs-on'], 'ubuntu-24.04');
+  // GitHub does not expose the runner context in jobs.<job_id>.env.
+  assert.doesNotMatch(JSON.stringify(job.env), /runner\./);
   const steps = job.steps;
+  assert.match(steps[0].run, /ACCEPTANCE_ROOT="\$RUNNER_TEMP\/zhiban-portable-/);
+  assert.match(steps[0].run, />> "\$GITHUB_ENV"/);
   for (const s of steps.filter((s) => s.uses)) assert.match(s.uses, /@[a-f0-9]{40}$/);
   const decrypt = steps.filter((s) => s.env?.ZHIBAN_PORTABLE_TRANSPORT_KEY);
   assert.equal(decrypt.length, 1);
