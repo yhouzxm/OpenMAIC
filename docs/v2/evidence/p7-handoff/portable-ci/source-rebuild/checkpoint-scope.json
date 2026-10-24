@@ -1,0 +1,33 @@
+{
+  "kind": "AUTHORIZED_PORTABLE_CHECKPOINT_SCOPE_V1",
+  "authorization": "User requested review, authorized checkpoint submission and remote acceptance in this turn",
+  "remoteRunsAuthorized": 1,
+  "parentHead": "db5cf3c19f5a04c09f769864e6b91323c4b54504",
+  "controlFiles": [
+    "scripts/zhiban-ci/portable-acceptance.cjs",
+    "scripts/zhiban-ci/startup-diagnostics.cjs",
+    "tests/zhiban/local/startup-diagnostics.test.cjs"
+  ],
+  "publicEvidenceDirectory": "docs/v2/evidence/p7-handoff/portable-ci/source-rebuild",
+  "businessSourceDelivery": "Pinned encrypted source package, not Git HEAD alone",
+  "sourceDigest": "1b553320a1b4bb029dbae6827a84ba6a667b44a954a43f350ad9c24d3aaab7e8",
+  "installManifestSha256": "85c5886def45d0efc2d55f3197f280575ce61935af2ca8915eb74b8f6131ba55",
+  "ciphertextSha256": "a0f4bf43dd68f63fa53a86d21f17535874ec4788e49c0d7f210ec2b03ee4327c",
+  "privateMaterialScope": [
+    "synthetic PG16 three-database data",
+    "synthetic accounts and LOCAL membership approval private keys",
+    "existing localhost TLS private key and public CA",
+    "pinned dirty source and Git anchors",
+    "private data fingerprints"
+  ],
+  "excludedPrivateMaterial": [
+    "CA signing private key",
+    "model API keys",
+    "external scanner authority",
+    "old Native maintenance authority",
+    "production credentials"
+  ],
+  "protection": "Existing required reviewer, no admin bypass, refactor branch only",
+  "otherDirtyCandidates": "Preserved outside checkpoint",
+  "unrelatedCI": "skip ci commit; only manual portable workflow dispatch"
+}

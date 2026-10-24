@@ -1,0 +1,822 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "restore": [
+    {
+      "layer": "PERSISTENT",
+      "phase": "PERSISTENT_CONFIG",
+      "state": "ENTER",
+      "elapsedMs": 0,
+      "phaseMs": 0
+    },
+    {
+      "layer": "PERSISTENT",
+      "phase": "PERSISTENT_CONFIG",
+      "state": "LEAVE",
+      "elapsedMs": 3,
+      "phaseMs": 3
+    },
+    {
+      "layer": "PERSISTENT",
+      "phase": "RESTORE_POINTER",
+      "state": "ENTER",
+      "elapsedMs": 4,
+      "phaseMs": 0
+    },
+    {
+      "layer": "PERSISTENT",
+      "phase": "RESTORE_POINTER",
+      "state": "LEAVE",
+      "elapsedMs": 8,
+      "phaseMs": 3
+    },
+    {
+      "layer": "PERSISTENT",
+      "phase": "CATALOG_LAUNCH",
+      "state": "ENTER",
+      "elapsedMs": 8,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "PLAYER_BUILD",
+      "state": "ENTER",
+      "elapsedMs": 0,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "PLAYER_BUILD",
+      "state": "LEAVE",
+      "elapsedMs": 1719,
+      "phaseMs": 1718
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "ENTER",
+      "elapsedMs": 1719,
+      "phaseMs": 0,
+      "component": "dsl"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "LEAVE",
+      "elapsedMs": 1862,
+      "phaseMs": 143,
+      "component": "dsl"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_BUILD",
+      "state": "ENTER",
+      "elapsedMs": 1863,
+      "phaseMs": 0,
+      "component": "dsl"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_BUILD",
+      "state": "LEAVE",
+      "elapsedMs": 9087,
+      "phaseMs": 7223,
+      "component": "dsl"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "ENTER",
+      "elapsedMs": 9087,
+      "phaseMs": 0,
+      "component": "storage"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "LEAVE",
+      "elapsedMs": 9204,
+      "phaseMs": 117,
+      "component": "storage"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_BUILD",
+      "state": "ENTER",
+      "elapsedMs": 9205,
+      "phaseMs": 0,
+      "component": "storage"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_BUILD",
+      "state": "LEAVE",
+      "elapsedMs": 16843,
+      "phaseMs": 7638,
+      "component": "storage"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "ENTER",
+      "elapsedMs": 16844,
+      "phaseMs": 0,
+      "component": "editor"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "LEAVE",
+      "elapsedMs": 17018,
+      "phaseMs": 173,
+      "component": "editor"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_BUILD",
+      "state": "ENTER",
+      "elapsedMs": 17018,
+      "phaseMs": 0,
+      "component": "editor"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_BUILD",
+      "state": "LEAVE",
+      "elapsedMs": 47074,
+      "phaseMs": 30055,
+      "component": "editor"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "ENTER",
+      "elapsedMs": 47074,
+      "phaseMs": 0,
+      "component": "renderer"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "LEAVE",
+      "elapsedMs": 47248,
+      "phaseMs": 173,
+      "component": "renderer"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_BUILD",
+      "state": "ENTER",
+      "elapsedMs": 47248,
+      "phaseMs": 0,
+      "component": "renderer"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_BUILD",
+      "state": "LEAVE",
+      "elapsedMs": 71574,
+      "phaseMs": 24325,
+      "component": "renderer"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "ENTER",
+      "elapsedMs": 71574,
+      "phaseMs": 0,
+      "component": "generation"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "LEAVE",
+      "elapsedMs": 71783,
+      "phaseMs": 209,
+      "component": "generation"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_BUILD",
+      "state": "ENTER",
+      "elapsedMs": 71784,
+      "phaseMs": 0,
+      "component": "generation"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_BUILD",
+      "state": "LEAVE",
+      "elapsedMs": 77356,
+      "phaseMs": 5572,
+      "component": "generation"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_CACHE_WRITE",
+      "state": "ENTER",
+      "elapsedMs": 77357,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_CACHE_WRITE",
+      "state": "LEAVE",
+      "elapsedMs": 77674,
+      "phaseMs": 317
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "QUIZ_CSS",
+      "state": "ENTER",
+      "elapsedMs": 77674,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "QUIZ_CSS",
+      "state": "LEAVE",
+      "elapsedMs": 77874,
+      "phaseMs": 199
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "QUIZ_BUNDLE",
+      "state": "ENTER",
+      "elapsedMs": 77874,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "QUIZ_BUNDLE",
+      "state": "LEAVE",
+      "elapsedMs": 78574,
+      "phaseMs": 699
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "PUBLISHED_PLAYER_BUNDLE",
+      "state": "ENTER",
+      "elapsedMs": 78574,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "PUBLISHED_PLAYER_BUNDLE",
+      "state": "LEAVE",
+      "elapsedMs": 80016,
+      "phaseMs": 1441
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "ATTEMPT_RUNTIME_BUNDLE",
+      "state": "ENTER",
+      "elapsedMs": 80016,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "ATTEMPT_RUNTIME_BUNDLE",
+      "state": "LEAVE",
+      "elapsedMs": 80097,
+      "phaseMs": 80
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "HOST_BUNDLE",
+      "state": "ENTER",
+      "elapsedMs": 80097,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "HOST_BUNDLE",
+      "state": "LEAVE",
+      "elapsedMs": 80457,
+      "phaseMs": 359
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "HOST_LAUNCH",
+      "state": "ENTER",
+      "elapsedMs": 80457,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "RESTORE_SNAPSHOT",
+      "state": "ENTER",
+      "elapsedMs": 0,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "RESTORE_SNAPSHOT",
+      "state": "LEAVE",
+      "elapsedMs": 3180,
+      "phaseMs": 3179
+    },
+    {
+      "layer": "HOST",
+      "phase": "RESTORED_CONTROL",
+      "state": "ENTER",
+      "elapsedMs": 3180,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "RESTORED_CONTROL",
+      "state": "LEAVE",
+      "elapsedMs": 3181,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "PG_START",
+      "state": "ENTER",
+      "elapsedMs": 3181,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "PG_START",
+      "state": "LEAVE",
+      "elapsedMs": 3303,
+      "phaseMs": 122
+    },
+    {
+      "layer": "HOST",
+      "phase": "DB_VERSION",
+      "state": "ENTER",
+      "elapsedMs": 3304,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "DB_VERSION",
+      "state": "LEAVE",
+      "elapsedMs": 3331,
+      "phaseMs": 26
+    },
+    {
+      "layer": "HOST",
+      "phase": "LOCAL_DB_BOOTSTRAP",
+      "state": "ENTER",
+      "elapsedMs": 3331,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "LOCAL_DB_BOOTSTRAP",
+      "state": "LEAVE",
+      "elapsedMs": 3371,
+      "phaseMs": 40
+    },
+    {
+      "layer": "HOST",
+      "phase": "MIGRATION_CHECK",
+      "state": "ENTER",
+      "elapsedMs": 3372,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "MIGRATION_CHECK",
+      "state": "LEAVE",
+      "elapsedMs": 3404,
+      "phaseMs": 32
+    },
+    {
+      "layer": "HOST",
+      "phase": "CONTENT_REBIND",
+      "state": "ENTER",
+      "elapsedMs": 3405,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "CONTENT_REBIND",
+      "state": "LEAVE",
+      "elapsedMs": 6662,
+      "phaseMs": 3257
+    },
+    {
+      "layer": "HOST",
+      "phase": "CONTENT_LOAD",
+      "state": "ENTER",
+      "elapsedMs": 6663,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "CONTENT_LOAD",
+      "state": "LEAVE",
+      "elapsedMs": 6663,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "IDENTITY_COMPOSITION",
+      "state": "ENTER",
+      "elapsedMs": 6664,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "IDENTITY_COMPOSITION",
+      "state": "LEAVE",
+      "elapsedMs": 6665,
+      "phaseMs": 1
+    },
+    {
+      "layer": "HOST",
+      "phase": "TLS_LOAD",
+      "state": "ENTER",
+      "elapsedMs": 6665,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "TLS_LOAD",
+      "state": "LEAVE",
+      "elapsedMs": 8830,
+      "phaseMs": 2164
+    },
+    {
+      "layer": "HOST",
+      "phase": "SERVICE_COMPOSITION",
+      "state": "ENTER",
+      "elapsedMs": 8830,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "SERVICE_COMPOSITION",
+      "state": "LEAVE",
+      "elapsedMs": 8836,
+      "phaseMs": 5
+    },
+    {
+      "layer": "HOST",
+      "phase": "HTTPS_LISTEN",
+      "state": "ENTER",
+      "elapsedMs": 8836,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "HOST_READY",
+      "state": "READY",
+      "elapsedMs": 8858,
+      "phaseMs": 0
+    }
+  ],
+  "normal": [
+    {
+      "layer": "PERSISTENT",
+      "phase": "PERSISTENT_CONFIG",
+      "state": "ENTER",
+      "elapsedMs": 0,
+      "phaseMs": 0
+    },
+    {
+      "layer": "PERSISTENT",
+      "phase": "PERSISTENT_CONFIG",
+      "state": "LEAVE",
+      "elapsedMs": 5,
+      "phaseMs": 5
+    },
+    {
+      "layer": "PERSISTENT",
+      "phase": "RESTORE_POINTER",
+      "state": "ENTER",
+      "elapsedMs": 7,
+      "phaseMs": 0
+    },
+    {
+      "layer": "PERSISTENT",
+      "phase": "RESTORE_POINTER",
+      "state": "LEAVE",
+      "elapsedMs": 11,
+      "phaseMs": 4
+    },
+    {
+      "layer": "PERSISTENT",
+      "phase": "CATALOG_LAUNCH",
+      "state": "ENTER",
+      "elapsedMs": 11,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "PLAYER_BUILD",
+      "state": "ENTER",
+      "elapsedMs": 0,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "PLAYER_BUILD",
+      "state": "LEAVE",
+      "elapsedMs": 1784,
+      "phaseMs": 1783
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "ENTER",
+      "elapsedMs": 1784,
+      "phaseMs": 0,
+      "component": "dsl"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "LEAVE",
+      "elapsedMs": 1896,
+      "phaseMs": 112,
+      "component": "dsl"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "ENTER",
+      "elapsedMs": 1897,
+      "phaseMs": 0,
+      "component": "storage"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "LEAVE",
+      "elapsedMs": 2019,
+      "phaseMs": 122,
+      "component": "storage"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "ENTER",
+      "elapsedMs": 2019,
+      "phaseMs": 0,
+      "component": "editor"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "LEAVE",
+      "elapsedMs": 2208,
+      "phaseMs": 188,
+      "component": "editor"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "ENTER",
+      "elapsedMs": 2208,
+      "phaseMs": 0,
+      "component": "renderer"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "LEAVE",
+      "elapsedMs": 2348,
+      "phaseMs": 139,
+      "component": "renderer"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "ENTER",
+      "elapsedMs": 2348,
+      "phaseMs": 0,
+      "component": "generation"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "LEAVE",
+      "elapsedMs": 2467,
+      "phaseMs": 119,
+      "component": "generation"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_CACHE_WRITE",
+      "state": "ENTER",
+      "elapsedMs": 2468,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_CACHE_WRITE",
+      "state": "LEAVE",
+      "elapsedMs": 2872,
+      "phaseMs": 404
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "QUIZ_CSS",
+      "state": "ENTER",
+      "elapsedMs": 2872,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "QUIZ_CSS",
+      "state": "LEAVE",
+      "elapsedMs": 3141,
+      "phaseMs": 268
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "QUIZ_BUNDLE",
+      "state": "ENTER",
+      "elapsedMs": 3143,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "QUIZ_BUNDLE",
+      "state": "LEAVE",
+      "elapsedMs": 3774,
+      "phaseMs": 631
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "PUBLISHED_PLAYER_BUNDLE",
+      "state": "ENTER",
+      "elapsedMs": 3775,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "PUBLISHED_PLAYER_BUNDLE",
+      "state": "LEAVE",
+      "elapsedMs": 5053,
+      "phaseMs": 1278
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "ATTEMPT_RUNTIME_BUNDLE",
+      "state": "ENTER",
+      "elapsedMs": 5054,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "ATTEMPT_RUNTIME_BUNDLE",
+      "state": "LEAVE",
+      "elapsedMs": 5117,
+      "phaseMs": 63
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "HOST_BUNDLE",
+      "state": "ENTER",
+      "elapsedMs": 5117,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "HOST_BUNDLE",
+      "state": "LEAVE",
+      "elapsedMs": 5574,
+      "phaseMs": 457
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "HOST_LAUNCH",
+      "state": "ENTER",
+      "elapsedMs": 5575,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "RESTORE_SNAPSHOT",
+      "state": "ENTER",
+      "elapsedMs": 0,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "RESTORE_SNAPSHOT",
+      "state": "LEAVE",
+      "elapsedMs": 3270,
+      "phaseMs": 3270
+    },
+    {
+      "layer": "HOST",
+      "phase": "RESTORED_CONTROL",
+      "state": "ENTER",
+      "elapsedMs": 3270,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "RESTORED_CONTROL",
+      "state": "LEAVE",
+      "elapsedMs": 3271,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "PG_START",
+      "state": "ENTER",
+      "elapsedMs": 3272,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "PG_START",
+      "state": "LEAVE",
+      "elapsedMs": 3402,
+      "phaseMs": 129
+    },
+    {
+      "layer": "HOST",
+      "phase": "DB_VERSION",
+      "state": "ENTER",
+      "elapsedMs": 3402,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "DB_VERSION",
+      "state": "LEAVE",
+      "elapsedMs": 3424,
+      "phaseMs": 22
+    },
+    {
+      "layer": "HOST",
+      "phase": "CONTENT_LOAD",
+      "state": "ENTER",
+      "elapsedMs": 3425,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "CONTENT_LOAD",
+      "state": "LEAVE",
+      "elapsedMs": 3426,
+      "phaseMs": 1
+    },
+    {
+      "layer": "HOST",
+      "phase": "IDENTITY_COMPOSITION",
+      "state": "ENTER",
+      "elapsedMs": 3427,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "IDENTITY_COMPOSITION",
+      "state": "LEAVE",
+      "elapsedMs": 3428,
+      "phaseMs": 1
+    },
+    {
+      "layer": "HOST",
+      "phase": "TLS_LOAD",
+      "state": "ENTER",
+      "elapsedMs": 3429,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "TLS_LOAD",
+      "state": "LEAVE",
+      "elapsedMs": 5598,
+      "phaseMs": 2169
+    },
+    {
+      "layer": "HOST",
+      "phase": "SERVICE_COMPOSITION",
+      "state": "ENTER",
+      "elapsedMs": 5599,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "SERVICE_COMPOSITION",
+      "state": "LEAVE",
+      "elapsedMs": 5603,
+      "phaseMs": 4
+    },
+    {
+      "layer": "HOST",
+      "phase": "HTTPS_LISTEN",
+      "state": "ENTER",
+      "elapsedMs": 5603,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "HOST_READY",
+      "state": "READY",
+      "elapsedMs": 5616,
+      "phaseMs": 0
+    }
+  ]
+}

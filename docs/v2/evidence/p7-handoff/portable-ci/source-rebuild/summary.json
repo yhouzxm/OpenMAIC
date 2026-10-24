@@ -1,0 +1,66 @@
+{
+  "kind": "LOCAL_SOURCE_REBUILD_DELIVERY_CANDIDATE_V1",
+  "status": "PREPARED_LOCAL_VERIFIED_NOT_UPLOADED",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "baselineHead": "db5cf3c19f5a04c09f769864e6b91323c4b54504",
+  "sourceDigest": "1b553320a1b4bb029dbae6827a84ba6a667b44a954a43f350ad9c24d3aaab7e8",
+  "sourceFiles": 5905,
+  "installManifestSha256": "85c5886def45d0efc2d55f3197f280575ce61935af2ca8915eb74b8f6131ba55",
+  "restoreManifestSha256": "c2ab07cd0e69586d13ba62d3b26d767d93bc9d031a2b7a8bee4e7342baa17e76",
+  "ciphertextSha256": "a0f4bf43dd68f63fa53a86d21f17535874ec4788e49c0d7f210ec2b03ee4327c",
+  "ciphertextBytes": 267150402,
+  "privateCandidateRoot": "/home/zxm/.local/share/zhiban-portable-ci/source-rebuild-1jyjcj34",
+  "privateReview": "/home/zxm/.local/share/zhiban-portable-ci/source-rebuild-1jyjcj34/delivery/REVIEW.json",
+  "sourceContains": [
+    "historical absolute reference relocation fix",
+    "structured startup diagnostics and boundary checks"
+  ],
+  "localScope": "independent frozen-source installation, hidden-source-HOME restore and normal restart; trusted HTTPS and preserved three-database fingerprints",
+  "samePhysicalHost": true,
+  "newIndependentKey": true,
+  "keyValueIncluded": false,
+  "oldEvidence": {
+    "oldSourceDigest": "a310b5758e14af73e614935f44dde97b933b4b2f9f15f6ddbd2a41548e47a18d",
+    "oldCiphertextSha256": "c3bf2f5c1e05e1148029345c314099a204381a350fd7ca9516cd4b15a610d07b",
+    "applicability": "historical only; does not contain this source fix",
+    "remoteRunsRemainFail": [
+      40087593933,
+      40089510426,
+      40090990321
+    ]
+  },
+  "notPerformed": [
+    "commit",
+    "push",
+    "CI dispatch",
+    "new remote acceptance",
+    "classroom/model/parser regression"
+  ],
+  "boundaryChecks": {
+    "initial": {
+      "passed": 30,
+      "failed": 1,
+      "failure": "child exit classified HOST_IDENTITY_REJECTED instead of HOST_EXITED during concurrent native build"
+    },
+    "singleCaseRecheck": "PASS",
+    "fullRecheck": {
+      "passed": 31,
+      "failed": 0
+    },
+    "scope": "existing portable supervisor and startup diagnostic boundaries; no source changes for transient classification"
+  },
+  "next": "review this exact source/install/transport candidate, then obtain explicit checkpoint and single remote run authorization if desired",
+  "defaultInstance": {
+    "pid": 87878,
+    "retained": true,
+    "trustedHttpsStatus": 200,
+    "sourceMatches": false,
+    "sourceDriftCount": 4,
+    "scope": "existing live instance; new candidate not loaded"
+  },
+  "plaintextValidationCleanup": {
+    "archiveRemoved": true,
+    "extractedCopyRemoved": true
+  }
+}

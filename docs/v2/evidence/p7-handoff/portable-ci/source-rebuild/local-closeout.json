@@ -1,0 +1,72 @@
+{
+  "kind": "LOCAL_INDEPENDENT_INSTALL_RESTORE_CLOSEOUT_V1",
+  "status": "PASS",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "scope": "independent frozen-source installation, hidden-source-HOME restore and normal restart; trusted HTTPS and preserved three-database fingerprints",
+  "release": {
+    "manifestSha256": "85c5886def45d0efc2d55f3197f280575ce61935af2ca8915eb74b8f6131ba55",
+    "sourceDigest": "1b553320a1b4bb029dbae6827a84ba6a667b44a954a43f350ad9c24d3aaab7e8",
+    "files": 5905,
+    "baselineHead": "db5cf3c19f5a04c09f769864e6b91323c4b54504"
+  },
+  "privateRestore": {
+    "manifestSha256": "c2ab07cd0e69586d13ba62d3b26d767d93bc9d031a2b7a8bee4e7342baa17e76",
+    "reusedUnchanged": true
+  },
+  "validation": {
+    "evidenceOrigin": "LOCAL",
+    "githubActions": false,
+    "status": "PASS",
+    "scope": "independent frozen-source installation, hidden-source-HOME restore and normal restart; trusted HTTPS and preserved three-database fingerprints",
+    "modes": [
+      {
+        "mode": "start-rebind",
+        "ready": true,
+        "verifiedHttps": true,
+        "baselineFingerprintsMatch": true,
+        "elapsedMs": 100732,
+        "hostReady": true
+      },
+      {
+        "mode": "start",
+        "ready": true,
+        "verifiedHttps": true,
+        "baselineFingerprintsMatch": true,
+        "elapsedMs": 20775,
+        "hostReady": true
+      }
+    ],
+    "isolatedNetworkAndTmp": true,
+    "sourceHomeHidden": true,
+    "namespaceUid": 1001,
+    "normalRestartReceiptUnchanged": true,
+    "databases": 3,
+    "tables": 212,
+    "rows": 572,
+    "accountsHash": "91d73979d2a3a17ba17c69549682aa4d944f875c004bb8427ad5ba35d262e122",
+    "notRun": [
+      "classroom/browser journeys",
+      "models/parsers",
+      "remote runner"
+    ]
+  },
+  "historicalEvidence": {
+    "priorCloseout": "docs/v2/evidence/p7-handoff/portable-install/closeout.json",
+    "scope": "historical only; no transplant of classroom/browser or remote PASS"
+  },
+  "boundaryRecheck": {
+    "initial": {
+      "passed": 30,
+      "failed": 1,
+      "failure": "child exit classified HOST_IDENTITY_REJECTED instead of HOST_EXITED during concurrent native build"
+    },
+    "singleCaseRecheck": "PASS",
+    "fullRecheck": {
+      "passed": 31,
+      "failed": 0
+    },
+    "scope": "existing portable supervisor and startup diagnostic boundaries; no source changes for transient classification"
+  },
+  "remote": "NOT_EXECUTED; previous runs remain FAIL"
+}

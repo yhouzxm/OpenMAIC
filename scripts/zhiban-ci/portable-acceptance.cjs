@@ -7,6 +7,7 @@ const fs = require('node:fs'),
   cp = require('node:child_process'),
   https = require('node:https');
 const { createHash } = require('node:crypto');
+const { sanitizeTrace, readStartupTrace } = require('./startup-diagnostics.cjs');
 const portable = require('../zhiban-portable.cjs'),
   delivery = require('./portable-delivery.cjs');
 const sha = (b) => createHash('sha256').update(b).digest('hex');
@@ -88,6 +89,8 @@ function safeFailure(value) {
     out.elapsedMs = value.elapsedMs;
   if (['start', 'start-rebind'].includes(value.mode)) out.mode = value.mode;
   if (startupReasons.has(value.reason)) out.reason = value.reason;
+  const trace = sanitizeTrace(value.startupTrace);
+  if (trace.length) out.startupTrace = trace;
   return out;
 }
 function failure(code, details = {}) {
@@ -196,7 +199,10 @@ async function startHost(base, mode) {
     fd = fs.openSync(path.join(base, 'host-' + mode + '.log'), 'a', 0o600);
   const child = cp.spawn(process.execPath, [bootstrap, mode, workspace, state], {
     cwd: workspace,
-    env: safeEnv(state),
+    env: {
+      ...safeEnv(state),
+      ZHIBAN_LOCAL_STARTUP_TRACE: path.join(state, 'startup-' + mode + '.jsonl'),
+    },
     detached: true,
     stdio: ['ignore', fd, fd],
   });
@@ -228,6 +234,7 @@ async function ready(base, host, previousPid, options = {}) {
     failure(code, {
       ...host,
       reason: startupReason(base, host.mode),
+      startupTrace: readStartupTrace(path.join(base, 'state'), host.mode),
       elapsedMs: Date.now() - began,
     });
   const file = path.join(base, 'workspace/docs/v2/evidence/zhiban-trial-content-demo-local.json');
@@ -480,6 +487,7 @@ async function run(base) {
     destinationUid: process.getuid(),
     distinctMachine: true,
     freshDependencyStore: true,
+    startupTrace: [...readStartupTrace(state, 'start-rebind'), ...readStartupTrace(state, 'start')],
     threeRoleLoginAndWorkspace: true,
     trustedBrowserHttps: true,
     sourceMatches: true,
@@ -616,6 +624,8 @@ function publicReport(value) {
   };
   for (const [key, pattern] of Object.entries(patterns))
     if (typeof value[key] === 'string' && pattern.test(value[key])) out[key] = value[key];
+  const startupTrace = sanitizeTrace(value.startupTrace);
+  if (startupTrace.length) out.startupTrace = startupTrace;
   const diagnostic = safeFailure(value.diagnostic);
   if (diagnostic) out.diagnostic = diagnostic;
   if (value.phaseTimings && typeof value.phaseTimings === 'object') {

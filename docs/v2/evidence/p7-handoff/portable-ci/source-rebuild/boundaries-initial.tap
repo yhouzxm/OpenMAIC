@@ -1,0 +1,219 @@
+TAP version 13
+# Subtest: AES-256-GCM actual roundtrip and private output mode
+ok 1 - AES-256-GCM actual roundtrip and private output mode
+  ---
+  duration_ms: 181.998573
+  type: 'test'
+  ...
+# Subtest: wrong key never publishes plaintext and removes unauthenticated temporary files
+ok 2 - wrong key never publishes plaintext and removes unauthenticated temporary files
+  ---
+  duration_ms: 71.302254
+  type: 'test'
+  ...
+# Subtest: ciphertext body tamper with recomputed transport hash still fails GCM authentication
+ok 3 - ciphertext body tamper with recomputed transport hash still fails GCM authentication
+  ---
+  duration_ms: 55.291565
+  type: 'test'
+  ...
+# Subtest: wrong ciphertext pin rejects before publishing plaintext
+ok 4 - wrong ciphertext pin rejects before publishing plaintext
+  ---
+  duration_ms: 26.586956
+  type: 'test'
+  ...
+# Subtest: seal refuses existing destination and symlink ancestor
+ok 5 - seal refuses existing destination and symlink ancestor
+  ---
+  duration_ms: 4.198141
+  type: 'test'
+  ...
+# Subtest: delivery extraction verifies exact file set and creates owner-only files
+ok 6 - delivery extraction verifies exact file set and creates owner-only files
+  ---
+  duration_ms: 207.852495
+  type: 'test'
+  ...
+# Subtest: delivery traversal rejects and removes its new directory
+ok 7 - delivery traversal rejects and removes its new directory
+  ---
+  duration_ms: 527.889633
+  type: 'test'
+  ...
+# Subtest: delivery duplicate rejects and removes its new directory
+ok 8 - delivery duplicate rejects and removes its new directory
+  ---
+  duration_ms: 440.044677
+  type: 'test'
+  ...
+# Subtest: delivery link rejects and removes its new directory
+ok 9 - delivery link rejects and removes its new directory
+  ---
+  duration_ms: 374.202082
+  type: 'test'
+  ...
+# Subtest: delivery extra rejects and removes its new directory
+ok 10 - delivery extra rejects and removes its new directory
+  ---
+  duration_ms: 379.259756
+  type: 'test'
+  ...
+# Subtest: delivery missingdir rejects and removes its new directory
+ok 11 - delivery missingdir rejects and removes its new directory
+  ---
+  duration_ms: 366.226445
+  type: 'test'
+  ...
+# Subtest: delivery extradir rejects and removes its new directory
+ok 12 - delivery extradir rejects and removes its new directory
+  ---
+  duration_ms: 436.811567
+  type: 'test'
+  ...
+# Subtest: delivery duplicate-dir rejects and removes its new directory
+ok 13 - delivery duplicate-dir rejects and removes its new directory
+  ---
+  duration_ms: 520.451897
+  type: 'test'
+  ...
+# Subtest: delivery dirlink rejects and removes its new directory
+ok 14 - delivery dirlink rejects and removes its new directory
+  ---
+  duration_ms: 433.297451
+  type: 'test'
+  ...
+# Subtest: delivery legacy rejects and removes its new directory
+ok 15 - delivery legacy rejects and removes its new directory
+  ---
+  duration_ms: 435.375525
+  type: 'test'
+  ...
+# Subtest: public report drops credentials, paths, arbitrary child stderr and nested inputs
+ok 16 - public report drops credentials, paths, arbitrary child stderr and nested inputs
+  ---
+  duration_ms: 4.337448
+  type: 'test'
+  ...
+# Subtest: candidate child environment excludes transport and GitHub credentials
+ok 17 - candidate child environment excludes transport and GitHub credentials
+  ---
+  duration_ms: 2.335861
+  type: 'test'
+  ...
+# Subtest: local context cannot claim remote acceptance; stale process identity rejected
+ok 18 - local context cannot claim remote acceptance; stale process identity rejected
+  ---
+  duration_ms: 0.852594
+  type: 'test'
+  ...
+# Subtest: workflow is manual, pinned, no cache, key scoped to decrypt and upload limited to one summary
+ok 19 - workflow is manual, pinned, no cache, key scoped to decrypt and upload limited to one summary
+  ---
+  duration_ms: 45.890327
+  type: 'test'
+  ...
+# Subtest: controlled cleanup fault refuses unrelated PID and still purges only its private namespace
+ok 20 - controlled cleanup fault refuses unrelated PID and still purges only its private namespace
+  ---
+  duration_ms: 11.54453
+  type: 'test'
+  ...
+# Subtest: staging copy mode is explicitly private independently of process umask
+ok 21 - staging copy mode is explicitly private independently of process umask
+  ---
+  duration_ms: 2.569297
+  type: 'test'
+  ...
+# Subtest: authenticated extraction keeps every intermediate parent private
+ok 22 - authenticated extraction keeps every intermediate parent private
+  ---
+  duration_ms: 305.393036
+  type: 'test'
+  ...
+# Subtest: missing, partial and malformed public report stay FAIL and cannot prevent cleanup entry
+ok 23 - missing, partial and malformed public report stay FAIL and cannot prevent cleanup entry
+  ---
+  duration_ms: 3.948846
+  type: 'test'
+  ...
+# Subtest: real child exit code survives private stderr suppression and report sanitization
+not ok 24 - real child exit code survives private stderr suppression and report sanitization
+  ---
+  duration_ms: 204.971785
+  type: 'test'
+  location: '/home/zxm/openmaic/zhiban/tests/zhiban/local/portable-ci.test.cjs:306:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+
+    + 'HOST_IDENTITY_REJECTED'
+    - 'HOST_EXITED'
+            ^
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'HOST_EXITED'
+  actual: 'HOST_IDENTITY_REJECTED'
+  operator: 'strictEqual'
+  stack: |-
+    Object.<anonymous> (/home/zxm/openmaic/zhiban/tests/zhiban/local/portable-ci.test.cjs:321:12)
+    expectedException (node:assert:576:17)
+    expectsError (node:assert:701:21)
+    Function.rejects (node:assert:767:3)
+    async TestContext.<anonymous> (/home/zxm/openmaic/zhiban/tests/zhiban/local/portable-ci.test.cjs:314:3)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: live child without readiness is timeout, changed identity is distinct and never signalled by ready
+ok 25 - live child without readiness is timeout, changed identity is distinct and never signalled by ready
+  ---
+  duration_ms: 135.326344
+  type: 'test'
+  ...
+# Subtest: malformed startup metadata is a distinct failure and no raw bytes enter the summary
+ok 26 - malformed startup metadata is a distinct failure and no raw bytes enter the summary
+  ---
+  duration_ms: 163.011348
+  type: 'test'
+  ...
+# Subtest: diagnostic allowlist rejects attacker fields, unknown codes, arbitrary signal and duration
+ok 27 - diagnostic allowlist rejects attacker fields, unknown codes, arbitrary signal and duration
+  ---
+  duration_ms: 0.730073
+  type: 'test'
+  ...
+# Subtest: private log classifier emits only fixed reasons and refuses symlinks and public files
+ok 28 - private log classifier emits only fixed reasons and refuses symlinks and public files
+  ---
+  duration_ms: 22.430922
+  type: 'test'
+  ...
+# Subtest: real child records content rebind ENOENT without message, path, stack or credentials
+ok 29 - real child records content rebind ENOENT without message, path, stack or credentials
+  ---
+  duration_ms: 220.196116
+  type: 'test'
+  ...
+# Subtest: trace rejects links, world-readable files, oversized data and output outside owned state
+ok 30 - trace rejects links, world-readable files, oversized data and output outside owned state
+  ---
+  duration_ms: 22.153619
+  type: 'test'
+  ...
+# Subtest: unknown phases and attacker fields cannot survive cleanup/public filtering; malformed tail tolerated
+ok 31 - unknown phases and attacker fields cannot survive cleanup/public filtering; malformed tail tolerated
+  ---
+  duration_ms: 10.689181
+  type: 'test'
+  ...
+1..31
+# tests 31
+# suites 0
+# pass 30
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5821.381635

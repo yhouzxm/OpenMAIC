@@ -1,0 +1,10 @@
+{
+  "scripts/zhiban-ci/startup-diagnostics.cjs": "b3b1d93fac3ea33ad416e85aa3101d1e9fd21f59db511453ff7d9b210a4cd111",
+  "scripts/zhiban-ci/portable-acceptance.cjs": "79a64fe08377ced490541148e170125b29d0c7ca022d990663e20e872ddf9859",
+  "scripts/zhiban-local/autograde-content-reference.ts": "d19252c557ad39214aa4887b6b722d36ced7541fa009ae570127186f872812b3",
+  "scripts/zhiban-local/start-persistent.ts": "246190921a8ac207301b9f24833278c0c5f66c0fbd06a935f4a0969c0680979e",
+  "scripts/zhiban-local/run-m6-catalog.ts": "d96a4a4e4cada990947a63437cedf7de41df8e715725b5d45358e5caf3a80970",
+  "scripts/zhiban-local/verify-m6-catalog.mts": "5a56f6236ffd95e412fc4bcae296e01f3af075be6aad9cc63e46ace33d131abe",
+  "tests/zhiban/local/startup-diagnostics.test.cjs": "aca7f5a87839c7a32270e81b3c305fe9bfe4818974f81b0f72a92a4b9f3747d9",
+  "docs/v2/zhiban-v2-portable-ci-acceptance.md": "7ac9c75ae90162d637358865cc3cdcfff3982571101c47b58ec59b9ed84bbde6"
+}

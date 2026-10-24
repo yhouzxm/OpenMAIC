@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "kind": "ZHIBAN_PORTABLE_CI_DELIVERY_V2",
+  "directoryCount": 35,
+  "fullAuthenticatedFileAndDirectoryClosure": true,
+  "pgNotifyDirectoryPresent": true,
+  "sourceDigest": "1b553320a1b4bb029dbae6827a84ba6a667b44a954a43f350ad9c24d3aaab7e8",
+  "installManifestSha256": "85c5886def45d0efc2d55f3197f280575ce61935af2ca8915eb74b8f6131ba55",
+  "restoreManifestSha256": "c2ab07cd0e69586d13ba62d3b26d767d93bc9d031a2b7a8bee4e7342baa17e76",
+  "ciphertextSha256": "a0f4bf43dd68f63fa53a86d21f17535874ec4788e49c0d7f210ec2b03ee4327c",
+  "bytes": 267150402,
+  "keyFilePermissions": 384,
+  "independentNewKey": true,
+  "notUploaded": true
+}
