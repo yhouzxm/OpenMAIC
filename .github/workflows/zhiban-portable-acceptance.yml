@@ -1,0 +1,114 @@
+name: Zhiban isolated remote install and restore
+
+# Prepared candidate: no push/PR/schedule trigger and no release upload job.
+on:
+  workflow_dispatch:
+    inputs:
+      encrypted_asset_id:
+        description: 'Reviewed ciphertext Release asset ID in this repository'
+        required: true
+        type: string
+      ciphertext_sha256:
+        description: 'Reviewed SHA256 of portable-delivery.enc'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: zhiban-portable-acceptance
+  cancel-in-progress: false
+
+jobs:
+  remote-acceptance:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    environment: zhiban-portable-acceptance
+    env:
+      PG16_DEB_VERSION: '16.15-1.pgdg24.04+2'
+      ACCEPTANCE_ROOT: ${{ runner.temp }}/zhiban-portable-${{ github.run_id }}-${{ github.run_attempt }}
+      ACCEPTANCE_REPORT: ${{ runner.temp }}/zhiban-portable-report-${{ github.run_id }}-${{ github.run_attempt }}.json
+      npm_config_store_dir: ${{ runner.temp }}/zhiban-portable-${{ github.run_id }}-${{ github.run_attempt }}/pnpm-store
+      npm_config_cache: ${{ runner.temp }}/zhiban-portable-${{ github.run_id }}-${{ github.run_attempt }}/npm-cache
+    steps:
+      - name: Require reviewed workflow revision and validated inputs
+        env:
+          APPROVED_WORKFLOW_SHA: ${{ vars.ZHIBAN_PORTABLE_APPROVED_WORKFLOW_SHA }}
+          ASSET_ID: ${{ inputs.encrypted_asset_id }}
+          CIPHER_SHA256: ${{ inputs.ciphertext_sha256 }}
+        run: |
+          set -euo pipefail
+          [[ "$APPROVED_WORKFLOW_SHA" =~ ^[a-f0-9]{40}$ && "$GITHUB_SHA" == "$APPROVED_WORKFLOW_SHA" ]]
+          [[ "$ASSET_ID" =~ ^[0-9]+$ && "$CIPHER_SHA256" =~ ^[a-f0-9]{64}$ ]]
+          umask 077
+          mkdir "$ACCEPTANCE_ROOT"
+          git config --global http.version HTTP/1.1
+
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 1
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+          # Deliberately no dependency cache restore.
+
+      - name: Install pinned bootstrap prerequisites
+        run: |
+          set -euo pipefail
+          npm install --global pnpm@10.28.0 --ignore-scripts
+          bash scripts/zhiban-ci/install-portable-prerequisites.sh
+
+      - name: Download only the reviewed ciphertext from this repository
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GODEBUG: http2client=0
+          ASSET_ID: ${{ inputs.encrypted_asset_id }}
+          CIPHER_SHA256: ${{ inputs.ciphertext_sha256 }}
+        run: |
+          set -euo pipefail
+          umask 077
+          set -C
+          gh api --hostname github.com "repos/$GITHUB_REPOSITORY/releases/assets/$ASSET_ID" \
+            -H 'Accept: application/octet-stream' > "$ACCEPTANCE_ROOT/portable-delivery.enc"
+          printf '%s  %s\n' "$CIPHER_SHA256" "$ACCEPTANCE_ROOT/portable-delivery.enc" | sha256sum --check --status
+
+      - name: Authenticate and decrypt reviewed synthetic material
+        env:
+          ZHIBAN_PORTABLE_TRANSPORT_KEY: ${{ secrets.ZHIBAN_PORTABLE_TRANSPORT_KEY }}
+          CIPHER_SHA256: ${{ inputs.ciphertext_sha256 }}
+        run: |
+          set -euo pipefail
+          umask 077
+          node scripts/zhiban-ci/portable-delivery.cjs open \
+            "$ACCEPTANCE_ROOT/portable-delivery.enc" "$ACCEPTANCE_ROOT/cargo" "$CIPHER_SHA256"
+
+      - name: Independent install, original accounts and data, normal restart
+        env:
+          APPROVED_WORKFLOW_SHA: ${{ vars.ZHIBAN_PORTABLE_APPROVED_WORKFLOW_SHA }}
+        run: |
+          set -euo pipefail
+          umask 077
+          node scripts/zhiban-ci/portable-acceptance.cjs run "$ACCEPTANCE_ROOT" "$ACCEPTANCE_REPORT"
+
+      - name: Stop bound processes, remove private material and temporary NSS trust
+        if: always()
+        run: |
+          set -euo pipefail
+          umask 077
+          if [[ -d "$ACCEPTANCE_ROOT" && -f scripts/zhiban-ci/portable-acceptance.cjs ]]; then
+            node scripts/zhiban-ci/portable-acceptance.cjs cleanup "$ACCEPTANCE_ROOT" "$ACCEPTANCE_REPORT"
+          fi
+
+      - name: Retain only the allowlisted public acceptance summary
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: zhiban-portable-summary-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.ACCEPTANCE_REPORT }}
+          if-no-files-found: warn
+          retention-days: 7
+          include-hidden-files: false
