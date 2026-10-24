@@ -27,7 +27,8 @@ import { mediaFetchFor } from '../media-fetch';
 import { connectivityHttpFailure, connectivityTransportFailure } from '../probe-auth';
 import { requireModel } from '../require-model';
 
-export const OPENROUTER_DEFAULT_BASE_URL = 'https://openrouter.ai/api/v1';
+import { OPENROUTER_DEFAULT_BASE_URL } from '../openrouter-default';
+export { OPENROUTER_DEFAULT_BASE_URL } from '../openrouter-default';
 
 /** Dimension defaults per aspect ratio, mirroring the other image adapters. */
 function getDimensions(aspectRatio?: string): { width: number; height: number } {

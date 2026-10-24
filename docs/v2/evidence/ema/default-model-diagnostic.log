@@ -1,0 +1,3 @@
+{"timestamp":"2026-10-24T00:37:50.666Z","level":"INFO","tag":"ServerProviderConfig","message":"[ServerProviderConfig] Loaded (environment variables): 1 LLM, 0 TTS, 0 ASR, 0 PDF, 0 Image, 0 Video, 0 WebSearch providers"}
+{"timestamp":"2026-10-24T00:37:50.670Z","level":"WARN","tag":"ModelConfig","message":"The model configuration comes from the legacy provider variables, server-providers.yml, DEFAULT_MODEL and MODEL_FALLBACK, which are deprecated; move it to openmaic.yml"}
+{"elapsedMs":74451,"finishReason":"length","textLength":0,"valid":false,"errorCode":"UNAVAILABLE"}

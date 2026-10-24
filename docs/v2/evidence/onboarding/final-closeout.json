@@ -1,0 +1,50 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-22T13:19:32.676914+00:00",
+  "branch": "refactor/zhiban-v2",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "worktree": "EXISTING_DIRTY_PRESERVED_NO_COMMIT_PUSH_CI",
+  "scope": "P3_ORDINARY_ACCOUNT_REQUEST_INDEPENDENT_LOCAL_USER_CREATE_RECIPIENT_FIRST_PASSWORD_ORIGINAL_LOGIN",
+  "checks": {
+    "directedPg16Https": "PASS",
+    "unit": "2 PASS",
+    "scopedTypecheck": "PASS",
+    "scopedEslint": "PASS",
+    "workspaceBoundSourceEntries": 2693,
+    "sourceDrift": [],
+    "temporaryGeneratedBundle": [
+      {
+        "path": "/home/zxm/openmaic/zhiban/.zhiban-catalog-run-FpGleb/verify.mjs",
+        "removedAfterDirectedRun": true
+      }
+    ],
+    "preexistingMigrationsUnchanged": 37,
+    "currentDefault": "RUNNING_LOCAL_DISPOSABLE",
+    "sourceMatches": true,
+    "threeDatabaseArchivesBeforeAndAfter": true,
+    "restoreTested": false
+  },
+  "directedReceipt": "docs/v2/evidence/zhiban-onboarding-local.json",
+  "directedJourney": "docs/v2/evidence/onboarding/directed-journey.json",
+  "currentDefaultJourney": "docs/v2/evidence/onboarding/default-browser-journey.json",
+  "browserScope": {
+    "adminRequest": "IAB",
+    "credentialCreation": "REAL_HTTPS_SYNTHETIC_RECIPIENT",
+    "browserEnteredNewPassword": false,
+    "claimTerminalAndOriginalLogin": "IAB",
+    "noAutomaticSpaceRoleEnrollment": true
+  },
+  "evidenceLimits": [
+    "LOCAL synthetic two-key approval; not human identity verification",
+    "private local recipient delivery; no email/SMS or real recipient channel",
+    "no real PG55432/55433 or production deployment",
+    "no full classroom or GitHub CI rerun",
+    "no automatic membership/roles/Enrollment",
+    "no global enable/disable administration or login aliases",
+    "not all P3/P7 completed"
+  ],
+  "nextFullPackage": "P3 controlled global account enable/disable with scoped directory projection",
+  "suggestedModel": "GPT-6.1 Sol / high"
+}

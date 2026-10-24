@@ -1,0 +1,21 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "scope": "OFFLINE_ORIGINAL_REAL_OUTPUT_PROJECTION_ONLY",
+  "modelCalls": false,
+  "sourceSha256": "3911028c34d73cf37d433789b28433366418214e9bd777c3ee8e214e49e20628",
+  "originalRun": "run-75tKWXVzt21rTGuo",
+  "pages": 3,
+  "formulas": [
+    "U = IR",
+    "I = \\dfrac{U}{R} \\qquad R = \\dfrac{U}{I}",
+    "I = \\frac{U}{R} = \\frac{12\\,\\mathrm{V}}{6\\,\\Omega} = 2\\,\\mathrm{A}"
+  ],
+  "projected": [
+    "电压、电流、电阻与 U=IR\n\n• 电压 U：推动电荷定向移动的原因，单位伏特（V）\n• 电流 I：单位时间内通过导体横截面的电荷量，单位安培（A）\n• 电阻 R：导体对电流的阻碍作用，单位欧姆（Ω）\n• 欧姆定律：电流与电压成正比，与电阻成反比\n\nU=IR\n\nI=(U) / (R) R=(U) / (I)",
+    "课堂例题：12V、6Ω 求电流\n\n已知：电压 U=12V，电阻 R=6Ω；求：电流 I\n\n解：依据欧姆定律，代入数据\n\nI=(U) / (R)=(12 V) / (6 Ω)=2 A\n\n答：通过该导体的电流为 2A\n验算：代回 U=IR，2A×6Ω=12V，巩固公式互推",
+    "安全用电与思考题\n\n安全用电要点\n• 不接触低压带电体，不靠近高压带电体\n• 湿手不触碰开关与插座\n\n湿手为何更危险？\n由 U = IR 可知：人体潮湿时电阻 R 变小，\n相同电压 U 下电流 I 增大，触电危险升高。\n\n思考题\n家庭电路电压为 220V，某用电器电阻为 44Ω，通过它的电流是多少安培？"
+  ],
+  "omitted": [],
+  "status": "PASS"
+}

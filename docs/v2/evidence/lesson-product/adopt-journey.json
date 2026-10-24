@@ -1,0 +1,8 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "providerGeneration": "NOT_CONFIGURED_NOT_EXECUTED",
+  "fixture": "EXPLICIT_NATIVE_RESULT_FIXTURE_ONLY",
+  "checks": 5
+}

@@ -1,0 +1,71 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-23T10:29:56.929Z",
+  "scope": "P1_P3_GLOBAL_GRADE_LEGACY_ENTRIES_AND_AUTHORIZED_COURSE_NAVIGATION",
+  "branch": "refactor/zhiban-v2",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "implemented": [
+    "/zhiban/teacher/grades",
+    "/zhiban/student/grades"
+  ],
+  "legacyReference": "origin/feature/zhiban-mechatronics@0fa0a15e8b12ae9e4f7a2d78e80338874599bbae",
+  "runtime": {
+    "root": "/tmp/zhiban-trial-content-WWbMFP",
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "boundSources": 2733,
+    "newSyntheticAccountsAndClassroom": true,
+    "priorRootPrivatelyArchived": true,
+    "restoreTested": false
+  },
+  "verification": {
+    "realBrowser": "PASS",
+    "eslint": "PASS",
+    "prettier": "PASS",
+    "nodeSyntax": "PASS",
+    "scopedDiffCheck": "PASS",
+    "businessWrites": false,
+    "fullPg16Regression": false,
+    "fullClassroom": false,
+    "modelOrScannerExercised": false
+  },
+  "sourceHashes": {
+    "app/zhiban/local/global-grades.html": "9e2a099dac340e8064c13107ecc8310057515f0ecc192a7701b2357bdb0380cc",
+    "app/zhiban/local/global-grades.js": "21a139bbab3347ea1c5798c3368ff1d1983a722106c53ef49ba19d28c7991449",
+    "app/zhiban/local/client.js": "27f693774fe3148b1c21ddfc6d26192fe4798b0e45b151df57d116cce445db1d",
+    "app/zhiban/local/course-page.js": "954420710bf99548d63e0ec8d2ac142528d99138401e644449388287141523c6",
+    "scripts/zhiban-local/request-target.ts": "1246741f993c7b4366c18d9d0d1bb9bf4233ef2d5301144551f0eb7c5dbbfef9",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "cee449986abe055d78b5fdb2ce384196f35a37111d1541ec390a938c6db17272",
+    "scripts/zhiban-local/server.ts": "5e7bb7382b8b9038f08f781afed12d21fdd5ba6e44603753810b4fde599a1367",
+    "scripts/zhiban-local/verify-global-grades.cjs": "ec4dd4e979609fdefcabc38f0e1b29dc876418d43ff6b348621916719b0bab32"
+  },
+  "docHashes": {
+    "docs/v2/zhiban-v2-global-grades-routes-local.md": "628ddc0efdf50b6be99a434df3a0b4ed9b714991aeadf4cbf149dd818d563b94",
+    "docs/v2/zhiban-v2-ui-page-gap-matrix.md": "4f6b7268bc94cfabb23248bd663874698edb077072ced3724e73e0d821bba8e9",
+    "docs/v2/zhiban-v2-migration-completion-plan.md": "a643205ca931a82b149e4ce5f7677b3cc03a5cfe57a41e835ba9d74181ac90d6",
+    "docs/v2/zhiban-v2-feature-gap-matrix.md": "4dbab87a19e46930ddba4708def9d1d88407694481b7394afcafbc9ac33119f7",
+    "docs/v2/zhiban-v2-trial-guide.md": "9968ace2f90b7a6452afad65cd2a22dcface4fc934e4b1ec6d72bbd22dd3f326"
+  },
+  "evidenceHashes": {
+    "browser-local.json": "627110f00aa8d3181fbc93745c385425f8f9db1b0e9eb7b6cae7693489d23f1c",
+    "teacher.png": "a8294f5eb479a4b88484f436894b0845bfb3dc33daf063cb631ac2c3bf026830",
+    "student.png": "3380fab8a1eb76a56855bbf97dede14aeac2b5f9f2710200ee9224c7c8635c44",
+    "private-backup.json": "4b0a7cb8107401f49ca56f4a847f78b4db3c16e420a44a25fa36b4064ccddb3b",
+    "private-backup-before-final-refresh.json": "29aae1be4b591c48016594c44e4269a0146264b6656b16cec161c41e91f5f1e6"
+  },
+  "boundaries": [
+    "No new grade data model, authorization API, ACL or migration",
+    "Totals/weights/appeals/global student CSV not implemented",
+    "Real multi-space/multi-page fixture coverage not repeated; existing Workspace pagination reused",
+    "Previous P7 package and settings-route receipts retain original hashes and scope"
+  ],
+  "git": {
+    "commit": false,
+    "push": false,
+    "ciDispatch": false
+  },
+  "nextPackage": "P1/P3 administrator and login legacy entry compatibility",
+  "suggestedModel": "GPT-6.1 Sol / medium"
+}

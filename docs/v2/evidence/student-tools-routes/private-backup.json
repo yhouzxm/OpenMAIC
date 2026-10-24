@@ -1,0 +1,21 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "status": "ARCHIVES_CREATED_AND_TABLE_OF_CONTENTS_VERIFIED",
+  "root": "/tmp/zhiban-trial-content-tE4GM5",
+  "backupDirectory": "/home/zxm/.local/state/zhiban-trial-backups/student-tools-routes-20261023-191503",
+  "databaseCount": 3,
+  "files": {
+    "zhiban_trial_content_disposable.dump": "e5593b38842bb0234f4117b0733f43e2a8ea47ec9326afc78fac2b4be0de4a18",
+    "zhiban_trial_content_native.dump": "49dca983532ba474dc46427327b01da26dd77c0461bc1f2fc2d52f53ed1099c9",
+    "zhiban_trial_lesson_native.dump": "7e76c05c1868fcc6c609a2983060ee20cba7a4a3ca5ad7d44050687c971c6754",
+    "accounts.json": "ced0ff0635fe2aea69cd552b8718d9c864d36d1b8fd9aadf562d19608fca209f",
+    "member-control.json": "fbfabf2056b3fb04c351564c7e9bd77a603371da728f7aabfb7e43f724987e56",
+    "member-inputs.json": "012f1ccfc5e9bf0cf36db13c8d505355f2caf3a05b738109d89dc9063dc36624",
+    "member-operator.pem": "f45745ea0d9f3bf8d1bc768e103f9a8950a79b21cd64cffc1435b422b1bf44e8",
+    "member-approver.pem": "e602327a40cb0f75afbab52873d73c2632226aea213e4aeb4aa897006f48c25a",
+    "roster-example.csv": "22aa6702f2b463f0032bb2cd0b4e0f9f04f4a281c7d5a2edf811747c91e5bf21",
+    "content-installation.json": "aa8e4071f8f7ccd8c2ad374007b0eeb4e1608dcbd5062034642ade990e90c7e1"
+  },
+  "restoreTested": false,
+  "secretsPrinted": false
+}

@@ -1,0 +1,14 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "groups": 6,
+  "origin": "https://127.0.0.1:3461",
+  "tenant": "01a14f9e-1f72-754e-a9d4-ad073aabebe4",
+  "courseId": "01a14f9e-8c60-71e9-a2fb-7d6d80267f8e",
+  "offeringId": "01a14f9e-8d45-7342-a9d6-0e65258e6964",
+  "otherOfferingId": "01a14f9e-901e-75a5-bf32-a35551b9b314",
+  "deniedOfferingId": "01a14f9e-90a5-75e1-8dc4-e14e0e0c2a91",
+  "privateInputs": "/tmp/zhiban-trial-content-AA7kru/teacher-inputs.json",
+  "at": "2026-10-18T15:26:02.002Z"
+}

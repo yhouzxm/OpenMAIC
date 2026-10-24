@@ -1,0 +1,14 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "scope": "OWNED_PG16_DISCUSSION_PRODUCT",
+  "origin": "https://127.0.0.1:3461",
+  "tenant": "01a14f74-c820-7213-94c7-c22eb43a36ef",
+  "offeringId": "01a14f75-3eb3-7517-8d37-2f5fe60a65af",
+  "courseId": "01a14f75-3dbc-713f-ad8e-8c730463a083",
+  "topicId": "01a14f76-6854-7496-8025-372c1ad422fa",
+  "postId": "01a14f76-6ea4-74db-9789-a0ba15bc91a7",
+  "status": "PASS",
+  "browserErrors": [],
+  "gates": "Native Runtime/AI and discussion grades/completion remain closed"
+}

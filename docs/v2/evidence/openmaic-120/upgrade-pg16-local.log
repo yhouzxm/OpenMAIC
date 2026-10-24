@@ -1,0 +1,24 @@
+
+> openmaic@1.2.0 verify:zhiban:upgrade /home/zxm/openmaic/zhiban
+> tsx scripts/zhiban-local/run-openmaic-upgrade.ts
+
+PASS Exact v1.1.2 document DDL upgrades in place; retained JSON/owner unchanged; wrong owner manifest/write denied
+PASS Runtime FOR SHARE works; ownership keys, deletion and schema ledger mutations denied
+PASS Unowned legacy row rejected; repeat upgrade idempotent; ahead-version and checksum tampering refused
+PASS Runtime fresh installer/readonly receipt supports the versioned owner-only ledger; nonempty reinstall denied
+packages/@openmaic/importer              |  WARN  The field "pnpm.onlyBuiltDependencies" was found in /home/zxm/openmaic/zhiban/packages/@openmaic/importer/package.json. This will not take effect. You should configure "pnpm.onlyBuiltDependencies" at the root of the workspace instead.
+packages/@openmaic/renderer              |  WARN  The field "pnpm.onlyBuiltDependencies" was found in /home/zxm/openmaic/zhiban/packages/@openmaic/renderer/package.json. This will not take effect. You should configure "pnpm.onlyBuiltDependencies" at the root of the workspace instead.
+
+> @openmaic/storage@0.37.3 test /home/zxm/openmaic/zhiban/packages/@openmaic/storage
+> vitest run test/pg-runtime-store.pg.test.ts test/pg-document-store.pg.test.ts test/pg-agent-session-store.pg.test.ts test/pg-scene-revision.pg.test.ts test/pg-agent-session-material.pg.test.ts test/pg-asset-store.pg.test.ts test/pg-schema-migrations.pg.test.ts --maxWorkers=1
+
+
+ RUN  v4.1.8 /home/zxm/openmaic/zhiban/packages/@openmaic/storage
+
+
+ Test Files  7 passed (7)
+      Tests  226 passed (226)
+   Start at  22:54:43
+   Duration  33.69s (transform 2.21s, setup 604ms, import 3.44s, tests 27.36s, environment 1ms)
+
+PASS Official required PG16 contract suite passed against owned socket-only cluster

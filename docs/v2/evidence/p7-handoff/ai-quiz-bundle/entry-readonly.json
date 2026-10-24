@@ -1,0 +1,26 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "READ_ONLY_P7_ENTRIES_NOT_NEW_FUNCTIONAL_SIGNOFF",
+  "root": "/tmp/zhiban-trial-content-rU1zAL",
+  "pid": 76989,
+  "checks": [
+    {
+      "role": "TEACHER",
+      "entry": "AI Quiz generation mode and authorized GET; no model call",
+      "configuredModelReady": true
+    },
+    {
+      "role": "TEACHER",
+      "entry": "GET persisted suggestion/decision history and formal publication; no suggestion generation or decision"
+    },
+    {
+      "role": "STUDENT",
+      "entry": "GET course result page and formal grade, no private advice"
+    }
+  ],
+  "businessPosts": [],
+  "errors": [],
+  "identityLogins": true
+}

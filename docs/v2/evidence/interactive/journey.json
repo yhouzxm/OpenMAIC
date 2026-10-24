@@ -1,0 +1,10 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "modelCalls": false,
+  "generationFixture": false,
+  "scope": "OFFLINE_INTERACTIVE_HTML_NATIVE_HOST_BRIDGE_PUBLICATION_NO_RUNTIME_COMPLETION",
+  "provider": "PgDocumentStore",
+  "sandbox": "allow-scripts"
+}

@@ -1,0 +1,16 @@
+lib/zhiban/domain/onboarding/model.ts 166ms
+lib/zhiban/application/onboarding/service.ts 45ms
+lib/zhiban/infrastructure/onboarding/credentials.ts 85ms
+lib/zhiban/infrastructure/onboarding/postgres/transaction.ts 121ms
+lib/zhiban/infrastructure/onboarding/request-http.ts 51ms
+lib/zhiban/infrastructure/onboarding/setup-http.ts 77ms
+scripts/zhiban-local/onboarding.ts 35ms
+scripts/zhiban-local/build-onboarding-reference.ts 68ms (unchanged)
+scripts/zhiban-local/account-authority.ts 123ms
+scripts/zhiban-local/account-control.ts 25ms
+scripts/zhiban-local/approve-account-request.ts 25ms
+app/zhiban/local/onboarding.html 70ms
+app/zhiban/local/onboarding.js 110ms
+app/zhiban/local/onboarding.css 75ms
+app/zhiban/local/account-setup.html 14ms
+app/zhiban/local/account-setup.js 70ms

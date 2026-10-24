@@ -1,0 +1,300 @@
+{
+  "status": "PASS",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "scope": "Reference-style portal surfaces; read-only synthetic three-role navigation; 360/390/768/1024/1440 widths; existing sign-in/out",
+  "results": [
+    {
+      "role": "TEACHER",
+      "kind": "courses",
+      "width": 1440,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "TEACHER",
+      "kind": "courses",
+      "width": 1024,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "TEACHER",
+      "kind": "courses",
+      "width": 768,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "TEACHER",
+      "kind": "courses",
+      "width": 390,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "TEACHER",
+      "kind": "courses",
+      "width": 360,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "TEACHER",
+      "kind": "course",
+      "width": 1440,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "TEACHER",
+      "kind": "course",
+      "width": 1024,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "TEACHER",
+      "kind": "course",
+      "width": 768,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "TEACHER",
+      "kind": "course",
+      "width": 390,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "TEACHER",
+      "kind": "course",
+      "width": 360,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "TEACHER",
+      "kind": "profile",
+      "width": 1440,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "TEACHER",
+      "kind": "profile",
+      "width": 1024,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "TEACHER",
+      "kind": "profile",
+      "width": 768,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "TEACHER",
+      "kind": "profile",
+      "width": 390,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "TEACHER",
+      "kind": "profile",
+      "width": 360,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "kind": "profile",
+      "unsavedDraftPreservedAcrossResize": true,
+      "officialFieldsReadOnly": true,
+      "saveAvailable": true,
+      "noProfileWrites": true
+    },
+    {
+      "role": "TEACHER",
+      "kind": "resources",
+      "width": 1440,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "TEACHER",
+      "kind": "resources",
+      "width": 1024,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "TEACHER",
+      "kind": "resources",
+      "width": 768,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "TEACHER",
+      "kind": "resources",
+      "width": 390,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "TEACHER",
+      "kind": "resources",
+      "width": 360,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "kind": "session",
+      "existingLogoutWorks": true
+    },
+    {
+      "role": "ADMIN",
+      "kind": "admin",
+      "width": 1440,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "ADMIN",
+      "kind": "admin",
+      "width": 1024,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "ADMIN",
+      "kind": "admin",
+      "width": 768,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "ADMIN",
+      "kind": "admin",
+      "width": 390,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "ADMIN",
+      "kind": "admin",
+      "width": 360,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "STUDENT",
+      "kind": "courses",
+      "width": 1440,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "STUDENT",
+      "kind": "courses",
+      "width": 1024,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "STUDENT",
+      "kind": "courses",
+      "width": 768,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "STUDENT",
+      "kind": "courses",
+      "width": 390,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "STUDENT",
+      "kind": "courses",
+      "width": 360,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "STUDENT",
+      "kind": "course",
+      "width": 1440,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "STUDENT",
+      "kind": "course",
+      "width": 1024,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "STUDENT",
+      "kind": "course",
+      "width": 768,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "STUDENT",
+      "kind": "course",
+      "width": 390,
+      "documentFits": true,
+      "formControlsFit": true
+    },
+    {
+      "role": "STUDENT",
+      "kind": "course",
+      "width": 360,
+      "documentFits": true,
+      "formControlsFit": true
+    }
+  ],
+  "kind": "LOCAL_RESPONSIVE_PORTAL_PRESENTATION_V1",
+  "sourceHashes": {
+    "app/zhiban/local/workspace.css": "684c5ab778c93312daf741e51424132014c4e06c779a4faff6854c25e4e466d7",
+    "app/zhiban/local/profile.js": "cb78691c0e86c4decb0fae3837b475d66ead7cd705ae2ce5d07adb599da44533",
+    "app/zhiban/local/client.js": "33e248c0d5a513724bf824842245941cc7b4005732e89b862f2f219b03af74b7",
+    "app/zhiban/local/admin-shell.js": "e61b5b8e9b4b20839ccb2c4a9afb47117e802e7d3efbdf57c98c7cf59232fca7",
+    "app/zhiban/local/course-page.js": "417f43674dd89c5508e20b0056d9b5f495790b815962dc08dbdaad4a4efac44f"
+  },
+  "baselineHead": "c709c7815506ed7532d174ba899e76884bb3a98f",
+  "currentInstance": {
+    "origin": "https://127.0.0.1:3461",
+    "pid": 87878,
+    "staticAssetsReloadedPerRequest": true,
+    "processRestarted": false
+  },
+  "referenceImages": [
+    "个人设置.png",
+    "后台管理界面.png",
+    "具体课程界面.png",
+    "我的课程界面.png"
+  ],
+  "boundaries": [
+    "presentation only; no schema or authorization changes",
+    "existing avatar limits retained; no fake example counts or controls",
+    "local UI changes are newer than the frozen P7 source package; previous remote PASS is not evidence for these new bytes"
+  ],
+  "checks": {
+    "javascriptSyntax": "PASS",
+    "affectedEslint": "PASS",
+    "prettier": "PASS"
+  },
+  "gitOperations": {
+    "committed": false,
+    "pushed": false,
+    "ciDispatched": false
+  }
+}

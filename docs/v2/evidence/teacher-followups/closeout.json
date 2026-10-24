@@ -1,0 +1,43 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "P5_TEACHER_FACT_BASED_FOLLOWUP_LIST_NOT_INTERVENTION_WORKFLOW",
+  "branch": "refactor/zhiban-v2",
+  "head": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "checks": {
+    "directedPg16AndTeacherBrowser": "PASS",
+    "desktopCourseContentLayout": "PASS",
+    "originalStatisticsViewSwitch": "PASS",
+    "queryCursorGatewayUnit": "PASS",
+    "typecheckExitCode": 0,
+    "affectedEslintExitCode": 0,
+    "layoutEslintExitCode": 0,
+    "persistentSourceDrift": 0,
+    "cleanedEphemeralSources": 3,
+    "frozenSourceFiles": 154,
+    "frozenSourceDrift": 0,
+    "defaultSourceMatches": true,
+    "defaultHttpsPort": 3461,
+    "defaultOwnedPgPort": 56517,
+    "defaultDemonstrationPendingItems": 6,
+    "inAppBrowser": "FILTERED_DEMO_LIST_VISIBLE",
+    "newDatabaseMigrations": 0,
+    "newAclOrHelperGrants": 0
+  },
+  "boundaries": [
+    "Current teacher role and assignment required; admin/student/foreign denied",
+    "Current active Enrollment and current published assessed version only",
+    "Latest Attempt and latest Submission; existing grade publication excludes row",
+    "Only fact reasons; no score/draft/answer/private contact/risk inference",
+    "Read-only list: intervention records, resolution and notification remain deferred",
+    "Historical teaching data archived; not claimed restored into new synthetic fixture",
+    "Backup archives and TOCs verified; restore not tested",
+    "Native Runtime and trusted completion gates unchanged"
+  ],
+  "gitCommit": false,
+  "gitPush": false,
+  "ciDispatch": false,
+  "modelGenerationCalled": false,
+  "externalNotificationSent": false
+}

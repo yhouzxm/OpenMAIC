@@ -1,0 +1,15 @@
+lib/zhiban/domain/risk/model.ts(145,9): error TS18046: 'f' is of type 'unknown'.
+lib/zhiban/domain/risk/model.ts(146,16): error TS18046: 'f' is of type 'unknown'.
+lib/zhiban/domain/risk/model.ts(146,39): error TS18046: 'input.threshold' is of type 'unknown'.
+lib/zhiban/domain/risk/model.ts(146,64): error TS18046: 'f' is of type 'unknown'.
+lib/zhiban/domain/risk/model.ts(148,11): error TS18046: 'f' is of type 'unknown'.
+lib/zhiban/domain/risk/model.ts(149,11): error TS18046: 'f' is of type 'unknown'.
+lib/zhiban/domain/risk/model.ts(150,24): error TS18046: 'f' is of type 'unknown'.
+lib/zhiban/domain/risk/model.ts(150,41): error TS18046: 'input.threshold' is of type 'unknown'.
+lib/zhiban/domain/risk/model.ts(151,11): error TS18046: 'f' is of type 'unknown'.
+lib/zhiban/domain/risk/model.ts(152,11): error TS18046: 'f' is of type 'unknown'.
+lib/zhiban/domain/risk/model.ts(153,24): error TS18046: 'f' is of type 'unknown'.
+lib/zhiban/domain/risk/model.ts(153,36): error TS18046: 'input.threshold' is of type 'unknown'.
+lib/zhiban/domain/risk/model.ts(173,22): error TS2322: Type 'unknown' is not assignable to type 'boolean'.
+lib/zhiban/infrastructure/risk/postgres/transaction.ts(263,52): error TS2737: BigInt literals are not available when targeting lower than ES2020.
+tests/zhiban/risk/model.test.ts(39,36): error TS2698: Spread types may only be created from object types.

@@ -1,0 +1,112 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "createdAt": "2026-10-16T23:38:30.306234+00:00",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "branch": "refactor/zhiban-v2",
+  "method": "manual real in-app browser journey on existing 3461 instance; no direct API/SQL mutation",
+  "runtime": {
+    "status": "RUNNING_LOCAL_DISPOSABLE",
+    "root": "/tmp/zhiban-trial-content-z7jorO",
+    "pid": 32898,
+    "origin": "https://127.0.0.1:3461",
+    "tenantId": "01a1470c-92a0-7449-8481-145270bdde42",
+    "offeringId": "01a1470c-a960-77c3-a540-928eb48f88e7",
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "preservedExistingInstance": true
+  },
+  "journey": {
+    "result": "PASS_NO_BLOCKER_OBSERVED",
+    "activityId": "01a1470d-4a29-73d0-92fb-12a769576455",
+    "title": "连贯备课：检查记录",
+    "activityVersion": 2,
+    "attemptNo": 1,
+    "submissionVersion": 1,
+    "gradeVersion": 1,
+    "score": 92,
+    "maximum": 100,
+    "feedback": "步骤顺序正确，说明了断电和防护检查的理由。请再补充异常报告中的设备编号与现场状态。",
+    "steps": [
+      "teacher edits activity requirements, saves draft and publishes version2",
+      "teacher returns original chapter without duplicate unit",
+      "student opens corresponding published lecture from directory",
+      "student starts first attempt bound to activity version2, saves draft and confirms final submission1",
+      "student sees no published grade before teacher grading",
+      "teacher finds exact latest submission in pending queue, saves 92/100 draft and publishes grade1",
+      "published submission leaves default pending queue; original seeded pending submission remains",
+      "student own progress shows 92/100 and exact feedback, while original88/100 remains visible"
+    ],
+    "studentSummary": {
+      "currentPublishedActivities": 4,
+      "started": 3,
+      "submitted": 3,
+      "unsubmitted": 1,
+      "publishedGrades": 2,
+      "pendingGrades": 1,
+      "meanScoreRatePercent": 90,
+      "notCourseFinalGrade": true
+    }
+  },
+  "issues": [
+    {
+      "id": "TJ-01",
+      "priority": "P3",
+      "observation": "学生讲义页显示“编辑草稿后保存，再显式发布”",
+      "impact": "学生可正常阅读，措辞容易误导",
+      "next": "按 canEdit/只读身份显示阅读说明",
+      "status": "DEFERRED_NON_BLOCKING"
+    },
+    {
+      "id": "TJ-02",
+      "priority": "P3",
+      "observation": "学生提交版本中的入口及展开标题均为“人工评分与成绩”",
+      "impact": "可查看已发布成绩，但名称像教师操作入口",
+      "next": "学生改为“查看成绩与反馈”，教师保留评分名称",
+      "status": "DEFERRED_NON_BLOCKING"
+    },
+    {
+      "id": "TJ-03",
+      "priority": "P3",
+      "observation": "独立课程讲义／成绩页无退出登录按钮，切换账号需先返回我的课程",
+      "impact": "多一步导航，返回工作台后可以安全退出并切换",
+      "next": "统一课程页与工作台的账号入口；继续复用现有退出与会话清理",
+      "status": "DEFERRED_NON_BLOCKING"
+    }
+  ],
+  "responsive": {
+    "desktop": "1440x1000 student grades screenshot",
+    "mobile": {
+      "viewportWidth": 390,
+      "documentWidth": 375,
+      "horizontalOverflow": false
+    }
+  },
+  "sourceReceipt": "zhiban-trial-content-demo-local.json",
+  "sourceHashesUnchanged": true,
+  "screenshots": {
+    "student-grade-desktop.png": "529ca2f9e2823eed5f24cec43639ff2adfb734559011260e326cd2e64684d1ea",
+    "student-grade-mobile.png": "1b78afcfda00d712a8f408ec7135ddd54ea5acc9c391174b8503a800e64b6c91",
+    "student-lecture.png": "ba9906c31fc6457efc64dcd30b8e657780dd321e7527d57581ced4cb9c18769e",
+    "student-submitted.png": "c9ac0ee396aee946ed2a2a3094eacaba60f564852e6d331d7c48e9048144b9d1",
+    "teacher-prepared.png": "9b0fd5782cf797f87ea663428c0656180bf10e2db1079a0b23182677f930cdd0",
+    "teacher-published.png": "5e5b4537c2903b0fa0f842f69d5c29b7f06a1e4884d6dac9215239a1f61b5bb7"
+  },
+  "scopeLimits": [
+    "manual journey covers this synthetic teacher/student/offering and one submission",
+    "no grade correction, withdrawal, deadline, attempt-limit or concurrency fault injection in this round",
+    "no unsaved native refresh/close recertification; prior user-deferred scope remains deferred",
+    "prior automated17-group evidence remains bound to its original run; no new suite or CI run claimed"
+  ],
+  "mutations": {
+    "businessSource": false,
+    "sqlAclMigrations": false,
+    "runtimeRestart": false,
+    "databaseReset": false,
+    "businessData": "teacher activity publication2, student attempt1/submission1, teacher grade1 through actual UI",
+    "realPg55432Or55433": false,
+    "commit": false,
+    "push": false,
+    "ciDispatch": false
+  }
+}

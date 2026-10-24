@@ -1,0 +1,1615 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_FOR_LOCAL_SOURCE_UPGRADE_AND_BUILD",
+  "at": "2026-10-20T12:25:39.433253+00:00",
+  "branch": "refactor/zhiban-v2",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "upstream": {
+    "repository": "https://github.com/THU-MAIC/OpenMAIC",
+    "release": "v1.2.1",
+    "sha": "e19d0d4f45d81b8f7ab599b33ab03b0b8b68d5c0",
+    "previousSha": "a9da60b3b4adb429369c0da13d5637a904ead2b0"
+  },
+  "sync": [
+    {
+      "path": ".env.example",
+      "mode": "upstream",
+      "sha256": "e128876110d72452e31700c125029d3b4739fd21142544f95a004fb697c2a2e5"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "mode": "merged",
+      "sha256": "5355a9c570ee46e1f53aed5e18043b39f0f63ab462c79419e50704bafeb100ba"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "mode": "upstream",
+      "sha256": "b2c8151034a06e5101adf4dc2edaa1ba13399f5d3b0d8b99a00b5b60a68b0a25"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "mode": "upstream",
+      "sha256": "8c2dee0529342c87c60bc2af543245d6f408c4ef9d61675deddf034c3676ddb8"
+    },
+    {
+      "path": "Dockerfile",
+      "mode": "upstream",
+      "sha256": "37b305ed73283f7d240148e213877df72fd78141dd4f00c92ae89fd8e3c65f1f"
+    },
+    {
+      "path": "README-zh.md",
+      "mode": "merged",
+      "sha256": "7a520246d37bb0f1b4ec34034f736e10d924eb7b8ddcbb1015467d1ca8a2de4e"
+    },
+    {
+      "path": "README.md",
+      "mode": "merged",
+      "sha256": "70d44217dd36a7465bbf756ed342a11a99fb4b3548108880e4036d388620905a"
+    },
+    {
+      "path": "app/api/chat/pi/route.ts",
+      "mode": "upstream",
+      "sha256": "6b6cc5bcf77ff03d84ca738c23855f98e88ff1379601956a916a5b89d6ec103b"
+    },
+    {
+      "path": "app/api/chat/route.ts",
+      "mode": "upstream",
+      "sha256": null
+    },
+    {
+      "path": "app/layout.tsx",
+      "mode": "upstream",
+      "sha256": "1ea151b59ebaacc5b784580e2ea9a117256b1b681f20ca1720289ca665666bfc"
+    },
+    {
+      "path": "components/chat/chat-area.tsx",
+      "mode": "upstream",
+      "sha256": "edcdb1ea461cdefaa791f360e141cf3b0f3480c92a67df060eff03d8de852f6e"
+    },
+    {
+      "path": "components/chat/use-chat-sessions.ts",
+      "mode": "upstream",
+      "sha256": "8a516718621931ae0c1576b1ba40000ee6481602aef2fb2b98a00a6207805f12"
+    },
+    {
+      "path": "components/edit/PlaybackChromeRoot.tsx",
+      "mode": "upstream",
+      "sha256": "376c44bda8465260ae785aec16b202a9e62669d28822fa1206a918b64ae1ee56"
+    },
+    {
+      "path": "components/roundtable/index.tsx",
+      "mode": "upstream",
+      "sha256": "aee963ed325a205c3e1cb7f4be5b333e4d3ee31a27690bfa4155e82d28d7bebc"
+    },
+    {
+      "path": "components/settings/model-services.tsx",
+      "mode": "upstream",
+      "sha256": "a564b02526791fbe5703272412f39a826fc66046e4e86a9c6d67229d26bd8f48"
+    },
+    {
+      "path": "components/settings/models/slot-meta.ts",
+      "mode": "upstream",
+      "sha256": "c954be955749e1badcf4d5192d9fca8b431e969cf7f4912d68028d3153126ffa"
+    },
+    {
+      "path": "components/settings/models/slot-picker.tsx",
+      "mode": "upstream",
+      "sha256": "5a5a17ac3afdf171661608d66e026a0ffd5a25567e783b7d90d59fbce33d583b"
+    },
+    {
+      "path": "components/settings/models/station-node.tsx",
+      "mode": "upstream",
+      "sha256": "c37a6876f5d35d8b92435831e29826da475919cfe9263becd69d98886493d751"
+    },
+    {
+      "path": "components/settings/models/station-text.ts",
+      "mode": "upstream",
+      "sha256": "b95c7fe056a0d1fb246719633416df3df8fc3a3055ba23afee9cd2a39de3ce15"
+    },
+    {
+      "path": "components/settings/service-display.ts",
+      "mode": "upstream",
+      "sha256": "6e9e4dfb10a32dfdea85224618c03d960e01e8160941e8ba70504d53b09dda8e"
+    },
+    {
+      "path": "components/settings/token-plan-settings.tsx",
+      "mode": "upstream",
+      "sha256": "7255f6ec6e2848872361ca53f123858e076a1f336121cceae90a21cfce9a023e"
+    },
+    {
+      "path": "components/settings/unimported-settings-notice.tsx",
+      "mode": "upstream",
+      "sha256": "9fa37837f488252b49f65fb2d140102366e43c9260b553408fd15778ea2d862e"
+    },
+    {
+      "path": "components/settings/web-fetch-settings.tsx",
+      "mode": "upstream",
+      "sha256": "fe89cb7f3ced99db802cabeda1b8ed272057534ac9efb91f043ae0a03a2cd0f2"
+    },
+    {
+      "path": "docker-compose.yml",
+      "mode": "upstream",
+      "sha256": "99607b1dc1efee695d0bd38f75cc4fffd290c173709067896f5c8faa5302ad1d"
+    },
+    {
+      "path": "e2e/tests/cue-user-options.spec.ts",
+      "mode": "upstream",
+      "sha256": "3b8aaa2871abb2ef925307df033a7c732f951217471a26fbb3ba6ee96dfaf13c"
+    },
+    {
+      "path": "e2e/tests/legacy-chat-retirement.spec.ts",
+      "mode": "upstream",
+      "sha256": "58b57ddb656edf8c6fb2f8fd7415c4e12353fd98467d81ac0b9b354eb57d2dc5"
+    },
+    {
+      "path": "eval/orchestration/answer-content-runner.ts",
+      "mode": "upstream",
+      "sha256": "6831b7fbd8ff87bc3f6dc9eee702431fef573607dc8c96f26ca412619f268a87"
+    },
+    {
+      "path": "eval/orchestration/answering-runner.ts",
+      "mode": "upstream",
+      "sha256": "4a11dca2a8ba5125c24b504145c0888e93cc41a60500fa76c4b0c209a9023749"
+    },
+    {
+      "path": "eval/orchestration/judge.ts",
+      "mode": "upstream",
+      "sha256": null
+    },
+    {
+      "path": "eval/orchestration/pi-harness.ts",
+      "mode": "upstream",
+      "sha256": "024c6853922c971189397831de94feb77fada222d7ea2723c9a2251f6479c6cb"
+    },
+    {
+      "path": "eval/orchestration/prompt-variants.ts",
+      "mode": "upstream",
+      "sha256": null
+    },
+    {
+      "path": "eval/orchestration/reporter.ts",
+      "mode": "upstream",
+      "sha256": null
+    },
+    {
+      "path": "eval/orchestration/runner.ts",
+      "mode": "upstream",
+      "sha256": null
+    },
+    {
+      "path": "eval/orchestration/scenarios/premature-end.json",
+      "mode": "upstream",
+      "sha256": null
+    },
+    {
+      "path": "eval/orchestration/types.ts",
+      "mode": "upstream",
+      "sha256": "c60169367286d3a529b5c9ed7f4f2b0ca015917d9934ff7f92265b06bb181cf6"
+    },
+    {
+      "path": "eval/whiteboard-layout/runner.ts",
+      "mode": "upstream",
+      "sha256": "6ee744a64e8a389b192b2f206f4b086918d2c75378f7cbe1457409b440dc21c9"
+    },
+    {
+      "path": "eval/whiteboard-layout/types.ts",
+      "mode": "upstream",
+      "sha256": "2db07e37724dc05f988ffc871d8179832580f913606422c822090e8fe06df6d3"
+    },
+    {
+      "path": "lib/ai/model-aliases.ts",
+      "mode": "upstream",
+      "sha256": "13cb1ae07e28778b54f966edf1288cf46099728814daec6ffff6f50045a49fc4"
+    },
+    {
+      "path": "lib/ai/model-metadata.ts",
+      "mode": "upstream",
+      "sha256": "cdf80e973b78522ac9662f795b3601037b8094f754d52d417dc67f7f788b9ba0"
+    },
+    {
+      "path": "lib/ai/providers.ts",
+      "mode": "upstream",
+      "sha256": "9f0452a0464ca17c77dada1a0d845f3ecab42c8b1054e8ab8d5a7bef0aa3294b"
+    },
+    {
+      "path": "lib/audio/constants.ts",
+      "mode": "upstream",
+      "sha256": "98fe987d1f86a085c2940a106bc23b8bca015aed5b034fc60c64fa204c9cd680"
+    },
+    {
+      "path": "lib/buffer/stream-buffer.ts",
+      "mode": "upstream",
+      "sha256": "a0b8c967f3bb6d40389c180f4b60105438b9fbe923b63ace690f86623a4bc6cc"
+    },
+    {
+      "path": "lib/chat/agent-loop.ts",
+      "mode": "upstream",
+      "sha256": null
+    },
+    {
+      "path": "lib/chat/cue-user-options.ts",
+      "mode": "upstream",
+      "sha256": "ceb67fc30f857ddb6c4590308bfde2a18c7b2dff6ca6bb037b01595b7ea47f26"
+    },
+    {
+      "path": "lib/chat/pi/prompts.ts",
+      "mode": "upstream",
+      "sha256": "4db38fb0e639e4a83ae8ff8a17611e91f38aa4570384d0e279b808af46407633"
+    },
+    {
+      "path": "lib/chat/pi/tool-schemas.ts",
+      "mode": "upstream",
+      "sha256": "169c95fb3906d58547bf205056e93dcaead3b6d8cec70d5ee385b630df0ebd2c"
+    },
+    {
+      "path": "lib/chat/pi/tools/call-agent.ts",
+      "mode": "upstream",
+      "sha256": "63fd52da3407568fccae06d758b149573a096ef47d0d021eded4a7d178d95840"
+    },
+    {
+      "path": "lib/chat/pi/tools/classroom-actions.ts",
+      "mode": "upstream",
+      "sha256": "3883b329d317cf8373d7fb410f47b2983c209cd97a054ffcf17e05a40cc30af9"
+    },
+    {
+      "path": "lib/chat/pi/tools/cue-user.ts",
+      "mode": "upstream",
+      "sha256": "0f056855dd9fa743e317c8aee16dc7106a9a7fc8fbaf54bad3efc40dff996e64"
+    },
+    {
+      "path": "lib/chat/store-state.ts",
+      "mode": "upstream",
+      "sha256": "40aaf5950e71705ce35bee21ef0b9d1fbab6af6491eddf5e4f0f72687dba858d"
+    },
+    {
+      "path": "lib/chat/structured-output.ts",
+      "mode": "upstream",
+      "sha256": "d8626c2e7aad2948501b593f40dfeb14390a13dac40fa9fb4182801265410874"
+    },
+    {
+      "path": "lib/config/feature-flags.ts",
+      "mode": "upstream",
+      "sha256": "0118d56ebdad96d170174084a401b65eda96505baa2653844fa50810456cc84a"
+    },
+    {
+      "path": "lib/config/model-slots.ts",
+      "mode": "upstream",
+      "sha256": "48c1c73aa8f466aea3435deb94160623b30a1f12fa6224c3bdc5aa7b8f83909f"
+    },
+    {
+      "path": "lib/config/provider-presets.ts",
+      "mode": "upstream",
+      "sha256": "2693d6085f9cd29064be374cdd045c8211f7107bbed17ab51a77d78f9d5c16e7"
+    },
+    {
+      "path": "lib/config/token-plan-presets.ts",
+      "mode": "upstream",
+      "sha256": "bb9c6c3da90684d1d7e018b3fd2f0174c87cdd9bd2992e0fc1baeac3a4411aaf"
+    },
+    {
+      "path": "lib/hooks/use-i18n.tsx",
+      "mode": "upstream",
+      "sha256": "01c2308dbecae08d10fbb6253c4fb323d0d7a0933f75b2cb9bdac71b43dc2dbe"
+    },
+    {
+      "path": "lib/i18n/config.ts",
+      "mode": "upstream",
+      "sha256": "54a6a2742d82b64fbbb52a5674a4772e359fcebe5413538ae10332644971fe5c"
+    },
+    {
+      "path": "lib/i18n/load-resource.ts",
+      "mode": "upstream",
+      "sha256": "4fafb62a3220a5a2c48f80aeff62a2fefac9b1491cd974ac77ed608f571ef213"
+    },
+    {
+      "path": "lib/i18n/locales/ar-SA.json",
+      "mode": "upstream",
+      "sha256": "3a9ab6e1cc2dcebb2cd682d9a85278c8b85a46494171f8409a90488be0e829e9"
+    },
+    {
+      "path": "lib/i18n/locales/de-DE.json",
+      "mode": "upstream",
+      "sha256": "3db515c748268dcc5bca2f4b2f91cb1994c35b241e4dac268308c8b617b67eb9"
+    },
+    {
+      "path": "lib/i18n/locales/en-US.json",
+      "mode": "upstream",
+      "sha256": "056b6edb411d3a028302478b2a2208b55b02c63c8377a03e26f29c85f6d8a7ce"
+    },
+    {
+      "path": "lib/i18n/locales/es-MX.json",
+      "mode": "upstream",
+      "sha256": "38ddef21a51cf8f564a4fb0ebdaa153d3f85992ee52ee173c2e860bae8cf6e9c"
+    },
+    {
+      "path": "lib/i18n/locales/fr-FR.json",
+      "mode": "upstream",
+      "sha256": "5f52e730f0ebfdb3e166c4acaec76af9336fd3a70392498db254b657198d561f"
+    },
+    {
+      "path": "lib/i18n/locales/ja-JP.json",
+      "mode": "upstream",
+      "sha256": "9a7cfaedd9842160aded2cfca0cae1a44cb5eac5897ea3ceb1b2d2e535b018be"
+    },
+    {
+      "path": "lib/i18n/locales/ko-KR.json",
+      "mode": "upstream",
+      "sha256": "c6bfb86363be52ec18f1b11841872634ae89689a1285608e4f8acb6a9cb4adfe"
+    },
+    {
+      "path": "lib/i18n/locales/pt-BR.json",
+      "mode": "upstream",
+      "sha256": "77f252d99d4f3bd19f9896264ac447793cab16ad189a7b41e5b2425b88c1c1ab"
+    },
+    {
+      "path": "lib/i18n/locales/ru-RU.json",
+      "mode": "upstream",
+      "sha256": "b421e7f27a0c74a70266c12ff89a1408757eb3242729aef25ec52c12cc074bb7"
+    },
+    {
+      "path": "lib/i18n/locales/vi-VN.json",
+      "mode": "upstream",
+      "sha256": "18814d2dbe37381a632d81c16829d7227477813fe4c6259252f931a40995858d"
+    },
+    {
+      "path": "lib/i18n/locales/zh-CN.json",
+      "mode": "upstream",
+      "sha256": "b91bb77580f291b79a796423b7295f27040898efccbb56073abb2a79d645c252"
+    },
+    {
+      "path": "lib/i18n/locales/zh-TW.json",
+      "mode": "upstream",
+      "sha256": "633d87dde1a414e94ca9154911eb294cadcaa79f7331a2d5a9216f164875fd54"
+    },
+    {
+      "path": "lib/i18n/resolve-locale.ts",
+      "mode": "upstream",
+      "sha256": "f0513b1aa4b268748703627beccb3921bfae42ee29900103a830aa46f171813c"
+    },
+    {
+      "path": "lib/legacy-browser-import/model-settings-import.ts",
+      "mode": "upstream",
+      "sha256": "a533f04e046c49093145857fadcab39d3ddb24402df1e693a37bcbcf43fb3e8d"
+    },
+    {
+      "path": "lib/legacy-browser-import/model-settings.ts",
+      "mode": "upstream",
+      "sha256": "2c461f1a9f69b3189f3b0c205c3862cfd797a3170c1b61a5b6cb2412f371e459"
+    },
+    {
+      "path": "lib/logger.ts",
+      "mode": "upstream",
+      "sha256": "77421ddc1d9014cb971cf99659438f5289d8041f3d7139aaa3136a5b232c4e68"
+    },
+    {
+      "path": "lib/media/adapters/grok-image-adapter.ts",
+      "mode": "upstream",
+      "sha256": "961a1dd5f67a4c373007ce27f6e6dfa728a837bb79afd1d70979b602c12f7ed6"
+    },
+    {
+      "path": "lib/media/adapters/nano-banana-adapter.ts",
+      "mode": "upstream",
+      "sha256": "00092ac668363ba988f89eb0685e2634f251147542a462b9801484bae2897ba9"
+    },
+    {
+      "path": "lib/media/adapters/qwen-image-adapter.ts",
+      "mode": "upstream",
+      "sha256": "3c8b48084ecb35cdf8316c4da8687c46c2887b61e59389acc08e26ad4950a646"
+    },
+    {
+      "path": "lib/media/adapters/seedance-adapter.ts",
+      "mode": "upstream",
+      "sha256": "7ae99d1e21157e710c4e2b8c40744177211ba18555dc40988153723d24b7027e"
+    },
+    {
+      "path": "lib/media/adapters/seedream-adapter.ts",
+      "mode": "upstream",
+      "sha256": "b55ffb6f028f9d7fdac1be4c375e83d74ef379e0221a51af972e7dd00da70470"
+    },
+    {
+      "path": "lib/media/adapters/veo-adapter.ts",
+      "mode": "upstream",
+      "sha256": "407c3542a43614a0747897869e94b412ec5c925b6b94033774ed275781501757"
+    },
+    {
+      "path": "lib/media/image-providers.ts",
+      "mode": "upstream",
+      "sha256": "d5cb2b3d165a8b905c3dd324615cfe58577776f531cface997c9f824732cdc32"
+    },
+    {
+      "path": "lib/media/video-providers.ts",
+      "mode": "upstream",
+      "sha256": "4c41f40397c239bb9e0b77ddfff489f92afd81262d8ff697977832d90fcd7144"
+    },
+    {
+      "path": "lib/model-settings/capabilities.ts",
+      "mode": "upstream",
+      "sha256": "c054ae621d912c33c988900640da77f9ab7b2f088dda6f434eb8307d2cfd3533"
+    },
+    {
+      "path": "lib/model-settings/diagram.ts",
+      "mode": "upstream",
+      "sha256": "997d58b602f151efc665ce68a1f8cf53221e0846aa5d2843beed9c4486e34c3b"
+    },
+    {
+      "path": "lib/model-settings/edit.ts",
+      "mode": "upstream",
+      "sha256": "8d49666c19d3104453ed255c581193247ccb700205c9aee5fc5dd2aab02acdbd"
+    },
+    {
+      "path": "lib/model-settings/services.ts",
+      "mode": "upstream",
+      "sha256": "414c1b53ca39e449b702874de4886be37a8f9dc422f952557104a29db214b0b1"
+    },
+    {
+      "path": "lib/model-settings/shape.ts",
+      "mode": "upstream",
+      "sha256": "ee2cdd2bb097073c7749320d89c830242a3622fab8329195b43d9b7b65944c81"
+    },
+    {
+      "path": "lib/model-settings/token-plan.ts",
+      "mode": "upstream",
+      "sha256": "bdd8cf013e17e0cb144c6f6527c2c5e4b6d880ac53c808c789c469af3f966560"
+    },
+    {
+      "path": "lib/orchestration/ai-sdk-adapter.ts",
+      "mode": "upstream",
+      "sha256": null
+    },
+    {
+      "path": "lib/orchestration/director-graph.ts",
+      "mode": "upstream",
+      "sha256": null
+    },
+    {
+      "path": "lib/orchestration/director-prompt.ts",
+      "mode": "upstream",
+      "sha256": null
+    },
+    {
+      "path": "lib/orchestration/prompt-builder.ts",
+      "mode": "upstream",
+      "sha256": null
+    },
+    {
+      "path": "lib/orchestration/stateless-generate.ts",
+      "mode": "upstream",
+      "sha256": null
+    },
+    {
+      "path": "lib/orchestration/summarizers/conversation-summary.ts",
+      "mode": "upstream",
+      "sha256": null
+    },
+    {
+      "path": "lib/orchestration/summarizers/message-converter.ts",
+      "mode": "upstream",
+      "sha256": null
+    },
+    {
+      "path": "lib/orchestration/tool-schemas.ts",
+      "mode": "upstream",
+      "sha256": null
+    },
+    {
+      "path": "lib/prompts/README.md",
+      "mode": "upstream",
+      "sha256": "39c85ecccdc6d3a534f3d955ea4b1668fcd2ff94a4cade8fb1365ece7f2ff31b"
+    },
+    {
+      "path": "lib/prompts/index.ts",
+      "mode": "upstream",
+      "sha256": "6a9e394502a4f3ba00449d8b6cb568e655b315b160c6b9b020f68dfb8c9a753f"
+    },
+    {
+      "path": "lib/prompts/snippets/speech-guidelines.md",
+      "mode": "upstream",
+      "sha256": null
+    },
+    {
+      "path": "lib/prompts/snippets/whiteboard-reference.md",
+      "mode": "upstream",
+      "sha256": null
+    },
+    {
+      "path": "lib/prompts/templates/agent-system-wb-assistant/system.md",
+      "mode": "upstream",
+      "sha256": null
+    },
+    {
+      "path": "lib/prompts/templates/agent-system-wb-student/system.md",
+      "mode": "upstream",
+      "sha256": null
+    },
+    {
+      "path": "lib/prompts/templates/agent-system-wb-teacher/system.md",
+      "mode": "upstream",
+      "sha256": null
+    },
+    {
+      "path": "lib/prompts/templates/agent-system/system.md",
+      "mode": "upstream",
+      "sha256": null
+    },
+    {
+      "path": "lib/prompts/templates/director/system.md",
+      "mode": "upstream",
+      "sha256": null
+    },
+    {
+      "path": "lib/prompts/types.ts",
+      "mode": "upstream",
+      "sha256": "33975ce2ffb16ccb11c0affab77e3cc7abb677d8c5ed423c8f4642f315c255e7"
+    },
+    {
+      "path": "lib/server/agent-runtime/course-tools.ts",
+      "mode": "upstream",
+      "sha256": "e933ff55974ff955e81158b98be7cd5459aad510389a787238e97b0124079299"
+    },
+    {
+      "path": "lib/server/agent-runtime/fetch-url.ts",
+      "mode": "upstream",
+      "sha256": "058b6008c8d41a987d10cc1ab7ffd58162cb71dac11afc94e3790104563f41f4"
+    },
+    {
+      "path": "lib/server/agent-runtime/material-tools.ts",
+      "mode": "upstream",
+      "sha256": "e705600a5b685a02c550e6ac39f208670f957b45dc8c65c9fa0069594141544b"
+    },
+    {
+      "path": "lib/server/agent-runtime/runner.ts",
+      "mode": "upstream",
+      "sha256": "174e8ac667f4f318d54ec9e33e61b29a9562cd4ce71d6445525f4392b18c4081"
+    },
+    {
+      "path": "lib/server/model-config/deployment-layer.ts",
+      "mode": "upstream",
+      "sha256": "ed701d1a883e127ca7f8460b9feaac3ab8651d453845c7b1116df59a66e94db7"
+    },
+    {
+      "path": "lib/server/model-config/legacy-config.ts",
+      "mode": "upstream",
+      "sha256": "702102ed59936149f8547c831c06861a621b39e0085512128ffd78ebe408c98a"
+    },
+    {
+      "path": "lib/server/model-config/media.ts",
+      "mode": "upstream",
+      "sha256": "6155ee26711d1e55d5f4d2a4f6b434ade34bd2c46373d0302e560f63f8ba5603"
+    },
+    {
+      "path": "lib/server/model-config/openmaic-yml.ts",
+      "mode": "upstream",
+      "sha256": "4aba2802b43099f37474e67cbf2105dd81f656351e51006dd353bfe0807b9ca1"
+    },
+    {
+      "path": "lib/server/model-config/resolve-slot.ts",
+      "mode": "upstream",
+      "sha256": "ffc8ec9467a12aee53d2072335a545c3b2cbeaa9458654d799f90c947e9af3ea"
+    },
+    {
+      "path": "lib/server/model-config/settings.ts",
+      "mode": "upstream",
+      "sha256": "c0d5360c6cd5cfbae1d8ae2b0c162b35b2a896011d63364dfb453c6aeda3e26f"
+    },
+    {
+      "path": "lib/server/provider-config.ts",
+      "mode": "upstream",
+      "sha256": "8a468dc55b79a12fa7e10d3d192acaa6c2f3f61443525a45441be5464813905d"
+    },
+    {
+      "path": "lib/server/proxy-fetch.ts",
+      "mode": "upstream",
+      "sha256": "f7a66c6e641e01500ccf2ad5b0bca2cec46b6d5f1557d6e1828722c4f73ca669"
+    },
+    {
+      "path": "lib/server/web-search-config.ts",
+      "mode": "upstream",
+      "sha256": "0eabc8534450f1adc5a613300231576a7ebebb27c7ce9c9bc9e1a18c1237bbe1"
+    },
+    {
+      "path": "lib/types/chat.ts",
+      "mode": "upstream",
+      "sha256": "64b1612df2dcf0b0c24b58fb453edcf5995e9c16000b2eb5fdcef9b83a27364e"
+    },
+    {
+      "path": "lib/types/settings.ts",
+      "mode": "upstream",
+      "sha256": "5f16cd54092a5d0953c60bfcb2a6e5433f16fa4581af84774300274a6b631354"
+    },
+    {
+      "path": "lib/utils/chat-storage.ts",
+      "mode": "upstream",
+      "sha256": "a84c6c12d87ce9f3eec514a9027ecb0f82339d42240c855b1e3b525728dd0585"
+    },
+    {
+      "path": "lib/web-fetch/abort.ts",
+      "mode": "upstream",
+      "sha256": "e6385dfed1843f74436b1246a81fa44b2670967c705f9751a40b726576b0b394"
+    },
+    {
+      "path": "lib/web-fetch/builtin-extraction.ts",
+      "mode": "upstream",
+      "sha256": "7c9da10762cae6b81cf2a3ccc64f175fd548f25f044b2ebf9d89396ed03267c7"
+    },
+    {
+      "path": "lib/web-fetch/providers/builtin.ts",
+      "mode": "upstream",
+      "sha256": "2c32073488e1cdffc538ebe548e327ee4c540084045e65dae3fce72ca596b939"
+    },
+    {
+      "path": "lib/web-fetch/providers/deepseek.ts",
+      "mode": "upstream",
+      "sha256": "c600243c2d1aa132804536264e293bb21b7671b962d4f43f2ba1cb1c01b07fa4"
+    },
+    {
+      "path": "lib/web-fetch/providers/firecrawl.ts",
+      "mode": "upstream",
+      "sha256": "2f0c3ba633163adf9c2c70c644849977fedd2af679381dbb9984651a0e5afefe"
+    },
+    {
+      "path": "lib/web-fetch/providers/kimi.ts",
+      "mode": "upstream",
+      "sha256": "9c090cd4813602a3df777629884bc1ce1f035aca56ecc91b60f319b08a6cfb53"
+    },
+    {
+      "path": "lib/web-fetch/registry.ts",
+      "mode": "upstream",
+      "sha256": "27bfca325a8b272927fb8dac6e46bdb1b8e3f756bb98bea4102e47dce1d061de"
+    },
+    {
+      "path": "lib/web-fetch/types.ts",
+      "mode": "upstream",
+      "sha256": "a9d3e4b93425777f6d57aff65c6ab8420dd178f88feed4d4364207e53e6a16ad"
+    },
+    {
+      "path": "lib/web-search/constants.ts",
+      "mode": "upstream",
+      "sha256": "6853d81637c54352a82992f5a415aa18899a64d85d9737b1ad018571632a9df4"
+    },
+    {
+      "path": "lib/web-search/deepseek-endpoint.ts",
+      "mode": "upstream",
+      "sha256": "1f95229358659e9c9d727b00ad4ac9ad8d6a5b1fec59f217484e23ada6330476"
+    },
+    {
+      "path": "lib/web-search/deepseek.ts",
+      "mode": "upstream",
+      "sha256": "c7205c2b07fa7f7987395d6b52561cacd43bdbcca43cb561efd8639a0d619e46"
+    },
+    {
+      "path": "lib/web-search/firecrawl-endpoint.ts",
+      "mode": "upstream",
+      "sha256": "053c0a522d815d3444bf5fe7475163c44a18afe831d557cda64a1714e4c5a28e"
+    },
+    {
+      "path": "lib/web-search/firecrawl.ts",
+      "mode": "upstream",
+      "sha256": "d013ca594eb509b2c6c3bd67596dd5dc4e2b4d7dedacd4b63d0da2bc5472e722"
+    },
+    {
+      "path": "lib/web-search/index.ts",
+      "mode": "upstream",
+      "sha256": "1e8ce896044df467927d40d5f1a94ebf8efe9efe0ccb592674cab3e53726477f"
+    },
+    {
+      "path": "lib/web-search/kimi.ts",
+      "mode": "upstream",
+      "sha256": "daf3f561c7ea10e00ed6a7f689511e64d9b5d4fffbac54b357b1798bb2c45892"
+    },
+    {
+      "path": "lib/web-search/types.ts",
+      "mode": "upstream",
+      "sha256": "1cb03decb69a55e52f0fbf404a6044e21c88e3e8c02c72fe0f9187dc21ff987c"
+    },
+    {
+      "path": "next.config.ts",
+      "mode": "upstream",
+      "sha256": "4683dda51b6351b16a8f1cebab54b014590f5f040fce8f88631e3f9434d09adc"
+    },
+    {
+      "path": "package.json",
+      "mode": "merged",
+      "sha256": "858b1553a53f2f75a8124302a34799bc623d1e7e288d97ae9d4095898a00f766"
+    },
+    {
+      "path": "packages/@openmaic/generation/package.json",
+      "mode": "upstream",
+      "sha256": "ea2d9eabb167bd64c5480268145d297e188fe48975e9b818a10059d1a4ef96b4"
+    },
+    {
+      "path": "packages/@openmaic/generation/src/scene-generator.ts",
+      "mode": "upstream",
+      "sha256": "7e8e76b39a6e9e1ede72281d79f65a51999bc87968227646fa2d675d7c2e1836"
+    },
+    {
+      "path": "packages/@openmaic/generation/test/scene-generation.test.ts",
+      "mode": "upstream",
+      "sha256": "604b0cda199396ab9f906377c3623f3bf27587ac9a7147a75eec825990866a3a"
+    },
+    {
+      "path": "packages/docs/content/docs/configuration.ar.mdx",
+      "mode": "upstream",
+      "sha256": "f46c1ab8f25b48f5b115de350fc88de3c365cb43d668170b32341d1f79b94d9b"
+    },
+    {
+      "path": "packages/docs/content/docs/configuration.ja.mdx",
+      "mode": "upstream",
+      "sha256": "2711963a0892b46a47ac2497058ba60c4f81901bc84be8c0813f74dd7f7cecbb"
+    },
+    {
+      "path": "packages/docs/content/docs/configuration.mdx",
+      "mode": "upstream",
+      "sha256": "f74cc1858aed7fe0cef477fd89b6f6adba5163e1da4e4b23e58a1151e4dfd342"
+    },
+    {
+      "path": "packages/docs/content/docs/configuration.ru.mdx",
+      "mode": "upstream",
+      "sha256": "8b753dab11e434ecd91c96f6bb5f10475d3e4372b6a824047794a5eb946ff112"
+    },
+    {
+      "path": "packages/docs/content/docs/configuration.zh-cn.mdx",
+      "mode": "upstream",
+      "sha256": "d614cf3dd6f86609bec0bf210ddaff4b91b7010cd239a7ebcccaeb5200cc5796"
+    },
+    {
+      "path": "packages/docs/content/docs/configuration.zh-tw.mdx",
+      "mode": "upstream",
+      "sha256": "ec37cb7ee87f3decf42f48190c307981805453c4b4c0d1b4821ecfce751ffffc"
+    },
+    {
+      "path": "packages/docs/content/docs/deployment.ar.mdx",
+      "mode": "upstream",
+      "sha256": "0daec943e5328e3bddf02c8eadd1f9dcfb4f0561d413ec75815924beb970e813"
+    },
+    {
+      "path": "packages/docs/content/docs/deployment.ja.mdx",
+      "mode": "upstream",
+      "sha256": "24fc4afeac95a1cfc2afad44b15be883177027a880dfd11f3da8ca040117adcc"
+    },
+    {
+      "path": "packages/docs/content/docs/deployment.mdx",
+      "mode": "upstream",
+      "sha256": "435e0741b0f6c6733e86b95e66c0d2cee23b4ac05f4bc3555cd69c88ba377d2f"
+    },
+    {
+      "path": "packages/docs/content/docs/deployment.ru.mdx",
+      "mode": "upstream",
+      "sha256": "d1d5dc7565abbf84385f2256af06129a418028752372de0e4aebb2d32a247df5"
+    },
+    {
+      "path": "packages/docs/content/docs/deployment.zh-cn.mdx",
+      "mode": "upstream",
+      "sha256": "fa800aefc384d85aa9eb7dbac31fa35a5721119a19e19f142d4a34266ad0a02b"
+    },
+    {
+      "path": "packages/docs/content/docs/deployment.zh-tw.mdx",
+      "mode": "upstream",
+      "sha256": "0351f08ef2b7cda94ea1c4753b90ad393a86c5ad017ea4fd147fe4ad8d38f22a"
+    },
+    {
+      "path": "packages/docs/content/docs/supported-models.ar.mdx",
+      "mode": "upstream",
+      "sha256": "da45c41ebe4e1ff3255350057998e1a007ea8f4703517e3879d8b74ab2d8ff00"
+    },
+    {
+      "path": "packages/docs/content/docs/supported-models.ja.mdx",
+      "mode": "upstream",
+      "sha256": "a59576a947bd1dad7bb42c96bd2415016008d5b5ba0f0552ccdf52ae10ea5198"
+    },
+    {
+      "path": "packages/docs/content/docs/supported-models.mdx",
+      "mode": "upstream",
+      "sha256": "7240b9658c29457889b485d388b1e3f6f9cf56439ef1ca807332b3036c5b400f"
+    },
+    {
+      "path": "packages/docs/content/docs/supported-models.ru.mdx",
+      "mode": "upstream",
+      "sha256": "a30e055cddb700f45da26bde5876e988522375addf83bd62baff95a03731c73e"
+    },
+    {
+      "path": "packages/docs/content/docs/supported-models.zh-cn.mdx",
+      "mode": "upstream",
+      "sha256": "965d9afdc81be746519ecde8beb7e463c09cc2af17c9fbef53be4a01db8c518a"
+    },
+    {
+      "path": "packages/docs/content/docs/supported-models.zh-tw.mdx",
+      "mode": "upstream",
+      "sha256": "84996e478ef98656999a6465aa5ad5217b2666990cce20b45b2fcb7d986fb54a"
+    },
+    {
+      "path": "playwright.config.ts",
+      "mode": "upstream",
+      "sha256": "961a1234498a7b6a48df708d48c27cbb66bf82c7a8185477191a3e5d1721f90f"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "mode": "merged",
+      "sha256": "0ac816477f3b1f111d1b584c2c5a667c86c79d39752ebbe14a9fd67661028e0b"
+    },
+    {
+      "path": "skills/openmaic/references/provider-keys.md",
+      "mode": "upstream",
+      "sha256": "d6049fb9273b218e2b4e54066d9ce09ee205bf4b7fa38e46a6c2998c7a11b143"
+    },
+    {
+      "path": "tests/agent-runtime/generate-image.test.ts",
+      "mode": "upstream",
+      "sha256": "a62dfab2866e28ec6e3f0216a7d61b214614451581612249efd8ff5f4bb58cf7"
+    },
+    {
+      "path": "tests/agent-runtime/generate-video.test.ts",
+      "mode": "upstream",
+      "sha256": "4c402bd62bd90358ed6060defedc0050b605a4e9e1985cd1f511b0d05cc957e2"
+    },
+    {
+      "path": "tests/agent-runtime/material-tools.test.ts",
+      "mode": "upstream",
+      "sha256": "6cb095142cdc542778a99745ededcfb2402397de2ab7b54951c3e7da43831c85"
+    },
+    {
+      "path": "tests/agent-runtime/runner-web-search-registration.test.ts",
+      "mode": "upstream",
+      "sha256": "424709460480b3ef8b0b96427e6b9d885dbf0da18bab9c4209dca903fb7d05bf"
+    },
+    {
+      "path": "tests/agent-runtime/web-fetch-routing.test.ts",
+      "mode": "upstream",
+      "sha256": "a932c7481eabcdbb4c6a0f514a789689c7d72e703a28e5c23b3aa2063e5b18c1"
+    },
+    {
+      "path": "tests/ai/llm-fallback.test.ts",
+      "mode": "upstream",
+      "sha256": "695a1d9a891b797771edf9376721c5334f4efbc89d6484ec9dc9e33cde2f25ba"
+    },
+    {
+      "path": "tests/ai/model-aliases.test.ts",
+      "mode": "upstream",
+      "sha256": "60053a67c3f73a7a32bd3bf34ea247a2f5d400808f76d85ed9adab9d1ed1a117"
+    },
+    {
+      "path": "tests/ai/model-metadata.test.ts",
+      "mode": "upstream",
+      "sha256": "51489c84dfdebf7cb6836bf7408df7a6548aeb665f9cdaae0347b720b7d259b9"
+    },
+    {
+      "path": "tests/ai/openai-provider.test.ts",
+      "mode": "upstream",
+      "sha256": "ee5f7fd7cb2a73342cdf521925f0d00a4bb45daf66c011110b7b533f62cdf3f0"
+    },
+    {
+      "path": "tests/ai/openai-sdk-integration.test.ts",
+      "mode": "upstream",
+      "sha256": "d0d8ff0a51431826efa7f0171bc598520f033e8c14f43c0f58459cfec395f509"
+    },
+    {
+      "path": "tests/ai/thinking-config.test.ts",
+      "mode": "upstream",
+      "sha256": "42e43a7662d572e83d0b1071de2113bfcfc1b928c364680595221b8d97f7dff6"
+    },
+    {
+      "path": "tests/ai/xiaomi-provider.test.ts",
+      "mode": "upstream",
+      "sha256": "38c4af9967b23a784823e7346d85afe5683704e3a7fe2d677aeb5f68e80fcfbf"
+    },
+    {
+      "path": "tests/chat/agent-loop-async-state.test.ts",
+      "mode": "upstream",
+      "sha256": null
+    },
+    {
+      "path": "tests/chat/chat-area-cue-user-options.test.ts",
+      "mode": "upstream",
+      "sha256": "9bbdbc1b9c477994cf8044045150c1c2ff1e455b567b6c2751719bafc9d204d4"
+    },
+    {
+      "path": "tests/chat/roundtable-cue-user.test.ts",
+      "mode": "upstream",
+      "sha256": "1161b0229fecc4f977d3579833173080e538f02365bb81dfc705c2af42adb565"
+    },
+    {
+      "path": "tests/components/edit/playback-chrome-root-element-reference-owner.test.ts",
+      "mode": "upstream",
+      "sha256": "fb4c6cc3a4b5167118f5e66e4efe6926240cdc4dd2ba9597dfcdde5dc733bd4c"
+    },
+    {
+      "path": "tests/config/feature-flags.test.ts",
+      "mode": "upstream",
+      "sha256": "08b33cc30a43299f694c61cfd18ff2d4b5312b142f54270760c860e11c3f8a99"
+    },
+    {
+      "path": "tests/config/model-slots.test.ts",
+      "mode": "upstream",
+      "sha256": "6115a560c84d1dd7a522a32ce8f314e62b8845b4cb48777011173db6e2d89c1b"
+    },
+    {
+      "path": "tests/config/pi-chat-build-env.test.ts",
+      "mode": "upstream",
+      "sha256": "cfc14776c4afdae64347dde8279f905b7493bc6b22186e716ad2bf86e644966f"
+    },
+    {
+      "path": "tests/config/provider-presets.test.ts",
+      "mode": "upstream",
+      "sha256": "7f54c7ab3b5d55d81ca5479fef4a30fcf6f1f98082c4cd19fa6ece93ef111917"
+    },
+    {
+      "path": "tests/eval/orchestration/answer-content-runner.test.ts",
+      "mode": "upstream",
+      "sha256": "851c2f9b52771031c3cda7a8d4edbf9705853c835bd21f0e7cd49d1ba953b85b"
+    },
+    {
+      "path": "tests/eval/orchestration/answering-runner.test.ts",
+      "mode": "upstream",
+      "sha256": "4947437ca14b9b9c3db37d5262fed9f4efc886a0dc34b7a03ef6b611f494d4b6"
+    },
+    {
+      "path": "tests/eval/orchestration/pi-harness.test.ts",
+      "mode": "upstream",
+      "sha256": "e0bd3ec3d57f1201a296be1fc5065ef99306bed2e078a5f38f06a353245c1171"
+    },
+    {
+      "path": "tests/eval/orchestration/pi-trace-contract.test.ts",
+      "mode": "upstream",
+      "sha256": "d39feb48a93181cc845ddab6d022e795c9f2541239c4342a552c9229ca28ba8c"
+    },
+    {
+      "path": "tests/eval/whiteboard-layout/runner.test.ts",
+      "mode": "upstream",
+      "sha256": "7eff59296d789117a541575aa4f49f085e842a67037d58658c053ac112051c74"
+    },
+    {
+      "path": "tests/i18n/i18n-provider-locale.test.ts",
+      "mode": "upstream",
+      "sha256": "3e6d826522b910260964554b77098150e8b57a670f31c8ede3be449a76de6c03"
+    },
+    {
+      "path": "tests/i18n/resolve-locale.test.ts",
+      "mode": "upstream",
+      "sha256": "3ccfd360386c3c0591f4c73bf92560a3759189b1f897a6c97e11b767058af609"
+    },
+    {
+      "path": "tests/legacy-browser-import/model-settings.test.ts",
+      "mode": "upstream",
+      "sha256": "d6031dc021687e3f2fc438cbc068897350fa9c77410cca52c087ad58bac68e5e"
+    },
+    {
+      "path": "tests/lib/agent/runtime/director-transport-consumer.test.ts",
+      "mode": "upstream",
+      "sha256": "ffb0bb12a981f1ec2421aedcd42c66205c1c8c3cc6ca41e60f8988cfffc7c66c"
+    },
+    {
+      "path": "tests/lib/buffer/stream-buffer.test.ts",
+      "mode": "upstream",
+      "sha256": "792a467bbd5726edeb3adc8daf641889b0da3d73cef6b9329aad0ab2311407d3"
+    },
+    {
+      "path": "tests/lib/chat/pi/cue-user.test.ts",
+      "mode": "upstream",
+      "sha256": "29882f56497012ffaea9bc620c34acdb1a9c70087ceb7a3730eedda43154125f"
+    },
+    {
+      "path": "tests/lib/chat/pi/element-reference-route-l2.test.ts",
+      "mode": "upstream",
+      "sha256": "e248637e46afaeaaadc089865691e717496b3f2603538e1d86acb95202f0fca9"
+    },
+    {
+      "path": "tests/lib/chat/pi/native-child-route-wiring.test.ts",
+      "mode": "upstream",
+      "sha256": "93e20e216621081b4ec4d74f8b4f837e199eda23e816d702153b1bf2c0179b3d"
+    },
+    {
+      "path": "tests/lib/chat/pi/prompts.test.ts",
+      "mode": "upstream",
+      "sha256": "736deb36fd0572889ac032d5021f7f92198bdbd0a98aca084998ba6d80b09aa1"
+    },
+    {
+      "path": "tests/lib/chat/pi/route-cue-user.test.ts",
+      "mode": "upstream",
+      "sha256": "c968661339eca727b739e7186acc291411f5e9b61990df1eedc8ed617899fd38"
+    },
+    {
+      "path": "tests/lib/chat/pi/route-model-precedence.test.ts",
+      "mode": "upstream",
+      "sha256": "21986b8b89df6c76b87d30945eda2b486b1ab81a65b4762f14de99e0bf0da4e1"
+    },
+    {
+      "path": "tests/lib/chat/pi/route-model-thinking.test.ts",
+      "mode": "upstream",
+      "sha256": "8c50998257c9a69075dbe442157ab109844c4fdea65a7c3ecb599b3b4e9cfbd1"
+    },
+    {
+      "path": "tests/lib/chat/use-chat-sessions.test.ts",
+      "mode": "upstream",
+      "sha256": "2b6d098c61beb9487b4fe975d158649d80f72cd5251f2a128857d3feb8ed6fac"
+    },
+    {
+      "path": "tests/lib/logger.test.ts",
+      "mode": "upstream",
+      "sha256": "7737828b1e349bfaef5fdd5d8d30455440d0bdf8f216aeaebec3eb52533bd63a"
+    },
+    {
+      "path": "tests/media/video-polled-adapters.test.ts",
+      "mode": "upstream",
+      "sha256": "f8091faf65823f33de90a068aa56ccf0e7dc3f25f55ed185525d4df61dee1f52"
+    },
+    {
+      "path": "tests/media/video-provider-catalog.test.ts",
+      "mode": "upstream",
+      "sha256": "b1eb6392deb33e0def944610d5148cacdcfa5db24581add12181bd0f883d0985"
+    },
+    {
+      "path": "tests/model-settings/diagram.test.ts",
+      "mode": "upstream",
+      "sha256": "907e79088f9274557ebae3007aa90f4432b945be725d6ee8bf598b5216d7fa7a"
+    },
+    {
+      "path": "tests/model-settings/shape.test.ts",
+      "mode": "upstream",
+      "sha256": "1dec27730db42e1f276fe1db2cd4ee9430af3090ab5a2e0bb259334ca16df3dd"
+    },
+    {
+      "path": "tests/model-settings/token-plan.test.ts",
+      "mode": "upstream",
+      "sha256": "56804fb50d44565ac67d9e9ca4614b4453ed8fabacaf59a55715fa950ab7ccea"
+    },
+    {
+      "path": "tests/model-settings/web-fetch-panel.test.ts",
+      "mode": "upstream",
+      "sha256": "839f78ead9c4e14059a57120e8ee0dd7bef6cf7dc2c7446ceb812d8fdb175b4f"
+    },
+    {
+      "path": "tests/orchestration/conversation-summary.test.ts",
+      "mode": "upstream",
+      "sha256": null
+    },
+    {
+      "path": "tests/orchestration/tool-schemas-latex-guardrail.test.ts",
+      "mode": "upstream",
+      "sha256": "adcdc670ae13068c7df77a028ca1d11e95f4b754cdab88f449c3abdf6b4378f2"
+    },
+    {
+      "path": "tests/prompts/templates.test.ts",
+      "mode": "upstream",
+      "sha256": "d0ea9aa5c8e7c802b33bcf0c96033addaf1668bc79aed573f578443a38255fc1"
+    },
+    {
+      "path": "tests/providers/provider-neutrality-guard.test.ts",
+      "mode": "upstream",
+      "sha256": "b494c60217d476afc50ef3ebf003cf53f7d8e1936afe0cc9b173e63d932c4eec"
+    },
+    {
+      "path": "tests/runtime/chat-storage.test.ts",
+      "mode": "upstream",
+      "sha256": "c3cabaa95eb751de0deae2bdc14d9d52b5e3c406ce9ce4dd86605e2e9db5314d"
+    },
+    {
+      "path": "tests/server/chat-route-user-routes.test.ts",
+      "mode": "upstream",
+      "sha256": null
+    },
+    {
+      "path": "tests/server/generate-classroom-api.pg.test.ts",
+      "mode": "upstream",
+      "sha256": "f8db51a6da0e4e752146b74a6a54f7c7601e1602f4aa0672af97e58975f69c4b"
+    },
+    {
+      "path": "tests/server/identity/owner-cookie-forwarding.test.ts",
+      "mode": "upstream",
+      "sha256": "23225d2d4291f73b9700aa3417bcec5a12e9778484657c25e9132c41dc60deb2"
+    },
+    {
+      "path": "tests/server/middleware-access-token.test.ts",
+      "mode": "upstream",
+      "sha256": "7822e5b4c3c6c375838ad0ae65a7a066e7b9d4de4309bc06efca7f174c69c531"
+    },
+    {
+      "path": "tests/server/model-authorization-coverage-matrix.test.ts",
+      "mode": "upstream",
+      "sha256": "7588ba78e13f13a7a1982337bafeffe6037391242e1477e7c3f71738b33ddc5f"
+    },
+    {
+      "path": "tests/server/model-config/deployment-layer.test.ts",
+      "mode": "upstream",
+      "sha256": "3d60d625c391335d6edd8fb525977d4284e5f730b70a8d45cf3967744fd5d745"
+    },
+    {
+      "path": "tests/server/model-config/legacy-config.test.ts",
+      "mode": "upstream",
+      "sha256": "08718135bd80b14202d7d9b117b6e09471fa2cb10bb94a9d9c4677a1fb3bdb2b"
+    },
+    {
+      "path": "tests/server/model-config/llm.test.ts",
+      "mode": "upstream",
+      "sha256": "ee2da645a88b18208a2a72abb145df511173166e25027aee9bae0c0eeb6bf4bc"
+    },
+    {
+      "path": "tests/server/model-config/media.test.ts",
+      "mode": "upstream",
+      "sha256": "b20d79077628339bff420f41b880cf640a5b8dee8341ec8fa8443c98a799f07f"
+    },
+    {
+      "path": "tests/server/model-config/model-authorization.test.ts",
+      "mode": "upstream",
+      "sha256": "2e72a5ad1d290cc8dc49aef3a5f2cc93d22a4d3114d465c171140a1a8d1023f5"
+    },
+    {
+      "path": "tests/server/model-config/openmaic-yml.test.ts",
+      "mode": "upstream",
+      "sha256": "90765b1842843f2dac2532625331628a39eca255bd5b01cc451133d4db6448a2"
+    },
+    {
+      "path": "tests/server/model-config/resolve-slot.test.ts",
+      "mode": "upstream",
+      "sha256": "7d4b839325366300bf4683e2144f1b2ece3761ed5959175967e205985f1ecdf4"
+    },
+    {
+      "path": "tests/server/model-config/runtime.test.ts",
+      "mode": "upstream",
+      "sha256": "9a3e06aa2f1b41a77025ca1e38cd603034422f653242a31b3854581739d1f388"
+    },
+    {
+      "path": "tests/server/model-config/settings-route.test.ts",
+      "mode": "merged",
+      "sha256": "06bd961f7d29f943c46e885a509cf13f441ef50645b1dd9e14479a16f5d13768"
+    },
+    {
+      "path": "tests/server/model-config/settings.test.ts",
+      "mode": "upstream",
+      "sha256": "940e0ceed34935003268859c6b09e23168a94ca4fcbaba20be023bc5a1f64a78"
+    },
+    {
+      "path": "tests/server/model-config/workspace-web-endpoints.test.ts",
+      "mode": "upstream",
+      "sha256": "4f5b2f42f78f7fd6a1efec3cf090d2f3e89031b8427bb67dd3ada68172856505"
+    },
+    {
+      "path": "tests/server/provider-config.test.ts",
+      "mode": "upstream",
+      "sha256": "2320d4ba200ca03f921c5dea507801d50cd52f167581d5c91e23815ec5e9147a"
+    },
+    {
+      "path": "tests/server/proxy-fetch-transport.test.ts",
+      "mode": "upstream",
+      "sha256": "e559ec660857324426e3c170f31e61b33304c4de53ea2fa906d24c4c9d173ab8"
+    },
+    {
+      "path": "tests/server/security-headers.test.ts",
+      "mode": "upstream",
+      "sha256": "9fd16539820882a43521756507ec901e6f8b94c120631476691f26588d49f6cc"
+    },
+    {
+      "path": "tests/server/web-search-config.test.ts",
+      "mode": "upstream",
+      "sha256": "96b2f5e05c83d296fef5aeef67513e3a4f1a5c1b5493c17f33c347bf323cfad7"
+    },
+    {
+      "path": "tests/settings/config-modes-ui.test.ts",
+      "mode": "upstream",
+      "sha256": "86e0c3df7a2f38c4fc82dcce6f8bef127aed0f8126182a3fea9f90e1c84de49a"
+    },
+    {
+      "path": "tests/settings/token-plan-connect-ui.test.ts",
+      "mode": "upstream",
+      "sha256": "4a058ea61c793cf30b68817289c7c03532a95cdc0a2fe8de8e8317d5d4444748"
+    },
+    {
+      "path": "tests/web-fetch/deepseek-config.test.ts",
+      "mode": "upstream",
+      "sha256": "f30afffc50f6a479cc61eae04418d7522957f5aebd8335780d95652442b38052"
+    },
+    {
+      "path": "tests/web-fetch/deepseek.test.ts",
+      "mode": "upstream",
+      "sha256": "925b0e990bc8bf5b49a7660968b68f02100b1d3142c4da06ac409316f89e06c6"
+    },
+    {
+      "path": "tests/web-fetch/firecrawl.test.ts",
+      "mode": "upstream",
+      "sha256": "e59e06af96b01e8ebd09fb677f63788dac54bb6885391a8711ad92f9896181ab"
+    },
+    {
+      "path": "tests/web-fetch/kimi.test.ts",
+      "mode": "upstream",
+      "sha256": "824f97e336d284c4d1469ddc3b5ff28fa17afff14a9ec1c76bc5016ec2a8a854"
+    },
+    {
+      "path": "tests/web-fetch/registry.test.ts",
+      "mode": "upstream",
+      "sha256": "7918f8694bbeb59305205b4c6dbe536d8931e39ba4bf9cad673bb3bb55f48d8e"
+    },
+    {
+      "path": "tests/web-search/constants.test.ts",
+      "mode": "upstream",
+      "sha256": "c8308235d0d20b50ee835cfa3451ed5bf9e8653b3ee7271213cc83807a848996"
+    },
+    {
+      "path": "tests/web-search/deepseek.test.ts",
+      "mode": "upstream",
+      "sha256": "da170032d9d933b6e3c68b9eb7c7e1037113e5a1dc119f2b13d6e49a872634e0"
+    },
+    {
+      "path": "tests/web-search/firecrawl-endpoint.test.ts",
+      "mode": "upstream",
+      "sha256": "789df378af7d05e2c86c6aa9be954d64096a507e367a36105600685f169981f0"
+    },
+    {
+      "path": "tests/web-search/firecrawl.test.ts",
+      "mode": "upstream",
+      "sha256": "3544eb92dd322d9e12a7f6b33349b8950b49295f3f6cdc48ea512512a55363c9"
+    },
+    {
+      "path": "tests/web-search/index.test.ts",
+      "mode": "upstream",
+      "sha256": "f0ed25d93c336a6a0e0b3d92865fdc47f8e89ab6a5f5d2157e224c5e733bd506"
+    },
+    {
+      "path": "tests/web-search/kimi.test.ts",
+      "mode": "upstream",
+      "sha256": "915647e246349d901d1ef7f965e4c9cf1dd274922ec5a22d611d6b3dddc41c4c"
+    },
+    {
+      "path": "tests/workbench/composer-materials-toast.test.ts",
+      "mode": "upstream",
+      "sha256": "37378c72d2419b92653e90aa06e37f04adeb6fdbce3bd95c6e4926c11df133fd"
+    },
+    {
+      "path": "tests/workbench/tool-presentation.test.ts",
+      "mode": "upstream",
+      "sha256": "c7c9d8824127ee101fe3447adce759888e31d74575496c44d09657e77f7f44b6"
+    }
+  ],
+  "mergedLocalCustomizations": [
+    ".github/workflows/ci.yml",
+    "README-zh.md",
+    "README.md",
+    "package.json",
+    "pnpm-lock.yaml",
+    "tests/server/model-config/settings-route.test.ts"
+  ],
+  "workspaceBackup": "/home/zxm/.local/state/zhiban-upgrades/openmaic-121-20261020-201101/workspace.tar.gz",
+  "backupSha256": "40c77f4456a2316d1de836bca3272273a486657844c5cb868e43bdfd623f74cf",
+  "versions": {
+    "app": "1.2.1",
+    "generation": "0.3.21",
+    "storage": "0.37.3",
+    "dsl": "0.11.3",
+    "renderer": "0.1.14"
+  },
+  "oldReceipts": "RETAIN_ORIGINAL_SCOPE_NO_RELABEL",
+  "providerAndQuizPins": "Unchanged package/algorithm tuples retain their independent v1.2.0 source pin; official source verifier now checks v1.2.1 plus exact quiz-extension hashes.",
+  "existingMigrationsChanged": false,
+  "migrationBaselineHashes": {
+    "lib/zhiban/infrastructure/identity/postgres/migrations/0001_identity_bootstrap.sql": "bd81a6bef9241e3173eea297e276d97787446d757c5b2b79bf4e6b8a4a1cb235",
+    "lib/zhiban/infrastructure/identity/postgres/migrations/0011_identity_recovery_source_locks.sql": "5f61cd3072271492b253486d8f328bb1420f49d1a9b32c97bb82e737cdf8bc83",
+    "lib/zhiban/infrastructure/identity/postgres/migrations/0009_identity_membership_composition.sql": "91d064abb0238b57e1f2afe7a50f441befb947568789ca31b9a1e6277449753a",
+    "lib/zhiban/infrastructure/identity/postgres/migrations/0013_openmaic_bridge_consistency_fix.sql": "025318bf1759b6fb34c6a51992181f340efe16ae67d7cf597f5b09689f5c949c",
+    "lib/zhiban/infrastructure/identity/postgres/migrations/0005_identity_credential_consistency_fix.sql": "dcb7d50a123b816def8f9374bfbd1f68e3d66e091a170278906783d0305ee0f9",
+    "lib/zhiban/infrastructure/identity/postgres/migrations/0006_identity_sessions.sql": "d0204f6d5e1894ffdc62df16e07700f31fb0ce968571e77f711af23b096e1bc0",
+    "lib/zhiban/infrastructure/identity/postgres/migrations/0014_openmaic_120_versions.sql": "2272b36bc16267070c4f62c155f8bdfef58d3f7dce7856be96fbbc4637747377",
+    "lib/zhiban/infrastructure/identity/postgres/migrations/0003_identity_audit_and_rls.sql": "cd2480d062d55c4999cf71ca6670b17b006f4146e514ef7a576812c2829880bf",
+    "lib/zhiban/infrastructure/identity/postgres/migrations/0004_identity_credentials.sql": "d2ca67e1f274876ded48e8965d46bd9347795fac488c6d7e27ac0ceeb8677b1a",
+    "lib/zhiban/infrastructure/identity/postgres/migrations/0012_openmaic_bridge_foundation.sql": "70bd7e0131e3f0fc0e377393c66d378e5be74387d0cc345b0c0cba27760372c1",
+    "lib/zhiban/infrastructure/identity/postgres/migrations/0007_identity_authorization_state.sql": "20d6ad486cd4c2afc8f3ab75591dfd7895b62118a07a3a086b469c77b3f5ef27",
+    "lib/zhiban/infrastructure/identity/postgres/migrations/0008_identity_authentication_composition.sql": "0ace96db7b9fa5747219c47f42bdfd2cbc1a60bebf2f54b7fbe9afb8a19fe992",
+    "lib/zhiban/infrastructure/identity/postgres/migrations/0010_identity_manual_recovery.sql": "97dd2306cca1f1e8c6976329c50293aa733ffb3bd843636f9383c2b8eb83c03b",
+    "lib/zhiban/infrastructure/identity/postgres/migrations/0002_identity_core.sql": "6289d7bc1a53a63d4d66a8a79f6d9c0d96f5d59643911a4a395a5fc0be9f4703",
+    "lib/zhiban/infrastructure/academic/postgres/migrations/0001_academic.sql": "40c9af67f0f6521a0dd601138dbc01010c277e5b636e4a633bd7b77ba5990427",
+    "lib/zhiban/infrastructure/classroom/postgres/migrations/0001_classroom.sql": "1668814bdc87f8137609ca511c51037c43958b1a57843d2900f09f360ccb6a2f",
+    "lib/zhiban/infrastructure/classroom/postgres/migrations/0002_classroom_edit.sql": "3bc1acaead53db6060df328731296f30980a5fb9aebddbbe6a1c7d4dfe413a4d",
+    "lib/zhiban/infrastructure/learning/postgres/migrations/0002_quiz.sql": "7824cda2711a4c86e1b7a089c07277ccea7bce436d8ff1e351b4d1889e2e36c2",
+    "lib/zhiban/infrastructure/learning/postgres/migrations/0001_learning.sql": "768db17be502a584e2e35a403cbaaad7c419dcaadcd21da4bf1819bdad0615c1",
+    "lib/zhiban/infrastructure/discussion/postgres/migrations/0001_discussion.sql": "7df2d3e579b74f82cfd71c09669fbdadb82bae12c01a03b7a3131a47e1a7e1ba",
+    "lib/zhiban/infrastructure/curriculum/postgres/migrations/0001_curriculum.sql": "6a95e433026ce07095f3b787c7895cc501589a684c276221c9021e68676e0a72",
+    "lib/zhiban/infrastructure/profile/postgres/migrations/0001_profile.sql": "d849eae63df03912c25411bcb29bf49ba71a1fffaa5297624271ae8cc48e4ab9",
+    "lib/zhiban/infrastructure/learning-files/postgres/migrations/0002_file_clearance.sql": "21bb7a88c29e783c37b111a97d2ffb1e715d819238dff4c262ea80016f73896d",
+    "lib/zhiban/infrastructure/learning-files/postgres/migrations/0001_submission_files.sql": "1f5208dba3578092e56f7c9fe1e025251b0459db3e8555b89c1e5887da584dec",
+    "lib/zhiban/infrastructure/learning-files/postgres/migrations/0003_trusted_scanner.sql": "bb0760ba2cd25ce7416e9b531246864a17df6359150dbd0bfd702bb615225e1b",
+    "lib/zhiban/infrastructure/assessment/postgres/migrations/0001_assessment.sql": "a1253740360ca9e97f9315cb9126483314d05a33c1bcb44f4ba9eb61356a80f7",
+    "lib/zhiban/infrastructure/assessment/postgres/migrations/0002_quiz_details.sql": "bd0a3070df580c9d8af1aed0cc08f8fc932648ac7f81b0a93449abf05e506fd7",
+    "lib/zhiban/infrastructure/material/postgres/migrations/0001_material.sql": "112b63475f791bccbfdbe6b2d030cbb1b7a275d2379cc25a8ae6c939c00cc994"
+  },
+  "frozenIdentityPolicyHashes": {
+    "/home/zxm/openmaic/zhiban/lib/zhiban/domain/identity/persistence-validation.ts": "e8b70db46692667f96682656190343aa620dc9433fd1f87fd70b8cee868f0808",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/domain/identity/policies/authorization.ts": "fef0bae72ca2810f2d87176c6557f8a8d59356c8703dae0ef25c51913f3d8a04",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/domain/identity/user.ts": "3cfc596b4e08984c878846819923bac8890168cdbb398fe0c57637598c9ed3ee",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/domain/identity/membership.ts": "a182c79199ca123da14094133d8f199dda5edab2455939229aa85eb7e11c55db",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/domain/identity/tenant.ts": "0c7fd22a49092dff322f1da799df8ac5399cac4d4aa0d7caa96ac41ba3b8a75f",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/domain/identity/system-admin-grant.ts": "0d7a5328e601e07e0a48aacfdae3468157327cf14505f98f130c1e3a013ba5dc",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/domain/identity/index.ts": "79ced7687abd3b442c650dbfe49e11e40e612d4234e786eac676c66bbee606c7",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/domain/identity/role-grant.ts": "8b7884793767e26827e182a26c3b6ab8f991f322a011e1fe7a3b37ba905973b3",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/domain/identity/permission.ts": "686442fc186020337dc1793d61347a7422e876f6d3d688e0fb9c08d685d3201d",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/domain/identity/errors.ts": "bc4f305d4f27ff38087e9b150ac2d2adea3780c424f006b4bddc0f6c5005c00a",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/domain/identity/time.ts": "06cf772e3b97cd764ed0d0a07e7187437db2251380f3fee733e362bbce1e126b",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/domain/identity/scope.ts": "7af9d1f2af937aee5cb8e2a6d758550393d0e6a972daca49f2007d93b829b4be",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/domain/identity/role.ts": "1b49c74ba5af054c689157c76b16b5c9a05b1dd4ddc6f8db7426f581d9191de2",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/domain/identity/persistence-rehydration.ts": "a5643f4119232c3b630e872686000a3e5f94b1dffdde0b6fd4f6fd44ce411e48",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/domain/identity/ids.ts": "cf180a3f28508ebaaf00ccd778e371368cf1d28f129e02ec47a93f7f6b3edd60",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/identity/authorization/identity-catalog.ts": "54eabdb898706468082c53d05b66f71d4ba449443f4ed52e83cdb0e2538c5c1b"
+  },
+  "envExample": {
+    "exists": true,
+    "hiddenDotfile": true,
+    "matchesOfficial": true,
+    "envLocalPresent": true,
+    "realSecretsConfigured": "NOT_INSPECTED_OR_MODIFIED_BY_AGENT"
+  },
+  "checks": {
+    "frozenLockInstall": "PASS",
+    "generationBuild": "PASS",
+    "sourcePins": "PASS_FIVE_PACKAGES_PLUS_UNCHANGED_QUIZ_EXTENSION",
+    "productionBuild": "PASS_WITH_60_STATIC_WARNINGS",
+    "applicationTypes": "PASS_TS_CONFIG_BUILD",
+    "fullRepositoryTypes": "NOT_ACCEPTED_DEFAULT_HEAP_OOM",
+    "targetedTests": {
+      "initialPassedFiles": 26,
+      "initialPassedTests": 452,
+      "initialFailedTests": 1,
+      "skippedSmoke": 1,
+      "failedFileRecheck": "PASS_11_TESTS_UNCHANGED_TIMEOUT",
+      "uniquePassingTestsAcrossInitialAndRecheck": 453
+    },
+    "generationSceneTests": "PASS_16",
+    "svgParserTests": "PASS_8",
+    "hostLint": "PASS"
+  },
+  "runtime": "PREVIOUS_PROCESS_STOPPED; no live v1.2.1 journey claimed",
+  "realModelGeneration": "NOT_CONFIGURED_NOT_EXECUTED_NOT_ACCEPTED",
+  "boundaries": {
+    "realDatabasesAccessed": false,
+    "runtimeActivated": false,
+    "fullClassroomRegression": false,
+    "gitCommit": false,
+    "gitPush": false,
+    "ciDispatch": false
+  },
+  "fileHashes": {
+    ".env.example": "e128876110d72452e31700c125029d3b4739fd21142544f95a004fb697c2a2e5",
+    ".github/workflows/ci.yml": "5355a9c570ee46e1f53aed5e18043b39f0f63ab462c79419e50704bafeb100ba",
+    "CHANGELOG.md": "b2c8151034a06e5101adf4dc2edaa1ba13399f5d3b0d8b99a00b5b60a68b0a25",
+    "CONTRIBUTING.md": "8c2dee0529342c87c60bc2af543245d6f408c4ef9d61675deddf034c3676ddb8",
+    "Dockerfile": "37b305ed73283f7d240148e213877df72fd78141dd4f00c92ae89fd8e3c65f1f",
+    "README-zh.md": "7a520246d37bb0f1b4ec34034f736e10d924eb7b8ddcbb1015467d1ca8a2de4e",
+    "README.md": "70d44217dd36a7465bbf756ed342a11a99fb4b3548108880e4036d388620905a",
+    "TRIAL.md": "2995d9b1966a29e2035c1b6a3ff01803abe170610e44669c573ecb56c735353c",
+    "app/api/chat/pi/route.ts": "6b6cc5bcf77ff03d84ca738c23855f98e88ff1379601956a916a5b89d6ec103b",
+    "app/layout.tsx": "1ea151b59ebaacc5b784580e2ea9a117256b1b681f20ca1720289ca665666bfc",
+    "components/chat/chat-area.tsx": "edcdb1ea461cdefaa791f360e141cf3b0f3480c92a67df060eff03d8de852f6e",
+    "components/chat/use-chat-sessions.ts": "8a516718621931ae0c1576b1ba40000ee6481602aef2fb2b98a00a6207805f12",
+    "components/edit/PlaybackChromeRoot.tsx": "376c44bda8465260ae785aec16b202a9e62669d28822fa1206a918b64ae1ee56",
+    "components/roundtable/index.tsx": "aee963ed325a205c3e1cb7f4be5b333e4d3ee31a27690bfa4155e82d28d7bebc",
+    "components/settings/model-services.tsx": "a564b02526791fbe5703272412f39a826fc66046e4e86a9c6d67229d26bd8f48",
+    "components/settings/models/slot-meta.ts": "c954be955749e1badcf4d5192d9fca8b431e969cf7f4912d68028d3153126ffa",
+    "components/settings/models/slot-picker.tsx": "5a5a17ac3afdf171661608d66e026a0ffd5a25567e783b7d90d59fbce33d583b",
+    "components/settings/models/station-node.tsx": "c37a6876f5d35d8b92435831e29826da475919cfe9263becd69d98886493d751",
+    "components/settings/models/station-text.ts": "b95c7fe056a0d1fb246719633416df3df8fc3a3055ba23afee9cd2a39de3ce15",
+    "components/settings/service-display.ts": "6e9e4dfb10a32dfdea85224618c03d960e01e8160941e8ba70504d53b09dda8e",
+    "components/settings/token-plan-settings.tsx": "7255f6ec6e2848872361ca53f123858e076a1f336121cceae90a21cfce9a023e",
+    "components/settings/unimported-settings-notice.tsx": "9fa37837f488252b49f65fb2d140102366e43c9260b553408fd15778ea2d862e",
+    "components/settings/web-fetch-settings.tsx": "fe89cb7f3ced99db802cabeda1b8ed272057534ac9efb91f043ae0a03a2cd0f2",
+    "docker-compose.yml": "99607b1dc1efee695d0bd38f75cc4fffd290c173709067896f5c8faa5302ad1d",
+    "docs/v2/evidence/upgrade-121/build-type-diagnostic.log": "1223e2bcd4559ac65af28e86f3bfac6aa0f28d5960a3fc295888b92bfcc24163",
+    "docs/v2/evidence/upgrade-121/build.log": "3d17295de46a55eacf930555289cc35ff4c89edaf529d32fb35fd0dc9470d9f9",
+    "docs/v2/evidence/upgrade-121/generation-build.log": "f5ebdf4f66bf13e1b51c6901195cee28130ac4ddf13f3b97f1ebe8d7b588d670",
+    "docs/v2/evidence/upgrade-121/generation-tests.log": "87616bd8848ebcf6bd89a42456cb299c562f2f36cf419a8413254f035385b195",
+    "docs/v2/evidence/upgrade-121/host-lint.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/v2/evidence/upgrade-121/install.log": "6c8851736c8daa3dac7123e97cfbba20bf85d224230cb2e047ca4b261255b2f8",
+    "docs/v2/evidence/upgrade-121/runtime-before.json": "a9c0b69ab44e84d274d543cf42542b8abfc5472ed2145c384c5d885785746ccd",
+    "docs/v2/evidence/upgrade-121/settings-route-recheck.log": "245d8980dc47b1926e558426393d31d8c5c09963fbcf43373ec4afa04be97686",
+    "docs/v2/evidence/upgrade-121/source-check.log": "a20fb2eb34974352f9364139c5ee473e88ab83fd64ffdae197ecdd515307f57d",
+    "docs/v2/evidence/upgrade-121/svg-parser-lint.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/v2/evidence/upgrade-121/svg-parser-tests.log": "4b49226a2a54504b3a23410eeff594f51d9d6e7d01399386ffcb2af8d9fd2839",
+    "docs/v2/evidence/upgrade-121/targeted-tests-initial.log": "f3661a860182235548b7b9615f54b90aab19a5d41c03f44360bf53b844639549",
+    "docs/v2/evidence/upgrade-121/typecheck-default-heap-diagnostic.log": "3a4867ace10b123a5ce4ff5c2d53c60e37301549f38f2f0892c433a93fe0ae9b",
+    "docs/v2/evidence/upgrade-121/typecheck-inference-diagnostic.log": "d46bfffb006a00c9e7f181ed8ee3d8b77983f999e5c348e22b2acad3fc7e2775",
+    "docs/v2/zhiban-v2-ai-lesson-local.md": "96463c70f62f0d7115adb65c6f7ecc0ea1ab9b4ed079025ddf097aa5a2f7ef4b",
+    "docs/v2/zhiban-v2-migration-completion-plan.md": "9b8e7f3ac92db6da67e8b61463eb8c79c3642d86d9e82a295aadd914cec6320f",
+    "docs/v2/zhiban-v2-openmaic-121-upgrade.md": "a9cdfd052e6cef16d349b31e0183c8793d2175f5b0131003e1fd70597b91b16e",
+    "e2e/tests/cue-user-options.spec.ts": "3b8aaa2871abb2ef925307df033a7c732f951217471a26fbb3ba6ee96dfaf13c",
+    "e2e/tests/legacy-chat-retirement.spec.ts": "58b57ddb656edf8c6fb2f8fd7415c4e12353fd98467d81ac0b9b354eb57d2dc5",
+    "eval/orchestration/answer-content-runner.ts": "6831b7fbd8ff87bc3f6dc9eee702431fef573607dc8c96f26ca412619f268a87",
+    "eval/orchestration/answering-runner.ts": "4a11dca2a8ba5125c24b504145c0888e93cc41a60500fa76c4b0c209a9023749",
+    "eval/orchestration/pi-harness.ts": "024c6853922c971189397831de94feb77fada222d7ea2723c9a2251f6479c6cb",
+    "eval/orchestration/types.ts": "c60169367286d3a529b5c9ed7f4f2b0ca015917d9934ff7f92265b06bb181cf6",
+    "eval/whiteboard-layout/runner.ts": "6ee744a64e8a389b192b2f206f4b086918d2c75378f7cbe1457409b440dc21c9",
+    "eval/whiteboard-layout/types.ts": "2db07e37724dc05f988ffc871d8179832580f913606422c822090e8fe06df6d3",
+    "lib/ai/model-aliases.ts": "13cb1ae07e28778b54f966edf1288cf46099728814daec6ffff6f50045a49fc4",
+    "lib/ai/model-metadata.ts": "cdf80e973b78522ac9662f795b3601037b8094f754d52d417dc67f7f788b9ba0",
+    "lib/ai/providers.ts": "9f0452a0464ca17c77dada1a0d845f3ecab42c8b1054e8ab8d5a7bef0aa3294b",
+    "lib/audio/constants.ts": "98fe987d1f86a085c2940a106bc23b8bca015aed5b034fc60c64fa204c9cd680",
+    "lib/buffer/stream-buffer.ts": "a0b8c967f3bb6d40389c180f4b60105438b9fbe923b63ace690f86623a4bc6cc",
+    "lib/chat/cue-user-options.ts": "ceb67fc30f857ddb6c4590308bfde2a18c7b2dff6ca6bb037b01595b7ea47f26",
+    "lib/chat/pi/prompts.ts": "4db38fb0e639e4a83ae8ff8a17611e91f38aa4570384d0e279b808af46407633",
+    "lib/chat/pi/tool-schemas.ts": "169c95fb3906d58547bf205056e93dcaead3b6d8cec70d5ee385b630df0ebd2c",
+    "lib/chat/pi/tools/call-agent.ts": "63fd52da3407568fccae06d758b149573a096ef47d0d021eded4a7d178d95840",
+    "lib/chat/pi/tools/classroom-actions.ts": "3883b329d317cf8373d7fb410f47b2983c209cd97a054ffcf17e05a40cc30af9",
+    "lib/chat/pi/tools/cue-user.ts": "0f056855dd9fa743e317c8aee16dc7106a9a7fc8fbaf54bad3efc40dff996e64",
+    "lib/chat/store-state.ts": "40aaf5950e71705ce35bee21ef0b9d1fbab6af6491eddf5e4f0f72687dba858d",
+    "lib/chat/structured-output.ts": "d8626c2e7aad2948501b593f40dfeb14390a13dac40fa9fb4182801265410874",
+    "lib/config/feature-flags.ts": "0118d56ebdad96d170174084a401b65eda96505baa2653844fa50810456cc84a",
+    "lib/config/model-slots.ts": "48c1c73aa8f466aea3435deb94160623b30a1f12fa6224c3bdc5aa7b8f83909f",
+    "lib/config/provider-presets.ts": "2693d6085f9cd29064be374cdd045c8211f7107bbed17ab51a77d78f9d5c16e7",
+    "lib/config/token-plan-presets.ts": "bb9c6c3da90684d1d7e018b3fd2f0174c87cdd9bd2992e0fc1baeac3a4411aaf",
+    "lib/export/svg-path-parser.ts": "c521ef2784faedc4a549e7ec2969e325698818b7efeee8a54d9401218910d6c6",
+    "lib/hooks/use-i18n.tsx": "01c2308dbecae08d10fbb6253c4fb323d0d7a0933f75b2cb9bdac71b43dc2dbe",
+    "lib/i18n/config.ts": "54a6a2742d82b64fbbb52a5674a4772e359fcebe5413538ae10332644971fe5c",
+    "lib/i18n/load-resource.ts": "4fafb62a3220a5a2c48f80aeff62a2fefac9b1491cd974ac77ed608f571ef213",
+    "lib/i18n/locales/ar-SA.json": "3a9ab6e1cc2dcebb2cd682d9a85278c8b85a46494171f8409a90488be0e829e9",
+    "lib/i18n/locales/de-DE.json": "3db515c748268dcc5bca2f4b2f91cb1994c35b241e4dac268308c8b617b67eb9",
+    "lib/i18n/locales/en-US.json": "056b6edb411d3a028302478b2a2208b55b02c63c8377a03e26f29c85f6d8a7ce",
+    "lib/i18n/locales/es-MX.json": "38ddef21a51cf8f564a4fb0ebdaa153d3f85992ee52ee173c2e860bae8cf6e9c",
+    "lib/i18n/locales/fr-FR.json": "5f52e730f0ebfdb3e166c4acaec76af9336fd3a70392498db254b657198d561f",
+    "lib/i18n/locales/ja-JP.json": "9a7cfaedd9842160aded2cfca0cae1a44cb5eac5897ea3ceb1b2d2e535b018be",
+    "lib/i18n/locales/ko-KR.json": "c6bfb86363be52ec18f1b11841872634ae89689a1285608e4f8acb6a9cb4adfe",
+    "lib/i18n/locales/pt-BR.json": "77f252d99d4f3bd19f9896264ac447793cab16ad189a7b41e5b2425b88c1c1ab",
+    "lib/i18n/locales/ru-RU.json": "b421e7f27a0c74a70266c12ff89a1408757eb3242729aef25ec52c12cc074bb7",
+    "lib/i18n/locales/vi-VN.json": "18814d2dbe37381a632d81c16829d7227477813fe4c6259252f931a40995858d",
+    "lib/i18n/locales/zh-CN.json": "b91bb77580f291b79a796423b7295f27040898efccbb56073abb2a79d645c252",
+    "lib/i18n/locales/zh-TW.json": "633d87dde1a414e94ca9154911eb294cadcaa79f7331a2d5a9216f164875fd54",
+    "lib/i18n/resolve-locale.ts": "f0513b1aa4b268748703627beccb3921bfae42ee29900103a830aa46f171813c",
+    "lib/legacy-browser-import/model-settings-import.ts": "a533f04e046c49093145857fadcab39d3ddb24402df1e693a37bcbcf43fb3e8d",
+    "lib/legacy-browser-import/model-settings.ts": "2c461f1a9f69b3189f3b0c205c3862cfd797a3170c1b61a5b6cb2412f371e459",
+    "lib/logger.ts": "77421ddc1d9014cb971cf99659438f5289d8041f3d7139aaa3136a5b232c4e68",
+    "lib/media/adapters/grok-image-adapter.ts": "961a1dd5f67a4c373007ce27f6e6dfa728a837bb79afd1d70979b602c12f7ed6",
+    "lib/media/adapters/nano-banana-adapter.ts": "00092ac668363ba988f89eb0685e2634f251147542a462b9801484bae2897ba9",
+    "lib/media/adapters/qwen-image-adapter.ts": "3c8b48084ecb35cdf8316c4da8687c46c2887b61e59389acc08e26ad4950a646",
+    "lib/media/adapters/seedance-adapter.ts": "7ae99d1e21157e710c4e2b8c40744177211ba18555dc40988153723d24b7027e",
+    "lib/media/adapters/seedream-adapter.ts": "b55ffb6f028f9d7fdac1be4c375e83d74ef379e0221a51af972e7dd00da70470",
+    "lib/media/adapters/veo-adapter.ts": "407c3542a43614a0747897869e94b412ec5c925b6b94033774ed275781501757",
+    "lib/media/image-providers.ts": "d5cb2b3d165a8b905c3dd324615cfe58577776f531cface997c9f824732cdc32",
+    "lib/media/video-providers.ts": "4c41f40397c239bb9e0b77ddfff489f92afd81262d8ff697977832d90fcd7144",
+    "lib/model-settings/capabilities.ts": "c054ae621d912c33c988900640da77f9ab7b2f088dda6f434eb8307d2cfd3533",
+    "lib/model-settings/diagram.ts": "997d58b602f151efc665ce68a1f8cf53221e0846aa5d2843beed9c4486e34c3b",
+    "lib/model-settings/edit.ts": "8d49666c19d3104453ed255c581193247ccb700205c9aee5fc5dd2aab02acdbd",
+    "lib/model-settings/services.ts": "414c1b53ca39e449b702874de4886be37a8f9dc422f952557104a29db214b0b1",
+    "lib/model-settings/shape.ts": "ee2cdd2bb097073c7749320d89c830242a3622fab8329195b43d9b7b65944c81",
+    "lib/model-settings/token-plan.ts": "bdd8cf013e17e0cb144c6f6527c2c5e4b6d880ac53c808c789c469af3f966560",
+    "lib/prompts/README.md": "39c85ecccdc6d3a534f3d955ea4b1668fcd2ff94a4cade8fb1365ece7f2ff31b",
+    "lib/prompts/index.ts": "6a9e394502a4f3ba00449d8b6cb568e655b315b160c6b9b020f68dfb8c9a753f",
+    "lib/prompts/types.ts": "33975ce2ffb16ccb11c0affab77e3cc7abb677d8c5ed423c8f4642f315c255e7",
+    "lib/server/agent-runtime/course-tools.ts": "e933ff55974ff955e81158b98be7cd5459aad510389a787238e97b0124079299",
+    "lib/server/agent-runtime/fetch-url.ts": "058b6008c8d41a987d10cc1ab7ffd58162cb71dac11afc94e3790104563f41f4",
+    "lib/server/agent-runtime/material-tools.ts": "e705600a5b685a02c550e6ac39f208670f957b45dc8c65c9fa0069594141544b",
+    "lib/server/agent-runtime/runner.ts": "174e8ac667f4f318d54ec9e33e61b29a9562cd4ce71d6445525f4392b18c4081",
+    "lib/server/model-config/deployment-layer.ts": "ed701d1a883e127ca7f8460b9feaac3ab8651d453845c7b1116df59a66e94db7",
+    "lib/server/model-config/legacy-config.ts": "702102ed59936149f8547c831c06861a621b39e0085512128ffd78ebe408c98a",
+    "lib/server/model-config/media.ts": "6155ee26711d1e55d5f4d2a4f6b434ade34bd2c46373d0302e560f63f8ba5603",
+    "lib/server/model-config/openmaic-yml.ts": "4aba2802b43099f37474e67cbf2105dd81f656351e51006dd353bfe0807b9ca1",
+    "lib/server/model-config/resolve-slot.ts": "ffc8ec9467a12aee53d2072335a545c3b2cbeaa9458654d799f90c947e9af3ea",
+    "lib/server/model-config/settings.ts": "c0d5360c6cd5cfbae1d8ae2b0c162b35b2a896011d63364dfb453c6aeda3e26f",
+    "lib/server/provider-config.ts": "8a468dc55b79a12fa7e10d3d192acaa6c2f3f61443525a45441be5464813905d",
+    "lib/server/proxy-fetch.ts": "f7a66c6e641e01500ccf2ad5b0bca2cec46b6d5f1557d6e1828722c4f73ca669",
+    "lib/server/web-search-config.ts": "0eabc8534450f1adc5a613300231576a7ebebb27c7ce9c9bc9e1a18c1237bbe1",
+    "lib/types/chat.ts": "64b1612df2dcf0b0c24b58fb453edcf5995e9c16000b2eb5fdcef9b83a27364e",
+    "lib/types/settings.ts": "5f16cd54092a5d0953c60bfcb2a6e5433f16fa4581af84774300274a6b631354",
+    "lib/utils/chat-storage.ts": "a84c6c12d87ce9f3eec514a9027ecb0f82339d42240c855b1e3b525728dd0585",
+    "lib/web-fetch/abort.ts": "e6385dfed1843f74436b1246a81fa44b2670967c705f9751a40b726576b0b394",
+    "lib/web-fetch/builtin-extraction.ts": "7c9da10762cae6b81cf2a3ccc64f175fd548f25f044b2ebf9d89396ed03267c7",
+    "lib/web-fetch/providers/builtin.ts": "2c32073488e1cdffc538ebe548e327ee4c540084045e65dae3fce72ca596b939",
+    "lib/web-fetch/providers/deepseek.ts": "c600243c2d1aa132804536264e293bb21b7671b962d4f43f2ba1cb1c01b07fa4",
+    "lib/web-fetch/providers/firecrawl.ts": "2f0c3ba633163adf9c2c70c644849977fedd2af679381dbb9984651a0e5afefe",
+    "lib/web-fetch/providers/kimi.ts": "9c090cd4813602a3df777629884bc1ce1f035aca56ecc91b60f319b08a6cfb53",
+    "lib/web-fetch/registry.ts": "27bfca325a8b272927fb8dac6e46bdb1b8e3f756bb98bea4102e47dce1d061de",
+    "lib/web-fetch/types.ts": "a9d3e4b93425777f6d57aff65c6ab8420dd178f88feed4d4364207e53e6a16ad",
+    "lib/web-search/constants.ts": "6853d81637c54352a82992f5a415aa18899a64d85d9737b1ad018571632a9df4",
+    "lib/web-search/deepseek-endpoint.ts": "1f95229358659e9c9d727b00ad4ac9ad8d6a5b1fec59f217484e23ada6330476",
+    "lib/web-search/deepseek.ts": "c7205c2b07fa7f7987395d6b52561cacd43bdbcca43cb561efd8639a0d619e46",
+    "lib/web-search/firecrawl-endpoint.ts": "053c0a522d815d3444bf5fe7475163c44a18afe831d557cda64a1714e4c5a28e",
+    "lib/web-search/firecrawl.ts": "d013ca594eb509b2c6c3bd67596dd5dc4e2b4d7dedacd4b63d0da2bc5472e722",
+    "lib/web-search/index.ts": "1e8ce896044df467927d40d5f1a94ebf8efe9efe0ccb592674cab3e53726477f",
+    "lib/web-search/kimi.ts": "daf3f561c7ea10e00ed6a7f689511e64d9b5d4fffbac54b357b1798bb2c45892",
+    "lib/web-search/types.ts": "1cb03decb69a55e52f0fbf404a6044e21c88e3e8c02c72fe0f9187dc21ff987c",
+    "next.config.ts": "4683dda51b6351b16a8f1cebab54b014590f5f040fce8f88631e3f9434d09adc",
+    "package.json": "858b1553a53f2f75a8124302a34799bc623d1e7e288d97ae9d4095898a00f766",
+    "packages/@openmaic/generation/package.json": "ea2d9eabb167bd64c5480268145d297e188fe48975e9b818a10059d1a4ef96b4",
+    "packages/@openmaic/generation/src/scene-generator.ts": "7e8e76b39a6e9e1ede72281d79f65a51999bc87968227646fa2d675d7c2e1836",
+    "packages/@openmaic/generation/test/scene-generation.test.ts": "604b0cda199396ab9f906377c3623f3bf27587ac9a7147a75eec825990866a3a",
+    "packages/docs/content/docs/configuration.ar.mdx": "f46c1ab8f25b48f5b115de350fc88de3c365cb43d668170b32341d1f79b94d9b",
+    "packages/docs/content/docs/configuration.ja.mdx": "2711963a0892b46a47ac2497058ba60c4f81901bc84be8c0813f74dd7f7cecbb",
+    "packages/docs/content/docs/configuration.mdx": "f74cc1858aed7fe0cef477fd89b6f6adba5163e1da4e4b23e58a1151e4dfd342",
+    "packages/docs/content/docs/configuration.ru.mdx": "8b753dab11e434ecd91c96f6bb5f10475d3e4372b6a824047794a5eb946ff112",
+    "packages/docs/content/docs/configuration.zh-cn.mdx": "d614cf3dd6f86609bec0bf210ddaff4b91b7010cd239a7ebcccaeb5200cc5796",
+    "packages/docs/content/docs/configuration.zh-tw.mdx": "ec37cb7ee87f3decf42f48190c307981805453c4b4c0d1b4821ecfce751ffffc",
+    "packages/docs/content/docs/deployment.ar.mdx": "0daec943e5328e3bddf02c8eadd1f9dcfb4f0561d413ec75815924beb970e813",
+    "packages/docs/content/docs/deployment.ja.mdx": "24fc4afeac95a1cfc2afad44b15be883177027a880dfd11f3da8ca040117adcc",
+    "packages/docs/content/docs/deployment.mdx": "435e0741b0f6c6733e86b95e66c0d2cee23b4ac05f4bc3555cd69c88ba377d2f",
+    "packages/docs/content/docs/deployment.ru.mdx": "d1d5dc7565abbf84385f2256af06129a418028752372de0e4aebb2d32a247df5",
+    "packages/docs/content/docs/deployment.zh-cn.mdx": "fa800aefc384d85aa9eb7dbac31fa35a5721119a19e19f142d4a34266ad0a02b",
+    "packages/docs/content/docs/deployment.zh-tw.mdx": "0351f08ef2b7cda94ea1c4753b90ad393a86c5ad017ea4fd147fe4ad8d38f22a",
+    "packages/docs/content/docs/supported-models.ar.mdx": "da45c41ebe4e1ff3255350057998e1a007ea8f4703517e3879d8b74ab2d8ff00",
+    "packages/docs/content/docs/supported-models.ja.mdx": "a59576a947bd1dad7bb42c96bd2415016008d5b5ba0f0552ccdf52ae10ea5198",
+    "packages/docs/content/docs/supported-models.mdx": "7240b9658c29457889b485d388b1e3f6f9cf56439ef1ca807332b3036c5b400f",
+    "packages/docs/content/docs/supported-models.ru.mdx": "a30e055cddb700f45da26bde5876e988522375addf83bd62baff95a03731c73e",
+    "packages/docs/content/docs/supported-models.zh-cn.mdx": "965d9afdc81be746519ecde8beb7e463c09cc2af17c9fbef53be4a01db8c518a",
+    "packages/docs/content/docs/supported-models.zh-tw.mdx": "84996e478ef98656999a6465aa5ad5217b2666990cce20b45b2fcb7d986fb54a",
+    "playwright.config.ts": "961a1234498a7b6a48df708d48c27cbb66bf82c7a8185477191a3e5d1721f90f",
+    "pnpm-lock.yaml": "0ac816477f3b1f111d1b584c2c5a667c86c79d39752ebbe14a9fd67661028e0b",
+    "scripts/zhiban-local/upstream-source.ts": "2907d7d9016bc658fd64803a1d2d433d9c9cf79390c75729481efcfc96c116f3",
+    "skills/openmaic/references/provider-keys.md": "d6049fb9273b218e2b4e54066d9ce09ee205bf4b7fa38e46a6c2998c7a11b143",
+    "tests/agent-runtime/generate-image.test.ts": "a62dfab2866e28ec6e3f0216a7d61b214614451581612249efd8ff5f4bb58cf7",
+    "tests/agent-runtime/generate-video.test.ts": "4c402bd62bd90358ed6060defedc0050b605a4e9e1985cd1f511b0d05cc957e2",
+    "tests/agent-runtime/material-tools.test.ts": "6cb095142cdc542778a99745ededcfb2402397de2ab7b54951c3e7da43831c85",
+    "tests/agent-runtime/runner-web-search-registration.test.ts": "424709460480b3ef8b0b96427e6b9d885dbf0da18bab9c4209dca903fb7d05bf",
+    "tests/agent-runtime/web-fetch-routing.test.ts": "a932c7481eabcdbb4c6a0f514a789689c7d72e703a28e5c23b3aa2063e5b18c1",
+    "tests/ai/llm-fallback.test.ts": "695a1d9a891b797771edf9376721c5334f4efbc89d6484ec9dc9e33cde2f25ba",
+    "tests/ai/model-aliases.test.ts": "60053a67c3f73a7a32bd3bf34ea247a2f5d400808f76d85ed9adab9d1ed1a117",
+    "tests/ai/model-metadata.test.ts": "51489c84dfdebf7cb6836bf7408df7a6548aeb665f9cdaae0347b720b7d259b9",
+    "tests/ai/openai-provider.test.ts": "ee5f7fd7cb2a73342cdf521925f0d00a4bb45daf66c011110b7b533f62cdf3f0",
+    "tests/ai/openai-sdk-integration.test.ts": "d0d8ff0a51431826efa7f0171bc598520f033e8c14f43c0f58459cfec395f509",
+    "tests/ai/thinking-config.test.ts": "42e43a7662d572e83d0b1071de2113bfcfc1b928c364680595221b8d97f7dff6",
+    "tests/ai/xiaomi-provider.test.ts": "38c4af9967b23a784823e7346d85afe5683704e3a7fe2d677aeb5f68e80fcfbf",
+    "tests/chat/chat-area-cue-user-options.test.ts": "9bbdbc1b9c477994cf8044045150c1c2ff1e455b567b6c2751719bafc9d204d4",
+    "tests/chat/roundtable-cue-user.test.ts": "1161b0229fecc4f977d3579833173080e538f02365bb81dfc705c2af42adb565",
+    "tests/components/edit/playback-chrome-root-element-reference-owner.test.ts": "fb4c6cc3a4b5167118f5e66e4efe6926240cdc4dd2ba9597dfcdde5dc733bd4c",
+    "tests/config/feature-flags.test.ts": "08b33cc30a43299f694c61cfd18ff2d4b5312b142f54270760c860e11c3f8a99",
+    "tests/config/model-slots.test.ts": "6115a560c84d1dd7a522a32ce8f314e62b8845b4cb48777011173db6e2d89c1b",
+    "tests/config/pi-chat-build-env.test.ts": "cfc14776c4afdae64347dde8279f905b7493bc6b22186e716ad2bf86e644966f",
+    "tests/config/provider-presets.test.ts": "7f54c7ab3b5d55d81ca5479fef4a30fcf6f1f98082c4cd19fa6ece93ef111917",
+    "tests/eval/orchestration/answer-content-runner.test.ts": "851c2f9b52771031c3cda7a8d4edbf9705853c835bd21f0e7cd49d1ba953b85b",
+    "tests/eval/orchestration/answering-runner.test.ts": "4947437ca14b9b9c3db37d5262fed9f4efc886a0dc34b7a03ef6b611f494d4b6",
+    "tests/eval/orchestration/pi-harness.test.ts": "e0bd3ec3d57f1201a296be1fc5065ef99306bed2e078a5f38f06a353245c1171",
+    "tests/eval/orchestration/pi-trace-contract.test.ts": "d39feb48a93181cc845ddab6d022e795c9f2541239c4342a552c9229ca28ba8c",
+    "tests/eval/whiteboard-layout/runner.test.ts": "7eff59296d789117a541575aa4f49f085e842a67037d58658c053ac112051c74",
+    "tests/i18n/i18n-provider-locale.test.ts": "3e6d826522b910260964554b77098150e8b57a670f31c8ede3be449a76de6c03",
+    "tests/i18n/resolve-locale.test.ts": "3ccfd360386c3c0591f4c73bf92560a3759189b1f897a6c97e11b767058af609",
+    "tests/legacy-browser-import/model-settings.test.ts": "d6031dc021687e3f2fc438cbc068897350fa9c77410cca52c087ad58bac68e5e",
+    "tests/lib/agent/runtime/director-transport-consumer.test.ts": "ffb0bb12a981f1ec2421aedcd42c66205c1c8c3cc6ca41e60f8988cfffc7c66c",
+    "tests/lib/buffer/stream-buffer.test.ts": "792a467bbd5726edeb3adc8daf641889b0da3d73cef6b9329aad0ab2311407d3",
+    "tests/lib/chat/pi/cue-user.test.ts": "29882f56497012ffaea9bc620c34acdb1a9c70087ceb7a3730eedda43154125f",
+    "tests/lib/chat/pi/element-reference-route-l2.test.ts": "e248637e46afaeaaadc089865691e717496b3f2603538e1d86acb95202f0fca9",
+    "tests/lib/chat/pi/native-child-route-wiring.test.ts": "93e20e216621081b4ec4d74f8b4f837e199eda23e816d702153b1bf2c0179b3d",
+    "tests/lib/chat/pi/prompts.test.ts": "736deb36fd0572889ac032d5021f7f92198bdbd0a98aca084998ba6d80b09aa1",
+    "tests/lib/chat/pi/route-cue-user.test.ts": "c968661339eca727b739e7186acc291411f5e9b61990df1eedc8ed617899fd38",
+    "tests/lib/chat/pi/route-model-precedence.test.ts": "21986b8b89df6c76b87d30945eda2b486b1ab81a65b4762f14de99e0bf0da4e1",
+    "tests/lib/chat/pi/route-model-thinking.test.ts": "8c50998257c9a69075dbe442157ab109844c4fdea65a7c3ecb599b3b4e9cfbd1",
+    "tests/lib/chat/use-chat-sessions.test.ts": "2b6d098c61beb9487b4fe975d158649d80f72cd5251f2a128857d3feb8ed6fac",
+    "tests/lib/logger.test.ts": "7737828b1e349bfaef5fdd5d8d30455440d0bdf8f216aeaebec3eb52533bd63a",
+    "tests/media/video-polled-adapters.test.ts": "f8091faf65823f33de90a068aa56ccf0e7dc3f25f55ed185525d4df61dee1f52",
+    "tests/media/video-provider-catalog.test.ts": "b1eb6392deb33e0def944610d5148cacdcfa5db24581add12181bd0f883d0985",
+    "tests/model-settings/diagram.test.ts": "907e79088f9274557ebae3007aa90f4432b945be725d6ee8bf598b5216d7fa7a",
+    "tests/model-settings/shape.test.ts": "1dec27730db42e1f276fe1db2cd4ee9430af3090ab5a2e0bb259334ca16df3dd",
+    "tests/model-settings/token-plan.test.ts": "56804fb50d44565ac67d9e9ca4614b4453ed8fabacaf59a55715fa950ab7ccea",
+    "tests/model-settings/web-fetch-panel.test.ts": "839f78ead9c4e14059a57120e8ee0dd7bef6cf7dc2c7446ceb812d8fdb175b4f",
+    "tests/orchestration/tool-schemas-latex-guardrail.test.ts": "adcdc670ae13068c7df77a028ca1d11e95f4b754cdab88f449c3abdf6b4378f2",
+    "tests/prompts/templates.test.ts": "d0ea9aa5c8e7c802b33bcf0c96033addaf1668bc79aed573f578443a38255fc1",
+    "tests/providers/provider-neutrality-guard.test.ts": "b494c60217d476afc50ef3ebf003cf53f7d8e1936afe0cc9b173e63d932c4eec",
+    "tests/runtime/chat-storage.test.ts": "c3cabaa95eb751de0deae2bdc14d9d52b5e3c406ce9ce4dd86605e2e9db5314d",
+    "tests/server/generate-classroom-api.pg.test.ts": "f8db51a6da0e4e752146b74a6a54f7c7601e1602f4aa0672af97e58975f69c4b",
+    "tests/server/identity/owner-cookie-forwarding.test.ts": "23225d2d4291f73b9700aa3417bcec5a12e9778484657c25e9132c41dc60deb2",
+    "tests/server/middleware-access-token.test.ts": "7822e5b4c3c6c375838ad0ae65a7a066e7b9d4de4309bc06efca7f174c69c531",
+    "tests/server/model-authorization-coverage-matrix.test.ts": "7588ba78e13f13a7a1982337bafeffe6037391242e1477e7c3f71738b33ddc5f",
+    "tests/server/model-config/deployment-layer.test.ts": "3d60d625c391335d6edd8fb525977d4284e5f730b70a8d45cf3967744fd5d745",
+    "tests/server/model-config/legacy-config.test.ts": "08718135bd80b14202d7d9b117b6e09471fa2cb10bb94a9d9c4677a1fb3bdb2b",
+    "tests/server/model-config/llm.test.ts": "ee2da645a88b18208a2a72abb145df511173166e25027aee9bae0c0eeb6bf4bc",
+    "tests/server/model-config/media.test.ts": "b20d79077628339bff420f41b880cf640a5b8dee8341ec8fa8443c98a799f07f",
+    "tests/server/model-config/model-authorization.test.ts": "2e72a5ad1d290cc8dc49aef3a5f2cc93d22a4d3114d465c171140a1a8d1023f5",
+    "tests/server/model-config/openmaic-yml.test.ts": "90765b1842843f2dac2532625331628a39eca255bd5b01cc451133d4db6448a2",
+    "tests/server/model-config/resolve-slot.test.ts": "7d4b839325366300bf4683e2144f1b2ece3761ed5959175967e205985f1ecdf4",
+    "tests/server/model-config/runtime.test.ts": "9a3e06aa2f1b41a77025ca1e38cd603034422f653242a31b3854581739d1f388",
+    "tests/server/model-config/settings-route.test.ts": "06bd961f7d29f943c46e885a509cf13f441ef50645b1dd9e14479a16f5d13768",
+    "tests/server/model-config/settings.test.ts": "940e0ceed34935003268859c6b09e23168a94ca4fcbaba20be023bc5a1f64a78",
+    "tests/server/model-config/workspace-web-endpoints.test.ts": "4f5b2f42f78f7fd6a1efec3cf090d2f3e89031b8427bb67dd3ada68172856505",
+    "tests/server/provider-config.test.ts": "2320d4ba200ca03f921c5dea507801d50cd52f167581d5c91e23815ec5e9147a",
+    "tests/server/proxy-fetch-transport.test.ts": "e559ec660857324426e3c170f31e61b33304c4de53ea2fa906d24c4c9d173ab8",
+    "tests/server/security-headers.test.ts": "9fd16539820882a43521756507ec901e6f8b94c120631476691f26588d49f6cc",
+    "tests/server/web-search-config.test.ts": "96b2f5e05c83d296fef5aeef67513e3a4f1a5c1b5493c17f33c347bf323cfad7",
+    "tests/settings/config-modes-ui.test.ts": "86e0c3df7a2f38c4fc82dcce6f8bef127aed0f8126182a3fea9f90e1c84de49a",
+    "tests/settings/token-plan-connect-ui.test.ts": "4a058ea61c793cf30b68817289c7c03532a95cdc0a2fe8de8e8317d5d4444748",
+    "tests/web-fetch/deepseek-config.test.ts": "f30afffc50f6a479cc61eae04418d7522957f5aebd8335780d95652442b38052",
+    "tests/web-fetch/deepseek.test.ts": "925b0e990bc8bf5b49a7660968b68f02100b1d3142c4da06ac409316f89e06c6",
+    "tests/web-fetch/firecrawl.test.ts": "e59e06af96b01e8ebd09fb677f63788dac54bb6885391a8711ad92f9896181ab",
+    "tests/web-fetch/kimi.test.ts": "824f97e336d284c4d1469ddc3b5ff28fa17afff14a9ec1c76bc5016ec2a8a854",
+    "tests/web-fetch/registry.test.ts": "7918f8694bbeb59305205b4c6dbe536d8931e39ba4bf9cad673bb3bb55f48d8e",
+    "tests/web-search/constants.test.ts": "c8308235d0d20b50ee835cfa3451ed5bf9e8653b3ee7271213cc83807a848996",
+    "tests/web-search/deepseek.test.ts": "da170032d9d933b6e3c68b9eb7c7e1037113e5a1dc119f2b13d6e49a872634e0",
+    "tests/web-search/firecrawl-endpoint.test.ts": "789df378af7d05e2c86c6aa9be954d64096a507e367a36105600685f169981f0",
+    "tests/web-search/firecrawl.test.ts": "3544eb92dd322d9e12a7f6b33349b8950b49295f3f6cdc48ea512512a55363c9",
+    "tests/web-search/index.test.ts": "f0ed25d93c336a6a0e0b3d92865fdc47f8e89ab6a5f5d2157e224c5e733bd506",
+    "tests/web-search/kimi.test.ts": "915647e246349d901d1ef7f965e4c9cf1dd274922ec5a22d611d6b3dddc41c4c",
+    "tests/workbench/composer-materials-toast.test.ts": "37378c72d2419b92653e90aa06e37f04adeb6fdbce3bd95c6e4926c11df133fd",
+    "tests/workbench/tool-presentation.test.ts": "c7c9d8824127ee101fe3447adce759888e31d74575496c44d09657e77f7f44b6"
+  },
+  "compatibilityAdjustment": {
+    "file": "lib/export/svg-path-parser.ts",
+    "change": "Explicit anchor and arc-result type annotations only; runtime calculations unchanged."
+  }
+}

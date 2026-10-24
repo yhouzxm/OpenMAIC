@@ -1,0 +1,16 @@
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+PASS Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately
+PASS disposable content loader rejects wrong target, artifact hash and elevated Bridge ACL; restored state required before serving
+PASS PG16 restricted roles + real Identity sessions + validated trusted HTTPS
+PASS trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands
+PASS real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft
+PASS TEACHER UI: current admin registers real assignment without access; password-confirmed CLASS grant enables exactly that teaching class; no assignment/foreign tenant/administrative class/TENANT teacher delegation refused
+PASS TEACHER scope consumers: same-course other class remains denied for CLASS; assignment picker/write, course-owner picker and administrative-class head designation do not widen a local grant
+PASS TEACHER COURSE journey: explicit COURSE grant plus independent assignments enables two classes of that course; other course stays denied; revoke removes second-class access while remaining CLASS grant still works
+PASS TEACHER revocation concurrency: real teacher write holds current Identity guard through business COMMIT; role revoke waits, then new reads/writes are denied; existing committed activity remains
+PASS TEACHER relationship concurrency: real END_TEACHER commits before waiting role grant; same-client resource reload refuses ended assignment without role/audit/command partial effect
+PASS TEACHER loader/ACL and handoff: widened helper ACL rejected and restored; Identity runtime has no direct Academic read/write; current-version same-key Teacher grant confirmation creates no second effect; final scoped teacher workspace is usable with other courses excluded
+LOCAL M6 catalog ready: https://127.0.0.1:3461/zhiban; accounts file: /tmp/zhiban-trial-content-yIB2Xq/accounts.json

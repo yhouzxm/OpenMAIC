@@ -1,0 +1,371 @@
+#management {
+  max-width: 1100px;
+  margin: auto;
+  padding: 28px 20px;
+}
+.management-filters,
+.management-actions,
+.management-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: end;
+  margin: 16px 0;
+}
+.management-filters label {
+  display: grid;
+  gap: 6px;
+}
+.management-filters input {
+  min-width: 220px;
+}
+.management-list {
+  display: grid;
+  gap: 12px;
+}
+.management-card {
+  border: 1px solid var(--line, #dce3ed);
+  border-radius: 12px;
+  padding: 18px;
+  overflow-wrap: anywhere;
+}
+.management-card h2,
+.management-card h3 {
+  margin-top: 0;
+}
+.management-card small {
+  display: block;
+  overflow-wrap: anywhere;
+  color: #526079;
+}
+.management-card form {
+  display: grid;
+  gap: 10px;
+}
+.management-card label {
+  display: grid;
+  gap: 5px;
+}
+.management-transfer {
+  border: 2px solid #5376bc;
+  padding: 16px;
+  margin: 14px 0;
+  border-radius: 10px;
+}
+.management-transfer select {
+  max-width: 100%;
+}
+.management-message {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.management-message:empty {
+  display: none;
+}
+@media (max-width: 550px) {
+  #management {
+    padding: 18px 12px;
+  }
+  .management-filters label,
+  .management-filters input {
+    width: 100%;
+    min-width: 0;
+  }
+  .management-actions button {
+    max-width: 100%;
+  }
+}
+.management-selectors {
+  display: grid;
+  gap: 16px;
+  margin-top: 16px;
+}
+.management-selector {
+  border: 1px solid #dce3ed;
+  border-radius: 10px;
+  padding: 16px;
+  min-width: 0;
+}
+.management-option {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  border-top: 1px solid #e2e8f0;
+  padding: 10px 0;
+  overflow-wrap: anywhere;
+}
+.management-option span {
+  flex: 1 1 220px;
+}
+.management-option small {
+  flex: 1 1 280px;
+}
+.management-selector-results {
+  min-width: 0;
+}
+.management-actions [aria-current='page'] {
+  background: #183b65;
+  color: white;
+}
+.management-root button {
+  font: inherit;
+  border-radius: 8px;
+  padding: 8px 12px;
+  border: 1px solid #bdc9d8;
+  cursor: pointer;
+}
+.management-root button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.management-root input,
+.management-root select {
+  font: inherit;
+  border: 1px solid #bdc9d8;
+  border-radius: 7px;
+  padding: 8px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.management-card > summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.management-card > form {
+  margin-top: 16px;
+}
+
+/* Unified administration chrome and bounded catalog tables. */
+.admin-portal .topbar .brand {
+  font-size: 18px;
+}
+.admin-portal .role-sidebar {
+  min-width: 0;
+}
+.admin-portal .admin-main {
+  min-width: 0;
+  padding: 24px 28px 48px;
+}
+.admin-portal .admin-context {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  color: #64748b;
+  font-size: 12px;
+  margin: 0 0 22px;
+}
+.admin-portal .admin-context a {
+  color: #176fda;
+  text-decoration: none;
+}
+.admin-portal .admin-nav-group {
+  padding: 12px 22px 4px;
+  margin: 0;
+  color: #94a3b8;
+  font-size: 11px;
+}
+.admin-portal #management.admin-surface,
+.admin-portal #student-directory.admin-surface,
+.admin-portal #roster.admin-surface {
+  min-width: 0;
+  max-width: none;
+  padding: 0;
+  margin: 0;
+  min-height: 0;
+}
+.admin-portal .admin-surface > .eyebrow {
+  display: none;
+}
+.admin-portal h1 {
+  font-size: 25px;
+  margin: 0 0 14px;
+  letter-spacing: 0;
+}
+.admin-portal h2 {
+  font-size: 21px;
+}
+.admin-portal button,
+.admin-portal .button {
+  font: inherit;
+  font-size: 13px;
+  padding: 9px 13px;
+  border: 1px solid #d9e2ef;
+  border-radius: 6px;
+  color: #34506f;
+  background: white;
+  cursor: pointer;
+}
+.admin-portal button[aria-current],
+.admin-portal .primary {
+  background: #1677e8;
+  color: white;
+  border-color: #1677e8;
+}
+.admin-portal .management-actions {
+  align-items: center;
+}
+.admin-portal .management-filters {
+  padding: 16px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+.admin-portal input,
+.admin-portal select,
+.admin-portal textarea {
+  color: #253247;
+  border: 1px solid #d4dfed;
+  background: white;
+  border-radius: 6px;
+  max-width: 100%;
+}
+.admin-portal select {
+  font: inherit;
+  font-size: 13px;
+  padding: 8px;
+}
+.admin-portal .management-card {
+  background: white;
+  border-radius: 8px;
+  border-color: #e2e8f0;
+}
+.admin-portal .management-card > summary {
+  cursor: pointer;
+  color: #176fda;
+  font-weight: 500;
+}
+.admin-portal .management-list.admin-table {
+  gap: 0;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: white;
+  overflow: hidden;
+}
+.admin-portal .admin-table-head,
+.admin-portal .admin-table > article {
+  display: grid;
+  grid-template-columns: minmax(170px, 1fr) minmax(180px, 1.3fr) minmax(170px, 1fr);
+  gap: 20px;
+  padding: 16px 20px;
+}
+.admin-portal .admin-table-head {
+  background: #f5f8fc;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 600;
+}
+.admin-portal .admin-table > article {
+  border: 0;
+  border-top: 1px solid #e2e8f0;
+  border-radius: 0;
+}
+.admin-portal .admin-table [role='cell'] {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 13px;
+}
+.admin-portal .admin-table h2,
+.admin-portal .admin-table h3 {
+  font-size: 15px;
+  margin: 0 0 8px;
+}
+.admin-portal .admin-table p {
+  margin: 5px 0;
+  line-height: 1.7;
+}
+.admin-portal .admin-table small {
+  color: #94a3b8;
+  font-size: 10px;
+}
+.admin-portal .admin-row-actions > button,
+.admin-portal .admin-row-actions > a {
+  display: inline-block;
+  margin: 0 8px 8px 0;
+  text-decoration: none;
+}
+.admin-portal .admin-row-actions details {
+  margin-bottom: 10px;
+}
+.admin-portal .admin-row-actions details[open] {
+  min-width: 0;
+}
+.admin-portal .directory-table {
+  border-color: #e2e8f0;
+  border-radius: 8px;
+}
+.admin-portal .directory-table th {
+  background: #f5f8fc;
+  color: #64748b;
+}
+@media (max-width: 1100px) {
+  .admin-portal .admin-table-head,
+  .admin-portal .admin-table > article {
+    grid-template-columns: minmax(130px, 1fr) minmax(150px, 1fr);
+  }
+  .admin-portal .admin-table-head > :last-child {
+    display: none;
+  }
+  .admin-portal .admin-row-actions {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 800px) {
+  .admin-portal .admin-main {
+    padding: 18px 16px 32px;
+  }
+  .admin-portal .admin-table-head {
+    display: none;
+  }
+  .admin-portal .admin-table > article {
+    display: block;
+    padding: 16px;
+  }
+  .admin-portal .admin-table [role='cell'] {
+    margin-bottom: 12px;
+  }
+  .admin-portal .admin-table [role='cell']::before {
+    display: block;
+    content: attr(data-label);
+    color: #94a3b8;
+    font-size: 11px;
+    margin-bottom: 6px;
+  }
+  .admin-portal .directory-pagination,
+  .admin-portal .management-pagination {
+    flex-wrap: wrap;
+  }
+}
+.admin-portal .admin-table .admin-row-actions:has(details[open]) {
+  grid-column: 1 / -1;
+  padding-top: 10px;
+  border-top: 1px dashed #dbe4f0;
+}
+.admin-portal .admin-row-actions details[open] {
+  max-width: 900px;
+}
+.admin-portal .admin-row-actions .directory-search input {
+  min-width: 0;
+}
+
+.gradebook-scroll {
+  overflow-x: auto;
+}
+.gradebook-scroll th,
+.gradebook-scroll td {
+  min-width: 10rem;
+  vertical-align: top;
+  padding: 0.75rem;
+  border-bottom: 1px solid #dce3ee;
+}
+.gradebook-scroll small {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+/* Personal profile and member directory reuse the administration surfaces. */
+.profile-page > main { max-width: 960px; margin: 24px auto; padding: 24px; }
+.profile-page label { display: grid; gap: 6px; margin: 12px 0; }
+.profile-page textarea { font: inherit; padding: 10px; width: 100%; box-sizing: border-box; }
+.profile-page article { padding: 16px; margin: 12px 0; border: 1px solid var(--border, #ddd); border-radius: 8px; overflow-wrap: anywhere; }
+.profile-page .academic-form { margin: 16px 0; }

@@ -1,0 +1,22 @@
+
+> openmaic@1.2.1 verify:zhiban:lesson-product /home/zxm/openmaic/zhiban
+> tsx scripts/zhiban-local/run-m6-catalog.ts --unified-trial --lesson-product-focus
+
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+Reused @openmaic/generation: matching LOCAL source/build hashes
+PASS Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately
+{"timestamp":"2026-10-20T14:04:21.679Z","level":"INFO","tag":"GenerationRunner","message":"generation runner 26006:2b44937b-5b70-4e8c-8b14-99c84a23acf6 started (scan=1000ms, heartbeat=2000ms, leaseTtl=10000ms, maxConcurrent=1)"}
+PASS PG16 restricted roles + real Identity sessions + validated trusted HTTPS
+PASS trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands
+PASS real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft
+PASS AI lesson: missing model is explicit, creates no native run; anonymous/student/admin cannot acquire authoring
+PASS AI lesson FIXTURE: native completed result preview/adopt creates one audited DRAFT; replay is stable and students cannot read unpublished content
+PASS AI lesson FIXTURE: explicit existing Bridge publication activates immutable text; enrolled student reads published content only
+PASS AI lesson: incomplete results cannot adopt; ended assignment denies new reads and adoption replays
+PASS AI lesson browser: course panel, missing-model explanation, review and idempotent adopt link work without script errors
+PASS P4: exact published page count, teacher-only presentation, idempotent retry and independent page revision CAS
+PASS P4 browser: pinned publication follow/manual mode, offline and refresh recovery; Enrollment revocation clears the viewer
+PASS P4: concurrent positions serialize; revoked teacher, withdrawn/replaced publication and ended dispatch reject; no Attempt or completion facts created

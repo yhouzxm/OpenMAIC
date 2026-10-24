@@ -1,3 +1,4 @@
+import type { TeacherRelationships } from './teacher-relationships';
 import { createHash } from 'node:crypto';
 import type { TransactionPool } from '../postgres/transactions';
 import { ApprovedIdentityCatalog } from '../authorization/identity-catalog';
@@ -55,6 +56,7 @@ export interface IdentityCompositionConfig {
 export async function createIdentityComposition(
   pools: { auth: TransactionPool; tenant: TransactionPool; control: TransactionPool },
   config: IdentityCompositionConfig,
+  resources: { teacherRelationships?: TeacherRelationships } = {},
 ) {
   try {
     if (typeof window !== 'undefined') throw new IdentityPortError('UNAVAILABLE');
@@ -196,7 +198,14 @@ export async function createIdentityComposition(
         ),
       );
       members = new MembershipCommands(
-        new MemberCommands(pools.tenant, bridge, catalog, ids, memberPolicy),
+        new MemberCommands(
+          pools.tenant,
+          bridge,
+          catalog,
+          ids,
+          memberPolicy,
+          resources.teacherRelationships ?? null,
+        ),
         new MemberAdmissions(
           pools.tenant,
           bridge,

@@ -1,0 +1,12 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "userId": "01a165dd-211b-731a-887e-6bd53f136614",
+  "operationRef": "01a165dd-aeed-72c6-9d98-b418069e96b1",
+  "globalStatus": "DISABLED",
+  "membershipStatus": "ACTIVE",
+  "oldSession": 401,
+  "login": 401,
+  "historyPreserved": true
+}

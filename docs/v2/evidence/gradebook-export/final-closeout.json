@@ -1,0 +1,68 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "P3_BOUNDED_FILTERED_GRADEBOOK_EXPORT_ONLY",
+  "at": "2026-10-23T08:56:47.668Z",
+  "branch": "refactor/zhiban-v2",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "verification": {
+    "directed": "docs/v2/evidence/zhiban-gradebook-export-local.json",
+    "directedSourceFilesChecked": 564,
+    "sourceDrift": [],
+    "unitTests": "7/7 focused gradebook tests PASS",
+    "typecheck": "tsconfig.gradebook-export.json PASS",
+    "eslint": "touched source files PASS",
+    "prettier": "touched source files PASS",
+    "diffCheck": "touched scope PASS; global pre-existing CHANGELOG trailing whitespace remains"
+  },
+  "runtime": {
+    "origin": "https://127.0.0.1:3461",
+    "root": "/tmp/zhiban-trial-content-eeFbih",
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "filesChecked": 2726,
+    "identity": "new synthetic tenant/course/accounts; previous root privately archived",
+    "browserEvidence": "docs/v2/evidence/gradebook-export/iab-3461.json"
+  },
+  "sourceHashes": {
+    "lib/zhiban/application/assessment/gradebook.ts": "1d0b9172932414e40cc953a8c26a4b2c9a0875edaa6b5e878c20b1dcc59dae40",
+    "lib/zhiban/application/assessment/gradebook-csv.ts": "46478d937d3faeb491ca79bb624cc54786fb646bd4217f3ed6b89d020e0508d7",
+    "lib/zhiban/application/assessment/service.ts": "6aa7c0ca69488271c3c56318f03d497512d5ba1cfd87607f9cdb08336b01c2d1",
+    "lib/zhiban/infrastructure/assessment/http.ts": "71b379dbe9ae18cbd5c49243aeabbdd1ae9456d1d6efa2ec189e5a291a2b637d",
+    "lib/zhiban/infrastructure/assessment/postgres/transaction.ts": "0d414e1a057e47f55951b8cfd70a462d09520fd3031ff09a7cee7b6a6cee6215",
+    "lib/zhiban/domain/academic/model.ts": "ab79eb6067ce5bcb8c9092c2b8800a0ccb2323bf26bd25738f3154bbb41cf75f",
+    "app/zhiban/local/gradebook.js": "7a138af5415bd2c544cf06009dec4a1bdcb85ee3121f146730e925889b41532c",
+    "scripts/zhiban-local/request-target.ts": "71b3e75c88fd90d92a2fad66f507f0b9f85db1928b93ca8eec009b8d39fa6f6a",
+    "scripts/zhiban-local/verify-gradebook-export.ts": "381d5507023353d9474a7e816a48d94634f922b1f74878f10d8e65a435591f8e",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "bd3adadc8fee65186a1bfe3efbd0cc63f679ba82c2634e8f186916750658b4ba",
+    "scripts/zhiban-local/run-m6-catalog.ts": "c330af0e5b4064715255f8d95fcf78f2195b3232e1690a285c92678c8eebc780",
+    "scripts/zhiban-local/tsconfig.gradebook-export.json": "4d333e629b8dd474019511ce8a777e863f32eb672df3ae8b4ef588815dc31ab2",
+    "tests/zhiban/assessment/gradebook.test.ts": "e3ade571d2e54042cf34d496e56ef75759b9013c5ab6199cd8ddfe3067cdf02e",
+    "tests/zhiban/assessment/gradebook-csv.test.ts": "c17f89a62b4960c7617149aacccf278f5eff43ebc23473371f8a0fab8498b159",
+    "package.json": "ce20a2e228fa2f47623114faefe360fea5ba82704b68bdb166e3574cf46e79eb",
+    "docs/v2/zhiban-v2-gradebook-export-local.md": "9cf61c043ea029f6c14e55764f53cbcf22f74ed38d47fc286baada99502bdc7b",
+    "docs/v2/zhiban-v2-migration-completion-plan.md": "01a6a5330f99ab709ace187e804b77f55fbab9168e26103e17322f82dd42ba15",
+    "docs/v2/zhiban-v2-feature-gap-matrix.md": "4518f53fba346441c80236fd2938170cdad3d9ff293ceaf7c3233e4b6fa57924",
+    "docs/v2/zhiban-v2-ui-page-gap-matrix.md": "192ced2f5e9cb59f84d1486309dc9c2095f36fc6fc6fade79750b28413572332",
+    "docs/v2/zhiban-v2-gradebook-csv-local.md": "20add08bfba58509d7483c35f4aa697da02563625810c9a07823ecfc71b2d5b7",
+    "docs/v2/zhiban-v2-p7-handoff.md": "e8ff3de82707dfce2191b97c7191dcf91f3d714da1dac65c9b5a96ab4cd659f6",
+    "docs/v2/zhiban-v2-trial-guide.md": "3136f2cbd52b5744206617898acc4d0a00c7c14ffa3ed2890581e894bf8c3aae"
+  },
+  "evidenceHashes": {
+    "docs/v2/evidence/zhiban-gradebook-export-local.json": "7b883644a6cb686833048c878eee1f01c8023026b22687245d71d977d0e03406",
+    "docs/v2/evidence/gradebook-export/iab-3461.json": "b02c3fcaca09ed8e810c287a9753239438daf23154c16805bff37caeeb8e8428",
+    "docs/v2/evidence/gradebook-export/iab-3461.png": "f492b3915f9e148df485b74428348fe1ae9d94f84187f29b40fb35dd3b00148b",
+    "docs/v2/evidence/zhiban-gradebook-export-download-local.png": "4f418a6710ade8eb7cbd79e2de8e8adf617be1d3fce543a6eebd9d45779aa3c1",
+    "docs/v2/evidence/zhiban-gradebook-export-limit-local.png": "75ca96d371cd61ceb5d75cd689c045c47f31404ccb8ed0a3fac6cc9ec8a604ce",
+    "docs/v2/evidence/gradebook-export/private-backup.json": "6752dc3ead56348d80bb5e358692402e277efc3179f9951a576e8a95346c1d8a"
+  },
+  "boundaries": [
+    "No migration/ACL changes",
+    "No commit/push/CI dispatch",
+    "No real 55432/55433 or production mutation",
+    "Old P7 archive retains original source digest and excludes this increment",
+    "No full-repository typecheck signoff; existing onboarding verifier extra-parameter mismatch outside scope",
+    "No totals/appeals/historical-roster/asynchronous export"
+  ]
+}

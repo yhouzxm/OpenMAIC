@@ -1,0 +1,12 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "recordedRoot": "/tmp/zhiban-trial-content-VVpcc3",
+  "recordedPid": 14565,
+  "rootPresent": false,
+  "pidPresent": false,
+  "previousProtectedBackupReceipt": "docs/v2/evidence/login-identifiers/default-backup.json",
+  "previousBackupPresent": true,
+  "newBackupPerformed": false,
+  "reason": "Previous disposable instance no longer exists at continuation; no stale PID was signalled and no archive restoration was claimed"
+}

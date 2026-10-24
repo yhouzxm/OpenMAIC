@@ -1,0 +1,15 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "baseValidation": "zhiban-reminders-local.json",
+  "increment": "Presentation spacing, empty status hiding and explicit CSS host/source binding only",
+  "changedAfterDirectedValidation": [
+    "app/zhiban/local/analytics.html",
+    "app/zhiban/local/reminders.html",
+    "app/zhiban/local/reminders.css",
+    "scripts/zhiban-local/trial-content.ts",
+    "scripts/zhiban-local/verify-m6-catalog.mts"
+  ],
+  "businessSourcesChanged": false,
+  "validation": "CURRENT_DEFAULT_IAB_TEACHER_SEND_STUDENT_CONFIRM_TEACHER_RECEIPT_AND_TRUSTED_TLS_CSS_SOURCE_MATCH"
+}

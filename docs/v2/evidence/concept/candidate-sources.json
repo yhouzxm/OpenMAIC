@@ -1,0 +1,117 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "comparedAgainst": "../zhiban-risk-local.json",
+  "scope": "SOURCE_HASH_DELTA_NOT_GIT_DIFF; previous dirty candidates preserved",
+  "files": [
+    {
+      "path": "app/zhiban/local/concepts.css",
+      "sha256": "d7505af0716b89cac68c1702ac26e6e003024da34c894851a266c3aee6f1ed45",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "app/zhiban/local/course-page.js",
+      "sha256": "c443dec6900e73f7e056afa6fc09bfeafce2392322fdfaba51848844fe15bbc1",
+      "status": "CHANGED_SINCE_RISK"
+    },
+    {
+      "path": "app/zhiban/local/workspace.js",
+      "sha256": "3780000dca075ae6268872fef79d7f486497250c7e42c09893fa92c96ddb39ee",
+      "status": "CHANGED_SINCE_RISK"
+    },
+    {
+      "path": "app/zhiban/local/concepts.html",
+      "sha256": "9797db2652607835e42ba069cafc30b29c109730b66155f80e8266f2d5c69e4a",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "app/zhiban/local/concepts.js",
+      "sha256": "6617f7a2dafb488cfb0e973f015d04e6d34b3b771d9d4be5c04d1f74db13dc0b",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "scripts/zhiban-local/build-concept-reference.ts",
+      "sha256": "93060719750daf37898346cf1c8cbf7493e3419fa72a58477d3ab4e2e53a7b94",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "scripts/zhiban-local/verify-concept.ts",
+      "sha256": "91808d15f186284cb4c3bded77fa7d3b8ecc6cac702824c557d26e0bd89f6570",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "scripts/zhiban-local/trial-content.ts",
+      "sha256": "d8dc59228361fa4a5beb55ed5bf608c1eb22805fbe866e509eb8ecbfec58ae50",
+      "status": "CHANGED_SINCE_RISK"
+    },
+    {
+      "path": "scripts/zhiban-local/run-m6-catalog.ts",
+      "sha256": "4c980b204e3380baeec3f3811f1e825f996086d10c8d1f22bbfa57ba7f325d67",
+      "status": "CHANGED_SINCE_RISK"
+    },
+    {
+      "path": "scripts/zhiban-local/request-target.ts",
+      "sha256": "f53b6d0b784f8f97bb72e7d9f71a00012e108527fc1bdb64be1fe9c355cc9e0d",
+      "status": "CHANGED_SINCE_RISK"
+    },
+    {
+      "path": "scripts/zhiban-local/concept.ts",
+      "sha256": "2074c81f7bf8c62e1390551b58e62699ed3c1040910099f5148e705d90681530",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "scripts/zhiban-local/verify-m6-catalog.mts",
+      "sha256": "f6595fb91123d192a8c0cc19db7b38d5348e684023d04ca128ef88124d36b13c",
+      "status": "CHANGED_SINCE_RISK"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/academic/postgres/store.ts",
+      "sha256": "6003bd4dd462bdd89e4809fa30512025dec371d1b15bf7f5b82e30c3be4da16f",
+      "status": "CHANGED_SINCE_RISK"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/concept/postgres/migrations/0001_concept.sql",
+      "sha256": "71e68dc24f0b25b20465f788856090ac5fa074f0aa2db2120675ebf37022d162",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/concept/postgres/transaction.ts",
+      "sha256": "ba66a2944446e825cc53cd381211d2c7532b6ad07a10786c78f137e5a737b49c",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/concept/postgres/sources.ts",
+      "sha256": "40b1ba07002890c89b4d1862de651ae64b59dc7ce1055dc180ae102412868356",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/concept/http.ts",
+      "sha256": "f63bf09d9eb1b7b3ebcde22c13033a41a6c372cc17014c9318662ba604c80fb7",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "lib/zhiban/domain/concept/model.ts",
+      "sha256": "e4623d81f51a62ba1592c14fda8c0b3bf9cdac6360c0c6fcff0618cce68a4c68",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "lib/zhiban/application/concept/service.ts",
+      "sha256": "e972f3606025706f7ad5036fb485dc007b8c37a844cc3d63c20fc6a9bb8bd8a9",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "lib/zhiban/application/academic/service.ts",
+      "sha256": "2d1cf786d2fe8c15e9ca7943822b1505d4b3f75debc058e819e11e0057f08171",
+      "status": "CHANGED_SINCE_RISK"
+    },
+    {
+      "path": "package.json",
+      "sha256": "54390f6f89a6864b8e6026d45c9775fed3738b8ab25c837afeb53967cd7f748f",
+      "status": "CHANGED_SINCE_RISK"
+    },
+    {
+      "path": "docs/v2/evidence/zhiban-concept-profile-reference-local.json",
+      "sha256": "41c72979e7c6494f50aa56be9e6a5ffb0eeb69a67f05feed1c7a5c4c54583110",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    }
+  ]
+}

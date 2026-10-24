@@ -1,0 +1,97 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "createdAt": "2026-10-16T23:09:05.533603+00:00",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "branch": "refactor/zhiban-v2",
+  "scope": "P1 fourth slice: shared admin academic layout and context navigation",
+  "sourceHashes": {
+    "app/zhiban/local/admin-shell.js": "b9491c11d6f10f3f7d9e92e25018e39392af2b3a3dcf3645fd8cfc630790730e",
+    "app/zhiban/local/management.css": "00db7a5cae02c3a2bdb5fe1e193edbd8a297da52fb1325ddba66dbe5152d0e2c",
+    "app/zhiban/local/management.html": "0fc9350441b7c77ac5258262c4db3ab82792a1f348cb8bf3df108e46d63f936e",
+    "app/zhiban/local/directory.html": "c2e55fc24d11fe7d63304d2d8c15051e4122bd1e184483467ad38cfda8d7525f",
+    "app/zhiban/local/relationships.html": "4347dffc0c5a6d97be4a94fb70ddc63aad29beda57e2c7e67883155eb30099d5",
+    "app/zhiban/local/roster.html": "ff18e3578eecc938821156cbf0c5c12a196217f2411fd15f80492799606134e4",
+    "app/zhiban/local/index.html": "5185ad3ae8f89da13348424e3df26076cdf5384f686f0f5909d8af0c19c60cb0",
+    "app/zhiban/local/client.js": "9d573e7bfd913bd32254af7cca6ae9196249d52bf7e4b91a5f7c7b3bc503db75",
+    "app/zhiban/local/management.js": "eb4d1f2bb042dd22af2fbcbac0bd53f37a8f6b737999d49137ccb40eb9b95668",
+    "app/zhiban/local/management-page.js": "9b26950fc19d9a3190bd6af2a4d6cccaece0e4209b0f91542c55e9515094c370",
+    "app/zhiban/local/directory-page.js": "19b218cc1ed143923020ba1d8d08842738e06fb91e4817c801b48b5797accc4b",
+    "app/zhiban/local/relationships.js": "0bb86c8909cd4fa8cec84a9ddd54659ebec272abea5778c90362d3eea57e9c43",
+    "app/zhiban/local/roster.js": "e811a4917d97825a4390df3a783f803ae184de212e8106f3919eceed0188836d",
+    "scripts/zhiban-local/request-target.ts": "0e54050b4f52f16757b886a4f38513e08cc315319716038cbb96aede66c498b3",
+    "scripts/zhiban-local/server.ts": "5e25c2c4d6922864d90f9b81c93f7f3cb47909599ef9aac49ca13433288170bd",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "5daa92cc85f5cd07fdd3dfb3e627d330d91cb8c2b9413057a8a4659b0651324b",
+    "scripts/zhiban-local/prepare-trial.ts": "3e4f8fb432f95d1bc1566d1ce6e79f8bc685090d4a5e92ec1f9107dccea22f82",
+    "scripts/zhiban-local/verify-trial-content.ts": "51474745b97015c616f37e058ae89de7877688f1eee0c7276fe0d4431cb5208a",
+    "tests/zhiban/workspace/query.test.ts": "5fbae6d8b75946eca0a93273d6eaf26330335ba1914bbd0f6a936f5953c94d43"
+  },
+  "checks": {
+    "routes": "8/8 PASS",
+    "types": "PASS focused server/catalog/prepare-trial/request-target/workspace-test configuration including transitive imports",
+    "lint": "PASS changed JS/TS",
+    "trial": {
+      "status": "PASS",
+      "checks": 13,
+      "pg16": 160015,
+      "receipt": "zhiban-trial-content-demo-local.json"
+    },
+    "adminJourneys": [
+      "courses table / terms table and refresh preserve category",
+      "class members back returns administrative class category",
+      "offering roster -> relationships -> original roster",
+      "offering roster -> import -> original roster",
+      "directory unified shell and table",
+      "teacher/student admin alias denied with business root removed"
+    ],
+    "inAppBrowser": [
+      "1440x1000 shared course list and expanded course editor",
+      "390x844 course editor width375 <= viewport390; mobile navigation expands",
+      "390x844 student directory width390; 580px table scrolls within356px local container",
+      "1440x1000 directory / relationship / import layouts verified",
+      "relationships and import return same offering roster"
+    ],
+    "nativeRefreshClose": "prior user-skipped scope remains deferred",
+    "fullRepositoryTypecheck": "not rerun; prior unrelated slide-editor type errors remain outside scope"
+  },
+  "runtime": {
+    "status": "RUNNING_LOCAL_DISPOSABLE",
+    "root": "/tmp/zhiban-trial-content-gERBKe",
+    "pid": 24809,
+    "origin": "https://127.0.0.1:3461",
+    "tenantId": "01a146f7-09a6-736a-9783-14ae4f05f213",
+    "offeringId": "01a146f7-296d-77de-adf6-043f380b59e2",
+    "sourceMatchesAtInfo": true,
+    "sourceDriftCountAtInfo": 0,
+    "data": "new synthetic classroom; old classroom data not restored"
+  },
+  "screenshots": {
+    "course-edit-desktop.png": "9c928bc1689077f158e9e3ac15e1ec212b6701e123b0a54f9b3b4abf9ccf77fb",
+    "course-edit-mobile.png": "2992630564ee92e5cc30180b78a91ad90c1ff012d9a3fc2cedc5da846ecd3e91",
+    "courses-desktop.png": "91846c134564f1fb1e23cad03323bd1e044215406d997d522a52e7af286a4bf2",
+    "directory-desktop.png": "d3ce9a7e4bfb33d42d7d46becf68fd1358041d01349f6603f44926c1a7c3e0f1",
+    "directory-mobile.png": "a0fba9f2edf90841f3eb77bc9ed6d4e5ae7e7ca2b3041fd51ecebdb4d9ee7b0e",
+    "relationships-desktop.png": "87343475b0bdda609b8567be334497592828f88d85ea9d6cb8d89dc1fdddb8fd",
+    "roster-desktop.png": "bf08acd7a574153418f5a1fadfc88f823a1c4bf162926311ea02bff692948052"
+  },
+  "cleanup": {
+    "failedRoot": "/tmp/zhiban-trial-content-UyjKov",
+    "stoppedVerifiedByPgCtl": true,
+    "removed": true,
+    "reason": "test-only UI withdrawal/republish state race; read-only diagnostic found WITHDRAWN rev7 without a new publish reservation; await final UI transitions before next action"
+  },
+  "limits": [
+    "full account/permission administration not implemented",
+    "chapter/unit structure not implemented",
+    "old app pixel equality not signed",
+    "admin form draft and leave protection unchanged",
+    "mobile directory uses local horizontal table scrolling"
+  ],
+  "mutations": {
+    "commit": false,
+    "push": false,
+    "ciDispatch": false,
+    "appliedMigrations": false,
+    "realPg55432Or55433": false
+  }
+}

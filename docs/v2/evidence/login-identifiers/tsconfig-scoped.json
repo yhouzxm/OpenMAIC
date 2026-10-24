@@ -1,0 +1,32 @@
+{
+  "extends": "/home/zxm/openmaic/zhiban/tsconfig.json",
+  "compilerOptions": {
+    "incremental": true,
+    "tsBuildInfoFile": "/tmp/zhiban-login-identifiers.tsbuildinfo",
+    "plugins": [],
+    "types": [
+      "node"
+    ],
+    "typeRoots": [
+      "/home/zxm/openmaic/zhiban/node_modules/@types"
+    ],
+    "allowJs": false
+  },
+  "include": [
+    "/home/zxm/openmaic/zhiban/lib/zhiban/domain/login-identifiers/**/*.ts",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/login-identifiers/**/*.ts",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/application/profile/service.ts",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/profile/postgres/transaction.ts",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/login-identifiers.ts",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/build-login-identifiers-reference.ts",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/login-identifier-authority.ts",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/control-login-identifier.ts",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/verify-login-identifiers.ts",
+    "/home/zxm/openmaic/zhiban/tests/zhiban/login-identifiers/**/*.ts",
+    "/home/zxm/openmaic/zhiban/types/web-extraction-vendors.d.ts"
+  ],
+  "exclude": [
+    "/home/zxm/openmaic/zhiban/node_modules",
+    "/home/zxm/openmaic/zhiban/.next"
+  ]
+}

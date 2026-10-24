@@ -1,0 +1,81 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "createdAt": "2026-10-16T23:51:33.110991+00:00",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "branch": "refactor/zhiban-v2",
+  "scope": "TJ01 student reading copy, TJ02 student grade names, TJ03 course logout and unsaved inline confirmation",
+  "sourceAndServedHashes": {
+    "app/zhiban/local/course-page.js": "4dbbc7a17e388c5e7345b84c3960dc6286701f6d09ddee06f5240c95671dee5d",
+    "app/zhiban/local/learning.js": "c3bed9979d98c12772fab9a51339fcc805bc83dcb7489e9e7c93a6c6578ad453",
+    "app/zhiban/local/assessment.js": "e9c7eb63442801f13e14394fb82a2f24596023d965b422f3ef239f7bdb858490"
+  },
+  "checks": {
+    "lintSyntaxWhitespace": "PASS ESLint all3 JS, node syntax and git diff --check",
+    "trustedHttpsAssets": "PASS 3/3 served current source hashes with trusted CA, no TLS bypass",
+    "actualBrowser": [
+      "student lecture reading/empty text corrected",
+      "student submission link and heading show 查看成绩与反馈;92/100 feedback retained",
+      "teacher lecture retains editing instructions and controls",
+      "course student grades direct logout succeeds; original URL rejects unauthenticated access"
+    ],
+    "browserScopeBoundary": "Final inline confirmation cancel/confirm, logout denial and teacher grading header now checked on unchanged final three-script hashes. Prior DOM failure-path test remains DOM-only.",
+    "domHarness": {
+      "result": "3/3 PASS",
+      "file": "teaching-ux/course-session-check.mjs",
+      "scriptHash": "238fd69069e09a08fa39430b2177a1fc384722e1d5a946503fd8dd5baa8d1695",
+      "cases": [
+        "cancel preserves input and sends no csrf/logout request",
+        "confirm uses original csrf GET/logout POST, hides business root and broadcasts session change",
+        "logout failure retains input/page and restores retry without success broadcast"
+      ],
+      "method": "Node22 + existing jsdom29.1.1, executes current course-page source; no real browser navigation or DB calls"
+    },
+    "nativeRefreshClose": "previous deferred scope remains deferred",
+    "fullSuiteCi": "not run; original17-group signoff not extended"
+  },
+  "runtime": {
+    "status": "RUNNING_LOCAL_DISPOSABLE",
+    "pid": 32898,
+    "root": "/tmp/zhiban-trial-content-z7jorO",
+    "origin": "https://127.0.0.1:3461",
+    "sameClassroom": true,
+    "sourceMatchesOriginalStartupReceipt": false,
+    "expectedSourceDriftCount": 3,
+    "oldReceiptRewritten": false,
+    "backendFilesUnchanged": 186,
+    "installedContentBundleUnchanged": true,
+    "data": "saved lecture/activity, attempt1/submission1 and92/100 retained; no content/grade commands this round"
+  },
+  "screenshots": {
+    "student-feedback.png": "460f61267807b6b60da7949a9f4d75df0171e2c415f55014011f3460948cdbc8",
+    "teacher-grading-browser.png": "037b91bfd9276b6c99a394b7db256333aee6afeea443bac8556cd636c3a7832b",
+    "student-reading.png": "3d6cbb7a92e36b01af99257cb241d944db2ba9f829f56fdb84e94bac0ee1b7cf",
+    "logout-cancel-browser.png": "f8eb57a625e34991e4aec7063e7641143d15bcf4ebea27204e0036bf1deff1fa"
+  },
+  "remaining": [],
+  "mutations": {
+    "backend": false,
+    "contentBundle": false,
+    "sqlAclMigration": false,
+    "restartOrReset": false,
+    "commit": false,
+    "push": false,
+    "ciDispatch": false
+  },
+  "browserRecheck": {
+    "at": "2026-10-17T00:18:17.336125+00:00",
+    "result": "PASS",
+    "oldNativeDialog": "old tabs absent at initial inventory; new tab usable",
+    "cases": [
+      "current inline exit confirmation is operable in IAB",
+      "cancel closes dialog, retains exact appended unsaved text and keeps logout enabled",
+      "confirm returns login page; direct original teacher course URL denied unauthenticated",
+      "teacher published grading editor retains 人工评分与成绩 and92/100 with original feedback",
+      "reopening lecture after discard yields original saved body without test suffix"
+    ],
+    "testTextSaved": false,
+    "contentOrGradeWrites": false,
+    "restartOrReset": false
+  }
+}

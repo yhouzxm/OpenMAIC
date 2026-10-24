@@ -249,6 +249,10 @@ export class IdentityAuthentication implements OwnAuthenticationPort {
     return run(this.pool, async (client) => {
       const hint = await this.hint(client, digest);
       if (!hint) return null;
+      // A committed global disable already revoked this persisted Session. Report the
+      // known rejection before its disabled User reaches the stricter anchor helper.
+      // Do not infer rejection from driver/ACL errors; those still fail unavailable.
+      if (hint.value.revokedAt !== null) refuse('SESSION_REJECTED');
       const binding = { digest, user: hint.value.userId, session: hint.value.id };
       // Invalid/revoked sessions reject. Driver/outage failure is NOT converted to success.
       const state = await this.locked(client, binding, 'UPDATE');

@@ -1,0 +1,20 @@
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+node:internal/modules/esm/assert:88
+        throw new ERR_IMPORT_ATTRIBUTE_MISSING(url, 'type', validType);
+              ^
+
+TypeError [ERR_IMPORT_ATTRIBUTE_MISSING]: Module "file:///home/zxm/openmaic/zhiban/packages/@openmaic/dsl/dist/schema/scene.schema.json" needs an import attribute of "type: json"
+    at validateAttributes (node:internal/modules/esm/assert:88:15)
+    at defaultLoadSync (node:internal/modules/esm/load:172:3)
+    at ModuleLoader.load (node:internal/modules/esm/loader:831:12)
+    at ModuleLoader.loadAndTranslate (node:internal/modules/esm/loader:609:31)
+    at #createModuleJob (node:internal/modules/esm/loader:640:36)
+    at #getJobFromResolveResult (node:internal/modules/esm/loader:353:34)
+    at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:321:41) {
+  code: 'ERR_IMPORT_ATTRIBUTE_MISSING'
+}
+
+Node.js v22.23.3

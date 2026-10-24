@@ -1,0 +1,17 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "synthetic": true,
+  "planId": "01a15f0d-39fe-75a6-86f6-031ceb88daba",
+  "caseId": "01a15f0d-39cc-733f-b57a-c5a0ab06550d",
+  "taskId": "01a15f0d-39fd-71fa-8b90-951a19c7cc64",
+  "revision": "2",
+  "courseId": "01a15f0c-9c2f-724b-8e4e-2a3424ac76ce",
+  "tenantId": "01a15f0c-2990-7600-afec-e186b0da83a6",
+  "offeringId": "01a15f0c-9d5a-76bb-ac78-e74cbd286e98",
+  "teacherUrl": "https://127.0.0.1:3461/zhiban/teacher/courses/01a15f0c-9c2f-724b-8e4e-2a3424ac76ce/remediation?space=01a15f0c-2990-7600-afec-e186b0da83a6&offering=01a15f0c-9d5a-76bb-ac78-e74cbd286e98#plan-01a15f0d-39fe-75a6-86f6-031ceb88daba",
+  "studentUrl": "https://127.0.0.1:3461/zhiban/student/courses/01a15f0c-9c2f-724b-8e4e-2a3424ac76ce/remediation?space=01a15f0c-2990-7600-afec-e186b0da83a6&offering=01a15f0c-9d5a-76bb-ac78-e74cbd286e98#plan-01a15f0d-39fe-75a6-86f6-031ceb88daba",
+  "baselineScore": 50,
+  "currentPublishedScore": 85,
+  "modelRequestMade": false
+}

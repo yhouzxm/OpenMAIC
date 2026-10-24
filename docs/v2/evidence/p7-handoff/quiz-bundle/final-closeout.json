@@ -1,0 +1,63 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "LOCAL_HANDOFF_COMPLETE_WITH_DECLARED_LIMITATIONS",
+  "at": "2026-10-23T14:42:01.941207+00:00",
+  "scope": "P7_FOUR_QUIZ_PRODUCT_PACKAGES_HANDOFF",
+  "versionId": "zhiban-local-20261023-4456acb59cca",
+  "sourceDigest": "4456acb59cca4123278348baafaa626dcd3d529346af2e08bdec5a1f873c7387",
+  "archive": "/home/zxm/.local/share/zhiban-handoff/zhiban-local-20261023-4456acb59cca/source.tar.gz",
+  "archiveSha256": "506f8d4ca99a6373486e4070cac6597c6330eda5e419b6cf54c1e39e4f08d6c3",
+  "artifactDirectory": "/home/zxm/.local/share/zhiban-handoff/zhiban-local-20261023-4456acb59cca",
+  "sourceFiles": 5634,
+  "archiveBytes": 146271579,
+  "branch": "refactor/zhiban-v2",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "previousVersion": {
+    "versionId": "zhiban-local-20261023-c1b02652eaac",
+    "archiveUnchanged": true,
+    "receiptsReissued": false
+  },
+  "runtime": {
+    "root": "/tmp/zhiban-trial-content-IS9eTC",
+    "pid": 65003,
+    "restarted": false,
+    "businessMutations": false,
+    "identityLoginsEstablished": true,
+    "dataCleared": false,
+    "productSourceMatches": true,
+    "overallSourceMatches": false,
+    "verifierDriftCount": 1,
+    "metadataRewritten": false
+  },
+  "verification": {
+    "archiveIndependentReadback": "PASS",
+    "workspaceFileHashComparisons": 5634,
+    "entryReadonly": "PASS",
+    "runtimeIncluded": 1878,
+    "runtimeArtifactOmissions": 899,
+    "featureSourceApplicability": "OLDER_SHARED_FILES_EVOLVED_CURRENT_ORDERING_RECEIPT_UNCHANGED",
+    "fullClassroomRerun": false,
+    "ci": false,
+    "productionSignoff": false,
+    "cleanHostInstallTested": false,
+    "databaseRestoreTested": false
+  },
+  "included": [
+    "Judgment shortcuts and controlled question/whole-quiz copying",
+    "Fill blanks with accepted variants and independent points",
+    "Matching with repeatable targets and item points",
+    "Ordering with explicit confirmation and exact whole-question grading",
+    "Previous progress, weighted totals/appeals and ordinary entry packages"
+  ],
+  "boundaries": [
+    "LOCAL synthetic same-path source handoff only",
+    "Old feature receipts retain their own root/source scope; deltas listed separately",
+    "Verifier-only runtime source drift declared; business product sources match",
+    "Private accounts/keys/configs/PG data excluded",
+    "Parser/scanner inputs, full Native Runtime/maintenance, operational identity inputs and REVIEW gates remain deferred"
+  ],
+  "committed": false,
+  "pushed": false,
+  "ciDispatched": false
+}

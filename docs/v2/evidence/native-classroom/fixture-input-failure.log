@@ -1,0 +1,26 @@
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+Reused @openmaic/generation: matching LOCAL source/build hashes
+PASS Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately
+{"timestamp":"2026-10-24T07:18:57.016Z","level":"INFO","tag":"GenerationRunner","message":"generation runner 63199:3eba3f7b-cbbd-4155-9bdd-ee2c00953811 started (scan=1000ms, heartbeat=2000ms, leaseTtl=10000ms, maxConcurrent=1)"}
+PASS PG16 restricted roles + real Identity sessions + validated trusted HTTPS
+PASS trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands
+PASS real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft
+AssertionError [ERR_ASSERTION]: {"error":{"code":"INVALID_INPUT","requestId":"bb0ae0fb-4591-496a-b61d-4da8031af204"}}
+
+400 !== 200
+
+    at send (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-ukggQH/verify.mjs:54871:14)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async verifyNativeClassroom (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-ukggQH/verify.mjs:54884:3)
+    at async main (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-ukggQH/verify.mjs:90322:7)
+    at async file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-ukggQH/verify.mjs:91511:3 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 400,
+  expected: 200,
+  operator: 'strictEqual',
+  diff: 'simple'
+}

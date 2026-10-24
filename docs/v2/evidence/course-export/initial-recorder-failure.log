@@ -1,0 +1,40 @@
+
+> openmaic@1.2.0 trial:zhiban /home/zxm/openmaic/zhiban
+> tsx scripts/zhiban-local/run-m6-catalog.ts --unified-trial --serve
+
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+PASS Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately
+PASS disposable content loader rejects wrong target, artifact hash and elevated Bridge ACL; restored state required before serving
+PASS PG16 restricted roles + real Identity sessions + validated trusted HTTPS
+PASS trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands
+PASS real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft
+PASS three real browser logins share one origin: admin history, teacher activities/queue/analytics, student activities/published feedback; no script errors
+PASS student/admin cannot acquire teacher grading; malformed content routes and Runtime/control remain closed
+PASS unified origin: teacher edits/publishes text+PNG and course outline; student learning center reads published directory and decoded PNG using public SlideCanvas and real Content provider
+node:internal/process/promises:394
+    triggerUncaughtException(err, true /* fromPromise */);
+    ^
+
+Error:Target page, context or browser has been closed
+Error
+    at captureRawStack (/home/zxm/openmaic/zhiban/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/utils/isomorphic/stackTrace.js:32:17)
+    at LongStandingScope._race (/home/zxm/openmaic/zhiban/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/utils/isomorphic/manualPromise.js:87:58)
+    at LongStandingScope.race (/home/zxm/openmaic/zhiban/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/utils/isomorphic/manualPromise.js:80:17)
+    at Response.finished (/home/zxm/openmaic/zhiban/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/client/network.js:544:54)
+    at Page.<anonymous> (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-zvMwae/verify.mjs:4303:22)
+    at Page._callHandler (/home/zxm/openmaic/zhiban/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/client/eventEmitter.js:66:29)
+    at Page.emit (/home/zxm/openmaic/zhiban/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/client/eventEmitter.js:61:14)
+    at BrowserContext._onResponse (/home/zxm/openmaic/zhiban/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/client/browserContext.js:181:12)
+    at Proxy.<anonymous> (/home/zxm/openmaic/zhiban/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/client/browserContext.js:132:63)
+    at Proxy._callHandler (/home/zxm/openmaic/zhiban/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/client/eventEmitter.js:66:29)
+    at Proxy.emit (/home/zxm/openmaic/zhiban/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/client/eventEmitter.js:56:12)
+    at Connection.dispatch (/home/zxm/openmaic/zhiban/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/client/connection.js:176:21)
+    at Immediate._onImmediate (/home/zxm/openmaic/zhiban/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/inProcessFactory.js:46:85)
+    at process.processImmediate (node:internal/timers:484:21)
+    at process.callbackTrampoline (node:internal/async_hooks:130:17)
+
+Node.js v22.23.3
+ ELIFECYCLE  Command failed with exit code 1.

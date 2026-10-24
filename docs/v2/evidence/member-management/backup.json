@@ -1,0 +1,11 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "BACKUP_VERIFIED",
+  "root": "/tmp/zhiban-trial-content-sFuJer",
+  "backupRoot": "/home/zxm/.local/state/zhiban-trial-backups/before-members-20261018-214954",
+  "hashes": {
+    "zhiban_trial_content_disposable.dump": "718a7ecf524966d0b25ca238dbe92a9c05a11722e33fbfbb4e3ee990517ce5be",
+    "zhiban_trial_content_native.dump": "6e153f2ff0657a6674ec9a0fcedc1161b8a3757a6d84b75071a3f6f481ecdc6d"
+  }
+}

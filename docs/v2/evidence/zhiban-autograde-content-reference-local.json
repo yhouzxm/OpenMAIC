@@ -1,0 +1,18 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "scope": "SOURCE_BUILT_AUTOGRADE_OVER_FIXED_CONTENT_REFERENCE",
+  "baseReferenceSha256": "3ebde97c17fedc134570debefc3b7f7c0df49017fddc2dbdf4ee9da1b3edce6b",
+  "migrationHashes": {
+    "lib/zhiban/infrastructure/autograde/postgres/migrations/0001_autograde.sql": "f0a35d5413125c1679cb0b8008a452c2a860d60198f9cbf1a20f53f63bea6773",
+    "lib/zhiban/infrastructure/autograde/postgres/migrations/0002_worker.sql": "a2fa7bea6b1c842132ec54111c9a5e43f7ec017b5e65ecad9d45fc7427cbc36b"
+  },
+  "replacementFingerprints": {
+    "zhiban_academic": "bbb7e941a629ef29125b8c96760e32fa6586f733bc65d0c85139773749704b74",
+    "zhiban_learning": "11ae4c7204cdb1c098ed068ee8b736c40cc5e79db498d0f7634e900ef7e09cfc",
+    "zhiban_assessment": "44bc31a362fdca54950a03928fa38b69cc2e10a141b00fa8c58c88a12fcda32e"
+  },
+  "fingerprint": "94fa6d20090241a849ff57fed3b16e4ebaeb013da67e5503d8271e59bb2dbfdc",
+  "constructionOnly": true,
+  "note": "Only the three modified business schemas are reconstructed in this separate owned PG16 cluster. Content, Identity, Bridge and global facts retain the exact prior trusted expected profile. Live host never generates this expected."
+}

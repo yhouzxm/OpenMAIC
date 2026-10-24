@@ -1,0 +1,31 @@
+{
+  "formatVersion": 1,
+  "status": "UNISSUED_PLAN",
+  "executionAllowed": false,
+  "runtimeAccepted": false,
+  "realTargetExecuted": false,
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "r6InventorySha256": "fa51a67d9733fc6b436e89ec339306472ceb8566368cc3f9ce3c3122d873c13b",
+  "filesSha256": {
+    "observer-executor.cjs": "c9942eb501d5a12fccdae1e921f49f3f34f23a3d81a95f462522ccc5a2badc0b",
+    "observation-approval.template.json": "2c3ad8b1b7731370d043dac72b6ec28f81ce314b6a050932f5ebbd6777198e15",
+    "README.md": "e96487a2e08525ffb3aafc692b2578a2b2629082c0ed401d64d79cb34dd6f4ae",
+    "observer-test-driver.cjs": "35d44e04169b47f6b41ea6a733ac22d9131471af8288da08083d0f88216be456",
+    "verify-plan.py": "a01b61ea742b7f3ad478d36e4548cfeae55f33b467407cfc771521082ef0b776",
+    "observer-contract.cjs": "c0fa40d6daa1c05f5bf4edb98ef0bf242f82f14523c629efa73aff2057132b1f",
+    "management-only-hba.conf": "9c5c96b7926e763f21108d4a8843ac3aac90ddd03889234c9a670edc19d9905d",
+    "management-observe.sql": "db49925dfa3e6a3081fe4d254c27b38978e4e90e802e6f335b44f9e2e1902377",
+    "prepare-observation-packet.cjs": "a6e93b824aefbcb978f8c81aea288b9563d39a145d8304a03b9e2d68d2ccb97f",
+    "verify-observer-pg16.cjs": "99b69851f7483d0afc63f473b8e5166486d8ffdb092848658c24be1d264edac6",
+    "observer-preflight.cjs": "0f0623737ebd366a619196a3b964a5a7591eaf72e4906a43c4ffebac76cbf704",
+    "observer-cli.cjs": "4d30d20c6ec0cc59e0d02c0a6873c0c5d67d3d9da2f4051d8226a53298af6ee5",
+    "observer-guardian.cjs": "cbfd9c2ae93451c027a3a15b513d5c204caf0c0afc15d539ae7af565fd7bebf2",
+    "observer-custody.cjs": "161104a658c320cc3594beb6f934dab484b5c0058dc1203f90252d68945f71fb",
+    "observer-test-guardian.cjs": "37101e33f9f9f9f5566777ae2d357d3aeaf640e929529b18eb360bec2a7b5a66",
+    "request.template.json": "4835bf8607a337dda33955894e37266ba498d3ce05287c43e01e01b784309edf"
+  },
+  "sourceBindingsSha256": {
+    "docs/v2/zhiban-v2-m5-observer-custody-design.md": "bb9441663c3e31eaf4fefdb4546239a1965d901d609a11cd1ff0ff73d2c1a811"
+  }
+}

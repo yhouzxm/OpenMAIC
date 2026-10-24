@@ -1,0 +1,16 @@
+lib/zhiban/domain/ema/model.ts 340ms (unchanged)
+lib/zhiban/application/ema/service.ts 271ms (unchanged)
+lib/zhiban/infrastructure/ema/http.ts 99ms (unchanged)
+lib/zhiban/infrastructure/ema/native.ts 51ms (unchanged)
+lib/zhiban/infrastructure/ema/postgres/transaction.ts 462ms
+app/zhiban/local/ema.css 101ms
+app/zhiban/local/ema.html 115ms
+app/zhiban/local/ema.js 467ms
+scripts/zhiban-local/verify-m6-catalog.mts 1874ms
+scripts/zhiban-local/run-m6-catalog.ts 185ms
+scripts/zhiban-local/trial-content.ts 145ms
+scripts/zhiban-local/request-target.ts 35ms (unchanged)
+scripts/zhiban-local/tsconfig.ema.json 6ms (unchanged)
+tests/zhiban/ema/model.test.ts 24ms
+app/zhiban/local/course-page.js 318ms
+app/zhiban/local/learning-profile.js 312ms

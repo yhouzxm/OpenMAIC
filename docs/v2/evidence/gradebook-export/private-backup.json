@@ -1,0 +1,20 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "scope": "PRE_REFRESH_PRIVATE_ARCHIVES_NOT_RESTORE_PROOF",
+  "status": "ARCHIVES_AND_TOC_VERIFIED",
+  "root": "/tmp/zhiban-trial-content-1d5Gh2",
+  "directory": "/home/zxm/.local/state/zhiban-trial-backups/p3-gradebook-export-20261023-164749",
+  "files": {
+    "zhiban_trial_content_disposable.dump": "110e14d43253b785be6188498d247697387820dca45348985aa5e3928dc5148f",
+    "zhiban_trial_content_native.dump": "a8b8a2f95696fa11e228d1d6c330606251ff6be0d3a2d5c0a088464e9620cfe8",
+    "zhiban_trial_lesson_native.dump": "9e3b513229b99dc76c8a3519bfb0f84d107c2a68b90d04853f101e251c89488f",
+    "accounts.json": "58cc35e3a5f9bb9a0ed49f8665eb4e45cf5a6847bfc5cb50fb21a96e5bb549e1",
+    "member-control.json": "77d857c684ca0e9622a4f664808d209c59ef80e73b11dc48b559c3001da85586",
+    "member-inputs.json": "d18c114c14f09ce91b0fa23475cb2ea9802b28faaafc544c6a206f1f0699113d",
+    "member-operator.pem": "9d762e9963c9a180bafc7ec7bb1a5fd59e8a0b7c2ff09f907f5402db4e46bfc2",
+    "member-approver.pem": "b8659bc7a89f652cc7aca4354cf3d935f086f0cfe6efae51543f182b29fb9502",
+    "content-installation.json": "5d982231984d18277924f6f56b4ea29507d71ba97ef1607a13ad541010685408"
+  },
+  "restoreTested": false
+}

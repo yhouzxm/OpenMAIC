@@ -1,0 +1,50 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "localDeliveryDate": "2026-10-23",
+  "at": "2026-10-22T23:10:54.690025+00:00",
+  "branch": "refactor/zhiban-v2",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "worktree": "EXISTING_DIRTY_PRESERVED",
+  "scope": "P3_INDEPENDENT_GLOBAL_ACCOUNT_DISABLE_RESTORE_AND_TENANT_DIRECTORY",
+  "globalHttpMutation": false,
+  "reusedFrozenIdentityCommands": true,
+  "newSqlAclMigration": false,
+  "preexistingMigrationCount": 39,
+  "migrationDrift": [],
+  "workspaceBoundSources": 2697,
+  "sourceDrift": [],
+  "defaultRoot": "/tmp/zhiban-trial-content-tXbZWI",
+  "defaultUrl": "https://127.0.0.1:3461/zhiban",
+  "checks": {
+    "pg16Directed": "PASS (2026-10-22 receipt retains its scope)",
+    "scopedTypecheck": "PASS",
+    "scopedEslint": "PASS",
+    "startupEslint": "PASS",
+    "currentDefaultJourney": "PASS (2026-10-23 new synthetic instance)",
+    "currentDefaultIabDirectoryAndFreshLogin": "PASS",
+    "oldCookieAfterRestore": 401,
+    "newLoginAfterRestore": 200,
+    "scannerUnavailabilityIsolation": "PASS",
+    "threeDatabaseCurrentBackup": "CREATED_AND_TOC_HASH_VERIFIED_NOT_RESTORE_TESTED"
+  },
+  "receipts": [
+    "docs/v2/evidence/zhiban-account-status-local.json",
+    "docs/v2/evidence/account-status/directed-journey.json",
+    "docs/v2/evidence/account-status/continuation-source-delta.json",
+    "docs/v2/evidence/account-status/default-browser-journey.json",
+    "docs/v2/evidence/account-status/scanner-isolation.json"
+  ],
+  "limits": [
+    "LOCAL synthetic two-key authority; no human operational approval or production signoff",
+    "Global state CLI only; no tenant global-control web endpoint",
+    "Scanner pin drift remains unresolved, new material/attachment scan uploads closed, no repinning or synthetic fallback",
+    "No automatic membership/roles/Enrollment or revival of expired/revoked sources",
+    "Previous transient demo root/process no longer available; current instance is new, not restored old data",
+    "No Git commit/push/CI, real PG55432/55433 or production operations",
+    "P3/P7 not fully complete"
+  ],
+  "nextFullPackage": "P3 controlled login identifiers and directory mapping",
+  "suggestedModel": "GPT-6.1 Sol / high"
+}

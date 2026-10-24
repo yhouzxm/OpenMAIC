@@ -1,0 +1,27 @@
+{
+  "extends": "/home/zxm/openmaic/zhiban/tsconfig.json",
+  "compilerOptions": {
+    "incremental": true,
+    "tsBuildInfoFile": "/tmp/zhiban-account-status-scoped.tsbuildinfo",
+    "plugins": [],
+    "types": [
+      "node"
+    ],
+    "typeRoots": [
+      "/home/zxm/openmaic/zhiban/node_modules/@types"
+    ],
+    "allowJs": false
+  },
+  "include": [
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/account-status.ts",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/control-account-status.ts",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/verify-account-status.ts",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/application/profile/service.ts",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/profile/global-status.ts",
+    "/home/zxm/openmaic/zhiban/types/web-extraction-vendors.d.ts"
+  ],
+  "exclude": [
+    "/home/zxm/openmaic/zhiban/node_modules",
+    "/home/zxm/openmaic/zhiban/.next"
+  ]
+}

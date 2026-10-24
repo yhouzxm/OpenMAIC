@@ -1,0 +1,21 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "status": "ARCHIVES_CREATED_AND_TABLE_OF_CONTENTS_VERIFIED",
+  "root": "/tmp/zhiban-trial-content-N4LsCS",
+  "backupDirectory": "/home/zxm/.local/state/zhiban-trial-backups/risk-current-20261022-070608",
+  "databaseCount": 3,
+  "files": {
+    "zhiban_trial_content_disposable.dump": "df0034df244d98e9369ca3c5b549f7c9bc9f59b4f7efdae6cbb7bf2503f1bc60",
+    "zhiban_trial_content_native.dump": "d0cebc0ba35ca447c426752d5f3e7a30aef161e54c8e0a831ea6f8b8b43fb653",
+    "zhiban_trial_lesson_native.dump": "b6b71071f21bef47895b92dc09d768b197379ed35e6b19cfb63a2d6ebea980b4",
+    "accounts.json": "dd474ab2e403137bc6a4e2d3ed73f51a8f8eaabc98b1f27a5befbacccbc9ab27",
+    "member-control.json": "840be3261fb3a5e7e5dd256a92a6fb244c51213dd3949a03a69e18ffad4cf241",
+    "member-inputs.json": "c377fe5a683cd7837ca27d4f97e06354b9638dcaff9d34213d71f576aa47ac85",
+    "member-operator.pem": "8b16d5e35dafada146885c7e391277b25113755d90c9ed6fc7b74e71f9cb12e0",
+    "member-approver.pem": "4fa13ea108385ea92c5ec2f55a2e17e29f4a3646c21ca26006088a05da9dd04b",
+    "roster-example.csv": "f481abf5c9fde737fd255fd82ed971a44b518d454f1180e82bbcfcd35c32a36a",
+    "content-installation.json": "93869cfb20d0f30e537675f277211ca82aa23a98fad72d3c4f862693d887abe8"
+  },
+  "restoreTested": false,
+  "secretsPrinted": false
+}

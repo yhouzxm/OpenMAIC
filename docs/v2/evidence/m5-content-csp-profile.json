@@ -1,0 +1,11 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "scope": "CONTENT_EDITOR_PREVIEW_ONLY",
+  "policy": "default-src 'none'; script-src 'self'; script-src-attr 'none'; style-src 'self' 'sha256-Q1Yt8jEbyayp8o4/jj8aSjUQikLnKbBsvD6cLRRvLH4=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='; style-src-elem 'self' 'sha256-Q1Yt8jEbyayp8o4/jj8aSjUQikLnKbBsvD6cLRRvLH4=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='; style-src-attr 'none'; connect-src 'self'; img-src 'none'; font-src 'none'; media-src 'none'; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+  "styleHashes": [
+    "'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='",
+    "'sha256-Q1Yt8jEbyayp8o4/jj8aSjUQikLnKbBsvD6cLRRvLH4='"
+  ],
+  "method": "Fixed public renderer styles measured on actual text host; dynamic geometry via CSSOM, no arbitrary caller styles or unsafe-inline",
+  "verification": "PRODUCT_JOURNEY_PENDING"
+}

@@ -1,0 +1,57 @@
+
+> openmaic@1.2.1 verify:zhiban:pbl /home/zxm/openmaic/zhiban
+> tsx scripts/zhiban-local/run-m6-catalog.ts --unified-trial --pbl-focus
+
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+Reused @openmaic/generation: matching LOCAL source/build hashes
+PASS Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately
+{"timestamp":"2026-10-23T23:35:54.763Z","level":"INFO","tag":"GenerationRunner","message":"generation runner 21364:5c4f04a7-d026-47e6-82ae-73a704a25f44 started (scan=1000ms, heartbeat=2000ms, leaseTtl=10000ms, maxConcurrent=1)"}
+PASS PG16 restricted roles + real Identity sessions + validated trusted HTTPS
+PASS trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands
+PASS real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft
+PASS PBL: teacher browser adopts native PBL v2 design, strips learner/agent state, publishes and builds a four-person course group through existing paged roster
+PBL browser HTTP 503 GET {"error":{"code":"UNAVAILABLE","requestId":"1441913c-3930-4697-8f14-1e170586106a"}}
+PBL browser diagnostic 0 [ '' ]
+PBL browser diagnostic 1 [ '结果尚未确认，可重试同一操作；不要重复创建新提交。' ]
+PBL browser diagnostic 2 [ '' ]
+A [Error]: expect(locator).toBeVisible() failed
+
+Locator: getByRole('heading', { name: '节能协作一组 · 第 1 次共同提交', exact: true })
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "to.be.visible" with timeout 5000ms
+  - waiting for getByRole('heading', { name: '节能协作一组 · 第 1 次共同提交', exact: true })
+
+    at Proxy.<anonymous> (/home/zxm/openmaic/zhiban/node_modules/.pnpm/playwright@1.58.2/node_modules/playwright/lib/matchers/expect.js:213:24)
+    at verifyPbl (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-WhCN9X/verify.mjs:26766:7)
+    at async main (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-WhCN9X/verify.mjs:86327:7)
+    at async file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-WhCN9X/verify.mjs:87662:3 {
+  matcherResult: {
+    message: 'expect(locator).toBeVisible() failed\n' +
+      '\n' +
+      "Locator: getByRole('heading', { name: '节能协作一组 · 第 1 次共同提交', exact: true })\n" +
+      'Expected: visible\n' +
+      'Timeout: 5000ms\n' +
+      'Error: element(s) not found\n' +
+      '\n' +
+      'Call log:\n' +
+      '  - Expect "to.be.visible" with timeout 5000ms\n' +
+      "  - waiting for getByRole('heading', { name: '节能协作一组 · 第 1 次共同提交', exact: true })\n",
+    pass: false,
+    actual: undefined,
+    name: 'toBeVisible',
+    expected: 'visible',
+    log: [
+      '  - Expect "to.be.visible" with timeout 5000ms',
+      "  - waiting for getByRole('heading', { name: '节能协作一组 · 第 1 次共同提交', exact: true })"
+    ],
+    timeout: 5000
+  }
+}
+ ELIFECYCLE  Command failed with exit code 1.

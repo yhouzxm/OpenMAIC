@@ -1,0 +1,67 @@
+packages/@openmaic/importer              |  WARN  The field "pnpm.onlyBuiltDependencies" was found in /home/zxm/openmaic/zhiban/packages/@openmaic/importer/package.json. This will not take effect. You should configure "pnpm.onlyBuiltDependencies" at the root of the workspace instead.
+packages/@openmaic/renderer              |  WARN  The field "pnpm.onlyBuiltDependencies" was found in /home/zxm/openmaic/zhiban/packages/@openmaic/renderer/package.json. This will not take effect. You should configure "pnpm.onlyBuiltDependencies" at the root of the workspace instead.
+Scope: 4 of 9 workspace projects
+
+> @openmaic/generation@0.3.20 test /home/zxm/openmaic/zhiban/packages/@openmaic/generation
+> vitest run --maxWorkers=1
+
+
+ RUN  v4.1.8 /home/zxm/openmaic/zhiban/packages/@openmaic/generation
+
+
+ Test Files  32 passed (32)
+      Tests  226 passed (226)
+   Start at  22:35:27
+   Duration  25.44s (transform 1.83s, setup 0ms, import 11.53s, tests 1.26s, environment 13ms)
+
+
+> @openmaic/renderer@0.1.14 test /home/zxm/openmaic/zhiban/packages/@openmaic/renderer
+> vitest run --maxWorkers=1
+
+
+ RUN  v4.1.8 /home/zxm/openmaic/zhiban/packages/@openmaic/renderer
+
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+Not implemented: HTMLCanvasElement's getContext() method: without installing the canvas npm package
+
+ Test Files  23 passed (23)
+      Tests  138 passed (138)
+   Start at  22:35:53
+   Duration  80.06s (transform 3.50s, setup 583ms, import 16.76s, tests 28.95s, environment 24.60s)
+
+
+> @openmaic/importer@0.3.1 test /home/zxm/openmaic/zhiban/packages/@openmaic/importer
+> vitest run --maxWorkers=1
+
+
+ RUN  v4.1.8 /home/zxm/openmaic/zhiban/packages/@openmaic/importer
+
+
+ Test Files  36 passed (36)
+      Tests  275 passed (275)
+   Start at  22:37:14
+   Duration  52.15s (transform 3.11s, setup 0ms, import 34.24s, tests 4.58s, environment 4.15s)
+
+
+> @openmaic/editor@0.0.11 test /home/zxm/openmaic/zhiban/packages/@openmaic/editor
+> vitest run --maxWorkers=1
+
+
+ RUN  v4.1.8 /home/zxm/openmaic/zhiban/packages/@openmaic/editor
+
+
+ Test Files  56 passed (56)
+      Tests  607 passed (607)
+   Start at  22:38:07
+   Duration  138.50s (transform 4.53s, setup 19.00s, import 28.94s, tests 23.54s, environment 51.98s)
+

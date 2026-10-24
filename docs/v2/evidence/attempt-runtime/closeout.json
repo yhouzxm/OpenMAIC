@@ -1,0 +1,39 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "LOCAL_ATTEMPT_RUNTIME_SERVER_PROVENANCE_NOT_NATIVE_RUNTIME",
+  "directedEvidence": "docs/v2/evidence/zhiban-attempt-runtime-local.json",
+  "persistentSourceDrift": [],
+  "expectedCleanedSources": [
+    "/home/zxm/openmaic/zhiban/.zhiban-catalog-run-ecS7oh/verify.mjs",
+    "/tmp/zhiban-trial-content-99l5Hu/content-client.js",
+    "/tmp/zhiban-trial-content-99l5Hu/member-control.json"
+  ],
+  "lifecycle": {
+    "root": "/tmp/zhiban-trial-content-99l5Hu",
+    "port": 56517,
+    "database": "zhiban_trial_content_disposable",
+    "stopped": true,
+    "removed": true
+  },
+  "defaultRoot": "/tmp/zhiban-trial-content-FmrWH6",
+  "defaultPersistentSourceDrift": [],
+  "nativeRuntimeEnabled": false,
+  "productionChanged": false,
+  "committed": false,
+  "pushed": false,
+  "ciDispatched": false,
+  "typecheck": "PASS: Node 4096 MiB, tsc --noEmit",
+  "lint": "lint-new.log (existing service no-explicit-any findings separately retained)",
+  "priorBackupPreserved": "/home/zxm/.local/state/zhiban-trial-backups/interactive-current-20261020-230640",
+  "defaultReady": true,
+  "defaultDemo": "docs/v2/evidence/attempt-runtime/default-demo.json",
+  "inAppBrowserVerified": true,
+  "browserScreenshot": "docs/v2/evidence/attempt-runtime/default-browser.png",
+  "defaultBackup": "docs/v2/evidence/attempt-runtime/default-backup.json",
+  "defaultBackupRestoreTested": false,
+  "playerUnit": "PASS: one affected boundary test",
+  "newAndAffectedLint": "PASS; ContentService legacy any rule excluded in separate check",
+  "frozenSourceCheck": "34 files, 0 drift; see frozen-source-check.json"
+}

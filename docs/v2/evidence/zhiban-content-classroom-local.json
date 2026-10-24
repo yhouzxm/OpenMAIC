@@ -1,0 +1,116 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "kind": "MANUAL_IN_APP_BROWSER_CLASSROOM_TRIAL",
+  "recordedAt": "2026-10-16T14:17:39.566941+00:00",
+  "branch": "refactor/zhiban-v2",
+  "head": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "worktree": "PREEXISTING_DIRTY_CANDIDATES",
+  "origin": "https://127.0.0.1:3461",
+  "tenantId": "01a14505-1e98-752c-b372-1cc669735ff5",
+  "offeringId": "01a14505-3417-71cd-8a33-fbb7246e2ed4",
+  "pg": {
+    "major": 16,
+    "port": 56517,
+    "database": "zhiban_trial_content_disposable",
+    "nativeDatabase": "zhiban_trial_content_native",
+    "root": "/tmp/zhiban-trial-content-CkNgQo"
+  },
+  "runtime": {
+    "status": "RUNNING_LOCAL_DISPOSABLE",
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "installationBindingsHash": "6a6a1d899878302cdeee2d9a2bcd9081d732500a1d1504b5e581b7190ad6ee06"
+  },
+  "metadata": {
+    "path": "docs/v2/evidence/zhiban-trial-content-demo-local.json",
+    "sha256": "2dff7a6d8d86dcd8651db6b00ae5c8ec28d1a5b2d66ee4576cb77f0ed019fc19"
+  },
+  "result": {
+    "lecture": "课堂讲义：急停与安全复位",
+    "publishedContentVersion": 3,
+    "activity": "试用：安全巡检报告",
+    "attemptNumber": 1,
+    "activityVersion": 1,
+    "submissionVersion": 1,
+    "submittedAt": "2026-10-16T22:13:38+08:00",
+    "grade": 94,
+    "maxScore": 100,
+    "gradeVersion": 1,
+    "gradePublishedAt": "2026-10-16T22:15:47+08:00",
+    "studentVisibleFeedback": true,
+    "original88GradeRetained": true,
+    "overview": {
+      "publishedActivities": 3,
+      "submitted": 3,
+      "gradesPublished": 2,
+      "pendingGrades": 1,
+      "averageScorePercent": 91
+    },
+    "savedDraftSurvivedLectureNavigation": true
+  },
+  "issues": [
+    {
+      "id": "UCL-01",
+      "priority": "P2",
+      "status": "OPEN",
+      "summary": "讲义返回工作台丢失当前空间上下文"
+    },
+    {
+      "id": "UCL-02",
+      "priority": "P2",
+      "status": "OPEN",
+      "summary": "同标签打开讲义无离开保护，未保存作答返回为空",
+      "persistedDataLossObserved": false
+    }
+  ],
+  "report": {
+    "path": "docs/v2/zhiban-v2-content-classroom-uat.md",
+    "sha256": "ae0300b0eee940e1a1544d94ebdd05719f85ef73887173d48fdfddba0ed8c9dc"
+  },
+  "screenshots": [
+    {
+      "path": "docs/v2/evidence/zhiban-content-classroom-context-lost-local.png",
+      "sha256": "bfbd52e0baaafd7d7d33d3fdc9c7fbec07a92d836a32e7619a2f7d3ade41e2e7"
+    },
+    {
+      "path": "docs/v2/evidence/zhiban-content-classroom-lecture-local.png",
+      "sha256": "ae3777ea4a46bc77df26ec20721c9f6ccfb1bd8fbd7928857dab855508213775"
+    },
+    {
+      "path": "docs/v2/evidence/zhiban-content-classroom-saved-return-local.png",
+      "sha256": "f5a20f5ff6f8972286e456044355487f50a60907071c9cf785921eb1362e2cfd"
+    },
+    {
+      "path": "docs/v2/evidence/zhiban-content-classroom-student-feedback-local.png",
+      "sha256": "c2f515625ba22116ff2ed7bb32ea59a0cf27a708be4a376ed799ddc5c5ac1cfa"
+    },
+    {
+      "path": "docs/v2/evidence/zhiban-content-classroom-submitted-local.png",
+      "sha256": "b5ad33e55dadb7705ba30b61bc0ae7bdeaf05e48d05c99d44fdeb5fbc2c06de2"
+    },
+    {
+      "path": "docs/v2/evidence/zhiban-content-classroom-teacher-grade-local.png",
+      "sha256": "cbb9af5b22e8aea69ac7a5bb7ca42c59d2137ce6c8c03e7f693fdca33287fa9d"
+    },
+    {
+      "path": "docs/v2/evidence/zhiban-content-classroom-unsaved-after-local.png",
+      "sha256": "02bd8b90fd41b88e4e977dcc49f66acc676b2fbda73a2011cf2fe1807b2ab799"
+    },
+    {
+      "path": "docs/v2/evidence/zhiban-content-classroom-unsaved-before-local.png",
+      "sha256": "02e97e4f0a31e4960b8c2f0de0b6e63a8e8782f0b261bc5586d9bc513a4cb551"
+    }
+  ],
+  "scope": {
+    "businessCodeChanged": false,
+    "buildRun": false,
+    "automatedTestsRun": false,
+    "ciDispatched": false,
+    "commitOrPush": false,
+    "realEnvironmentTouched": false,
+    "runtimeAndAi": "CLOSED",
+    "candidateLeftRunning": true,
+    "data": "SYNTHETIC_DISPOSABLE_ONLY"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-24T08:02:20.739Z",
+  "scope": "ADDITIVE_FIXED_MODEL_SIMULATION_DEMO_NO_RUNS_PRECREATED_WITH_PRIOR_ROWS_AND_ACCOUNTS_PRESERVED",
+  "root": "/tmp/zhiban-trial-content-rU1zAL",
+  "courseId": "01a16cec-ee8a-7433-b1c0-875e3ca256bb",
+  "offeringId": "01a16cec-ef3d-752d-93e5-edcbcc963445",
+  "classroomId": "01a16cec-f20a-7249-89f2-3206b92006c2",
+  "planVersion": "2",
+  "urls": {
+    "teacher": "https://127.0.0.1:3461/zhiban/teacher/courses/01a16cec-ee8a-7433-b1c0-875e3ca256bb/classroom-plan?space=01a16958-5776-7381-a21c-e66fe3c2684b&offering=01a16cec-ef3d-752d-93e5-edcbcc963445#classroom-01a16cec-f20a-7249-89f2-3206b92006c2",
+    "student": "https://127.0.0.1:3461/zhiban/student/courses/01a16cec-ee8a-7433-b1c0-875e3ca256bb/classroom-plan?space=01a16958-5776-7381-a21c-e66fe3c2684b&offering=01a16cec-ef3d-752d-93e5-edcbcc963445#classroom-01a16cec-f20a-7249-89f2-3206b92006c2"
+  },
+  "preexistingProtectedRows": 76,
+  "accountsHash": "91d73979d2a3a17ba17c69549682aa4d944f875c004bb8427ad5ba35d262e122",
+  "started": false,
+  "preservationWindow": "Final idempotent seed rerun after initial provisioning completed; first default UI-only check selected a hidden option and failed. No run/answer/grade was precreated.",
+  "initialCountBaseline": "docs/v2/evidence/simulation/preserved-before.json",
+  "exactRerunRowHashes": [
+    "docs/v2/evidence/simulation/default-seed-preserved-before.json",
+    "docs/v2/evidence/simulation/default-seed-preserved-after.json"
+  ]
+}

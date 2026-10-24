@@ -1,0 +1,53 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-15T14:36:22.181345+00:00",
+  "baseBranch": "refactor/zhiban-v2",
+  "baseHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "validation": {
+    "pg16HttpsBrowserGroups": 10,
+    "relatedUnitTests": 32,
+    "targetedTypeScript": "PASS",
+    "targetedEslint": "PASS",
+    "targetedPrettier": "PASS",
+    "priorMigrationHashesUnchanged": 16
+  },
+  "reports": {
+    "m6-management-history-local.json": {
+      "status": "PASS",
+      "checks": 10,
+      "sourceMismatches": [],
+      "removedBundleCount": 1,
+      "sha256": "49c93e535e31d6777d8b048f73fdd9029916f2ca755ad29e171ef1cbfe4cad84"
+    },
+    "m6-management-history-demo-local.json": {
+      "status": "RUNNING_DISPOSABLE",
+      "checks": 10,
+      "sourceMismatches": [],
+      "removedBundleCount": 0,
+      "sha256": "ee48963c01d5cdf3814fdd688416afdfd024208f211358873d92fb3e3b02e2c3"
+    }
+  },
+  "unitTestHashes": {
+    "tests/zhiban/workspace/query.test.ts": "ec5a46c9ce7fc006651c2c7ec690f26ba7dca187266b6631b4fab5f4d64efbe2",
+    "tests/zhiban/management/query.test.ts": "61960b4115b86114c3810105568a974a7a65e9523ca6ad88ccabc06a835b30d7",
+    "tests/zhiban/directory/query.test.ts": "3d14b1618183faf9fae7af07ca1c16a54c05090353fb9264fa9b296038108f5b",
+    "tests/zhiban/directory/gateway.test.ts": "fcab154553435f812317bb5f220eecad506c5b04b7b514b8447dfb9ae6de17c4",
+    "tests/zhiban/academic/session-authentication.test.ts": "3eecbced7bc10088c1d495369191b479df4aa24bf52e5a2b60a5ad66f5625d10",
+    "tests/zhiban/academic/model.test.ts": "fc91a40afa12ff12a8b1e31429f5ebf419a1497fffc4e708f0d49c59d62b2f70"
+  },
+  "inAppBrowser": {
+    "origin": "https://127.0.0.1:3458",
+    "view": "admin workspace -> committed Academic history -> next page -> literal keyword/event/UTC date filters reset to page one",
+    "certificateBypass": false,
+    "screenshot": "docs/v2/evidence/m6-management-history-iab-local.png",
+    "screenshotSha256": "8ccf3d2f428ac4a7f2e365a8ff89469f0a1ccdcc83206daeb81ca6e3c5464c65"
+  },
+  "gitActions": {
+    "commit": false,
+    "push": false,
+    "ciDispatch": false
+  },
+  "scopeBoundary": "Read-only committed Academic history with current administrator authorization, tenant RLS and eight-field projection. Synthetic history seed is distinct from real CREATE/EDIT/replay/rollback evidence. No other-domain/failed-operation aggregation or production/CI signoff. Real 55432/55433 and maintenance quarantine untouched."
+}

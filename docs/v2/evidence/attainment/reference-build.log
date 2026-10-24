@@ -1,0 +1,23 @@
+error: function has_schattainment_privilege(unknown, unknown, unknown) does not exist
+    at /home/zxm/openmaic/zhiban/node_modules/.pnpm/pg@8.22.0/node_modules/pg/lib/client.js:652:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async attainmentProfile (/home/zxm/openmaic/zhiban/scripts/zhiban-local/attainment.ts:16:5)
+    at async main (/home/zxm/openmaic/zhiban/scripts/zhiban-local/build-attainment-reference.ts:108:17) {
+  length: 248,
+  severity: 'ERROR',
+  code: '42883',
+  detail: undefined,
+  hint: 'No function matches the given name and argument types. You might need to add explicit type casts.',
+  position: '845',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_func.c',
+  line: '629',
+  routine: 'ParseFuncOrColumn'
+}

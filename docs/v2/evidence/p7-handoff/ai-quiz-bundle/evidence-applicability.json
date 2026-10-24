@@ -1,0 +1,265 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_WITH_EXPLICIT_SOURCE_SCOPES",
+  "generation": {
+    "receipt": "docs/v2/evidence/ai-quiz/final-closeout.json",
+    "root": "/tmp/zhiban-trial-content-lUuAi8",
+    "compared": [
+      {
+        "file": "lib/zhiban/application/quiz/service.ts",
+        "previous": "202b322d100d4bd4a35bb85d41ad776f1eb1d74d56e9277f1c52745063224b23",
+        "current": "999d016d0885e044413a372bc5a3dbf2bd8ac2b87a96160e31f3cff37eab216e",
+        "same": false,
+        "category": "PRODUCT"
+      },
+      {
+        "file": "lib/zhiban/infrastructure/quiz/postgres/transaction.ts",
+        "previous": "6f94677ed26d912794597deb49235c4779d9ac94ef065e153a39d35b5d964708",
+        "current": "5815d7838009bee1109a8bc3f724503bcb1ac0174dee7d353e080012863d66d2",
+        "same": false,
+        "category": "PRODUCT"
+      },
+      {
+        "file": "lib/zhiban/infrastructure/lesson/service.ts",
+        "previous": "ad37e6f45564f4d2005360834baa435c5dd5e9ca831f6b816c8a1f33940a534d",
+        "current": "ad37e6f45564f4d2005360834baa435c5dd5e9ca831f6b816c8a1f33940a534d",
+        "same": true,
+        "category": "PRODUCT"
+      },
+      {
+        "file": "lib/zhiban/infrastructure/lesson/quiz-projection.ts",
+        "previous": "c248f263f214c64217f8d162de684b7fe60fd31ac8e4ed2ec93f11ebb37ce931",
+        "current": "c248f263f214c64217f8d162de684b7fe60fd31ac8e4ed2ec93f11ebb37ce931",
+        "same": true,
+        "category": "PRODUCT"
+      },
+      {
+        "file": "lib/zhiban/infrastructure/content/http.ts",
+        "previous": "e4806a78c7b1944cb20571f61e323ad37025bd2db6b29b16ab777f00808a6dab",
+        "current": "e4806a78c7b1944cb20571f61e323ad37025bd2db6b29b16ab777f00808a6dab",
+        "same": true,
+        "category": "PRODUCT"
+      },
+      {
+        "file": "scripts/zhiban-local/lesson.ts",
+        "previous": "04aa23dab74d5b1ebf34b773f9ed187a2f404a135c71fcfc5cdd5efe5d35802a",
+        "current": "04aa23dab74d5b1ebf34b773f9ed187a2f404a135c71fcfc5cdd5efe5d35802a",
+        "same": true,
+        "category": "PRODUCT"
+      },
+      {
+        "file": "scripts/zhiban-local/verify-m6-catalog.mts",
+        "previous": "bdbf0c13c55267566254bfec8bd473539ea09624724415966a0609c262ec8dfc",
+        "current": "35022d1c1e7c8e51eda58735610ac951d886141ca38f17af523228358a010743",
+        "same": false,
+        "category": "PRODUCT"
+      },
+      {
+        "file": "app/zhiban/local/lesson.js",
+        "previous": "b6af76d558c3b5fcf67d40fe9f24868b4e37d6e7a6d0b72598bbbed8a9782b5e",
+        "current": "b6af76d558c3b5fcf67d40fe9f24868b4e37d6e7a6d0b72598bbbed8a9782b5e",
+        "same": true,
+        "category": "PRODUCT"
+      },
+      {
+        "file": "scripts/zhiban-local/verify-ai-quiz-generate.cjs",
+        "previous": "47c279306e6d21c2710d2f4cec4fc6cae391c00d26d2717ff9571e2181726798",
+        "current": "47c279306e6d21c2710d2f4cec4fc6cae391c00d26d2717ff9571e2181726798",
+        "same": true,
+        "category": "VERIFICATION"
+      },
+      {
+        "file": "scripts/zhiban-local/verify-ai-quiz-adoption.cjs",
+        "previous": "c80ccadf512181bd5cab76f75f967d7fcfa8c9ac2aab09bf601b1fef12566fed",
+        "current": "c80ccadf512181bd5cab76f75f967d7fcfa8c9ac2aab09bf601b1fef12566fed",
+        "same": true,
+        "category": "VERIFICATION"
+      },
+      {
+        "file": "tests/zhiban/lesson/quiz-projection.test.ts",
+        "previous": "23733d1f3b7bbd41575d61943d8d5d530e239e388e54ccd9ea4527b20d5935d1",
+        "current": "23733d1f3b7bbd41575d61943d8d5d530e239e388e54ccd9ea4527b20d5935d1",
+        "same": true,
+        "category": "VERIFICATION"
+      },
+      {
+        "file": "docs/v2/zhiban-v2-ai-quiz-local.md",
+        "previous": "928a6d1dab014d2432217e8a4cefb70abf905a6691757ca0828a1e4803777cbf",
+        "current": "928a6d1dab014d2432217e8a4cefb70abf905a6691757ca0828a1e4803777cbf",
+        "same": true,
+        "category": "DOCUMENTATION"
+      },
+      {
+        "file": "docs/v2/zhiban-v2-migration-completion-plan.md",
+        "previous": "cb868f5437316e0fc6dca7fbeef01381422ae0fc7ca9707768d8d00ec225d9d6",
+        "current": "b0202001cda1eb53c6840c3007c7c03a64a888e34ca6bb53b86ad07c3ad21844",
+        "same": false,
+        "category": "DOCUMENTATION"
+      },
+      {
+        "file": "docs/v2/zhiban-v2-feature-gap-matrix.md",
+        "previous": "fb802faf8167af88f10ae2fcc54a0d5e358cdb0422c3cb7f4b491d00087f0489",
+        "current": "4556d87a4253a37faecf81a419096a9d4b3865b1dd27f3bf3d74eaec2a231cf1",
+        "same": false,
+        "category": "DOCUMENTATION"
+      },
+      {
+        "file": "docs/v2/zhiban-v2-quiz-capability-gap.md",
+        "previous": "c154cb7cfbd6809db60aa4d6ea8e604400f2140952a8473c456810421c0473fb",
+        "current": "3964fa44d539f0771a839ad244e67fe794d42fb29c40fdc7df897f5877f706a4",
+        "same": false,
+        "category": "DOCUMENTATION"
+      },
+      {
+        "file": "docs/v2/evidence/ai-quiz/generation.json",
+        "previous": "75e897d10aa42e33d6404fe1319b6913e220a1d6236aa46d2f29eb20a973f463",
+        "current": "75e897d10aa42e33d6404fe1319b6913e220a1d6236aa46d2f29eb20a973f463",
+        "same": true,
+        "category": "DOCUMENTATION"
+      },
+      {
+        "file": "docs/v2/evidence/ai-quiz/journey.json",
+        "previous": "f1cac082d73a90cd298252a29248f69da81eca95650bac6c51cd8e91d11c267c",
+        "current": "f1cac082d73a90cd298252a29248f69da81eca95650bac6c51cd8e91d11c267c",
+        "same": true,
+        "category": "DOCUMENTATION"
+      }
+    ],
+    "claim": "Original real generation/adoption/authorization journey only at its recorded source; shared service/transaction/host evolved in advice package. Current P7 GET is not an adoption rerun."
+  },
+  "advice": {
+    "receipt": "docs/v2/evidence/quiz-ai-advice/final-closeout.json",
+    "root": "/tmp/zhiban-trial-content-rU1zAL",
+    "compared": [
+      {
+        "file": "lib/zhiban/application/quiz/advice.ts",
+        "previous": "8fee7e0aac233860db7547f1e6edbdf6c6818bd0db718c12e4e3402b6d50c2f2",
+        "current": "8fee7e0aac233860db7547f1e6edbdf6c6818bd0db718c12e4e3402b6d50c2f2",
+        "same": true,
+        "category": "PRODUCT"
+      },
+      {
+        "file": "lib/zhiban/application/quiz/advice-parser.ts",
+        "previous": "a641ad676ce721dedebdbfbe4dddb32d51bf8ac30ea78bdf831b97af838f760e",
+        "current": "a641ad676ce721dedebdbfbe4dddb32d51bf8ac30ea78bdf831b97af838f760e",
+        "same": true,
+        "category": "PRODUCT"
+      },
+      {
+        "file": "lib/zhiban/application/quiz/service.ts",
+        "previous": "999d016d0885e044413a372bc5a3dbf2bd8ac2b87a96160e31f3cff37eab216e",
+        "current": "999d016d0885e044413a372bc5a3dbf2bd8ac2b87a96160e31f3cff37eab216e",
+        "same": true,
+        "category": "PRODUCT"
+      },
+      {
+        "file": "lib/zhiban/infrastructure/quiz/advisor.ts",
+        "previous": "d167eb300920bbcd3d59c1933fb05aaac05bb060e78cea1e4457b8e0c3e2fce0",
+        "current": "d167eb300920bbcd3d59c1933fb05aaac05bb060e78cea1e4457b8e0c3e2fce0",
+        "same": true,
+        "category": "PRODUCT"
+      },
+      {
+        "file": "lib/zhiban/infrastructure/quiz/postgres/transaction.ts",
+        "previous": "5815d7838009bee1109a8bc3f724503bcb1ac0174dee7d353e080012863d66d2",
+        "current": "5815d7838009bee1109a8bc3f724503bcb1ac0174dee7d353e080012863d66d2",
+        "same": true,
+        "category": "PRODUCT"
+      },
+      {
+        "file": "lib/zhiban/infrastructure/assessment/http.ts",
+        "previous": "da3b77ce6a30aeb09e63954208108e898e934583d3d4d1fb8529c6f7c44d659d",
+        "current": "da3b77ce6a30aeb09e63954208108e898e934583d3d4d1fb8529c6f7c44d659d",
+        "same": true,
+        "category": "PRODUCT"
+      },
+      {
+        "file": "scripts/zhiban-local/verify-m6-catalog.mts",
+        "previous": "35022d1c1e7c8e51eda58735610ac951d886141ca38f17af523228358a010743",
+        "current": "35022d1c1e7c8e51eda58735610ac951d886141ca38f17af523228358a010743",
+        "same": true,
+        "category": "PRODUCT"
+      },
+      {
+        "file": "app/zhiban/local/quiz-client.tsx",
+        "previous": "f998886cfc0d74603a34e0af2e7f04562e1d301ba8c66a05d632af1e69602d7b",
+        "current": "f998886cfc0d74603a34e0af2e7f04562e1d301ba8c66a05d632af1e69602d7b",
+        "same": true,
+        "category": "PRODUCT"
+      },
+      {
+        "file": "app/zhiban/local/quiz-client.js",
+        "previous": "17d1f96d035b392092126a3f88d00c929019a577fc9af8a87839b170ce873489",
+        "current": "17d1f96d035b392092126a3f88d00c929019a577fc9af8a87839b170ce873489",
+        "same": true,
+        "category": "PRODUCT"
+      },
+      {
+        "file": "tests/zhiban/quiz/advice.test.ts",
+        "previous": "947821baae26aa2f5ed2ce76e2eef943f33a165e95d3c47b7ed5df5493f58b57",
+        "current": "947821baae26aa2f5ed2ce76e2eef943f33a165e95d3c47b7ed5df5493f58b57",
+        "same": true,
+        "category": "VERIFICATION"
+      },
+      {
+        "file": "scripts/zhiban-local/verify-quiz-ai-advice.cjs",
+        "previous": "070c4c65cacb481a7966e22ee47c470014c2328a1aa5941a7cd4d1732541fc50",
+        "current": "070c4c65cacb481a7966e22ee47c470014c2328a1aa5941a7cd4d1732541fc50",
+        "same": true,
+        "category": "VERIFICATION"
+      },
+      {
+        "file": "scripts/zhiban-local/verify-quiz-ai-advice-result.cjs",
+        "previous": "c842c06d2bcab4f46711c3c8262798a1d2eced55b808a46ac33ce14c1250cbfb",
+        "current": "c842c06d2bcab4f46711c3c8262798a1d2eced55b808a46ac33ce14c1250cbfb",
+        "same": true,
+        "category": "VERIFICATION"
+      },
+      {
+        "file": "docs/v2/zhiban-v2-quiz-ai-advice-local.md",
+        "previous": "9a9eb9e0668efaef370155054820d30388e8c4a10bbb80d23f8f3fed57491425",
+        "current": "9a9eb9e0668efaef370155054820d30388e8c4a10bbb80d23f8f3fed57491425",
+        "same": true,
+        "category": "DOCUMENTATION"
+      },
+      {
+        "file": "docs/v2/zhiban-v2-migration-completion-plan.md",
+        "previous": "e21a33af7e030c0acad83d3511b873529d74c76e221365563b09fca30294cfeb",
+        "current": "b0202001cda1eb53c6840c3007c7c03a64a888e34ca6bb53b86ad07c3ad21844",
+        "same": false,
+        "category": "DOCUMENTATION"
+      },
+      {
+        "file": "docs/v2/zhiban-v2-feature-gap-matrix.md",
+        "previous": "793b2bb27e8f1153d5ed63849e18d33015193c09799622856d0b689bd586f3dd",
+        "current": "4556d87a4253a37faecf81a419096a9d4b3865b1dd27f3bf3d74eaec2a231cf1",
+        "same": false,
+        "category": "DOCUMENTATION"
+      },
+      {
+        "file": "docs/v2/zhiban-v2-quiz-capability-gap.md",
+        "previous": "3964fa44d539f0771a839ad244e67fe794d42fb29c40fdc7df897f5877f706a4",
+        "current": "3964fa44d539f0771a839ad244e67fe794d42fb29c40fdc7df897f5877f706a4",
+        "same": true,
+        "category": "DOCUMENTATION"
+      },
+      {
+        "file": "docs/v2/evidence/quiz-ai-advice/journey.json",
+        "previous": "db878aa129a1b5912faf5f64b064bb0c896976ca68567a98d891012a58070f3e",
+        "current": "db878aa129a1b5912faf5f64b064bb0c896976ca68567a98d891012a58070f3e",
+        "same": true,
+        "category": "DOCUMENTATION"
+      }
+    ],
+    "claim": "Product source pins match current runtime; preserved real model journey and explicit publication continuation; joined-session unit uses substitute."
+  },
+  "runtime": {
+    "root": "/tmp/zhiban-trial-content-rU1zAL",
+    "productSourceMatches": true,
+    "verifierDrift": 1
+  },
+  "fullFunctionalResignoff": false,
+  "priorP7Receipt": "docs/v2/evidence/p7-handoff/quiz-bundle/final-closeout.json",
+  "priorP7ScopePreserved": true
+}

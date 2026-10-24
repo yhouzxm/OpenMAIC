@@ -1,0 +1,10 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "NATIVE_OPENMAIC_APP_FIXED_PUBLICATION_TEXT_PNG_ONLY",
+  "modelCalls": false,
+  "nativePlayer": "lib/standalone-player/App.tsx",
+  "customPlayer": false,
+  "completionEvidence": false
+}

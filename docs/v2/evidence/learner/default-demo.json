@@ -1,0 +1,20 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "IAB_PUBLISHED_SELF_DISPUTED_ORIGINAL_GRADE_CORRECTED_AND_PROFILE_REVISED",
+  "root": "/tmp/zhiban-trial-content-Gu8Osi",
+  "tenant": "01a16369-4fb1-737f-98e6-c6392d94200f",
+  "offering": "01a16369-c447-7564-9e79-0b63d53d47c9",
+  "course": "01a16369-c358-703c-846b-25cacffbb01d",
+  "enrollmentId": "01a16369-c4ed-71a8-8d01-7685f151c040",
+  "activityId": "01a16369-cc27-77c6-a8e5-3ea92df1b142",
+  "submissionId": "01a16369-ccc4-772f-8616-da3fe436902c",
+  "gradeRevision": "2",
+  "noteId": "01a16369-cdf8-74e7-81b3-7309da52f77e",
+  "teacherUrl": "https://127.0.0.1:3461/zhiban/teacher/courses/01a16369-c358-703c-846b-25cacffbb01d/learning-profile?space=01a16369-4fb1-737f-98e6-c6392d94200f&offering=01a16369-c447-7564-9e79-0b63d53d47c9#note-01a16369-cdf8-74e7-81b3-7309da52f77e",
+  "studentUrl": "https://127.0.0.1:3461/zhiban/student/courses/01a16369-c358-703c-846b-25cacffbb01d/learning-profile?space=01a16369-4fb1-737f-98e6-c6392d94200f&offering=01a16369-c447-7564-9e79-0b63d53d47c9#note-01a16369-cdf8-74e7-81b3-7309da52f77e",
+  "modelRequestMade": false,
+  "gradeCorrectionByOriginalAssessmentCommand": true,
+  "correctedGradeRevision": "4",
+  "disputeId": "01a1636a-cd50-76d8-a5ac-add325944355"
+}

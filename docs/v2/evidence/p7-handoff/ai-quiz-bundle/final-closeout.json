@@ -1,0 +1,65 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "LOCAL_HANDOFF_COMPLETE_WITH_DECLARED_LIMITATIONS",
+  "at": "2026-10-23T15:32:20.460Z",
+  "scope": "P7_NATIVE_QUIZ_GENERATION_AND_SHORT_ANSWER_AI_ADVICE",
+  "versionId": "zhiban-local-20261023-f2348bd7530f",
+  "sourceDigest": "f2348bd7530fbb6bad0f5e6d43f3c5d2ab20c1c3e084240b3e1cbead8e9d00bb",
+  "archive": "/home/zxm/.local/share/zhiban-handoff/zhiban-local-20261023-f2348bd7530f/source.tar.gz",
+  "archiveSha256": "087f0aba4e62b9616b0c858308d78a32be18216fbb020526f24e941d2eb0cc4b",
+  "artifactDirectory": "/home/zxm/.local/share/zhiban-handoff/zhiban-local-20261023-f2348bd7530f",
+  "sourceFiles": 5653,
+  "archiveBytes": 146305569,
+  "branch": "refactor/zhiban-v2",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "sourceState": "DIRTY_CANDIDATE_SNAPSHOT",
+  "previousVersion": {
+    "versionId": "zhiban-local-20261023-4456acb59cca",
+    "archiveUnchanged": true,
+    "receiptsReissued": false
+  },
+  "runtime": {
+    "root": "/tmp/zhiban-trial-content-rU1zAL",
+    "pid": 76989,
+    "restarted": false,
+    "businessMutations": false,
+    "identityLoginsEstablished": true,
+    "dataCleared": false,
+    "productSourceMatches": true,
+    "overallSourceMatches": false,
+    "verifierDriftCount": 1,
+    "metadataRewritten": false
+  },
+  "verification": {
+    "archiveIndependentReadback": "PASS",
+    "workspaceFileHashComparisons": 5653,
+    "entryReadonly": "PASS",
+    "runtimeIncludedMatching": 1885,
+    "runtimeIncludedDeclaredVerifierDrift": 1,
+    "runtimeOmittedArtifactsOrNonSource": 899,
+    "featureSourceApplicability": "GENERATION_SHARED_FILES_EVOLVED_IN_ADVICE_PACKAGE; ADVICE_PRODUCT_PINS_MATCH_CURRENT_RUNTIME",
+    "modelCalls": 0,
+    "fullClassroomRerun": false,
+    "ci": false,
+    "productionSignoff": false,
+    "cleanHostInstallTested": false,
+    "databaseRestoreTested": false
+  },
+  "included": [
+    "Native Quiz generation -> teacher adopts independent draft -> original review/publication",
+    "Short-answer AI advice -> explicit accept/reject -> original grade draft -> separate publication",
+    "Previous four quiz types/copy, progress/weighted totals/appeals and ordinary entries"
+  ],
+  "boundaries": [
+    "LOCAL same-path dirty source handoff; not a database backup or installable production binary",
+    "Old generation/advice receipts retain their own source/root; no new functional signoff",
+    "Only verifier drift at runtime; no metadata rewrite",
+    "Private accounts/keys/model configuration/PG data excluded; env example included",
+    "AI advice wired to current unified LOCAL host only; no automatic formal AI grade or AI published-grade correction",
+    "Office/OCR/audio-video services, full Runtime/maintenance, real operational identity, external directory and REVIEW gates remain deferred"
+  ],
+  "committed": false,
+  "pushed": false,
+  "ciDispatched": false
+}

@@ -1,0 +1,15 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "IAB_TEACHER_PUBLISHED_STUDENT_RESPONDED_TEACHER_RESOLVED",
+  "activityId": "01a1633b-3b70-73f0-829b-bfa426f474e7",
+  "submissionId": "01a1633b-3c0e-71f4-a5ac-24714f01da2e",
+  "publicationId": "01a1633b-3c88-738b-9fec-b6c82308abde",
+  "tenant": "01a1633a-bc42-724d-b396-64546bdc7d46",
+  "offering": "01a1633b-3430-777f-b502-1c5fcad785ed",
+  "teacherUrl": "https://127.0.0.1:3461/zhiban/teacher/courses/01a1633b-331d-733a-8999-5303caeeba24/concepts?space=01a1633a-bc42-724d-b396-64546bdc7d46&offering=01a1633b-3430-777f-b502-1c5fcad785ed",
+  "studentUrl": "https://127.0.0.1:3461/zhiban/student/courses/01a1633b-331d-733a-8999-5303caeeba24/concepts?space=01a1633a-bc42-724d-b396-64546bdc7d46&offering=01a1633b-3430-777f-b502-1c5fcad785ed",
+  "modelRequestMade": false,
+  "course": "01a1633b-331d-733a-8999-5303caeeba24",
+  "correctionId": "01a1633c-f28d-71c1-bf09-a0d15c71cd99"
+}

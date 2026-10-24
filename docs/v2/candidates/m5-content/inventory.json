@@ -1,0 +1,1159 @@
+{
+  "formatVersion": 1,
+  "status": "UNAPPLIED_CANDIDATE",
+  "evidenceOrigin": "LOCAL",
+  "gitBranch": "refactor/zhiban-v2",
+  "gitBaselineSha": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "migration": {
+    "version": "0001",
+    "logicalName": "0001_content",
+    "orderedComponents": [
+      "01-schema.sql",
+      "02-helpers-and-guards.sql",
+      "03-acl.sql"
+    ],
+    "checksumAlgorithm": "SHA256(raw_utf8(01)||raw_utf8(02)||raw_utf8(03)); no separators or path names",
+    "aggregateSha256": "e335f83bb48cc6c4ec754f8e3270dc0e6941e14f38306bd67aa29844c3713324",
+    "automaticRunnerIntegration": false
+  },
+  "filesSha256": {
+    "00-preflight.sql": "367af85236be0f3155d3a01cdd89d42a8966e647245a86a2b4e41c65dc8903c9",
+    "01-schema.sql": "ffe2a16ace036dedb19cab60890e32f1ee4e274d598f4c3e9a624e6c0c616f7c",
+    "02-helpers-and-guards.sql": "4a30204e1ceb9b11e16af653ec35e1dbc9b142be92745b05a601db82441199d5",
+    "03-acl.sql": "be7d93f8ad794a0bd0a327a823ac7988f27887accc0ef0acf3c1d512657b6c9b",
+    "04-receipt-inspect.sql": "92f4f5361d892fdafa5a90fb0138dbab366e39a8f83c0a12ffda660678adb39f"
+  },
+  "prerequisiteMigrationSources": [
+    {
+      "path": "lib/zhiban/infrastructure/identity/postgres/migrations/0001_identity_bootstrap.sql",
+      "sha256": "bd81a6bef9241e3173eea297e276d97787446d757c5b2b79bf4e6b8a4a1cb235",
+      "baseline": "HEAD_EXACT",
+      "liveLedgerMatch": "NOT_RUN"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/identity/postgres/migrations/0002_identity_core.sql",
+      "sha256": "6289d7bc1a53a63d4d66a8a79f6d9c0d96f5d59643911a4a395a5fc0be9f4703",
+      "baseline": "HEAD_EXACT",
+      "liveLedgerMatch": "NOT_RUN"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/identity/postgres/migrations/0003_identity_audit_and_rls.sql",
+      "sha256": "cd2480d062d55c4999cf71ca6670b17b006f4146e514ef7a576812c2829880bf",
+      "baseline": "HEAD_EXACT",
+      "liveLedgerMatch": "NOT_RUN"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/identity/postgres/migrations/0004_identity_credentials.sql",
+      "sha256": "d2ca67e1f274876ded48e8965d46bd9347795fac488c6d7e27ac0ceeb8677b1a",
+      "baseline": "HEAD_EXACT",
+      "liveLedgerMatch": "NOT_RUN"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/identity/postgres/migrations/0005_identity_credential_consistency_fix.sql",
+      "sha256": "dcb7d50a123b816def8f9374bfbd1f68e3d66e091a170278906783d0305ee0f9",
+      "baseline": "HEAD_EXACT",
+      "liveLedgerMatch": "NOT_RUN"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/identity/postgres/migrations/0006_identity_sessions.sql",
+      "sha256": "d0204f6d5e1894ffdc62df16e07700f31fb0ce968571e77f711af23b096e1bc0",
+      "baseline": "HEAD_EXACT",
+      "liveLedgerMatch": "NOT_RUN"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/identity/postgres/migrations/0007_identity_authorization_state.sql",
+      "sha256": "20d6ad486cd4c2afc8f3ab75591dfd7895b62118a07a3a086b469c77b3f5ef27",
+      "baseline": "HEAD_EXACT",
+      "liveLedgerMatch": "NOT_RUN"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/identity/postgres/migrations/0008_identity_authentication_composition.sql",
+      "sha256": "0ace96db7b9fa5747219c47f42bdfd2cbc1a60bebf2f54b7fbe9afb8a19fe992",
+      "baseline": "HEAD_EXACT",
+      "liveLedgerMatch": "NOT_RUN"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/identity/postgres/migrations/0009_identity_membership_composition.sql",
+      "sha256": "91d064abb0238b57e1f2afe7a50f441befb947568789ca31b9a1e6277449753a",
+      "baseline": "HEAD_EXACT",
+      "liveLedgerMatch": "NOT_RUN"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/identity/postgres/migrations/0010_identity_manual_recovery.sql",
+      "sha256": "97dd2306cca1f1e8c6976329c50293aa733ffb3bd843636f9383c2b8eb83c03b",
+      "baseline": "HEAD_EXACT",
+      "liveLedgerMatch": "NOT_RUN"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/identity/postgres/migrations/0011_identity_recovery_source_locks.sql",
+      "sha256": "5f61cd3072271492b253486d8f328bb1420f49d1a9b32c97bb82e737cdf8bc83",
+      "baseline": "HEAD_EXACT",
+      "liveLedgerMatch": "NOT_RUN"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/identity/postgres/migrations/0012_openmaic_bridge_foundation.sql",
+      "sha256": "70bd7e0131e3f0fc0e377393c66d378e5be74387d0cc345b0c0cba27760372c1",
+      "baseline": "HEAD_EXACT",
+      "liveLedgerMatch": "NOT_RUN"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/identity/postgres/migrations/0013_openmaic_bridge_consistency_fix.sql",
+      "sha256": "025318bf1759b6fb34c6a51992181f340efe16ae67d7cf597f5b09689f5c949c",
+      "baseline": "HEAD_EXACT",
+      "liveLedgerMatch": "NOT_RUN"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/academic/postgres/migrations/0001_academic.sql",
+      "sha256": "40c9af67f0f6521a0dd601138dbc01010c277e5b636e4a633bd7b77ba5990427",
+      "baseline": "EXISTING_UNCOMMITTED_SOURCE_SNAPSHOT",
+      "liveLedgerMatch": "NOT_RUN"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/learning/postgres/migrations/0001_learning.sql",
+      "sha256": "768db17be502a584e2e35a403cbaaad7c419dcaadcd21da4bf1819bdad0615c1",
+      "baseline": "EXISTING_UNCOMMITTED_SOURCE_SNAPSHOT",
+      "liveLedgerMatch": "NOT_RUN"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/assessment/postgres/migrations/0001_assessment.sql",
+      "sha256": "a1253740360ca9e97f9315cb9126483314d05a33c1bcb44f4ba9eb61356a80f7",
+      "baseline": "EXISTING_UNCOMMITTED_SOURCE_SNAPSHOT",
+      "liveLedgerMatch": "NOT_RUN"
+    }
+  ],
+  "candidateFunctions": [
+    {
+      "name": "zhiban_content.utf16_length",
+      "inputs": [
+        {
+          "name": "p_text",
+          "type": "text"
+        }
+      ],
+      "returnType": "pg_catalog.int4",
+      "closedTableProjection": [],
+      "owner": "zhiban_identity_owner",
+      "language": "sql",
+      "securityDefiner": false,
+      "volatility": "immutable",
+      "strict": true,
+      "parallel": "safe",
+      "settings": {
+        "search_path": [
+          "pg_catalog",
+          "pg_temp"
+        ]
+      },
+      "bodySha256": "1acddd6a22ad1026ec782bfbd1d04d09d4ca3794ec1f90eeb0fcf4e2e55396f2",
+      "body": "\n SELECT coalesce(sum(CASE WHEN ascii(ch)>65535 THEN 2 ELSE 1 END),0)::integer\n FROM regexp_split_to_table(p_text,'') AS chars(ch) WHERE ch<>'';\n",
+      "sourceFile": "01-schema.sql",
+      "directExecuteRoles": [
+        "zhiban_identity_owner",
+        "zhiban_bridge_runtime"
+      ],
+      "existingAclMustRemainExact": false
+    },
+    {
+      "name": "zhiban_content.valid_draft",
+      "inputs": [
+        {
+          "name": "p_draft",
+          "type": "jsonb"
+        }
+      ],
+      "returnType": "pg_catalog.bool",
+      "closedTableProjection": [],
+      "owner": "zhiban_identity_owner",
+      "language": "plpgsql",
+      "securityDefiner": false,
+      "volatility": "immutable",
+      "strict": true,
+      "parallel": "safe",
+      "settings": {
+        "search_path": [
+          "pg_catalog",
+          "zhiban_content",
+          "pg_temp"
+        ]
+      },
+      "bodySha256": "86e4f106e5021f94df458b2fa7b112cbd306d12a216051e42ecbec93d8d4b0f5",
+      "body": "\nDECLARE s jsonb; e jsonb; title_value text; text_value text; key_list text[];\n        slide_ids text[]:=ARRAY[]::text[]; element_ids text[]:=ARRAY[]::text[];\n        x numeric; y numeric; w numeric; h numeric;\nBEGIN\n IF octet_length(p_draft::text)>262144 OR jsonb_typeof(p_draft)<>'object' THEN RETURN false; END IF;\n SELECT array_agg(k ORDER BY k) INTO key_list FROM jsonb_object_keys(p_draft) AS keys(k);\n IF key_list IS DISTINCT FROM ARRAY['slides','title']::text[]\n    OR jsonb_typeof(p_draft->'title')<>'string' OR jsonb_typeof(p_draft->'slides')<>'array' THEN RETURN false; END IF;\n title_value:=p_draft->>'title';\n IF btrim(title_value)<>title_value OR title_value ~ '[[:cntrl:]]'\n    OR zhiban_content.utf16_length(title_value) NOT BETWEEN 1 AND 120\n    OR jsonb_array_length(p_draft->'slides') NOT BETWEEN 1 AND 32 THEN RETURN false; END IF;\n FOR s IN SELECT value FROM jsonb_array_elements(p_draft->'slides') LOOP\n   IF jsonb_typeof(s)<>'object' THEN RETURN false; END IF;\n   SELECT array_agg(k ORDER BY k) INTO key_list FROM jsonb_object_keys(s) AS keys(k);\n   IF key_list IS DISTINCT FROM ARRAY['elements','id']::text[] OR jsonb_typeof(s->'id')<>'string'\n      OR (s->>'id') !~ '^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'\n      OR (s->>'id')=ANY(slide_ids) OR jsonb_typeof(s->'elements')<>'array' THEN RETURN false; END IF;\n   slide_ids:=array_append(slide_ids,s->>'id');\n   IF jsonb_array_length(s->'elements')>32 THEN RETURN false; END IF;\n   FOR e IN SELECT value FROM jsonb_array_elements(s->'elements') LOOP\n     IF jsonb_typeof(e)<>'object' THEN RETURN false; END IF;\n     SELECT array_agg(k ORDER BY k) INTO key_list FROM jsonb_object_keys(e) AS keys(k);\n     IF key_list IS DISTINCT FROM ARRAY['height','id','text','width','x','y']::text[]\n        OR jsonb_typeof(e->'id')<>'string'\n        OR (e->>'id') !~ '^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'\n        OR (e->>'id')=ANY(element_ids) OR (e->>'id')=ANY(slide_ids)\n        OR jsonb_typeof(e->'text')<>'string'\n        OR jsonb_typeof(e->'x')<>'number' OR jsonb_typeof(e->'y')<>'number'\n        OR jsonb_typeof(e->'width')<>'number' OR jsonb_typeof(e->'height')<>'number' THEN RETURN false; END IF;\n     element_ids:=array_append(element_ids,e->>'id'); text_value:=e->>'text';\n     IF zhiban_content.utf16_length(text_value)>2000 OR text_value ~ '[<>&]'\n        OR translate(text_value,E'\\n\\r\\t','') ~ '[[:cntrl:]]' THEN RETURN false; END IF;\n     x:=(e->>'x')::numeric; y:=(e->>'y')::numeric; w:=(e->>'width')::numeric; h:=(e->>'height')::numeric;\n     IF x<>trunc(x) OR y<>trunc(y) OR w<>trunc(w) OR h<>trunc(h)\n        OR x<0 OR y<0 OR w<1 OR h<1 OR x+w>960 OR y+h>540 THEN RETURN false; END IF;\n   END LOOP;\n END LOOP;\n -- Also reject a later slide ID colliding with an earlier element ID.\n IF slide_ids && element_ids THEN RETURN false; END IF;\n RETURN true;\nEND;\n",
+      "sourceFile": "01-schema.sql",
+      "directExecuteRoles": [
+        "zhiban_identity_owner",
+        "zhiban_bridge_runtime"
+      ],
+      "existingAclMustRemainExact": false
+    },
+    {
+      "name": "zhiban_content.draft_digest",
+      "inputs": [
+        {
+          "name": "p_draft",
+          "type": "jsonb"
+        }
+      ],
+      "returnType": "text",
+      "closedTableProjection": [],
+      "owner": "zhiban_identity_owner",
+      "language": "sql",
+      "securityDefiner": false,
+      "volatility": "immutable",
+      "strict": true,
+      "parallel": "safe",
+      "settings": {
+        "search_path": [
+          "pg_catalog",
+          "pg_temp"
+        ]
+      },
+      "bodySha256": "38bea7ee16fd8cb90baa11d02c09228306756f1e7592d1d904bef8d92bbb0927",
+      "body": "\n SELECT encode(sha256(convert_to(p_draft::text,'UTF8')),'hex');\n",
+      "sourceFile": "01-schema.sql",
+      "directExecuteRoles": [
+        "zhiban_identity_owner",
+        "zhiban_bridge_runtime"
+      ],
+      "existingAclMustRemainExact": false
+    },
+    {
+      "name": "zhiban_content.lock_business_context",
+      "inputs": [
+        {
+          "name": "p_tenant_id",
+          "type": "uuid"
+        },
+        {
+          "name": "p_resource_id",
+          "type": "uuid"
+        },
+        {
+          "name": "p_offering_id",
+          "type": "uuid"
+        },
+        {
+          "name": "p_actor_membership_id",
+          "type": "uuid"
+        },
+        {
+          "name": "p_action",
+          "type": "text"
+        }
+      ],
+      "returnType": "pg_catalog.record",
+      "closedTableProjection": [
+        {
+          "name": "course_id",
+          "type": "uuid"
+        },
+        {
+          "name": "course_status",
+          "type": "text"
+        },
+        {
+          "name": "course_revision",
+          "type": "pg_catalog.int8"
+        },
+        {
+          "name": "offering_status",
+          "type": "text"
+        },
+        {
+          "name": "offering_revision",
+          "type": "pg_catalog.int8"
+        },
+        {
+          "name": "relationship_id",
+          "type": "uuid"
+        },
+        {
+          "name": "relationship_revision",
+          "type": "pg_catalog.int8"
+        },
+        {
+          "name": "valid_from",
+          "type": "pg_catalog.int8"
+        },
+        {
+          "name": "valid_until",
+          "type": "pg_catalog.int8"
+        },
+        {
+          "name": "evaluated_at",
+          "type": "pg_catalog.int8"
+        }
+      ],
+      "owner": "zhiban_identity_owner",
+      "language": "plpgsql",
+      "securityDefiner": true,
+      "volatility": "volatile",
+      "strict": false,
+      "parallel": "unsafe",
+      "settings": {
+        "search_path": [
+          "pg_catalog",
+          "zhiban_content",
+          "zhiban_academic",
+          "zhiban_identity",
+          "pg_temp"
+        ],
+        "row_security": [
+          "on"
+        ]
+      },
+      "bodySha256": "cc7fc6d6093a4b71d1b37a3ccec83e5d45b0fad18f61eeab4873f38467b5eb60",
+      "body": "\nDECLARE v_o zhiban_academic.offerings%ROWTYPE; v_c zhiban_academic.courses%ROWTYPE;\n v_relation record; v_now bigint;\nBEGIN\n IF session_user<>'zhiban_bridge_runtime' OR p_tenant_id IS DISTINCT FROM zhiban_identity.current_tenant_id()\n    OR zhiban_identity.is_uuid_v7(p_tenant_id) IS DISTINCT FROM TRUE\n    OR zhiban_identity.is_uuid_v7(p_offering_id) IS DISTINCT FROM TRUE\n    OR zhiban_identity.is_uuid_v7(p_actor_membership_id) IS DISTINCT FROM TRUE\n    OR p_action IS NULL OR p_action NOT IN ('TEACHER_WRITE','TEACHER_WITHDRAW','TEACHER_READ','STUDENT_READ')\n    OR (p_resource_id IS NULL AND p_action<>'TEACHER_WRITE')\n    OR (p_resource_id IS NOT NULL AND zhiban_identity.is_uuid_v7(p_resource_id) IS DISTINCT FROM TRUE) THEN\n   RAISE EXCEPTION 'Content business context rejected' USING ERRCODE='42501';\n END IF;\n SELECT o.* INTO v_o FROM zhiban_academic.offerings o WHERE o.tenant_id=p_tenant_id AND o.id=p_offering_id FOR SHARE;\n IF NOT FOUND THEN RAISE EXCEPTION 'Content business context rejected' USING ERRCODE='42501'; END IF;\n SELECT c.* INTO v_c FROM zhiban_academic.courses c WHERE c.tenant_id=p_tenant_id AND c.id=v_o.course_id FOR SHARE;\n IF NOT FOUND OR v_c.status='ARCHIVED' OR (p_action='TEACHER_WRITE' AND v_o.status<>'OPEN') THEN\n   RAISE EXCEPTION 'Content business context rejected' USING ERRCODE='42501';\n END IF;\n IF p_resource_id IS NOT NULL AND NOT EXISTS(SELECT 1 FROM zhiban_content.resources r\n     WHERE r.tenant_id=p_tenant_id AND r.id=p_resource_id AND r.offering_id=p_offering_id\n       AND r.kind='SLIDE_CONTENT' AND r.policy_version='content-text-v1') THEN\n   RAISE EXCEPTION 'Content business context rejected' USING ERRCODE='42501';\n END IF;\n IF p_action='STUDENT_READ' THEN\n   SELECT e.id,e.revision,e.valid_from,e.valid_until INTO v_relation FROM zhiban_academic.enrollments e\n    WHERE e.tenant_id=p_tenant_id AND e.offering_id=p_offering_id AND e.membership_id=p_actor_membership_id\n      AND e.status='ACTIVE' ORDER BY e.id FOR SHARE;\n ELSE\n   SELECT a.id,a.revision,a.valid_from,a.valid_until INTO v_relation FROM zhiban_academic.assignments a\n    WHERE a.tenant_id=p_tenant_id AND a.offering_id=p_offering_id AND a.membership_id=p_actor_membership_id\n      AND a.status='ACTIVE' ORDER BY a.id FOR SHARE;\n END IF;\n IF NOT FOUND THEN RAISE EXCEPTION 'Content business context rejected' USING ERRCODE='42501'; END IF;\n v_now:=floor(extract(epoch FROM clock_timestamp())*1000)::bigint;\n IF v_relation.valid_from>v_now OR v_relation.valid_until IS NOT NULL THEN\n   RAISE EXCEPTION 'Content business context rejected' USING ERRCODE='42501';\n END IF;\n RETURN QUERY SELECT v_c.id,v_c.status,v_c.revision,v_o.status,v_o.revision,\n    v_relation.id::uuid,v_relation.revision::bigint,v_relation.valid_from::bigint,v_relation.valid_until::bigint,v_now;\n -- This is ONLY locked business facts. Caller MUST first invoke existing private\n -- Identity guard on THIS client and check a single current grant role+scope.\n -- NULL resource is only the CREATE path; the server allocates the resource ID.\nEND;\n",
+      "sourceFile": "02-helpers-and-guards.sql",
+      "directExecuteRoles": [
+        "zhiban_identity_owner",
+        "zhiban_bridge_runtime"
+      ],
+      "existingAclMustRemainExact": false
+    },
+    {
+      "name": "zhiban_bridge.business_resource_ready",
+      "inputs": [
+        {
+          "name": "p_tenant_id",
+          "type": "uuid"
+        },
+        {
+          "name": "p_activity_id",
+          "type": "uuid"
+        }
+      ],
+      "returnType": "pg_catalog.bool",
+      "closedTableProjection": [],
+      "owner": "zhiban_identity_owner",
+      "language": "sql",
+      "securityDefiner": false,
+      "volatility": "stable",
+      "strict": false,
+      "parallel": "unsafe",
+      "settings": {
+        "search_path": [
+          "pg_catalog",
+          "zhiban_bridge",
+          "zhiban_identity",
+          "pg_temp"
+        ]
+      },
+      "bodySha256": "3959eb63d791b9440c340926b3bff46ed245887403b412cf97b7e6e5d3ea1709",
+      "body": "\n SELECT coalesce(session_user='zhiban_bridge_runtime'\n   AND p_tenant_id=zhiban_identity.current_tenant_id()\n   AND zhiban_identity.is_uuid_v7(p_tenant_id) AND zhiban_identity.is_uuid_v7(p_activity_id)\n   AND EXISTS(SELECT 1 FROM zhiban_content.resources r WHERE r.tenant_id=p_tenant_id AND r.id=p_activity_id\n      AND r.kind='SLIDE_CONTENT' AND r.policy_version='content-text-v1'),false);\n",
+      "sourceFile": "02-helpers-and-guards.sql",
+      "directExecuteRoles": [
+        "zhiban_identity_owner",
+        "zhiban_bridge_runtime"
+      ],
+      "existingAclMustRemainExact": true
+    },
+    {
+      "name": "zhiban_content.resource_guard",
+      "inputs": [],
+      "returnType": "trigger",
+      "closedTableProjection": [],
+      "owner": "zhiban_identity_owner",
+      "language": "plpgsql",
+      "securityDefiner": false,
+      "volatility": "volatile",
+      "strict": false,
+      "parallel": "unsafe",
+      "settings": {
+        "search_path": [
+          "pg_catalog",
+          "zhiban_content",
+          "zhiban_identity",
+          "pg_temp"
+        ]
+      },
+      "bodySha256": "e5d3431da492b5bbe4f2d5a5d79e679f7b7803d6a3ebe080c1aaef78ad827d38",
+      "body": "\nDECLARE action_name text;\nBEGIN\n IF session_user<>'zhiban_bridge_runtime' OR NEW.tenant_id IS DISTINCT FROM zhiban_identity.current_tenant_id()\n    OR current_setting('transaction_isolation')<>'read committed' THEN\n   RAISE EXCEPTION 'Content context rejected' USING ERRCODE='42501';\n END IF;\n IF TG_OP='INSERT' THEN\n   IF NEW.state<>'DRAFT' OR NEW.revision<>1 OR NEW.updated_by<>NEW.created_by OR NEW.updated_at<>NEW.created_at THEN\n     RAISE EXCEPTION 'Content initial state rejected' USING ERRCODE='23514';\n   END IF;\n ELSE\n   IF OLD.revision=9223372036854775807 THEN RAISE EXCEPTION 'Content revision exhausted' USING ERRCODE='23514'; END IF;\n   IF NEW.revision<>OLD.revision+1 OR NEW.updated_at<OLD.updated_at\n     OR (NEW.tenant_id,NEW.id,NEW.offering_id,NEW.kind,NEW.policy_version,NEW.created_by,NEW.created_at)\n        IS DISTINCT FROM (OLD.tenant_id,OLD.id,OLD.offering_id,OLD.kind,OLD.policy_version,OLD.created_by,OLD.created_at) THEN\n     RAISE EXCEPTION 'Content immutable/CAS rejected' USING ERRCODE='23514';\n   END IF;\n   IF EXISTS(SELECT 1 FROM zhiban_content.operations o WHERE o.tenant_id=OLD.tenant_id AND o.resource_id=OLD.id\n     AND o.action='PUBLISH_CONTENT' AND o.state IN ('RESERVED','OUTCOME_UNKNOWN')) THEN\n     RAISE EXCEPTION 'Outstanding publish fence' USING ERRCODE='23514';\n   END IF;\n   IF NEW.active_publication_id IS DISTINCT FROM OLD.active_publication_id THEN\n     action_name:='PUBLISH_CONTENT';\n     IF NEW.state<>'PUBLISHED' OR NEW.last_publication_no<>OLD.last_publication_no+1\n       OR (NEW.title,NEW.draft) IS DISTINCT FROM (OLD.title,OLD.draft) THEN\n       RAISE EXCEPTION 'Content publication transition rejected' USING ERRCODE='23514';\n     END IF;\n   ELSIF NEW.state IS DISTINCT FROM OLD.state THEN\n     action_name:='WITHDRAW_CONTENT';\n     IF OLD.state<>'PUBLISHED' OR NEW.state<>'WITHDRAWN' OR NEW.last_publication_no<>OLD.last_publication_no\n       OR (NEW.title,NEW.draft) IS DISTINCT FROM (OLD.title,OLD.draft) THEN\n       RAISE EXCEPTION 'Content withdrawal transition rejected' USING ERRCODE='23514';\n     END IF;\n   ELSE\n     action_name:='SAVE_CONTENT';\n     IF NEW.last_publication_no<>OLD.last_publication_no OR (NEW.title,NEW.draft) IS NOT DISTINCT FROM (OLD.title,OLD.draft) THEN\n       RAISE EXCEPTION 'No-op must not UPDATE resource' USING ERRCODE='23514';\n     END IF;\n   END IF;\n   IF NOT EXISTS(SELECT 1 FROM zhiban_content.operations o WHERE o.tenant_id=OLD.tenant_id AND o.resource_id=OLD.id\n      AND o.action=action_name AND o.state='SUCCEEDED' AND o.actor_id=NEW.updated_by\n      AND o.source_revision=OLD.revision AND o.source_digest=zhiban_content.draft_digest(OLD.draft)\n      AND o.result_revision=NEW.revision AND o.completed_at=NEW.updated_at\n      AND (action_name<>'PUBLISH_CONTENT' OR o.result_publication_id=NEW.active_publication_id)) THEN\n     RAISE EXCEPTION 'Successful exact operation required before resource UPDATE' USING ERRCODE='23514';\n   END IF;\n END IF;\n RETURN NEW;\nEND;\n",
+      "sourceFile": "02-helpers-and-guards.sql",
+      "directExecuteRoles": [
+        "zhiban_identity_owner"
+      ],
+      "existingAclMustRemainExact": false
+    },
+    {
+      "name": "zhiban_content.operation_guard",
+      "inputs": [],
+      "returnType": "trigger",
+      "closedTableProjection": [],
+      "owner": "zhiban_identity_owner",
+      "language": "plpgsql",
+      "securityDefiner": false,
+      "volatility": "volatile",
+      "strict": false,
+      "parallel": "unsafe",
+      "settings": {
+        "search_path": [
+          "pg_catalog",
+          "zhiban_content",
+          "zhiban_identity",
+          "pg_temp"
+        ]
+      },
+      "bodySha256": "df587ea333cd7921c28be6079049b10cf73e4d6a4a345673d610d3a261a8c5bd",
+      "body": "\nDECLARE r zhiban_content.resources%ROWTYPE;\nBEGIN\n IF session_user<>'zhiban_bridge_runtime' OR NEW.tenant_id IS DISTINCT FROM zhiban_identity.current_tenant_id()\n    OR current_setting('transaction_isolation')<>'read committed' THEN\n   RAISE EXCEPTION 'Content operation context rejected' USING ERRCODE='42501';\n END IF;\n IF TG_OP='INSERT' THEN\n   SELECT * INTO r FROM zhiban_content.resources WHERE tenant_id=NEW.tenant_id AND id=NEW.resource_id FOR UPDATE;\n   IF NOT FOUND OR NEW.source_revision<>r.revision OR NEW.source_digest<>zhiban_content.draft_digest(r.draft)\n      OR NEW.source_revision=9223372036854775807\n      OR EXISTS(SELECT 1 FROM zhiban_content.operations o WHERE o.tenant_id=NEW.tenant_id AND o.resource_id=NEW.resource_id\n       AND o.action='PUBLISH_CONTENT' AND o.state IN ('RESERVED','OUTCOME_UNKNOWN')) THEN\n     RAISE EXCEPTION 'Operation source/fence rejected' USING ERRCODE='23514';\n   END IF;\n   IF (NEW.action='PUBLISH_CONTENT' AND (NEW.state<>'RESERVED' OR NEW.prepare_operation_id IS NOT NULL OR NEW.bridge_operation_id IS NOT NULL))\n      OR (NEW.action<>'PUBLISH_CONTENT' AND NEW.state<>'SUCCEEDED') THEN\n     RAISE EXCEPTION 'Operation initial state rejected' USING ERRCODE='23514';\n   END IF;\n   IF NEW.action='WITHDRAW_CONTENT' AND NEW.result_revision=NEW.source_revision AND r.state<>'WITHDRAWN' THEN\n     RAISE EXCEPTION 'Withdrawal no-op requires already withdrawn resource' USING ERRCODE='23514';\n   END IF;\n   IF NEW.action='CREATE_CONTENT' AND (r.revision<>1 OR NEW.actor_id<>r.created_by OR NEW.result_revision<>1) THEN\n     RAISE EXCEPTION 'Create result rejected' USING ERRCODE='23514';\n   END IF;\n ELSE\n   IF (NEW.tenant_id,NEW.id,NEW.resource_id,NEW.actor_id,NEW.action,NEW.key_digest,NEW.intent_digest,NEW.source_revision,NEW.source_digest,NEW.expected_native_digest,NEW.created_at)\n      IS DISTINCT FROM (OLD.tenant_id,OLD.id,OLD.resource_id,OLD.actor_id,OLD.action,OLD.key_digest,OLD.intent_digest,OLD.source_revision,OLD.source_digest,OLD.expected_native_digest,OLD.created_at)\n      OR OLD.action<>'PUBLISH_CONTENT' OR OLD.state NOT IN ('RESERVED','OUTCOME_UNKNOWN')\n      OR NEW.state NOT IN ('RESERVED','SUCCEEDED','FAILED','OUTCOME_UNKNOWN')\n      OR (NEW.state='RESERVED' AND (OLD.state<>'RESERVED' OR\n          (NEW.prepare_operation_id,NEW.bridge_operation_id) IS NOT DISTINCT FROM (OLD.prepare_operation_id,OLD.bridge_operation_id)))\n      OR (NEW.state='OUTCOME_UNKNOWN' AND OLD.state='OUTCOME_UNKNOWN')\n      OR (OLD.prepare_operation_id IS NOT NULL AND NEW.prepare_operation_id IS DISTINCT FROM OLD.prepare_operation_id)\n      OR (OLD.bridge_operation_id IS NOT NULL AND NEW.bridge_operation_id IS DISTINCT FROM OLD.bridge_operation_id) THEN\n     RAISE EXCEPTION 'Operation immutable/terminal transition rejected' USING ERRCODE='23514';\n   END IF;\n   SELECT * INTO r FROM zhiban_content.resources WHERE tenant_id=NEW.tenant_id AND id=NEW.resource_id FOR UPDATE;\n   IF NOT FOUND OR r.revision<>NEW.source_revision OR zhiban_content.draft_digest(r.draft)<>NEW.source_digest THEN\n     RAISE EXCEPTION 'Reserved source changed' USING ERRCODE='23514';\n   END IF;\n   -- OUTCOME_UNKNOWN -> terminal needs fresh authorized exact reconciliation in\n   -- the future server; this SQL shape is NOT a reconciliation permission/API.\n END IF;\n RETURN NEW;\nEND;\n",
+      "sourceFile": "02-helpers-and-guards.sql",
+      "directExecuteRoles": [
+        "zhiban_identity_owner"
+      ],
+      "existingAclMustRemainExact": false
+    },
+    {
+      "name": "zhiban_content.publication_guard",
+      "inputs": [],
+      "returnType": "trigger",
+      "closedTableProjection": [],
+      "owner": "zhiban_identity_owner",
+      "language": "plpgsql",
+      "securityDefiner": false,
+      "volatility": "volatile",
+      "strict": false,
+      "parallel": "unsafe",
+      "settings": {
+        "search_path": [
+          "pg_catalog",
+          "zhiban_content",
+          "zhiban_identity",
+          "pg_temp"
+        ]
+      },
+      "bodySha256": "691b9644630b521cb677198256453f9caa1351dc0419581703edeaa1ab7a8a3e",
+      "body": "\nDECLARE r zhiban_content.resources%ROWTYPE;\nBEGIN\n IF session_user<>'zhiban_bridge_runtime' OR NEW.tenant_id IS DISTINCT FROM zhiban_identity.current_tenant_id() THEN\n   RAISE EXCEPTION 'Content publication context rejected' USING ERRCODE='42501';\n END IF;\n SELECT * INTO r FROM zhiban_content.resources WHERE tenant_id=NEW.tenant_id AND id=NEW.resource_id FOR UPDATE;\n IF NOT FOUND OR r.revision<>NEW.source_revision OR NEW.title<>r.title OR NEW.policy_version<>r.policy_version\n    OR NEW.publication_no<>r.last_publication_no+1 OR NOT EXISTS(\n      SELECT 1 FROM jsonb_array_elements(r.draft->'slides') s,\n      LATERAL jsonb_array_elements(s.value->'elements') e WHERE btrim(e.value->>'text',E' \\n\\r\\t')<>'') THEN\n   RAISE EXCEPTION 'Content publish source rejected' USING ERRCODE='23514';\n END IF;\n RETURN NEW;\nEND;\n",
+      "sourceFile": "02-helpers-and-guards.sql",
+      "directExecuteRoles": [
+        "zhiban_identity_owner"
+      ],
+      "existingAclMustRemainExact": false
+    },
+    {
+      "name": "zhiban_content.append_only",
+      "inputs": [],
+      "returnType": "trigger",
+      "closedTableProjection": [],
+      "owner": "zhiban_identity_owner",
+      "language": "plpgsql",
+      "securityDefiner": false,
+      "volatility": "volatile",
+      "strict": false,
+      "parallel": "unsafe",
+      "settings": {
+        "search_path": [
+          "pg_catalog",
+          "pg_temp"
+        ]
+      },
+      "bodySha256": "29f263317e0e6dabf353148eab9750b12fc58096454053c2f223b9f1f10c8488",
+      "body": "\nBEGIN RAISE EXCEPTION 'Content history immutable' USING ERRCODE='23514'; END;\n",
+      "sourceFile": "02-helpers-and-guards.sql",
+      "directExecuteRoles": [
+        "zhiban_identity_owner"
+      ],
+      "existingAclMustRemainExact": false
+    },
+    {
+      "name": "zhiban_content.link_consistency",
+      "inputs": [],
+      "returnType": "trigger",
+      "closedTableProjection": [],
+      "owner": "zhiban_identity_owner",
+      "language": "plpgsql",
+      "securityDefiner": true,
+      "volatility": "volatile",
+      "strict": false,
+      "parallel": "unsafe",
+      "settings": {
+        "search_path": [
+          "pg_catalog",
+          "zhiban_content",
+          "zhiban_bridge",
+          "zhiban_identity",
+          "pg_temp"
+        ],
+        "row_security": [
+          "on"
+        ]
+      },
+      "bodySha256": "495eed4b6a6f60a99fe261b3e84b543f101a3fe014eac9e1dd3b37946d388d1d",
+      "body": "\nDECLARE resource_key uuid; r zhiban_content.resources%ROWTYPE; o zhiban_content.operations%ROWTYPE;\nBEGIN\n IF session_user<>'zhiban_bridge_runtime' OR NEW.tenant_id IS DISTINCT FROM zhiban_identity.current_tenant_id() THEN\n   RAISE EXCEPTION 'Content consistency context rejected' USING ERRCODE='42501';\n END IF;\n IF TG_TABLE_SCHEMA='zhiban_content' THEN\n   IF TG_TABLE_NAME='resources' THEN resource_key:=NEW.id;\n   ELSIF TG_TABLE_NAME IN ('publications','operations','audit_events') THEN resource_key:=NEW.resource_id;\n   ELSE RAISE EXCEPTION 'Unsupported Content consistency table'; END IF;\n ELSIF TG_TABLE_SCHEMA='zhiban_bridge' THEN\n   IF TG_TABLE_NAME='resource_slots' THEN resource_key:=NEW.activity_id;\n   ELSIF TG_TABLE_NAME IN ('resource_generations','operations') THEN\n     SELECT s.activity_id INTO resource_key FROM zhiban_bridge.resource_slots s\n      WHERE s.tenant_id=NEW.tenant_id AND s.slot_id=NEW.slot_id;\n   ELSE RAISE EXCEPTION 'Unsupported Bridge consistency table'; END IF;\n ELSE RAISE EXCEPTION 'Unsupported consistency schema'; END IF;\n SELECT * INTO r FROM zhiban_content.resources WHERE tenant_id=NEW.tenant_id AND id=resource_key;\n IF NOT FOUND THEN\n   IF TG_TABLE_SCHEMA='zhiban_bridge' THEN RETURN NULL; END IF;\n   RAISE EXCEPTION 'Content resource missing' USING ERRCODE='23514';\n END IF;\n IF r.last_publication_no<>(SELECT coalesce(max(p.publication_no),0) FROM zhiban_content.publications p\n      WHERE p.tenant_id=r.tenant_id AND p.resource_id=r.id)\n    OR (r.active_publication_id IS NOT NULL AND NOT EXISTS(\n      SELECT 1 FROM zhiban_content.publications p JOIN zhiban_bridge.resource_slots s\n        ON s.tenant_id=p.tenant_id AND s.slot_id=p.bridge_slot_id\n      JOIN zhiban_bridge.resource_generations g ON g.tenant_id=p.tenant_id AND g.generation_id=p.bridge_generation_id\n      WHERE p.tenant_id=r.tenant_id AND p.id=r.active_publication_id AND p.resource_id=r.id\n       AND p.publication_no=r.last_publication_no AND s.activity_id=r.id AND s.owner_membership_id=r.created_by\n       AND s.active_generation_id=g.generation_id AND g.state='ACTIVE'\n       AND ((r.state='PUBLISHED' AND s.state='ENABLED') OR (r.state='WITHDRAWN' AND s.state='SUSPENDED')))) THEN\n   RAISE EXCEPTION 'Content active pointer inconsistent' USING ERRCODE='23514';\n END IF;\n -- A preparation cannot be hidden by cancelling a content operation before\n -- registering its Bridge reference. Every resource prepare has exactly one\n -- durable content reservation, even if that reservation safely terminates.\n IF EXISTS(SELECT 1 FROM zhiban_bridge.operations b JOIN zhiban_bridge.resource_slots s\n    ON s.tenant_id=b.tenant_id AND s.slot_id=b.slot_id\n   WHERE s.tenant_id=r.tenant_id AND s.activity_id=r.id AND b.operation='PREPARE_CONTENT'\n    AND NOT EXISTS(SELECT 1 FROM zhiban_content.operations co\n      WHERE co.tenant_id=r.tenant_id AND co.resource_id=r.id AND co.action='PUBLISH_CONTENT'\n       AND co.prepare_operation_id=b.operation_id)) THEN\n   RAISE EXCEPTION 'Unbound Bridge preparation' USING ERRCODE='23514';\n END IF;\n -- Every activation, including a still PENDING generation, belongs to exactly\n -- one content publish with the same preparation/slot/generation. Checking\n -- only ACTIVE generations or nullable forward references releases the fence\n -- prematurely when an unregistered activation has an unresolved outcome.\n IF EXISTS(SELECT 1 FROM zhiban_bridge.operations b JOIN zhiban_bridge.resource_slots s\n    ON s.tenant_id=b.tenant_id AND s.slot_id=b.slot_id\n   WHERE s.tenant_id=r.tenant_id AND s.activity_id=r.id AND b.operation='ACTIVATE_GENERATION'\n    AND (SELECT count(*) FROM zhiban_content.operations co\n      JOIN zhiban_bridge.operations prep ON prep.tenant_id=co.tenant_id AND prep.operation_id=co.prepare_operation_id\n      WHERE co.tenant_id=r.tenant_id AND co.resource_id=r.id AND co.action='PUBLISH_CONTENT'\n       AND co.bridge_operation_id=b.operation_id AND prep.operation='PREPARE_CONTENT'\n       AND prep.slot_id=b.slot_id AND prep.generation_id=b.generation_id)<>1) THEN\n   RAISE EXCEPTION 'Unbound Bridge activation' USING ERRCODE='23514';\n END IF;\n -- Reverse edge covers first publication and every deployment slot, including\n -- SUSPENDED slots retaining ACTIVE history after withdrawal.\n IF EXISTS(SELECT 1 FROM zhiban_bridge.resource_slots s\n   JOIN zhiban_bridge.resource_generations g ON g.tenant_id=s.tenant_id AND g.slot_id=s.slot_id\n   WHERE s.tenant_id=r.tenant_id AND s.activity_id=r.id AND g.state='ACTIVE'\n    AND NOT EXISTS(SELECT 1 FROM zhiban_content.publications p\n      JOIN zhiban_content.operations co ON co.tenant_id=p.tenant_id AND co.result_publication_id=p.id\n      WHERE p.tenant_id=r.tenant_id AND p.id=r.active_publication_id AND p.resource_id=r.id\n       AND p.bridge_slot_id=s.slot_id AND p.bridge_generation_id=g.generation_id\n       AND s.active_generation_id=g.generation_id AND s.owner_membership_id=r.created_by\n       AND co.action='PUBLISH_CONTENT' AND co.state='SUCCEEDED'\n       AND ((r.state='PUBLISHED' AND s.state='ENABLED') OR (r.state='WITHDRAWN' AND s.state='SUSPENDED')))) THEN\n   RAISE EXCEPTION 'Unbound active Bridge generation' USING ERRCODE='23514';\n END IF;\n -- History binds both preparation and activation, not just a successful prepare.\n IF EXISTS(SELECT 1 FROM zhiban_content.publications p WHERE p.tenant_id=r.tenant_id AND p.resource_id=r.id AND (\n   p.source_revision>=r.revision OR NOT EXISTS(\n    SELECT 1 FROM zhiban_bridge.resource_slots s JOIN zhiban_bridge.resource_generations g\n      ON g.tenant_id=s.tenant_id AND g.slot_id=s.slot_id\n    JOIN zhiban_bridge.operations prep ON prep.tenant_id=p.tenant_id AND prep.operation_id=p.prepare_operation_id\n    JOIN zhiban_bridge.operations act ON act.tenant_id=p.tenant_id AND act.operation_id=p.activation_operation_id\n    JOIN zhiban_content.operations co ON co.tenant_id=p.tenant_id AND co.result_publication_id=p.id\n    WHERE s.tenant_id=p.tenant_id AND s.slot_id=p.bridge_slot_id AND s.activity_id=r.id\n      AND s.owner_membership_id=r.created_by AND g.generation_id=p.bridge_generation_id\n      AND g.owner_membership_id=r.created_by AND g.content_digest=p.content_digest\n      AND g.content_digest=co.expected_native_digest\n      AND prep.slot_id=s.slot_id AND act.slot_id=s.slot_id\n      AND prep.generation_id=g.generation_id AND act.generation_id=g.generation_id\n      AND prep.result_generation_id=g.generation_id AND act.result_generation_id=g.generation_id\n      AND prep.operation='PREPARE_CONTENT' AND act.operation='ACTIVATE_GENERATION'\n      AND prep.state='SUCCEEDED' AND act.state='SUCCEEDED' AND prep.dispatch_started_at IS NOT NULL\n      AND prep.actor_kind='USER' AND act.actor_kind='USER'\n      AND prep.actor_membership_id=p.published_by AND act.actor_membership_id=p.published_by\n      AND co.resource_id=r.id AND co.action='PUBLISH_CONTENT' AND co.state='SUCCEEDED'\n      AND co.actor_id=p.published_by AND co.source_revision=p.source_revision\n      AND co.prepare_operation_id=prep.operation_id AND co.bridge_operation_id=act.operation_id\n      AND co.result_revision=p.source_revision+1 AND co.completed_at=p.published_at))) THEN\n   RAISE EXCEPTION 'Content publication provenance inconsistent' USING ERRCODE='23514';\n END IF;\n IF EXISTS(SELECT 1 FROM zhiban_content.operations co WHERE co.tenant_id=r.tenant_id AND co.resource_id=r.id AND (\n   co.source_revision>r.revision OR\n   (co.action='PUBLISH_CONTENT' AND co.state IN ('RESERVED','OUTCOME_UNKNOWN') AND co.prepare_operation_id IS NULL) OR\n   (co.action='PUBLISH_CONTENT' AND co.state='FAILED' AND (\n     EXISTS(SELECT 1 FROM zhiban_bridge.operations b WHERE b.tenant_id=co.tenant_id\n       AND b.operation_id=co.prepare_operation_id AND b.state NOT IN ('SUCCEEDED','FAILED')) OR\n     EXISTS(SELECT 1 FROM zhiban_bridge.operations b WHERE b.tenant_id=co.tenant_id\n       AND b.operation_id=co.bridge_operation_id AND b.state<>'FAILED'))) OR\n   (co.prepare_operation_id IS NOT NULL AND NOT EXISTS(\n     SELECT 1 FROM zhiban_bridge.operations b JOIN zhiban_bridge.resource_slots s\n      ON s.tenant_id=b.tenant_id AND s.slot_id=b.slot_id\n     JOIN zhiban_bridge.resource_generations g ON g.tenant_id=b.tenant_id AND g.generation_id=b.generation_id AND g.slot_id=b.slot_id\n     WHERE b.tenant_id=co.tenant_id AND b.operation_id=co.prepare_operation_id\n      AND b.created_at>=co.created_at AND g.content_digest=co.expected_native_digest\n      AND b.operation='PREPARE_CONTENT' AND b.actor_kind='USER' AND b.actor_membership_id=co.actor_id\n      AND s.activity_id=r.id AND s.owner_membership_id=r.created_by)) OR\n   (co.prepare_operation_id IS NOT NULL AND co.bridge_operation_id IS NOT NULL AND NOT EXISTS(\n     SELECT 1 FROM zhiban_bridge.operations prep JOIN zhiban_bridge.operations act\n       ON act.tenant_id=prep.tenant_id AND act.slot_id=prep.slot_id AND act.generation_id=prep.generation_id\n     WHERE prep.tenant_id=co.tenant_id AND prep.operation_id=co.prepare_operation_id\n       AND act.operation_id=co.bridge_operation_id)) OR\n   (co.bridge_operation_id IS NOT NULL AND NOT EXISTS(\n     SELECT 1 FROM zhiban_bridge.operations b JOIN zhiban_bridge.resource_slots s\n      ON s.tenant_id=b.tenant_id AND s.slot_id=b.slot_id\n     WHERE b.tenant_id=co.tenant_id AND b.operation_id=co.bridge_operation_id\n      AND b.operation=CASE co.action WHEN 'WITHDRAW_CONTENT' THEN 'SUSPEND' ELSE 'ACTIVATE_GENERATION' END\n      AND b.actor_kind='USER' AND b.actor_membership_id=co.actor_id AND s.activity_id=r.id\n      AND s.owner_membership_id=r.created_by\n      AND (co.state<>'SUCCEEDED' OR b.state='SUCCEEDED')\n      AND (co.action<>'WITHDRAW_CONTENT' OR EXISTS(SELECT 1 FROM zhiban_content.publications p\n        WHERE p.tenant_id=co.tenant_id AND p.resource_id=r.id AND p.bridge_slot_id=b.slot_id\n          AND p.bridge_generation_id=b.generation_id AND p.source_revision<co.source_revision)))) OR\n   (co.state='SUCCEEDED' AND (co.result_revision>r.revision OR\n      (co.action='CREATE_CONTENT' AND (co.result_revision<>1 OR co.actor_id<>r.created_by)) OR\n      (co.action IN ('SAVE_CONTENT','WITHDRAW_CONTENT') AND co.result_revision NOT IN (co.source_revision,co.source_revision+1)) OR\n      (co.action='PUBLISH_CONTENT' AND (co.result_revision<>co.source_revision+1 OR NOT EXISTS(\n       SELECT 1 FROM zhiban_content.publications p WHERE p.tenant_id=co.tenant_id AND p.id=co.result_publication_id\n        AND p.resource_id=r.id AND p.prepare_operation_id=co.prepare_operation_id\n        AND p.activation_operation_id=co.bridge_operation_id))))) OR\n   NOT EXISTS(SELECT 1 FROM zhiban_content.audit_events a WHERE a.tenant_id=co.tenant_id AND a.operation_id=co.id\n     AND a.resource_id=r.id AND a.actor_id=co.actor_id AND (\n       (co.state='RESERVED' AND a.event_type='PUBLISH_RESERVED' AND a.occurred_at=co.created_at\n        AND a.revision_before=co.source_revision AND a.revision_after=co.source_revision) OR\n       (co.state='OUTCOME_UNKNOWN' AND a.event_type='OUTCOME_QUARANTINED'\n        AND a.revision_before=co.source_revision AND a.revision_after=co.source_revision) OR\n       (co.state='FAILED' AND a.event_type='OPERATION_FAILED' AND a.occurred_at=co.completed_at\n        AND a.revision_before=co.source_revision AND a.revision_after=co.source_revision) OR\n       (co.state='SUCCEEDED' AND a.occurred_at=co.completed_at AND a.revision_after=co.result_revision AND (\n        (co.action='CREATE_CONTENT' AND a.event_type='CONTENT_CREATED' AND a.revision_before IS NULL) OR\n        (co.action<>'CREATE_CONTENT' AND a.revision_before=co.source_revision AND\n          a.event_type=CASE WHEN co.result_revision=co.source_revision THEN 'COMMAND_NOOP'\n            WHEN co.action='SAVE_CONTENT' THEN 'DRAFT_SAVED'\n            WHEN co.action='PUBLISH_CONTENT' THEN 'CONTENT_PUBLISHED' ELSE 'CONTENT_WITHDRAWN' END))))))) THEN\n   RAISE EXCEPTION 'Content operation/audit inconsistent' USING ERRCODE='23514';\n END IF;\n IF NOT EXISTS(SELECT 1 FROM zhiban_content.operations co WHERE co.tenant_id=r.tenant_id AND co.resource_id=r.id\n    AND co.state='SUCCEEDED' AND co.result_revision=r.revision AND co.actor_id=r.updated_by AND co.completed_at=r.updated_at\n    AND (co.action='CREATE_CONTENT' OR co.result_revision>co.source_revision)) THEN\n   RAISE EXCEPTION 'Content latest mutation receipt missing' USING ERRCODE='23514';\n END IF;\n IF TG_TABLE_SCHEMA='zhiban_content' THEN\n   IF TG_TABLE_NAME='audit_events' THEN\n     SELECT * INTO o FROM zhiban_content.operations WHERE tenant_id=NEW.tenant_id AND id=NEW.operation_id;\n     IF NOT FOUND OR o.resource_id IS DISTINCT FROM NEW.resource_id OR o.actor_id IS DISTINCT FROM NEW.actor_id\n        OR NEW.occurred_at<o.created_at OR (o.completed_at IS NOT NULL AND NEW.occurred_at>o.completed_at)\n        OR NEW.revision_after>r.revision\n        OR NOT coalesce(CASE NEW.event_type\n          WHEN 'CONTENT_CREATED' THEN o.action='CREATE_CONTENT' AND NEW.occurred_at=o.completed_at AND NEW.revision_before IS NULL AND NEW.revision_after=1\n          WHEN 'PUBLISH_RESERVED' THEN o.action='PUBLISH_CONTENT' AND NEW.occurred_at=o.created_at AND NEW.revision_before=o.source_revision AND NEW.revision_after=o.source_revision\n          WHEN 'OUTCOME_QUARANTINED' THEN o.action='PUBLISH_CONTENT' AND NEW.revision_before=o.source_revision AND NEW.revision_after=o.source_revision\n          WHEN 'OPERATION_FAILED' THEN o.state='FAILED' AND NEW.occurred_at=o.completed_at AND NEW.revision_before=o.source_revision AND NEW.revision_after=o.source_revision\n          ELSE o.state='SUCCEEDED' AND NEW.occurred_at=o.completed_at AND NEW.revision_before=o.source_revision AND NEW.revision_after=o.result_revision\n            AND NEW.event_type=CASE WHEN o.result_revision=o.source_revision THEN 'COMMAND_NOOP'\n              WHEN o.action='SAVE_CONTENT' THEN 'DRAFT_SAVED' WHEN o.action='PUBLISH_CONTENT' THEN 'CONTENT_PUBLISHED'\n              WHEN o.action='WITHDRAW_CONTENT' THEN 'CONTENT_WITHDRAWN' ELSE NULL END END,false) THEN\n       RAISE EXCEPTION 'Content audit binding inconsistent' USING ERRCODE='23514';\n     END IF;\n   END IF;\n END IF;\n RETURN NULL;\nEND;\n",
+      "sourceFile": "02-helpers-and-guards.sql",
+      "directExecuteRoles": [
+        "zhiban_identity_owner"
+      ],
+      "existingAclMustRemainExact": false
+    }
+  ],
+  "candidateTables": [
+    {
+      "name": "zhiban_content.schema_migrations",
+      "columns": [
+        {
+          "name": "version",
+          "type": "text",
+          "definition": "version text PRIMARY KEY CHECK (version = '0001')"
+        },
+        {
+          "name": "checksum",
+          "type": "text",
+          "definition": "checksum text NOT NULL CHECK (checksum ~ '^[a-f0-9]{64}$')"
+        }
+      ],
+      "owner": "zhiban_identity_owner",
+      "sourceFile": "01-schema.sql",
+      "forceRls": false
+    },
+    {
+      "name": "zhiban_content.resources",
+      "columns": [
+        {
+          "name": "tenant_id",
+          "type": "uuid",
+          "definition": "tenant_id uuid NOT NULL REFERENCES zhiban_identity.tenants (tenant_id)"
+        },
+        {
+          "name": "id",
+          "type": "uuid",
+          "definition": "id uuid NOT NULL CHECK (zhiban_identity.is_uuid_v7(id))"
+        },
+        {
+          "name": "offering_id",
+          "type": "uuid",
+          "definition": "offering_id uuid NOT NULL"
+        },
+        {
+          "name": "kind",
+          "type": "text",
+          "definition": "kind text NOT NULL CHECK (kind = 'SLIDE_CONTENT')"
+        },
+        {
+          "name": "policy_version",
+          "type": "text",
+          "definition": "policy_version text NOT NULL CHECK (policy_version = 'content-text-v1')"
+        },
+        {
+          "name": "title",
+          "type": "text",
+          "definition": "title text NOT NULL"
+        },
+        {
+          "name": "draft",
+          "type": "jsonb",
+          "definition": "draft jsonb NOT NULL CHECK (zhiban_content.valid_draft(draft))"
+        },
+        {
+          "name": "state",
+          "type": "text",
+          "definition": "state text NOT NULL CHECK (state IN ('DRAFT', 'PUBLISHED', 'WITHDRAWN'))"
+        },
+        {
+          "name": "revision",
+          "type": "pg_catalog.int8",
+          "definition": "revision bigint NOT NULL CHECK (revision > 0)"
+        },
+        {
+          "name": "active_publication_id",
+          "type": "uuid",
+          "definition": "active_publication_id uuid"
+        },
+        {
+          "name": "last_publication_no",
+          "type": "pg_catalog.int4",
+          "definition": "last_publication_no integer NOT NULL CHECK (last_publication_no >= 0)"
+        },
+        {
+          "name": "created_by",
+          "type": "uuid",
+          "definition": "created_by uuid NOT NULL"
+        },
+        {
+          "name": "updated_by",
+          "type": "uuid",
+          "definition": "updated_by uuid NOT NULL"
+        },
+        {
+          "name": "created_at",
+          "type": "pg_catalog.int8",
+          "definition": "created_at bigint NOT NULL CHECK (created_at BETWEEN 0 AND 8640000000000000)"
+        },
+        {
+          "name": "updated_at",
+          "type": "pg_catalog.int8",
+          "definition": "updated_at bigint NOT NULL CHECK (updated_at BETWEEN created_at AND 8640000000000000)"
+        }
+      ],
+      "owner": "zhiban_identity_owner",
+      "sourceFile": "01-schema.sql",
+      "forceRls": true
+    },
+    {
+      "name": "zhiban_content.publications",
+      "columns": [
+        {
+          "name": "tenant_id",
+          "type": "uuid",
+          "definition": "tenant_id uuid NOT NULL"
+        },
+        {
+          "name": "id",
+          "type": "uuid",
+          "definition": "id uuid NOT NULL CHECK (zhiban_identity.is_uuid_v7(id))"
+        },
+        {
+          "name": "resource_id",
+          "type": "uuid",
+          "definition": "resource_id uuid NOT NULL"
+        },
+        {
+          "name": "offering_id",
+          "type": "uuid",
+          "definition": "offering_id uuid NOT NULL"
+        },
+        {
+          "name": "publication_no",
+          "type": "pg_catalog.int4",
+          "definition": "publication_no integer NOT NULL CHECK (publication_no > 0)"
+        },
+        {
+          "name": "source_revision",
+          "type": "pg_catalog.int8",
+          "definition": "source_revision bigint NOT NULL CHECK (source_revision > 0)"
+        },
+        {
+          "name": "bridge_slot_id",
+          "type": "uuid",
+          "definition": "bridge_slot_id uuid NOT NULL"
+        },
+        {
+          "name": "bridge_generation_id",
+          "type": "uuid",
+          "definition": "bridge_generation_id uuid NOT NULL"
+        },
+        {
+          "name": "prepare_operation_id",
+          "type": "uuid",
+          "definition": "prepare_operation_id uuid NOT NULL"
+        },
+        {
+          "name": "activation_operation_id",
+          "type": "uuid",
+          "definition": "activation_operation_id uuid NOT NULL"
+        },
+        {
+          "name": "title",
+          "type": "text",
+          "definition": "title text NOT NULL CHECK (zhiban_content.utf16_length(title) BETWEEN 1 AND 120)"
+        },
+        {
+          "name": "content_digest",
+          "type": "text",
+          "definition": "content_digest text NOT NULL CHECK (content_digest ~ '^[a-f0-9]{64}$')"
+        },
+        {
+          "name": "policy_version",
+          "type": "text",
+          "definition": "policy_version text NOT NULL CHECK (policy_version = 'content-text-v1')"
+        },
+        {
+          "name": "published_by",
+          "type": "uuid",
+          "definition": "published_by uuid NOT NULL"
+        },
+        {
+          "name": "published_at",
+          "type": "pg_catalog.int8",
+          "definition": "published_at bigint NOT NULL CHECK (published_at BETWEEN 0 AND 8640000000000000)"
+        }
+      ],
+      "owner": "zhiban_identity_owner",
+      "sourceFile": "01-schema.sql",
+      "forceRls": true
+    },
+    {
+      "name": "zhiban_content.operations",
+      "columns": [
+        {
+          "name": "tenant_id",
+          "type": "uuid",
+          "definition": "tenant_id uuid NOT NULL"
+        },
+        {
+          "name": "id",
+          "type": "uuid",
+          "definition": "id uuid NOT NULL CHECK (zhiban_identity.is_uuid_v7(id))"
+        },
+        {
+          "name": "resource_id",
+          "type": "uuid",
+          "definition": "resource_id uuid NOT NULL"
+        },
+        {
+          "name": "actor_id",
+          "type": "uuid",
+          "definition": "actor_id uuid NOT NULL"
+        },
+        {
+          "name": "action",
+          "type": "text",
+          "definition": "action text NOT NULL CHECK (action IN ('CREATE_CONTENT', 'SAVE_CONTENT', 'PUBLISH_CONTENT', 'WITHDRAW_CONTENT'))"
+        },
+        {
+          "name": "key_digest",
+          "type": "text",
+          "definition": "key_digest text NOT NULL CHECK (key_digest ~ '^[a-f0-9]{64}$')"
+        },
+        {
+          "name": "intent_digest",
+          "type": "text",
+          "definition": "intent_digest text NOT NULL CHECK (intent_digest ~ '^[a-f0-9]{64}$')"
+        },
+        {
+          "name": "state",
+          "type": "text",
+          "definition": "state text NOT NULL CHECK (state IN ('RESERVED', 'SUCCEEDED', 'FAILED', 'OUTCOME_UNKNOWN'))"
+        },
+        {
+          "name": "source_revision",
+          "type": "pg_catalog.int8",
+          "definition": "source_revision bigint NOT NULL CHECK (source_revision > 0)"
+        },
+        {
+          "name": "source_digest",
+          "type": "text",
+          "definition": "source_digest text NOT NULL CHECK (source_digest ~ '^[a-f0-9]{64}$')"
+        },
+        {
+          "name": "expected_native_digest",
+          "type": "text",
+          "definition": "expected_native_digest text CHECK (expected_native_digest ~ '^[a-f0-9]{64}$')"
+        },
+        {
+          "name": "prepare_operation_id",
+          "type": "uuid",
+          "definition": "prepare_operation_id uuid"
+        },
+        {
+          "name": "bridge_operation_id",
+          "type": "uuid",
+          "definition": "bridge_operation_id uuid"
+        },
+        {
+          "name": "result_publication_id",
+          "type": "uuid",
+          "definition": "result_publication_id uuid"
+        },
+        {
+          "name": "result_revision",
+          "type": "pg_catalog.int8",
+          "definition": "result_revision bigint CHECK (result_revision > 0)"
+        },
+        {
+          "name": "created_at",
+          "type": "pg_catalog.int8",
+          "definition": "created_at bigint NOT NULL CHECK (created_at BETWEEN 0 AND 8640000000000000)"
+        },
+        {
+          "name": "completed_at",
+          "type": "pg_catalog.int8",
+          "definition": "completed_at bigint CHECK (completed_at BETWEEN created_at AND 8640000000000000)"
+        }
+      ],
+      "owner": "zhiban_identity_owner",
+      "sourceFile": "01-schema.sql",
+      "forceRls": true
+    },
+    {
+      "name": "zhiban_content.audit_events",
+      "columns": [
+        {
+          "name": "tenant_id",
+          "type": "uuid",
+          "definition": "tenant_id uuid NOT NULL"
+        },
+        {
+          "name": "id",
+          "type": "uuid",
+          "definition": "id uuid NOT NULL CHECK (zhiban_identity.is_uuid_v7(id))"
+        },
+        {
+          "name": "resource_id",
+          "type": "uuid",
+          "definition": "resource_id uuid NOT NULL"
+        },
+        {
+          "name": "operation_id",
+          "type": "uuid",
+          "definition": "operation_id uuid NOT NULL"
+        },
+        {
+          "name": "actor_id",
+          "type": "uuid",
+          "definition": "actor_id uuid NOT NULL"
+        },
+        {
+          "name": "event_type",
+          "type": "text",
+          "definition": "event_type text NOT NULL CHECK (event_type IN ('CONTENT_CREATED', 'DRAFT_SAVED', 'COMMAND_NOOP', 'PUBLISH_RESERVED', 'CONTENT_PUBLISHED', 'CONTENT_WITHDRAWN', 'OPERATION_FAILED', 'OUTCOME_QUARANTINED'))"
+        },
+        {
+          "name": "revision_before",
+          "type": "pg_catalog.int8",
+          "definition": "revision_before bigint CHECK (revision_before > 0)"
+        },
+        {
+          "name": "revision_after",
+          "type": "pg_catalog.int8",
+          "definition": "revision_after bigint NOT NULL CHECK (revision_after > 0)"
+        },
+        {
+          "name": "occurred_at",
+          "type": "pg_catalog.int8",
+          "definition": "occurred_at bigint NOT NULL CHECK (occurred_at BETWEEN 0 AND 8640000000000000)"
+        }
+      ],
+      "owner": "zhiban_identity_owner",
+      "sourceFile": "01-schema.sql",
+      "forceRls": true
+    }
+  ],
+  "newPolicies": [
+    {
+      "table": "zhiban_content.resources",
+      "name": "content_read",
+      "command": "SELECT",
+      "roles": [
+        "zhiban_bridge_runtime",
+        "zhiban_identity_owner"
+      ],
+      "permissive": true,
+      "using": "session_user='zhiban_bridge_runtime' AND tenant_id=zhiban_identity.current_tenant_id()",
+      "withCheck": null
+    },
+    {
+      "table": "zhiban_content.resources",
+      "name": "content_insert",
+      "command": "INSERT",
+      "roles": [
+        "zhiban_bridge_runtime"
+      ],
+      "permissive": true,
+      "using": null,
+      "withCheck": "session_user='zhiban_bridge_runtime' AND tenant_id=zhiban_identity.current_tenant_id()"
+    },
+    {
+      "table": "zhiban_content.resources",
+      "name": "content_update",
+      "command": "UPDATE",
+      "roles": [
+        "zhiban_bridge_runtime"
+      ],
+      "permissive": true,
+      "using": "session_user='zhiban_bridge_runtime' AND tenant_id=zhiban_identity.current_tenant_id()",
+      "withCheck": "session_user='zhiban_bridge_runtime' AND tenant_id=zhiban_identity.current_tenant_id()"
+    },
+    {
+      "table": "zhiban_content.publications",
+      "name": "content_read",
+      "command": "SELECT",
+      "roles": [
+        "zhiban_bridge_runtime",
+        "zhiban_identity_owner"
+      ],
+      "permissive": true,
+      "using": "session_user='zhiban_bridge_runtime' AND tenant_id=zhiban_identity.current_tenant_id()",
+      "withCheck": null
+    },
+    {
+      "table": "zhiban_content.publications",
+      "name": "content_insert",
+      "command": "INSERT",
+      "roles": [
+        "zhiban_bridge_runtime"
+      ],
+      "permissive": true,
+      "using": null,
+      "withCheck": "session_user='zhiban_bridge_runtime' AND tenant_id=zhiban_identity.current_tenant_id()"
+    },
+    {
+      "table": "zhiban_content.operations",
+      "name": "content_read",
+      "command": "SELECT",
+      "roles": [
+        "zhiban_bridge_runtime",
+        "zhiban_identity_owner"
+      ],
+      "permissive": true,
+      "using": "session_user='zhiban_bridge_runtime' AND tenant_id=zhiban_identity.current_tenant_id()",
+      "withCheck": null
+    },
+    {
+      "table": "zhiban_content.operations",
+      "name": "content_insert",
+      "command": "INSERT",
+      "roles": [
+        "zhiban_bridge_runtime"
+      ],
+      "permissive": true,
+      "using": null,
+      "withCheck": "session_user='zhiban_bridge_runtime' AND tenant_id=zhiban_identity.current_tenant_id()"
+    },
+    {
+      "table": "zhiban_content.operations",
+      "name": "content_update",
+      "command": "UPDATE",
+      "roles": [
+        "zhiban_bridge_runtime"
+      ],
+      "permissive": true,
+      "using": "session_user='zhiban_bridge_runtime' AND tenant_id=zhiban_identity.current_tenant_id()",
+      "withCheck": "session_user='zhiban_bridge_runtime' AND tenant_id=zhiban_identity.current_tenant_id()"
+    },
+    {
+      "table": "zhiban_content.audit_events",
+      "name": "content_read",
+      "command": "SELECT",
+      "roles": [
+        "zhiban_bridge_runtime",
+        "zhiban_identity_owner"
+      ],
+      "permissive": true,
+      "using": "session_user='zhiban_bridge_runtime' AND tenant_id=zhiban_identity.current_tenant_id()",
+      "withCheck": null
+    },
+    {
+      "table": "zhiban_content.audit_events",
+      "name": "content_insert",
+      "command": "INSERT",
+      "roles": [
+        "zhiban_bridge_runtime"
+      ],
+      "permissive": true,
+      "using": null,
+      "withCheck": "session_user='zhiban_bridge_runtime' AND tenant_id=zhiban_identity.current_tenant_id()"
+    },
+    {
+      "table": "zhiban_academic.courses",
+      "name": "content_owner_read",
+      "command": "SELECT",
+      "roles": [
+        "zhiban_identity_owner"
+      ],
+      "permissive": true,
+      "using": "session_user='zhiban_bridge_runtime' AND tenant_id=zhiban_identity.current_tenant_id()",
+      "withCheck": null
+    },
+    {
+      "table": "zhiban_academic.courses",
+      "name": "content_owner_lock",
+      "command": "UPDATE",
+      "roles": [
+        "zhiban_identity_owner"
+      ],
+      "permissive": true,
+      "using": "session_user='zhiban_bridge_runtime' AND tenant_id=zhiban_identity.current_tenant_id()",
+      "withCheck": "false"
+    },
+    {
+      "table": "zhiban_academic.offerings",
+      "name": "content_owner_read",
+      "command": "SELECT",
+      "roles": [
+        "zhiban_identity_owner"
+      ],
+      "permissive": true,
+      "using": "session_user='zhiban_bridge_runtime' AND tenant_id=zhiban_identity.current_tenant_id()",
+      "withCheck": null
+    },
+    {
+      "table": "zhiban_academic.offerings",
+      "name": "content_owner_lock",
+      "command": "UPDATE",
+      "roles": [
+        "zhiban_identity_owner"
+      ],
+      "permissive": true,
+      "using": "session_user='zhiban_bridge_runtime' AND tenant_id=zhiban_identity.current_tenant_id()",
+      "withCheck": "false"
+    },
+    {
+      "table": "zhiban_academic.assignments",
+      "name": "content_owner_read",
+      "command": "SELECT",
+      "roles": [
+        "zhiban_identity_owner"
+      ],
+      "permissive": true,
+      "using": "session_user='zhiban_bridge_runtime' AND tenant_id=zhiban_identity.current_tenant_id()",
+      "withCheck": null
+    },
+    {
+      "table": "zhiban_academic.assignments",
+      "name": "content_owner_lock",
+      "command": "UPDATE",
+      "roles": [
+        "zhiban_identity_owner"
+      ],
+      "permissive": true,
+      "using": "session_user='zhiban_bridge_runtime' AND tenant_id=zhiban_identity.current_tenant_id()",
+      "withCheck": "false"
+    },
+    {
+      "table": "zhiban_academic.enrollments",
+      "name": "content_owner_read",
+      "command": "SELECT",
+      "roles": [
+        "zhiban_identity_owner"
+      ],
+      "permissive": true,
+      "using": "session_user='zhiban_bridge_runtime' AND tenant_id=zhiban_identity.current_tenant_id()",
+      "withCheck": null
+    },
+    {
+      "table": "zhiban_academic.enrollments",
+      "name": "content_owner_lock",
+      "command": "UPDATE",
+      "roles": [
+        "zhiban_identity_owner"
+      ],
+      "permissive": true,
+      "using": "session_user='zhiban_bridge_runtime' AND tenant_id=zhiban_identity.current_tenant_id()",
+      "withCheck": "false"
+    }
+  ],
+  "acl": {
+    "owner": "zhiban_identity_owner",
+    "businessLoginRole": "zhiban_bridge_runtime",
+    "newRoles": [],
+    "schemaUsageRoles": [
+      "zhiban_bridge_runtime"
+    ],
+    "tableSelectInsert": [
+      "resources",
+      "publications",
+      "operations",
+      "audit_events"
+    ],
+    "tableSelectOnly": [
+      "schema_migrations"
+    ],
+    "columnUpdate": {
+      "resources": [
+        "title",
+        "draft",
+        "state",
+        "revision",
+        "active_publication_id",
+        "last_publication_no",
+        "updated_by",
+        "updated_at"
+      ],
+      "operations": [
+        "state",
+        "prepare_operation_id",
+        "bridge_operation_id",
+        "result_publication_id",
+        "result_revision",
+        "completed_at"
+      ]
+    },
+    "publicContentPrivileges": [],
+    "rawAcademicPrivilegesForBridge": [],
+    "newNativeConnectGrants": [],
+    "newRoleMemberships": [],
+    "forbiddenRuntimePrivileges": [
+      "DELETE",
+      "TRUNCATE",
+      "REFERENCES",
+      "TRIGGER",
+      "CREATE",
+      "TEMP",
+      "BYPASSRLS",
+      "role membership"
+    ],
+    "academicParentOwnerSelectAndLockOnly": [
+      "courses",
+      "offerings",
+      "assignments",
+      "enrollments"
+    ],
+    "ownerContentUpdatePolicies": []
+  },
+  "profiles": {
+    "baseline": "academic-v1-closed",
+    "requiredForContent": "academic-v1-content-enabled",
+    "closedAcademicPolicy": "tenant_scope / ALL / academic_runtime / exact original USING+WITH CHECK",
+    "enabledAcademicDelta": {
+      "tables": [
+        "courses",
+        "offerings",
+        "assignments",
+        "enrollments"
+      ],
+      "additionalPolicyNames": [
+        "content_owner_read",
+        "content_owner_lock"
+      ],
+      "totalPoliciesPerParent": 3,
+      "totalPoliciesOtherAcademicTables": 1
+    },
+    "bridgeEnabled": "bridge-v1-content-text-v1",
+    "oldOverallBridgeFingerprintValidAfterInstall": false,
+    "startupOnMissingOrDriftReceipt": "REJECT",
+    "protectedRoleEdges": {
+      "zhiban_migrator->zhiban_identity_owner": {
+        "admin_option": false,
+        "inherit_option": false,
+        "set_option": true
+      },
+      "otherOwnerEdges": [],
+      "bridgeRuntimeIncomingAndOutgoingEdges": [],
+      "migratorIncomingAndOtherOutgoingEdges": []
+    }
+  },
+  "deferredTriggers": {
+    "name": "content_link_consistency",
+    "tables": [
+      "zhiban_content.resources",
+      "zhiban_content.publications",
+      "zhiban_content.operations",
+      "zhiban_content.audit_events",
+      "zhiban_bridge.resource_slots",
+      "zhiban_bridge.resource_generations",
+      "zhiban_bridge.operations"
+    ],
+    "events": [
+      "INSERT",
+      "UPDATE"
+    ],
+    "deferrable": true,
+    "initiallyDeferred": true
+  },
+  "receiptRequiredBindings": [
+    "exact owned LOCAL dev cluster / PG16",
+    "all prerequisite source checksums and live ledger",
+    "full original catalog/ACL manifest plus exact listed delta",
+    "Native independent provisioning/deployment receipt",
+    "fixed official OpenMAIC/package source and built artifacts",
+    "private same-client Identity guard and enabled composition",
+    "actual HTTPS editor/preview CSP + two exact stylesheet hashes",
+    "affected M1-M4 local regression + publish/revocation/failure cases"
+  ],
+  "notImplemented": [
+    "authorized terminal reconciliation and UNKNOWN/RESERVED fence resolution (read-only LOCAL inspection implemented)",
+    "production release signoff",
+    "M5-C PNG / M5-D Runtime / M5-E AI"
+  ],
+  "publicationInvariants": {
+    "reverseActiveLink": "every ACTIVE generation for every resource slot binds exact current publication, successful content operation and PUBLISHED/ENABLED or WITHDRAWN/SUSPENDED",
+    "failedFenceRelease": "prepare absent or terminal SUCCEEDED/FAILED, activation absent or terminal FAILED; unresolved Bridge references reject",
+    "allResourceActivationsRequireExactlyOneContentPublish": true,
+    "activationBinding": "same tenant/resource, exact content bridge_operation_id, matching PREPARE_CONTENT slot/generation; all states including RESERVED/OUTCOME_UNKNOWN",
+    "allResourcePreparesRequireContentReservation": true,
+    "reservedCommitRequiresPrepareReference": true,
+    "expectedNativeDigest": "immutable, non-null exactly for PUBLISH_CONTENT; equals generation and publication digest",
+    "prepareOperationUniquePerTenant": true,
+    "prepareCreationMustNotPrecedeContentReservation": true
+  },
+  "localImplementationRecord": "docs/v2/zhiban-v2-m5-ab-local-closeout.md"
+}

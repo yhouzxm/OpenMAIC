@@ -1,0 +1,20 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-24T00:06:51.966Z",
+  "scope": "ADDITIVE_PBL_PROJECT_AND_SINGLE_LEARNER_DEMO_ORIGINAL_TEACHING_DATA_AND_ACCOUNTS_PRESERVED",
+  "projectId": "01a16b3b-4749-717c-94d5-ca8fad8b6d42",
+  "groupId": "01a16b3b-4848-7025-8ab1-bb5672608ba5",
+  "offeringId": "01a16b05-5aa6-72ec-9390-6fd0ea860203",
+  "urls": {
+    "teacher": "https://127.0.0.1:3461/zhiban/teacher/courses/01a16b05-5a10-75bc-99f2-3a6e1f3b5def/pbl?space=01a16958-5776-7381-a21c-e66fe3c2684b&offering=01a16b05-5aa6-72ec-9390-6fd0ea860203#group-01a16b3b-4848-7025-8ab1-bb5672608ba5",
+    "student": "https://127.0.0.1:3461/zhiban/student/courses/01a16b05-5a10-75bc-99f2-3a6e1f3b5def/pbl?space=01a16958-5776-7381-a21c-e66fe3c2684b&offering=01a16b05-5aa6-72ec-9390-6fd0ea860203#group-01a16b3b-4848-7025-8ab1-bb5672608ba5"
+  },
+  "originalAccountsUnchanged": true,
+  "preexistingTeachingRows": 200,
+  "submitted": false,
+  "groupMembers": 1,
+  "multiUserAcceptance": "Separate actual four-student PG16/browser journey; this default demo uses the existing three-role account set",
+  "browserErrors": []
+}

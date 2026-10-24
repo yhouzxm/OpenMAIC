@@ -1,0 +1,16 @@
+{
+  "formatVersion": 1,
+  "status": "UNISSUED",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "authorityKeySha256": null,
+  "purpose": "LOCAL_HANDOFF_INSTALL",
+  "approvalId": null,
+  "target": null,
+  "sourceBindingsSha256": null,
+  "expectedProfileSha256": null,
+  "issuedAt": null,
+  "expiresAt": null,
+  "launchAllowed": false,
+  "terminalActionsAllowed": false
+}

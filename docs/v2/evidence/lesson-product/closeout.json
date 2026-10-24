@@ -1,0 +1,40 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-20T14:11:20.670792+00:00",
+  "branch": "refactor/zhiban-v2",
+  "head": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "scope": [
+    "FORMULA_TEXT_PRESERVATION",
+    "ADOPT_OPENS_DRAFT_WITH_DIRTY_GUARD",
+    "P4_LECTURE_PRESENTATION_AND_RECONNECT",
+    "DEFAULT_IAB_TEACHER_PAGE_2_STUDENT_FOLLOW"
+  ],
+  "realModelCallsThisTurn": false,
+  "fullNativeRuntimeEnabled": false,
+  "commitPushCi": false,
+  "artifacts": {
+    "docs/v2/evidence/lesson-product/before-backup.json": "11e2ae9d94d34cd1f705490275395ca6c34fbb6b2bea95659d7b4216b2543d96",
+    "docs/v2/evidence/lesson-product/teacher.png": "8343541b2b152292e92f590c1371eb4d6188ea857af75ccdb3d8bf4b30b82285",
+    "docs/v2/evidence/lesson-product/previous-stop.log": "e0312a91ed78d4759b55dbf692acdbb377d0b283b633123c89cbe387f47b4c76",
+    "docs/v2/evidence/lesson-product/default-student.png": "4454b51c678ed878925004d31fc9458fa5f8e814d64420aa9a73d161d60c0598",
+    "docs/v2/evidence/lesson-product/teacher-mobile.png": "5db4ef45b9c58180fdc94d5c11a70ab2a523e74afc88ca6a4186b9625ebd2ab9",
+    "docs/v2/evidence/lesson-product/targeted-lint.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/v2/evidence/lesson-product/directed-first-pass.log": "0680bcf7fad5976465a91783ebb3dcfbfac2f14d69bc14ad31ab002d4df0d2c8",
+    "docs/v2/evidence/lesson-product/default-backup.json": "937298e6073ed6ea76af351ca2a76c0e74915ef3f2603d275dc0be1fc1aa90fb",
+    "docs/v2/evidence/lesson-product/presentation-journey.json": "49b8b8702f38b92f4ff46dec85f9d37bd1778457721be5475792e032f553b01f",
+    "docs/v2/evidence/lesson-product/unit.log": "470bdf1b2a32b641dd7e47c9402a696d6af6a2a1c1b9ec9841c660cd2d55dc3b",
+    "docs/v2/evidence/lesson-product/default-teacher.png": "877b7dd70368f11413b2d4f6508a4a8d9d1334ab3628e4666e026256dc49dd02",
+    "docs/v2/evidence/lesson-product/frozen-source-check.json": "7e58c141d7968767e915121469d362e70118cbded349674d009a6d53a51f822c",
+    "docs/v2/evidence/lesson-product/directed.log": "d8ba4ef19f4578fed8f1eceac79bcc0a5eb70ca6384ba9bea7dd3aed65995e94",
+    "docs/v2/evidence/lesson-product/real-reference.json": "be8b9446ef792707eeda0dd7a3d01627a0f8ee4ca18868e1406436c0a4aa2643",
+    "docs/v2/evidence/lesson-product/default-info.log": "89028fd81aba0831eeeab3740f194af381e7be192b15a720e0393ddaaed3cd19",
+    "docs/v2/evidence/lesson-product/student-follow.png": "bc2c48300ae6e7ae720e8352932a877455feb5c8813090589d1b123a5bc694b4",
+    "docs/v2/evidence/lesson-product/adopt-journey.json": "af14d8d21a8ed3e57b8b12e2a9b70c4faf904e019e658a066ebb0cd10e7605af",
+    "docs/v2/evidence/lesson-product/real-formula-projection.json": "3d26231946e8b74332c6644f2fe7a36f94d4741b166161ae71002c2f74daf1a6",
+    "docs/v2/evidence/lesson-product/default-demo.json": "c622182617fe9f916ccb1ecdc47a959d78ed6d7f812fb840f6995e92ce8e1745",
+    "docs/v2/evidence/lesson-product/typecheck.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/v2/evidence/zhiban-lesson-product-local.json": "f7ae63721ff93be71981c3c21f1d3d8a95b4f015cd682b78c9027b24703e1561"
+  }
+}

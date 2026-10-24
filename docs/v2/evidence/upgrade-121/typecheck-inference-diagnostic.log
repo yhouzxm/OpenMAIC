@@ -1,0 +1,2 @@
+lib/export/svg-path-parser.ts(100,13): error TS7022: 'cubicBezierPoints' implicitly has type 'any' because it does not have a type annotation and is referenced directly or indirectly in its own initializer.
+lib/export/svg-path-parser.ts(111,18): error TS7022: 'cbPoint' implicitly has type 'any' because it does not have a type annotation and is referenced directly or indirectly in its own initializer.

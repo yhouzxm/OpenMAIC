@@ -1,0 +1,56 @@
+{
+  "scope": "candidate3462",
+  "pg": 160015,
+  "classrooms": [
+    {
+      "id": "01a14764-bc75-71a7-b6bd-8cf97c72bb53",
+      "title": "故障验证课堂",
+      "state": "ENDED",
+      "revision": "6"
+    },
+    {
+      "id": "01a14764-c970-7432-a13b-1f4fc5ceb878",
+      "title": "时间屏障",
+      "state": "PUBLISHED",
+      "revision": "2"
+    },
+    {
+      "id": "01a14764-caf9-7589-b9c1-d825194ce1b0",
+      "title": "时间屏障",
+      "state": "DRAFT",
+      "revision": "1"
+    },
+    {
+      "id": "01a14764-d35b-7105-a0d0-e9e5208c7660",
+      "title": "课堂演示：讲义",
+      "state": "PUBLISHED",
+      "revision": "3"
+    },
+    {
+      "id": "01a14764-e598-75d4-ad93-5789c0a14331",
+      "title": "课堂演示：作答",
+      "state": "ENDED",
+      "revision": "4"
+    },
+    {
+      "id": "01a14764-f343-70fb-b720-48cb44e3b47c",
+      "title": "第二课堂尝试绑定",
+      "state": "ENDED",
+      "revision": "4"
+    }
+  ],
+  "attempts": [
+    {
+      "id": "01a14764-ec2a-7719-9600-92098ff71866",
+      "attempt_no": 1,
+      "status": "SUBMITTED",
+      "submissions": 1
+    },
+    {
+      "id": "01a14764-f457-7401-bc06-384cafaf098c",
+      "attempt_no": 2,
+      "status": "SUBMITTED",
+      "submissions": 1
+    }
+  ]
+}

@@ -1,0 +1,139 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "COMPLETED_WITH_LOCAL_FIX",
+  "scope": "ADMIN_ROSTER_MANUAL_TRIAL_AND_STATIC_CONTROL_RESTORE_FIX",
+  "at": "2026-10-15T23:10:59.932243+00:00",
+  "branch": "refactor/zhiban-v2",
+  "head": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "manualFlows": [
+    "upload sample CSV -> Wang Yue enrolled; source 2 to 3",
+    "directory-generated batch skips Wang Yue and enrolls Batch A/B; source 3 to 5",
+    "withdraw Wang Yue; source 5 to 4; rejected auto-restore through CSV",
+    "duplicate ID and invalid ID rejected in preview",
+    "explicit restore Wang Yue from withdrawn list; source 4 to 5",
+    "create same-course/term open target capacity 1",
+    "transfer Wang Yue -> source 4, target 1; both lists verified",
+    "Batch B full-target transfer rejected; source and target preserved",
+    "transfer history has one completed event identifying Wang Yue"
+  ],
+  "findings": [
+    {
+      "id": "UAT-04",
+      "priority": "P3",
+      "status": "LOCAL_FIXED",
+      "summary": "Definitive failure incorrectly re-enabled pagination boundary buttons",
+      "fix": "Restore original per-control disabled states, retaining first snapshot across unknown-result retry"
+    }
+  ],
+  "validation": {
+    "directedPg16HttpsGroupsPassed": 9,
+    "targetedTypeScript": "PASS",
+    "targetedEslint": "PASS",
+    "targetedPrettier": "PASS",
+    "priorMigrationsUnchanged": 16,
+    "unitSuiteRerun": false,
+    "fullBuildRun": false,
+    "newUnifiedTrialBuildStarted": false
+  },
+  "runningCombination": {
+    "status": "RUNNING_DISPOSABLE_WITH_EXPLICIT_STATIC_ASSET_SUPPLEMENT",
+    "startingMetadataSha256": "cd29e6d76e4f8869b55bc47c0b273146e100ea127a030725b8cea20ce5833016",
+    "pid": 12716,
+    "processStart": "199264",
+    "startupMetadataModified": false,
+    "originalBundleHashes": {
+      "/home/zxm/openmaic/zhiban/.zhiban-catalog-run-0Sju10/verify.mjs": "28ac100120d2320d2022cf8c0be4d3dd49c7fd378613199e262dca2e5d9ffff7"
+    },
+    "startupInventoryDrift": {
+      "/home/zxm/openmaic/zhiban/scripts/zhiban-local/verify-m6-catalog.mts": {
+        "startup": "620dd373f054f57dacf4b688477332e6f25a83a39cac832a00e0c81f984e406c",
+        "current": "fe410b218c07352129908c9393fff591b7a84df5894bd54b083a7c4aa7fab09e"
+      },
+      "/home/zxm/openmaic/zhiban/scripts/zhiban-local/run-m6-catalog.ts": {
+        "startup": "ba11f043c486f4461e59336bc46e119d886a5dff58e7bc299a3e5469d2e7a748",
+        "current": "e3070c02d3a6fbe867ba76902402452befe74085ba807115a20f85424df1b4ba"
+      },
+      "/home/zxm/openmaic/zhiban/app/zhiban/local/management.js": {
+        "startup": "9b54221a19b32b5d0aa3f6474debfa47820d526088f316284559e0047f334d73",
+        "current": "e30a077bba9cb5d6759c1e0ab01969995e3cc7a64c83102714fc9067c2d6df3b"
+      }
+    },
+    "backendLibAndRemainingStartupSourcesUnchanged": true,
+    "newVerifierFileNotInOriginalStartupInventory": "scripts/zhiban-local/verify-roster-trial.ts",
+    "servedAssetEvidence": {
+      "file": "zhiban-trial-roster-served-asset-local.json",
+      "sha256": "4d4c99bde2c5db8c6257e9d2fcb942c10b794574ef23873d5059cc6048c990d4"
+    },
+    "refreshedInAppBrowser": true,
+    "certificateBypass": false,
+    "databaseRestarted": false,
+    "accountsRotated": false
+  },
+  "currentSyntheticState": {
+    "sourceOfferingId": "01a141cb-d590-751a-aafb-5eef273e801f",
+    "sourceActiveCount": 4,
+    "sourceNames": [
+      "陈同学",
+      "李明",
+      "批量学生甲",
+      "批量学生乙"
+    ],
+    "targetOfferingId": "01a141d0-1746-777a-bdfd-5d27a6d3c9bd",
+    "targetCode": "TRY_TRANSFER",
+    "targetActiveCount": 1,
+    "targetCapacity": 1,
+    "targetNames": [
+      "王悦"
+    ],
+    "targetTeacherAssigned": false,
+    "priorTeachingDataRetained": true
+  },
+  "directedEvidence": {
+    "file": "zhiban-trial-roster-fixes-local.json",
+    "sha256": "96fcfc56e572e060d82644160b91918bcd87e31d31a6a5734e9ba95f70289a17",
+    "sourceMismatches": [],
+    "removedBundleCount": 1,
+    "lifecycle": {
+      "root": "/tmp/zhiban-trial-roster-fixes-QB84mo",
+      "port": 56516,
+      "database": "zhiban_uat_fixes_disposable",
+      "stopped": true,
+      "removed": true
+    }
+  },
+  "candidateFiles": {
+    "app/zhiban/local/management.js": "e30a077bba9cb5d6759c1e0ab01969995e3cc7a64c83102714fc9067c2d6df3b",
+    "scripts/zhiban-local/verify-roster-trial.ts": "ebdd3108f31bedfa0d4c7f3c9338f07f3cf41c2c4a93e88dbc205ffdd0b74ae7",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "fe410b218c07352129908c9393fff591b7a84df5894bd54b083a7c4aa7fab09e",
+    "scripts/zhiban-local/run-m6-catalog.ts": "e3070c02d3a6fbe867ba76902402452befe74085ba807115a20f85424df1b4ba"
+  },
+  "documents": {
+    "docs/v2/zhiban-v2-trial-roster-uat.md": "f20f29cb776bd82e35f2565fa71b79b779cd87e2c08f36bab7e010d99a0f2da8",
+    "docs/v2/zhiban-v2-delivery-plan.md": "f8eb6ec5ed152ebd4f076c7c48f21722187eb7d28e847eb30d93946065fcfab4",
+    "docs/v2/zhiban-v2-execution-plan.md": "a9f28522e5764d560f91cb2c55ca8eb8b40129c14f15132e7d5da9cd86bf698c"
+  },
+  "screenshots": {
+    "zhiban-trial-roster-history-local.png": "3445f7393e3e12f8aede15a78a808b564bf61a4d4b8d854a27eab0c6226dd8aa",
+    "zhiban-trial-roster-import-local.png": "432184bcd29ab1228c2eab2a6fd42943766741755e1b6cf2509d45c944498d8f",
+    "zhiban-trial-roster-restore-guard-local.png": "bd3b22710d3cb4f7efd7a0c13598206b428fc8181735b789227b4a687403690f",
+    "zhiban-trial-roster-transfer-full-after-local.png": "1172928079918bdecbe98f82ba917646fbb6967adfa34749f015d43decb5dd2f",
+    "zhiban-trial-roster-transfer-full-before-local.png": "44b7275c6ad7c5f35b8451436348fab3a34c46f5fee27581b737a68f4f4bc285",
+    "zhiban-trial-roster-transfer-target-local.png": "1ca88c638e588b46686cdb36806b09041971d161e13ab17cc5602b81abaab543",
+    "zhiban-trial-roster-withdraw-local.png": "7fdbff3cf8a9c7b3a1957cf291e01a47ae782a665de48887c25fc7c8412c40a9"
+  },
+  "browserConsoleErrorsObservedOnFinalTab": 0,
+  "gitActions": {
+    "commit": false,
+    "push": false,
+    "ciDispatch": false
+  },
+  "excluded": [
+    "Real 55432/55433, Native/maintenance control/HBA/credential staging",
+    "Production, CI or new unified backend-build signoff",
+    "Frozen semantics, migrations, ACL and receipt profiles",
+    "Complete roster failure-cut/security/withdrawal protocol acceptance",
+    "Large-directory performance and cross-process batch recovery",
+    "M5 enabled composition"
+  ]
+}

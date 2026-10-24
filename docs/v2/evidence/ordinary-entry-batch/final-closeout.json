@@ -1,0 +1,129 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-23T11:58:48.479Z",
+  "branch": "refactor/zhiban-v2",
+  "head": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "scope": "THREE_ORDINARY_ENTRY_ROUTES_AND_TWO_EXISTING_CHECK_FIXES_AS_ONE_PACKAGE",
+  "routes": [
+    "/zhiban/teacher/courses",
+    "/zhiban/student/classroom/:bindingId",
+    "/zhiban/student/courses/:courseId/activities/:activityId"
+  ],
+  "runtime": {
+    "root": "/tmp/zhiban-trial-content-UkH8Fz",
+    "origin": "https://127.0.0.1:3461",
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "verifiedSourceCount": 2751,
+    "newSyntheticAccountsAndClassroom": true
+  },
+  "sourceHashes": {
+    "app/zhiban/local/global-authoring.js": "665966c9be0c9fb05f1fa6c3effadd3d04594e4471c09ef1fd83bf5d096a67e8",
+    "app/zhiban/local/global-tools.js": "8e05c75bb7f534598548a176848a67a96d0079886312a16cc6da140c748e7a28",
+    "app/zhiban/local/client.js": "aa32e42fc0cb48916142477fa81006a3fc5347733dec7aa83994f98b7f5fa399",
+    "app/zhiban/local/course-page.js": "c22e38eab0ed455798735f554636ad16da667fca1d49370fcdfa5121f3cb69f3",
+    "app/zhiban/local/workspace.js": "17f9c8f8ef3ed1433fb284279b34a28ab69baefbd4958e088d7b4a484b92a43c",
+    "scripts/zhiban-local/request-target.ts": "e71afe131359a1557988d6169ed98b63db13e397e1e935f74a3dd6d14d2e765d",
+    "scripts/zhiban-local/server.ts": "e178c65721fad4d2654e96fba9bb8f5b1b3925824bda966b0328f3696eaafde3",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "cabbac54f41c366aed3521133ba4948b68a3bc480caf8d3e6d0ec3b7acacec21",
+    "scripts/zhiban-local/verify-ordinary-entry-batch.cjs": "b099420574fccf66de3173fcbc2a08558a73e7458493383722dd7bb840835da4",
+    "tests/zhiban/workspace/query.test.ts": "15ae812a9c01651b51e41e69f9b7bfbc2b31d790bf5ef4faf61b13d0f53f0d15"
+  },
+  "validation": {
+    "relatedBrowserJourney": "PASS",
+    "sharedSelectors": "shared-selectors-readonly.json (original AI selector branches only)",
+    "workspaceTestFile": "10/10 PASS",
+    "buildTypes": "PASS pnpm exec tsc --noEmit -p tsconfig.build.json",
+    "eslint": "PASS affected files",
+    "prettier": "PASS affected files",
+    "javascriptSyntax": "PASS",
+    "scopedDiffCheck": "PASS",
+    "routeMatrix": {
+      "total": 55,
+      "accepted": 48,
+      "remaining404": 7,
+      "scope": "Route template acceptance only, not old-ID or Native functionality signoff"
+    },
+    "commands": [
+      "CREATE_CLASSROOM",
+      "PUBLISH_CLASSROOM",
+      "END_CLASSROOM"
+    ],
+    "attemptsCreated": false,
+    "modelCalls": false,
+    "visual": "Teacher course list screenshot inspected"
+  },
+  "resolvedChecks": [
+    {
+      "problem": "Outdated registrations helper assertion expected /roster",
+      "fix": "Explicit existing importer resource alias, corrected current contract assertion, browser confirms ENROLLMENTS default",
+      "weakenedAssertion": false
+    },
+    {
+      "problem": "verifyOnboarding Input mismatch",
+      "fix": "Removed unused store/security/operator/compositionConfig call arguments; verifier implementation and domain permissions unchanged",
+      "anyAdded": false
+    }
+  ],
+  "syntheticClassroom": {
+    "id": "01a1689d-a07a-72a4-887e-188e4383ff7a",
+    "state": "ENDED",
+    "tasks": 0
+  },
+  "remaining": {
+    "unmappedRoutes": {
+      "PBL_REVIEW": 4,
+      "VirtualLabDeferred": 2,
+      "MechatronicsExcluded": 1
+    },
+    "ordinaryCurrentEntryRoutesUnmapped": 0,
+    "nativeBindingOrSceneIdTranslation": false
+  },
+  "boundaries": [
+    "Only exact current Academic activity/Classroom session IDs; no old Native binding translation",
+    "Old Native/virtual-lab/scene Runtime gates retained",
+    "No full classroom/CI/scanner/model rerun",
+    "P7 archive not rebuilt",
+    "No new business API, ACL, table or migration",
+    "No old Native binding/activity slug conversion; exact current UUID only",
+    "No real 55432/55433 access",
+    "Private previous-runtime three-database/control backup TOC verified; no restore claim",
+    "No full repository test or onboarding lifecycle rerun",
+    "Historical P7 receipts/failures retained; this source increment independently resolves checks"
+  ],
+  "priorP7": {
+    "versionId": "zhiban-local-20261023-a6ef3a535563",
+    "archiveHashUnchanged": true,
+    "rebuilt": false,
+    "includesThisIncrement": false
+  },
+  "documentationHashes": {
+    "docs/v2/zhiban-v2-ordinary-entry-batch-local.md": "bbf22525e8388ebb1626399055706da57fd160d8d6787597481da99f068b7104",
+    "docs/v2/zhiban-v2-ui-page-gap-matrix.md": "bfb72e8723f9aab486198261c1c32611256ce96b44267525c41692d678281569",
+    "docs/v2/zhiban-v2-feature-gap-matrix.md": "cb8c886da01eee09793b140e16b6a73767c479c115ce81d9829a8740c14bda2f",
+    "docs/v2/zhiban-v2-migration-completion-plan.md": "ab330126299f9f95413f651a0cdbc956a37f7f671f36addbde104a9bb524c876",
+    "docs/v2/zhiban-v2-p7-handoff.md": "eec11c58c500c9ab03e267016ea7b3821628f7ba193be6a888630a5e6e1e18ec",
+    "docs/v2/zhiban-v2-trial-guide.md": "04f5934357c2b8db528e9d392ee082da98a4550849b46b3446c8b4c04106736e",
+    "TRIAL.md": "ba43843a11e7c42bb2f95c7ba503b1a345c902031ff56322a5f1f7aa4aee1221"
+  },
+  "evidenceHashes": {
+    "browser-local.json": "ee37b53b2e94701a2941cfa43c5e2f333a4ce3489c34a636971e4f6d70c7359c",
+    "private-backup.json": "e1a49b83c02ed2ec4938ef969e66413357388e809384427ecd0eaeeb93298f63",
+    "teacher-courses.png": "08cc647a307a898fd182cf5142543b0d05a202403eec440c30f0d8aa06ae8afa",
+    "route-matrix.json": "e15bac492095a410f386b1fc23bffcbde982b3b4e7980c282945e8220589a7a8",
+    "workspace-tests.log": "021f1640d2109efc4420a85cc8bd3b8cd43bc389739082b4ae9bdd8c90c88f55",
+    "build-types.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "shared-selectors-readonly.json": "9e73387d776a92d5404dcba950791786c95d72a815117ee038dba4031f23f1b7"
+  },
+  "git": {
+    "commit": false,
+    "push": false,
+    "ciDispatch": false
+  },
+  "next": {
+    "package": "P2/P4 learning progress/prerequisites/completion rules using approved trusted evidence, no implicit REVIEW activation",
+    "suggestedModel": "GPT-6.1 Sol / high for new authorization/concurrency/evidence contract"
+  }
+}

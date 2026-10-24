@@ -1,0 +1,29 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "CURRENT_UNIFIED_ADMIN_NAVIGATION_TEACHER_TEXT_PUBLICATION_STUDENT_SUBMISSION_TEACHER_PUBLISH_STUDENT_RESULT",
+  "root": "/tmp/zhiban-trial-content-1d5Gh2",
+  "tenant": "01a167c7-db5d-7005-93b4-ab3c4a5ba8aa",
+  "offering": "01a167c7-ffea-7158-a46b-b1bbd4ac383c",
+  "course": "01a167c7-fecc-722b-90c9-03b2544dbb3d",
+  "lectureTitle": "P7 交接：安全巡检讲义",
+  "activity": "试用：安全巡检报告",
+  "attempt": 1,
+  "submissionVersion": 1,
+  "score": 93,
+  "maxScore": 100,
+  "studentResultUrl": "https://127.0.0.1:3461/zhiban/student/courses/01a167c7-fecc-722b-90c9-03b2544dbb3d/grades?space=01a167c7-db5d-7005-93b4-ab3c4a5ba8aa&offering=01a167c7-ffea-7158-a46b-b1bbd4ac383c",
+  "scannerExercise": false,
+  "aiProviderCalled": false,
+  "newEnvironmentCreated": false,
+  "screenshots": [
+    "admin.png",
+    "teacher-published.png",
+    "student-lecture.png",
+    "student-submitted.png",
+    "teacher-grade.png",
+    "student-result.png"
+  ],
+  "all55OldRoutesAccepted": false
+}

@@ -1,0 +1,41 @@
+{
+  "status": "REVIEW_FAULTS_REPRODUCED",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "candidateInventorySha256": "f85d3c1801e07839388d28dd1a1cc36b9936159b431cb06977a081e0a795595b",
+  "candidateMigrationSha256": "bbede0be2e773562730bb2b1c756d4aceba853143b298b768de7c0d70d624a8e",
+  "reviewedFilesSha256": {
+    "receipt-issuer.cjs": "decb79c63dcfc80459b6091e90aa307e95fe34f4ffc81077893501d60a2d0636",
+    "receipt-completion.cjs": "00bc29b0db906be2b5eb275f912ad5543fc16e612b5d98aa5abe4088bbe6198b",
+    "ordinary-launcher.cjs": "8172b2b38378fb8b858f5981a36c0cdffcd4495c1177253916acfdedf77b5810"
+  },
+  "checks": [
+    {
+      "name": "failure after complete marker and first sidecar creates asymmetric consumption",
+      "status": "REPRODUCED",
+      "issuerCallThrew": true,
+      "signedMasterExists": true,
+      "compatibilityAccepted": true,
+      "tlsAccepted": false,
+      "scope": "Actual internal publisher and actual completion checker, generated test authority; approval/build/PG pipeline not signed off"
+    },
+    {
+      "name": "idle PG teardown stalls supervisor after actual child exits",
+      "status": "REPRODUCED",
+      "elapsedMs": 2619,
+      "actualPgClientVersion": "8.22.0",
+      "actualChildExited": true,
+      "supervisorDoneResolved": false,
+      "sharedLockStillHeld": true,
+      "scope": "Actual launcher stop and actual pg.Client.end against a disposable protocol peer; authorization/profile/TLS stubbed, no real PG or HTTPS acceptance",
+      "afterPeerDestroyedDoneResolved": true,
+      "afterPeerDestroyedLockReleased": true
+    }
+  ],
+  "candidateChanged": false,
+  "existingClustersConnected": false,
+  "realCredentialsRead": false,
+  "realAuthorityIssued": false,
+  "realHttpsStarted": false,
+  "runtimeAccepted": false
+}

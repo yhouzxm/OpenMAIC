@@ -1,0 +1,233 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "scope": "OWNED_EPHEMERAL_PG16_CANDIDATE_ONLY",
+  "at": "2026-10-08T23:40:59.245Z",
+  "pgMajor": 16,
+  "actualServerVersionNum": 160015,
+  "nodeVersion": "v22.23.3",
+  "pnpmVersion": "10.28.0",
+  "lockfileSha256": "8d7c30e52e079598bc9a6dcb2699e54fa30dbc52852f299da748ade9fcc42207",
+  "sourceHashes": {
+    "identity/bootstrap-roles.pg16.sql": "8f1e845bd3e0dbc722f867afb5effb6b8a08a86980b90884b1790e3b992143fb",
+    "identity/bootstrap-bridge-roles.pg16.sql": "dcdb261b9a17c56638fe0b1ec0fd9878d7ac2545a2c4ed5dcaf48b88ccdfd776",
+    "bridge/repository.ts": "acee1e9deaf86c30a3bcba36303b63c1288f2122c4f1b0ec971ec89a2e6ec1ff",
+    "bridge/candidate.ts": "f982393eec9f7768ff2a1ee433b3f1fb4a1991559b399b1120f30b638609d6c2",
+    "bridge/records.ts": "2e627c2456c5697312c20ca94ecccb520b08c606659fe2a452c3c1007ce1538f",
+    "bridge/validation.ts": "f89033ceb42aca44b09b6e29644d115448ddcc556d90b56c752de9fe94a322db",
+    "bridge/transactions.ts": "db14519f98576cf1113b218651d6e5f801fefe3cd9e4d07822b857033ae84b2d",
+    "candidate/00-preflight.sql": "367af85236be0f3155d3a01cdd89d42a8966e647245a86a2b4e41c65dc8903c9",
+    "candidate/01-schema.sql": "ffe2a16ace036dedb19cab60890e32f1ee4e274d598f4c3e9a624e6c0c616f7c",
+    "candidate/02-helpers-and-guards.sql": "d9f3137afa674bc6d78c1fe6ea8441faac5dd4174553bdeddd98be8f96680375",
+    "candidate/03-acl.sql": "be7d93f8ad794a0bd0a327a823ac7988f27887accc0ef0acf3c1d512657b6c9b",
+    "candidate/04-receipt-inspect.sql": "92f4f5361d892fdafa5a90fb0138dbab366e39a8f83c0a12ffda660678adb39f",
+    "identity/0001_identity_bootstrap.sql": "bd81a6bef9241e3173eea297e276d97787446d757c5b2b79bf4e6b8a4a1cb235",
+    "identity/0002_identity_core.sql": "6289d7bc1a53a63d4d66a8a79f6d9c0d96f5d59643911a4a395a5fc0be9f4703",
+    "identity/0003_identity_audit_and_rls.sql": "cd2480d062d55c4999cf71ca6670b17b006f4146e514ef7a576812c2829880bf",
+    "identity/0004_identity_credentials.sql": "d2ca67e1f274876ded48e8965d46bd9347795fac488c6d7e27ac0ceeb8677b1a",
+    "identity/0005_identity_credential_consistency_fix.sql": "dcb7d50a123b816def8f9374bfbd1f68e3d66e091a170278906783d0305ee0f9",
+    "identity/0006_identity_sessions.sql": "d0204f6d5e1894ffdc62df16e07700f31fb0ce968571e77f711af23b096e1bc0",
+    "identity/0007_identity_authorization_state.sql": "20d6ad486cd4c2afc8f3ab75591dfd7895b62118a07a3a086b469c77b3f5ef27",
+    "identity/0008_identity_authentication_composition.sql": "0ace96db7b9fa5747219c47f42bdfd2cbc1a60bebf2f54b7fbe9afb8a19fe992",
+    "identity/0009_identity_membership_composition.sql": "91d064abb0238b57e1f2afe7a50f441befb947568789ca31b9a1e6277449753a",
+    "identity/0010_identity_manual_recovery.sql": "97dd2306cca1f1e8c6976329c50293aa733ffb3bd843636f9383c2b8eb83c03b",
+    "identity/0011_identity_recovery_source_locks.sql": "5f61cd3072271492b253486d8f328bb1420f49d1a9b32c97bb82e737cdf8bc83",
+    "identity/0012_openmaic_bridge_foundation.sql": "70bd7e0131e3f0fc0e377393c66d378e5be74387d0cc345b0c0cba27760372c1",
+    "identity/0013_openmaic_bridge_consistency_fix.sql": "025318bf1759b6fb34c6a51992181f340efe16ae67d7cf597f5b09689f5c949c",
+    "academic/0001_academic.sql": "40c9af67f0f6521a0dd601138dbc01010c277e5b636e4a633bd7b77ba5990427",
+    "learning/0001_learning.sql": "768db17be502a584e2e35a403cbaaad7c419dcaadcd21da4bf1819bdad0615c1",
+    "assessment/0001_assessment.sql": "a1253740360ca9e97f9315cb9126483314d05a33c1bcb44f4ba9eb61356a80f7"
+  },
+  "guardScope": "Real SQL/RLS and shipped BridgeRepository primitives; synthetic actor, no Session/Role/Scope/Native end-to-end signoff",
+  "port": 55439,
+  "database": "zhiban_m5_disposable",
+  "unixSocketOnly": true,
+  "fixtureRemoved": true,
+  "sharedClustersTouched": false,
+  "nativeProviderCalls": 0,
+  "receiptIssued": false,
+  "developmentMigrationApplied": false,
+  "candidateMigrationSha256": "17150c198cb72c7cfd23ddea4bd22e162fe6677ade9b5de84fab255991241e1d",
+  "runnerSha256": "f70a20f418918736b3fb0470002e3ca4caf170d92432dfa4935059528ef114f1",
+  "checks": [
+    {
+      "name": "exact dev preflight rejects isolated fixture target",
+      "status": "PASS"
+    },
+    {
+      "name": "F4 exact baseline PG16 role edges accepted",
+      "status": "PASS"
+    },
+    {
+      "name": "F4 rejects role edge INHERIT TRUE",
+      "status": "PASS"
+    },
+    {
+      "name": "F4 rejects role edge SET FALSE",
+      "status": "PASS"
+    },
+    {
+      "name": "F4 rejects unapproved incoming owner edge",
+      "status": "PASS"
+    },
+    {
+      "name": "actual candidate DDL applied to owned isolated fixture only",
+      "status": "PASS"
+    },
+    {
+      "name": "F4 actual receipt queries include INHERIT and SET",
+      "status": "PASS"
+    },
+    {
+      "name": "helper real owner FOR SHARE and closed projection",
+      "status": "PASS"
+    },
+    {
+      "name": "Bridge raw Academic UPDATE denied",
+      "status": "PASS"
+    },
+    {
+      "name": "owner lock-only policy rejects actual Academic write",
+      "status": "PASS"
+    },
+    {
+      "name": "structural gate accepts DRAFT and rejects null/wrong tenant/unregistered",
+      "status": "PASS"
+    },
+    {
+      "name": "F1 Bridge-only first activation fails deferred COMMIT",
+      "status": "PASS"
+    },
+    {
+      "name": "F1 rollback retains DRAFT and no ACTIVE generation",
+      "status": "PASS"
+    },
+    {
+      "name": "publication missing content audit rolls back both pointers",
+      "status": "PASS"
+    },
+    {
+      "name": "F1 complete publication atomic settlement succeeds",
+      "status": "PASS"
+    },
+    {
+      "name": "withdrawal preserves suspended ACTIVE history",
+      "status": "PASS"
+    },
+    {
+      "name": "F1 alternate deployment unbound activation rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "F2 cancelled content cannot hide unbound Bridge prepare",
+      "status": "PASS"
+    },
+    {
+      "name": "F2 UNKNOWN prepare cannot release fence through FAILED",
+      "status": "PASS"
+    },
+    {
+      "name": "F2 preserved fence denies save",
+      "status": "PASS"
+    },
+    {
+      "name": "F2 atomic known failure releases fence",
+      "status": "PASS"
+    },
+    {
+      "name": "F2 save after safe terminal failure succeeds",
+      "status": "PASS"
+    },
+    {
+      "name": "F2 dispatched RESERVED prepare cannot release fence",
+      "status": "PASS"
+    },
+    {
+      "name": "F3 wrong prepared Native digest rejected at COMMIT",
+      "status": "PASS"
+    },
+    {
+      "name": "F3 mismatch rollback leaves no reservation or Bridge generation",
+      "status": "PASS"
+    },
+    {
+      "name": "F3 expected Native digest is immutable",
+      "status": "PASS"
+    },
+    {
+      "name": "F3 trigger rejects digest mutation under controlled extra fixture grant",
+      "status": "PASS"
+    },
+    {
+      "name": "F3 existing reservation completes after rejected mutation",
+      "status": "PASS"
+    },
+    {
+      "name": "F2 prepared known success with no activation may safely cancel",
+      "status": "PASS"
+    },
+    {
+      "name": "F3 another reservation cannot reuse prior prepare",
+      "status": "PASS"
+    },
+    {
+      "name": "MATRIX defect: unbound activation RESERVED commits",
+      "status": "REPRODUCED_DEFECT"
+    },
+    {
+      "name": "MATRIX defect: content FAILED releases fence while unbound activation RESERVED",
+      "status": "REPRODUCED_DEFECT"
+    },
+    {
+      "name": "MATRIX defect: SAVE commits while unbound activation remains RESERVED",
+      "status": "REPRODUCED_DEFECT"
+    },
+    {
+      "name": "MATRIX defect: unbound activation OUTCOME_UNKNOWN commits",
+      "status": "REPRODUCED_DEFECT"
+    },
+    {
+      "name": "MATRIX defect: content FAILED releases fence while unbound activation OUTCOME_UNKNOWN",
+      "status": "REPRODUCED_DEFECT"
+    },
+    {
+      "name": "MATRIX defect: SAVE commits while unbound activation remains OUTCOME_UNKNOWN",
+      "status": "REPRODUCED_DEFECT"
+    },
+    {
+      "name": "MATRIX bound RESERVED activation blocks content FAILED",
+      "status": "PASS"
+    },
+    {
+      "name": "MATRIX content RESERVED to OUTCOME_UNKNOWN accepted",
+      "status": "PASS"
+    },
+    {
+      "name": "MATRIX content UNKNOWN fence blocks SAVE",
+      "status": "PASS"
+    },
+    {
+      "name": "MATRIX content UNKNOWN to success atomically registers activation",
+      "status": "PASS"
+    },
+    {
+      "name": "MATRIX content UNKNOWN cannot fail while prepare UNKNOWN",
+      "status": "PASS"
+    },
+    {
+      "name": "MATRIX content UNKNOWN to failure with reconciled prepare accepted",
+      "status": "PASS"
+    }
+  ],
+  "status": "REVIEW_BLOCKED",
+  "failure": null,
+  "reviewOnly": true,
+  "interpretation": "30 existing checks and 6 new positive/negative checks passed; 6 further observations reproduced SM-01. Execution completed, but the candidate is NOT accepted.",
+  "baseRunnerSha256": "118ead88b8a5f978357eaa564a205a0d0d66df265de342629190ecf8b3409af0",
+  "reviewRunnerSource": "/** LOCAL isolated PG16 candidate verification; no shared cluster or Native provider. */\nimport { mkdtemp, mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';\nimport { tmpdir } from 'node:os';\nimport { resolve, join } from 'node:path';\nimport { execFileSync } from 'node:child_process';\nimport { createHash } from 'node:crypto';\nimport assert from 'node:assert/strict';\nimport { Client } from 'pg';\nimport { v7 } from 'uuid';\nimport { createRequire } from 'node:module';\nimport type {\n  BridgeRepository as BridgeRepo,\n  Actor,\n} from '../../lib/zhiban/infrastructure/openmaic/repository';\nconst require = createRequire(import.meta.url);\nconst { BridgeRepository } = require('../../lib/zhiban/infrastructure/openmaic/repository.ts');\nconst { planCandidate } = require('../../lib/zhiban/infrastructure/openmaic/candidate.ts');\nconst root = process.cwd(),\n  candidate = join(root, 'docs/v2/candidates/m5-content');\nconst bin = '/usr/lib/postgresql/16/bin',\n  port = 55439,\n  database = 'zhiban_m5_disposable';\nconst owned = await mkdtemp(join(tmpdir(), 'zhiban-m5-pg16-')),\n  data = join(owned, 'data'),\n  socket = join(owned, 'socket');\nconst hash = (s: string | Buffer) => createHash('sha256').update(s).digest('hex');\nconst checks: { name: string; status: string }[] = [];\nconst clients = new Set<Client>();\nconst sourceHashes: Record<string, string> = {};\nlet actualServerVersionNum: number | null = null;\nlet started = false,\n  failure: unknown;\nconst tenant = v7(),\n  user = v7(),\n  member = v7(),\n  course = v7(),\n  term = v7(),\n  offering = v7(),\n  deployment = v7();\nconst actor: Actor = { user, member, authorizationVersion: 0, requestId: 'local-m5-synthetic' };\nconst epoch = Date.now();\nlet tick = 0;\nconst at = () => epoch + ++tick;\nconst connect = async (role = 'postgres', db = database) => {\n  const c = new Client({ host: socket, port, database: db, user: role });\n  await c.connect();\n  clients.add(c);\n  c.on('end', () => clients.delete(c));\n  return c;\n};\nasync function transaction<T>(work: (c: Client, repo: BridgeRepo) => Promise<T>) {\n  const c = await connect('zhiban_bridge_runtime');\n  try {\n    await c.query('BEGIN ISOLATION LEVEL READ COMMITTED');\n    await c.query(\"SELECT set_config('app.tenant_id',$1,true)\", [tenant]);\n    const value = await work(c, new BridgeRepository(c, tenant));\n    await c.query('COMMIT');\n    return value;\n  } catch (e) {\n    await c.query('ROLLBACK');\n    throw e;\n  } finally {\n    await c.end();\n  }\n}\nasync function test(name: string, work: () => Promise<void>) {\n  await work();\n  checks.push({ name, status: 'PASS' });\n  console.log('PASS', name);\n}\nasync function denied(work: () => Promise<unknown>, codes: string[] = ['23514']) {\n  let e: any;\n  try {\n    await work();\n  } catch (x) {\n    e = x;\n  }\n  assert.ok(e, 'expected rejection');\n  assert.ok(codes.includes(e.code), `expected ${codes}, got ${e.code}: ${e.message}`);\n}\nconst draft = (title = 'A') => ({\n  title,\n  slides: [{ id: v7(), elements: [{ id: v7(), text: title, x: 0, y: 0, width: 120, height: 40 }] }],\n});\nasync function audit(\n  c: Client,\n  id: string,\n  operation: string,\n  event: string,\n  before: number | null,\n  after: number,\n  time: number,\n) {\n  await c.query('INSERT INTO zhiban_content.audit_events VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)', [\n    tenant,\n    v7(),\n    id,\n    operation,\n    member,\n    event,\n    before,\n    after,\n    time,\n  ]);\n}\nasync function op(\n  c: Client,\n  id: string,\n  action: string,\n  source: number,\n  result: number | null,\n  time: number,\n  digest: string | null = null,\n  bridge: string | null = null,\n) {\n  const oid = v7();\n  await c.query(\n    `INSERT INTO zhiban_content.operations(tenant_id,id,resource_id,actor_id,action,key_digest,intent_digest,state,source_revision,source_digest,expected_native_digest,result_revision,created_at,completed_at,bridge_operation_id)\n SELECT $1,$2,$3,$4,$5,$6,$7,$8,$9,zhiban_content.draft_digest(r.draft),$10,$11,$12,$13,$14 FROM zhiban_content.resources r WHERE r.tenant_id=$1 AND r.id=$3`,\n    [\n      tenant,\n      oid,\n      id,\n      member,\n      action,\n      hash(oid),\n      hash(action + oid),\n      action === 'PUBLISH_CONTENT' ? 'RESERVED' : 'SUCCEEDED',\n      source,\n      digest,\n      result,\n      time,\n      action === 'PUBLISH_CONTENT' ? null : time,\n      bridge,\n    ],\n  );\n  return oid;\n}\nasync function resource() {\n  const id = v7();\n  await transaction(async (c) => {\n    const t = at();\n    const d = draft();\n    await c.query(\n      `INSERT INTO zhiban_content.resources VALUES($1,$2,$3,'SLIDE_CONTENT','content-text-v1',$4,$5,'DRAFT',1,NULL,0,$6,$6,$7,$7)`,\n      [tenant, id, offering, d.title, d, member, t],\n    );\n    const oid = await op(c, id, 'CREATE_CONTENT', 1, 1, t);\n    await audit(c, id, oid, 'CONTENT_CREATED', null, 1, t);\n  });\n  return id;\n}\ntype Reserved = {\n  id: string;\n  slot: string;\n  co: string;\n  prep: string;\n  generation: string;\n  digest: string;\n};\nasync function reserve(\n  id: string,\n  expected = hash('A'),\n  actual = expected,\n  existingSlot?: string,\n  prepareOverride?: string,\n  registrationDeployment = deployment,\n  registerBinding = true,\n) {\n  return transaction(async (c, repo) => {\n    const t = at();\n    const row = (\n      await c.query(\n        'SELECT revision FROM zhiban_content.resources WHERE tenant_id=$1 AND id=$2 FOR UPDATE',\n        [tenant, id],\n      )\n    ).rows[0];\n    const co = await op(c, id, 'PUBLISH_CONTENT', Number(row.revision), null, t, expected);\n    await audit(c, id, co, 'PUBLISH_RESERVED', Number(row.revision), Number(row.revision), t);\n    let slot = existingSlot;\n    if (!slot) {\n      slot = v7();\n      await c.query(\n        `INSERT INTO zhiban_bridge.resource_slots VALUES($1,$2,$3,$4,$5,'SUSPENDED',0,NULL,1,$6,$6,NULL)`,\n        [tenant, slot, id, registrationDeployment, member, t],\n      );\n    }\n    const current = await repo.loadSlot(slot, 'UPDATE');\n    const result = await repo.reserve(\n      {\n        slotId: slot,\n        expectedRevision: current.revision,\n        operation: 'PREPARE_CONTENT',\n        keyDigest: hash(v7()),\n        intentDigest: hash(v7()),\n        contentDigest: actual,\n        sceneIntents: [{ ref: 'scene_' + v7(), ordinal: 0, digest: hash('scene') }],\n        candidate: planCandidate(),\n      },\n      actor,\n      t,\n    );\n    const prep = String(result.operation.operation_id),\n      generation = String(result.operation.generation_id);\n    if (registerBinding) {\n      await c.query(\n        'UPDATE zhiban_content.operations SET prepare_operation_id=$1 WHERE tenant_id=$2 AND id=$3',\n        [prepareOverride ?? prep, tenant, co],\n      );\n    } else {\n      await c.query(\n        \"UPDATE zhiban_content.operations SET state='FAILED',completed_at=$1 WHERE tenant_id=$2 AND id=$3\",\n        [t, tenant, co],\n      );\n      await audit(c, id, co, 'OPERATION_FAILED', Number(row.revision), Number(row.revision), t);\n    }\n\n    return { id, slot, co, prep, generation, digest: expected };\n  });\n}\nasync function prepared(r: Reserved, state: 'SUCCEEDED' | 'OUTCOME_UNKNOWN' = 'SUCCEEDED') {\n  await transaction(async (_c, repo) => {\n    const t = at();\n    let b = await repo.loadOperation(r.prep);\n    if (b.dispatch_started_at === null) b = await repo.markDispatch(b, t);\n    await repo.finish(\n      b,\n      state,\n      state === 'SUCCEEDED' ? 'NONE' : 'UNKNOWN_OUTCOME',\n      state === 'SUCCEEDED' ? 'GENERATION_PREPARED' : 'OUTCOME_QUARANTINED',\n      actor.requestId,\n      t,\n    );\n  });\n}\nasync function activate(r: Reserved, complete: boolean, omitContentAudit = false, terminalBinding = false) {\n  await transaction(async (c, repo) => {\n    const t = at(),\n      slot = await repo.loadSlot(r.slot, 'UPDATE');\n    const b = await repo.reserve(\n      {\n        slotId: r.slot,\n        expectedRevision: slot.revision,\n        operation: 'ACTIVATE_GENERATION',\n        generationId: r.generation,\n        keyDigest: hash(v7()),\n        intentDigest: hash(v7()),\n      },\n      actor,\n      t,\n    );\n    if (!terminalBinding) await c.query(\n      'UPDATE zhiban_content.operations SET bridge_operation_id=$1 WHERE tenant_id=$2 AND id=$3',\n      [b.operation.operation_id, tenant, r.co],\n    );\n    await repo.activate(r.slot, r.generation, String(b.operation.reserved_slot_revision), t);\n    await repo.finish(b.operation, 'SUCCEEDED', 'NONE', 'GENERATION_ACTIVATED', actor.requestId, t);\n    if (complete) {\n      const row = (\n          await c.query(\n            'SELECT * FROM zhiban_content.resources WHERE tenant_id=$1 AND id=$2 FOR UPDATE',\n            [tenant, r.id],\n          )\n        ).rows[0],\n        pid = v7(),\n        rev = Number(row.revision);\n      await c.query(\n        `INSERT INTO zhiban_content.publications VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,'content-text-v1',$13,$14)`,\n        [\n          tenant,\n          pid,\n          r.id,\n          offering,\n          row.last_publication_no + 1,\n          rev,\n          r.slot,\n          r.generation,\n          r.prep,\n          b.operation.operation_id,\n          row.title,\n          r.digest,\n          member,\n          t,\n        ],\n      );\n      await c.query(\n        \"UPDATE zhiban_content.operations SET state='SUCCEEDED',result_publication_id=$1,result_revision=$2,completed_at=$3,bridge_operation_id=$6 WHERE tenant_id=$4 AND id=$5\",\n        [pid, rev + 1, t, tenant, r.co, b.operation.operation_id],\n      );\n      await c.query(\n        \"UPDATE zhiban_content.resources SET state='PUBLISHED',revision=revision+1,active_publication_id=$1,last_publication_no=last_publication_no+1,updated_at=$2,updated_by=$3 WHERE tenant_id=$4 AND id=$5\",\n        [pid, t, member, tenant, r.id],\n      );\n      if (!omitContentAudit) await audit(c, r.id, r.co, 'CONTENT_PUBLISHED', rev, rev + 1, t);\n    }\n  });\n}\nasync function failContent(r: Reserved, finishBridge = false) {\n  await transaction(async (c, repo) => {\n    const t = at();\n    if (finishBridge) {\n      const b = await repo.loadOperation(r.prep);\n      await repo.finish(\n        b,\n        'FAILED',\n        'STORAGE_FAILURE',\n        b.state === 'OUTCOME_UNKNOWN' ? 'OUTCOME_RECONCILED' : 'OPERATION_FAILED',\n        actor.requestId,\n        t,\n      );\n    }\n    await c.query(\n      \"UPDATE zhiban_content.operations SET state='FAILED',completed_at=$1 WHERE tenant_id=$2 AND id=$3\",\n      [t, tenant, r.co],\n    );\n    const source = (\n      await c.query(\n        'SELECT source_revision FROM zhiban_content.operations WHERE tenant_id=$1 AND id=$2',\n        [tenant, r.co],\n      )\n    ).rows[0].source_revision;\n    await audit(c, r.id, r.co, 'OPERATION_FAILED', Number(source), Number(source), t);\n  });\n}\ntry {\n  await mkdir(socket, { mode: 0o700 });\n  execFileSync(\n    join(bin, 'initdb'),\n    [\n      '-D',\n      data,\n      '-U',\n      'postgres',\n      '--auth-local=trust',\n      '--auth-host=reject',\n      '--encoding=UTF8',\n      '--no-locale',\n    ],\n    { stdio: 'pipe' },\n  );\n  execFileSync(\n    join(bin, 'pg_ctl'),\n    [\n      '-D',\n      data,\n      '-l',\n      join(owned, 'postgres.log'),\n      '-o',\n      `-p ${port} -k ${socket} -c listen_addresses=''`,\n      '-w',\n      'start',\n    ],\n    { stdio: 'pipe' },\n  );\n  started = true;\n  let admin = await connect('postgres', 'postgres');\n  await admin.query(`CREATE DATABASE ${database}`);\n  await admin.end();\n  for (const f of ['bootstrap-roles.pg16.sql', 'bootstrap-bridge-roles.pg16.sql'])\n    execFileSync(\n      join(bin, 'psql'),\n      [\n        '-X',\n        '-v',\n        'ON_ERROR_STOP=1',\n        '-h',\n        socket,\n        '-p',\n        String(port),\n        '-U',\n        'postgres',\n        '-d',\n        database,\n        '-f',\n        join(root, 'lib/zhiban/infrastructure/identity/postgres', f),\n      ],\n      { stdio: 'pipe' },\n    );\n  admin = await connect();\n  assert.equal(\n    Math.floor(\n      Number((await admin.query(\"SELECT current_setting('server_version_num') AS v\")).rows[0].v) /\n        10000,\n    ),\n    16,\n  );\n  await admin.query(\n    'CREATE ROLE zhiban_academic_runtime LOGIN NOINHERIT NOSUPERUSER NOCREATEDB NOCREATEROLE NOBYPASSRLS NOREPLICATION',\n  );\n  actualServerVersionNum = Number(\n    (await admin.query(\"SELECT current_setting('server_version_num') AS v\")).rows[0].v,\n  );\n  for (const f of ['bootstrap-roles.pg16.sql', 'bootstrap-bridge-roles.pg16.sql'])\n    sourceHashes['identity/' + f] = hash(\n      await readFile(join(root, 'lib/zhiban/infrastructure/identity/postgres', f)),\n    );\n  for (const f of [\n    'repository.ts',\n    'candidate.ts',\n    'records.ts',\n    'validation.ts',\n    'transactions.ts',\n  ])\n    sourceHashes['bridge/' + f] = hash(\n      await readFile(join(root, 'lib/zhiban/infrastructure/openmaic', f)),\n    );\n  const declaredInventory = JSON.parse(await readFile(join(candidate, 'inventory.json'), 'utf8'));\n  for (const [f, digest] of Object.entries(declaredInventory.filesSha256)) {\n    const bytes = await readFile(join(candidate, f));\n    assert.equal(hash(bytes), digest);\n    sourceHashes['candidate/' + f] = hash(bytes);\n  }\n  for (const context of ['identity', 'academic', 'learning', 'assessment']) {\n    const dir = join(root, `lib/zhiban/infrastructure/${context}/postgres/migrations`);\n    for (const f of (await readdir(dir)).filter((f) => f.endsWith('.sql')).sort()) {\n      const sql = await readFile(join(dir, f), 'utf8');\n      sourceHashes[context + '/' + f] = hash(sql);\n      await admin.query('BEGIN');\n      await admin.query('SET LOCAL ROLE zhiban_identity_owner');\n      await admin.query(sql);\n      await admin.query(\n        `INSERT INTO zhiban_${context}.schema_migrations(version,checksum) VALUES($1,$2)`,\n        [f.slice(0, 4), hash(sql)],\n      );\n      await admin.query('COMMIT');\n    }\n  }\n  await test('exact dev preflight rejects isolated fixture target', async () => {\n    await denied(\n      async () => admin.query(await readFile(join(candidate, '00-preflight.sql'), 'utf8')),\n      ['P0001'],\n    );\n  });\n  // Execute only the unchanged role-edge predicate from the actual preflight;\n  // never rewrite exact target boundary to make this temporary cluster production.\n  const preflight = await readFile(join(candidate, '00-preflight.sql'), 'utf8');\n  const edges = preflight.slice(\n    preflight.indexOf(' IF (SELECT count(*) FROM pg_auth_members m'),\n    preflight.indexOf(' IF EXISTS(SELECT 1 FROM pg_default_acl'),\n  );\n  const edgeCheck = () => admin.query('DO $$ BEGIN\\n' + edges + 'END $$;');\n  await test('F4 exact baseline PG16 role edges accepted', async () => {\n    await edgeCheck();\n  });\n  for (const variant of ['INHERIT TRUE', 'SET FALSE'])\n    await test('F4 rejects role edge ' + variant, async () => {\n      await admin.query('BEGIN');\n      try {\n        await admin.query('GRANT zhiban_identity_owner TO zhiban_migrator WITH ' + variant);\n        await denied(edgeCheck, ['P0001']);\n      } finally {\n        await admin.query('ROLLBACK');\n      }\n    });\n  await test('F4 rejects unapproved incoming owner edge', async () => {\n    await admin.query('BEGIN');\n    try {\n      await admin.query('CREATE ROLE m5_extra NOLOGIN');\n      await admin.query(\n        'GRANT zhiban_identity_owner TO m5_extra WITH ADMIN FALSE, INHERIT FALSE, SET TRUE',\n      );\n      await denied(edgeCheck, ['P0001']);\n    } finally {\n      await admin.query('ROLLBACK');\n    }\n  });\n  await admin.query('BEGIN');\n  await admin.query('SET LOCAL ROLE zhiban_identity_owner');\n  for (const f of ['01-schema.sql', '02-helpers-and-guards.sql', '03-acl.sql'])\n    await admin.query(await readFile(join(candidate, f), 'utf8'));\n  await admin.query('COMMIT');\n  checks.push({\n    name: 'actual candidate DDL applied to owned isolated fixture only',\n    status: 'PASS',\n  });\n  await admin.query(\n    \"INSERT INTO zhiban_identity.tenants(tenant_id,code,display_name,status,created_at,updated_at) VALUES($1,'m5','M5','ACTIVE',1000,1000)\",\n    [tenant],\n  );\n  await admin.query(\n    \"INSERT INTO zhiban_identity.users(user_id,status,created_at,updated_at) VALUES($1,'ACTIVE',1000,1000)\",\n    [user],\n  );\n  await admin.query(\n    \"INSERT INTO zhiban_identity.memberships(membership_id,tenant_id,user_id,status,created_at,updated_at) VALUES($1,$2,$3,'ACTIVE',1000,1000)\",\n    [member, tenant, user],\n  );\n  await admin.query(\n    \"INSERT INTO zhiban_academic.courses VALUES($1,$2,'c','Course','',$3,'PUBLISHED',1,1,1000,1000)\",\n    [tenant, course, member],\n  );\n  await admin.query(\n    \"INSERT INTO zhiban_academic.course_versions VALUES($1,$2,1,'Course','',$3,1000)\",\n    [tenant, course, member],\n  );\n  await admin.query(\n    \"INSERT INTO zhiban_academic.terms VALUES($1,$2,'t','Term','2026-01-01','2026-12-31',1)\",\n    [tenant, term],\n  );\n  await admin.query(\n    \"INSERT INTO zhiban_academic.offerings VALUES($1,$2,$3,1,$4,NULL,'o','Offering',30,'OPEN',1)\",\n    [tenant, offering, course, term],\n  );\n  await admin.query(\n    \"INSERT INTO zhiban_academic.assignments VALUES($1,$2,$3,$4,'ACTIVE',1000,NULL,1)\",\n    [tenant, v7(), offering, member],\n  );\n  await admin.query(\n    \"INSERT INTO zhiban_bridge.deployment_registry VALUES($1,'synthetic-m5','1f05a70ac93e09c67fb4d3aafb9c2b068d14fcce','0.31.1','0.11.2','0.1.11',$2,'VERIFIED',1,1000,1000)\",\n    [deployment, hash('synthetic')],\n  );\n  await test('F4 actual receipt queries include INHERIT and SET', async () => {\n    const snapshots: any = await admin.query(\n      await readFile(join(candidate, '04-receipt-inspect.sql'), 'utf8'),\n    );\n    assert.ok(\n      snapshots.some(\n        (r: any) =>\n          r.fields.some((f: any) => f.name === 'inherit_option') &&\n          r.fields.some((f: any) => f.name === 'set_option'),\n      ),\n    );\n  });\n  await test('helper real owner FOR SHARE and closed projection', () =>\n    transaction(async (c) => {\n      const x = await c.query(\n        \"SELECT * FROM zhiban_content.lock_business_context($1,NULL,$2,$3,'TEACHER_WRITE')\",\n        [tenant, offering, member],\n      );\n      assert.equal(x.rows.length, 1);\n      assert.equal(x.fields.length, 10);\n    }));\n  await test('Bridge raw Academic UPDATE denied', () =>\n    denied(\n      () =>\n        transaction(async (c) => {\n          await c.query(\n            'UPDATE zhiban_academic.offerings SET revision=revision+1 WHERE tenant_id=$1',\n            [tenant],\n          );\n        }),\n      ['42501'],\n    ));\n  await admin.query(\n    `CREATE FUNCTION zhiban_content.fixture_owner_write() RETURNS void LANGUAGE sql SECURITY DEFINER SET search_path=pg_catalog,zhiban_academic,pg_temp SET row_security=on AS $$ UPDATE zhiban_academic.offerings SET revision=revision+1 WHERE tenant_id=zhiban_identity.current_tenant_id() $$`,\n  );\n  await admin.query(\n    'ALTER FUNCTION zhiban_content.fixture_owner_write() OWNER TO zhiban_identity_owner',\n  );\n  await admin.query('REVOKE ALL ON FUNCTION zhiban_content.fixture_owner_write() FROM PUBLIC');\n  await admin.query(\n    'GRANT EXECUTE ON FUNCTION zhiban_content.fixture_owner_write() TO zhiban_bridge_runtime',\n  );\n  await test('owner lock-only policy rejects actual Academic write', () =>\n    denied(\n      () =>\n        transaction(async (c) => {\n          await c.query('SELECT zhiban_content.fixture_owner_write()');\n        }),\n      ['42501'],\n    ));\n  const id = await resource(),\n    r = await reserve(id);\n  await prepared(r);\n  await test('structural gate accepts DRAFT and rejects null/wrong tenant/unregistered', () =>\n    transaction(async (c) => {\n      const values = (\n        await c.query(\n          'SELECT zhiban_bridge.business_resource_ready($1,$2) AS ready,zhiban_bridge.business_resource_ready(NULL,NULL) AS empty,zhiban_bridge.business_resource_ready($3,$2) AS wrong,zhiban_bridge.business_resource_ready($1,$4) AS absent',\n          [tenant, id, v7(), v7()],\n        )\n      ).rows[0];\n      assert.deepEqual(values, { ready: true, empty: false, wrong: false, absent: false });\n    }));\n  await test('F1 Bridge-only first activation fails deferred COMMIT', () =>\n    denied(() => activate(r, false)));\n  await test('F1 rollback retains DRAFT and no ACTIVE generation', () =>\n    transaction(async (c) => {\n      assert.equal(\n        (\n          await c.query('SELECT state FROM zhiban_content.resources WHERE tenant_id=$1 AND id=$2', [\n            tenant,\n            id,\n          ])\n        ).rows[0].state,\n        'DRAFT',\n      );\n      assert.equal(\n        (\n          await c.query(\n            \"SELECT count(*)::int AS n FROM zhiban_bridge.resource_generations WHERE tenant_id=$1 AND slot_id=$2 AND state='ACTIVE'\",\n            [tenant, r.slot],\n          )\n        ).rows[0].n,\n        0,\n      );\n    }));\n  await test('publication missing content audit rolls back both pointers', () =>\n    denied(() => activate(r, true, true)));\n  await test('F1 complete publication atomic settlement succeeds', () => activate(r, true));\n  await test('withdrawal preserves suspended ACTIVE history', () =>\n    transaction(async (c, repo) => {\n      const t = at(),\n        slot = await repo.loadSlot(r.slot, 'UPDATE');\n      const b = await repo.reserve(\n        {\n          slotId: r.slot,\n          expectedRevision: slot.revision,\n          operation: 'SUSPEND',\n          generationId: r.generation,\n          keyDigest: hash(v7()),\n          intentDigest: hash(v7()),\n        },\n        actor,\n        t,\n      );\n      await repo.setState(r.slot, String(b.operation.reserved_slot_revision), 'SUSPENDED', t);\n      await repo.finish(b.operation, 'SUCCEEDED', 'NONE', 'MAPPING_SUSPENDED', actor.requestId, t);\n      const co = await op(\n        c,\n        id,\n        'WITHDRAW_CONTENT',\n        2,\n        3,\n        t,\n        null,\n        String(b.operation.operation_id),\n      );\n      await c.query(\n        \"UPDATE zhiban_content.resources SET state='WITHDRAWN',revision=3,updated_at=$1 WHERE tenant_id=$2 AND id=$3\",\n        [t, tenant, id],\n      );\n      await audit(c, id, co, 'CONTENT_WITHDRAWN', 2, 3, t);\n    }));\n  const deployment2 = v7();\n  await admin.query(\n    \"INSERT INTO zhiban_bridge.deployment_registry VALUES($1,'synthetic-m5-alternate','1f05a70ac93e09c67fb4d3aafb9c2b068d14fcce','0.31.1','0.11.2','0.1.11',$2,'VERIFIED',1,1000,1000)\",\n    [deployment2, hash('synthetic')],\n  );\n  const alternate = await reserve(\n    id,\n    hash('alternate'),\n    hash('alternate'),\n    undefined,\n    undefined,\n    deployment2,\n  );\n  await prepared(alternate);\n  await test('F1 alternate deployment unbound activation rejected', () =>\n    denied(() => activate(alternate, false)));\n  const unboundId = await resource();\n  await test('F2 cancelled content cannot hide unbound Bridge prepare', () =>\n    denied(() =>\n      reserve(unboundId, hash('A'), hash('A'), undefined, undefined, deployment, false),\n    ));\n  const unknown = await reserve(await resource());\n  await prepared(unknown, 'OUTCOME_UNKNOWN');\n  await test('F2 UNKNOWN prepare cannot release fence through FAILED', () =>\n    denied(() => failContent(unknown)));\n  await test('F2 preserved fence denies save', () =>\n    denied(() =>\n      transaction(async (c) => {\n        await op(c, unknown.id, 'SAVE_CONTENT', 1, 2, at());\n      }),\n    ));\n  await test('F2 atomic known failure releases fence', () => failContent(unknown, true));\n  await test('F2 save after safe terminal failure succeeds', () =>\n    transaction(async (c) => {\n      const t = at(),\n        co = await op(c, unknown.id, 'SAVE_CONTENT', 1, 2, t),\n        d = draft('B');\n      await c.query(\n        'UPDATE zhiban_content.resources SET title=$1,draft=$2,revision=2,updated_at=$3 WHERE tenant_id=$4 AND id=$5',\n        [d.title, d, t, tenant, unknown.id],\n      );\n      await audit(c, unknown.id, co, 'DRAFT_SAVED', 1, 2, t);\n    }));\n  const dispatched = await reserve(await resource());\n  await transaction(async (_c, repo) => {\n    await repo.markDispatch(await repo.loadOperation(dispatched.prep), at());\n  });\n  await test('F2 dispatched RESERVED prepare cannot release fence', () =>\n    denied(() => failContent(dispatched)));\n  const mismatchId = await resource();\n  await test('F3 wrong prepared Native digest rejected at COMMIT', () =>\n    denied(() => reserve(mismatchId, hash('B'), hash('A'))));\n  await test('F3 mismatch rollback leaves no reservation or Bridge generation', () =>\n    transaction(async (c) => {\n      assert.equal(\n        (\n          await c.query(\n            \"SELECT count(*)::int AS n FROM zhiban_content.operations WHERE tenant_id=$1 AND resource_id=$2 AND action='PUBLISH_CONTENT'\",\n            [tenant, mismatchId],\n          )\n        ).rows[0].n,\n        0,\n      );\n    }));\n  await test('F3 expected Native digest is immutable', () =>\n    denied(\n      () =>\n        transaction(async (c) => {\n          await c.query(\n            'UPDATE zhiban_content.operations SET expected_native_digest=$1 WHERE tenant_id=$2 AND id=$3',\n            [hash('changed'), tenant, dispatched.co],\n          );\n        }),\n      ['42501', '23514'],\n    ));\n  await admin.query(\n    'GRANT UPDATE(expected_native_digest) ON zhiban_content.operations TO zhiban_bridge_runtime',\n  );\n  try {\n    await test('F3 trigger rejects digest mutation under controlled extra fixture grant', () =>\n      denied(() =>\n        transaction(async (c) => {\n          await c.query(\n            'UPDATE zhiban_content.operations SET expected_native_digest=$1 WHERE tenant_id=$2 AND id=$3',\n            [hash('changed'), tenant, dispatched.co],\n          );\n        }),\n      ));\n  } finally {\n    await admin.query(\n      'REVOKE UPDATE(expected_native_digest) ON zhiban_content.operations FROM zhiban_bridge_runtime',\n    );\n  }\n  await test('F3 existing reservation completes after rejected mutation', async () => {\n    await prepared(dispatched);\n    await activate(dispatched, true);\n  });\n  const abandoned = await reserve(await resource());\n  await prepared(abandoned);\n  await test('F2 prepared known success with no activation may safely cancel', () =>\n    failContent(abandoned));\n  await test('F3 another reservation cannot reuse prior prepare', () =>\n    denied(\n      () => reserve(abandoned.id, hash('A'), hash('A'), abandoned.slot, abandoned.prep),\n      ['23505'],\n    ));\n\n  // Review probes: PASS records the observed behavior, including reproduced defects.\n  async function quarantineContent(r: Reserved) {\n    await transaction(async (c) => {\n      const t = at();\n      await c.query(\"UPDATE zhiban_content.operations SET state='OUTCOME_UNKNOWN' WHERE tenant_id=$1 AND id=$2\", [tenant,r.co]);\n      await audit(c,r.id,r.co,'OUTCOME_QUARANTINED',1,1,t);\n    });\n  }\n  for (const state of ['RESERVED','OUTCOME_UNKNOWN'] as const) {\n    const pending = await reserve(await resource());\n    await prepared(pending);\n    let activation = '';\n    await test('MATRIX defect: unbound activation '+state+' commits', async () => {\n      await transaction(async (_c,repo) => {\n        const t=at(), slot=await repo.loadSlot(pending.slot,'UPDATE');\n        const b=await repo.reserve({slotId:pending.slot,expectedRevision:slot.revision,operation:'ACTIVATE_GENERATION',generationId:pending.generation,keyDigest:hash(v7()),intentDigest:hash(v7())},actor,t);\n        activation=String(b.operation.operation_id);\n        if(state==='OUTCOME_UNKNOWN') await repo.finish(b.operation,'OUTCOME_UNKNOWN','UNKNOWN_OUTCOME','OUTCOME_QUARANTINED',actor.requestId,t);\n      });\n    });\n    await test('MATRIX defect: content FAILED releases fence while unbound activation '+state, () => failContent(pending));\n    await test('MATRIX defect: SAVE commits while unbound activation remains '+state, async () => {\n      await transaction(async (c,repo) => {\n        const t=at(), co=await op(c,pending.id,'SAVE_CONTENT',1,2,t), d=draft('after-pending-activation');\n        await c.query('UPDATE zhiban_content.resources SET title=$1,draft=$2,revision=2,updated_at=$3 WHERE tenant_id=$4 AND id=$5',[d.title,d,t,tenant,pending.id]);\n        await audit(c,pending.id,co,'DRAFT_SAVED',1,2,t);\n        assert.equal((await repo.loadOperation(activation)).state,state);\n      });\n    });\n  }\n  const bound=await reserve(await resource());\n  await prepared(bound);\n  await transaction(async(c,repo)=>{\n    const t=at(),slot=await repo.loadSlot(bound.slot,'UPDATE');\n    const b=await repo.reserve({slotId:bound.slot,expectedRevision:slot.revision,operation:'ACTIVATE_GENERATION',generationId:bound.generation,keyDigest:hash(v7()),intentDigest:hash(v7())},actor,t);\n    await c.query('UPDATE zhiban_content.operations SET bridge_operation_id=$1 WHERE tenant_id=$2 AND id=$3',[b.operation.operation_id,tenant,bound.co]);\n  });\n  await test('MATRIX bound RESERVED activation blocks content FAILED',()=>denied(()=>failContent(bound)));\n  const recovery=await reserve(await resource());\n  await prepared(recovery);\n  await test('MATRIX content RESERVED to OUTCOME_UNKNOWN accepted',()=>quarantineContent(recovery));\n  await test('MATRIX content UNKNOWN fence blocks SAVE',()=>denied(()=>transaction(async(c)=>{await op(c,recovery.id,'SAVE_CONTENT',1,2,at());})));\n  await test('MATRIX content UNKNOWN to success atomically registers activation',()=>activate(recovery,true,false,true));\n  const unknownBoth=await reserve(await resource());\n  await prepared(unknownBoth,'OUTCOME_UNKNOWN');\n  await quarantineContent(unknownBoth);\n  await test('MATRIX content UNKNOWN cannot fail while prepare UNKNOWN',()=>denied(()=>failContent(unknownBoth)));\n  await test('MATRIX content UNKNOWN to failure with reconciled prepare accepted',()=>failContent(unknownBoth,true));\n\n  await admin.end();\n} catch (e) {\n  failure = e;\n  console.error(e);\n} finally {\n  await Promise.allSettled([...clients].map((c) => c.end()));\n  if (started)\n    execFileSync(join(bin, 'pg_ctl'), ['-D', data, '-m', 'immediate', '-w', 'stop'], {\n      stdio: 'pipe',\n    });\n  await rm(owned, { recursive: true, force: true });\n  const inventory = JSON.parse(await readFile(join(candidate, 'inventory.json'), 'utf8'));\n  await writeFile(\n    join(root, 'docs/v2/evidence/m5-state-matrix-review-local.json'),\n    JSON.stringify(\n      {\n        evidenceOrigin: 'LOCAL',\n        scope: 'OWNED_EPHEMERAL_PG16_CANDIDATE_ONLY',\n        at: new Date().toISOString(),\n        pgMajor: 16,\n        actualServerVersionNum,\n        nodeVersion: process.version,\n        pnpmVersion: execFileSync('pnpm', ['--version'], { encoding: 'utf8' }).trim(),\n        lockfileSha256: hash(await readFile(join(root, 'pnpm-lock.yaml'))),\n        sourceHashes,\n        guardScope:\n          'Real SQL/RLS and shipped BridgeRepository primitives; synthetic actor, no Session/Role/Scope/Native end-to-end signoff',\n        port,\n        database,\n        unixSocketOnly: true,\n        fixtureRemoved: true,\n        sharedClustersTouched: false,\n        nativeProviderCalls: 0,\n        receiptIssued: false,\n        developmentMigrationApplied: false,\n        candidateMigrationSha256: inventory.migration.aggregateSha256,\n        runnerSha256: hash(\n          await readFile(resolve(import.meta.filename ?? new URL(import.meta.url).pathname)),\n        ),\n        checks,\n        status: failure ? 'FAIL' : 'PASS',\n        failure: failure instanceof Error ? failure.message : null,\n      },\n      null,\n      2,\n    ) + '\\n',\n  );\n}\nif (failure) process.exitCode = 1;\n",
+  "probeExecutionStatus": "PASS",
+  "findingIds": [
+    "SM-01"
+  ],
+  "observationCount": 42,
+  "newMatrixObservationCount": 12
+}

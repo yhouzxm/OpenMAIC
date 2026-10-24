@@ -1,0 +1,19 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-23T13:55:52.826Z",
+  "root": "/tmp/zhiban-trial-content-hmLuGX",
+  "pg16": 160015,
+  "ids": {
+    "quiz": "01a1690b-a465-70c1-9b41-21769307f1e1",
+    "question": "5895edb3-c124-4d32-b201-1be006e40504",
+    "copy": "01a1690b-b655-704b-8f79-fdacb8eb4095",
+    "attempt": "01a1690b-c08d-70ff-ad8f-c0587dd0673d",
+    "submission": "01a1690b-d576-73b8-bce4-8f365fd70e3f"
+  },
+  "checks": [
+    "Browser: two-blank editing/variants/points, publish, student draft reload, fixed-version submit, partial score, teacher publish/correction and student sealed review",
+    "PG16: old/new algorithm identities, mixed legacy source, copied fill draft, public answer isolation, malformed arity/score forgery/manual score injection rejected, concurrent edit CAS, version-change isolation and required override reason"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "date": "2026-10-17",
+  "origin": "https://127.0.0.1:3463",
+  "classroomId": "01a14997-64be-7522-8b74-2334bac73aa3",
+  "finalClassroomState": "ENDED",
+  "finalRevision": 8,
+  "result": "PASS",
+  "checks": [
+    "Teacher ended classroom; current task ended; entry/submission/published-grade counts remain 1/1/1",
+    "Ended teacher card has no edit/reschedule/dispatch/end buttons",
+    "Teacher can reopen activity-filtered grade history after classroom end",
+    "Student synced classroom panel no longer lists ended classroom",
+    "Student normal activity history retains first attempt and submission v1 text",
+    "Student submission grade history retains 93/100 v1 and original feedback",
+    "Student overview retains 93 and 88 grades; mean 90.5%; pending assignment unchanged"
+  ],
+  "notExercised": [
+    "stale cached ENTER_TASK HTTP rejection in this manual journey",
+    "resubmission after classroom end",
+    "grade correction/new history version",
+    "native refresh/close protection"
+  ],
+  "boundaries": "Ending a classroom removes its student entry, but does not withdraw activity or revoke existing attempts; existing resubmit policy unchanged. No new attempt/submission/grade was created this turn.",
+  "startupSourceDriftCount": 3,
+  "receiptResigned": false,
+  "screenshots": [
+    "zhiban-classroom-ended-teacher.png",
+    "zhiban-classroom-ended-history.png",
+    "zhiban-classroom-ended-student.png"
+  ]
+}

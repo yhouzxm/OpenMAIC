@@ -1,0 +1,31 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "realModel": true,
+  "mock": false,
+  "runId": "run-li4eqSiMLIiWSO-f",
+  "root": "/tmp/zhiban-trial-content-lUuAi8",
+  "models": [
+    {
+      "provider": "glm",
+      "model": "glm-5.3"
+    },
+    {
+      "provider": "glm",
+      "model": "glm-5.3"
+    },
+    {
+      "provider": "glm",
+      "model": "glm-5.3"
+    }
+  ],
+  "questionCount": 3,
+  "questionTypes": [
+    "single",
+    "single",
+    "multiple"
+  ],
+  "sourceHash": "1bd3c09a23d0299153be8653cd6447899631cc09e7e6292ea25fd2a46dfe68f8",
+  "elapsedMs": 77679
+}

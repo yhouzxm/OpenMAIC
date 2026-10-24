@@ -1,0 +1,143 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "recordedAt": "2026-10-23T13:14:16.625744+00:00",
+  "branch": "refactor/zhiban-v2",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "candidateDirty": true,
+  "committed": false,
+  "pushed": false,
+  "ciDispatched": false,
+  "environment": {
+    "node": "v22.23.3",
+    "pnpm": "10.28.0",
+    "pgVersion": 160015
+  },
+  "runtime": {
+    "origin": "https://127.0.0.1:3461",
+    "root": "/tmp/zhiban-trial-content-fQSIds",
+    "status": "RUNNING_LOCAL_DISPOSABLE",
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "sourceCount": 2763,
+    "sourceManifestSha256": "5a287d17d1c4406f59f8f94e9f0518f41e405c2d5f3c25d4116000a0c1470505",
+    "capability": "EXPLICIT_WEIGHTED_TOTALS_AND_APPEALS",
+    "currentDemoPublication": "01a168e3-8394-70b4-95a2-05337217898f"
+  },
+  "checks": {
+    "browserAndPG16": {
+      "command": "node scripts/zhiban-local/verify-final-grades.cjs",
+      "exitCode": 0,
+      "scope": [
+        "Teacher browser authors and explicitly publishes 60/40 fixed-version weights; draft is private/inert; missing grade remains incomplete and cannot publish or zero-fill",
+        "Official immutable grades normalize by their own maxima to 68/100; teacher publishes through real UI; command replay is exact and changed payload rejects",
+        "Student sees own published snapshot and component weights only, submits one appeal per publication through UI; duplicate appeal rejects",
+        "Student/admin weight writes, cross-member reads, forged appeal targets/identity, anonymous and foreign tenant requests reject",
+        "Published 68 snapshot stays immutable after correction; stale-source publication and premature replacement reject; deterministic correction/publication race rejects and two publishers yield exactly one successor 80 snapshot",
+        "Teacher UI closes appeal with immutable explanation and actual replacement total; student UI sees response; duplicate/stale decision rejects and appeal never edits original grade",
+        "Real PG16 runtime role cannot update/delete total snapshots, rule history or appeal responses; cross-tenant RLS returns no records",
+        "Resubmission drops eligibility without zero-fill or inherited grade, while both immutable total versions and resolved appeal remain readable",
+        "Draft weight change stays private; newly published weights require fresh total publication and never rewrite old snapshot weight versions",
+        "Activity version changes close pending total publication and reject stale pinned weight publication; history remains intact",
+        "Practice mode is excluded from total source choices and rejected on explicit weight publication; valid fixed-version draft is restored",
+        "Two-session weight draft conflict preserves local input and old CAS revision; repeated save stays rejected until explicit discard/refresh, preventing silent overwrite of another teacher edit",
+        "Original administrator assignment revoke blocks teacher total reads/writes; original restoration restores guarded access",
+        "Administrator withdraw/re-enroll revokes course access then creates a fresh evidence window; old submission grades cannot satisfy current total, while published total history remains visible after rejoin",
+        "Current valid weights, enrollment window and official grades are restored through original commands; ready 80/100 demonstration total is explicitly published with immutable earlier snapshots preserved"
+      ]
+    },
+    "unit": {
+      "command": "pnpm exec vitest run tests/zhiban/finalgrade/model.test.ts tests/zhiban/assessment/model.test.ts",
+      "exitCode": 0
+    },
+    "buildTypes": {
+      "command": "pnpm exec tsc --noEmit -p tsconfig.build.json",
+      "exitCode": 0,
+      "note": "TypeScript unchanged after successful check; later UI edits only reuse existing style classes"
+    },
+    "scopedLint": {
+      "exitCode": 0,
+      "scope": "new domain/service/transaction, Assessment HTTP, loader/builder, new UI and tests"
+    },
+    "formatAndJsSyntax": {
+      "exitCode": 0
+    },
+    "independentReference": {
+      "command": "pnpm exec tsx scripts/zhiban-local/build-finalgrade-reference.ts",
+      "exitCode": 0,
+      "constructionOnly": true,
+      "ownedClusterRemoved": true
+    },
+    "documentationLinks": {
+      "status": "PASS"
+    }
+  },
+  "profileReference": {
+    "path": "docs/v2/evidence/zhiban-finalgrade-profile-reference-local.json",
+    "sha256": "725056ab1d40f40de89fa2a6025003b8df6adcf94d0c71e9289f928fb1eea74c",
+    "profileSha256": "9fcd9000b5ea634073469a74e23ee9685d22e9503b84442803e1f724a9e50f44",
+    "scope": "FRESH_OWNED_PG16_FINALGRADE_REFERENCE",
+    "dependencySourceHashesMatch": true
+  },
+  "boundaries": [
+    "Only new finalgrade migration installed into fresh owned disposable PG16; no applied migration edited, no shared 55432/55433 or production touched",
+    "Frozen Identity and original item grading contracts retained",
+    "Teacher explicit weights and current official-source totals; no practice, unpublished draft, zero-fill or inherited obsolete evidence",
+    "Immutable totals and appeal responses; recipient authorization, command replay and CAS enforced",
+    "No cross-offering credit/transcript, certificates, curves, absence policy, secondary adjudication or totals/appeal CSV",
+    "Existing gradebook CSV contains item grades only",
+    "Only affected browser/PG16/negative/concurrency checks; no real model/scanner, unrelated classroom suite, GitHub CI or P7 rebuild",
+    "Coarse offering serialization correctness verified; production throughput not signed off",
+    "Historical P7 archive remains its original source scope"
+  ],
+  "sourceHashes": {
+    "lib/zhiban/domain/finalgrade/model.ts": "8e9360b9efc64454d13a09af0989402043eaf26f2a7f58f3a95e0072be9bb6c1",
+    "lib/zhiban/application/finalgrade/service.ts": "8da89f68a2f12cf6b58707c4cddf36b3fcdaaa40f5431e7289d8ccd4364b2bc4",
+    "lib/zhiban/application/academic/service.ts": "45ec6103ea220ea57810efc869532251a2abe51454170030eb3a71ef5aaee280",
+    "lib/zhiban/infrastructure/finalgrade/postgres/transaction.ts": "f470d9ef6795e4706e143924997306bf565322ff3254848db1f7f5c0fd113c0d",
+    "lib/zhiban/infrastructure/finalgrade/postgres/migrations/0001_finalgrade.sql": "4c273d0fcb8e2f9281c297831bcd4f2e5ac292936f550a04f8784fefef013054",
+    "lib/zhiban/infrastructure/academic/postgres/store.ts": "3301e28f7b929f5e236005a2fc913655642919f02faf037404ef056dc902ddcb",
+    "lib/zhiban/infrastructure/assessment/http.ts": "0d0d0ab91f70162a57cece9a60de890d68f7e31e75be7ff215914f003f1c0562",
+    "scripts/zhiban-local/finalgrade.ts": "f3b42968794c4852db89020eb1919cc62fcd19e1da441ea3037fbc8b9bb98683",
+    "scripts/zhiban-local/build-finalgrade-reference.ts": "f8b33d31a9c7138e576e14951adfbee35bc01f8d65107f77a9cfca46eca5002d",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "55acb0b49306b637d1b1ffb92c843dccb4aa3ab126f4d454a3d51bd83e9a7321",
+    "scripts/zhiban-local/server.ts": "3da72c7096aa7bbb20f43f080ce9a1a717f2a9686dd4f50af8fd289e2db83fa8",
+    "scripts/zhiban-local/verify-final-grades.cjs": "702eacb5b8fd8d330ac717839168acf33c155f76507aa3fc606a94e2ba60e27c",
+    "app/zhiban/local/final-grades.js": "615d3f4db8cf7480913e2cd695f9a713363304e497838b21a3c9a4689571ac8e",
+    "app/zhiban/local/gradebook.js": "7731cd8bd7644f547181854936bb73a379345671c809f7e3c7cbb09afccde619",
+    "app/zhiban/local/grading.html": "585623f2fff88194a1f550d31e108a1102a8773fcab84fdf0241f835006509a1",
+    "app/zhiban/local/progress.html": "b304c31ab7600170f81d8107da640e28a4db395b6e684760522cc89ece1569f7",
+    "tests/zhiban/finalgrade/model.test.ts": "65682aa9b539b3e4a9a3bdd0bac3de8b6bd2d2a933fa0d1365ccca761b6491d3"
+  },
+  "runtimeManifestExclusions": [
+    "tests/zhiban/finalgrade/model.test.ts",
+    "docs/v2/evidence/zhiban-finalgrade-profile-reference-local.json"
+  ],
+  "runtimeManifestExclusionNote": "New unit test and reference JSON have independent hashes in this record; no claim that generic runtime manifest includes them",
+  "documentationHashes": {
+    "docs/v2/zhiban-v2-final-grades-local.md": "24eb31972852c47c301ace59e6f199f9b90e9b9d16e6f579a889fcf7f1b5e979",
+    "docs/v2/zhiban-v2-migration-completion-plan.md": "9ec7e002dd6b2960b514fcde5a6be61b6e80d0490269f3405c567a3b47dd5cd1",
+    "docs/v2/zhiban-v2-feature-gap-matrix.md": "8d00359c0a9f4acafc5e59c5a6bea9bc3be98b1734b0c9cccf717889ac8ce40b",
+    "docs/v2/zhiban-v2-ui-page-gap-matrix.md": "fa2cf943d7891c81bd6dce3b002b9057fc7142754422276d8a8b4e3edf27681e"
+  },
+  "evidenceHashes": {
+    "format.log": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+    "runtime-info.json": "d1ed6b3f5dad712f67b7f65c4de0059c47f729d50e43ab3cdd40d74ccfe4ce8f",
+    "lint.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ui-format.log": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+    "student-resolved.png": "e286e7e03fb6bb1a1f0719e646ed2f200aafa84356063b6f3cf8d407b7737a69",
+    "student-current-total.png": "d07f46f54aadb1e14a8a6f9f1693e4e657f92d02ee971a8ff95756e7361d6d32",
+    "reference-build.log": "0d1254b28ba27dd050a888fe08fb9a4ebb2b8793c224636e287b9e919e25724c",
+    "journey.json": "f28aa6895520e2215ae5ba386445968e8d1dcdee815ffc6b9ae07fe689af61e2",
+    "backup.json": "0782e7c41de28b988e09d6d6987783e943cad1a1a0ae9eb64680a3cbfcb3d659",
+    "unit.log": "57598e7eba58f08eb2f65d42e4ce84c11449e9f699c226f802d0af77f5938e64",
+    "pre-final-backup.json": "1e3e6ac6b2e5e0879f239f527b71c1cb833fbd2ffe93a47d59ca4ed5923f88a5",
+    "teacher-weights.png": "f76142bc151171c664861f4c39da8da97bf14bb22b000f2b7130376e869e2887",
+    "journey.log": "e56a61f1590f95ceef054e24d474ed02c230193307c18bfbec776f2e73db7199",
+    "initial-backup.json": "efc53e6300447652756df52b8295355a6f265e261d44246a83ffcdeb4ad9cb17",
+    "build-types.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ui-lint.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "student-total-appeal.png": "ead18ca45c688c15e90aacffae73b23609d49035237fd7d50b505b39d47971c4"
+  }
+}

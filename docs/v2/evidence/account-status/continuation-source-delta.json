@@ -1,0 +1,12 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "scopedReceiptDate": "2026-10-22T13:35:41.251Z",
+  "checkedWorkspaceFiles": 2697,
+  "changedSinceScopedJourney": [
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/run-m6-catalog.ts",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/verify-m6-catalog.mts"
+  ],
+  "reason": "Serve-only scanner unavailability isolation and missing optional scanner selection; account/domain/authorization implementations unchanged",
+  "verification": "Current default controlled account journey plus upload refusal; no redundant PG/CI rerun"
+}

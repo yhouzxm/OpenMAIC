@@ -1,0 +1,158 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "rows": [
+    {
+      "n": 0,
+      "statuses": [
+        {
+          "path": "/api/zhiban/workspace/01a14f74-c820-7213-94c7-c22eb43a36ef/courses",
+          "status": 200
+        },
+        {
+          "path": "/api/zhiban/identity/spaces",
+          "status": 200
+        },
+        {
+          "path": "/api/zhiban/identity/tenants/01a14f74-c820-7213-94c7-c22eb43a36ef/memberships/01a14f74-ca5f-765d-91d7-77c60df141d1",
+          "status": 200
+        }
+      ],
+      "managementReady": 1,
+      "failure": false
+    },
+    {
+      "n": 1,
+      "statuses": [
+        {
+          "path": "/api/zhiban/workspace/01a14f74-c820-7213-94c7-c22eb43a36ef/courses",
+          "status": 200
+        },
+        {
+          "path": "/api/zhiban/identity/spaces",
+          "status": 200
+        },
+        {
+          "path": "/api/zhiban/identity/tenants/01a14f74-c820-7213-94c7-c22eb43a36ef/memberships/01a14f74-ca5f-765d-91d7-77c60df141d1",
+          "status": 200
+        }
+      ],
+      "managementReady": 1,
+      "failure": false
+    },
+    {
+      "n": 2,
+      "statuses": [
+        {
+          "path": "/api/zhiban/workspace/01a14f74-c820-7213-94c7-c22eb43a36ef/courses",
+          "status": 200
+        },
+        {
+          "path": "/api/zhiban/identity/spaces",
+          "status": 200
+        },
+        {
+          "path": "/api/zhiban/identity/tenants/01a14f74-c820-7213-94c7-c22eb43a36ef/memberships/01a14f74-ca5f-765d-91d7-77c60df141d1",
+          "status": 200
+        }
+      ],
+      "managementReady": 1,
+      "failure": false
+    },
+    {
+      "n": 3,
+      "statuses": [
+        {
+          "path": "/api/zhiban/workspace/01a14f74-c820-7213-94c7-c22eb43a36ef/courses",
+          "status": 200
+        },
+        {
+          "path": "/api/zhiban/identity/spaces",
+          "status": 200
+        },
+        {
+          "path": "/api/zhiban/identity/tenants/01a14f74-c820-7213-94c7-c22eb43a36ef/memberships/01a14f74-ca5f-765d-91d7-77c60df141d1",
+          "status": 200
+        }
+      ],
+      "managementReady": 1,
+      "failure": false
+    },
+    {
+      "n": 4,
+      "statuses": [
+        {
+          "path": "/api/zhiban/workspace/01a14f74-c820-7213-94c7-c22eb43a36ef/courses",
+          "status": 200
+        },
+        {
+          "path": "/api/zhiban/identity/spaces",
+          "status": 200
+        },
+        {
+          "path": "/api/zhiban/identity/tenants/01a14f74-c820-7213-94c7-c22eb43a36ef/memberships/01a14f74-ca5f-765d-91d7-77c60df141d1",
+          "status": 200
+        }
+      ],
+      "managementReady": 1,
+      "failure": false
+    },
+    {
+      "n": 5,
+      "statuses": [
+        {
+          "path": "/api/zhiban/workspace/01a14f74-c820-7213-94c7-c22eb43a36ef/courses",
+          "status": 200
+        },
+        {
+          "path": "/api/zhiban/identity/spaces",
+          "status": 200
+        },
+        {
+          "path": "/api/zhiban/identity/tenants/01a14f74-c820-7213-94c7-c22eb43a36ef/memberships/01a14f74-ca5f-765d-91d7-77c60df141d1",
+          "status": 200
+        }
+      ],
+      "managementReady": 1,
+      "failure": false
+    },
+    {
+      "n": 6,
+      "statuses": [
+        {
+          "path": "/api/zhiban/workspace/01a14f74-c820-7213-94c7-c22eb43a36ef/courses",
+          "status": 200
+        },
+        {
+          "path": "/api/zhiban/identity/spaces",
+          "status": 200
+        },
+        {
+          "path": "/api/zhiban/identity/tenants/01a14f74-c820-7213-94c7-c22eb43a36ef/memberships/01a14f74-ca5f-765d-91d7-77c60df141d1",
+          "status": 200
+        }
+      ],
+      "managementReady": 1,
+      "failure": false
+    },
+    {
+      "n": 7,
+      "statuses": [
+        {
+          "path": "/api/zhiban/workspace/01a14f74-c820-7213-94c7-c22eb43a36ef/courses",
+          "status": 200
+        },
+        {
+          "path": "/api/zhiban/identity/spaces",
+          "status": 200
+        },
+        {
+          "path": "/api/zhiban/identity/tenants/01a14f74-c820-7213-94c7-c22eb43a36ef/memberships/01a14f74-ca5f-765d-91d7-77c60df141d1",
+          "status": 200
+        }
+      ],
+      "managementReady": 1,
+      "failure": false
+    }
+  ]
+}

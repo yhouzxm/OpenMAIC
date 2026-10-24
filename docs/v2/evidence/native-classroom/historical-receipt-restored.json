@@ -1,0 +1,10 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "status": "RESTORED_EXACT_ARCHIVED_BYTES",
+  "path": "docs/v2/evidence/zhiban-native-player-local.json",
+  "restoredFrom": "zhiban-local-20261024-2035f8a244ba",
+  "sha256": "3a016307be1629c840f43189e19ea7e3348becb59ef2beae169dd11edd5eb2da",
+  "intermediateFailurePreservedAt": "docs/v2/evidence/native-classroom/first-source-race-receipt.json",
+  "historicalJourneyAndBoundaryUnchanged": true,
+  "newFocusUsesSeparateEvidenceName": "zhiban-native-classroom"
+}

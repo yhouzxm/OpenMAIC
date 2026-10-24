@@ -1,0 +1,17 @@
+{
+  "formatVersion": 1,
+  "status": "UNISSUED",
+  "purpose": "LOCAL_ORDINARY_ISSUANCE_APPROVAL",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "authorityKeySha256": null,
+  "issuerKeySha256": null,
+  "approvalId": null,
+  "kind": null,
+  "sourceBindingsSha256": null,
+  "reviewRef": null,
+  "bindings": null,
+  "issuedAt": null,
+  "expiresAt": null,
+  "controlDirectory": null
+}

@@ -1,0 +1,20 @@
+lib/zhiban/domain/learner/model.ts 187ms
+lib/zhiban/application/learner/service.ts 85ms
+lib/zhiban/infrastructure/learner/http.ts 121ms
+lib/zhiban/infrastructure/learner/postgres/sources.ts 19ms
+lib/zhiban/infrastructure/learner/postgres/transaction.ts 336ms
+lib/zhiban/application/academic/service.ts 68ms
+lib/zhiban/infrastructure/academic/postgres/store.ts 415ms
+scripts/zhiban-local/learner.ts 18ms (unchanged)
+scripts/zhiban-local/build-learner-reference.ts 63ms (unchanged)
+scripts/zhiban-local/verify-learner.ts 4ms
+scripts/zhiban-local/verify-m6-catalog.mts 915ms
+scripts/zhiban-local/run-m6-catalog.ts 63ms (unchanged)
+scripts/zhiban-local/trial-content.ts 129ms (unchanged)
+scripts/zhiban-local/request-target.ts 30ms (unchanged)
+app/zhiban/local/learning-profile.css 116ms
+app/zhiban/local/learning-profile.html 62ms (unchanged)
+app/zhiban/local/learning-profile.js 280ms
+app/zhiban/local/course-page.js 105ms (unchanged)
+app/zhiban/local/workspace.js 200ms (unchanged)
+tests/zhiban/learner/model.test.ts 22ms

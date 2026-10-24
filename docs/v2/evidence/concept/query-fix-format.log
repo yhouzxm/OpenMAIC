@@ -1,0 +1,2 @@
+lib/zhiban/infrastructure/concept/postgres/transaction.ts 436ms (unchanged)
+scripts/zhiban-local/verify-concept.ts 393ms

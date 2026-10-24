@@ -1,0 +1,50 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "resource": "01a15e55-cda3-756a-839e-a5035646e0e8",
+  "activity": "01a15e55-d1c1-72d7-b43c-00239d405958",
+  "attempt": "01a15e55-d299-70c2-ad61-ed70ffe9d2a4",
+  "binding": {
+    "id": "01a15e55-d664-719d-ba1d-ff653a0b72ee",
+    "title": "互动后的解释作答",
+    "source": "attempt-runtime-server-v1",
+    "boundAt": 1792584046185,
+    "attemptId": "01a15e55-d299-70c2-ad61-ed70ffe9d2a4",
+    "activityId": "01a15e55-d1c1-72d7-b43c-00239d405958",
+    "attemptNumber": 1,
+    "publicationId": "01a15e55-cffe-70d1-9088-b1440a3cc87c",
+    "publicationNo": 1,
+    "activityVersion": 1
+  },
+  "studentCourse": "https://127.0.0.1:3461/zhiban/student/courses/01a15e55-c8bc-77bf-809d-c55d38683fce/coursework?space=01a15e55-556a-746b-bf64-02e06b665f9d&offering=01a15e55-c99c-7420-bca8-b0d5a08bfe01",
+  "facts": [
+    {
+      "at": 1792584045204,
+      "id": "01a15e55-d29c-7727-83ef-fa1bfe568d51",
+      "type": "ATTEMPT_STARTED",
+      "source": "learning-v1",
+      "submissionId": null,
+      "submissionVersion": null
+    },
+    {
+      "at": 1792584048889,
+      "id": "01a15e55-e0fe-7052-8c85-f5607a62acd3",
+      "type": "SUBMISSION_RECORDED",
+      "source": "learning-v1",
+      "submissionId": "01a15e55-e0fd-77ed-a914-62965bc1edf6",
+      "submissionVersion": 1
+    },
+    {
+      "at": 1792584049155,
+      "id": "01a15e55-e208-7088-8e26-dc78d22492c2",
+      "type": "SUBMISSION_RECORDED",
+      "source": "learning-v1",
+      "submissionId": "01a15e55-e207-71c1-89f9-6adb606b64ed",
+      "submissionVersion": 2
+    }
+  ],
+  "completion": null,
+  "score": null,
+  "nativeRuntimeEnabled": false
+}

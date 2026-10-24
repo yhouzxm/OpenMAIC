@@ -1,0 +1,29 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "status": "PASS_WITH_DECLARED_ADDITIONS",
+  "scope": "ORIGINAL_COUNTS_NONDECREASING_NATIVE_DATABASE_COUNTS_IDENTICAL_ACCOUNT_BYTES_IDENTICAL",
+  "delta": {
+    "zhiban_trial_content_disposable": {
+      "zhiban_academic.assignments": 1,
+      "zhiban_academic.audit_events": 14,
+      "zhiban_academic.commands": 14,
+      "zhiban_academic.course_versions": 1,
+      "zhiban_academic.courses": 1,
+      "zhiban_academic.enrollments": 1,
+      "zhiban_academic.offerings": 1,
+      "zhiban_academic.terms": 1,
+      "zhiban_classroom.sessions": 1,
+      "zhiban_curriculum.outlines": 1,
+      "zhiban_flow.commands": 2,
+      "zhiban_flow.events": 2,
+      "zhiban_flow.plans": 1,
+      "zhiban_flow.schema_migrations": 1,
+      "zhiban_flow.versions": 1,
+      "zhiban_learning.activities": 2,
+      "zhiban_learning.activity_versions": 2
+    },
+    "zhiban_trial_content_native": {},
+    "zhiban_trial_lesson_native": {}
+  },
+  "note": "Explicit new migration ledger plus additive demo records. Exact row preservation receipt covers final idempotent rerun; all three DB counts also match final pre-stop baseline after restore."
+}

@@ -1,0 +1,18 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "migrationBaselineHashes": {
+    "count": 28,
+    "changed": []
+  },
+  "frozenIdentityPolicyHashes": {
+    "count": 16,
+    "changed": []
+  },
+  "nativePlayerBaseline": {
+    "count": 26,
+    "changed": [],
+    "source": "previous v1.2.1 real-model LOCAL runtime binding"
+  }
+}

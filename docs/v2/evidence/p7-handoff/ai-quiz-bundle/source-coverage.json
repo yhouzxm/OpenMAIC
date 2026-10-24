@@ -1,0 +1,17 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "versionId": "zhiban-local-20261023-f2348bd7530f",
+  "workspaceFilesCompared": 5653,
+  "currentWorkspaceMatchesArchive": true,
+  "envExampleIncluded": true,
+  "privateAndP7RecursiveInputsExcluded": true,
+  "runtimeIncludedMatching": 1885,
+  "runtimeIncludedDeclaredVerifierDrift": 1,
+  "runtimeOmittedArtifactsOrNonSource": 899,
+  "runtimeOmissionClaim": "Build/dependency/private runtime inputs are not promised by a source handoff; exact omissions do not imply a clean-host runnable binary",
+  "previousVersion": "zhiban-local-20261023-4456acb59cca",
+  "previousArchiveSha256": "506f8d4ca99a6373486e4070cac6597c6330eda5e419b6cf54c1e39e4f08d6c3",
+  "previousArchiveUnchanged": true
+}

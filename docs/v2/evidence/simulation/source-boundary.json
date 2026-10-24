@@ -1,0 +1,18 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "scope": "PG_PROOF_SOURCE_SCOPE_PRESERVED_PLUS_DEFAULT_SEED_AND_SOURCE_BINDING_CLOSURE",
+  "originalProof": "docs/v2/evidence/zhiban-simulation-local.json",
+  "changedBoundPaths": [
+    "scripts/zhiban-local/tsconfig.flow.json",
+    "scripts/zhiban-local/trial-content.ts"
+  ],
+  "addedTool": "scripts/zhiban-local/seed-simulation-demo.ts",
+  "addedBindings": [
+    "seed-simulation-demo.ts",
+    "flow.ts",
+    "zhiban-flow-simulation-profile-reference-local.json"
+  ],
+  "expectedDisposablePathsRemoved": 3,
+  "kernelApiDomainSqlUiChangedAfterPgProof": false,
+  "defaultEvidenceScope": "Guarded additive seeding, actual teacher readiness, same-host restore and asset/source checks; no extra PG regression"
+}

@@ -1,0 +1,196 @@
+{
+  "formatVersion": 1,
+  "kind": "LOCAL_M5_TERMINAL_INSTALLER_WIRING_DIRECTED",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "gitBaselineSha": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "candidateInventorySha256": "38c415440ca07abb5565b96b1685376a85b5135dfcc4872baf5c2f1544860e98",
+  "candidateMigrationSha256": "e1e7ea9517462edd855fb8715f49346db4c467c01aac43e8a370c39eebf7184a",
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "new UUID domain accepts nullable initial-window field",
+      "status": "PASS"
+    },
+    {
+      "name": "new UUID domain still rejects non-v7 and required NULL ids",
+      "status": "PASS"
+    },
+    {
+      "name": "closed profile accepts exact isolated fixture",
+      "status": "PASS"
+    },
+    {
+      "name": "Native whole-table UPDATE drift",
+      "status": "PASS"
+    },
+    {
+      "name": "Native necessary id privilege revoked",
+      "status": "PASS"
+    },
+    {
+      "name": "PUBLIC table UPDATE drift",
+      "status": "PASS"
+    },
+    {
+      "name": "PUBLIC column UPDATE drift",
+      "status": "PASS"
+    },
+    {
+      "name": "observer whole subscription SELECT drift",
+      "status": "PASS"
+    },
+    {
+      "name": "observer explicit control function ACL drift",
+      "status": "PASS"
+    },
+    {
+      "name": "cross-database CONNECT drift",
+      "status": "PASS"
+    },
+    {
+      "name": "PUBLIC database CREATE drift",
+      "status": "PASS"
+    },
+    {
+      "name": "missing collector part rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "exact uncommitted takeover reports NOT_OBSERVED, replay false",
+      "status": "PASS"
+    },
+    {
+      "name": "wrong deployment/window/secret rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "controller raw windows/claims SELECT denied",
+      "status": "PASS"
+    },
+    {
+      "name": "lookup issue event bound to scope, identity and provenance",
+      "status": "PASS"
+    },
+    {
+      "name": "invalid issue provenance rejected without permission",
+      "status": "PASS"
+    },
+    {
+      "name": "issue audit insertion failure rolls back prior permission write",
+      "status": "PASS"
+    },
+    {
+      "name": "revoke audit error rolls back status",
+      "status": "PASS"
+    },
+    {
+      "name": "lookup revocation serializes behind result reader",
+      "status": "PASS"
+    },
+    {
+      "name": "repeat revoke emits one immutable event",
+      "status": "PASS"
+    },
+    {
+      "name": "revoked lookup and wrong tenant denied",
+      "status": "PASS"
+    },
+    {
+      "name": "runtime cannot use takeover lookup",
+      "status": "PASS"
+    },
+    {
+      "name": "fresh sole controller commits atomic takeover",
+      "status": "PASS"
+    },
+    {
+      "name": "same takeover not replayed and wrong request/new rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "fresh backend recovers committed acknowledgement",
+      "status": "PASS"
+    },
+    {
+      "name": "successor further superseded preserves historical query",
+      "status": "PASS"
+    },
+    {
+      "name": "reviewed shadow profile passes fixed authority/source verification",
+      "status": "PASS"
+    },
+    {
+      "name": "unsigned actual-as-expected and altered signature rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "signed wrong expected source and LIVE_TARGET reference rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "untrusted authority pin and nonprivate artifact rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "wrong target and expired install approval reject before DDL",
+      "status": "PASS"
+    },
+    {
+      "name": "pre-install profile drift rejected before DDL/admission change",
+      "status": "PASS"
+    },
+    {
+      "name": "real installer matches independent shadow profile and commits ledger atomically",
+      "status": "PASS"
+    },
+    {
+      "name": "receipt loader accepts blocked technical purpose while retaining isolation",
+      "status": "PASS"
+    },
+    {
+      "name": "repeat installation rejected without replaying migrations",
+      "status": "PASS"
+    },
+    {
+      "name": "receipt tamper and signed false runtime acceptance rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "loader rejects Native PUBLIC function/default privilege drift",
+      "status": "PASS"
+    },
+    {
+      "name": "loader rejects table ACL/role LOGIN and ledger drift",
+      "status": "PASS"
+    },
+    {
+      "name": "loader rejects opened admission; close remains required",
+      "status": "PASS"
+    },
+    {
+      "name": "restored exact profile accepted; no services or ready installation seeded",
+      "status": "PASS"
+    },
+    {
+      "name": "Native installation failure preserves Business ledger and BLOCKED journal without receipt or reopen",
+      "status": "PASS"
+    }
+  ],
+  "pgMajor": 16,
+  "scope": "disposable candidate DDL/controller/lookup/ACL; synthetic product fixtures, minimal Native tables",
+  "disposableClusterOnly": true,
+  "tcpListening": false,
+  "existingClustersConnected": false,
+  "appliedToExistingDatabase": false,
+  "receiptIssued": false,
+  "disposableBlockedReceiptIssued": true,
+  "independentShadowProfileCompared": true,
+  "runtimeAccepted": false,
+  "temporaryClusterStoppedAndRemoved": true,
+  "limitations": [
+    "Synthetic Business FK/trigger-bypassed setup; not full product provenance",
+    "Minimal Native ACL fixture, not public Storage worker",
+    "No full finalize/host regression/HBA credential or crash execution driver"
+  ]
+}

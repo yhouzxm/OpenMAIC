@@ -1,0 +1,43 @@
+
+> openmaic@1.2.1 verify:zhiban:account-status /home/zxm/openmaic/zhiban
+> tsx scripts/zhiban-local/run-m6-catalog.ts --unified-trial --account-status-focus
+
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+Reused @openmaic/generation: matching LOCAL source/build hashes
+PASS Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately
+{"timestamp":"2026-10-22T13:29:41.322Z","level":"INFO","tag":"GenerationRunner","message":"generation runner 43857:a1e72570-86ae-4d59-bdee-3bef604e4e4e started (scan=1000ms, heartbeat=2000ms, leaseTtl=10000ms, maxConcurrent=1)"}
+PASS PG16 restricted roles + real Identity sessions + validated trusted HTTPS
+PASS trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands
+PASS real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft
+error: permission denied for table audit_events
+    at /home/zxm/openmaic/zhiban/node_modules/.pnpm/pg@8.22.0/node_modules/pg/lib/client.js:652:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-buOQqX/verify.mjs:33062:9
+    at async file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-buOQqX/verify.mjs:32945:20
+    at async transaction (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-buOQqX/verify.mjs:25661:14)
+    at async operator (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-buOQqX/verify.mjs:32919:12)
+    at async verifyAccountStatus (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-buOQqX/verify.mjs:33300:17)
+    at async main (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-buOQqX/verify.mjs:78402:7)
+    at async file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-buOQqX/verify.mjs:79746:3 {
+  length: 100,
+  severity: 'ERROR',
+  code: '42501',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'aclchk.c',
+  line: '2812',
+  routine: 'aclcheck_error'
+}
+ ELIFECYCLE  Command failed with exit code 1.

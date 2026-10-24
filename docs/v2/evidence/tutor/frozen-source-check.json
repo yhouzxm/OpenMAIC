@@ -1,0 +1,6 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "existingMigrationDrift": [],
+  "newMigration": "lib/zhiban/infrastructure/tutor/postgres/migrations/0001_tutor.sql",
+  "newMigrationSha256": "ca17c2067e1961f71d8b258a0a714bcc22978c64a061e0344f5eebd78741e4bf"
+}

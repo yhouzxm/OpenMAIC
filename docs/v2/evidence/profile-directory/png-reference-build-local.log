@@ -1,0 +1,2 @@
+PASS PG16 additive migration; unchanged prerequisites/text ledger; exact reference catalog
+PASS REFERENCE ONLY: fresh business/PNG catalog plus Native schema provisioned; no product journey claimed

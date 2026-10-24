@@ -1,0 +1,43 @@
+{
+  "formatVersion": 1,
+  "status": "UNISSUED",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "authorityKeySha256": null,
+  "purpose": "LOCAL_ORDINARY_COMPATIBILITY_RECEIPTS",
+  "releaseId": null,
+  "credentialGenerationId": null,
+  "deploymentId": null,
+  "sourceBindingsSha256": null,
+  "configurationSha256": null,
+  "buildManifestSha256": null,
+  "contexts": {
+    "identity": {
+      "policySha256": null,
+      "ledgerSha256": null,
+      "previousReceiptSha256": null
+    },
+    "academic": {
+      "policySha256": null,
+      "ledgerSha256": null,
+      "previousReceiptSha256": null
+    },
+    "learning": {
+      "policySha256": null,
+      "ledgerSha256": null,
+      "previousReceiptSha256": null
+    },
+    "assessment": {
+      "policySha256": null,
+      "ledgerSha256": null,
+      "previousReceiptSha256": null
+    },
+    "content": {
+      "policySha256": null,
+      "ledgerSha256": null,
+      "previousReceiptSha256": null
+    }
+  },
+  "launchAllowed": false,
+  "terminalActionsAllowed": false
+}

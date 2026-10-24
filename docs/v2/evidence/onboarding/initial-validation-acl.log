@@ -1,0 +1,35 @@
+
+> openmaic@1.2.1 verify:zhiban:onboarding /home/zxm/openmaic/zhiban
+> tsx scripts/zhiban-local/run-m6-catalog.ts --unified-trial --onboarding-focus
+
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+Reused @openmaic/generation: matching LOCAL source/build hashes
+PASS Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately
+{"timestamp":"2026-10-22T12:52:57.409Z","level":"INFO","tag":"GenerationRunner","message":"generation runner 35873:2ded8580-0b2f-4c9f-8502-14c488ff67f5 started (scan=1000ms, heartbeat=2000ms, leaseTtl=10000ms, maxConcurrent=1)"}
+PASS PG16 restricted roles + real Identity sessions + validated trusted HTTPS
+PASS trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands
+PASS real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft
+LOCAL directed store refusal WORK FORBIDDEN 5
+LOCAL directed store refusal WORK FORBIDDEN 37
+LOCAL directed store refusal WORK 42501 10
+AssertionError [ERR_ASSERTION]: {"error":{"code":"UNAVAILABLE","requestId":"f1bcb9e5-0238-44dd-8681-820f3c5e6e1f"}}
+
+503 !== 200
+
+    at ok (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-sGmER2/verify.mjs:33965:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async request (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-sGmER2/verify.mjs:33969:6)
+    at async verifyOnboarding (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-sGmER2/verify.mjs:34046:23)
+    at async main (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-sGmER2/verify.mjs:77512:7)
+    at async file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-sGmER2/verify.mjs:78840:3 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 503,
+  expected: 200,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+ ELIFECYCLE  Command failed with exit code 1.

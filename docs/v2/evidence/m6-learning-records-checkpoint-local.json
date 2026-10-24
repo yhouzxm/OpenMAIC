@@ -1,0 +1,55 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-15T13:26:45.438862+00:00",
+  "baseBranch": "refactor/zhiban-v2",
+  "baseHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "validation": {
+    "pg16HttpsBrowserGroups": 12,
+    "relatedUnitTests": 68,
+    "targetedTypeScript": "PASS",
+    "targetedEslint": "PASS",
+    "targetedPrettier": "PASS",
+    "priorMigrationHashesUnchanged": 16
+  },
+  "reports": {
+    "m6-learning-records-local.json": {
+      "status": "PASS",
+      "checks": 12,
+      "sourceMismatches": [],
+      "removedBundleCount": 1,
+      "sha256": "a3d7b2d84220133fc034ce3c3996b99f881a502e62bd046a87eda740ff6144bb"
+    },
+    "m6-learning-records-demo-local.json": {
+      "status": "RUNNING_DISPOSABLE",
+      "checks": 12,
+      "sourceMismatches": [],
+      "removedBundleCount": 0,
+      "sha256": "c51ac669fb0024fec2ea78fc23d75e8a2025cf2c2c012920799bce89b411b7b9"
+    }
+  },
+  "unitTestHashes": {
+    "tests/zhiban/assessment/model.test.ts": "779be76e1c190942863f76a9b4a45bb53f73ff2ef717167176dd0020f2f37ddf",
+    "tests/zhiban/learning/pages.test.ts": "942969368e316a986ea3006e97fd2dc3d12c91057e0e9fce2d0a761972099d6f",
+    "tests/zhiban/learning/model.test.ts": "192912546d3b2062e3363749681e28a27b02beb613008cc25d7f37d70cdfa467",
+    "tests/zhiban/progress/summary.test.ts": "00151606f60350e3dc86e0ba8413c7ba7abba4e2703dcffb051a11a8b23555a6",
+    "tests/zhiban/management/query.test.ts": "8dbb3271268db53f487e02142e27e27e200ecdcbad62991868720a6e8f642a35",
+    "tests/zhiban/analytics/contract.test.ts": "d8391212f2e6935aa39be91c8a0feb32ddf654cf222b301455c83a5680225e70",
+    "tests/zhiban/academic/session-authentication.test.ts": "3eecbced7bc10088c1d495369191b479df4aa24bf52e5a2b60a5ad66f5625d10",
+    "tests/zhiban/academic/model.test.ts": "fc91a40afa12ff12a8b1e31429f5ebf419a1497fffc4e708f0d49c59d62b2f70",
+    "tests/zhiban/workspace/query.test.ts": "ec5a46c9ce7fc006651c2c7ec690f26ba7dca187266b6631b4fab5f4d64efbe2"
+  },
+  "inAppBrowser": {
+    "origin": "https://127.0.0.1:3454",
+    "view": "student activity search, ten-row attempt page, exact attempt submission page",
+    "certificateBypass": false,
+    "screenshot": "docs/v2/evidence/m6-learning-records-iab-local.png",
+    "screenshotSha256": "e57eb3220527cab944eaeba41897249b6655fe7ee01ab1b3128f2835d124d51d"
+  },
+  "gitActions": {
+    "commit": false,
+    "push": false,
+    "ciDispatch": false
+  }
+}

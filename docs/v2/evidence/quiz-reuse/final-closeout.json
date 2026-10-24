@@ -1,0 +1,34 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "head": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "dirtyCandidate": true,
+  "runtime": {
+    "origin": "https://127.0.0.1:3461",
+    "root": "/tmp/zhiban-trial-content-pvedyH",
+    "pgPort": 56517,
+    "modifiedProductSourcesMatch": true
+  },
+  "sourceHashes": {
+    "lib/zhiban/domain/quiz/model.ts": "8f16a30c074f4774c592efe29824860592335e02920299e8c6c6bd15d91208d5",
+    "lib/zhiban/domain/quiz/reuse.ts": "ddc429d2efccf60bc4f7b957b1595404a651dc789a79c523975597d20f10f01c",
+    "lib/zhiban/infrastructure/quiz/postgres/transaction.ts": "8ba54a366595f282d09cc8b1855e40bf35e52d1ec54bbc8a416315eaa558803c",
+    "app/zhiban/local/quiz-client.tsx": "e7c901d293ae83d89189bdc396249fcef573a5e666b8b3fb71a12640445877bb",
+    "app/zhiban/local/quiz-client.js": "c9d26a5153736f3f528c102c81d6a7a248e3f5b337c08c1e7fde3c828f5e9ed2",
+    "tests/zhiban/quiz/reuse.test.ts": "66433bf198422340d36ab9f8c4a6c09a2e2def45f44cc40fce5dcfc0eb518be0",
+    "scripts/zhiban-local/verify-quiz-reuse.cjs": "bdc69086fff64629029b66b1b1dfbc6c35475ec4d646e16ccedd034608cc0d04",
+    "docs/v2/zhiban-v2-quiz-reuse-local.md": "b3632371e0c198934ce2e512fd3d05a484e24b7294868e84cb7ce48d38cc3d6e"
+  },
+  "journeySha256": "513ad9d9456103f41a0cd13fb4fd6c62a60828bdbc54b161c5bbf89933c09539",
+  "checks": [
+    "targeted quiz typecheck PASS",
+    "quiz contract and reuse unit checks PASS",
+    "affected ESLint PASS",
+    "browser and PG16 journey PASS",
+    "existing upstream extension hashes unchanged"
+  ],
+  "noAppliedMigrationChanges": true,
+  "p7Repacked": false,
+  "commitPushCi": false
+}

@@ -1,0 +1,58 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "scope": "UNIFIED_LOCAL_HANDOFF_NOT_PRODUCTION",
+  "version": "1.2.1",
+  "officialPin": "e19d0d4f45d81b8f7ab599b33ab03b0b8b68d5c0",
+  "branch": "refactor/zhiban-v2",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "dirtyEntries": 1510,
+  "node": "v22.23.3",
+  "pnpm": "10.28.0",
+  "runtime": {
+    "status": "RUNNING_LOCAL_DISPOSABLE",
+    "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "urls": {
+      "workspace": "https://127.0.0.1:3461/zhiban?space=01a16832-0b96-73ab-ab74-82c6960bb707",
+      "grading": "https://127.0.0.1:3461/zhiban/grading?tenant=01a16832-0b96-73ab-ab74-82c6960bb707&offering=01a16832-2796-7433-aeb6-8745cec326a4#queue",
+      "analytics": "https://127.0.0.1:3461/zhiban/analytics?tenant=01a16832-0b96-73ab-ab74-82c6960bb707&offering=01a16832-2796-7433-aeb6-8745cec326a4",
+      "progress": "https://127.0.0.1:3461/zhiban/progress?tenant=01a16832-0b96-73ab-ab74-82c6960bb707&offering=01a16832-2796-7433-aeb6-8745cec326a4",
+      "roster": "https://127.0.0.1:3461/zhiban/roster?tenant=01a16832-0b96-73ab-ab74-82c6960bb707&offering=01a16832-2796-7433-aeb6-8745cec326a4"
+    },
+    "accounts": [
+      {
+        "label": "管理员 · 王管理员",
+        "role": "ADMIN",
+        "userId": "01a16832-0da4-73e7-8ae1-20c09cf8bf49"
+      },
+      {
+        "label": "教师 · 周老师",
+        "role": "TEACHER",
+        "userId": "01a16832-0ba4-76eb-9cdf-0452ddb9a823"
+      },
+      {
+        "label": "学生 · 陈同学",
+        "role": "STUDENT",
+        "userId": "01a16832-0c42-7796-a981-4af772fa8487"
+      }
+    ],
+    "privateAccountsFile": "/tmp/zhiban-trial-content-BSZzAt/accounts.json",
+    "rosterExample": "/tmp/zhiban-trial-content-BSZzAt/roster-example.csv",
+    "stop": "pnpm trial:zhiban:stop",
+    "dataLifetime": "Stop removes this owned cluster; restart creates new synthetic data and passwords."
+  },
+  "scanner": {
+    "mode": "UNAVAILABLE",
+    "claim": "Current metadata; historical scan receipts do not enable new uploads"
+  },
+  "ai": {
+    "localConfigurationPresent": true,
+    "realProviderRetested": false,
+    "standardStart": "pnpm trial:zhiban",
+    "existingPrivateModelWrapper": "Optional existing operator configuration; keys not exported"
+  },
+  "dataLifetime": "Disposable cluster; stop removes its data; no restore claim",
+  "accountDelivery": "Current private accounts.json only; never included in the source kit"
+}

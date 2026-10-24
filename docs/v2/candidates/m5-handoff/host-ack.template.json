@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "status": "UNISSUED",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "authorityKeySha256": null,
+  "purpose": "LOCAL_HANDOFF_HOST_ACK",
+  "releaseId": null,
+  "credentialGenerationId": null,
+  "deploymentId": null,
+  "sourceBindingsSha256": null,
+  "artifactManifestSha256": null,
+  "configurationSha256": null,
+  "expectedProfileSha256": null,
+  "challengeSha256": null,
+  "validationEvidenceSha256": null,
+  "validationOnly": true,
+  "httpListening": false,
+  "businessWrites": false,
+  "terminalActionsAllowed": false,
+  "checks": {
+    "sixRoleTcpScram": false,
+    "oldCredentialsDenied": false,
+    "exactHba": false,
+    "configurationComposition": false,
+    "compatibilityReceipts": false,
+    "physicalClosure": false,
+    "loaderInstrumentation": false,
+    "nativeAbiLibraries": false,
+    "freshShadowLoad": false
+  },
+  "compatibilityReceiptsSha256": null
+}

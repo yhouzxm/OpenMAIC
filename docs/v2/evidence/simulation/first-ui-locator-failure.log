@@ -1,0 +1,47 @@
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+Reused @openmaic/generation: matching LOCAL source/build hashes
+PASS Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately
+{"timestamp":"2026-10-24T07:52:11.521Z","level":"INFO","tag":"GenerationRunner","message":"generation runner 71467:2b8fbaeb-3697-4d02-916c-3d4e4ee79fb1 started (scan=1000ms, heartbeat=2000ms, leaseTtl=10000ms, maxConcurrent=1)"}
+PASS PG16 restricted roles + real Identity sessions + validated trusted HTTPS
+PASS trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands
+PASS real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft
+A [Error]: expect(locator).toBeVisible() failed
+
+Locator: getByRole('button', { name: '推进下一环节', exact: true })
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "to.be.visible" with timeout 5000ms
+  - waiting for getByRole('button', { name: '推进下一环节', exact: true })
+
+    at Proxy.<anonymous> (/home/zxm/openmaic/zhiban/node_modules/.pnpm/playwright@1.58.2/node_modules/playwright/lib/matchers/expect.js:213:24)
+    at verifySimulation (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-8odU7i/verify.mjs:31996:106)
+    at async main (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-8odU7i/verify.mjs:90823:7)
+    at async file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-8odU7i/verify.mjs:92168:3 {
+  matcherResult: {
+    message: 'expect(locator).toBeVisible() failed\n' +
+      '\n' +
+      "Locator: getByRole('button', { name: '推进下一环节', exact: true })\n" +
+      'Expected: visible\n' +
+      'Timeout: 5000ms\n' +
+      'Error: element(s) not found\n' +
+      '\n' +
+      'Call log:\n' +
+      '  - Expect "to.be.visible" with timeout 5000ms\n' +
+      "  - waiting for getByRole('button', { name: '推进下一环节', exact: true })\n",
+    pass: false,
+    actual: undefined,
+    name: 'toBeVisible',
+    expected: 'visible',
+    log: [
+      '  - Expect "to.be.visible" with timeout 5000ms',
+      "  - waiting for getByRole('button', { name: '推进下一环节', exact: true })"
+    ],
+    timeout: 5000
+  }
+}

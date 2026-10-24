@@ -1,0 +1,9 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "status": "PASS",
+  "originalTables": 91,
+  "originalRows": 310,
+  "currentRows": 414,
+  "accountsSha256": "91d73979d2a3a17ba17c69549682aa4d944f875c004bb8427ad5ba35d262e122",
+  "comparison": "original row hashes excluding additive nullable service_job_id, subset retained"
+}

@@ -1,0 +1,30 @@
+{
+  "extends": "/home/zxm/openmaic/zhiban/tsconfig.json",
+  "compilerOptions": {
+    "incremental": true,
+    "tsBuildInfoFile": "/tmp/zhiban-learner-scoped.tsbuildinfo",
+    "plugins": [],
+    "types": [
+      "node"
+    ],
+    "typeRoots": [
+      "/home/zxm/openmaic/zhiban/node_modules/@types"
+    ],
+    "allowJs": false
+  },
+  "include": [
+    "/home/zxm/openmaic/zhiban/lib/zhiban/domain/learner/**/*.ts",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/application/learner/**/*.ts",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/learner/**/*.ts",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/application/academic/service.ts",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/academic/postgres/store.ts",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/learner.ts",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/build-learner-reference.ts",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/verify-learner.ts",
+    "/home/zxm/openmaic/zhiban/tests/zhiban/learner/**/*.ts"
+  ],
+  "exclude": [
+    "/home/zxm/openmaic/zhiban/node_modules",
+    "/home/zxm/openmaic/zhiban/.next"
+  ]
+}

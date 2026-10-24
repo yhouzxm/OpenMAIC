@@ -1,0 +1,22 @@
+{
+  "kind": "LOCAL_UNAPPLIED_SOURCE_CANDIDATE_ONLY_NEW_OWNED_FIXTURE_INSTALL",
+  "migration": "docs/v2/candidates/p4-interactive/0003-interactive.sql",
+  "sha256": "821cb2935a7e9acc23c2ddd64dbba68747e06aabe5e0fcb4d158b8908e8023fa",
+  "policy": "content-interactive-offline-v1",
+  "replacedHelpers": [
+    "zhiban_content.lock_business_context",
+    "zhiban_bridge.business_resource_ready",
+    "zhiban_content.publication_guard"
+  ],
+  "newHelpers": [
+    "zhiban_content.valid_interactive_draft",
+    "zhiban_content.valid_draft"
+  ],
+  "renamedPreservedHelper": "zhiban_content.valid_png_draft",
+  "additionalAcl": [
+    "SELECT interactive_schema_migrations TO zhiban_bridge_runtime",
+    "EXECUTE new validators TO zhiban_bridge_runtime"
+  ],
+  "noIdentityPermissionChange": true,
+  "productionApplied": false
+}

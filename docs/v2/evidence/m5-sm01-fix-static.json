@@ -1,0 +1,194 @@
+{
+  "formatVersion": 1,
+  "evidenceOrigin": "LOCAL",
+  "scope": "OFFLINE_UNAPPLIED_CANDIDATE_ONLY",
+  "gitBaselineSha": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "inventorySha256": "28ecc1458d682a3a57b6ebf9bb6aaa3fd57f0dce748c9e66afe28b2216443851",
+  "verifierSha256": "aab29fdc3650cc7588e83ddf137642603e02ea297d6fdade9fb7041cbe4a5cc1",
+  "migrationAggregateSha256": "e335f83bb48cc6c4ec754f8e3270dc0e6941e14f38306bd67aa29844c3713324",
+  "checkCount": 42,
+  "checks": [
+    {
+      "name": "branch and baseline match",
+      "status": "PASS"
+    },
+    {
+      "name": "candidate remains unapplied metadata",
+      "status": "PASS"
+    },
+    {
+      "name": "source hash: 00-preflight.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "source hash: 01-schema.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "source hash: 02-helpers-and-guards.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "source hash: 03-acl.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "source hash: 04-receipt-inspect.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "ordered logical migration checksum",
+      "status": "PASS"
+    },
+    {
+      "name": "prerequisite snapshot: lib/zhiban/infrastructure/identity/postgres/migrations/0001_identity_bootstrap.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "frozen HEAD bytes: 0001_identity_bootstrap.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "prerequisite snapshot: lib/zhiban/infrastructure/identity/postgres/migrations/0002_identity_core.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "frozen HEAD bytes: 0002_identity_core.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "prerequisite snapshot: lib/zhiban/infrastructure/identity/postgres/migrations/0003_identity_audit_and_rls.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "frozen HEAD bytes: 0003_identity_audit_and_rls.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "prerequisite snapshot: lib/zhiban/infrastructure/identity/postgres/migrations/0004_identity_credentials.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "frozen HEAD bytes: 0004_identity_credentials.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "prerequisite snapshot: lib/zhiban/infrastructure/identity/postgres/migrations/0005_identity_credential_consistency_fix.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "frozen HEAD bytes: 0005_identity_credential_consistency_fix.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "prerequisite snapshot: lib/zhiban/infrastructure/identity/postgres/migrations/0006_identity_sessions.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "frozen HEAD bytes: 0006_identity_sessions.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "prerequisite snapshot: lib/zhiban/infrastructure/identity/postgres/migrations/0007_identity_authorization_state.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "frozen HEAD bytes: 0007_identity_authorization_state.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "prerequisite snapshot: lib/zhiban/infrastructure/identity/postgres/migrations/0008_identity_authentication_composition.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "frozen HEAD bytes: 0008_identity_authentication_composition.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "prerequisite snapshot: lib/zhiban/infrastructure/identity/postgres/migrations/0009_identity_membership_composition.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "frozen HEAD bytes: 0009_identity_membership_composition.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "prerequisite snapshot: lib/zhiban/infrastructure/identity/postgres/migrations/0010_identity_manual_recovery.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "frozen HEAD bytes: 0010_identity_manual_recovery.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "prerequisite snapshot: lib/zhiban/infrastructure/identity/postgres/migrations/0011_identity_recovery_source_locks.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "frozen HEAD bytes: 0011_identity_recovery_source_locks.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "prerequisite snapshot: lib/zhiban/infrastructure/identity/postgres/migrations/0012_openmaic_bridge_foundation.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "frozen HEAD bytes: 0012_openmaic_bridge_foundation.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "prerequisite snapshot: lib/zhiban/infrastructure/identity/postgres/migrations/0013_openmaic_bridge_consistency_fix.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "frozen HEAD bytes: 0013_openmaic_bridge_consistency_fix.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "prerequisite snapshot: lib/zhiban/infrastructure/academic/postgres/migrations/0001_academic.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "prerequisite snapshot: lib/zhiban/infrastructure/learning/postgres/migrations/0001_learning.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "prerequisite snapshot: lib/zhiban/infrastructure/assessment/postgres/migrations/0001_assessment.sql",
+      "status": "PASS"
+    },
+    {
+      "name": "receipt binds candidate sources",
+      "status": "PASS"
+    },
+    {
+      "name": "receipt unissued, LOCAL and no fabricated observations",
+      "status": "PASS"
+    },
+    {
+      "name": "no role/database/bootstrap/ledger rewrite or automatic transaction",
+      "status": "PASS"
+    },
+    {
+      "name": "single existing function replacement is structural gate",
+      "status": "PASS"
+    },
+    {
+      "name": "exact same-client role and no new academic raw grant",
+      "status": "PASS"
+    }
+  ],
+  "syntaxParser": {
+    "status": "NOT_RUN",
+    "reason": "Optional isolated pglast 6.x / PG16 not installed; hash checks are not syntax proof."
+  },
+  "databaseConnections": 0,
+  "migrationApplied": false,
+  "liveCatalogOrAclVerified": false,
+  "receiptIssued": false,
+  "commitPushCiDispatch": false,
+  "limitations": [
+    "No live SQL semantic/type resolution",
+    "No ACL/RLS/row-lock/concurrency/Native or host validation",
+    "Static source snapshots do not establish live ledger match"
+  ]
+}

@@ -1,0 +1,33 @@
+
+> openmaic@1.2.0 trial:zhiban /home/zxm/openmaic/zhiban
+> tsx scripts/zhiban-local/run-m6-catalog.ts --unified-trial --serve
+
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+PASS Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately
+error: invalid input syntax for type uuid: ""
+    at /home/zxm/openmaic/zhiban/node_modules/.pnpm/pg-pool@3.14.0_pg@8.22.0/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async main (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-IeRl4v/verify.mjs:25998:5)
+    at async file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-IeRl4v/verify.mjs:27683:3 {
+  length: 129,
+  severity: 'ERROR',
+  code: '22P02',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: "unnamed portal parameter $2 = ''",
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'uuid.c',
+  line: '133',
+  routine: 'string_to_uuid'
+}
+ ELIFECYCLE  Command failed with exit code 1.

@@ -1,0 +1,43 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "at": "2026-10-17T13:05:44.920547+00:00",
+  "status": "PASS",
+  "origin": "https://127.0.0.1:3467",
+  "scanner": {
+    "mode": "TRUSTED_SCANNER",
+    "profile": "/home/zxm/.local/share/zhiban-scanner/snapshots/2026-10-17T12-57-59.708Z/profile.json",
+    "sha256": "8c93c544e24bc800f9d19832712c2009ab1dfed3c237026cdac94bd96ad3563d"
+  },
+  "sourceMatches": true,
+  "sourceDriftCount": 0,
+  "checks": [
+    "PG16 restricted roles + real Identity sessions + validated trusted HTTPS",
+    "trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands",
+    "real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft",
+    "three real browser logins share one origin: admin history, teacher activities/queue/analytics, student activities/published feedback; no script errors",
+    "student/admin cannot acquire teacher grading; content/Runtime/control APIs stay CLOSED and their trial page explains the boundary",
+    "trusted scanner wrong profile pin, unavailable executable (including cached digest), and wrong file/proof digest fail closed; no partial submission",
+    "TRUSTED_SCANNER real official ClamAV clean TXT accepted; EICAR rejected without submission; atomic binding, digest/bytes, replay, malformed/oversize, role/tenant/revoked denial and version history pass",
+    "submission files PDF bytes, concurrent revision barrier, 10 MiB attempt quota rollback and expired deadline rejection pass without partial submissions",
+    "submission file loader checks source ledger and exact append-only RLS/ACL; excess DELETE rejected and restored",
+    "submission files real browser selects file, saves text draft retaining selection, submits version, reopens historical list and downloads exact file bytes without script errors"
+  ],
+  "unitTests": {
+    "passed": 31,
+    "total": 31,
+    "scope": "tests/zhiban/learning"
+  },
+  "typecheck": "PASS scripts/zhiban-local/tsconfig.classroom.json",
+  "eslint": "PASS directed learning/scanner/assets/local adapter/UI files",
+  "nativeBrowser": "Codex in-app browser opened https://127.0.0.1:3467/zhiban and rendered login without certificate error; full attachment download journey separately verified in ordinary headless Chromium",
+  "eicarEngineEvidence": "zhiban-clamav-eicar-local.json",
+  "limits": [
+    "PDF/TXT one file <=1MiB",
+    "single scanner; cold load approx25-35sec",
+    "7-day daily database cutoff; manual snapshot rotation",
+    "LOCAL candidate only; real PG55432/55433 and Native/Bridge/Runtime unchanged",
+    "NO COMMIT / NO PUSH / NO CI DISPATCH"
+  ]
+}

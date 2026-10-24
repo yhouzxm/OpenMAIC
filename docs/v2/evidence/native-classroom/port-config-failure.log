@@ -1,0 +1,28 @@
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+Reused @openmaic/generation: matching LOCAL source/build hashes
+Error: Command failed: /usr/lib/postgresql/16/bin/psql -X -v ON_ERROR_STOP=1 -h /tmp/zhiban-trial-content-DbQsUI/socket -p 56517 -U postgres -d zhiban_trial_content_native -f /home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/openmaic/bootstrap-native-roles.pg16.sql
+psql: error: connection to server on socket "/tmp/zhiban-trial-content-DbQsUI/socket/.s.PGSQL.56517" failed: No such file or directory
+	Is the server running locally and accepting connections on that socket?
+
+    at genericNodeError (node:internal/errors:983:15)
+    at wrappedFn (node:internal/errors:537:14)
+    at checkExecSyncError (node:child_process:916:11)
+    at execFileSync (node:child_process:952:15)
+    at installTrialContent (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-9kkfC4/verify.mjs:74679:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async main (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-9kkfC4/verify.mjs:88898:141)
+    at async file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-9kkfC4/verify.mjs:91511:3 {
+  status: 2,
+  signal: null,
+  output: [
+    null,
+    <Buffer >,
+    <Buffer 70 73 71 6c 3a 20 65 72 72 6f 72 3a 20 63 6f 6e 6e 65 63 74 69 6f 6e 20 74 6f 20 73 65 72 76 65 72 20 6f 6e 20 73 6f 63 6b 65 74 20 22 2f 74 6d 70 2f ... 158 more bytes>
+  ],
+  pid: 62790,
+  stdout: <Buffer >,
+  stderr: <Buffer 70 73 71 6c 3a 20 65 72 72 6f 72 3a 20 63 6f 6e 6e 65 63 74 69 6f 6e 20 74 6f 20 73 65 72 76 65 72 20 6f 6e 20 73 6f 63 6b 65 74 20 22 2f 74 6d 70 2f ... 158 more bytes>
+}

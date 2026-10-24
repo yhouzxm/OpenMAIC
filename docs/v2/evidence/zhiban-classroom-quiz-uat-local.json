@@ -1,0 +1,77 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "BROWSER_CLASSROOM_UAT_VERIFIED_WITH_SCOPED_UI_PATCH",
+  "date": "2026-10-18T10:52:38.654766+00:00",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "origin": "https://127.0.0.1:3461",
+  "ownedRoot": "/tmp/zhiban-trial-content-eFnKFQ",
+  "privateAccountsFile": "/tmp/zhiban-trial-content-eFnKFQ/accounts.json",
+  "teacher": "周老师",
+  "student": "陈同学",
+  "courseId": "01a14e99-fa93-7328-9e84-279b1af642ab",
+  "offeringId": "01a14e99-fc5c-76f7-bcbe-195adcffebf6",
+  "activityId": "01a14e9c-56a5-728a-a14f-169fe95f72b4",
+  "unitId": "e27694d6-986c-4bd2-8251-473929ee4956",
+  "submissionId": "01a14ea0-3f18-77c8-9aca-16a1da52fe8a",
+  "activityTitle": "课堂试讲：断电检查",
+  "directoryPublication": 3,
+  "initialGrade": {
+    "version": 1,
+    "score": 1,
+    "maximum": 1
+  },
+  "correctedGrade": {
+    "version": 2,
+    "score": 0.9,
+    "maximum": 1,
+    "reason": "课堂复核：需补充验电仪表使用前后自检，按评分指引扣0.1分。"
+  },
+  "checks": [
+    "CUA teacher chapter compose -> Quiz authoring/save/publish -> chapter attach/save/publish",
+    "CUA student published lecture text and PNG -> new unit -> start/resume/save -> final confirmation -> Submission receipt",
+    "CUA teacher queue -> manual grade -> publish -> reasoned correction",
+    "CUA corrected grade history automatically shows v2 and retains v1 without manual refresh",
+    "CUA student course grades shows 0.9/1 v2, teacher feedback and public correction reason",
+    "CUA reloaded single-unit page omits activity search/filter controls and still resumes existing attempt",
+    "CUA teacher question editor shows manual-grading host translation",
+    "affected Quiz dependency closure TypeScript exit 0",
+    "three changed UI sources ESLint exit 0; JS syntax checks exit 0",
+    "HTTP/1.1 with pinned development CA: served quiz-client.js/learning.js/assessment.js byte-equal current source artifacts"
+  ],
+  "browserConsoleWarningsOrErrorsAtFinalPage": [],
+  "startupReceiptRetained": true,
+  "startupSourceMatches": false,
+  "expectedUiDrift": {
+    "app/zhiban/local/quiz-client.tsx": {
+      "startupSha256": "debafa203a6c31a91ad979d46acbede1afa0e39ad62d098d56696775eacf45ce",
+      "currentSha256": "544178349bc34e383f3c001a4e069ff48827341a61a830675897b77756045401"
+    },
+    "app/zhiban/local/assessment.js": {
+      "startupSha256": "23ebac8a29ae7bd9ebcf0bd86d7791c60d65c9670e36483be259dc2235acd4f0",
+      "currentSha256": "2f2fccf5a4bce99fe5614af8934748ea8cbad4b7dbf8c412ee4f89cd09bd86c7"
+    },
+    "app/zhiban/local/learning.js": {
+      "startupSha256": "be96cf202ec23dab4020cf364776a7f2273a28b9cd0334dbb54005c3ba60032b",
+      "currentSha256": "896148795a977ff7959abb9dc04564f011f8cab1c7470acb5f0ccee58ed57cd8"
+    },
+    "app/zhiban/local/quiz-client.js": {
+      "startupSha256": "2a9a8c210ab271b3419fd454c1b1d634ce572d07cdd64288d41312e5cdcecc09",
+      "currentSha256": "1ed5a000ffec38edbdda5ca1ee637775a6db23410e32ee3404929c554dc201d3"
+    }
+  },
+  "unchangedStartupBoundFiles": "All other startup-bound files hash-equal, including migrations, backend services and SDK source/dist",
+  "notes": [
+    "Fresh startup completed existing 15 LOCAL journey groups before manual trial; this is not a second full regression after UI patches",
+    "Startup receipt is not rewritten; UI patch receipt records actual current source hashes and served asset equality",
+    "Default curl CA store could not resolve local issuer; explicit pinned development CA verification passed; no TLS bypass",
+    "Classroom uses synthetic identities/data; not a real student cohort or production signoff",
+    "Dirty native refresh/close remains deferred; no new manual signoff",
+    "Course discussion is source-audited design only; no discussion SQL/API/UI activated"
+  ],
+  "discussionDesign": "docs/v2/zhiban-v2-course-discussion-gap.md",
+  "validationLogs": {
+    "typecheck-local.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "eslint-local.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

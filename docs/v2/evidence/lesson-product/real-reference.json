@@ -1,0 +1,13 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "sourceRunId": "run-75tKWXVzt21rTGuo",
+  "scope": "READ_ONLY_COPY_OF_PRIOR_REAL_GENERATION_NOT_NEW_MODEL_CALL",
+  "privatePath": "/home/zxm/.local/state/zhiban-model-trial/real-document-reference.json",
+  "sha256": "3911028c34d73cf37d433789b28433366418214e9bd777c3ee8e214e49e20628",
+  "sceneCount": 3,
+  "formulas": [
+    "U = IR",
+    "I = \\dfrac{U}{R} \\qquad R = \\dfrac{U}{I}",
+    "I = \\frac{U}{R} = \\frac{12\\,\\mathrm{V}}{6\\,\\Omega} = 2\\,\\mathrm{A}"
+  ]
+}

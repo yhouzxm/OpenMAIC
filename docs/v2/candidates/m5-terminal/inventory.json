@@ -1,0 +1,492 @@
+{
+  "formatVersion": 1,
+  "status": "UNAPPLIED",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "profile": "terminal-reconciliation-local-v1",
+  "gitBaselineSha": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "runtimeAccepted": false,
+  "migration": {
+    "schema": "zhiban_content",
+    "version": "0002",
+    "orderedComponents": [
+      "01-schema.sql",
+      "02-common-and-history.sql",
+      "03-operation-helpers.sql",
+      "04-control-and-lookup.sql",
+      "05-existing-constraint-supplement.sql",
+      "06-guards.sql",
+      "07-acl.sql"
+    ],
+    "aggregateSha256": "ec2aa8066aae0455127522df40a32b86249a98417391dc714d243f366e592548",
+    "transaction": "one explicit owner transaction; computed ledger INSERT by future installer; no changes to 0001"
+  },
+  "filesSha256": {
+    "00-business-connect.sql": "c089230507cb234cef9d6fbb26ce644c1b13e2972e40fef435ab115388298dd8",
+    "00-catalog-observer.sql": "44f285661eeb96b65122a8bc1124581eb421f6c2ce3197df1642a012b52e70cb",
+    "00-role-bootstrap.sql": "ed4fd664b00bf4f11c0b33a69e56528705a5d0c27d1753b3fa9b388b68328320",
+    "01-schema.sql": "bd00716b5a5c39bfc9e3ad7a43bd87324f96d1ff749be7e7c45afe09161b322b",
+    "02-common-and-history.sql": "b80848a330e40e2ce2fc724332661c6a6d4b202b984a8e6d37f37ec1c1ae1b31",
+    "03-operation-helpers.sql": "bc81a27b93a1af938bde1e146d290a65833afa835a24363de7eb0dd73bcdf665",
+    "04-control-and-lookup.sql": "babb1fbdcd99ee689cc8d8f6f4a81c90d76cf981b531dbc189caa81cdfc077cf",
+    "05-existing-constraint-supplement.sql": "bed38d13b0275534a49cb5ccb6e97785590d9237a505efee479cccdec1c671ec",
+    "06-guards.sql": "6585005ec56bf74e81f7c68b958088a363e4032b75fa200f4441143efcbbbf68",
+    "07-acl.sql": "57f2abadd30100cb8961845b3aeeb34e43885ff6301cc1ba71759fb7d67b089c",
+    "08-native-proof-acl.sql": "6291185fd9a07754e0cf120843b81451b53efe76eef476c81d4c2be4eca69ca0",
+    "09-catalog-inspect.sql": "56ac4e196432208e46608f9d89be730269986fec66cbe2c8626f106fc9a7532a",
+    "10-native-catalog-inspect.sql": "b6e5eb3da8295546f049aaba0ab790d2ac79c03999c54110afdb26e90557a112",
+    "11-complete-installation-catalog.sql": "8e1c3709f403ff7d5bbd23d43d49102ff81fef22002570201cd207e2732cf9af",
+    "README.md": "f83a40e8354de0fe9a87396fe87fa8e332a4cdbb587f7a6250906e8c839ce7b8",
+    "generate-constraint-supplement.py": "a97213c10f74cf631635eef8ad354429eee179e6526a5167ed59cde8eb07e4dd",
+    "maintenance-cli.cjs": "a0d30350c36802790c1e7b99ab040e3f5bdd9ce0a2d34f631cc555af60da4844",
+    "maintenance-executor.cjs": "34e0a964ffc3fb518c37659eaf86157c374b04aa081ea6331951ac0bfacaa4f1",
+    "maintenance-hba.cjs": "1007e7f701bc63fb494858cf1af7204c45647d275d1f9a9c27a1e6927615b20e",
+    "maintenance-lock.cjs": "92c237008069b90f5ff6ae61e74f804ddfe06de387df62d341ac43c0cfbc487d",
+    "maintenance-sign-approval.cjs": "5bf8394708e583dd3900227c7713c8696a42e8011a1527687529b3bf8f0ae722",
+    "recovery-plan.py": "95b1d9b42714ce1896c2df4a5e8ba2f9ce60708fa3ef7d6222d363e2bd6ee699",
+    "recovery-request.template.json": "15b10973078a7c39fb005a8fabf8b7151e32aa406894f148e9c26c1b007a3e37",
+    "refresh-inventory.py": "ecc3735b16669406c0ce1c9a1970d1393d82e0e3952dadd0620161b323574411",
+    "terminal-installation.cjs": "3729e2c6cee89a4e6d06b1607960ed4259b9216418b14a73f346abeecb3ad78e",
+    "terminal-installer.cjs": "060e7b2b017946c995e4186d8604baf4bc340d2e4cd4d5206731696b9b7925ca",
+    "terminal-recovery.cjs": "e4236b5c5e88947092e73a737d64cb32cebd6ee85d701f3379477db5fdd54949",
+    "terminal-sign-review.cjs": "a9784968640639bff378cd3e2a8cdd06e55de42513e5538923543a5470589a29",
+    "verify-candidate.py": "4a5033a303fdd7874ee95c984568839a459461dcfbc63e1dbeba76783f5520e4",
+    "verify-local-pg16.cjs": "09de15f7b87f5294a101fd741099a63a65e2a35749a9ad10b2ba687da9a9089c",
+    "verify-maintenance-pg16.cjs": "d89a42423faf3a2458ac075f4910d709fcce034d06cbc5ca7a1f59b2082ae5cd",
+    "verify-profile.py": "f377dddb931684e6bc5f5f9204eb82f8b3ebba889c5954004126d498bcf4fed3"
+  },
+  "prerequisitesSha256": {
+    "docs/v2/candidates/m5-content/01-schema.sql": "ffe2a16ace036dedb19cab60890e32f1ee4e274d598f4c3e9a624e6c0c616f7c",
+    "docs/v2/candidates/m5-content/02-helpers-and-guards.sql": "4a30204e1ceb9b11e16af653ec35e1dbc9b142be92745b05a601db82441199d5",
+    "docs/v2/candidates/m5-content/03-acl.sql": "be7d93f8ad794a0bd0a327a823ac7988f27887accc0ef0acf3c1d512657b6c9b",
+    "lib/zhiban/infrastructure/identity/postgres/migrations/0001_identity_bootstrap.sql": "bd81a6bef9241e3173eea297e276d97787446d757c5b2b79bf4e6b8a4a1cb235",
+    "lib/zhiban/infrastructure/identity/postgres/migrations/0002_identity_core.sql": "6289d7bc1a53a63d4d66a8a79f6d9c0d96f5d59643911a4a395a5fc0be9f4703",
+    "lib/zhiban/infrastructure/identity/postgres/migrations/0003_identity_audit_and_rls.sql": "cd2480d062d55c4999cf71ca6670b17b006f4146e514ef7a576812c2829880bf",
+    "lib/zhiban/infrastructure/identity/postgres/migrations/0004_identity_credentials.sql": "d2ca67e1f274876ded48e8965d46bd9347795fac488c6d7e27ac0ceeb8677b1a",
+    "lib/zhiban/infrastructure/identity/postgres/migrations/0005_identity_credential_consistency_fix.sql": "dcb7d50a123b816def8f9374bfbd1f68e3d66e091a170278906783d0305ee0f9",
+    "lib/zhiban/infrastructure/identity/postgres/migrations/0006_identity_sessions.sql": "d0204f6d5e1894ffdc62df16e07700f31fb0ce968571e77f711af23b096e1bc0",
+    "lib/zhiban/infrastructure/identity/postgres/migrations/0007_identity_authorization_state.sql": "20d6ad486cd4c2afc8f3ab75591dfd7895b62118a07a3a086b469c77b3f5ef27",
+    "lib/zhiban/infrastructure/identity/postgres/migrations/0008_identity_authentication_composition.sql": "0ace96db7b9fa5747219c47f42bdfd2cbc1a60bebf2f54b7fbe9afb8a19fe992",
+    "lib/zhiban/infrastructure/identity/postgres/migrations/0009_identity_membership_composition.sql": "91d064abb0238b57e1f2afe7a50f441befb947568789ca31b9a1e6277449753a",
+    "lib/zhiban/infrastructure/identity/postgres/migrations/0010_identity_manual_recovery.sql": "97dd2306cca1f1e8c6976329c50293aa733ffb3bd843636f9383c2b8eb83c03b",
+    "lib/zhiban/infrastructure/identity/postgres/migrations/0011_identity_recovery_source_locks.sql": "5f61cd3072271492b253486d8f328bb1420f49d1a9b32c97bb82e737cdf8bc83",
+    "lib/zhiban/infrastructure/identity/postgres/migrations/0012_openmaic_bridge_foundation.sql": "70bd7e0131e3f0fc0e377393c66d378e5be74387d0cc345b0c0cba27760372c1",
+    "lib/zhiban/infrastructure/identity/postgres/migrations/0013_openmaic_bridge_consistency_fix.sql": "025318bf1759b6fb34c6a51992181f340efe16ae67d7cf597f5b09689f5c949c",
+    "lib/zhiban/infrastructure/academic/postgres/migrations/0001_academic.sql": "40c9af67f0f6521a0dd601138dbc01010c277e5b636e4a633bd7b77ba5990427",
+    "lib/zhiban/infrastructure/learning/postgres/migrations/0001_learning.sql": "768db17be502a584e2e35a403cbaaad7c419dcaadcd21da4bf1819bdad0615c1",
+    "lib/zhiban/infrastructure/assessment/postgres/migrations/0001_assessment.sql": "a1253740360ca9e97f9315cb9126483314d05a33c1bcb44f4ba9eb61356a80f7"
+  },
+  "recoveryWiringSha256": {
+    "docs/v2/candidates/m5-terminal-preparation/technical-broker.cjs": "d2993b2bdf5854c346585a0a89eec0751515d30a5d2a6858f3d3efa338dd3388",
+    "docs/v2/candidates/m5-terminal-preparation/prepare-reference.ts": "5117dc56cfdcdc0f8d94580ed5e9da7b2825b345eed830c03e9944376ca8484c",
+    "docs/v2/candidates/m5-terminal-preparation/README.md": "9f2b76f12067f9e7bc01a3b21bd8036e257e877d29e111cea8ab0f6d7506c8dc",
+    "scripts/zhiban-local/launch.ts": "15328cb14a958915b21633d3c1e4ea4a9aa458b58b616076d612ced8d3d664b5",
+    "scripts/zhiban-local/content-receipt.ts": "eb88e9f56944b94509f118b7a2fc8c4640e118d5465d7a54d75ef29cbef38c78"
+  },
+  "derivedReceiptTemplates": {
+    "normalizedSha256": {
+      "receipt.template.json": "3fe9ffeee2e393c82967f54a0bf577b6af62eba2b77a9dd4cb712022fffcf08a",
+      "resolution-receipt.template.json": "2751c9b751f0095db0b00e99a039c0ff439d041ee8d45f20f191fbfe17d373a7"
+    },
+    "normalization": "Only candidateInventorySha256/candidateMigrationSha256 replaced by null before compact sorted JSON hashing"
+  },
+  "bootstrap": {
+    "clusterRoles": "00-role-bootstrap.sql",
+    "businessCatalogObserver": "00-catalog-observer.sql",
+    "businessConnectAcl": "00-business-connect.sql",
+    "nativeAcl": "08-native-proof-acl.sql",
+    "activeMigrationDirectory": false,
+    "loginPasswordSeeded": false,
+    "serviceGrantOrInstallationSeeded": false
+  },
+  "functions": [
+    {
+      "name": "zhiban_reconcile_catalog.observe",
+      "arguments": "p_business oid,p_native oid",
+      "sourceFile": "00-catalog-observer.sql",
+      "securityDefiner": true,
+      "bodySha256": "deec40fc959bb331b67e90f66cd7a3e057c62cb357e293d1b043e82b72e89c2f"
+    },
+    {
+      "name": "zhiban_reconcile.now_ms",
+      "arguments": "",
+      "sourceFile": "02-common-and-history.sql",
+      "securityDefiner": false,
+      "bodySha256": "90ff7bdbdda51f05f6bcb42b42aee8765f8c9de8b79c5c9e640933d5fc7dcfa2"
+    },
+    {
+      "name": "zhiban_reconcile.digest",
+      "arguments": "p_value jsonb",
+      "sourceFile": "02-common-and-history.sql",
+      "securityDefiner": false,
+      "bodySha256": "6867045fb0df15055c5dd4d1052cafec6b397bcb780e1c46d245161254c710fd"
+    },
+    {
+      "name": "zhiban_reconcile.secret_digest",
+      "arguments": "p_secret text",
+      "sourceFile": "02-common-and-history.sql",
+      "securityDefiner": false,
+      "bodySha256": "5d9be40b43fd149ec2cd5a19fd5701ab7cae88d7448d8fb34cf5ce9bc8de0c74"
+    },
+    {
+      "name": "zhiban_reconcile.tenant_context",
+      "arguments": "p_tenant uuid",
+      "sourceFile": "02-common-and-history.sql",
+      "securityDefiner": true,
+      "bodySha256": "061389b14ce281a98defe1962b7d97f77dac84280941af2903c3180b26f67ce3"
+    },
+    {
+      "name": "zhiban_reconcile.controller_context",
+      "arguments": "p_deployment uuid,p_secret text",
+      "sourceFile": "02-common-and-history.sql",
+      "securityDefiner": true,
+      "bodySha256": "8c077772d7c8a7c6ab20248fabdf580b3b9d9e420a3501f18bd9b4776ac17fb8"
+    },
+    {
+      "name": "zhiban_reconcile.assert_barrier",
+      "arguments": "p_window uuid",
+      "sourceFile": "02-common-and-history.sql",
+      "securityDefiner": true,
+      "bodySha256": "b8dc330f8c101ec97b577cdc65e63b4e7308c9d61e0b47d305a3cffb7dcad88b"
+    },
+    {
+      "name": "zhiban_reconcile.append_only",
+      "arguments": "",
+      "sourceFile": "02-common-and-history.sql",
+      "securityDefiner": false,
+      "bodySha256": "44885d3c7a9fae4379b4b95d00f780759c9c70f381eb7220cbd1f8a952beb07b"
+    },
+    {
+      "name": "zhiban_reconcile.assert_resolution_history",
+      "arguments": "p_tenant uuid,p_resolution uuid",
+      "sourceFile": "02-common-and-history.sql",
+      "securityDefiner": true,
+      "bodySha256": "ccd14ca0bb3a9c7be2b5783f2260ae5d9b9b6fb235e21a09c319f2e54b43a05a"
+    },
+    {
+      "name": "zhiban_reconcile.resolved_content_audit",
+      "arguments": "p_tenant uuid,p_operation uuid,p_audit uuid",
+      "sourceFile": "02-common-and-history.sql",
+      "securityDefiner": true,
+      "bodySha256": "3ac3e936c623fc5fc5108d30a29aa0116aea1a6216af051f4ba5a0d483bcc4eb"
+    },
+    {
+      "name": "zhiban_reconcile.resolved_bridge_audit",
+      "arguments": "p_tenant uuid,p_operation uuid,p_audit uuid",
+      "sourceFile": "02-common-and-history.sql",
+      "securityDefiner": true,
+      "bodySha256": "98b1212bb75f915edb38964ce77246cda6622d4e2af77d4b65407375a0df8411"
+    },
+    {
+      "name": "zhiban_reconcile.canonical_text",
+      "arguments": "p jsonb",
+      "sourceFile": "02-common-and-history.sql",
+      "securityDefiner": false,
+      "bodySha256": "9e2195a86da079b0547d002b1e85fdb54e387f1f391cb2e5bf07649bddc93010"
+    },
+    {
+      "name": "zhiban_reconcile.document_digest",
+      "arguments": "p jsonb",
+      "sourceFile": "02-common-and-history.sql",
+      "securityDefiner": false,
+      "bodySha256": "836d89f494bc27db710cb5d133d17815777a8bf73e66421c2d9b4864df78c0b1"
+    },
+    {
+      "name": "zhiban_reconcile.expected_document",
+      "arguments": "p_draft jsonb,p_stage text,p_refs jsonb,p_at bigint",
+      "sourceFile": "02-common-and-history.sql",
+      "securityDefiner": false,
+      "bodySha256": "29e23036e97ff9c7d37f50f3f0e3027d52fcab30d137650046de8eeb918a413c"
+    },
+    {
+      "name": "zhiban_reconcile.lock_target",
+      "arguments": "p_tenant uuid,p_operation uuid",
+      "sourceFile": "02-common-and-history.sql",
+      "securityDefiner": true,
+      "bodySha256": "c8f06b4d1579cb582ba8b16f142b1775a90d3a0594314d61c7a0294e7fe0c8b9"
+    },
+    {
+      "name": "zhiban_reconcile.issue_grant",
+      "arguments": "p_tenant uuid,p_window uuid,p_operation uuid,p_grant uuid,p_request uuid,p_secret text,p_approval text,p_proposal text",
+      "sourceFile": "03-operation-helpers.sql",
+      "securityDefiner": true,
+      "bodySha256": "38aa700ad01e1dc342c6661aa69daff08b05575d3f187e454db69af2ef106c1e"
+    },
+    {
+      "name": "zhiban_reconcile.lock_grant",
+      "arguments": "p_tenant uuid,p_grant uuid,p_secret text",
+      "sourceFile": "03-operation-helpers.sql",
+      "securityDefiner": true,
+      "bodySha256": "6b411de45c1edb8b8037f99951e2f2fa519400b9475812cd92c43f7f13722e84"
+    },
+    {
+      "name": "zhiban_reconcile.revoke_grant",
+      "arguments": "p_tenant uuid,p_grant uuid,p_event uuid",
+      "sourceFile": "03-operation-helpers.sql",
+      "securityDefiner": true,
+      "bodySha256": "25225215ff6c70c88eff6abe5730b0381b9b5ea6c9b1ad07992271e88e27932e"
+    },
+    {
+      "name": "zhiban_reconcile.register_proof",
+      "arguments": "p_tenant uuid,p_grant uuid,p_secret text,p_proof uuid,p_document_digest text,p_manifest_digest text,p_observations jsonb",
+      "sourceFile": "03-operation-helpers.sql",
+      "securityDefiner": true,
+      "bodySha256": "0f822593b122ad208f5221098b0dede8ae7b545bfb1c98e8637e525bbde0e0bb"
+    },
+    {
+      "name": "zhiban_reconcile.finalize_cancel_unpublished",
+      "arguments": "p_tenant uuid,p_grant uuid,p_secret text,p_resolution uuid,p_content_audit uuid,p_bridge_audit uuid",
+      "sourceFile": "03-operation-helpers.sql",
+      "securityDefiner": true,
+      "bodySha256": "5d555dbc901eddc89ba7b465da033840c43edddcb068250fa572265fd95fb6fd"
+    },
+    {
+      "name": "zhiban_reconcile.inspect_proposal",
+      "arguments": "p_tenant uuid,p_window uuid,p_operation uuid",
+      "sourceFile": "03-operation-helpers.sql",
+      "securityDefiner": true,
+      "bodySha256": "180133ea5e63b3ef81511c01d9b641356e023ddd2517d394043ebaf1abe76b9b"
+    },
+    {
+      "name": "zhiban_reconcile.open_window",
+      "arguments": "p_deployment uuid,p_service text,p_window uuid,p_nonce text,p_secret text",
+      "sourceFile": "04-control-and-lookup.sql",
+      "securityDefiner": true,
+      "bodySha256": "386a2bc07f001611b0c9c3fc6c216d3b3c7b6c93f248b8860f2f60a017f8a8ac"
+    },
+    {
+      "name": "zhiban_reconcile.renew_barrier",
+      "arguments": "p_window uuid,p_secret text",
+      "sourceFile": "04-control-and-lookup.sql",
+      "securityDefiner": true,
+      "bodySha256": "a4036a72eab08459dc8d943f1863d57ca6cff482dab05a4a6aaed808d9bb25a7"
+    },
+    {
+      "name": "zhiban_reconcile.takeover_blocked_window",
+      "arguments": "p_old uuid,p_new uuid,p_request uuid,p_nonce text,p_secret text",
+      "sourceFile": "04-control-and-lookup.sql",
+      "securityDefiner": true,
+      "bodySha256": "b8aa077fb416b6677c584be5a160ad9f5946b4baf7c297e220276e98ad79744b"
+    },
+    {
+      "name": "zhiban_reconcile.begin_resume",
+      "arguments": "p_window uuid,p_secret text",
+      "sourceFile": "04-control-and-lookup.sql",
+      "securityDefiner": true,
+      "bodySha256": "1f019474a1f260b58a61808f6d27e4641e4ef74597f81d2162da6dbcf9a1fb36"
+    },
+    {
+      "name": "zhiban_reconcile.complete_resume",
+      "arguments": "p_window uuid,p_secret text",
+      "sourceFile": "04-control-and-lookup.sql",
+      "securityDefiner": true,
+      "bodySha256": "81280e2015da563a81d1efbcaa2a29969ac37fe61e11bbbb6a36adcb9adbfde0"
+    },
+    {
+      "name": "zhiban_reconcile.set_service_status",
+      "arguments": "p_service text,p_status text,p_provenance text,p_secret text",
+      "sourceFile": "04-control-and-lookup.sql",
+      "securityDefiner": true,
+      "bodySha256": "2ddc73cd1d2b44c678cfd88f8ae9ec3a660c5d4e397139aafd633abb6f54b6a5"
+    },
+    {
+      "name": "zhiban_reconcile.issue_result_lookup",
+      "arguments": "p_tenant uuid,p_lookup uuid,p_deployment uuid,p_operation uuid,p_request uuid,p_role text,p_lookup_secret text,p_provenance text,p_controller_secret text",
+      "sourceFile": "04-control-and-lookup.sql",
+      "securityDefiner": true,
+      "bodySha256": "9262e0c6bebc075cfc93756cb6d2f7437bae4a9a800796b095f261eca5706151"
+    },
+    {
+      "name": "zhiban_reconcile.revoke_result_lookup",
+      "arguments": "p_tenant uuid,p_lookup uuid,p_provenance text,p_secret text",
+      "sourceFile": "04-control-and-lookup.sql",
+      "securityDefiner": true,
+      "bodySha256": "fd11a9ea77e1900afcbcfafc436e8f4aa3f3ec88ccaec05ef458bf387fecf59f"
+    },
+    {
+      "name": "zhiban_reconcile.read_resolution",
+      "arguments": "p_tenant uuid,p_operation uuid,p_request uuid,p_lookup uuid,p_secret text",
+      "sourceFile": "04-control-and-lookup.sql",
+      "securityDefiner": true,
+      "bodySha256": "e672e413f797e6a8fcfee40d9b0a365174d14cb33a8302b370ab5761559e2c5a"
+    },
+    {
+      "name": "zhiban_reconcile.read_recovery_result",
+      "arguments": "p_tenant uuid,p_operation uuid,p_request uuid,p_deployment uuid,p_secret text",
+      "sourceFile": "04-control-and-lookup.sql",
+      "securityDefiner": true,
+      "bodySha256": "1b4b7453816ad797875e78bce1787b311c7e0bf1ef7ab8da4a601b0b6b3d9501"
+    },
+    {
+      "name": "zhiban_reconcile.read_takeover_result",
+      "arguments": "p_deployment uuid,p_old uuid,p_new uuid,p_request uuid,p_secret text",
+      "sourceFile": "04-control-and-lookup.sql",
+      "securityDefiner": true,
+      "bodySha256": "6134c17d8e75232aa957c464422889708d17b570829fcfa9a85b383eebb6ce79"
+    },
+    {
+      "name": "zhiban_reconcile.read_closed_result",
+      "arguments": "p_deployment uuid,p_window uuid,p_epoch bigint,p_secret text",
+      "sourceFile": "04-control-and-lookup.sql",
+      "securityDefiner": true,
+      "bodySha256": "ecbdb58df770676a0b6c6d83aeb64a5d5c28aecc64c7b94e53a2db4fc94b84a0"
+    },
+    {
+      "name": "zhiban_content.operation_guard",
+      "arguments": "",
+      "sourceFile": "05-existing-constraint-supplement.sql",
+      "securityDefiner": false,
+      "bodySha256": "9d4225f1c7754ccaef86a8ae80c63b655b01511b628922009e0e3d79a74a4959"
+    },
+    {
+      "name": "zhiban_content.link_consistency",
+      "arguments": "",
+      "sourceFile": "05-existing-constraint-supplement.sql",
+      "securityDefiner": true,
+      "bodySha256": "298b0a676ee1f50bb50bca5f9f4fac4c77a7866b3cf495191181810131c0c29d"
+    },
+    {
+      "name": "zhiban_bridge.mapping_consistency",
+      "arguments": "",
+      "sourceFile": "05-existing-constraint-supplement.sql",
+      "securityDefiner": true,
+      "bodySha256": "6a3ed9e822af51e1cf20f80bbf34b6b1f89c9686c0633c15e9f59221b4325e40"
+    },
+    {
+      "name": "zhiban_reconcile.service_write_guard",
+      "arguments": "",
+      "sourceFile": "06-guards.sql",
+      "securityDefiner": true,
+      "bodySha256": "01a64a43c9d44e8715733b55f7ef217d2af16a32ac360b9bb64143d32de9728d"
+    },
+    {
+      "name": "zhiban_bridge.business_resource_ready",
+      "arguments": "p_tenant_id uuid,p_activity_id uuid",
+      "sourceFile": "06-guards.sql",
+      "securityDefiner": true,
+      "bodySha256": "a0845177d2f7abb55ecebed28025461f9a7d8af46a97d0fcc91e4bab58e9a401"
+    },
+    {
+      "name": "zhiban_reconcile.history_constraint",
+      "arguments": "",
+      "sourceFile": "06-guards.sql",
+      "securityDefiner": true,
+      "bodySha256": "89afb82adb04d5cb3b74bb9d00586d97a09ef8421240d5fb1c54e9a61e57f703"
+    },
+    {
+      "name": "zhiban_reconcile.window_constraint",
+      "arguments": "",
+      "sourceFile": "06-guards.sql",
+      "securityDefiner": true,
+      "bodySha256": "804c90c08cf00b731156dfb268073a4979e82e79545d25be564dc7551655314c"
+    },
+    {
+      "name": "zhiban_reconcile.state_guard",
+      "arguments": "",
+      "sourceFile": "06-guards.sql",
+      "securityDefiner": false,
+      "bodySha256": "900c3955a8f292f35eddba796137a621c4be77a47617b2adab858c1a84feea8f"
+    }
+  ],
+  "roles": {
+    "clients": [
+      "zhiban_reconcile_controller",
+      "zhiban_reconcile_issuer",
+      "zhiban_reconcile_executor",
+      "zhiban_reconcile_native_proof"
+    ],
+    "observer": "zhiban_reconcile_observer",
+    "attributes": "NOLOGIN NOINHERIT NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS",
+    "newEdges": [
+      {
+        "member": "zhiban_reconcile_observer",
+        "granted": "pg_read_all_stats",
+        "admin": false,
+        "inherit": true,
+        "set": false
+      }
+    ],
+    "ownerEdgesAdded": [],
+    "existingEdgesChanged": false
+  },
+  "acl": {
+    "businessClientRawTableGrants": [],
+    "helperExecute": "exact signatures in 07-acl.sql",
+    "nativeConnectOnly": "zhiban_reconcile_native_proof",
+    "businessPublicConnect": "revoked by explicit additive administrator phase; approved ordinary CONNECT preserved",
+    "nativeSelectTables": [
+      "document_stages",
+      "document_scenes",
+      "document_outlines",
+      "document_stage_revision",
+      "document_scene_revision"
+    ],
+    "nativeColumnUpdate": {
+      "document_stages": ["id"]
+    },
+    "nativeDbEnforcedReadOnly": false,
+    "publicFunctions": "no new helper PUBLIC EXECUTE; pre-existing pg_catalog PUBLIC ACL explicitly captured",
+    "defaultAclChanged": false
+  },
+  "existingFunctionsReplaced": [
+    "zhiban_content.operation_guard",
+    "zhiban_content.link_consistency",
+    "zhiban_bridge.mapping_consistency",
+    "zhiban_bridge.business_resource_ready"
+  ],
+  "rls": {
+    "newTables": "ENABLE/FORCE RLS, owner explicit policies, no client table grants",
+    "historicalClosure": "tenant RLS + non-client-callable trigger resource joins; independent of grant TTL/window/current service status",
+    "currentWriteCapability": "private backend_pid + txid scope minted/removed only by current-authorized finalize"
+  },
+  "profiles": {
+    "oldContent": "must still reject terminal delta",
+    "oldNative": "must still reject proof ACL/role delta",
+    "terminal": "Business 09 + Native 10 + cluster/database/catalog permissions embedded in 09; verify-profile.py closed comparison; reviewed expected source required"
+  },
+  "receiptRequiredBindings": [
+    "applied prerequisite ledgers",
+    "new content0002 ledger",
+    "Business/Native live full catalogs",
+    "all role/ACL/function/RLS deltas",
+    "owned PG16 cluster/OIDs",
+    "reviewed expected combined profile source and database/catalog effective privilege matrices",
+    "maintenance/Native proof/host builds",
+    "controller bootstrap/HBA/credentials/logging",
+    "LOCAL TR01/TR02/TR03 and affected business regressions"
+  ],
+  "technicalInstallation": {
+    "module": "terminal-installation.cjs",
+    "cli": "terminal-installer.cjs",
+    "offlineReviewSigner": "terminal-sign-review.cjs",
+    "purpose": "INSTALLED_BLOCKED only",
+    "authority": "independently pinned Ed25519 public key + signed shadow expected + exact signed install approval",
+    "readySeeded": false,
+    "hostWired": false
+  },
+  "deferred": [
+    "trusted official expected artifact/authority for existing owned cluster and enabled loader integration",
+    "persistent broker and public Native proof worker",
+    "existing-cluster approval, credential handoff and complete enabled loader/profile signoff",
+    "all PG16 semantic/failure injection/ACL/regression validation",
+    "complete enabled gate",
+    "production signoff",
+    "online reconciliation",
+    "Native GC"
+  ],
+  "recovery": {
+    "planner": "recovery-plan.py",
+    "executionSupported": true,
+    "executionModule": "maintenance-executor.cjs",
+    "executionScope": "signed LOCAL control only; no business terminal grants/proofs/finalize or automatic host start",
+    "lockModule": "maintenance-lock.cjs",
+    "hbaModule": "maintenance-hba.cjs",
+    "observationModule": "terminal-recovery.cjs",
+    "observationScope": "preheld-client partial installation catalog/journal + restricted precise takeover ACK; no replay/open/takeover execution",
+    "normalResume": "RESUMING commit before open; CLOSED clears claims but keeps launcher flag until separate credential/build/receipt handoff",
+    "closedAck": "controller-only exact deployment/window/epoch and bound resume journal; COMMITTED_CLOSED or NOT_CLOSED; no replay/restore/flag release",
+    "credentialDelivery": "PREPARED_UNDELIVERED durable before ALTER; per-role journal; delivery gate UNISSUED",
+    "ackLookup": "controller-only read_takeover_result; exact pair/request plus current claims, no write replay",
+    "takeover": "old SUPERSEDED + new PREPARING + epoch counter + both claims atomic; no replay"
+  }
+}

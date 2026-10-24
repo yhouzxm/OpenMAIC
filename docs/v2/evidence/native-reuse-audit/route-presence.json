@@ -1,0 +1,32 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "method": "GET without credentials; route presence only, not authorization proof",
+  "origin": "https://127.0.0.1:3461",
+  "routes": [
+    {
+      "path": "/zhiban",
+      "status": 200
+    },
+    {
+      "path": "/workspace",
+      "status": 404
+    },
+    {
+      "path": "/api/agent/skills",
+      "status": 404
+    },
+    {
+      "path": "/api/generation-runs",
+      "status": 404
+    },
+    {
+      "path": "/api/export-video",
+      "status": 404
+    },
+    {
+      "path": "/api/model-config",
+      "status": 404
+    }
+  ]
+}

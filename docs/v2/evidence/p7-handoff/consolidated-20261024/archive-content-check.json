@@ -1,0 +1,11 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "status": "PASS",
+  "scope": "REQUIRED_PACKAGE_ENTRIES_EXCLUSIONS_AND_CURRENT_SOURCE_HASH_CLOSURE",
+  "requiredEntries": 25,
+  "archivedFiles": 5841,
+  "sourceDrift": [],
+  "privateConfigurationIncluded": false,
+  "databaseIncluded": false,
+  "runtimeRestarted": false
+}

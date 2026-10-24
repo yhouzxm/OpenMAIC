@@ -1,0 +1,78 @@
+#remediation .card {
+  padding: 1.25rem;
+  margin: 1rem 0;
+  overflow-wrap: anywhere;
+}
+#remediation form {
+  display: grid;
+  gap: 1rem;
+  max-width: 52rem;
+  margin: 1.25rem 0;
+}
+#remediation label {
+  display: grid;
+  gap: 0.5rem;
+}
+#remediation input:not([type='checkbox']),
+#remediation textarea,
+#remediation select {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+  padding: 0.7rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.5rem;
+  font: inherit;
+}
+#remediation textarea {
+  min-height: 6rem;
+  resize: vertical;
+}
+#remediation button {
+  cursor: pointer;
+  margin: 0.3rem 0.5rem 0.3rem 0;
+  padding: 0.7rem 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.5rem;
+  background: white;
+  color: #164b8e;
+}
+#remediation button[type='submit'] {
+  background: #1764d0;
+  color: white;
+}
+#remediation button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+#remediation .notice:empty {
+  display: none;
+}
+#remediation .prose {
+  white-space: pre-wrap;
+}
+#remediation .task-option {
+  display: flex;
+  align-items: start;
+  gap: 0.75rem;
+  padding: 0.65rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+#remediation .task-options {
+  max-height: 22rem;
+  overflow-y: auto;
+}
+#remediation .table-wrap {
+  overflow: auto;
+}
+#remediation table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+#remediation th,
+#remediation td {
+  padding: 0.7rem;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}

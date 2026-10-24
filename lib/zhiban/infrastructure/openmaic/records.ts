@@ -63,7 +63,7 @@ export function generationRecord(row: unknown, tenant: string) {
   principal(row.owner_handle);
   opaque(row.stage_ref);
   digest(row.content_digest);
-  check(row.dsl_version === '0.11.2');
+  check(row.dsl_version === '0.11.2' || row.dsl_version === '0.11.3');
   check(['PENDING', 'ACTIVE', 'ORPHAN', 'RETIRED'].includes(String(row.state)));
   times(row, ['activated_at', 'terminal_at']);
   if (row.state === 'PENDING') check(row.activated_at === null && row.terminal_at === null);

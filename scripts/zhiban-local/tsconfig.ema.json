@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.pbl.json",
+  "include": [
+    "../../lib/zhiban/domain/ema/**/*.ts",
+    "../../lib/zhiban/application/ema/**/*.ts",
+    "../../lib/zhiban/infrastructure/ema/**/*.ts",
+    "../../tests/zhiban/ema/**/*.ts",
+    "./ema.ts",
+    "./build-ema-reference.ts",
+    "./verify-ema.ts",
+    "./verify-m6-catalog.mts",
+    "./seed-ema-demo.ts",
+    "../../next-env.d.ts",
+    "../../types/**/*.d.ts"
+  ]
+}

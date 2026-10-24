@@ -1,0 +1,50 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "NATIVE_SIGNOFF_NOT_ESTABLISHED",
+  "at": "2026-10-16T14:37:32.281038+00:00",
+  "head": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "origin": "https://127.0.0.1:3461",
+  "metadataSha256": "2dff7a6d8d86dcd8651db6b00ae5c8ec28d1a5b2d66ee4576cb77f0ed019fc19",
+  "observations": {
+    "dirtyReload": "CALL_TIMEOUT_6_SECONDS",
+    "dirtyTextRetainedAfterReloadAttempt": true,
+    "nativeDialogApi": "UNDEFINED",
+    "dirtyApiClose": "TAB_CLOSED",
+    "tabsAfterClose": 0,
+    "reopenedOriginalSavedDraft": true,
+    "unsavedTestMarkerRecovered": false,
+    "cleanSameWorkspaceReloadMs": 485,
+    "userNativeRefreshCancel": "NOT_VERIFIED",
+    "userNativeCloseCancel": "NOT_VERIFIED"
+  },
+  "sourceDrift": [
+    "app/zhiban/local/content.html",
+    "app/zhiban/local/learning.js",
+    "app/zhiban/local/workspace.js"
+  ],
+  "unchangedMigrationFiles": 16,
+  "writes": {
+    "businessSource": false,
+    "saveDraft": 0,
+    "attempt": 0,
+    "submission": 0,
+    "grade": 0,
+    "buildRestartCiCommitPush": false
+  },
+  "restoredCleanWorkspace": true,
+  "report": {
+    "path": "docs/v2/zhiban-v2-native-leave-recheck-local.md",
+    "sha256": "49040a2f44188a965207b9ebf4f0dd0b00dd2787024d3721af80a5ab15444a4e"
+  },
+  "screenshots": [
+    {
+      "path": "docs/v2/evidence/zhiban-native-recheck-refresh-local.png",
+      "sha256": "c6e9f655928e4cb4b9aaf199917e515b632cccaaed8e4b21f81fa81ce9f778f8"
+    },
+    {
+      "path": "docs/v2/evidence/zhiban-native-recheck-restored-local.png",
+      "sha256": "e64f27a004ed2a966c19567a062205fda4a399258ea0f0cadf0266d5aa831974"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "comparedAgainst": "zhiban-teacher-followups-local.json plus additive followup schema",
+  "sources": {
+    "/home/zxm/openmaic/zhiban/lib/zhiban/domain/followup/model.ts": "38a00b8e3e44ea56fc9df0d9bfb64df3ecd13549ca9fdd1756f3f036d6467d53",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/followup/postgres/migrations/0001_followup.sql": "3cee734d5ffc2c0dae576427c871aa4dcbe52c5c776d3038a94afc62883e03d5",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/analytics/postgres/cases.ts": "c3143523478227300e6209f4e398f846a0208eb64071832801c535161566aa4a",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/analytics/postgres/followups.ts": "76147f056834a20a6a763a620127d2eec592a9161305cbe66a66c50e4517271d",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/analytics/postgres/transaction.ts": "ce9157e255532413779f3ea0e974de40125bee20e6c4aea648f2c86427c11c67",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/application/analytics/service.ts": "b859cbbf4888157b1d339b48da5746f10cfadc623430fa5948ea7f5c978a8d69",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/analytics/http.ts": "c86844c0923d608032b6c513d329c19f09c4a96fed6de4fedc061f2a686ff426",
+    "/home/zxm/openmaic/zhiban/app/zhiban/local/analytics.js": "b1cf3b812208a0ea90f3e88aa54cb8e4d4c3fb9f0084dea3a9fdf71971e4c801",
+    "/home/zxm/openmaic/zhiban/app/zhiban/local/analytics.css": "f3c129163932254f9739533037d3e307e3ceeaa7d9f4f8875a19de9f8224b1dd",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/followup.ts": "07ed0681aadbf07fd5bf2ea80ef50b7255c2843d5fc74151b0d00a2c83a1fa84",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/build-followup-reference.ts": "09834b4bec49c4cfa6c58ad6c521ffb8ddb0ee5daf9c66b92b076d1e7e8009ba",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/verify-followup-cases.ts": "fd76b1a1feebafc50f291b386376563958d9a72fc39a2429d6beae7b95e1b954",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/verify-m6-catalog.mts": "8b6334e1406e14a59d435b43b73f24c3dc46f33bcf6eef53afafebd481562192",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/run-m6-catalog.ts": "34d2a382f3526b3f6d44621001de5749c09f3b67667435bae9e5ca0f4c102c2d",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/request-target.ts": "c6af7ac1fcb137f30d6fb1937b614729c0a5ec728c4975dd8c264bc85f301f17",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/trial-content.ts": "bea9d7eaa0befbda3d00cd915044e04f576125ea562bdbbcd83bae415c02cc6f",
+    "/home/zxm/openmaic/zhiban/tests/zhiban/analytics/cases.test.ts": "4aa4f4e2fd212ffbe4dd42affb18ef036ce4bbf9486d5d9b660a76ddf10371e5",
+    "/home/zxm/openmaic/zhiban/package.json": "97499014c6b7a4b5dee5fcfbf8dbc122cc2f4415f5d269b7330f8e713ad840b6",
+    "/home/zxm/openmaic/zhiban/docs/v2/evidence/zhiban-followup-profile-reference-local.json": "b1dd08e216898f1137664b5c76f611dc72f048222033d8c2c039afc6eabd884c",
+    "/home/zxm/openmaic/zhiban/docs/v2/zhiban-v2-followup-cases-local.md": "889af3fb811eb36a1aed56082ea1f7bb4a8757e52ce99d93180b760fe7cc5ba4",
+    "/home/zxm/openmaic/zhiban/docs/v2/zhiban-v2-migration-completion-plan.md": "3ad61bb64c7f72cc1741c3d3ec8c01ba79f62279d85b761afc677fba1077bb9c",
+    "/home/zxm/openmaic/zhiban/docs/v2/zhiban-v2-feature-gap-matrix.md": "da11dacd1411a3c5d1888ca579a63c51483f1b920d4e4f4b8d1a165cdb8ea399",
+    "/home/zxm/openmaic/zhiban/docs/v2/zhiban-v2-trial-guide.md": "06688f64048836afbb4ed983ab8918d18e9f26b13551cadff7dc2d59fa3ebde9"
+  }
+}

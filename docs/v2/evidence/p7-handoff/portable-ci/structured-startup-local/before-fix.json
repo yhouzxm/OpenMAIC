@@ -1,0 +1,335 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "scenario": "Source home hidden; old reference resolver from original authenticated source kit; new diagnostic instrumentation only",
+  "status": "FAIL",
+  "diagnostic": {
+    "code": "HOST_EXITED",
+    "exitCode": 1,
+    "elapsedMs": 14827,
+    "mode": "start-rebind",
+    "reason": "UNCLASSIFIED",
+    "startupTrace": [
+      {
+        "layer": "PERSISTENT",
+        "phase": "PERSISTENT_CONFIG",
+        "state": "ENTER",
+        "elapsedMs": 0,
+        "phaseMs": 0
+      },
+      {
+        "layer": "PERSISTENT",
+        "phase": "PERSISTENT_CONFIG",
+        "state": "LEAVE",
+        "elapsedMs": 3,
+        "phaseMs": 2
+      },
+      {
+        "layer": "PERSISTENT",
+        "phase": "RESTORE_POINTER",
+        "state": "ENTER",
+        "elapsedMs": 3,
+        "phaseMs": 0
+      },
+      {
+        "layer": "PERSISTENT",
+        "phase": "RESTORE_POINTER",
+        "state": "LEAVE",
+        "elapsedMs": 7,
+        "phaseMs": 4
+      },
+      {
+        "layer": "PERSISTENT",
+        "phase": "CATALOG_LAUNCH",
+        "state": "ENTER",
+        "elapsedMs": 8,
+        "phaseMs": 0
+      },
+      {
+        "layer": "CATALOG",
+        "phase": "PLAYER_BUILD",
+        "state": "ENTER",
+        "elapsedMs": 0,
+        "phaseMs": 0
+      },
+      {
+        "layer": "CATALOG",
+        "phase": "PLAYER_BUILD",
+        "state": "LEAVE",
+        "elapsedMs": 1744,
+        "phaseMs": 1744
+      },
+      {
+        "layer": "CATALOG",
+        "phase": "SDK_VERIFY",
+        "state": "ENTER",
+        "elapsedMs": 1745,
+        "phaseMs": 0,
+        "component": "dsl"
+      },
+      {
+        "layer": "CATALOG",
+        "phase": "SDK_VERIFY",
+        "state": "LEAVE",
+        "elapsedMs": 1861,
+        "phaseMs": 115,
+        "component": "dsl"
+      },
+      {
+        "layer": "CATALOG",
+        "phase": "SDK_VERIFY",
+        "state": "ENTER",
+        "elapsedMs": 1861,
+        "phaseMs": 0,
+        "component": "storage"
+      },
+      {
+        "layer": "CATALOG",
+        "phase": "SDK_VERIFY",
+        "state": "LEAVE",
+        "elapsedMs": 1982,
+        "phaseMs": 121,
+        "component": "storage"
+      },
+      {
+        "layer": "CATALOG",
+        "phase": "SDK_VERIFY",
+        "state": "ENTER",
+        "elapsedMs": 1983,
+        "phaseMs": 0,
+        "component": "editor"
+      },
+      {
+        "layer": "CATALOG",
+        "phase": "SDK_VERIFY",
+        "state": "LEAVE",
+        "elapsedMs": 2178,
+        "phaseMs": 194,
+        "component": "editor"
+      },
+      {
+        "layer": "CATALOG",
+        "phase": "SDK_VERIFY",
+        "state": "ENTER",
+        "elapsedMs": 2178,
+        "phaseMs": 0,
+        "component": "renderer"
+      },
+      {
+        "layer": "CATALOG",
+        "phase": "SDK_VERIFY",
+        "state": "LEAVE",
+        "elapsedMs": 2291,
+        "phaseMs": 113,
+        "component": "renderer"
+      },
+      {
+        "layer": "CATALOG",
+        "phase": "SDK_VERIFY",
+        "state": "ENTER",
+        "elapsedMs": 2292,
+        "phaseMs": 0,
+        "component": "generation"
+      },
+      {
+        "layer": "CATALOG",
+        "phase": "SDK_VERIFY",
+        "state": "LEAVE",
+        "elapsedMs": 2414,
+        "phaseMs": 122,
+        "component": "generation"
+      },
+      {
+        "layer": "CATALOG",
+        "phase": "SDK_CACHE_WRITE",
+        "state": "ENTER",
+        "elapsedMs": 2414,
+        "phaseMs": 0
+      },
+      {
+        "layer": "CATALOG",
+        "phase": "SDK_CACHE_WRITE",
+        "state": "LEAVE",
+        "elapsedMs": 2726,
+        "phaseMs": 311
+      },
+      {
+        "layer": "CATALOG",
+        "phase": "QUIZ_CSS",
+        "state": "ENTER",
+        "elapsedMs": 2726,
+        "phaseMs": 0
+      },
+      {
+        "layer": "CATALOG",
+        "phase": "QUIZ_CSS",
+        "state": "LEAVE",
+        "elapsedMs": 2924,
+        "phaseMs": 198
+      },
+      {
+        "layer": "CATALOG",
+        "phase": "QUIZ_BUNDLE",
+        "state": "ENTER",
+        "elapsedMs": 2924,
+        "phaseMs": 0
+      },
+      {
+        "layer": "CATALOG",
+        "phase": "QUIZ_BUNDLE",
+        "state": "LEAVE",
+        "elapsedMs": 3467,
+        "phaseMs": 542
+      },
+      {
+        "layer": "CATALOG",
+        "phase": "PUBLISHED_PLAYER_BUNDLE",
+        "state": "ENTER",
+        "elapsedMs": 3467,
+        "phaseMs": 0
+      },
+      {
+        "layer": "CATALOG",
+        "phase": "PUBLISHED_PLAYER_BUNDLE",
+        "state": "LEAVE",
+        "elapsedMs": 4740,
+        "phaseMs": 1273
+      },
+      {
+        "layer": "CATALOG",
+        "phase": "ATTEMPT_RUNTIME_BUNDLE",
+        "state": "ENTER",
+        "elapsedMs": 4740,
+        "phaseMs": 0
+      },
+      {
+        "layer": "CATALOG",
+        "phase": "ATTEMPT_RUNTIME_BUNDLE",
+        "state": "LEAVE",
+        "elapsedMs": 4819,
+        "phaseMs": 78
+      },
+      {
+        "layer": "CATALOG",
+        "phase": "HOST_BUNDLE",
+        "state": "ENTER",
+        "elapsedMs": 4819,
+        "phaseMs": 0
+      },
+      {
+        "layer": "CATALOG",
+        "phase": "HOST_BUNDLE",
+        "state": "LEAVE",
+        "elapsedMs": 5283,
+        "phaseMs": 463
+      },
+      {
+        "layer": "CATALOG",
+        "phase": "HOST_LAUNCH",
+        "state": "ENTER",
+        "elapsedMs": 5283,
+        "phaseMs": 0
+      },
+      {
+        "layer": "HOST",
+        "phase": "RESTORE_SNAPSHOT",
+        "state": "ENTER",
+        "elapsedMs": 0,
+        "phaseMs": 0
+      },
+      {
+        "layer": "HOST",
+        "phase": "RESTORE_SNAPSHOT",
+        "state": "LEAVE",
+        "elapsedMs": 2921,
+        "phaseMs": 2921
+      },
+      {
+        "layer": "HOST",
+        "phase": "RESTORED_CONTROL",
+        "state": "ENTER",
+        "elapsedMs": 2921,
+        "phaseMs": 0
+      },
+      {
+        "layer": "HOST",
+        "phase": "RESTORED_CONTROL",
+        "state": "LEAVE",
+        "elapsedMs": 2922,
+        "phaseMs": 0
+      },
+      {
+        "layer": "HOST",
+        "phase": "PG_START",
+        "state": "ENTER",
+        "elapsedMs": 2922,
+        "phaseMs": 0
+      },
+      {
+        "layer": "HOST",
+        "phase": "PG_START",
+        "state": "LEAVE",
+        "elapsedMs": 3048,
+        "phaseMs": 125
+      },
+      {
+        "layer": "HOST",
+        "phase": "DB_VERSION",
+        "state": "ENTER",
+        "elapsedMs": 3048,
+        "phaseMs": 0
+      },
+      {
+        "layer": "HOST",
+        "phase": "DB_VERSION",
+        "state": "LEAVE",
+        "elapsedMs": 3068,
+        "phaseMs": 19
+      },
+      {
+        "layer": "HOST",
+        "phase": "LOCAL_DB_BOOTSTRAP",
+        "state": "ENTER",
+        "elapsedMs": 3068,
+        "phaseMs": 0
+      },
+      {
+        "layer": "HOST",
+        "phase": "LOCAL_DB_BOOTSTRAP",
+        "state": "LEAVE",
+        "elapsedMs": 3095,
+        "phaseMs": 27
+      },
+      {
+        "layer": "HOST",
+        "phase": "MIGRATION_CHECK",
+        "state": "ENTER",
+        "elapsedMs": 3095,
+        "phaseMs": 0
+      },
+      {
+        "layer": "HOST",
+        "phase": "MIGRATION_CHECK",
+        "state": "LEAVE",
+        "elapsedMs": 3120,
+        "phaseMs": 24
+      },
+      {
+        "layer": "HOST",
+        "phase": "CONTENT_REBIND",
+        "state": "ENTER",
+        "elapsedMs": 3120,
+        "phaseMs": 0
+      },
+      {
+        "layer": "HOST",
+        "phase": "CONTENT_REBIND",
+        "state": "FAIL",
+        "elapsedMs": 3188,
+        "phaseMs": 67,
+        "errorCode": "ENOENT",
+        "errorName": "Error"
+      }
+    ]
+  }
+}

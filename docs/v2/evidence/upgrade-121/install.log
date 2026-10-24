@@ -1,0 +1,22 @@
+packages/@openmaic/importer              |  WARN  The field "pnpm.onlyBuiltDependencies" was found in /home/zxm/openmaic/zhiban/packages/@openmaic/importer/package.json. This will not take effect. You should configure "pnpm.onlyBuiltDependencies" at the root of the workspace instead.
+packages/@openmaic/renderer              |  WARN  The field "pnpm.onlyBuiltDependencies" was found in /home/zxm/openmaic/zhiban/packages/@openmaic/renderer/package.json. This will not take effect. You should configure "pnpm.onlyBuiltDependencies" at the root of the workspace instead.
+Scope: all 9 workspace projects
+Lockfile is up to date, resolution step is skipped
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Packages: +6 -5
+++++++-----
+
+   ╭──────────────────────────────────────────╮
+   │                                          │
+   │   Update available! 10.28.0 → 12.14.0.   │
+   │   Changelog: https://pnpm.io/v/12.14.0   │
+   │     To update, run: pnpm self-update     │
+   │                                          │
+   ╰──────────────────────────────────────────╯
+
+Progress: resolved 6, reused 5, downloaded 0, added 3, done
+
+dependencies:
+- @langchain/langgraph 1.2.2
+
+Done in 6s using pnpm v10.28.0

@@ -1,0 +1,40 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "origin": "https://127.0.0.1:3461",
+  "root": "/tmp/zhiban-trial-content-t6MxsR",
+  "tenant": "01a168bb-820e-73f4-b7a3-a63510981973",
+  "offering": "01a168bb-a13a-7704-9ca2-3c6301e54ce5",
+  "serverVersion": "160015",
+  "checks": [
+    "Teacher browser configures official-grade threshold, required units and prerequisite graph; draft is inert until explicit offering outline publication",
+    "New text Attempt, assessed Quiz Attempt and classroom entry fail closed with no entry residue; prior Attempt resumes/submits and prior classroom entry reopens",
+    "Only immutable published grade meeting exact threshold unlocks; student sees own required count, text/Quiz/classroom then enter through original paths",
+    "PG16 lock queue proves correction-before-entry denies and positive correction-before-entry permits; no deadlock or stale eligibility; existing writes/history remain available",
+    "Newer submission loses inherited grade satisfaction; existing Attempt can resume, fresh classroom entry cannot bypass by reusing that Attempt",
+    "Original administrator withdraw/re-enroll commands revoke access and reset evidence window without deleting own historical attempts; previous-window submissions cannot satisfy new enrollment progress",
+    "Cyclic graph, student/admin authoring, anonymous reads and foreign tenant are rejected without changing published rules",
+    "Activity version change invalidates pinned rule; stale publication rejects; explicit teacher browser rebind + save + publish never inherits previous version evidence",
+    "Zero required denominator remains explicit with no manufactured 100 percent completion",
+    "Practice Quiz cannot be published as a trusted completion source",
+    "Successful new Attempt audit binds published outline number and own immutable submission/grade references; rule publications keep immutable chapter snapshots"
+  ],
+  "ids": {
+    "A": "01a168bc-0234-73d8-925e-795573341e67",
+    "B": "01a168bc-02c7-71fb-b84e-3dd9501412df",
+    "C": "01a168bc-034b-77fd-ba8c-e244ef511c0a",
+    "D": "01a168bc-03cf-70b5-8611-dfb9440171d0",
+    "Q": "01a168bc-0447-76a8-8943-46f1bf8f5098"
+  },
+  "results": {
+    "existingAttempt": "01a168bc-0649-74fe-a5cb-e1dbccc8887b",
+    "prerequisiteAttempt": "01a168bc-14bd-774c-8606-b3d8f9637c95",
+    "submission": "01a168bc-14fd-7731-91c4-3ac46128d8f3",
+    "secondAttempt": "01a168bc-242e-7296-9e7a-9310df26bfe9"
+  },
+  "restoredOriginalOutline": true,
+  "endedVerificationClassroom": true,
+  "realModelsInvoked": false,
+  "errors": []
+}

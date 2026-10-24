@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": { "incremental": false },
+  "include": [
+    "../../next-env.d.ts",
+    "../../types/**/*.d.ts",
+    "../../lib/zhiban/infrastructure/authoring/**/*.ts",
+    "../../lib/zhiban/infrastructure/lesson/service.ts",
+    "../../app/zhiban/local/native-workbench.tsx",
+    "../../app/zhiban/local/native-review.tsx",
+    "../../app/zhiban/local/native-published.tsx",
+    "./build-native-authoring.ts",
+    "./verify-native-authoring.ts"
+  ]
+}

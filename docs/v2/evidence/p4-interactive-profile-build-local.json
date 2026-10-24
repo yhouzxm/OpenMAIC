@@ -1,0 +1,1195 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-20T14:43:56.679Z",
+  "pg16": 160015,
+  "node": "v22.23.3",
+  "scope": "LOCAL_PG16_COMBINED_PROFILE_CONSTRUCTION_ONLY",
+  "checks": [
+    "PG16 additive migration; unchanged prerequisites/text ledger; exact reference catalog",
+    "REFERENCE ONLY: fresh business/PNG catalog plus Native schema provisioned; no product journey claimed"
+  ],
+  "sourceHashes": {
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/identity/postgres/bootstrap-roles.pg16.sql": "8f1e845bd3e0dbc722f867afb5effb6b8a08a86980b90884b1790e3b992143fb",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/identity/postgres/bootstrap-bridge-roles.pg16.sql": "dcdb261b9a17c56638fe0b1ec0fd9878d7ac2545a2c4ed5dcaf48b88ccdfd776",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/identity/postgres/migrations/0001_identity_bootstrap.sql": "bd81a6bef9241e3173eea297e276d97787446d757c5b2b79bf4e6b8a4a1cb235",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/identity/postgres/migrations/0002_identity_core.sql": "6289d7bc1a53a63d4d66a8a79f6d9c0d96f5d59643911a4a395a5fc0be9f4703",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/identity/postgres/migrations/0003_identity_audit_and_rls.sql": "cd2480d062d55c4999cf71ca6670b17b006f4146e514ef7a576812c2829880bf",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/identity/postgres/migrations/0004_identity_credentials.sql": "d2ca67e1f274876ded48e8965d46bd9347795fac488c6d7e27ac0ceeb8677b1a",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/identity/postgres/migrations/0005_identity_credential_consistency_fix.sql": "dcb7d50a123b816def8f9374bfbd1f68e3d66e091a170278906783d0305ee0f9",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/identity/postgres/migrations/0006_identity_sessions.sql": "d0204f6d5e1894ffdc62df16e07700f31fb0ce968571e77f711af23b096e1bc0",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/identity/postgres/migrations/0007_identity_authorization_state.sql": "20d6ad486cd4c2afc8f3ab75591dfd7895b62118a07a3a086b469c77b3f5ef27",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/identity/postgres/migrations/0008_identity_authentication_composition.sql": "0ace96db7b9fa5747219c47f42bdfd2cbc1a60bebf2f54b7fbe9afb8a19fe992",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/identity/postgres/migrations/0009_identity_membership_composition.sql": "91d064abb0238b57e1f2afe7a50f441befb947568789ca31b9a1e6277449753a",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/identity/postgres/migrations/0010_identity_manual_recovery.sql": "97dd2306cca1f1e8c6976329c50293aa733ffb3bd843636f9383c2b8eb83c03b",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/identity/postgres/migrations/0011_identity_recovery_source_locks.sql": "5f61cd3072271492b253486d8f328bb1420f49d1a9b32c97bb82e737cdf8bc83",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/identity/postgres/migrations/0012_openmaic_bridge_foundation.sql": "70bd7e0131e3f0fc0e377393c66d378e5be74387d0cc345b0c0cba27760372c1",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/identity/postgres/migrations/0013_openmaic_bridge_consistency_fix.sql": "025318bf1759b6fb34c6a51992181f340efe16ae67d7cf597f5b09689f5c949c",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/identity/postgres/migrations/0014_openmaic_120_versions.sql": "2272b36bc16267070c4f62c155f8bdfef58d3f7dce7856be96fbbc4637747377",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/academic/postgres/migrations/0001_academic.sql": "40c9af67f0f6521a0dd601138dbc01010c277e5b636e4a633bd7b77ba5990427",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/learning/postgres/migrations/0001_learning.sql": "768db17be502a584e2e35a403cbaaad7c419dcaadcd21da4bf1819bdad0615c1",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/learning/postgres/migrations/0002_quiz.sql": "7824cda2711a4c86e1b7a089c07277ccea7bce436d8ff1e351b4d1889e2e36c2",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/assessment/postgres/migrations/0001_assessment.sql": "a1253740360ca9e97f9315cb9126483314d05a33c1bcb44f4ba9eb61356a80f7",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/assessment/postgres/migrations/0002_quiz_details.sql": "bd0a3070df580c9d8af1aed0cc08f8fc932648ac7f81b0a93449abf05e506fd7",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/profile/postgres/migrations/0001_profile.sql": "d849eae63df03912c25411bcb29bf49ba71a1fffaa5297624271ae8cc48e4ab9",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/teaching/postgres/migrations/0001_teacher_relationships.sql": "92418359f7f55bed368f48786b8a9367582393ac5788a44e43039ef6f272e9a2",
+    "/home/zxm/openmaic/zhiban/docs/v2/candidates/m5-content/01-schema.sql": "ffe2a16ace036dedb19cab60890e32f1ee4e274d598f4c3e9a624e6c0c616f7c",
+    "/home/zxm/openmaic/zhiban/docs/v2/candidates/m5-content/02-helpers-and-guards.sql": "4a30204e1ceb9b11e16af653ec35e1dbc9b142be92745b05a601db82441199d5",
+    "/home/zxm/openmaic/zhiban/docs/v2/candidates/m5-content/03-acl.sql": "be7d93f8ad794a0bd0a327a823ac7988f27887accc0ef0acf3c1d512657b6c9b",
+    "/home/zxm/openmaic/zhiban/docs/v2/candidates/m5-png/0002-png.sql": "31acaad11fbcce3406ce1d22ee707d8143cd760aa135d4b997eec3df627c25ac",
+    "/home/zxm/openmaic/zhiban/docs/v2/candidates/p4-interactive/0003-interactive.sql": "821cb2935a7e9acc23c2ddd64dbba68747e06aabe5e0fcb4d158b8908e8023fa",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/openmaic/bootstrap-native-roles.pg16.sql": "5f19462bfdd54b37a4acc8c5539aad5d3e29b870f5a58714eb68d575cbb45602"
+  },
+  "provider": {
+    "sha": "a9da60b3b4adb429369c0da13d5637a904ead2b0",
+    "storage": "0.37.3",
+    "dsl": "0.11.3",
+    "renderer": "0.1.14"
+  },
+  "nativeFingerprint": "5b471ba4a31ad4827012287ef6681f47ae1038fb521a64973be72699e065ff2e",
+  "baselineProfile": {
+    "fingerprints": {
+      "zhiban_identity": "171db3bb9486344cda7d1f69138102431e287cd5a8d8b23d700164edda61ab30",
+      "zhiban_bridge": "10bb7b9651db88a8ca1f437347fefe7d9ab6cc21d75a21dcd088b56413e39acf",
+      "zhiban_academic": "ec43a59b133fe2bf5abd4a8a0da74716db13a7e10eda50c3c9bb396eaf7c7e1f",
+      "zhiban_learning": "505a162c8984d86af4c3285b7b4a41af05e717619377e8b85e6db5ff5c787e6d",
+      "zhiban_assessment": "ca56f9ec49edd05532efad61cef387d255a4fd861b566989880a8e25b46a734d",
+      "zhiban_content": "6c9b71a8aea636fa9a37186cf0f65faa2908cc856b3ded36db63e8bfd213bd22"
+    },
+    "extra": {
+      "edges": [
+        {
+          "member": "zhiban_migrator",
+          "granted": "zhiban_identity_owner",
+          "set_option": true,
+          "admin_option": false,
+          "inherit_option": false
+        }
+      ],
+      "roles": [
+        {
+          "rolname": "zhiban_academic_runtime",
+          "rolsuper": false,
+          "rolinherit": false,
+          "rolcanlogin": true,
+          "rolcreatedb": false,
+          "rolbypassrls": false,
+          "rolcreaterole": false,
+          "rolreplication": false
+        },
+        {
+          "rolname": "zhiban_auth_runtime",
+          "rolsuper": false,
+          "rolinherit": false,
+          "rolcanlogin": true,
+          "rolcreatedb": false,
+          "rolbypassrls": false,
+          "rolcreaterole": false,
+          "rolreplication": false
+        },
+        {
+          "rolname": "zhiban_bridge_runtime",
+          "rolsuper": false,
+          "rolinherit": false,
+          "rolcanlogin": true,
+          "rolcreatedb": false,
+          "rolbypassrls": false,
+          "rolcreaterole": false,
+          "rolreplication": false
+        },
+        {
+          "rolname": "zhiban_control_runtime",
+          "rolsuper": false,
+          "rolinherit": false,
+          "rolcanlogin": true,
+          "rolcreatedb": false,
+          "rolbypassrls": false,
+          "rolcreaterole": false,
+          "rolreplication": false
+        },
+        {
+          "rolname": "zhiban_identity_owner",
+          "rolsuper": false,
+          "rolinherit": false,
+          "rolcanlogin": false,
+          "rolcreatedb": false,
+          "rolbypassrls": false,
+          "rolcreaterole": false,
+          "rolreplication": false
+        },
+        {
+          "rolname": "zhiban_migrator",
+          "rolsuper": false,
+          "rolinherit": false,
+          "rolcanlogin": true,
+          "rolcreatedb": false,
+          "rolbypassrls": false,
+          "rolcreaterole": false,
+          "rolreplication": false
+        },
+        {
+          "rolname": "zhiban_runtime",
+          "rolsuper": false,
+          "rolinherit": false,
+          "rolcanlogin": true,
+          "rolcreatedb": false,
+          "rolbypassrls": false,
+          "rolcreaterole": false,
+          "rolreplication": false
+        }
+      ],
+      "schemas": [
+        {
+          "acl": "{zhiban_identity_owner=UC/zhiban_identity_owner,zhiban_academic_runtime=U/zhiban_identity_owner}",
+          "name": "zhiban_academic",
+          "owner": "zhiban_identity_owner"
+        },
+        {
+          "acl": "{zhiban_identity_owner=UC/zhiban_identity_owner,zhiban_academic_runtime=U/zhiban_identity_owner}",
+          "name": "zhiban_assessment",
+          "owner": "zhiban_identity_owner"
+        },
+        {
+          "acl": "{zhiban_identity_owner=UC/zhiban_identity_owner,zhiban_bridge_runtime=U/zhiban_identity_owner}",
+          "name": "zhiban_bridge",
+          "owner": "zhiban_identity_owner"
+        },
+        {
+          "acl": "{zhiban_identity_owner=UC/zhiban_identity_owner,zhiban_bridge_runtime=U/zhiban_identity_owner}",
+          "name": "zhiban_content",
+          "owner": "zhiban_identity_owner"
+        },
+        {
+          "acl": "{zhiban_identity_owner=UC/zhiban_identity_owner,zhiban_runtime=U/zhiban_identity_owner,zhiban_auth_runtime=U/zhiban_identity_owner,zhiban_control_runtime=U/zhiban_identity_owner,zhiban_bridge_runtime=U/zhiban_identity_owner,zhiban_academic_runtime=U/zhiban_identity_owner}",
+          "name": "zhiban_identity",
+          "owner": "zhiban_identity_owner"
+        },
+        {
+          "acl": "{zhiban_identity_owner=UC/zhiban_identity_owner,zhiban_academic_runtime=U/zhiban_identity_owner}",
+          "name": "zhiban_learning",
+          "owner": "zhiban_identity_owner"
+        }
+      ],
+      "defaults": [
+        {
+          "acl": "{zhiban_identity_owner=X/zhiban_identity_owner}",
+          "kind": "f",
+          "schema": ""
+        }
+      ],
+      "functionOwners": [
+        {
+          "args": "",
+          "name": "audit_immutability_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_bridge"
+        },
+        {
+          "args": "p_tenant_id uuid, p_activity_id uuid",
+          "name": "business_resource_ready",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_bridge"
+        },
+        {
+          "args": "",
+          "name": "mapping_consistency",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_bridge"
+        },
+        {
+          "args": "",
+          "name": "mapping_history_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_bridge"
+        },
+        {
+          "args": "",
+          "name": "operation_history_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_bridge"
+        },
+        {
+          "args": "",
+          "name": "resource_gate_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_bridge"
+        },
+        {
+          "args": "",
+          "name": "slot_cas_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_bridge"
+        },
+        {
+          "args": "",
+          "name": "append_only",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_content"
+        },
+        {
+          "args": "p_draft jsonb",
+          "name": "draft_digest",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_content"
+        },
+        {
+          "args": "",
+          "name": "link_consistency",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_content"
+        },
+        {
+          "args": "p_tenant_id uuid, p_resource_id uuid, p_offering_id uuid, p_actor_membership_id uuid, p_action text",
+          "name": "lock_business_context",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_content"
+        },
+        {
+          "args": "",
+          "name": "operation_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_content"
+        },
+        {
+          "args": "",
+          "name": "publication_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_content"
+        },
+        {
+          "args": "",
+          "name": "resource_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_content"
+        },
+        {
+          "args": "p_text text",
+          "name": "utf16_length",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_content"
+        },
+        {
+          "args": "p_draft jsonb",
+          "name": "valid_draft",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_content"
+        },
+        {
+          "args": "value jsonb",
+          "name": "audit_grant_array_json",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "value jsonb",
+          "name": "audit_grant_json",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "value jsonb",
+          "name": "audit_id_array_json",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "value jsonb",
+          "name": "audit_instant_json",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "kind text, p jsonb",
+          "name": "audit_payload_valid",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "event_type text, value jsonb",
+          "name": "audit_payload_valid_pre_credentials",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "value jsonb",
+          "name": "audit_scope_json",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "value jsonb",
+          "name": "audit_uuid_json",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_tenant_id uuid, p_actor_membership_id uuid, p_target_membership_ids uuid[], p_mode text",
+          "name": "authorization_state",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_tenant_id uuid, p_digest text, p_expected_user_id uuid, p_actor_membership_id uuid, p_related_membership_ids uuid[]",
+          "name": "bridge_identity_context",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "credential_consistency",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "v jsonb, positive boolean",
+          "name": "credential_decimal",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "credential_history_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "credential_slot_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "current_tenant_id",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "guard_membership_update",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "guard_role_grant_update",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "guard_session_update",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "guard_system_admin_grant_update",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "identity_admission_policy_immutable",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_purpose text, p_policy_digest text, p_limit integer",
+          "name": "identity_admission_prune",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_purpose text, p_policy_digest text, p_keys text[]",
+          "name": "identity_admission_reserve",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_user_id uuid",
+          "name": "identity_auth_user_anchor",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "identity_bootstrap_consistency",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "identity_bootstrap_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "identity_composition_append_only",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "identity_composition_source_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_tenant_id uuid, p_approval_id uuid, p_consent_id uuid, p_at bigint",
+          "name": "identity_first_tenant_admin_apply",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_tenant_id uuid, p_approval_id uuid",
+          "name": "identity_first_tenant_admin_lock",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_digest text, p_actor_user_id uuid, p_approval_id uuid, p_admission_id uuid",
+          "name": "identity_member_admission_register",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_tenant_id uuid, p_actor_membership_id uuid, p_admission_id uuid",
+          "name": "identity_member_admission_state",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_digest text, p_expected_user_id uuid, p_tenant_id uuid, p_admission_id uuid, p_control_approval_id uuid",
+          "name": "identity_member_consent_context",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "identity_membership_composition_consistency",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "identity_platform_bootstrap_lock",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "identity_provision_consistency",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "identity_provision_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_case_id uuid, p_session_digest text, p_mode text",
+          "name": "identity_recovery_actor_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "identity_recovery_consistency",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_environment text, p_policy_digest text",
+          "name": "identity_recovery_gate",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_environment text, p_policy_digest text, p_limit integer",
+          "name": "identity_recovery_prune",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_environment text, p_policy_digest text, p_phase text, p_keys text[]",
+          "name": "identity_recovery_reserve",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_source_id uuid, p_expected_revision bigint, p_request_id text, p_event_ids uuid[]",
+          "name": "identity_recovery_source_block",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "identity_recovery_transition_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_case_id uuid, p_session_digest text, p_source_ids uuid[]",
+          "name": "identity_recovery_user_locks",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_digest text, p_expected_user_id uuid",
+          "name": "identity_session_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_digest text, p_after_membership_id uuid, p_limit integer",
+          "name": "identity_session_spaces",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_digest text, p_expected_user_id uuid, p_expected_user_revision bigint, p_expected_slot_revision bigint, p_expected_epoch bigint, p_proof_at bigint",
+          "name": "identity_session_step_up_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_tenant_id uuid, p_actor_user_id uuid",
+          "name": "identity_tenant_restore_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "value uuid",
+          "name": "is_uuid_v7",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "session_binding_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "session_user_barrier",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "session_user_disable",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "quiz_definition_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_learning"
+        }
+      ]
+    },
+    "fingerprint": "285ea6e72fdff89280a5c08293976a1897521d56a89001421380a99c17088e3e"
+  },
+  "enabledProfile": {
+    "fingerprints": {
+      "zhiban_identity": "171db3bb9486344cda7d1f69138102431e287cd5a8d8b23d700164edda61ab30",
+      "zhiban_bridge": "0f47f3f999b3d0aa08a32d6741c0009c4e21913578e4411ca9116f534a0ffda0",
+      "zhiban_academic": "ec43a59b133fe2bf5abd4a8a0da74716db13a7e10eda50c3c9bb396eaf7c7e1f",
+      "zhiban_learning": "505a162c8984d86af4c3285b7b4a41af05e717619377e8b85e6db5ff5c787e6d",
+      "zhiban_assessment": "ca56f9ec49edd05532efad61cef387d255a4fd861b566989880a8e25b46a734d",
+      "zhiban_content": "f28abeaadec21a948e89d138bc4d68c3f9c27845e6bd2125c5669d8f946194f2"
+    },
+    "extra": {
+      "edges": [
+        {
+          "member": "zhiban_migrator",
+          "granted": "zhiban_identity_owner",
+          "set_option": true,
+          "admin_option": false,
+          "inherit_option": false
+        }
+      ],
+      "roles": [
+        {
+          "rolname": "zhiban_academic_runtime",
+          "rolsuper": false,
+          "rolinherit": false,
+          "rolcanlogin": true,
+          "rolcreatedb": false,
+          "rolbypassrls": false,
+          "rolcreaterole": false,
+          "rolreplication": false
+        },
+        {
+          "rolname": "zhiban_auth_runtime",
+          "rolsuper": false,
+          "rolinherit": false,
+          "rolcanlogin": true,
+          "rolcreatedb": false,
+          "rolbypassrls": false,
+          "rolcreaterole": false,
+          "rolreplication": false
+        },
+        {
+          "rolname": "zhiban_bridge_runtime",
+          "rolsuper": false,
+          "rolinherit": false,
+          "rolcanlogin": true,
+          "rolcreatedb": false,
+          "rolbypassrls": false,
+          "rolcreaterole": false,
+          "rolreplication": false
+        },
+        {
+          "rolname": "zhiban_control_runtime",
+          "rolsuper": false,
+          "rolinherit": false,
+          "rolcanlogin": true,
+          "rolcreatedb": false,
+          "rolbypassrls": false,
+          "rolcreaterole": false,
+          "rolreplication": false
+        },
+        {
+          "rolname": "zhiban_identity_owner",
+          "rolsuper": false,
+          "rolinherit": false,
+          "rolcanlogin": false,
+          "rolcreatedb": false,
+          "rolbypassrls": false,
+          "rolcreaterole": false,
+          "rolreplication": false
+        },
+        {
+          "rolname": "zhiban_migrator",
+          "rolsuper": false,
+          "rolinherit": false,
+          "rolcanlogin": true,
+          "rolcreatedb": false,
+          "rolbypassrls": false,
+          "rolcreaterole": false,
+          "rolreplication": false
+        },
+        {
+          "rolname": "zhiban_runtime",
+          "rolsuper": false,
+          "rolinherit": false,
+          "rolcanlogin": true,
+          "rolcreatedb": false,
+          "rolbypassrls": false,
+          "rolcreaterole": false,
+          "rolreplication": false
+        }
+      ],
+      "schemas": [
+        {
+          "acl": "{zhiban_identity_owner=UC/zhiban_identity_owner,zhiban_academic_runtime=U/zhiban_identity_owner}",
+          "name": "zhiban_academic",
+          "owner": "zhiban_identity_owner"
+        },
+        {
+          "acl": "{zhiban_identity_owner=UC/zhiban_identity_owner,zhiban_academic_runtime=U/zhiban_identity_owner}",
+          "name": "zhiban_assessment",
+          "owner": "zhiban_identity_owner"
+        },
+        {
+          "acl": "{zhiban_identity_owner=UC/zhiban_identity_owner,zhiban_bridge_runtime=U/zhiban_identity_owner}",
+          "name": "zhiban_bridge",
+          "owner": "zhiban_identity_owner"
+        },
+        {
+          "acl": "{zhiban_identity_owner=UC/zhiban_identity_owner,zhiban_bridge_runtime=U/zhiban_identity_owner}",
+          "name": "zhiban_content",
+          "owner": "zhiban_identity_owner"
+        },
+        {
+          "acl": "{zhiban_identity_owner=UC/zhiban_identity_owner,zhiban_runtime=U/zhiban_identity_owner,zhiban_auth_runtime=U/zhiban_identity_owner,zhiban_control_runtime=U/zhiban_identity_owner,zhiban_bridge_runtime=U/zhiban_identity_owner,zhiban_academic_runtime=U/zhiban_identity_owner}",
+          "name": "zhiban_identity",
+          "owner": "zhiban_identity_owner"
+        },
+        {
+          "acl": "{zhiban_identity_owner=UC/zhiban_identity_owner,zhiban_academic_runtime=U/zhiban_identity_owner}",
+          "name": "zhiban_learning",
+          "owner": "zhiban_identity_owner"
+        }
+      ],
+      "defaults": [
+        {
+          "acl": "{zhiban_identity_owner=X/zhiban_identity_owner}",
+          "kind": "f",
+          "schema": ""
+        }
+      ],
+      "functionOwners": [
+        {
+          "args": "",
+          "name": "audit_immutability_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_bridge"
+        },
+        {
+          "args": "p_tenant_id uuid, p_activity_id uuid",
+          "name": "business_resource_ready",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_bridge"
+        },
+        {
+          "args": "",
+          "name": "mapping_consistency",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_bridge"
+        },
+        {
+          "args": "",
+          "name": "mapping_history_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_bridge"
+        },
+        {
+          "args": "",
+          "name": "operation_history_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_bridge"
+        },
+        {
+          "args": "",
+          "name": "resource_gate_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_bridge"
+        },
+        {
+          "args": "",
+          "name": "slot_cas_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_bridge"
+        },
+        {
+          "args": "",
+          "name": "append_only",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_content"
+        },
+        {
+          "args": "p_draft jsonb",
+          "name": "draft_digest",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_content"
+        },
+        {
+          "args": "",
+          "name": "link_consistency",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_content"
+        },
+        {
+          "args": "p_tenant_id uuid, p_resource_id uuid, p_offering_id uuid, p_actor_membership_id uuid, p_action text",
+          "name": "lock_business_context",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_content"
+        },
+        {
+          "args": "",
+          "name": "operation_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_content"
+        },
+        {
+          "args": "",
+          "name": "png_insert_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_content"
+        },
+        {
+          "args": "",
+          "name": "png_publish_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_content"
+        },
+        {
+          "args": "",
+          "name": "publication_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_content"
+        },
+        {
+          "args": "",
+          "name": "resource_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_content"
+        },
+        {
+          "args": "p_text text",
+          "name": "utf16_length",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_content"
+        },
+        {
+          "args": "d jsonb",
+          "name": "valid_draft",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_content"
+        },
+        {
+          "args": "d jsonb",
+          "name": "valid_interactive_draft",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_content"
+        },
+        {
+          "args": "d jsonb",
+          "name": "valid_png_draft",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_content"
+        },
+        {
+          "args": "p_draft jsonb",
+          "name": "valid_text_draft",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_content"
+        },
+        {
+          "args": "value jsonb",
+          "name": "audit_grant_array_json",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "value jsonb",
+          "name": "audit_grant_json",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "value jsonb",
+          "name": "audit_id_array_json",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "value jsonb",
+          "name": "audit_instant_json",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "kind text, p jsonb",
+          "name": "audit_payload_valid",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "event_type text, value jsonb",
+          "name": "audit_payload_valid_pre_credentials",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "value jsonb",
+          "name": "audit_scope_json",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "value jsonb",
+          "name": "audit_uuid_json",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_tenant_id uuid, p_actor_membership_id uuid, p_target_membership_ids uuid[], p_mode text",
+          "name": "authorization_state",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_tenant_id uuid, p_digest text, p_expected_user_id uuid, p_actor_membership_id uuid, p_related_membership_ids uuid[]",
+          "name": "bridge_identity_context",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "credential_consistency",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "v jsonb, positive boolean",
+          "name": "credential_decimal",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "credential_history_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "credential_slot_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "current_tenant_id",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "guard_membership_update",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "guard_role_grant_update",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "guard_session_update",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "guard_system_admin_grant_update",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "identity_admission_policy_immutable",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_purpose text, p_policy_digest text, p_limit integer",
+          "name": "identity_admission_prune",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_purpose text, p_policy_digest text, p_keys text[]",
+          "name": "identity_admission_reserve",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_user_id uuid",
+          "name": "identity_auth_user_anchor",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "identity_bootstrap_consistency",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "identity_bootstrap_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "identity_composition_append_only",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "identity_composition_source_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_tenant_id uuid, p_approval_id uuid, p_consent_id uuid, p_at bigint",
+          "name": "identity_first_tenant_admin_apply",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_tenant_id uuid, p_approval_id uuid",
+          "name": "identity_first_tenant_admin_lock",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_digest text, p_actor_user_id uuid, p_approval_id uuid, p_admission_id uuid",
+          "name": "identity_member_admission_register",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_tenant_id uuid, p_actor_membership_id uuid, p_admission_id uuid",
+          "name": "identity_member_admission_state",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_digest text, p_expected_user_id uuid, p_tenant_id uuid, p_admission_id uuid, p_control_approval_id uuid",
+          "name": "identity_member_consent_context",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "identity_membership_composition_consistency",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "identity_platform_bootstrap_lock",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "identity_provision_consistency",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "identity_provision_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_case_id uuid, p_session_digest text, p_mode text",
+          "name": "identity_recovery_actor_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "identity_recovery_consistency",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_environment text, p_policy_digest text",
+          "name": "identity_recovery_gate",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_environment text, p_policy_digest text, p_limit integer",
+          "name": "identity_recovery_prune",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_environment text, p_policy_digest text, p_phase text, p_keys text[]",
+          "name": "identity_recovery_reserve",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_source_id uuid, p_expected_revision bigint, p_request_id text, p_event_ids uuid[]",
+          "name": "identity_recovery_source_block",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "identity_recovery_transition_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_case_id uuid, p_session_digest text, p_source_ids uuid[]",
+          "name": "identity_recovery_user_locks",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_digest text, p_expected_user_id uuid",
+          "name": "identity_session_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_digest text, p_after_membership_id uuid, p_limit integer",
+          "name": "identity_session_spaces",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_digest text, p_expected_user_id uuid, p_expected_user_revision bigint, p_expected_slot_revision bigint, p_expected_epoch bigint, p_proof_at bigint",
+          "name": "identity_session_step_up_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "p_tenant_id uuid, p_actor_user_id uuid",
+          "name": "identity_tenant_restore_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "value uuid",
+          "name": "is_uuid_v7",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "session_binding_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "session_user_barrier",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "session_user_disable",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_identity"
+        },
+        {
+          "args": "",
+          "name": "quiz_definition_guard",
+          "owner": "zhiban_identity_owner",
+          "schema": "zhiban_learning"
+        }
+      ]
+    },
+    "fingerprint": "1c8e5296035b555270bd65fa6e4557c3ed591d201538342be5b7b58aa4145f35"
+  },
+  "lifecycle": {
+    "root": "/tmp/zhiban-m5-png-BreaKW",
+    "port": 56498,
+    "database": "zhiban_m5_png_disposable",
+    "nativeDatabase": "zhiban_m5_png_native",
+    "stopped": true,
+    "removed": true
+  },
+  "referenceBuildOnly": true,
+  "excluded": [
+    "ALL PNG product/browser/failure-cut tests (reference-only build)",
+    "existing 55433 development installation",
+    "terminal reconciliation/maintenance input delivery",
+    "Runtime/AI",
+    "production/CI signoff"
+  ]
+}

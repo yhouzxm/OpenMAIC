@@ -1,0 +1,13 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "drift": [
+    {
+      "path": "/home/zxm/openmaic/zhiban/scripts/zhiban-local/verify-quiz-ordering.cjs",
+      "state": "CHANGED"
+    }
+  ],
+  "productDrift": [],
+  "metadataRewritten": false,
+  "scope": "Verifier-only edits after runtime snapshot; not a product restart or refreshed runtime receipt"
+}

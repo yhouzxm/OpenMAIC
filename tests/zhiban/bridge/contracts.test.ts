@@ -42,10 +42,10 @@ function connection(commit = 'COMMIT') {
   return { calls, release, client, pool: { connect: async () => client } };
 }
 describe('Bridge migration and composition contracts', () => {
-  it('adds only 0013 and preserves every applied migration including 0012', async () => {
+  it('adds 0014 and preserves every previously applied migration through 0013', async () => {
     const migrations = await loadMigrationFiles();
-    expect(migrations).toHaveLength(13);
-    for (const file of migrations.slice(0, 12)) {
+    expect(migrations).toHaveLength(14);
+    for (const file of migrations.slice(0, 13)) {
       const expected = execFileSync('git', ['show', `HEAD:${root}/${file.name}`], {
         maxBuffer: 1024 * 1024,
       });
@@ -55,6 +55,7 @@ describe('Bridge migration and composition contracts', () => {
     }
     expect(migrations[11].name).toBe('0012_openmaic_bridge_foundation.sql');
     expect(migrations[12].name).toBe('0013_openmaic_bridge_consistency_fix.sql');
+    expect(migrations[13].name).toBe('0014_openmaic_120_versions.sql');
   });
   it('0013 changes only table dispatch and preserves the complete consistency function', () => {
     const fix = readFileSync(`${root}/0013_openmaic_bridge_consistency_fix.sql`, 'utf8');

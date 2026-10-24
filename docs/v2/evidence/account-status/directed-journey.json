@@ -1,0 +1,20 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "ORIGINAL_GLOBAL_USER_DISABLE_RESTORE_RESTRICTED_TENANT_DIRECTORY",
+  "syntheticAuthority": true,
+  "humanApproval": false,
+  "originalControlCommands": true,
+  "globalHttpMutation": false,
+  "crossTenantSessions": 2,
+  "oldSessionsRemainRevokedAfterRestore": true,
+  "noMembershipGrantEnrollmentOrHistoryMutation": true,
+  "sourceTamperExpiryAndCurrentAuthorityRefused": true,
+  "sessionRevocationGate": true,
+  "auditAndSessionRollback": true,
+  "concurrentMutationOnce": true,
+  "safeCurrentAndSupersededProof": true,
+  "newSqlOrAcl": false,
+  "real55432Or55433": false
+}

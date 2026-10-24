@@ -1,0 +1,66 @@
+{
+  "formatVersion": 1,
+  "status": "UNISSUED",
+  "migrationStatus": "UNAPPLIED",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "profile": "terminal-reconciliation-local-v1",
+  "runtimeAccepted": false,
+  "approvalRef": null,
+  "issuedAt": null,
+  "gitBaselineSha": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "candidateInventorySha256": "4e5585a55aae259a39ac5c0aa01f40e66c4dbb138d99b2d093c626565c9d662a",
+  "candidateMigrationSha256": "ec2aa8066aae0455127522df40a32b86249a98417391dc714d243f366e592548",
+  "kind": "LOCAL_M5_TERMINAL_INSTALLATION_CANDIDATE",
+  "target": {
+    "port": 55433,
+    "pgMajor": 16,
+    "businessDatabase": "zhiban_m1_dev",
+    "nativeDatabase": "zhiban_m5_native",
+    "clusterSystemIdentifier": null,
+    "businessDatabaseOid": null,
+    "nativeDatabaseOid": null,
+    "dataDirectory": "/home/zxm/.local/share/zhiban-m1/pgdata"
+  },
+  "prerequisites": {
+    "content0001Sha256": "e335f83bb48cc6c4ec754f8e3270dc0e6941e14f38306bd67aa29844c3713324",
+    "priorImplementationBinding": "fd4920297e1abeb499fd7690a9182127871e6a430b8a24795da092a1eaaf84f4",
+    "oldInstallationReceiptSha256": null,
+    "allAppliedLedgersVerified": null
+  },
+  "bindings": {
+    "currentMaintenanceBuild": null,
+    "currentProofWorkerBuild": null,
+    "currentHostBuild": null,
+    "loaderIssuerSourceDigest": null,
+    "businessCatalogFingerprint": null,
+    "nativeCatalogFingerprint": null,
+    "roleGraphFingerprint": null,
+    "observerFingerprint": null,
+    "hbaAdmissionProfile": null,
+    "backendBrokerProfile": null,
+    "loggingPolicy": null,
+    "nativePublicApiSource": null,
+    "combinedTerminalProfile": null,
+    "reviewedExpectedProfileSource": null,
+    "technicalInstallerSourceDigest": null
+  },
+  "checks": {
+    "businessInstallationAndRls": "NOT_RUN",
+    "nativeProofAclAndAdapter": "NOT_RUN",
+    "serviceAuditHistoryAfterRevocation": "NOT_RUN",
+    "sameClientAtomicSettlement": "NOT_RUN",
+    "offlineDrainLateNativeWriter": "NOT_RUN",
+    "takeoverAtomicityAndCrashRecovery": "NOT_RUN",
+    "resultLookupAckUnknown": "NOT_RUN",
+    "receiptLoaderDrift": "NOT_RUN",
+    "affectedM1M4AndTextPublishRegression": "NOT_RUN"
+  },
+  "notImplemented": [
+    "reviewed official expected artifact and pinned authority for existing dev cluster",
+    "persistent maintenance backend broker and proof worker",
+    "pg_hba/credential/journal/launcher recovery driver",
+    "ready/activation and host-accepted terminal receipt profile"
+  ],
+  "issuanceRule": "UNISSUED template and SQL_PARSE are never authority. Explicit install + exact live profile and required LOCAL gates only; old content/native profile remains strict. No production or complete enabled-gate signoff."
+}

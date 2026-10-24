@@ -1,0 +1,14 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PRIVATE_NEW_INSTANCE_BACKUP_COMPLETE",
+  "sourceRoot": "/tmp/zhiban-trial-content-49kok0",
+  "backupRoot": "/home/zxm/.local/state/zhiban-trial-backups/material-delivery-20261018-203858",
+  "pgPort": 56517,
+  "httpsOrigin": "https://127.0.0.1:3461",
+  "scope": "Current new material classroom after 30-group journey and chapter flow; does not restore the deleted prior P3 profile instance",
+  "dumpHashes": {
+    "zhiban_trial_content_disposable.dump": "89923aacca3e1ebb06af415d7c3689cc6bd9d657c0fea4dce1b14fd935f3aab3",
+    "zhiban_trial_content_native.dump": "22d2559336bfaa200f62f1c38f111136f64d815245bff95667a55ec4177ab8d1"
+  }
+}

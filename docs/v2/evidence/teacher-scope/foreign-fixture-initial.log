@@ -1,0 +1,16 @@
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+PASS Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately
+PASS disposable content loader rejects wrong target, artifact hash and elevated Bridge ACL; restored state required before serving
+PASS PG16 restricted roles + real Identity sessions + validated trusted HTTPS
+PASS trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands
+PASS real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft
+PASS three real browser logins share one origin: admin history, teacher activities/queue/analytics, student activities/published feedback; no script errors
+PASS student/admin cannot acquire teacher grading; malformed content routes and Runtime/control remain closed
+TypeError: Cannot read properties of undefined (reading 'id')
+    at verifyTeacherScope (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-KazeCX/verify.mjs:229:55)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async main (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-KazeCX/verify.mjs:27297:7)
+    at async file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-KazeCX/verify.mjs:28414:3

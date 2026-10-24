@@ -1,0 +1,276 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "scope": "OWNED_EPHEMERAL_PG16_CANDIDATE_ONLY",
+  "at": "2026-10-17T14:21:33.805Z",
+  "pgMajor": 16,
+  "actualServerVersionNum": 160015,
+  "nodeVersion": "v22.23.3",
+  "pnpmVersion": "10.28.0",
+  "lockfileSha256": "8078b49337a7e3fa5bff9e71f992d5650d7394174fae1cbecf97697345b3b87f",
+  "sourceHashes": {
+    "identity/bootstrap-roles.pg16.sql": "8f1e845bd3e0dbc722f867afb5effb6b8a08a86980b90884b1790e3b992143fb",
+    "identity/bootstrap-bridge-roles.pg16.sql": "dcdb261b9a17c56638fe0b1ec0fd9878d7ac2545a2c4ed5dcaf48b88ccdfd776",
+    "bridge/repository.ts": "2bffecf0729d720bce62f354dfe9ba97d18f3006c23c6eefb0caa2076edfa329",
+    "bridge/candidate.ts": "f982393eec9f7768ff2a1ee433b3f1fb4a1991559b399b1120f30b638609d6c2",
+    "bridge/records.ts": "8c983f5e7c8b6b5cdeaf1e5d9aaf3a38ac52ab3ca702b87497640f614815c905",
+    "bridge/validation.ts": "f89033ceb42aca44b09b6e29644d115448ddcc556d90b56c752de9fe94a322db",
+    "bridge/transactions.ts": "db14519f98576cf1113b218651d6e5f801fefe3cd9e4d07822b857033ae84b2d",
+    "candidate/00-preflight.sql": "367af85236be0f3155d3a01cdd89d42a8966e647245a86a2b4e41c65dc8903c9",
+    "candidate/01-schema.sql": "ffe2a16ace036dedb19cab60890e32f1ee4e274d598f4c3e9a624e6c0c616f7c",
+    "candidate/02-helpers-and-guards.sql": "4a30204e1ceb9b11e16af653ec35e1dbc9b142be92745b05a601db82441199d5",
+    "candidate/03-acl.sql": "be7d93f8ad794a0bd0a327a823ac7988f27887accc0ef0acf3c1d512657b6c9b",
+    "candidate/04-receipt-inspect.sql": "92f4f5361d892fdafa5a90fb0138dbab366e39a8f83c0a12ffda660678adb39f",
+    "identity/0001_identity_bootstrap.sql": "bd81a6bef9241e3173eea297e276d97787446d757c5b2b79bf4e6b8a4a1cb235",
+    "identity/0002_identity_core.sql": "6289d7bc1a53a63d4d66a8a79f6d9c0d96f5d59643911a4a395a5fc0be9f4703",
+    "identity/0003_identity_audit_and_rls.sql": "cd2480d062d55c4999cf71ca6670b17b006f4146e514ef7a576812c2829880bf",
+    "identity/0004_identity_credentials.sql": "d2ca67e1f274876ded48e8965d46bd9347795fac488c6d7e27ac0ceeb8677b1a",
+    "identity/0005_identity_credential_consistency_fix.sql": "dcb7d50a123b816def8f9374bfbd1f68e3d66e091a170278906783d0305ee0f9",
+    "identity/0006_identity_sessions.sql": "d0204f6d5e1894ffdc62df16e07700f31fb0ce968571e77f711af23b096e1bc0",
+    "identity/0007_identity_authorization_state.sql": "20d6ad486cd4c2afc8f3ab75591dfd7895b62118a07a3a086b469c77b3f5ef27",
+    "identity/0008_identity_authentication_composition.sql": "0ace96db7b9fa5747219c47f42bdfd2cbc1a60bebf2f54b7fbe9afb8a19fe992",
+    "identity/0009_identity_membership_composition.sql": "91d064abb0238b57e1f2afe7a50f441befb947568789ca31b9a1e6277449753a",
+    "identity/0010_identity_manual_recovery.sql": "97dd2306cca1f1e8c6976329c50293aa733ffb3bd843636f9383c2b8eb83c03b",
+    "identity/0011_identity_recovery_source_locks.sql": "5f61cd3072271492b253486d8f328bb1420f49d1a9b32c97bb82e737cdf8bc83",
+    "identity/0012_openmaic_bridge_foundation.sql": "70bd7e0131e3f0fc0e377393c66d378e5be74387d0cc345b0c0cba27760372c1",
+    "identity/0013_openmaic_bridge_consistency_fix.sql": "025318bf1759b6fb34c6a51992181f340efe16ae67d7cf597f5b09689f5c949c",
+    "identity/0014_openmaic_120_versions.sql": "2272b36bc16267070c4f62c155f8bdfef58d3f7dce7856be96fbbc4637747377",
+    "academic/0001_academic.sql": "40c9af67f0f6521a0dd601138dbc01010c277e5b636e4a633bd7b77ba5990427",
+    "learning/0001_learning.sql": "768db17be502a584e2e35a403cbaaad7c419dcaadcd21da4bf1819bdad0615c1",
+    "assessment/0001_assessment.sql": "a1253740360ca9e97f9315cb9126483314d05a33c1bcb44f4ba9eb61356a80f7"
+  },
+  "guardScope": "Real SQL/RLS and shipped BridgeRepository primitives; synthetic actor, no Session/Role/Scope/Native end-to-end signoff",
+  "port": 55439,
+  "database": "zhiban_m5_disposable",
+  "unixSocketOnly": true,
+  "fixtureRemoved": true,
+  "sharedClustersTouched": false,
+  "nativeProviderCalls": 0,
+  "receiptIssued": false,
+  "developmentMigrationApplied": false,
+  "candidateMigrationSha256": "e335f83bb48cc6c4ec754f8e3270dc0e6941e14f38306bd67aa29844c3713324",
+  "runnerSha256": "c18bee220db03387b71163ced88895e1b685ef5ccb50c40ce8f7bab91667beca",
+  "checks": [
+    {
+      "name": "exact dev preflight rejects isolated fixture target",
+      "status": "PASS"
+    },
+    {
+      "name": "F4 exact baseline PG16 role edges accepted",
+      "status": "PASS"
+    },
+    {
+      "name": "F4 rejects role edge INHERIT TRUE",
+      "status": "PASS"
+    },
+    {
+      "name": "F4 rejects role edge SET FALSE",
+      "status": "PASS"
+    },
+    {
+      "name": "F4 rejects unapproved incoming owner edge",
+      "status": "PASS"
+    },
+    {
+      "name": "actual candidate DDL applied to owned isolated fixture only",
+      "status": "PASS"
+    },
+    {
+      "name": "1.2.0 provider tuple rejects mixed package versions",
+      "status": "PASS"
+    },
+    {
+      "name": "F4 actual receipt queries include INHERIT and SET",
+      "status": "PASS"
+    },
+    {
+      "name": "helper real owner FOR SHARE and closed projection",
+      "status": "PASS"
+    },
+    {
+      "name": "Bridge raw Academic UPDATE denied",
+      "status": "PASS"
+    },
+    {
+      "name": "owner lock-only policy rejects actual Academic write",
+      "status": "PASS"
+    },
+    {
+      "name": "structural gate accepts DRAFT and rejects null/wrong tenant/unregistered",
+      "status": "PASS"
+    },
+    {
+      "name": "F1 Bridge-only first activation fails deferred COMMIT",
+      "status": "PASS"
+    },
+    {
+      "name": "F1 rollback retains DRAFT and no ACTIVE generation",
+      "status": "PASS"
+    },
+    {
+      "name": "publication missing content audit rolls back both pointers",
+      "status": "PASS"
+    },
+    {
+      "name": "F1 complete publication atomic settlement succeeds",
+      "status": "PASS"
+    },
+    {
+      "name": "withdrawal preserves suspended ACTIVE history",
+      "status": "PASS"
+    },
+    {
+      "name": "1.2.0 generation rejects a DSL stamp from another deployment version",
+      "status": "PASS"
+    },
+    {
+      "name": "F1 alternate deployment unbound activation rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "F2 cancelled content cannot hide unbound Bridge prepare",
+      "status": "PASS"
+    },
+    {
+      "name": "F2 UNKNOWN prepare cannot release fence through FAILED",
+      "status": "PASS"
+    },
+    {
+      "name": "F2 preserved fence denies save",
+      "status": "PASS"
+    },
+    {
+      "name": "F2 atomic known failure releases fence",
+      "status": "PASS"
+    },
+    {
+      "name": "F2 save after safe terminal failure succeeds",
+      "status": "PASS"
+    },
+    {
+      "name": "F2 dispatched RESERVED prepare cannot release fence",
+      "status": "PASS"
+    },
+    {
+      "name": "F3 wrong prepared Native digest rejected at COMMIT",
+      "status": "PASS"
+    },
+    {
+      "name": "F3 mismatch rollback leaves no reservation or Bridge generation",
+      "status": "PASS"
+    },
+    {
+      "name": "F3 expected Native digest is immutable",
+      "status": "PASS"
+    },
+    {
+      "name": "F3 trigger rejects digest mutation under controlled extra fixture grant",
+      "status": "PASS"
+    },
+    {
+      "name": "F3 existing reservation completes after rejected mutation",
+      "status": "PASS"
+    },
+    {
+      "name": "F2 prepared known success with no activation may safely cancel",
+      "status": "PASS"
+    },
+    {
+      "name": "F3 another reservation cannot reuse prior prepare",
+      "status": "PASS"
+    },
+    {
+      "name": "SM01 unbound RESERVED activation rejects COMMIT (cancel=false)",
+      "status": "PASS"
+    },
+    {
+      "name": "SM01 unbound RESERVED activation rejects COMMIT (cancel=true)",
+      "status": "PASS"
+    },
+    {
+      "name": "SM01 rejected RESERVED activation rolls back ledger, slot and content",
+      "status": "PASS"
+    },
+    {
+      "name": "SM01 bound RESERVED activation prevents content FAILED",
+      "status": "PASS"
+    },
+    {
+      "name": "SM01 bound RESERVED activation retains SAVE fence",
+      "status": "PASS"
+    },
+    {
+      "name": "SM01 bound RESERVED activation cannot be replaced",
+      "status": "PASS"
+    },
+    {
+      "name": "SM01 bound RESERVED activation reconciled FAILED allows atomic content failure",
+      "status": "PASS"
+    },
+    {
+      "name": "SM01 SAVE after RESERVED activation safely failed succeeds",
+      "status": "PASS"
+    },
+    {
+      "name": "SM01 unbound OUTCOME_UNKNOWN activation rejects COMMIT (cancel=false)",
+      "status": "PASS"
+    },
+    {
+      "name": "SM01 unbound OUTCOME_UNKNOWN activation rejects COMMIT (cancel=true)",
+      "status": "PASS"
+    },
+    {
+      "name": "SM01 rejected OUTCOME_UNKNOWN activation rolls back ledger, slot and content",
+      "status": "PASS"
+    },
+    {
+      "name": "SM01 bound OUTCOME_UNKNOWN activation prevents content FAILED",
+      "status": "PASS"
+    },
+    {
+      "name": "SM01 bound OUTCOME_UNKNOWN activation retains SAVE fence",
+      "status": "PASS"
+    },
+    {
+      "name": "SM01 bound OUTCOME_UNKNOWN activation cannot be replaced",
+      "status": "PASS"
+    },
+    {
+      "name": "SM01 bound OUTCOME_UNKNOWN activation reconciled FAILED allows atomic content failure",
+      "status": "PASS"
+    },
+    {
+      "name": "SM01 SAVE after OUTCOME_UNKNOWN activation safely failed succeeds",
+      "status": "PASS"
+    },
+    {
+      "name": "SM01 activation binding rejects a different prepared generation",
+      "status": "PASS"
+    },
+    {
+      "name": "SM01 correct generation still publishes after mismatched binding rollback",
+      "status": "PASS"
+    },
+    {
+      "name": "SM01 content RESERVED to UNKNOWN retains durable preparation",
+      "status": "PASS"
+    },
+    {
+      "name": "SM01 content UNKNOWN prevents SAVE",
+      "status": "PASS"
+    },
+    {
+      "name": "SM01 content UNKNOWN atomically binds successful activation and publication",
+      "status": "PASS"
+    },
+    {
+      "name": "SM01 content UNKNOWN cannot fail while prepare UNKNOWN",
+      "status": "PASS"
+    },
+    {
+      "name": "SM01 content UNKNOWN can fail with reconciled prepare",
+      "status": "PASS"
+    }
+  ],
+  "status": "PASS",
+  "failure": null
+}

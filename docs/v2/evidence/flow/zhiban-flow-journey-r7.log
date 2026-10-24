@@ -1,0 +1,19 @@
+
+> openmaic@1.2.1 verify:zhiban:flow /home/zxm/openmaic/zhiban
+> tsx scripts/zhiban-local/run-m6-catalog.ts --unified-trial --flow-focus
+
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+Reused @openmaic/generation: matching LOCAL source/build hashes
+PASS Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately
+{"timestamp":"2026-10-23T23:00:46.029Z","level":"INFO","tag":"GenerationRunner","message":"generation runner 13808:57d11745-0aa6-43f6-b52b-079259c68fd4 started (scan=1000ms, heartbeat=2000ms, leaseTtl=10000ms, maxConcurrent=1)"}
+PASS PG16 restricted roles + real Identity sessions + validated trusted HTTPS
+PASS trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands
+PASS real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft
+PASS FLOW: teacher browser edits, saves, publishes a fixed plan and starts its first native interactive scene
+PASS FLOW: pause/resume keeps one entry; advancement and draft writes use CAS; grade prerequisite blocks new entry; repeated entry atomically retains one Attempt, joint binding and notebook
+PASS FLOW: student browser records measurements, saves/reloads, submits; original teacher grade is published; grading queue links to immutable experimental evidence; student sees the published grade
+PASS FLOW: resubmission preserves original structured report and published grade; Quiz uses original Attempt/submit; flow end blocks new entry and retains history
+PASS FLOW: late SQL failure rolls back Attempt/entry/runtime binding/notebook; immutable report ACL drift is rejected; RLS and foreign learner isolation hold

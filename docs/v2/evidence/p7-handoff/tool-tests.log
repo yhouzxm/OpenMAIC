@@ -1,0 +1,43 @@
+TAP version 13
+# Traceback (most recent call last):
+#   File "<string>", line 18, in <module>
+# AssertionError: content mismatch
+# Traceback (most recent call last):
+#   File "<string>", line 9, in <module>
+# AssertionError: unsafe entry
+# Traceback (most recent call last):
+#   File "<string>", line 9, in <module>
+# AssertionError: unsafe entry
+# Subtest: exports source and examples while omitting credentials, live data and transient builds
+ok 1 - exports source and examples while omitting credentials, live data and transient builds
+  ---
+  duration_ms: 2.938503
+  type: 'test'
+  ...
+# Subtest: credential-like JSON, filled examples and private key material fail before export
+ok 2 - credential-like JSON, filled examples and private key material fail before export
+  ---
+  duration_ms: 2.367928
+  type: 'test'
+  ...
+# Subtest: source reader refuses symlinks and detects credential data without following targets
+ok 3 - source reader refuses symlinks and detects credential data without following targets
+  ---
+  duration_ms: 3.25609
+  type: 'test'
+  ...
+# Subtest: archive hashes verify without extraction; tampering, paths and links refuse
+ok 4 - archive hashes verify without extraction; tampering, paths and links refuse
+  ---
+  duration_ms: 912.822308
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1057.384987

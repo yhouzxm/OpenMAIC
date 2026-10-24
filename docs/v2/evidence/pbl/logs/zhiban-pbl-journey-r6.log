@@ -1,0 +1,87 @@
+
+> openmaic@1.2.1 verify:zhiban:pbl /home/zxm/openmaic/zhiban
+> tsx scripts/zhiban-local/run-m6-catalog.ts --unified-trial --pbl-focus
+
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+Reused @openmaic/generation: matching LOCAL source/build hashes
+PASS Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately
+{"timestamp":"2026-10-23T23:44:22.462Z","level":"INFO","tag":"GenerationRunner","message":"generation runner 23845:eb1ccf3f-22ab-4855-9ff8-1433754dded6 started (scan=1000ms, heartbeat=2000ms, leaseTtl=10000ms, maxConcurrent=1)"}
+PASS PG16 restricted roles + real Identity sessions + validated trusted HTTPS
+PASS trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands
+PASS real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft
+LOCAL directed store refusal WORK NOT_FOUND 10
+PASS PBL: teacher browser adopts native PBL v2 design, strips learner/agent state, publishes and builds a four-person course group through existing paged roster
+LOCAL directed store refusal WORK NOT_FOUND 11
+LOCAL directed store refusal WORK NOT_FOUND 44
+LOCAL directed store refusal WORK CONFLICT 61
+LOCAL directed store refusal WORK FORBIDDEN 53
+LOCAL directed store refusal WORK FORBIDDEN 50
+LOCAL directed store refusal WORK INVALID_STATE 32
+LOCAL directed store refusal WORK CONFLICT 77
+PASS PBL: two student browsers share saved work; CAS rejects competing edits; any edit invalidates old confirmations; all four affirm the same revision before one immutable joint submission
+LOCAL directed store refusal WORK INVALID_INPUT 16
+LOCAL directed store refusal WORK 42501 34
+PASS PBL: teacher publishes 86/100 and corrects to 88 with a public reason; pinned native design and first submission remain unchanged; duplicate submit deduplicates and late audit failure rolls back all submission state
+LOCAL directed store refusal WORK CONFLICT 27
+LOCAL directed store refusal WORK CONFLICT 65
+LOCAL directed store refusal WORK FORBIDDEN 31
+LOCAL directed store refusal WORK NOT_FOUND 81
+LOCAL directed store refusal WORK INACTIVE_MEMBER 38
+LOCAL directed store refusal WORK INACTIVE_MEMBER 51
+PASS PBL: membership change versus submit has one winner; moving members invalidates all consents; removed members retain only their immutable submissions, newcomers cannot see old submissions; withdrawal/restoration requires explicit group rejoin
+LOCAL directed store refusal WORK INACTIVE_MEMBER 32
+LOCAL directed store refusal WORK INVALID_STATE 18
+LOCAL directed store refusal WORK INVALID_STATE 14
+LOCAL directed store refusal WORK INVALID_STATE 64
+PASS PBL: fixed deadline, closed project and no-resubmit rules block new writes while retaining history; collaboration and evaluation history are paged and source digests match
+PBL browser diagnostic 0 [ '' ]
+PBL browser diagnostic 1 [ '' ]
+PBL browser diagnostic 1 [ '' ]
+PBL browser diagnostic 2 [ '' ]
+A [Error]: expect(locator).toBeVisible() failed
+
+Locator: getByText('会话已变化，请返回工作台重新进入课程。', { exact: true })
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "to.be.visible" with timeout 5000ms
+  - waiting for getByText('会话已变化，请返回工作台重新进入课程。', { exact: true })
+    - waiting for" https://127.0.0.1:3468/zhiban/student/courses/01a16b26-c5cd-743e-9d4e-a2598b9d9dc5/pbl?space=01a16b26-5454-71d9-b6ee-4c6f765fe1b6&offering=01a16b26-c70a-771e-916d-3162d7e34061" navigation to finish...
+    - navigated to "https://127.0.0.1:3468/zhiban/student/courses/01a16b26-c5cd-743e-9d4e-a2598b9d9dc5/pbl?space=01a16b26-5454-71d9-b6ee-4c6f765fe1b6&offering=01a16b26-c70a-771e-916d-3162d7e34061#submission-01a16b26-d22…"
+
+    at Proxy.<anonymous> (/home/zxm/openmaic/zhiban/node_modules/.pnpm/playwright@1.58.2/node_modules/playwright/lib/matchers/expect.js:213:24)
+    at verifyPbl (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-cmLg4I/verify.mjs:27249:7)
+    at async main (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-cmLg4I/verify.mjs:86450:7)
+    at async file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-cmLg4I/verify.mjs:87791:3 {
+  matcherResult: {
+    message: 'expect(locator).toBeVisible() failed\n' +
+      '\n' +
+      "Locator: getByText('会话已变化，请返回工作台重新进入课程。', { exact: true })\n" +
+      'Expected: visible\n' +
+      'Timeout: 5000ms\n' +
+      'Error: element(s) not found\n' +
+      '\n' +
+      'Call log:\n' +
+      '  - Expect "to.be.visible" with timeout 5000ms\n' +
+      "  - waiting for getByText('会话已变化，请返回工作台重新进入课程。', { exact: true })\n" +
+      '    - waiting for" https://127.0.0.1:3468/zhiban/student/courses/01a16b26-c5cd-743e-9d4e-a2598b9d9dc5/pbl?space=01a16b26-5454-71d9-b6ee-4c6f765fe1b6&offering=01a16b26-c70a-771e-916d-3162d7e34061" navigation to finish...\n' +
+      '    - navigated to "https://127.0.0.1:3468/zhiban/student/courses/01a16b26-c5cd-743e-9d4e-a2598b9d9dc5/pbl?space=01a16b26-5454-71d9-b6ee-4c6f765fe1b6&offering=01a16b26-c70a-771e-916d-3162d7e34061#submission-01a16b26-d22…"\n',
+    pass: false,
+    actual: undefined,
+    name: 'toBeVisible',
+    expected: 'visible',
+    log: [
+      '  - Expect "to.be.visible" with timeout 5000ms',
+      "  - waiting for getByText('会话已变化，请返回工作台重新进入课程。', { exact: true })",
+      '    - waiting for" https://127.0.0.1:3468/zhiban/student/courses/01a16b26-c5cd-743e-9d4e-a2598b9d9dc5/pbl?space=01a16b26-5454-71d9-b6ee-4c6f765fe1b6&offering=01a16b26-c70a-771e-916d-3162d7e34061" navigation to finish...',
+      '    - navigated to "https://127.0.0.1:3468/zhiban/student/courses/01a16b26-c5cd-743e-9d4e-a2598b9d9dc5/pbl?space=01a16b26-5454-71d9-b6ee-4c6f765fe1b6&offering=01a16b26-c70a-771e-916d-3162d7e34061#submission-01a16b26-d22…"'
+    ],
+    timeout: 5000
+  }
+}
+ ELIFECYCLE  Command failed with exit code 1.

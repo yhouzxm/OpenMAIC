@@ -1,0 +1,12 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "status": "PASS",
+  "existingMigrationCount": 37,
+  "drift": [],
+  "newOwnMigrationsExcluded": [
+    "0001_onboarding.sql",
+    "0002_local_uuid_checks.sql"
+  ],
+  "gitBranch": "refactor/zhiban-v2",
+  "head": "daf63afa83470d24a9ed41d171c6a17f8a80adb6"
+}

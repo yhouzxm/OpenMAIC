@@ -1,0 +1,22 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "ORDINARY_GLOBAL_USER_CREATE_RECIPIENT_FIRST_PASSWORD_ORIGINAL_LOGIN_AND_EXPLICIT_MEMBERSHIP_JOIN",
+  "syntheticAuthority": true,
+  "humanIdentityVerification": false,
+  "originalControlUserCreate": true,
+  "recipientChoosesPassword": true,
+  "tenantAdminReceivesPasswordOrTicket": false,
+  "noAutomaticMembershipRoleEnrollment": true,
+  "canonicalRequestReplay": true,
+  "oneCredentialRace": true,
+  "credentialAuditRollback": true,
+  "partialCreationAndDeliveryResume": true,
+  "discardedAckReadAndLogin": true,
+  "revokeAndSupersedingDelivery": true,
+  "kdfExpiryTargetAndAuthorityBarriers": true,
+  "rlsAclAndExpectedProfile": true,
+  "bootstrapAndRecoveryReused": false,
+  "realPg55432Or55433": false
+}

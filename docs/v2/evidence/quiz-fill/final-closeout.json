@@ -1,0 +1,86 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "head": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "dirtyCandidate": true,
+  "runtime": {
+    "origin": "https://127.0.0.1:3461",
+    "root": "/tmp/zhiban-trial-content-hmLuGX",
+    "pgPort": 56517,
+    "modifiedProductSourceBindingsMatch": true
+  },
+  "sourceHashes": {
+    "lib/zhiban/domain/quiz/model.ts": "410ec8fa772a437fcda9278b6df64e883f3465bf8c65543614cba5822a07648f",
+    "lib/zhiban/domain/quiz/fill.ts": "1d7f09e88796e1dec5d006e2af64b4cbfc05d492b38538472c8b94a97f98f219",
+    "lib/zhiban/infrastructure/quiz/postgres/transaction.ts": "12aa088d6d2365eab3ab1775bd3e770b6768dfc0c6428a2391ce1b7750e5d20d",
+    "lib/zhiban/infrastructure/learning/postgres/migrations/0003_fill_blank.sql": "08693850211472fe77a09793e1fa0da99d468ca994b33c41276e357af3fd9130",
+    "app/zhiban/local/quiz-client.tsx": "1ba7c86af7f3c3c82125de1ff97c864be96c3b581e0da9e2ad342f7ed433ba23",
+    "app/zhiban/local/quiz-fill.tsx": "b7ec10bd8481ab19af1f23d630d806326c143375a2d1d0b78c9d64b558333b25",
+    "app/zhiban/local/quiz-client.js": "dbb44ba2e33d5580e4e1e1a3b576e076a0558a31a59a36eefaba1f74287e1127",
+    "scripts/zhiban-local/learning.ts": "bf3a43f2265f5ac578715288c56638f6a38c8dff994eb28085251892602aa0ba",
+    "scripts/zhiban-local/setup-m3.ts": "bb6aba2a9709764f134daa8cf1b48958345cb0ca62680a0361e1988b603f5e21",
+    "scripts/zhiban-local/verify-quiz-fill.cjs": "f2b87eeea923d858bde8bdc0a40f5c6c5745aa3f76a864391f904bd06f7e50ec",
+    "tests/zhiban/quiz/fill.test.ts": "cca3fbd78dc7942b201405d25ff9f675e8555039ac5ce0d4536e957e9e31d7fc",
+    "tests/zhiban/quiz/reuse.test.ts": "6ddb56fae3406d99b4dfd4e762355610dcbdfdb2e7808cbeaa169a52ed0db63c",
+    "docs/v2/zhiban-v2-quiz-fill-local.md": "20d326e9b15cf2584a88c7a598681036f85e4e6d434eaa228481af0cbb768182",
+    "docs/v2/evidence/p4-joint-classroom-profile-reference-local.json": "dd3d453fbbe1a8ef0fd6713f5213c3c3ab4121240c5089a864948efafa16c275",
+    "docs/v2/evidence/p4-joint-classroom-profile-build-local.json": "51264ec882f1b439a0dc58c175adb3bf72880a138957777a257aa8dd648aa484"
+  },
+  "evidenceHashes": {
+    "docs/v2/evidence/quiz-fill/prior-p4-joint-classroom-profile-reference-local.json": "a06b3f1051ff1f2d1d7df305ea28dc17967a49bff61d711c1e59f018b63a3a65",
+    "docs/v2/evidence/quiz-fill/legacy-reuse-journey.json": "0abfc011f7c9bfe166b01d05056cc83d1b042f46eeceb6776dcec23c88094537",
+    "docs/v2/evidence/quiz-fill/prior-quiz-reuse-journey.json": "513ad9d9456103f41a0cd13fb4fd6c62a60828bdbc54b161c5bbf89933c09539",
+    "docs/v2/evidence/quiz-fill/journey.json": "0e87f5ffae098279535c7067616a3ada26d13c47f966c538054b20b32ce65d2c",
+    "docs/v2/evidence/quiz-fill/prior-p4-joint-classroom-profile-build-local.json": "58718d60ea11b7598bd3a311fdc2b705bc2de852e2e67caedf7e45b048521402"
+  },
+  "checks": [
+    "quiz contract/reuse/fill unit checks PASS",
+    "targeted quiz typecheck PASS after package build",
+    "affected ESLint and format PASS",
+    "real fill browser and PG16 journey PASS",
+    "affected legacy judgment and copy browser journey PASS"
+  ],
+  "profileDeltaSchemas": [
+    "zhiban_learning"
+  ],
+  "sharedRoleAclFactsUnchanged": true,
+  "previousAppliedMigrationHashesUnchanged": {
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/identity/postgres/migrations/0001_identity_bootstrap.sql": "bd81a6bef9241e3173eea297e276d97787446d757c5b2b79bf4e6b8a4a1cb235",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/identity/postgres/migrations/0002_identity_core.sql": "6289d7bc1a53a63d4d66a8a79f6d9c0d96f5d59643911a4a395a5fc0be9f4703",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/identity/postgres/migrations/0003_identity_audit_and_rls.sql": "cd2480d062d55c4999cf71ca6670b17b006f4146e514ef7a576812c2829880bf",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/identity/postgres/migrations/0004_identity_credentials.sql": "d2ca67e1f274876ded48e8965d46bd9347795fac488c6d7e27ac0ceeb8677b1a",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/identity/postgres/migrations/0005_identity_credential_consistency_fix.sql": "dcb7d50a123b816def8f9374bfbd1f68e3d66e091a170278906783d0305ee0f9",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/identity/postgres/migrations/0006_identity_sessions.sql": "d0204f6d5e1894ffdc62df16e07700f31fb0ce968571e77f711af23b096e1bc0",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/identity/postgres/migrations/0007_identity_authorization_state.sql": "20d6ad486cd4c2afc8f3ab75591dfd7895b62118a07a3a086b469c77b3f5ef27",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/identity/postgres/migrations/0008_identity_authentication_composition.sql": "0ace96db7b9fa5747219c47f42bdfd2cbc1a60bebf2f54b7fbe9afb8a19fe992",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/identity/postgres/migrations/0009_identity_membership_composition.sql": "91d064abb0238b57e1f2afe7a50f441befb947568789ca31b9a1e6277449753a",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/identity/postgres/migrations/0010_identity_manual_recovery.sql": "97dd2306cca1f1e8c6976329c50293aa733ffb3bd843636f9383c2b8eb83c03b",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/identity/postgres/migrations/0011_identity_recovery_source_locks.sql": "5f61cd3072271492b253486d8f328bb1420f49d1a9b32c97bb82e737cdf8bc83",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/identity/postgres/migrations/0012_openmaic_bridge_foundation.sql": "70bd7e0131e3f0fc0e377393c66d378e5be74387d0cc345b0c0cba27760372c1",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/identity/postgres/migrations/0013_openmaic_bridge_consistency_fix.sql": "025318bf1759b6fb34c6a51992181f340efe16ae67d7cf597f5b09689f5c949c",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/identity/postgres/migrations/0014_openmaic_120_versions.sql": "2272b36bc16267070c4f62c155f8bdfef58d3f7dce7856be96fbbc4637747377",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/academic/postgres/migrations/0001_academic.sql": "40c9af67f0f6521a0dd601138dbc01010c277e5b636e4a633bd7b77ba5990427",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/learning/postgres/migrations/0001_learning.sql": "768db17be502a584e2e35a403cbaaad7c419dcaadcd21da4bf1819bdad0615c1",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/learning/postgres/migrations/0002_quiz.sql": "7824cda2711a4c86e1b7a089c07277ccea7bce436d8ff1e351b4d1889e2e36c2",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/assessment/postgres/migrations/0001_assessment.sql": "a1253740360ca9e97f9315cb9126483314d05a33c1bcb44f4ba9eb61356a80f7",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/assessment/postgres/migrations/0002_quiz_details.sql": "bd0a3070df580c9d8af1aed0cc08f8fc932648ac7f81b0a93449abf05e506fd7",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/profile/postgres/migrations/0001_profile.sql": "d849eae63df03912c25411bcb29bf49ba71a1fffaa5297624271ae8cc48e4ab9",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/teaching/postgres/migrations/0001_teacher_relationships.sql": "92418359f7f55bed368f48786b8a9367582393ac5788a44e43039ef6f272e9a2",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/curriculum/postgres/migrations/0001_curriculum.sql": "6a95e433026ce07095f3b787c7895cc501589a684c276221c9021e68676e0a72",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/classroom/postgres/migrations/0001_classroom.sql": "1668814bdc87f8137609ca511c51037c43958b1a57843d2900f09f360ccb6a2f",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/classroom/postgres/migrations/0002_classroom_edit.sql": "3bc1acaead53db6060df328731296f30980a5fb9aebddbbe6a1c7d4dfe413a4d",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/classroom/postgres/migrations/0003_classroom_presentation.sql": "c38812fce55d90ab0c3f8ed2e253b16eb20357ec3d02180de25a6bcb74f61916"
+  },
+  "upstreamExtensionSourcesUnchanged": true,
+  "migrationAppliedOnlyToFreshOwnedPg16": true,
+  "scope": "FILL_QUIZ_PRODUCT_AND_AFFECTED_REFERENCE_ONLY",
+  "excluded": [
+    "production/55432/55433",
+    "full classroom regression",
+    "real model/scanner",
+    "CI",
+    "commit/push",
+    "P7 repack"
+  ]
+}

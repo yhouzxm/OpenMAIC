@@ -1,0 +1,28 @@
+TAP version 13
+# Subtest: only the exact entered active publication may drive learner navigation
+ok 1 - only the exact entered active publication may drive learner navigation
+  ---
+  duration_ms: 2.949024
+  type: 'test'
+  ...
+# Subtest: a paused flow, ended session or superseded task cannot keep playback alive
+ok 2 - a paused flow, ended session or superseded task cannot keep playback alive
+  ---
+  duration_ms: 0.524423
+  type: 'test'
+  ...
+# Subtest: teacher preview needs no learner entry but still requires an active exact classroom
+ok 3 - teacher preview needs no learner entry but still requires an active exact classroom
+  ---
+  duration_ms: 0.396957
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 775.106316

@@ -1,0 +1,49 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "CURRENT_DEFAULT_INDEPENDENT_PLATFORM_DISABLE_RESTORE_TENANT_DIRECTORY_IAB",
+  "root": "/tmp/zhiban-trial-content-tXbZWI",
+  "userId": "01a165dd-211b-731a-887e-6bd53f136614",
+  "disableOperationRef": "01a165dd-aeed-72c6-9d98-b418069e96b1",
+  "restoreOperationRef": "01a165de-ce4c-71f7-8c5d-00aa80d1d1d5",
+  "globalHttpWrite": false,
+  "syntheticAuthority": true,
+  "humanApproval": false,
+  "disabledOldSession": 401,
+  "disabledLogin": 401,
+  "restoredOldSession": 401,
+  "restoredFreshLogin": 200,
+  "membershipAndHistoryUnchanged": {
+    "members": {
+      "count": 1,
+      "sha256": "ac22d3c5357e5f94103e21f98dcd9160feeece16cc148150d7c9d52b6ed8b3b2"
+    },
+    "roles": {
+      "count": 1,
+      "sha256": "49d3cac7305def0c4cbd9d62bf514434421a3645abac788498a85f0f7a83fedb"
+    },
+    "enrollments": {
+      "count": 1,
+      "sha256": "18f5fddc58c2f133c743edaaead6c9cf6725f780a6a5f65a29dde2c178f84414"
+    },
+    "submissions": {
+      "count": 2,
+      "sha256": "129eaedcb2d974011d6aa3a38d9575593cf1f170171beb7f9103b40d289cb3d4"
+    }
+  },
+  "oldOperation": "APPLIED_SUPERSEDED",
+  "secretIncluded": false,
+  "browserObservations": {
+    "directoryDisabled": true,
+    "directoryRestored": true,
+    "freshOriginalLogin": true,
+    "originalStudentCourseVisible": true,
+    "screenshots": [
+      "docs/v2/evidence/account-status/default-disabled-directory.png",
+      "docs/v2/evidence/account-status/default-restored-directory.png",
+      "docs/v2/evidence/account-status/default-restored-student.png"
+    ]
+  },
+  "localVerificationDate": "2026-10-23"
+}

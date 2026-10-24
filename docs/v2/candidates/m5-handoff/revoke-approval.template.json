@@ -1,0 +1,19 @@
+{
+  "formatVersion": 1,
+  "status": "UNISSUED",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "authorityKeySha256": null,
+  "purpose": "LOCAL_HANDOFF_SCOPE_REVOKE",
+  "approvalId": null,
+  "deploymentId": null,
+  "releaseId": null,
+  "sourceBindingsSha256": null,
+  "hostPermissionSha256": null,
+  "issuedAt": null,
+  "expiresAt": null,
+  "launchAllowed": false,
+  "terminalActionsAllowed": false,
+  "target": null,
+  "expectedProfileSha256": null
+}

@@ -1,0 +1,25 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "root": "/tmp/zhiban-trial-content-fQSIds",
+  "checks": [
+    {
+      "role": "TEACHER",
+      "course": "01a168e2-a2e4-7675-bef9-9a46615a0950",
+      "outline": "GET_PASS",
+      "grades": "PAGE_READY",
+      "businessMutations": false
+    },
+    {
+      "role": "STUDENT",
+      "course": "01a168e2-a2e4-7675-bef9-9a46615a0950",
+      "outline": "GET_PASS",
+      "grades": "PAGE_READY",
+      "businessMutations": false
+    }
+  ],
+  "businessPosts": [],
+  "errors": [],
+  "scope": "READ_ONLY_HANDOFF_SMOKE_NOT_NEW_FUNCTIONAL_SIGNOFF"
+}

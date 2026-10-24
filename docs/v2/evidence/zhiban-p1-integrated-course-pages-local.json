@@ -1,0 +1,106 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "createdAt": "2026-10-16T22:57:11.954002+00:00",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "branch": "refactor/zhiban-v2",
+  "scope": "P1 third slice: content, grading, analytics and own progress mounted directly in course chrome",
+  "sourceHashes": {
+    "app/zhiban/local/course-page.js": "3b8e38050c9ba8f9177eff841619f47118c431ce24e9a3c4ffcd0704c37847d7",
+    "app/zhiban/local/content.html": "a485fba42ec9aba8e034390eece79d40c083972f23d9a9d147bceba4607d8166",
+    "app/zhiban/local/grading.html": "74b21ef658933d4c4ed65c30cd1d46b02b6a3373d2a07c05cacb1304c60872be",
+    "app/zhiban/local/analytics.html": "86e11cf59a3dff74248468d96face49b0af09825249a2f54710bc26ad7c454d5",
+    "app/zhiban/local/progress.html": "2b288361de1b2ce9e8a0c079cfc5e10b58f2b5cf2cca40d4e063d527975d785d",
+    "app/zhiban/local/content-client.tsx": "3c1a8e695a1a1841d957ed4d633f5efa4980166182d36c7f0b454a9b0fe46f91",
+    "app/zhiban/local/grading.js": "48b1362461869fd1aa89314d2e6bd47abbd9516caef2d7d8d84f235c3d911e8b",
+    "app/zhiban/local/analytics.js": "3a794a87cc25bb3001368338fca234e9ca2c3602dbea2e9b58adfc0686953263",
+    "app/zhiban/local/progress.js": "0349f5b7bcfd4919374d7a1b14d62592d4dbd8fae7a06682b4a14d803f0552d9",
+    "app/zhiban/local/assessment.js": "196c2b26606dcef4cb04f586237bd977e72db87372bf4debd78523d1c3172f4e",
+    "app/zhiban/local/workspace.js": "b603bede5639d8dede4d76f3fe2b07f556884bbbff1e20bc69238820e12484f7",
+    "app/zhiban/local/workspace.css": "47d2476b313b69defa89ae6d69c903ada1f583f6e8e4f8507ef94552db49c13e",
+    "scripts/zhiban-local/request-target.ts": "7a37076c76a90705b79666f561933f3279705bd4c7bfe8189857c765fc1f7af6",
+    "scripts/zhiban-local/server.ts": "f745448e4ac23073213c3f6d091a41cff042af64d41570ca8d6262371aae234a",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "c5fdccaffc71b7d8f8176c418e401d823a3088148c5b615a3788a5f0ee08a463",
+    "scripts/zhiban-local/trial-content.ts": "908848b7dce8597eacb6b35d6d7072d1ebdd3bf7b589b56cdcc23a70746c0fd1",
+    "scripts/zhiban-local/prepare-trial.ts": "e91eb72e8e204dabaee1973c77a40206f67b14ed7e7f685685cdbde055105ce7",
+    "scripts/zhiban-local/verify-trial-content.ts": "44a95d3a3e1313470bd9e3373bcc62d7fafb484eb6cca9990f7a82aa17a73596",
+    "tests/zhiban/workspace/query.test.ts": "217a1e7abb0e4540f16f180dbaa5e6b19fd17af4b4cf4dbdc98eef9188447029"
+  },
+  "checks": {
+    "routes": "7/7 PASS including precise business HTML mapping",
+    "types": [
+      "PASS scripts/zhiban-local/tsconfig.m5-png.json",
+      "PASS focused server/catalog/prepare-trial/request-target/workspace-test configuration with transitive imports"
+    ],
+    "lint": {
+      "jsAndScripts": "PASS",
+      "contentClient": "PASS with existing @typescript-eslint/no-explicit-any debt excluded for this pre-existing any-based module; new coursePage boundary uses a concrete type",
+      "strictContentLint": "existing explicit-any violations remain; full lint is not signed off"
+    },
+    "syntaxAndWhitespace": "PASS node --check changed JS and git diff --check",
+    "trial": {
+      "result": "PASS",
+      "checks": 13,
+      "pg16": 160015,
+      "receipt": "zhiban-trial-content-demo-local.json"
+    },
+    "journeys": [
+      "teacher/student course nav directly mounts content, grading/own progress and analytics",
+      "grade navigation cancel preserves feedback; reverting baseline allows navigation",
+      "lecture navigation cancel preserves text; explicit save and publish succeeds",
+      "published text/PNG read-only student view succeeds",
+      "canonical resources response retains exact PNG CSP profile",
+      "existing unauthorized content/API tests remain denied"
+    ],
+    "inAppBrowser": [
+      "1440x1000 teacher editor, grading form and report visible with course nav",
+      "390x844 teacher editor, grading form and report: page width 375 <= viewport 390",
+      "student published text/PNG and own progress visible with course nav",
+      "390x844 student content and progress: page width 375 <= viewport 390",
+      "student teacher-resource URL denied with business root removed",
+      "mismatched course UUID denied with business root removed"
+    ],
+    "nativeRefreshClose": "not re-certified; prior user-skipped range remains deferred",
+    "fullRepositoryTypecheck": "not rerun; prior unrelated slide-editor type errors remain recorded separately"
+  },
+  "runtime": {
+    "status": "RUNNING_LOCAL_DISPOSABLE",
+    "root": "/tmp/zhiban-trial-content-1mR7Ca",
+    "pid": 20595,
+    "origin": "https://127.0.0.1:3461",
+    "tenantId": "01a146eb-878f-75b9-89a9-3328a2904715",
+    "offeringId": "01a146eb-9c83-765e-9fbc-6a1f58684fdb",
+    "sourceMatchesAtInfo": true,
+    "sourceDriftCountAtInfo": 0,
+    "data": "new synthetic classroom; older classroom data not restored"
+  },
+  "screenshots": {
+    "student-content-mobile.png": "31b811c932be31fd59109cdc565e59d1abe6635c4879d4486b2eea548c377f98",
+    "student-progress-desktop.png": "2c19c0b2f44c2a5401dfc33b972c1aea410879da21bcce8df9fc707090741152",
+    "student-progress-mobile.png": "f48a2bc0055cae4e03b4dcc733d1d6723f97d174664c500a53476e8bc3222dfb",
+    "teacher-analytics-desktop.png": "f046701bc7510c717b8652df38a2395bb4fe42d26c7c6a6df536af547d391d2c",
+    "teacher-analytics-mobile.png": "f3ec037274beb68f90f996e7fffbc9a33c2b4c57ad2de9f15cf0ae9be3650866",
+    "teacher-content-desktop.png": "890646753bff875ed67e00f5b082a59996169a2965bbf314fe542d66f7adf5f4",
+    "teacher-content-mobile.png": "9c3b63e4a79d7e10d68d779b8752f52bd06af61516edde188cd28a5ac4f97f0e",
+    "teacher-grading-desktop.png": "073293d3dd79e7592500fd3e8baafd3e8574379603edf7a42e3aff6ee330d7db",
+    "teacher-grading-mobile.png": "f6eaf0c12b8b5716c80187a58fafe66d5a61d1e1b2495ac39ead35cabdd26288"
+  },
+  "cleanup": {
+    "failedRoot": "/tmp/zhiban-trial-content-1Ly4Oa",
+    "stoppedVerifiedByPgCtl": true,
+    "removed": true,
+    "reason": "test-only APIRequestContext CA trust mismatch; replaced by trusted browser response inspection without relaxing TLS"
+  },
+  "limits": [
+    "internal business controls still need further old-UI visual polish",
+    "chapter/module structure not implemented",
+    "old application pixel comparison not signed"
+  ],
+  "mutations": {
+    "commit": false,
+    "push": false,
+    "ciDispatch": false,
+    "appliedMigrations": false,
+    "realPg55432Or55433": false
+  }
+}

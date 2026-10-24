@@ -1,0 +1,22 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "TEACHER_ASSIGN_MULTI_TASK_STUDENT_FEEDBACK_REAL_SUBMISSION_PUBLISHED_GRADE_TEACHER_EFFECT_REVIEW",
+  "sameKeyFirstWriteAndReplayOnce": true,
+  "oneActivePlanPerCase": true,
+  "selfReportDoesNotCompleteLearning": true,
+  "baselineScore": 50,
+  "currentPublishedScore": 85,
+  "reviewSnapshotImmutable": true,
+  "draftGradesExcluded": true,
+  "feedbackReviewRevisionRace": "ONE_SUCCESS_ONE_CONFLICT",
+  "auditFailureRollsBack": true,
+  "recipientRoleRequired": true,
+  "withdrawDeniesStudentAndTeacherRetainsHistory": true,
+  "versionReplacementDoesNotRebind": true,
+  "immutableTaskAuditAcl": true,
+  "tenantRls": true,
+  "externalNotifications": false,
+  "nativeRuntimeEnabled": false
+}

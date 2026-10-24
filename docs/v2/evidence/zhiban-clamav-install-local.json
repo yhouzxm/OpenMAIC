@@ -1,0 +1,43 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "source": "Ubuntu noble-updates/security apt metadata verified apt-get download; user-owned dpkg-deb extraction",
+  "sudo": false,
+  "engine": "ClamAV 1.5.4",
+  "daily": 28156,
+  "main": 63,
+  "bytecode": 339,
+  "selection": "/home/zxm/.local/share/zhiban-scanner/active.json",
+  "profile": "/home/zxm/.local/share/zhiban-scanner/snapshots/2026-10-17T12-57-59.708Z/profile.json",
+  "sha256": "8c93c544e24bc800f9d19832712c2009ab1dfed3c237026cdac94bd96ad3563d",
+  "verified": [
+    "FreshClam official database download and load tests",
+    "startup engine version and real clean scan"
+  ],
+  "excluded": [
+    "production",
+    "CI signoff",
+    "real PG55432/55433",
+    "Native/Bridge/Runtime enablement"
+  ],
+  "downloadedPackages": {
+    "clamav-base_1.5.4+dfsg-0ubuntu0.24.04.1_all.deb": "bb45463d7db3513f97711beda93271128cb00b2e53d26d3fabd1dcda67662986",
+    "clamav-daemon_1.5.4+dfsg-0ubuntu0.24.04.1_amd64.deb": "e9943d5e9dc7a5b37162ad19331a960aa6713b9f74bf64074cb1ac4f210abf4d",
+    "clamav-freshclam_1.5.4+dfsg-0ubuntu0.24.04.1_amd64.deb": "684b8c6fb5c50a7efb744a2e1f2998cff1e847980cc1eccd6a39cba28a8981c2",
+    "clamav_1.5.4+dfsg-0ubuntu0.24.04.1_amd64.deb": "67e61b57e15fda1f0778cc75ac1370adbc864943193bf8ae9dea1d654be030e9",
+    "clamdscan_1.5.4+dfsg-0ubuntu0.24.04.1_amd64.deb": "9d9efaf7e67fe032b227b732fe66ab432266e8af980721960f932ec90151e84f",
+    "libclamav12_1.5.4+dfsg-0ubuntu0.24.04.1_amd64.deb": "a2899af8556ca972128b95ee46fdc527abd92022ebe1c93bb7a643c929f9f844",
+    "libmspack0t64_0.11-1.1build1_amd64.deb": "a84ab4c5188c5a73ad5b59d29ca8bc7bd3cc32e27544437788416c0f21190cfd",
+    "libtfm1_0.13.1-1_amd64.deb": "244b53859bc2fa9001bfcbcb57a72d95bbd5186a0e613ca3a50e4677aa37be03"
+  },
+  "extractedPackages": [
+    "clamav",
+    "clamav-base",
+    "clamav-freshclam",
+    "libclamav12",
+    "libmspack0t64",
+    "libtfm1"
+  ],
+  "daemonStarted": false
+}

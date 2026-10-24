@@ -1,0 +1,35 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-23T11:10:16.270Z",
+  "root": "/tmp/zhiban-trial-content-tE4GM5",
+  "scope": "TWO_TEACHER_LEGACY_AUTHORING_ROUTES_REUSING_EXISTING_PIPELINE",
+  "checks": [
+    "TEACHER: sidebar/filter -> old course URL -> existing model capability/editor; open AI panel; unsaved cancel retains brief; returns preserve query/courseId; bare bookmarks recover; invalid contexts denied; canonical course navigation works",
+    "STUDENT: global and old course authoring entries denied; no generation API requests",
+    "ADMIN: global and old course authoring entries denied; no generation API requests"
+  ],
+  "businessWrites": false,
+  "modelCalls": false,
+  "studentOrAdminGenerationRequests": 0,
+  "sourceHashes": {
+    "app/zhiban/local/global-authoring.js": "571987e2e22d43578191399ab0c1830e31ddf878ff6b887965be784a7a7bd33e",
+    "app/zhiban/local/global-authoring.html": "65fec78d9f4b4def41e3d8fd1170a5551c70cfa7881f4d7c30e0f16135db32dd",
+    "app/zhiban/local/client.js": "552ab308ba4999d2d93895d30371c2a6f87535810c8172a1ef62d609a9fded00",
+    "app/zhiban/local/workspace.js": "001dfe4090b3b339afaa8ad34b99fbceb8b85c7897b76acbd742f2827aab312e",
+    "app/zhiban/local/course-page.js": "3453865aa821676320ba218850532dc4b9eab3f22bd00be26312ecce81383a18",
+    "app/zhiban/local/lesson.js": "454af5bfc6578d37fb5ec2d5823dfdab9bddf01ed5c8e46b2a243addc5cad1b5",
+    "scripts/zhiban-local/request-target.ts": "54f045209b76158986495f3b5f2e014b2f952d15306b60e374ab058b3bb5b650",
+    "scripts/zhiban-local/server.ts": "1d89f9738798a78246c59e37ca4a6060ac2f6b8fbfab8fd85d8fd10e056264ad",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "186ec92f588db70d5b11cb6142b6d972f4456cbb7f371a437845816d4e3f2e35",
+    "scripts/zhiban-local/verify-authoring-routes.cjs": "d25eae4fbdc78c1c4d1757962d51b5c4127a2026496ba7bf47166f848a47c41e"
+  },
+  "excluded": [
+    "No completed generation run injected",
+    "No new generation/adoption/publication writes; previous real-model receipts retain independent scope",
+    "No multi-space/multi-page fixture journey",
+    "No Agent intervention/Peer/monitor enablement",
+    "No full classroom/PG16/CI rerun"
+  ]
+}

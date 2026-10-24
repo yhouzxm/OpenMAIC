@@ -1,0 +1,11 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "status": "PREVIOUS_RISK_THREE_DATABASE_ARCHIVES_REVERIFIED_NO_LIVE_INSTANCE",
+  "backupDirectory": "/home/zxm/.local/state/zhiban-trial-backups/risk-current-20261022-070608",
+  "previousRuntimeRoot": "/tmp/zhiban-trial-content-N4LsCS",
+  "previousRuntimeAbsent": true,
+  "databaseCount": 3,
+  "freshPreChangeDump": false,
+  "restoreTested": false,
+  "scope": "Previous risk package snapshot only; new default is synthetic, not restored"
+}

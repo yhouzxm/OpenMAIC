@@ -1,0 +1,151 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_DIRECTED_MANUAL_PATHS_WITH_EXPLICIT_LIMITATIONS",
+  "recordedAt": "2026-10-16T14:26:00.965108+00:00",
+  "head": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "branch": "refactor/zhiban-v2",
+  "origin": "https://127.0.0.1:3461",
+  "tenantId": "01a14505-1e98-752c-b372-1cc669735ff5",
+  "offeringId": "01a14505-3417-71cd-8a33-fbb7246e2ed4",
+  "metadata": {
+    "path": "docs/v2/evidence/zhiban-trial-content-demo-local.json",
+    "sha256": "2dff7a6d8d86dcd8651db6b00ae5c8ec28d1a5b2d66ee4576cb77f0ed019fc19",
+    "modified": false
+  },
+  "runtime": {
+    "pid": 11040,
+    "processStart": "96101",
+    "root": "/tmp/zhiban-trial-content-CkNgQo",
+    "pgPort": 56517,
+    "status": "RUNNING_LOCAL_DISPOSABLE",
+    "restarted": false,
+    "sourceMatches": false,
+    "sourceDriftCount": 3,
+    "sourceDrift": [
+      {
+        "path": "app/zhiban/local/content.html",
+        "startupSha256": "3e4c0e9a5dbb42b9502a7aa7635e61a414c1631260ac8aaabad7f3ee22badefc",
+        "currentSha256": "a3aa692ea473d4f2ec25a1868adae6b18b1b480aeb4d023702d20526a61df18d"
+      },
+      {
+        "path": "app/zhiban/local/learning.js",
+        "startupSha256": "f8b0784c7121a135bf573ac1b9aa8002658e3f7a83c1c73db33fea2144dcff2a",
+        "currentSha256": "c167485524ace5b71d40b7281870cb73b5c059f078c397e88cc3285fbea152a4"
+      },
+      {
+        "path": "app/zhiban/local/workspace.js",
+        "startupSha256": "e914cf336d3fee4652bbcfa65af9bc69590d8764929910401036573362573665",
+        "currentSha256": "46b21d1be47716a115a4c2513e530f0833b189fa69694ea6a236f67597151d5a"
+      }
+    ],
+    "servedStaticFiles": [
+      {
+        "route": "/zhiban/learning.js",
+        "path": "app/zhiban/local/learning.js",
+        "responseSha256": "c167485524ace5b71d40b7281870cb73b5c059f078c397e88cc3285fbea152a4"
+      },
+      {
+        "route": "/zhiban/workspace.js",
+        "path": "app/zhiban/local/workspace.js",
+        "responseSha256": "46b21d1be47716a115a4c2513e530f0833b189fa69694ea6a236f67597151d5a"
+      },
+      {
+        "route": "/zhiban/content?tenant=01a14505-1e98-752c-b372-1cc669735ff5&offering=01a14505-3417-71cd-8a33-fbb7246e2ed4",
+        "path": "app/zhiban/local/content.html",
+        "responseSha256": "a3aa692ea473d4f2ec25a1868adae6b18b1b480aeb4d023702d20526a61df18d"
+      }
+    ]
+  },
+  "changes": [
+    "app/zhiban/local/learning.js",
+    "app/zhiban/local/workspace.js",
+    "app/zhiban/local/content.html"
+  ],
+  "manualChecks": [
+    {
+      "case": "unsaved same-tab lecture navigation prompts",
+      "status": "PASS"
+    },
+    {
+      "case": "cancel retains full unsaved answer",
+      "status": "PASS"
+    },
+    {
+      "case": "activity refresh cancel retains form and answer",
+      "status": "PASS"
+    },
+    {
+      "case": "workspace refresh cancel retains course and answer",
+      "status": "PASS"
+    },
+    {
+      "case": "explicit discard opens lecture without writing draft",
+      "status": "PASS"
+    },
+    {
+      "case": "return retains space and expands currently listed offering",
+      "status": "PASS"
+    },
+    {
+      "case": "explicit save clears dirty state and survives lecture round trip",
+      "status": "PASS"
+    },
+    {
+      "case": "restore original draft; original submission v1 and grades 94/88 and mean91 retained",
+      "status": "PASS"
+    }
+  ],
+  "notSignedOff": [
+    {
+      "case": "native reload/close beforeunload confirmation and cancellation",
+      "status": "NOT_VERIFIED",
+      "reason": "in-app reload call timed out; subsequent dialog API returned no dialog; original page and unsaved input remained"
+    },
+    {
+      "case": "automatic offering location across pagination",
+      "status": "NOT_IMPLEMENTED"
+    }
+  ],
+  "checks": {
+    "nodeSyntax": "PASS",
+    "scopedEslint": "PASS",
+    "prettier": "PASS",
+    "unchangedAppliedMigrationFiles": 16
+  },
+  "dataEffects": {
+    "saveDraftCommands": 2,
+    "originalDraftRestored": true,
+    "newAttempts": 0,
+    "newSubmissions": 0,
+    "gradeWrites": 0
+  },
+  "report": {
+    "path": "docs/v2/zhiban-v2-content-classroom-fixes-local.md",
+    "sha256": "bb9c6c41bcc3fe9f5005bdbd47a2f8df3af2656d9c0bf08f4005583247ce3be8"
+  },
+  "screenshots": [
+    {
+      "path": "docs/v2/evidence/zhiban-content-leave-guard-local.png",
+      "sha256": "505abe24a279fb018566315ec6f9e6cdb308b5f8140b93406546bc16d3150622"
+    },
+    {
+      "path": "docs/v2/evidence/zhiban-content-return-context-local.png",
+      "sha256": "6f0e19c07f191ed9818ff27d3103fe005d365d094df5861f2bcecf8d25ca94f6"
+    },
+    {
+      "path": "docs/v2/evidence/zhiban-content-guard-grades-retained-local.png",
+      "sha256": "f2c9b5aa6670b0892a0c01aed59ffafa1ff2e960526faa7ff1a0ffe02e83c83d"
+    }
+  ],
+  "boundaries": {
+    "automaticBrowserSuiteRun": false,
+    "ciDispatched": false,
+    "commitOrPush": false,
+    "buildOrRestart": false,
+    "realEnvironmentTouched": false,
+    "startupReceiptReissued": false,
+    "runtimeAndAi": "CLOSED",
+    "old12ChecksExtended": false
+  }
+}

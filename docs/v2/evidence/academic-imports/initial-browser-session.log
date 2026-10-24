@@ -1,0 +1,46 @@
+
+> openmaic@1.2.1 verify:zhiban:imports /home/zxm/openmaic/zhiban
+> tsx scripts/zhiban-local/run-m6-catalog.ts --unified-trial --imports-focus
+
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+Reused @openmaic/generation: matching LOCAL source/build hashes
+PASS Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately
+LOCAL scanner unavailable: new attachment/material uploads remain closed; account and ordinary teaching pages continue. Existing scanner pins were not changed.
+{"timestamp":"2026-10-23T07:33:05.901Z","level":"INFO","tag":"GenerationRunner","message":"generation runner 13869:deff2c82-7a00-4236-8b49-6e7cdd3a0c56 started (scan=1000ms, heartbeat=2000ms, leaseTtl=10000ms, maxConcurrent=1)"}
+PASS PG16 restricted roles + real Identity sessions + validated trusted HTTPS
+PASS trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands
+PASS real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft
+LOCAL directed store refusal WORK FORBIDDEN 8
+LOCAL directed store refusal WORK FORBIDDEN 28
+LOCAL directed store refusal WORK CONFLICT 8
+LOCAL directed store refusal WORK INVALID_STATE 4
+LOCAL directed store refusal IDENTITY UNKNOWN 2
+LOCAL directed store refusal WORK INVALID_STATE 5
+LOCAL directed store refusal WORK CAPACITY_FULL 15
+PASS PASS seven import kinds through real guarded commands; preview business-read-only, exact existing skip, no course autopublish/account/role transfer, capacity and cross-tenant boundaries
+LOCAL directed store refusal WORK NOT_FOUND 12
+LOCAL directed store refusal WORK CAPACITY_FULL 33
+LOCAL directed store refusal WORK INACTIVE_MEMBER 7
+LOCAL directed store refusal WORK CONFLICT 14
+PASS PASS concurrent final seat, student qualification revoked after preview, directory CAS prevents overwrite, creator-only batch reads and keyset pagination
+LOCAL directed store refusal WORK CONFLICT 7
+LOCAL directed store refusal WORK CONFLICT 8
+LOCAL directed store refusal WORK NOT_FOUND 7
+LOCAL directed store refusal WORK CONFLICT 8
+LOCAL directed store refusal WORK P0001 18
+LOCAL directed store refusal WORK FORBIDDEN 4
+LOCAL directed store refusal WORK FORBIDDEN 32
+PASS PASS durable partial rows, same-batch concurrency/replay, reconstructed service, expiry readback, atomic receipt rollback, lost real COMMIT ACK, current admin revocation, RLS and loader ACL drift refusal
+locator.selectOption: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for getByLabel('导入类别', { exact: true })[22m
+
+    at verifyImports (/home/zxm/openmaic/zhiban/.zhiban-catalog-run-ARqXtb/verify.mjs:26802:72)
+    at async main (/home/zxm/openmaic/zhiban/.zhiban-catalog-run-ARqXtb/verify.mjs:80372:7)
+    at async file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-ARqXtb/verify.mjs:81746:3 {
+  name: 'TimeoutError'
+}
+ ELIFECYCLE  Command failed with exit code 1.

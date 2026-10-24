@@ -1,0 +1,100 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-23T10:06:04.771Z",
+  "localDate": "2026-10-23",
+  "scope": "P7_LOCAL_SOURCE_HANDOFF_REFRESH_WITH_P3_FILTERED_GRADEBOOK_AND_TENANT_AVATAR",
+  "versionId": "zhiban-local-20261023-7b5fc1a08e0d",
+  "sourceDigest": "7b5fc1a08e0ddf6099cece1c8881373cdd5d7abfd729da2e7aceab597e68d8aa",
+  "archiveSha256": "04b1b8413ea199c42f4b265748788a2343ff234363ef93545f02585027a260ae",
+  "artifactDirectory": "/home/zxm/.local/share/zhiban-handoff/zhiban-local-20261023-7b5fc1a08e0d",
+  "archive": "/home/zxm/.local/share/zhiban-handoff/zhiban-local-20261023-7b5fc1a08e0d/source.tar.gz",
+  "sourceFiles": 5478,
+  "archiveMiB": 135,
+  "branch": "refactor/zhiban-v2",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "dirtyCandidatesPreserved": true,
+  "previousPackage": {
+    "versionId": "zhiban-local-20261023-ca53589fc2ad",
+    "archiveUnchanged": true,
+    "historicalEvidenceReissued": false
+  },
+  "includedFeatures": {
+    "gradebook": "Current queried student filter; one SQL snapshot; <=500 students/100 activities/10000 cells/8 MiB; all-or-refuse, no totals/appeals",
+    "avatar": "Tenant self upload/replace/remove PNG <=96x96/12 KiB; independent CAS/idempotency; admin restricted directory; no public URL"
+  },
+  "runtime": {
+    "sameRootKept": true,
+    "root": "/tmp/zhiban-trial-content-BSZzAt",
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "restarted": false,
+    "dataCleared": false,
+    "businessMutations": false,
+    "readOnlyApiCheck": "PASS",
+    "gradebookRecords": 6,
+    "avatarSize": [
+      64,
+      64
+    ]
+  },
+  "verification": {
+    "archiveReadback": "PASS",
+    "workspaceFilesHashCompared": 5478,
+    "uncoveredApplicationSource": [],
+    "generatedFilesOmittedWithPackagedSources": [
+      {
+        "omitted": "app/zhiban/local/published-player.js",
+        "source": "app/zhiban/local/published-player.tsx",
+        "rebuiltBy": "scripts/zhiban-local/run-m6-catalog.ts",
+        "currentlyRunningHash": "c1bcda974dd3a4685ae3b64aeab6d313ea0c4ba98fea7ff8462bbf877c9ef4c0"
+      },
+      {
+        "omitted": "app/zhiban/local/quiz-client.js",
+        "source": "app/zhiban/local/quiz-client.tsx",
+        "rebuiltBy": "scripts/zhiban-local/run-m6-catalog.ts",
+        "currentlyRunningHash": "168ce1a1fdb20bd203859e1772810ef7447b8aa76d7e51138c0069570fcccc2b"
+      }
+    ],
+    "historicalProofReusedWithDifferences": "evidence-applicability.json",
+    "fullClassroomRetested": false,
+    "aiOrScannerRetested": false,
+    "cleanHostInstall": false,
+    "restoreDrill": false
+  },
+  "boundaries": [
+    "Existing same-path trusted checkout and official Git pin objects required",
+    "Dependencies/generated bundles/trusted CA/expected profiles must be rebuilt or supplied",
+    "No Git history/node_modules/private credentials/runtime PG data",
+    "Hash verification is not production approval",
+    "Old P7 93/100 journey remains historical; current read-only CSV reflects 88/100 synthetic data",
+    "Existing broader onboarding verifier type mismatch not fixed or signed off"
+  ],
+  "deferred": [
+    "Scanner pin and real scanned uploads",
+    "Full Native Runtime/maintenance recovery",
+    "Office/OCR/audio/video services",
+    "Real identity approval/delivery/global operations and external directory",
+    "Unmapped legacy URLs",
+    "Profile dimensions/PBL/EMA/AI Peer REVIEW",
+    "Course totals/appeals rules",
+    "User-deferred native refresh/close unsaved guard"
+  ],
+  "git": {
+    "commit": false,
+    "push": false,
+    "ciDispatch": false
+  },
+  "nextPackage": "P1/P3 existing personal-settings legacy route compatibility, verify mapping before implementation",
+  "suggestedModel": "GPT-6.1 Sol / medium",
+  "evidenceHashes": {
+    "status-before.json": "13bb9b67eff0dabd7e6194bf73e60a650559970105383fca4fea9d6c6503bfd0",
+    "status-after.json": "42e220639c924c3e5d6fd7a03b4a81add27c3ba47170a21dd2a3ffc71cb2f818",
+    "package.json": "0f3989de45c34ca686fb2f87d1675780a91f8523b5631b51adf6c46bbf2ce840",
+    "archive-readback.json": "1a16e1bff3b5bb4c9c250407609d621c80a17150b1048b91efba177d7036521d",
+    "source-coverage.json": "5f5694ac4d11b0b988d7e2fbd81c45315035262ac71f80409bc02f4dd38dbb89",
+    "current-p3-readonly.json": "f66bac0bfe9943bcf8d46ed526560304a9d3caf732ae45f6b339f9df0cabea4f",
+    "evidence-applicability.json": "ca790827b11d24e5ae919d0ff17e90827b15dd5a16b7de1b2eb07d8e10917d4a"
+  }
+}

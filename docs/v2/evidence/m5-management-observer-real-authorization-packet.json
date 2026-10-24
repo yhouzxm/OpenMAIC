@@ -1,0 +1,113 @@
+{
+  "formatVersion": 1,
+  "status": "INCOMPLETE_UNSIGNED_PACKET",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "executionAllowed": false,
+  "realTargetExecuted": false,
+  "payload": {
+    "formatVersion": 1,
+    "purpose": "LOCAL_MANAGEMENT_READONLY_OBSERVATION",
+    "status": "UNISSUED",
+    "evidenceOrigin": "LOCAL",
+    "githubActions": false,
+    "humanAuthorizationRef": null,
+    "approvalId": null,
+    "attemptId": null,
+    "issuedAt": null,
+    "expiresAt": null,
+    "source": {
+      "observerInventorySha256": "e776806ccc2465de7d845a8525416c0f80ab49d39c9cd0d8cdf3b168cae66030",
+      "r6InventorySha256": "fa51a67d9733fc6b436e89ec339306472ceb8566368cc3f9ce3c3122d873c13b",
+      "migrationSha256": "bbede0be2e773562730bb2b1c756d4aceba853143b298b768de7c0d70d624a8e"
+    },
+    "target": {
+      "environment": "LOCAL_DEV",
+      "dataDirectory": "/home/zxm/.local/share/zhiban-m1/pgdata",
+      "systemIdentifier": "7694054813252049413",
+      "port": 55433,
+      "uid": 1000
+    },
+    "paths": {
+      "controlDirectory": null,
+      "stageDirectory": null,
+      "pgpassFilePath": null
+    },
+    "hashes": {
+      "guardSha256": null,
+      "pgpassSha256": null,
+      "configurationClosureSha256": null
+    },
+    "lock": {
+      "device": null,
+      "inode": null
+    },
+    "configurationClosure": [
+      {
+        "path": "/home/zxm/.local/share/zhiban-m1/pgdata/postgresql.conf",
+        "sha256": null
+      },
+      {
+        "path": "/home/zxm/.local/share/zhiban-m1/pgdata/postgresql.auto.conf",
+        "sha256": null
+      }
+    ],
+    "binarySha256": {
+      "postgres": "3a089a86625851a42ea1561dcdffa30569c24879c4eb6eb7be9055a72172e431",
+      "pg_ctl": "e04f5022277b1f80299bd0bbc09f698f526b49e16d88b52c74a1949abcce6e24",
+      "psql": "937e4ea7a9c625c98b1c56e0127e80b1ccac0a57079f67e33fe711e52c41af4c",
+      "pg_controldata": "7ec0700899cb4b785afa71e9fcf7ff658fd7e5d4a0e6401319053da21cf0af5f",
+      "node": "fde6a4bf8d0562f7751d1a2d6cb9b417c4cfe107bbcb0aa3e9a24e125e348f48"
+    },
+    "expectedStartArgumentsSha256": null,
+    "scope": {
+      "managementReadOnly": true,
+      "internalLifecycleWrites": true,
+      "businessWrites": false,
+      "launch": false,
+      "clear": false,
+      "receiptIssuance": false,
+      "credentialMutation": false,
+      "persistentConfigurationMutation": false
+    }
+  },
+  "signature": null,
+  "authority": {
+    "publicKeyPath": null,
+    "externallyTrustedPublicKeySha256": null
+  },
+  "preflightReadRequest": {
+    "status": "UNISSUED",
+    "executionAllowed": false,
+    "explicitConfigurationFiles": [
+      "/home/zxm/.local/share/zhiban-m1/pgdata/postgresql.conf",
+      "/home/zxm/.local/share/zhiban-m1/pgdata/postgresql.auto.conf"
+    ],
+    "additionalIncludeFiles": "Only explicit canonical paths separately reviewed; include_dir/include_if_exists rejected",
+    "credentialRead": "Only approved staging pgpass path; never discover original secrets",
+    "controlRead": "Existing maintenance.json/maintenance.lock from supplied actual control root; no root/flag creation",
+    "targetMetadata": "Fixed PG_VERSION/control header, signal/PID presence and relevant endpoints; no Business/Native connection"
+  },
+  "missingInputs": [
+    "actual existing control root and BLOCKED guard hash",
+    "existing lock device/inode",
+    "new attempt ID and stage path under same control root",
+    "explicit separate private staged pgpass path and private digest",
+    "reviewed original configuration closure hashes; auto.conf must have no active entries",
+    "externally trusted Ed25519 public key path/pin; no fixture authority",
+    "exact start argument hash",
+    "explicit human authorization reference and fresh <=300s validity",
+    "independent approval signature"
+  ],
+  "allowedLifecycleAfterIssued": "One socket-only management observation; PG internal lifecycle writes; READ ONLY catalog SQL; close client; fast stop exact attempt postmaster; independently prove stopped before releasing custody",
+  "unknownPolicy": "No start/stop replay, no immediate stop, no PID deletion, no credential/HBA fallback, no lock release/guard clear; inspect only; separate recovery approval required",
+  "notGranted": [
+    "preflight reads now",
+    "real startup now",
+    "business writes",
+    "receipt/expected/transport issuance",
+    "clear",
+    "ordinary HTTPS/Runtime launch",
+    "commit/push/CI"
+  ]
+}

@@ -1,0 +1,140 @@
+.published-player-context {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 16px;
+  background: #fff;
+  border-bottom: 1px solid #cbd5e1;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+.published-player-context button,
+.published-player-context a {
+  cursor: pointer;
+  color: #4f46e5;
+  white-space: nowrap;
+}
+.published-player #openmaic-player {
+  height: calc(100dvh - 48px);
+}
+.published-player #openmaic-player > div {
+  height: 100%;
+}
+.published-player #player-status {
+  padding: 8px 16px;
+  margin: 0;
+  color: #334155;
+  background: #fef3c7;
+}
+@media (max-width: 600px) {
+  .published-player-context {
+    min-height: 72px;
+    flex-wrap: wrap;
+  }
+  .published-player #openmaic-player {
+    height: calc(100dvh - 72px);
+  }
+}
+
+.attempt-runtime-panel {
+  position: fixed;
+  right: 12px;
+  bottom: 12px;
+  z-index: 60;
+  max-width: min(430px, calc(100vw - 24px));
+  max-height: 65dvh;
+  overflow: auto;
+  padding: 12px;
+  background: white;
+  color: #172554;
+  border: 1px solid #94a3b8;
+  border-radius: 8px;
+  box-shadow: 0 3px 12px #0002;
+  font-size: 14px;
+}
+.attempt-runtime-panel summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.attempt-runtime-panel label {
+  display: block;
+  margin: 8px 0;
+}
+.attempt-runtime-panel select {
+  display: block;
+  width: 100%;
+  padding: 6px;
+}
+.attempt-runtime-panel button,
+.attempt-runtime-panel a {
+  display: inline-block;
+  margin: 4px;
+  padding: 6px;
+  color: #4338ca;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+}
+.attempt-runtime-panel button:disabled {
+  opacity: 0.45;
+}
+
+.attempt-runtime-history {
+  font:
+    16px system-ui,
+    sans-serif;
+  margin: 24px auto;
+  padding: 16px;
+  max-width: 860px;
+  color: #172554;
+  background: #f8fafc;
+}
+.attempt-runtime-history .attempt-runtime-panel {
+  position: static;
+  max-width: none;
+  max-height: none;
+}
+
+#classroom-presentation:not([hidden]) {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 8px 16px;
+  border-bottom: 1px solid #cbd5e1;
+  color: #172554;
+  background: #eff6ff;
+}
+#classroom-presentation p {
+  margin: 0;
+}
+#classroom-presentation button,
+#classroom-presentation a {
+  padding: 6px 10px;
+  border: 1px solid #94a3b8;
+  border-radius: 6px;
+  background: white;
+}
+#classroom-presentation button:disabled {
+  opacity: 0.5;
+}
+
+/* The classroom bar may wrap on mobile; native controls must remain within the viewport. */
+body.published-player {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  margin: 0;
+  overflow: hidden;
+}
+.published-player-context,
+.published-player #player-status,
+.published-player #classroom-presentation {
+  flex-shrink: 0;
+}
+.published-player #openmaic-player {
+  flex: 1;
+  min-height: 0;
+  height: auto;
+}

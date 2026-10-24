@@ -1,0 +1,21 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "root": "/tmp/zhiban-trial-content-lUuAi8",
+  "ids": {
+    "liveLessonAssetSha256": "b6af76d558c3b5fcf67d40fe9f24868b4e37d6e7a6d0b72598bbbed8a9782b5e",
+    "quiz": "01a1694d-810f-76dd-bb75-e9fae3dd1e71",
+    "unit": "2aa0f6c7-1c3f-420e-a695-3c6f59ce9a01",
+    "attempt": "01a1694d-95d1-7795-ab7f-467b6a5dff3b"
+  },
+  "checks": [
+    "Current teacher only; handout/quiz owner namespaces isolated; unbound run, missing/changed hash and client content injection rejected",
+    "Injected quiz INSERT failure rolls back parent activity; retry and simultaneous independent sessions produce one draft and one audited source receipt",
+    "Browser: review native generation, adopt editable draft, task refresh/re-adopt preserves unsaved title, save/publish, arrange course unit, student answer/submit, teacher grade/publish, student result",
+    "Source cancellation preserves acknowledged draft receipt; hash mismatch conflicts; PG-lock-proven in-flight adoption rechecks assignment after a committed revocation and is denied; committed revocation also denies receipt replay; restoration recovers same id"
+  ],
+  "browserErrors": [],
+  "realNativeSource": "run-li4eqSiMLIiWSO-f",
+  "sourceHash": "1bd3c09a23d0299153be8653cd6447899631cc09e7e6292ea25fd2a46dfe68f8"
+}

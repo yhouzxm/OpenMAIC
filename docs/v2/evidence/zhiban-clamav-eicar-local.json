@@ -1,0 +1,11 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "profileSha256": "8c93c544e24bc800f9d19832712c2009ab1dfed3c237026cdac94bd96ad3563d",
+  "sample": "standard harmless EICAR antivirus test string, stdin only, not persisted",
+  "digest": "275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f",
+  "exitCode": 1,
+  "stdout": "stdin: Eicar-Test-Signature FOUND\n\n----------- SCAN SUMMARY -----------\nKnown viruses: 3628169\nEngine version: 1.5.4\nScanned directories: 0\nScanned files: 1\nInfected files: 1\nData scanned: 68 B\nData read: 68 B (ratio 1.00:1)\nTime: 32.593 sec (0 m 32 s)\nStart Date: 2026:10:17 21:02:02\nEnd Date:   2026:10:17 21:02:35\n",
+  "stderr": "",
+  "elapsedSeconds": 32.615
+}

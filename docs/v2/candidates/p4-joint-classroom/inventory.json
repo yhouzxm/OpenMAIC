@@ -1,0 +1,20 @@
+{
+  "kind": "LOCAL_ADDITIVE_CANDIDATE_NEW_OWNED_PG16_ONLY",
+  "migration": "docs/v2/candidates/p4-joint-classroom/0005-joint-classroom.sql",
+  "sha256": "9d51a79215fd55b1d7d3017811e968471c8f6e06d3ee41812faf1a86093a677b",
+  "tables": [
+    "zhiban_classroom.joint_tasks",
+    "zhiban_classroom.joint_entries",
+    "zhiban_content.joint_schema_migrations"
+  ],
+  "newHelpers": [
+    "lock_joint_publication(uuid,uuid,uuid,uuid)",
+    "bind_joint_attempt(uuid,uuid,uuid,uuid,uuid)",
+    "read_joint_entry(uuid,uuid,uuid,uuid,uuid,uuid)"
+  ],
+  "replacedHelpers": [],
+  "academicRawContentDml": false,
+  "bindingMutability": "APPEND_ONLY",
+  "nativeRuntimeEnabled": false,
+  "productionApplied": false
+}

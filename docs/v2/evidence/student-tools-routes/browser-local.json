@@ -1,0 +1,46 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-23T11:18:54.637Z",
+  "root": "/tmp/zhiban-trial-content-BMRvuH",
+  "scope": "STUDENT_LEGACY_TOOLS_USING_EXISTING_COURSE_TUTOR",
+  "checks": [
+    "Student sidebar/search/pagination controls and courseId return; bare old deep link selects a governed offering; teacher-disabled Tutor blocks new session; Peer remains gated",
+    "Original teacher policy enabled then restored disabled; real student CREATE_SESSION/CLOSE_SESSION shared across legacy/canonical Tutor and reload; unsent question cancellation retained; teacher list/read cannot access student private session; closed-policy personal history remains available; no ASK/model call",
+    "Malformed/duplicate/unknown context and wrong course offering rejected; teacher/admin cannot impersonate student tools; unsupported paths remain 404"
+  ],
+  "commands": [
+    "SET_POLICY",
+    "CREATE_SESSION",
+    "CLOSE_SESSION",
+    "SET_POLICY"
+  ],
+  "modelCalls": false,
+  "policyRestored": "DISABLED",
+  "syntheticPrivateSession": {
+    "id": "01a1687c-2630-76c8-81dc-f242550c275f",
+    "title": "旧入口兼容：本人空对话",
+    "state": "CLOSED",
+    "turnCount": 0
+  },
+  "sourceHashes": {
+    "app/zhiban/local/global-tools.js": "23be2028afbdf976564739b18618ef133b882b0a04dca52646fa586184a93faa",
+    "app/zhiban/local/global-tools.html": "8675fabd07f54899e0d967ea0ebc3603c9eb1bf86d5cfc24bdf77d73192fa324",
+    "app/zhiban/local/course-page.js": "39abb23e71bd8040d4edffd3032456b2f95a1958931432c098273f07cb7a9ae2",
+    "app/zhiban/local/client.js": "a2515d0910d8d6a1962000eb93653fe70e6d426eaea72a0c203d73345ba87ef9",
+    "app/zhiban/local/workspace.js": "5ff71a400184388961d9779cfe6a00e782fdbba278fcaa1a60228555c4f3d3a5",
+    "app/zhiban/local/tutor.js": "3e78c6d2464dcb42a37ab70502382a4ae4253b255c1f3db67a9d427d59d5e35e",
+    "scripts/zhiban-local/request-target.ts": "fdb294e19d652d828eb330a8689276764c89909a85c43ed2267756de66241d20",
+    "scripts/zhiban-local/server.ts": "8a12d81ffaa23a57549a89250d8856c8a237151f6ac558efab36473d2151cc48",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "77c33c12eb557dc8d330495b22af1b8cbd214a6542bbd0296557b52e9820d836",
+    "scripts/zhiban-local/verify-student-tools-routes.cjs": "7133c97104367cdbd8d70cd98f238abb1367f93b9f60911d35c1f712e7f438a2"
+  },
+  "excluded": [
+    "No ASK/provider response invented or model rerun",
+    "No Peer/tool Agent/Runtime enablement",
+    "No new API/schema/ACL/migration",
+    "No multi-space/multi-page fixture journey",
+    "No full classroom/PG16/CI rerun"
+  ]
+}

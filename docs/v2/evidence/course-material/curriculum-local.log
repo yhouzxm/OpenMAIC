@@ -1,0 +1,9 @@
+
+ RUN  v4.1.8 /home/zxm/openmaic/zhiban
+
+
+ Test Files  2 passed (2)
+      Tests  6 passed (6)
+   Start at  20:21:46
+   Duration  710ms (transform 231ms, setup 135ms, import 223ms, tests 41ms, environment 0ms)
+

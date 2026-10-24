@@ -1,8 +1,10 @@
+import { verifyNativeSchemaState } from './schema-state';
 import { ensureAssetSchema } from '@openmaic/storage/asset/pg';
 import { ensureDocumentSchema } from '@openmaic/storage/document/pg';
 import type { TransactionPool } from '../identity/postgres/transactions';
 import { bridgeTransaction, Deadline } from './transactions';
-import { check, opaque } from './validation';
+import { ownershipSchema } from './document-ownership';
+import { check, opaque, BridgeError } from './validation';
 import { catalogFingerprint, official } from './catalog';
 import { digest } from './validation';
 
@@ -14,7 +16,14 @@ export async function provisionNative(
 ) {
   opaque(approvalRef);
   opaque(expectedDatabase);
-  return bridgeTransaction(pool, null, new Deadline(), async (client) => {
+  // The public versioned runner owns BEGIN/COMMIT and session advisory locks.
+  // Keep one direct checked-out session; never nest it in bridgeTransaction.
+  const client = await pool.connect().catch(() => {
+    throw new BridgeError();
+  });
+  try {
+    const locked = await client.query('SELECT pg_try_advisory_lock(12061017) AS locked');
+    check(locked.rows[0]?.locked === true);
     const identity = await client.query('SELECT session_user,current_database() AS db');
     check(
       identity.rows[0]?.session_user === 'zhiban_openmaic_migrator' &&
@@ -24,9 +33,11 @@ export async function provisionNative(
       "SELECT count(*)::integer AS n FROM pg_class AS c JOIN pg_namespace AS n ON n.oid=c.relnamespace WHERE n.nspname='public' AND c.relkind IN ('r','p')",
     );
     check(count.rows[0]?.n === 0); // Subsequent maintenance verifies receipt; ensure* is not an upgrade strategy.
-    await client.query('SET LOCAL ROLE zhiban_openmaic_owner');
+    await client.query('SET ROLE zhiban_openmaic_owner');
     // Public ensure* DDL is unqualified; only maintenance creates in the owner-only schema.
-    await client.query('SET LOCAL search_path=public,pg_catalog,pg_temp');
+    await client.query('SET search_path=public,pg_catalog,pg_temp');
+    await client.query("SET statement_timeout='15s'");
+    await client.query("SET lock_timeout='5s'");
     const queryable = {
       query: async <R extends Record<string, unknown>>(sql: string, params?: unknown[]) => ({
         rows: (await client.query<R>(sql, params)).rows,
@@ -34,6 +45,9 @@ export async function provisionNative(
     };
     await ensureAssetSchema(queryable);
     await ensureDocumentSchema(queryable);
+    await verifyNativeSchemaState(queryable);
+    await client.query('BEGIN');
+    await client.query(ownershipSchema);
     await client.query('SET LOCAL search_path=pg_catalog,public,pg_temp');
     await client.query(
       'REVOKE ALL ON ALL TABLES IN SCHEMA public FROM PUBLIC,zhiban_openmaic_runtime',
@@ -42,13 +56,14 @@ export async function provisionNative(
       'REVOKE ALL ON ALL FUNCTIONS IN SCHEMA public FROM PUBLIC,zhiban_openmaic_runtime',
     );
     await client.query(
-      `GRANT SELECT,INSERT ON document_stages,document_scenes,document_outlines,document_stage_revision,document_scene_revision,asset_blobs,asset_entries,document_asset_refs,asset_reference_tracking TO zhiban_openmaic_runtime`,
+      `GRANT SELECT,INSERT ON document_stages,document_scenes,document_outlines,document_stage_revision,document_scene_revision,asset_blobs,asset_entries,document_asset_refs,asset_reference_tracking,zhiban_document_ownership TO zhiban_openmaic_runtime`,
     );
     for (const [table, columns] of [
       [
         'document_stages',
         'name,description,interactive_mode,task_engine_mode,created_at,updated_at,data',
       ],
+      ['zhiban_document_ownership', 'lock_anchor'],
       ['document_scenes', 'scene_order,data'],
       ['document_outlines', 'data'],
       ['document_stage_revision', 'rev'],
@@ -63,13 +78,28 @@ export async function provisionNative(
     await client.query(
       'GRANT SELECT(stage_id) ON document_asset_withdrawals TO zhiban_openmaic_runtime',
     );
+    await client.query('GRANT SELECT ON openmaic_schema_migrations TO zhiban_openmaic_runtime');
+    const fingerprint = await catalogFingerprint(client, 'public');
+    const committed = await client.query('COMMIT');
+    check(committed.command === 'COMMIT');
     return Object.freeze({
       database: expectedDatabase,
       approvalRef,
       ...official,
-      fingerprint: await catalogFingerprint(client, 'public'),
+      fingerprint,
     });
-  });
+  } catch {
+    try {
+      await client.query('ROLLBACK');
+    } catch {
+      /* destroyed below */
+    }
+    throw new BridgeError();
+  } finally {
+    // Always destroy: clears elevated session role/settings and every advisory
+    // lock, including failed unlock/partial installation paths.
+    client.release(true);
+  }
 }
 /** Explicit subsequent maintenance command; it verifies, never runs ensure* on an existing DB. */
 export async function verifyNativeProvisioning(
@@ -88,6 +118,7 @@ export async function verifyNativeProvisioning(
     );
     await client.query('SET LOCAL ROLE zhiban_openmaic_owner');
     await client.query('SET LOCAL search_path=pg_catalog,public,pg_temp');
+    await verifyNativeSchemaState(client);
     check((await catalogFingerprint(client, 'public')) === receipt.fingerprint);
     return Object.freeze({ status: 'VERIFIED' as const });
   });

@@ -1,0 +1,133 @@
+{
+  "kind": "LOCAL_SOURCE_AUDIT",
+  "date": "2026-10-23",
+  "head": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "upstream": [
+    {
+      "tag": "v1.2.1",
+      "path": "packages/@openmaic/dsl/src/stage.ts",
+      "url": "https://raw.githubusercontent.com/THU-MAIC/OpenMAIC/v1.2.1/packages/@openmaic/dsl/src/stage.ts",
+      "sha256": "628f3f5c25aae89334da7b130cf5b08f7f22dced829a8bc4abec9e5017ab7f2b",
+      "quizQuestion": [
+        "export interface QuizQuestion {\n  id: string;\n  type: 'single' | 'multiple' | 'short_answer';\n  question: string;\n  options?: QuizOption[];\n  answer?: string[]; // Correct answer values: [\"A\"], [\"A\",\"C\"], or undefined for text\n  analysis?: string; // Explanation shown after grading\n  commentPrompt?: string; // Grading guidance for text questions\n  hasAnswer?: boolean; // Whether auto-grading is possible\n  points?: number; // Points per question (default 1)\n}\n\n/**\n * Quiz content - React component props/data."
+      ]
+    },
+    {
+      "tag": "v1.2.1",
+      "path": "components/edit/surfaces/quiz/quiz-edit-ops.ts",
+      "url": "https://raw.githubusercontent.com/THU-MAIC/OpenMAIC/v1.2.1/components/edit/surfaces/quiz/quiz-edit-ops.ts",
+      "sha256": "d13b054597afcb920a83ee08b2ebc6aea4a8cd2361f18c6a0e9f5fc0307e31a2",
+      "quizQuestion": []
+    },
+    {
+      "tag": "v1.2.1",
+      "path": "app/api/quiz-grade/route.ts",
+      "url": "https://raw.githubusercontent.com/THU-MAIC/OpenMAIC/v1.2.1/app/api/quiz-grade/route.ts",
+      "sha256": "3b74492e4218669666d20dab17425b4d952e5ee6fe32a574358c7f2e4e350a1f",
+      "quizQuestion": []
+    },
+    {
+      "tag": "v1.3.0-rc.1",
+      "path": "packages/@openmaic/dsl/src/stage.ts",
+      "url": "https://raw.githubusercontent.com/THU-MAIC/OpenMAIC/v1.3.0-rc.1/packages/@openmaic/dsl/src/stage.ts",
+      "sha256": "b8ce1ac2cff5a37e7fee7b23a1eb4df59499f0357366d80166163d7b32a9fc6a",
+      "quizQuestion": [
+        "export interface QuizQuestion {\n  id: string;\n  type: 'single' | 'multiple' | 'short_answer';\n  question: string;\n  options?: QuizOption[];\n  answer?: string[]; // Correct answer values: [\"A\"], [\"A\",\"C\"], or undefined for text\n  analysis?: string; // Explanation shown after grading\n  commentPrompt?: string; // Grading guidance for text questions\n  hasAnswer?: boolean; // Whether auto-grading is possible\n  points?: number; // Points per question (default 1)\n}\n\n/**\n * Quiz content - React component props/data."
+      ]
+    },
+    {
+      "tag": "v1.3.0-rc.1",
+      "path": "components/edit/surfaces/quiz/quiz-edit-ops.ts",
+      "url": "https://raw.githubusercontent.com/THU-MAIC/OpenMAIC/v1.3.0-rc.1/components/edit/surfaces/quiz/quiz-edit-ops.ts",
+      "sha256": "d13b054597afcb920a83ee08b2ebc6aea4a8cd2361f18c6a0e9f5fc0307e31a2",
+      "quizQuestion": []
+    },
+    {
+      "tag": "v1.3.0-rc.1",
+      "path": "app/api/quiz-grade/route.ts",
+      "url": "https://raw.githubusercontent.com/THU-MAIC/OpenMAIC/v1.3.0-rc.1/app/api/quiz-grade/route.ts",
+      "sha256": "3b74492e4218669666d20dab17425b4d952e5ee6fe32a574358c7f2e4e350a1f",
+      "quizQuestion": []
+    }
+  ],
+  "localSources": [
+    {
+      "path": "packages/@openmaic/dsl/src/stage.ts",
+      "sha256": "628f3f5c25aae89334da7b130cf5b08f7f22dced829a8bc4abec9e5017ab7f2b"
+    },
+    {
+      "path": "packages/@openmaic/dsl/src/quiz.ts",
+      "sha256": "a1674ffd8c432712e5f53617b1c18eb2f501f56778f71085b57a4dda53374f30"
+    },
+    {
+      "path": "packages/@openmaic/editor/src/quiz/index.tsx",
+      "sha256": "2f88f2670067f68d72fc83bb4c158730f0b73faf89917cb8a071dc4cae42490f"
+    },
+    {
+      "path": "packages/@openmaic/editor/src/quiz/ops.ts",
+      "sha256": "186101015ec8fe1185bdb913db69bc69d384fc769dfc1ea0cc10f7142560f7d6"
+    },
+    {
+      "path": "packages/@openmaic/renderer/src/quiz/index.tsx",
+      "sha256": "8290e3a4d38959ab630f58a5f9cb84d2769904d243db85bf51ddd682c7e3a690"
+    },
+    {
+      "path": "lib/zhiban/domain/quiz/model.ts",
+      "sha256": "eadf7610c3ca9fa133345046902e521668eb026f961f52b35a92877c11cb6585"
+    },
+    {
+      "path": "lib/zhiban/application/quiz/service.ts",
+      "sha256": "326e0254eac3bfcc85c3408166a0f76500d9765adf55423c5306cb3d816f2721"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/quiz/postgres/transaction.ts",
+      "sha256": "1adf3cc38fcae0ee8caf5c4e97e67e13678463fa5df12d88792dbe57d92a7f84"
+    },
+    {
+      "path": "app/zhiban/local/quiz-client.tsx",
+      "sha256": "5e1ec052bf1e7c9230047156b6ccf219db39194d4cc176faf0cfece2e84ad726"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/lesson/projection.ts",
+      "sha256": "2819b0599a35eb3da2d49e16e8d12b2c64823067de7231adadf10adf0d5d38b8"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/lesson/service.ts",
+      "sha256": "f3042cb8c6b2db9d7a348ed704feaf21add0974ebfd2e805964a4f75b8ed1439"
+    },
+    {
+      "path": "lib/server/agent-runtime/generation-tools.ts",
+      "sha256": "ac57ad135d89159bb602267fa2374e6b0f04e529dc709ab15a6036cb5238c280"
+    },
+    {
+      "path": "app/api/quiz-grade/route.ts",
+      "sha256": "3b74492e4218669666d20dab17425b4d952e5ee6fe32a574358c7f2e4e350a1f"
+    }
+  ],
+  "scope": {
+    "method": "targeted source and official release inspection",
+    "dirtyWorktree": true,
+    "runtimeVerification": false,
+    "modelCall": false,
+    "businessWrite": false,
+    "upgrade": false,
+    "ciDispatch": false,
+    "commitOrPush": false,
+    "p7Repacked": false
+  },
+  "conclusions": {
+    "upstreamQuestionTypes": [
+      "single",
+      "multiple",
+      "short_answer"
+    ],
+    "rcAddsQuestionTypes": false,
+    "formalQuizCopyCommandPresent": false,
+    "nativeAiGradeIsOfficialZhibanGrade": false,
+    "nextPackageIsProposalNotImplemented": true
+  },
+  "releasePages": [
+    "https://github.com/THU-MAIC/OpenMAIC/releases/tag/v1.2.1",
+    "https://github.com/THU-MAIC/OpenMAIC/releases/tag/v1.3.0-rc.1"
+  ]
+}

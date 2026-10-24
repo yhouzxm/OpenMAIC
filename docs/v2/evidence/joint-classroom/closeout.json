@@ -1,0 +1,40 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "LOCAL_TEACHER_JOINT_CLASSROOM_ATOMIC_ATTEMPT_BINDING",
+  "directedEvidence": "docs/v2/evidence/zhiban-joint-classroom-local.json",
+  "persistentSourceDrift": [],
+  "expectedCleanedSources": [
+    "/home/zxm/openmaic/zhiban/.zhiban-catalog-run-ti8IwW/verify.mjs",
+    "/tmp/zhiban-trial-content-HCdaYb/content-client.js",
+    "/tmp/zhiban-trial-content-HCdaYb/member-control.json"
+  ],
+  "lifecycle": {
+    "root": "/tmp/zhiban-trial-content-HCdaYb",
+    "port": 56517,
+    "database": "zhiban_trial_content_disposable",
+    "stopped": true,
+    "removed": true
+  },
+  "nativeRuntimeEnabled": false,
+  "productionChanged": false,
+  "committed": false,
+  "pushed": false,
+  "ciDispatched": false,
+  "frozenSourceCheck": "120 files unchanged",
+  "typecheck": "PASS (4096 MiB heap)",
+  "lint": "PASS (targeted new/affected TS and TSX)",
+  "unit": "6 affected checks PASS",
+  "unknownPublication": "real Native INSERT revoke -> OUTCOME_UNKNOWN, restored ACL retains quarantine, new joint entry rejected without new facts",
+  "defaultReady": true,
+  "defaultRoot": "/tmp/zhiban-trial-content-umCn7A",
+  "defaultSourceDrift": [],
+  "defaultDemo": "docs/v2/evidence/joint-classroom/default-demo.json",
+  "inAppBrowserTeacherVerified": true,
+  "browserScreenshot": "docs/v2/evidence/joint-classroom/default-browser.png",
+  "beforeBackup": "docs/v2/evidence/joint-classroom/before-backup.json",
+  "defaultBackup": "docs/v2/evidence/joint-classroom/default-backup.json",
+  "backupRestoreTested": false,
+  "existingAnyLint": "PASS with existing no-explicit-any rule excluded for old ContentService/ClassroomPgTransaction; see lint-existing-any-excluded.log"
+}

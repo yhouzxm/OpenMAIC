@@ -1,0 +1,29 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_WITH_SOURCE_RECOVERY",
+  "originalGeneration": {
+    "session": "01ea4a15-5297-4798-a718-f0d1f194934e",
+    "stage": "stage-fXDjSkfMgA",
+    "model": "glm-5.3",
+    "scenePersisted": true,
+    "finalAssistantStatus": "failed",
+    "reason": "LLM stream finished with other",
+    "sourceRecovery": "Teacher imports persisted synthetic generated document into current default course; no mock generation"
+  },
+  "continuedNativeAgent": {
+    "model": "glm-5.3",
+    "status": "succeeded",
+    "session": "c6cc44f3-5e4b-4960-b7ca-cb15fc66ae95",
+    "verifiedEdit": "stage.name"
+  },
+  "stage": "stage-6mG68IOG05-t",
+  "resource": "01a16ea2-7546-73b7-b971-297127c754f2",
+  "publication": "01a16ea2-77aa-71bc-86a6-f2c5578bebca",
+  "sourceDigest": "f11c2b4eb8a771a4c74e37630292c2bb045bc97dafff17e4d9559e2d37e56d2b",
+  "material": "mat_23j352tc6gtbrnw0275xdph28g",
+  "title": "原生备课演示：欧姆定律与电路计算",
+  "session": "c6cc44f3-5e4b-4960-b7ca-cb15fc66ae95",
+  "accountHash": "91d73979d2a3a17ba17c69549682aa4d944f875c004bb8427ad5ba35d262e122",
+  "at": "2026-10-24T15:58:24.055Z"
+}

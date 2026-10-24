@@ -1,0 +1,22 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "ARCHIVES_CREATED_AND_TOC_VERIFIED",
+  "root": "/tmp/zhiban-trial-content-SwEEZO",
+  "backupDirectory": "/home/zxm/.local/state/zhiban-trial-backups/academic-imports-current-20261023-154313",
+  "databaseCount": 3,
+  "files": {
+    "zhiban_trial_content_disposable.dump": "d97deeae84c7c54f1dbb53dd643cc8a1309892f693e9d48b7cbdd9b6f157160c",
+    "zhiban_trial_content_native.dump": "8085188a8098b94d0a078bb33ccf3ba27781b73c3ba310d143bcc62fb5631e07",
+    "zhiban_trial_lesson_native.dump": "71d9ed3fae34c3565dd07d9b28318338cc570d040581e3c307779655ea8b5f93",
+    "accounts.json": "98bfa7cd738f09a703d49753aa769e0f5f2147eb28ee6a1154e14c40d3762d8f",
+    "member-control.json": "fc770e1d95e14736852d25eab4dbd5b3c4a67905a802be130c1c9898df6dd6e4",
+    "member-inputs.json": "1e2be77e807433b2fd817bf60cd3a00755eb502747b3f314af6f7397d7f605ff",
+    "member-operator.pem": "c4b8fb59ee1b44956d10b82324bfd62be9e2635a259005f1ec48a2c0c7266811",
+    "member-approver.pem": "21e010a16adca81148c7e0bb9908515bd52d72d4e59de7d3d9b66d19a63cfbaf",
+    "roster-example.csv": "b9b67dad91e4e69bf31f22077649dffda7632e7223c21d68ae4d1b83890aa078",
+    "content-installation.json": "7d6d732b236f576ee45c583dc2b106dc07ed7b8a43178e73c04756af3571e2ee"
+  },
+  "restoreTested": false,
+  "secretsPrinted": false
+}

@@ -1,0 +1,12 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "checks": [
+    "teacher/lecture: actual file, offline play, readable text/PNG, scene list, zero network/errors",
+    "teacher/material: actual file, offline play, readable text/PNG, scene list, zero network/errors",
+    "student/lecture: actual file, offline play, readable text/PNG, scene list, zero network/errors",
+    "student/material: actual file, offline play, readable text/PNG, scene list, zero network/errors"
+  ],
+  "at": "2026-10-18T13:04:19.443Z"
+}

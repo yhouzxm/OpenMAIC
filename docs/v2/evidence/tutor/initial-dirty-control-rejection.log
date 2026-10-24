@@ -1,0 +1,63 @@
+
+> openmaic@1.2.1 verify:zhiban:tutor /home/zxm/openmaic/zhiban
+> tsx scripts/zhiban-local/run-m6-catalog.ts --unified-trial --tutor-focus
+
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+Reused @openmaic/generation: matching LOCAL source/build hashes
+PASS Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately
+{"timestamp":"2026-10-22T12:08:36.491Z","level":"INFO","tag":"GenerationRunner","message":"generation runner 27423:22a4a33c-9e2b-42b7-bf1c-858ef34d0fc9 started (scan=1000ms, heartbeat=2000ms, leaseTtl=10000ms, maxConcurrent=1)"}
+PASS PG16 restricted roles + real Identity sessions + validated trusted HTTPS
+PASS trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands
+PASS real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft
+LOCAL directed store refusal WORK FORBIDDEN 13
+LOCAL directed store refusal WORK FORBIDDEN 35
+LOCAL directed store refusal WORK FORBIDDEN 59
+LOCAL directed store refusal WORK FORBIDDEN 47
+LOCAL directed store refusal WORK INVALID_STATE 15
+A [Error]: expect(locator).toContainText(expected) failed
+
+Locator: locator('#tutor')
+Expected substring: "教师已启用本班 AI 辅导。"
+Received string:    "AI 学习辅导AI 回答仅供学习参考，不构成正式评价或成绩。对话仅本人可见；教师不能查看学生私人对话。请勿发送密码或不必要的个人信息。教师尚未启用本班 AI 辅导。 模型尚不可用，请联系教师或管理员配置。教师设置为本教学班启用 AI 辅导教师学习提示（师生可见）关闭后不能新建或继续提问；生成中的回答也不会交付。已有私人历史仍可由本人查看。保存辅导设置我的课程对话对话主题讲义上下文不引用讲义，进行概念辅导只引用可访问的已发布文字。图片、互动页和超长讲义暂不作为辅导上下文。新建私人对话还没有对话。上一页下一页选择或新建对话问题（最多 2000 字）发送问题停止生成结束此对话每个对话最多 30 次提问；每人每教学班同时生成一条。停止或网络中断不保证供应商侧不计费。"
+Timeout: 5000ms
+
+Call log:
+  - Expect "to.have.text" with timeout 5000ms
+  - waiting for locator('#tutor')
+    9 × locator resolved to <main id="tutor" aria-busy="false" class="course-panel course-surface">…</main>
+      - unexpected value "AI 学习辅导AI 回答仅供学习参考，不构成正式评价或成绩。对话仅本人可见；教师不能查看学生私人对话。请勿发送密码或不必要的个人信息。教师尚未启用本班 AI 辅导。 模型尚不可用，请联系教师或管理员配置。教师设置为本教学班启用 AI 辅导教师学习提示（师生可见）关闭后不能新建或继续提问；生成中的回答也不会交付。已有私人历史仍可由本人查看。保存辅导设置我的课程对话对话主题讲义上下文不引用讲义，进行概念辅导只引用可访问的已发布文字。图片、互动页和超长讲义暂不作为辅导上下文。新建私人对话还没有对话。上一页下一页选择或新建对话问题（最多 2000 字）发送问题停止生成结束此对话每个对话最多 30 次提问；每人每教学班同时生成一条。停止或网络中断不保证供应商侧不计费。"
+
+    at Proxy.<anonymous> (/home/zxm/openmaic/zhiban/node_modules/.pnpm/playwright@1.58.2/node_modules/playwright/lib/matchers/expect.js:213:24)
+    at verifyTutor (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-4VJOLE/verify.mjs:28205:42)
+    at async main (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-4VJOLE/verify.mjs:76159:7)
+    at async file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-4VJOLE/verify.mjs:77466:3 {
+  matcherResult: {
+    name: 'toContainText',
+    expected: '教师已启用本班 AI 辅导。',
+    message: 'expect(locator).toContainText(expected) failed\n' +
+      '\n' +
+      "Locator: locator('#tutor')\n" +
+      'Expected substring: "教师已启用本班 AI 辅导。"\n' +
+      'Received string:    "AI 学习辅导AI 回答仅供学习参考，不构成正式评价或成绩。对话仅本人可见；教师不能查看学生私人对话。请勿发送密码或不必要的个人信息。教师尚未启用本班 AI 辅导。 模型尚不可用，请联系教师或管理员配置。教师设置为本教学班启用 AI 辅导教师学习提示（师生可见）关闭后不能新建或继续提问；生成中的回答也不会交付。已有私人历史仍可由本人查看。保存辅导设置我的课程对话对话主题讲义上下文不引用讲义，进行概念辅导只引用可访问的已发布文字。图片、互动页和超长讲义暂不作为辅导上下文。新建私人对话还没有对话。上一页下一页选择或新建对话问题（最多 2000 字）发送问题停止生成结束此对话每个对话最多 30 次提问；每人每教学班同时生成一条。停止或网络中断不保证供应商侧不计费。"\n' +
+      'Timeout: 5000ms\n' +
+      '\n' +
+      'Call log:\n' +
+      '  - Expect "to.have.text" with timeout 5000ms\n' +
+      "  - waiting for locator('#tutor')\n" +
+      '    9 × locator resolved to <main id="tutor" aria-busy="false" class="course-panel course-surface">…</main>\n' +
+      '      - unexpected value "AI 学习辅导AI 回答仅供学习参考，不构成正式评价或成绩。对话仅本人可见；教师不能查看学生私人对话。请勿发送密码或不必要的个人信息。教师尚未启用本班 AI 辅导。 模型尚不可用，请联系教师或管理员配置。教师设置为本教学班启用 AI 辅导教师学习提示（师生可见）关闭后不能新建或继续提问；生成中的回答也不会交付。已有私人历史仍可由本人查看。保存辅导设置我的课程对话对话主题讲义上下文不引用讲义，进行概念辅导只引用可访问的已发布文字。图片、互动页和超长讲义暂不作为辅导上下文。新建私人对话还没有对话。上一页下一页选择或新建对话问题（最多 2000 字）发送问题停止生成结束此对话每个对话最多 30 次提问；每人每教学班同时生成一条。停止或网络中断不保证供应商侧不计费。"\n',
+    pass: false,
+    actual: 'AI 学习辅导AI 回答仅供学习参考，不构成正式评价或成绩。对话仅本人可见；教师不能查看学生私人对话。请勿发送密码或不必要的个人信息。教师尚未启用本班 AI 辅导。 模型尚不可用，请联系教师或管理员配置。教师设置为本教学班启用 AI 辅导教师学习提示（师生可见）关闭后不能新建或继续提问；生成中的回答也不会交付。已有私人历史仍可由本人查看。保存辅导设置我的课程对话对话主题讲义上下文不引用讲义，进行概念辅导只引用可访问的已发布文字。图片、互动页和超长讲义暂不作为辅导上下文。新建私人对话还没有对话。上一页下一页选择或新建对话问题（最多 2000 字）发送问题停止生成结束此对话每个对话最多 30 次提问；每人每教学班同时生成一条。停止或网络中断不保证供应商侧不计费。',
+    log: [
+      '  - Expect "to.have.text" with timeout 5000ms',
+      "  - waiting for locator('#tutor')",
+      '    9 × locator resolved to <main id="tutor" aria-busy="false" class="course-panel course-surface">…</main>',
+      '      - unexpected value "AI 学习辅导AI 回答仅供学习参考，不构成正式评价或成绩。对话仅本人可见；教师不能查看学生私人对话。请勿发送密码或不必要的个人信息。教师尚未启用本班 AI 辅导。 模型尚不可用，请联系教师或管理员配置。教师设置为本教学班启用 AI 辅导教师学习提示（师生可见）关闭后不能新建或继续提问；生成中的回答也不会交付。已有私人历史仍可由本人查看。保存辅导设置我的课程对话对话主题讲义上下文不引用讲义，进行概念辅导只引用可访问的已发布文字。图片、互动页和超长讲义暂不作为辅导上下文。新建私人对话还没有对话。上一页下一页选择或新建对话问题（最多 2000 字）发送问题停止生成结束此对话每个对话最多 30 次提问；每人每教学班同时生成一条。停止或网络中断不保证供应商侧不计费。"'
+    ],
+    timeout: 5000
+  }
+}
+ ELIFECYCLE  Command failed with exit code 1.

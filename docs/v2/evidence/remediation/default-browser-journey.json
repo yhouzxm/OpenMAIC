@@ -1,0 +1,22 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "CURRENT_DEFAULT_IAB_TEACHER_EFFECT_REVIEW_AND_STUDENT_PROJECTION",
+  "root": "/tmp/zhiban-trial-content-1odRdD",
+  "teacherUrl": "https://127.0.0.1:3461/zhiban/teacher/courses/01a15f0c-9c2f-724b-8e4e-2a3424ac76ce/remediation?space=01a15f0c-2990-7600-afec-e186b0da83a6&offering=01a15f0c-9d5a-76bb-ac78-e74cbd286e98#plan-01a15f0d-39fe-75a6-86f6-031ceb88daba",
+  "studentUrl": "https://127.0.0.1:3461/zhiban/student/courses/01a15f0c-9c2f-724b-8e4e-2a3424ac76ce/remediation?space=01a15f0c-2990-7600-afec-e186b0da83a6&offering=01a15f0c-9d5a-76bb-ac78-e74cbd286e98#plan-01a15f0d-39fe-75a6-86f6-031ceb88daba",
+  "baselineScore": 50,
+  "currentPublishedScore": 85,
+  "latestAttemptNo": 2,
+  "planState": "ACTIVE",
+  "planRevision": "3",
+  "reviewOutcome": "NEEDS_MORE",
+  "immutableReviewSnapshotScore": 85,
+  "studentFeedback": "READY_FOR_REVIEW",
+  "privateCaseNoteExcluded": true,
+  "caseState": "OPEN",
+  "caseRevision": "1",
+  "modelRequestMade": false,
+  "externalDelivery": false
+}

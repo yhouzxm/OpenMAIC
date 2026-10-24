@@ -1,0 +1,16 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "root": "/tmp/zhiban-trial-content-rU1zAL",
+  "pid": 76989,
+  "productSourceMatches": true,
+  "overallSourceMatches": false,
+  "drifts": [
+    {
+      "file": "scripts/zhiban-local/verify-quiz-ai-advice.cjs",
+      "expected": "5f629228be61591e307708543ce9919730e3c8b00326761466e5a4be85f2d008",
+      "current": "070c4c65cacb481a7966e22ee47c470014c2328a1aa5941a7cd4d1732541fc50"
+    }
+  ],
+  "startupMetadataUnmodified": true
+}

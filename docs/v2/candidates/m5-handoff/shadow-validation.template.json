@@ -1,0 +1,27 @@
+{
+  "formatVersion": 1,
+  "status": "UNISSUED",
+  "purpose": "LOCAL_ORDINARY_SHADOW_VALIDATION",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "authorityKeySha256": null,
+  "sourceKind": "INDEPENDENT_SHADOW_PG16",
+  "approvalRef": null,
+  "sourceBindingsSha256": null,
+  "codeClosureSha256": null,
+  "validationEvidenceSha256": null,
+  "shadowExpectedProfileSha256": null,
+  "checks": {
+    "sixRoleTcpScram": false,
+    "oldCredentialsDenied": false,
+    "exactHba": false,
+    "configurationComposition": false,
+    "compatibilityReceipts": false,
+    "physicalClosure": false,
+    "loaderInstrumentation": false,
+    "nativeAbiLibraries": false,
+    "freshShadowLoad": false
+  },
+  "launchAllowed": false,
+  "runtimeAccepted": false
+}

@@ -1,0 +1,27 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "routes": [
+    {
+      "route": "classes",
+      "expected": "CLASSES",
+      "actual": "CLASSES",
+      "pass": true
+    },
+    {
+      "route": "students",
+      "expected": "DIRECTORY",
+      "actual": "DIRECTORY",
+      "pass": true
+    },
+    {
+      "route": "registrations",
+      "expected": "ENROLLMENTS",
+      "actual": "ENROLLMENTS",
+      "pass": true
+    }
+  ],
+  "usersRoute": "EXISTING_CONTROLLED_ACCOUNT_REQUEST_ONLY",
+  "accountCreated": false
+}

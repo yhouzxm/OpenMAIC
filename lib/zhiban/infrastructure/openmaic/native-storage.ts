@@ -1,3 +1,4 @@
+import { documentOwnership } from './document-ownership';
 import { PgDocumentStore } from '@openmaic/storage/document/pg';
 import { PgAssetStore, type Queryable, type WithTransaction } from '@openmaic/storage/asset/pg';
 import { PgAssetByteStore } from '@openmaic/storage/asset/pg-bytes';
@@ -39,6 +40,7 @@ export class NativeStorage {
     };
     const documents = new PgDocumentStore(queryable, {
       ownerId: principal(owner),
+      documentOwnership,
       trackAssetReferences: true,
       withTransaction: hook,
     });

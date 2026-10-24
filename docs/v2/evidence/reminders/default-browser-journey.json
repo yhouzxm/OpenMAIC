@@ -1,0 +1,26 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "FINAL_DEFAULT_IAB_TEACHER_SEND_STUDENT_CONFIRM_TEACHER_RECEIPT_WITH_PRESENTATION_INCREMENT",
+  "root": "/tmp/zhiban-trial-content-febOEf",
+  "teacherUrl": "https://127.0.0.1:3461/zhiban/teacher/courses/01a15eed-e258-73d6-bb95-5de4fbd9f657/analytics?space=01a15eed-711e-7125-9e0f-e096865aa691&offering=01a15eed-e363-719b-8c9d-52cb3ac49abe#followups",
+  "studentUrl": "https://127.0.0.1:3461/zhiban/student/courses/01a15eed-e258-73d6-bb95-5de4fbd9f657/reminders?space=01a15eed-711e-7125-9e0f-e096865aa691&offering=01a15eed-e363-719b-8c9d-52cb3ac49abe",
+  "deliveredAndConfirmed": {
+    "id": "01a15eef-9859-7677-8658-27f86e9744b3",
+    "title": "课堂提醒：准备安全巡检记录",
+    "body": "请阅读安全巡检报告要求，准备观察记录。看到本条提醒后，请点击“我已知悉”。",
+    "sent_at": "1792594122814",
+    "confirmed_at": "1792594200854",
+    "activity_id": "01a15eed-e452-71aa-b25e-fa3da5e33ed7",
+    "activity_version": 1,
+    "activity_title": "试用：安全巡检报告",
+    "sender_name": "周老师"
+  },
+  "privateNoteExcluded": true,
+  "caseState": "OPEN",
+  "caseRevision": "1",
+  "caseEvents": 1,
+  "pendingLearningFacts": 5,
+  "modelRequestMade": false
+}

@@ -1,0 +1,22 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "NATIVE_PLAYER_EXISTING_CLASSROOM_PRESENTATION_ONLY",
+  "entry": "https://127.0.0.1:3468",
+  "classroomId": "01a16ccb-08f5-73b1-9ea9-40c587c7c300",
+  "publicationId": "01a16ccb-0697-73e3-9c0c-cce2b93c7fb3",
+  "checks": [
+    "native App keyboard and explicit teacher sharing",
+    "student follow and independent browse",
+    "reload and offline recovery",
+    "exact classroom context return and continue",
+    "no-entry and wrong classroom do not mount",
+    "student share and unknown query refused",
+    "ended classroom unmounts both hosts",
+    "zero new Attempts / no completion or grade claims"
+  ],
+  "maintenanceExecuted": false,
+  "nativeRuntimeEnabled": false,
+  "modelCalls": false
+}

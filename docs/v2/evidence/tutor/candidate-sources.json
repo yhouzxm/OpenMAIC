@@ -1,0 +1,127 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "comparedAgainst": "../zhiban-learner-local.json",
+  "scope": "BOUND_PERSISTENT_SOURCE_DELTA_ONLY_NOT_ALL_DIRTY_GIT",
+  "files": [
+    {
+      "path": "/home/zxm/openmaic/zhiban/app/zhiban/local/tutor.css",
+      "sha256": "92bf2b9f7c9c630e0d73611a3c36d4c664bb8ed0f3d0412cb76ec0a82df88d4e",
+      "status": "ADDED"
+    },
+    {
+      "path": "/home/zxm/openmaic/zhiban/app/zhiban/local/course-page.js",
+      "sha256": "113bb46fac8f10ff082eff779669ae0180787a83ce429d5428e008624115f5a3",
+      "status": "CHANGED"
+    },
+    {
+      "path": "/home/zxm/openmaic/zhiban/app/zhiban/local/tutor.html",
+      "sha256": "5e6a5818f4a5613df5c1371a1bb1d1a5a6d9a90cb95ad95652e91ff687d86d11",
+      "status": "ADDED"
+    },
+    {
+      "path": "/home/zxm/openmaic/zhiban/app/zhiban/local/workspace.js",
+      "sha256": "01fb83674f3ea81ecf2006cabbce44c3928b11c859abadec754978f502162483",
+      "status": "CHANGED"
+    },
+    {
+      "path": "/home/zxm/openmaic/zhiban/app/zhiban/local/tutor.js",
+      "sha256": "18105d8604a539fe1ac2004b1f23bc83db9eb29c3c6ce17d914d7824225f10be",
+      "status": "ADDED"
+    },
+    {
+      "path": "/home/zxm/openmaic/zhiban/scripts/zhiban-local/verify-m6-catalog.mts",
+      "sha256": "078a8227e853b1019528197c0f08b571766d86b3d81236afca8a59e66cb70213",
+      "status": "CHANGED"
+    },
+    {
+      "path": "/home/zxm/openmaic/zhiban/scripts/zhiban-local/verify-tutor.ts",
+      "sha256": "49159d67769da4408374aeb13431c8c4493b0fd651a4325687ba0e905313384b",
+      "status": "ADDED"
+    },
+    {
+      "path": "/home/zxm/openmaic/zhiban/scripts/zhiban-local/build-tutor-reference.ts",
+      "sha256": "6e6b410eca677f1ebc225b44bfdd08eb2876bba8a6e024815ceee2424614ad4d",
+      "status": "ADDED"
+    },
+    {
+      "path": "/home/zxm/openmaic/zhiban/scripts/zhiban-local/trial-content.ts",
+      "sha256": "684c3913aa91bf7f776609fe148d0e63cccc63c99e274339daa5a6d41bb216ff",
+      "status": "CHANGED"
+    },
+    {
+      "path": "/home/zxm/openmaic/zhiban/scripts/zhiban-local/run-m6-catalog.ts",
+      "sha256": "118d8f84d1e039e5e500bddeb50ae60229869b6be021cd7c3bc201fab4fc81f5",
+      "status": "CHANGED"
+    },
+    {
+      "path": "/home/zxm/openmaic/zhiban/scripts/zhiban-local/request-target.ts",
+      "sha256": "f42c5e5a7ea106be60cbc1564bb05a1f42e5874310e7aaaa9a4a7f4c853b239c",
+      "status": "CHANGED"
+    },
+    {
+      "path": "/home/zxm/openmaic/zhiban/scripts/zhiban-local/tutor.ts",
+      "sha256": "aea17629a3440a95e852cd1b5e5f7a5f0232137a7e00c29c606723343b67b44c",
+      "status": "ADDED"
+    },
+    {
+      "path": "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/content/service.ts",
+      "sha256": "e90801c8cc6570c1e3cd3c0862e52ccffda48564256c1e130f32f41e79ce98aa",
+      "status": "CHANGED"
+    },
+    {
+      "path": "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/tutor/content.ts",
+      "sha256": "c31845457be023c27b8824e413fac5676527ce457e76e874755ba17f242f06bf",
+      "status": "ADDED"
+    },
+    {
+      "path": "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/tutor/native.ts",
+      "sha256": "b268337440a149429558d4cf214f678af1fda7780e576722f51be9c018b507ac",
+      "status": "ADDED"
+    },
+    {
+      "path": "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/tutor/postgres/migrations/0001_tutor.sql",
+      "sha256": "ca17c2067e1961f71d8b258a0a714bcc22978c64a061e0344f5eebd78741e4bf",
+      "status": "ADDED"
+    },
+    {
+      "path": "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/tutor/postgres/transaction.ts",
+      "sha256": "baccad456b117f4032865ffd5ebb68fa0db109b37cdce862385dbb7a7163a859",
+      "status": "ADDED"
+    },
+    {
+      "path": "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/tutor/http.ts",
+      "sha256": "21bcb9700d5454ba770822d1f409b5e40c6cd9352919e0f2afa7fa7dbddfb8df",
+      "status": "ADDED"
+    },
+    {
+      "path": "/home/zxm/openmaic/zhiban/lib/zhiban/domain/tutor/model.ts",
+      "sha256": "0d78e0998032ad0d61078bb913614ff674af264877bbd1eef4ef82a157a241bd",
+      "status": "ADDED"
+    },
+    {
+      "path": "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/academic/postgres/store.ts",
+      "sha256": "64849db893132ef97dbfef61a1f86b0c48b8137e193547fac764d215c34489f8",
+      "status": "CHANGED"
+    },
+    {
+      "path": "/home/zxm/openmaic/zhiban/lib/zhiban/application/tutor/service.ts",
+      "sha256": "5f2651d1fde57db833bc4f8a493c449cee9d4e5d6af41ae8da678134107e7628",
+      "status": "ADDED"
+    },
+    {
+      "path": "/home/zxm/openmaic/zhiban/lib/zhiban/application/academic/service.ts",
+      "sha256": "6de1715ab4e58b8022b6fe358fa6937aee8af82091efaef548fbfa523cc9b2ac",
+      "status": "CHANGED"
+    },
+    {
+      "path": "/home/zxm/openmaic/zhiban/package.json",
+      "sha256": "38952270faf7c51e043f45d02a8a2926e6277427439a49b9b4e22264d6d504c1",
+      "status": "CHANGED"
+    },
+    {
+      "path": "/home/zxm/openmaic/zhiban/docs/v2/evidence/zhiban-tutor-profile-reference-local.json",
+      "sha256": "9ab8c0b7cc7da6ff4c2033416d3d9bf6b34afec87bdb6d110d86997e5241fa14",
+      "status": "ADDED"
+    }
+  ]
+}

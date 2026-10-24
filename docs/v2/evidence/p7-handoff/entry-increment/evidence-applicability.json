@@ -1,0 +1,301 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "scope": "SEVEN_ENTRY_PACKAGE_HISTORICAL_RECEIPTS_COMPARED_WITH_CURRENT_SOURCE",
+  "packages": [
+    {
+      "name": "personal-settings",
+      "receipt": "docs/v2/evidence/settings-routes/browser-local.json",
+      "receiptSha256": "4757477c2be83518f3dd7fa3257e7678ab47f7a213d5d9cb0acebfa01780d72d",
+      "historicalStatus": "PASS",
+      "historicalRoot": "/tmp/zhiban-trial-content-hXyuOJ",
+      "stableSourceFiles": [
+        "app/zhiban/local/profile.js",
+        "app/zhiban/local/login-identifiers.js"
+      ],
+      "changedSourceFiles": [
+        {
+          "path": "app/zhiban/local/client.js",
+          "historicalSha256": "33538bc358f9581504fa8621413a6ec3eba0f78c2416901494a9986ee3fb369d",
+          "currentSha256": "a2515d0910d8d6a1962000eb93653fe70e6d426eaea72a0c203d73345ba87ef9"
+        },
+        {
+          "path": "scripts/zhiban-local/request-target.ts",
+          "historicalSha256": "e7aa3e4950a73be9e252ac3e88d4fa6019430235f01e1f77963cf8bac0f9940a",
+          "currentSha256": "884f063a6047e6d5fb4efecf54f999b36240c1626576ca4ef5d61de7be7908a9"
+        },
+        {
+          "path": "scripts/zhiban-local/verify-m6-catalog.mts",
+          "historicalSha256": "3902db716cf3c09c12d0b091fca5c16cd8eafa2482a29ba8d60a885a5f8d9969",
+          "currentSha256": "f7fb49e9a1b0b38def4530e238634863bffa0956be6e41f248d72f1d55c7af2e"
+        },
+        {
+          "path": "scripts/zhiban-local/server.ts",
+          "historicalSha256": "2ee44cf0d69fd04b9ee229ae478c4f5ae884b09491b00f55e0f6f2e5d84dc2fa",
+          "currentSha256": "688e5c2b6350f14d8bff33b04cb8959b4d8632c7ae38a41cd7b2bfc6a5276090"
+        },
+        {
+          "path": "scripts/zhiban-local/verify-settings-routes.cjs",
+          "historicalSha256": "daac03893fef93383aaa73b43829376639f19463ce7c9c1bedd8d38c80ce7f7a",
+          "currentSha256": "ef9001b1f1f0104f96841b5b2cf434fe77eb653d4f232d12af7b80a454f008a2"
+        }
+      ],
+      "missingSourceFiles": [],
+      "claim": "Original receipt retains its exact historical source/root/flow scope; changed files listed, not reissued as current regression proof"
+    },
+    {
+      "name": "global-grades",
+      "receipt": "docs/v2/evidence/global-grades/final-closeout.json",
+      "receiptSha256": "bc2b5aab6f7e578ea83a8aab3d4f1817be6ec965ae2c9cf3c1d471cb4784bea1",
+      "historicalStatus": "PASS",
+      "historicalRoot": "/tmp/zhiban-trial-content-WWbMFP",
+      "stableSourceFiles": [
+        "app/zhiban/local/global-grades.html",
+        "app/zhiban/local/global-grades.js",
+        "scripts/zhiban-local/verify-global-grades.cjs"
+      ],
+      "changedSourceFiles": [
+        {
+          "path": "app/zhiban/local/client.js",
+          "historicalSha256": "27f693774fe3148b1c21ddfc6d26192fe4798b0e45b151df57d116cce445db1d",
+          "currentSha256": "a2515d0910d8d6a1962000eb93653fe70e6d426eaea72a0c203d73345ba87ef9"
+        },
+        {
+          "path": "app/zhiban/local/course-page.js",
+          "historicalSha256": "954420710bf99548d63e0ec8d2ac142528d99138401e644449388287141523c6",
+          "currentSha256": "0b625b474211893594fbd0646d13a4e8b7b4f3e3412d01cf5b390d2bfef34e40"
+        },
+        {
+          "path": "scripts/zhiban-local/request-target.ts",
+          "historicalSha256": "1246741f993c7b4366c18d9d0d1bb9bf4233ef2d5301144551f0eb7c5dbbfef9",
+          "currentSha256": "884f063a6047e6d5fb4efecf54f999b36240c1626576ca4ef5d61de7be7908a9"
+        },
+        {
+          "path": "scripts/zhiban-local/verify-m6-catalog.mts",
+          "historicalSha256": "cee449986abe055d78b5fdb2ce384196f35a37111d1541ec390a938c6db17272",
+          "currentSha256": "f7fb49e9a1b0b38def4530e238634863bffa0956be6e41f248d72f1d55c7af2e"
+        },
+        {
+          "path": "scripts/zhiban-local/server.ts",
+          "historicalSha256": "5e7bb7382b8b9038f08f781afed12d21fdd5ba6e44603753810b4fde599a1367",
+          "currentSha256": "688e5c2b6350f14d8bff33b04cb8959b4d8632c7ae38a41cd7b2bfc6a5276090"
+        }
+      ],
+      "missingSourceFiles": [],
+      "claim": "Original receipt retains its exact historical source/root/flow scope; changed files listed, not reissued as current regression proof"
+    },
+    {
+      "name": "admin-login",
+      "receipt": "docs/v2/evidence/admin-login-routes/final-closeout.json",
+      "receiptSha256": "2e492dfe146043cf54ecbc1c40649982b86884e728bdbd3ace267af3e32907c8",
+      "historicalStatus": "PASS",
+      "historicalRoot": "/tmp/zhiban-trial-content-ozWwaC",
+      "stableSourceFiles": [
+        "app/zhiban/local/admin-entry.html",
+        "app/zhiban/local/admin-entry.js",
+        "scripts/zhiban-local/verify-admin-login-routes.cjs"
+      ],
+      "changedSourceFiles": [
+        {
+          "path": "app/zhiban/local/client.js",
+          "historicalSha256": "33133fdede0447bbb9bf91e2df734465b18fdb2dddafdc2da955d39a45cd2ec4",
+          "currentSha256": "a2515d0910d8d6a1962000eb93653fe70e6d426eaea72a0c203d73345ba87ef9"
+        },
+        {
+          "path": "scripts/zhiban-local/request-target.ts",
+          "historicalSha256": "7dc1cfbbf894830c07a20752d5c012af7a28a24e634e429ef48f7a1b5f11f78e",
+          "currentSha256": "884f063a6047e6d5fb4efecf54f999b36240c1626576ca4ef5d61de7be7908a9"
+        },
+        {
+          "path": "scripts/zhiban-local/server.ts",
+          "historicalSha256": "e7651df018d2d67c86980f7574006e573d87e8938c057db6a8cf4bf281c08e09",
+          "currentSha256": "688e5c2b6350f14d8bff33b04cb8959b4d8632c7ae38a41cd7b2bfc6a5276090"
+        },
+        {
+          "path": "scripts/zhiban-local/verify-m6-catalog.mts",
+          "historicalSha256": "f387ebdfb959689762666189f5599b62a679dea3922af88263fecfef3fcf8736",
+          "currentSha256": "f7fb49e9a1b0b38def4530e238634863bffa0956be6e41f248d72f1d55c7af2e"
+        }
+      ],
+      "missingSourceFiles": [],
+      "claim": "Original receipt retains its exact historical source/root/flow scope; changed files listed, not reissued as current regression proof"
+    },
+    {
+      "name": "profile-support",
+      "receipt": "docs/v2/evidence/support-routes/final-closeout.json",
+      "receiptSha256": "68c71a4153219167939b823e107aaf5100870d5f698a4f9956a932990da99fba",
+      "historicalStatus": "PASS",
+      "historicalRoot": "/tmp/zhiban-trial-content-5idGk9",
+      "stableSourceFiles": [
+        "app/zhiban/local/global-support.js",
+        "app/zhiban/local/global-support.html",
+        "app/zhiban/local/support-hub.js",
+        "app/zhiban/local/support-hub.html",
+        "scripts/zhiban-local/verify-support-routes.cjs",
+        "scripts/zhiban-local/verify-settings-routes.cjs"
+      ],
+      "changedSourceFiles": [
+        {
+          "path": "app/zhiban/local/client.js",
+          "historicalSha256": "134f14febc2f99ec68b2ecc74f081310bf1e9a5dfb4d29a4e728a9dbd2685e6b",
+          "currentSha256": "a2515d0910d8d6a1962000eb93653fe70e6d426eaea72a0c203d73345ba87ef9"
+        },
+        {
+          "path": "app/zhiban/local/course-page.js",
+          "historicalSha256": "6ac8600e50e2dfe816f0f03073089f68ab0a88b3ee9998899f474c845ef8d762",
+          "currentSha256": "0b625b474211893594fbd0646d13a4e8b7b4f3e3412d01cf5b390d2bfef34e40"
+        },
+        {
+          "path": "scripts/zhiban-local/request-target.ts",
+          "historicalSha256": "2048b69d9a2c0ba9336f7f1dd774a1a7b6edf2a800995f26922e8dd773b76e2e",
+          "currentSha256": "884f063a6047e6d5fb4efecf54f999b36240c1626576ca4ef5d61de7be7908a9"
+        },
+        {
+          "path": "scripts/zhiban-local/server.ts",
+          "historicalSha256": "6ff08d6c4fc898cd799c0fa55aa3b21c7ed5c785a21a5736f01fcfefbc52e70a",
+          "currentSha256": "688e5c2b6350f14d8bff33b04cb8959b4d8632c7ae38a41cd7b2bfc6a5276090"
+        },
+        {
+          "path": "scripts/zhiban-local/verify-m6-catalog.mts",
+          "historicalSha256": "b9a4793073954f1cf0832ebe9b2fd2511b047193e7a195d4381eaadc93baec1d",
+          "currentSha256": "f7fb49e9a1b0b38def4530e238634863bffa0956be6e41f248d72f1d55c7af2e"
+        }
+      ],
+      "missingSourceFiles": [],
+      "claim": "Original receipt retains its exact historical source/root/flow scope; changed files listed, not reissued as current regression proof"
+    },
+    {
+      "name": "teacher-authoring",
+      "receipt": "docs/v2/evidence/authoring-routes/final-closeout.json",
+      "receiptSha256": "964093ff80625326d1f5ee7aabcd5425e10ed93120e211d37f1b050ad984a243",
+      "historicalStatus": "PASS",
+      "historicalRoot": "/tmp/zhiban-trial-content-tE4GM5",
+      "stableSourceFiles": [
+        "app/zhiban/local/global-authoring.js",
+        "app/zhiban/local/global-authoring.html",
+        "app/zhiban/local/lesson.js",
+        "scripts/zhiban-local/verify-authoring-routes.cjs"
+      ],
+      "changedSourceFiles": [
+        {
+          "path": "app/zhiban/local/client.js",
+          "historicalSha256": "552ab308ba4999d2d93895d30371c2a6f87535810c8172a1ef62d609a9fded00",
+          "currentSha256": "a2515d0910d8d6a1962000eb93653fe70e6d426eaea72a0c203d73345ba87ef9"
+        },
+        {
+          "path": "app/zhiban/local/workspace.js",
+          "historicalSha256": "001dfe4090b3b339afaa8ad34b99fbceb8b85c7897b76acbd742f2827aab312e",
+          "currentSha256": "8262433f31bb87da3ad65abae2cc7a3bdd00e2e674f83ad3fcc0942054bafc7f"
+        },
+        {
+          "path": "app/zhiban/local/course-page.js",
+          "historicalSha256": "3453865aa821676320ba218850532dc4b9eab3f22bd00be26312ecce81383a18",
+          "currentSha256": "0b625b474211893594fbd0646d13a4e8b7b4f3e3412d01cf5b390d2bfef34e40"
+        },
+        {
+          "path": "scripts/zhiban-local/request-target.ts",
+          "historicalSha256": "54f045209b76158986495f3b5f2e014b2f952d15306b60e374ab058b3bb5b650",
+          "currentSha256": "884f063a6047e6d5fb4efecf54f999b36240c1626576ca4ef5d61de7be7908a9"
+        },
+        {
+          "path": "scripts/zhiban-local/server.ts",
+          "historicalSha256": "1d89f9738798a78246c59e37ca4a6060ac2f6b8fbfab8fd85d8fd10e056264ad",
+          "currentSha256": "688e5c2b6350f14d8bff33b04cb8959b4d8632c7ae38a41cd7b2bfc6a5276090"
+        },
+        {
+          "path": "scripts/zhiban-local/verify-m6-catalog.mts",
+          "historicalSha256": "186ec92f588db70d5b11cb6142b6d972f4456cbb7f371a437845816d4e3f2e35",
+          "currentSha256": "f7fb49e9a1b0b38def4530e238634863bffa0956be6e41f248d72f1d55c7af2e"
+        }
+      ],
+      "missingSourceFiles": [],
+      "claim": "Original receipt retains its exact historical source/root/flow scope; changed files listed, not reissued as current regression proof"
+    },
+    {
+      "name": "student-tools",
+      "receipt": "docs/v2/evidence/student-tools-routes/final-closeout.json",
+      "receiptSha256": "19e984acc242cd625c126b53f096a7dfe459c1623bb2fcc5d740aff583a0d99b",
+      "historicalStatus": "PASS",
+      "historicalRoot": "/tmp/zhiban-trial-content-BMRvuH",
+      "stableSourceFiles": [
+        "app/zhiban/local/global-tools.js",
+        "app/zhiban/local/global-tools.html",
+        "app/zhiban/local/client.js",
+        "app/zhiban/local/tutor.js",
+        "scripts/zhiban-local/verify-student-tools-routes.cjs"
+      ],
+      "changedSourceFiles": [
+        {
+          "path": "app/zhiban/local/course-page.js",
+          "historicalSha256": "39abb23e71bd8040d4edffd3032456b2f95a1958931432c098273f07cb7a9ae2",
+          "currentSha256": "0b625b474211893594fbd0646d13a4e8b7b4f3e3412d01cf5b390d2bfef34e40"
+        },
+        {
+          "path": "app/zhiban/local/workspace.js",
+          "historicalSha256": "5ff71a400184388961d9779cfe6a00e782fdbba278fcaa1a60228555c4f3d3a5",
+          "currentSha256": "8262433f31bb87da3ad65abae2cc7a3bdd00e2e674f83ad3fcc0942054bafc7f"
+        },
+        {
+          "path": "scripts/zhiban-local/request-target.ts",
+          "historicalSha256": "fdb294e19d652d828eb330a8689276764c89909a85c43ed2267756de66241d20",
+          "currentSha256": "884f063a6047e6d5fb4efecf54f999b36240c1626576ca4ef5d61de7be7908a9"
+        },
+        {
+          "path": "scripts/zhiban-local/server.ts",
+          "historicalSha256": "8a12d81ffaa23a57549a89250d8856c8a237151f6ac558efab36473d2151cc48",
+          "currentSha256": "688e5c2b6350f14d8bff33b04cb8959b4d8632c7ae38a41cd7b2bfc6a5276090"
+        },
+        {
+          "path": "scripts/zhiban-local/verify-m6-catalog.mts",
+          "historicalSha256": "77c33c12eb557dc8d330495b22af1b8cbd214a6542bbd0296557b52e9820d836",
+          "currentSha256": "f7fb49e9a1b0b38def4530e238634863bffa0956be6e41f248d72f1d55c7af2e"
+        }
+      ],
+      "missingSourceFiles": [],
+      "claim": "Original receipt retains its exact historical source/root/flow scope; changed files listed, not reissued as current regression proof"
+    },
+    {
+      "name": "course-administration",
+      "receipt": "docs/v2/evidence/course-administration/final-closeout.json",
+      "receiptSha256": "773ad5798bd7e79ca670faa60aa604e1574a080aae7e956dca5d1bd1022b77f2",
+      "historicalStatus": "LOCAL_SCOPE_PASS_WITH_KNOWN_WIDER_CHECK_FAILURES",
+      "historicalRoot": "/tmp/zhiban-trial-content-e5zuw0",
+      "stableSourceFiles": [
+        "lib/zhiban/application/workspace/service.ts",
+        "lib/zhiban/infrastructure/workspace/http.ts",
+        "lib/zhiban/infrastructure/workspace/postgres/transaction.ts",
+        "tests/zhiban/workspace/query.test.ts",
+        "app/zhiban/local/course-administration.html",
+        "app/zhiban/local/course-administration.js",
+        "app/zhiban/local/course-page.js",
+        "app/zhiban/local/workspace.js",
+        "scripts/zhiban-local/request-target.ts",
+        "scripts/zhiban-local/server.ts",
+        "scripts/zhiban-local/verify-m6-catalog.mts",
+        "scripts/zhiban-local/verify-course-administration.cjs"
+      ],
+      "changedSourceFiles": [],
+      "missingSourceFiles": [],
+      "claim": "Original receipt retains its exact historical source/root/flow scope; changed files listed, not reissued as current regression proof"
+    }
+  ],
+  "corrections": [
+    {
+      "receipt": "docs/v2/evidence/settings-routes/browser-local.json",
+      "historicalClaim": "Learning-profile aliases remain 404",
+      "currentInterpretation": "Superseded by delivered profile/support routes; retained as historical statement only, settings browser verifier now checks unsupported extra path segments"
+    }
+  ],
+  "knownWiderChecksUnresolved": [
+    "Existing admin/import/registrations route assertion failure",
+    "Existing verifyOnboarding call extra store argument TS2353"
+  ],
+  "currentReadinessEvidence": "current-entries-readonly.json",
+  "notRetested": [
+    "Business writes",
+    "Model responses",
+    "Scanner",
+    "Full classroom",
+    "Complete Identity/concurrency regression"
+  ]
+}

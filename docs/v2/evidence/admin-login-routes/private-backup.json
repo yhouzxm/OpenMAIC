@@ -1,0 +1,20 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "ARCHIVES_AND_TOC_VERIFIED",
+  "scope": "PRE_RESTART_PRIVATE_BACKUP_NO_RESTORE_PROOF",
+  "root": "/tmp/zhiban-trial-content-WWbMFP",
+  "directory": "/home/zxm/.local/state/zhiban-trial-backups/admin-login-20261023-183728",
+  "files": {
+    "zhiban_trial_content_disposable.dump": "cc9ef3d0e9a5614b97414fea4f852994f7d932a2ca31a57497c9b9d9e0bbe806",
+    "zhiban_trial_content_native.dump": "d458b808aa71af0452cfbc7b41f852458c2ebf239055ff57f38724131f158196",
+    "zhiban_trial_lesson_native.dump": "04a4e1a064d7eabbcb790d280334835b1fc064ad9ced9b7b02fa0a0c9fc90d5a",
+    "accounts.json": "90fd50ecd4939826abbcaa85b8750072a743a848077f26ffc54acfd8c1fe2f71",
+    "member-control.json": "4fc32d7626eb6e94edd2614890ce64870b10732a4fec89bf10e45878fcfb6a67",
+    "member-inputs.json": "03d7f059b083f6882b36174c1ccb1b0d31b3e79379b67953ac1fce51ce7eb11f",
+    "member-operator.pem": "61c77c2b2d4d72ac807cc3c5abf10cf55c7a0117a130cd965adb783086f0e1cb",
+    "member-approver.pem": "d54ee52ad35dbf696b24be2b1bad8edef0120e11953b2ab353b9d6aacf472ed3",
+    "content-installation.json": "01679caa5da6befc0530a5f42505a04965c6494d3cec179ac2e2a360b9d67a58"
+  },
+  "restoreTested": false
+}

@@ -1,0 +1,135 @@
+#personal {
+  max-width: 1150px;
+  margin: 0 auto;
+  padding: 36px 24px 64px;
+}
+.personal-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.personal-heading h1 {
+  font-size: 30px;
+  margin: 6px 0;
+}
+.personal-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin: 24px 0 16px;
+}
+.personal-metrics .card {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.personal-metrics span {
+  font-size: 14px;
+  color: #576579;
+}
+.personal-metrics strong {
+  font-size: 30px;
+  color: #184544;
+}
+.personal-note {
+  font-size: 13px;
+  line-height: 1.8;
+  color: #576579;
+}
+#personal h2 {
+  font-size: 22px;
+  margin-top: 32px;
+}
+#personal label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 320px;
+  font-size: 14px;
+}
+#personal select {
+  font: inherit;
+  padding: 10px 12px;
+  border: 1px solid #d1dbd8;
+  border-radius: 8px;
+  background: white;
+  max-width: 100%;
+}
+.personal-activities {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.personal-activity {
+  padding: 22px;
+  overflow-wrap: anywhere;
+}
+.personal-activity h3 {
+  font-size: 18px;
+  margin: 0 0 14px;
+}
+.personal-status {
+  border-radius: 6px;
+  padding: 5px 8px;
+  background: #eef2f5;
+  font-size: 12px;
+}
+.personal-status.graded {
+  background: #e3f4eb;
+  color: #176342;
+}
+.personal-status.waiting {
+  background: #fff1d5;
+  color: #735518;
+}
+.personal-status.started {
+  background: #e7effd;
+  color: #25518f;
+}
+.published-feedback {
+  padding: 8px 14px;
+  background: #f1f6f3;
+  border-radius: 8px;
+}
+.feedback-text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.7;
+}
+.personal-history {
+  background: white;
+  border: 1px solid #dbe5e1;
+  border-radius: 10px;
+  margin: 12px 0;
+  padding: 18px;
+  overflow-wrap: anywhere;
+}
+.personal-history summary {
+  cursor: pointer;
+  line-height: 1.7;
+}
+.personal-history > div {
+  margin-top: 16px;
+}
+.empty-state {
+  padding: 24px;
+  background: #f1f6f3;
+  border-radius: 10px;
+}
+@media (max-width: 700px) {
+  #personal {
+    padding: 24px 16px;
+  }
+  .personal-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .personal-activities {
+    grid-template-columns: 1fr;
+  }
+  .personal-heading h1 {
+    font-size: 24px;
+  }
+}

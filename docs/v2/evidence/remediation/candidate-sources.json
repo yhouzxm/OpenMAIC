@@ -1,0 +1,31 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "comparedAgainst": "zhiban-reminders-local.json",
+  "sources": {
+    "/home/zxm/openmaic/zhiban/app/zhiban/local/reminders.css": "89c6c34ce98414fc3ce59180c18840fe0028bd21f40fd2fc41067d77673d8424",
+    "/home/zxm/openmaic/zhiban/app/zhiban/local/remediation.css": "732252f753627cffcf65cbd8908c5e2d027cf18a5bd6f68293bb0a43d175403f",
+    "/home/zxm/openmaic/zhiban/app/zhiban/local/course-page.js": "3f9551fcd60cc1daa9280ab8d4e01422a49aebf5cbda21f3f9ee8f6fb5ecd03d",
+    "/home/zxm/openmaic/zhiban/app/zhiban/local/workspace.js": "d3a842d6c0f35c30f276503287bea023d56fa9987b0194f30505632b725f5c98",
+    "/home/zxm/openmaic/zhiban/app/zhiban/local/remediation.html": "fe2a0da54d2cd2c7ed81b4fa7d9a56bfbf8a4d6b696dd3fff617c9eee09266e5",
+    "/home/zxm/openmaic/zhiban/app/zhiban/local/remediation.js": "49099de059d4feaab201136f50b4014175f38c0ebe2ae33cbc5314c8a90971cc",
+    "/home/zxm/openmaic/zhiban/app/zhiban/local/reminders.html": "7250f674f4a4c755f93ff4f59496bd4ddcf12e5a0f081e44fda1424d0d518bf1",
+    "/home/zxm/openmaic/zhiban/app/zhiban/local/analytics.js": "75867e39b171a4dc88e66d0125627b965d31451468966d1c03e57afacbab2123",
+    "/home/zxm/openmaic/zhiban/app/zhiban/local/analytics.html": "d9c63838852a8db2f3aef0528e3a37623e950dd1716a1b0a6b464f49a7729c6d",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/verify-m6-catalog.mts": "f0d979ba9e79f95a1a23d456ba8789a664157a39cc87d98499886759d9c9e841",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/build-remediation-reference.ts": "b509c47c51805629dc77109f4bf2b945efbf61d7739a229174a8d13a6a2bdc22",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/run-m6-catalog.ts": "4f81fdae12ff6506198c4dd0dbf705cadfbf27da99a8796151b9f416018d6505",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/verify-remediation.ts": "85a48741829eaeb73ce429af79cfccd6e9eb3d86fdb1be2dc5aa82cbec5b4141",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/request-target.ts": "27169a8b95b782cbd68c8dc398dc542d649a5d5b85dfd9ae762d72d39177669a",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/trial-content.ts": "9f2082e145e610f8c1566c996676d20cf0a72661148f08e71b6c2ce887dd7257",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/remediation.ts": "0d7ef0f72ebb2962ce43f2338f5e68796ae68920527fdb384858f7e60ac4ca4a",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/remediation/postgres/migrations/0001_remediation.sql": "3c8e31b6b35d135fca38f349a6489d28c91c1ecc0b48044982423d4f0c2c34a8",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/remediation/postgres/transaction.ts": "01a3a8535840c1b5b681f9e4ee3598e9d3e47ac6373e92fd7a4acc1b40374313",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/remediation/http.ts": "67019dc894cf525c6ff4d32736d98825e398193f8c42b5f728522ed61fb545e4",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/academic/postgres/store.ts": "9384e3379dda44ef941d726d87b7e821c268db1e073798ed0f615aac0a106009",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/application/remediation/service.ts": "55b449565142e73e8cacf3ca7a6ca7aca181d8c48fd43801343c1b081f16faae",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/application/academic/service.ts": "49ef8c73da9633fd2418252bc9912ad84d5d5ea085dc6cae7500ff7ce24ef865",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/domain/remediation/model.ts": "ff74983ca91c16ef3155698969e7662e421da2d6a207be6569c13d50dee5e1f5",
+    "/home/zxm/openmaic/zhiban/package.json": "9f2a775c6462ec07f8940a05029e0a418bc49e0a98f1deba595820ab21309fd8",
+    "/home/zxm/openmaic/zhiban/docs/v2/evidence/zhiban-remediation-profile-reference-local.json": "8de6a8a4d29de7a2e02f565f8a390d57c914afe3102732938d5e9bac2ed1fece"
+  }
+}

@@ -7,12 +7,12 @@ import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { validateSuiteReport, localVitestArguments, localPg16Passes } from './run-local.mjs';
 const sql = readFileSync('tests/zhiban/runtime/schema.sql', 'utf8');
-it('fixture inventory is outside 13 applied migrations; exact public and column capabilities', () => {
+it('fixture inventory is outside the 14-migration candidate; exact public and column capabilities', () => {
   expect(
     readdirSync('lib/zhiban/infrastructure/identity/postgres/migrations').filter((n) =>
       n.endsWith('.sql'),
     ),
-  ).toHaveLength(13);
+  ).toHaveLength(14);
   expect(sql.match(/CREATE TABLE zhiban_runtime_contract_test\./g)).toHaveLength(6);
   expect(sql).toContain('FORCE ROW LEVEL SECURITY');
   expect(sql).toContain('DEFERRABLE INITIALLY DEFERRED');
@@ -200,7 +200,9 @@ it('LOCAL receipts reject mixed origin and tampered evidence without GitHub impe
   } finally {
     rmSync(directory, { recursive: true, force: true });
   }
-}, 15000);
+  // This case launches 18 fresh Node processes, each verifying the complete
+  // uncommitted upstream sync and provider hashes. It is not a request timeout.
+}, 45000);
 
 const localRequiredFiles = [
   'tests/zhiban/runtime/contracts.test.ts',

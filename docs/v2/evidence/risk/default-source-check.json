@@ -1,0 +1,9 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "comparedAgainst": "../zhiban-trial-content-demo-local.json",
+  "root": "/tmp/zhiban-trial-content-N4LsCS",
+  "persistentSourceCount": 2633,
+  "sourceMatches": true,
+  "sourceDrift": []
+}

@@ -1,0 +1,1378 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "planningDate": "2026-10-17",
+  "recordedAt": "2026-10-17T06:20:29.866146+08:00",
+  "status": "PLAN_AND_SOURCE_GAP_BASELINE_ONLY",
+  "branch": "refactor/zhiban-v2",
+  "head": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "worktree": "PREEXISTING_DIRTY_CANDIDATES",
+  "sourceRef": "refs/remotes/origin/feature/zhiban-mechatronics",
+  "sourceSha": "0fa0a15e8b12ae9e4f7a2d78e80338874599bbae",
+  "remoteFetched": false,
+  "pageCount": 55,
+  "layoutCount": 6,
+  "capabilityCount": 36,
+  "pages": [
+    {
+      "route": "/zhiban/admin/academic",
+      "source": "app/zhiban/admin/academic/page.tsx",
+      "blob": "0e6cce7e7aa28c30586a8d965a9ebc9104f733ab",
+      "sha256": "a6be9e0f8586f6ae2b5704c3d188682977a4b142fb56a922fe554ad44d3afe07",
+      "componentImports": [
+        "@/components/zhiban/academic-console"
+      ],
+      "family": "教务管理",
+      "businessStatus": "基础本地可用",
+      "current": "已有课程／学期／班级／关系与分页",
+      "gap": "恢复旧后台导航、分区和表格",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P1"
+    },
+    {
+      "route": "/zhiban/admin/import/classes",
+      "source": "app/zhiban/admin/import/classes/page.tsx",
+      "blob": "23de28fc8748926e6ab00f1277153023bca22221",
+      "sha256": "f576b85a8f3ea17d5dcea239e040c36cf8c57b61555394cbc471be5e34e845b8",
+      "componentImports": [
+        "@/components/zhiban/ouc-import-console"
+      ],
+      "family": "批量导入",
+      "businessStatus": "部分可用",
+      "current": "仅已有学生教学班名册 CSV 闭环",
+      "gap": "多类目录导入、批次与原后台布局",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P1 / P3"
+    },
+    {
+      "route": "/zhiban/admin/import",
+      "source": "app/zhiban/admin/import/page.tsx",
+      "blob": "d766e429619f380cab8c346de7e9fe4693515ae6",
+      "sha256": "cdbc0423575b611ffb0188a277fda91f97a1aa6a1f3c30b377ec68c829857112",
+      "componentImports": [],
+      "family": "批量导入",
+      "businessStatus": "部分可用",
+      "current": "仅已有学生教学班名册 CSV 闭环",
+      "gap": "多类目录导入、批次与原后台布局",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P1 / P3"
+    },
+    {
+      "route": "/zhiban/admin/import/registrations",
+      "source": "app/zhiban/admin/import/registrations/page.tsx",
+      "blob": "e6ed31029fc5f5d105bb9ca73a1124c2410f9e10",
+      "sha256": "4e967d6f169cedd08b88d8d92dbf9c8c6ec2fcfb51c68b8b9fec74fd773c5dac",
+      "componentImports": [
+        "@/components/zhiban/ouc-import-console"
+      ],
+      "family": "批量导入",
+      "businessStatus": "部分可用",
+      "current": "仅已有学生教学班名册 CSV 闭环",
+      "gap": "多类目录导入、批次与原后台布局",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P1 / P3"
+    },
+    {
+      "route": "/zhiban/admin/import/students",
+      "source": "app/zhiban/admin/import/students/page.tsx",
+      "blob": "6859a3d97eb1c5ac76a07d2ba37442d90f33c65d",
+      "sha256": "34b522f0ea70452101864d9942ff596551c2842f861101c8025d98529c3a5b4c",
+      "componentImports": [
+        "@/components/zhiban/ouc-import-console"
+      ],
+      "family": "批量导入",
+      "businessStatus": "部分可用",
+      "current": "仅已有学生教学班名册 CSV 闭环",
+      "gap": "多类目录导入、批次与原后台布局",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P1 / P3"
+    },
+    {
+      "route": "/zhiban/admin/import/users",
+      "source": "app/zhiban/admin/import/users/page.tsx",
+      "blob": "a6a2800f3c06c259338f506372cda84573212dac",
+      "sha256": "5c8f5689c517fc1990ea8d12ff8fe2406583b3e40024cfabaf2d1e4a3bf4b5de",
+      "componentImports": [
+        "@/components/zhiban/ouc-import-console"
+      ],
+      "family": "批量导入",
+      "businessStatus": "部分可用",
+      "current": "仅已有学生教学班名册 CSV 闭环",
+      "gap": "多类目录导入、批次与原后台布局",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P1 / P3"
+    },
+    {
+      "route": "/zhiban/admin",
+      "source": "app/zhiban/admin/page.tsx",
+      "blob": "ce7c7b8bcc8b3d6198679e3827ace7ff4995ba68",
+      "sha256": "7586d2946458a4f2c229a9008669f4f6d0f3dd04a04102fe5382d67c9b8abf7e",
+      "componentImports": [
+        "@/components/zhiban/admin-console"
+      ],
+      "family": "管理与目录",
+      "businessStatus": "部分可用",
+      "current": "已有教务入口／学生目录，非完整账号权限控制台",
+      "gap": "用户／学籍／权限业务补齐和原后台页面",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P1 / P3"
+    },
+    {
+      "route": "/zhiban/admin/students",
+      "source": "app/zhiban/admin/students/page.tsx",
+      "blob": "f3b6cc957e8d319e06584d56fb290095db1aec44",
+      "sha256": "81154ebd1ff1466fed4aa7482ec50fc7ad1d077a57e4a153bdf819982bf5f560",
+      "componentImports": [
+        "@/components/zhiban/student-registry-console"
+      ],
+      "family": "管理与目录",
+      "businessStatus": "部分可用",
+      "current": "已有教务入口／学生目录，非完整账号权限控制台",
+      "gap": "用户／学籍／权限业务补齐和原后台页面",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P1 / P3"
+    },
+    {
+      "route": "/zhiban/admin/users",
+      "source": "app/zhiban/admin/users/page.tsx",
+      "blob": "8ccba81ba9f531555a1ebf6a96bdc7ff2503543a",
+      "sha256": "3db66e1b9dab0502259a064a4b79af28a40686e2498285806ac263dce39bbe9d",
+      "componentImports": [
+        "@/components/zhiban/directory-console"
+      ],
+      "family": "管理与目录",
+      "businessStatus": "部分可用",
+      "current": "已有教务入口／学生目录，非完整账号权限控制台",
+      "gap": "用户／学籍／权限业务补齐和原后台页面",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P1 / P3"
+    },
+    {
+      "route": "/zhiban/classroom",
+      "source": "app/zhiban/classroom/page.tsx",
+      "blob": "727ba1534999b2ba2ba34aa0db3296c0a3f63019",
+      "sha256": "c39d56f0dcc1210190469939feac5af012dc73523d6c3136b69531a5620c8d09",
+      "componentImports": [],
+      "family": "课堂／互动",
+      "businessStatus": "部分可用",
+      "current": "文字活动可用，真实课堂／Runtime 未开放",
+      "gap": "保留作者活动入口并补真实课堂和旧播放布局",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P1 / P2 / P4"
+    },
+    {
+      "route": "/zhiban/login",
+      "source": "app/zhiban/login/page.tsx",
+      "blob": "abd35155006a8c9eb1ec843fde14f45de7ad88b1",
+      "sha256": "35c0e7ba0fd9ffb9326415426f207a5ba778f2be4d4bf412c55971d6f7c4bc34",
+      "componentImports": [],
+      "family": "登录与入口",
+      "businessStatus": "基础本地可用",
+      "current": "正常身份／空间／退出已可用",
+      "gap": "旧登录视觉、身份对应入口；账号标识扩展另做",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P1 / P3"
+    },
+    {
+      "route": "/zhiban/mech-iframe-validation",
+      "source": "app/zhiban/mech-iframe-validation/page.tsx",
+      "blob": "f6a51eb5b57e5c0a869176367c7c05651411f6da",
+      "sha256": "a4c5996607e410cd70cf79393bd02ab633b3874ba3684fa11bacc1c07c91be33",
+      "componentImports": [],
+      "family": "技术验证",
+      "businessStatus": "排除／复核",
+      "current": "非通用产品页",
+      "gap": "保留验证需求，不迁机电专用页",
+      "visualStatus": "不适用产品还原",
+      "batch": "范围决定"
+    },
+    {
+      "route": "/zhiban",
+      "source": "app/zhiban/page.tsx",
+      "blob": "75329b3c994c978b5f50e7300480a8746391b3dd",
+      "sha256": "5d6d894b774671e5c5eb3e7fa3dbbce3342955698460239716a68d683080a153",
+      "componentImports": [],
+      "family": "登录与入口",
+      "businessStatus": "基础本地可用",
+      "current": "正常身份／空间／退出已可用",
+      "gap": "旧登录视觉、身份对应入口；账号标识扩展另做",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P1 / P3"
+    },
+    {
+      "route": "/zhiban/student/classroom/[bindingId]",
+      "source": "app/zhiban/student/classroom/[bindingId]/page.tsx",
+      "blob": "5a1ed3ebdcd00385f526df557dd129423153ad1e",
+      "sha256": "90d73b03b753c6407dd2380c67c5b536828fe58f27fa9a4a3601e1f081183737",
+      "componentImports": [
+        "@/components/zhiban/classroom-progress-tracker",
+        "@/components/zhiban/ema-prompt",
+        "@/components/zhiban/classroom-agent-bridge",
+        "@/components/zhiban/classroom-scene-dispatch"
+      ],
+      "family": "课堂／互动",
+      "businessStatus": "部分可用",
+      "current": "文字活动可用，真实课堂／Runtime 未开放",
+      "gap": "保留作者活动入口并补真实课堂和旧播放布局",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P1 / P2 / P4"
+    },
+    {
+      "route": "/zhiban/student/classrooms",
+      "source": "app/zhiban/student/classrooms/page.tsx",
+      "blob": "010897c6f090f6bdedf798b44f95ef26d705d893",
+      "sha256": "06e2a4c1eec07302ef52ee727c532ec3062b1df0717ab7043e0604efb46c744e",
+      "componentImports": [
+        "@/components/zhiban/student-course-catalog"
+      ],
+      "family": "角色课程首页",
+      "businessStatus": "基础本地可用",
+      "current": "师生课程分页已可用",
+      "gap": "旧顶栏／侧栏／课程列表与筛选；不伪造未有字段",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P1"
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]/activities/[activityId]",
+      "source": "app/zhiban/student/courses/[courseId]/activities/[activityId]/page.tsx",
+      "blob": "6b060b88075f2c9cc4a1d064939da4c26a4a83c0",
+      "sha256": "c7b24137fc5337d8acdaecb74033d01620d3efbf31bea9c9e98cb4e821a7d777",
+      "componentImports": [
+        "@/components/zhiban/classroom-agent-bridge",
+        "@/components/zhiban/openmaic-activity-tracker",
+        "@/components/zhiban/virtual-lab-runner",
+        "@/components/zhiban/learning-station-locked"
+      ],
+      "family": "课堂／互动",
+      "businessStatus": "部分可用",
+      "current": "文字活动可用，真实课堂／Runtime 未开放",
+      "gap": "保留作者活动入口并补真实课堂和旧播放布局",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P1 / P2 / P4"
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]/analysis",
+      "source": "app/zhiban/student/courses/[courseId]/analysis/page.tsx",
+      "blob": "b152aef1986953f81444a6b228b42752a88635c5",
+      "sha256": "fce5f060a9456ea46563c0001d2969f1b7bfad1649152fd75c30d9ecf8386bcb",
+      "componentImports": [
+        "@/components/zhiban/student-profile-console"
+      ],
+      "family": "画像与分析",
+      "businessStatus": "部分可用",
+      "current": "仅有基础统计／个人概览",
+      "gap": "画像维度、证据、纠错及旧视图",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P5"
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]/coursework",
+      "source": "app/zhiban/student/courses/[courseId]/coursework/page.tsx",
+      "blob": "c28718771963188e0a10a79ea729baa8de03e35b",
+      "sha256": "601f65b7df0f0cf3f98ca9331d6e4ff3d4b5b32c1722c9f1726e7ad63664bba7",
+      "componentImports": [
+        "@/components/zhiban/student-course-content",
+        "@/components/zhiban/student-coursework"
+      ],
+      "family": "作业与讨论",
+      "businessStatus": "部分可用",
+      "current": "文字作答、重交、版本历史可用",
+      "gap": "旧作业页／讨论／附件与评分关联",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P1 / P3"
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]/grades",
+      "source": "app/zhiban/student/courses/[courseId]/grades/page.tsx",
+      "blob": "9492a353888cd4a04ea0393679aab35c30f4a3e1",
+      "sha256": "c8bee1f1fb611a24b0e51ac588dab30ed6ed591bb6298ba9dd63a6cc7e0eb7de",
+      "componentImports": [
+        "@/components/zhiban/student-grade-console"
+      ],
+      "family": "成绩",
+      "businessStatus": "部分可用",
+      "current": "单提交人工评分、发布／更正与本人读取可用",
+      "gap": "完整成绩簿、跨活动汇总及经规则确认的导出／总评",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P1 / P3"
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]/introduction",
+      "source": "app/zhiban/student/courses/[courseId]/introduction/page.tsx",
+      "blob": "170110f1eb35e3a7de20085c19c42f1624761642",
+      "sha256": "a56e7c18ebdb24fb4660b47410ce35d0923f1e6925a10deefb2a1f272bff4721",
+      "componentImports": [
+        "@/components/zhiban/student-course-introduction"
+      ],
+      "family": "课程简介",
+      "businessStatus": "部分可用",
+      "current": "已有课程描述和讲义，非完整简介页",
+      "gap": "旧简介页面、内容引用和返回上下文",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P1 / P2"
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]/learning-center/[stationId]",
+      "source": "app/zhiban/student/courses/[courseId]/learning-center/[stationId]/page.tsx",
+      "blob": "d4c6f02e27dfc6fe4069a4ad8bef6a65908978f4",
+      "sha256": "29b567acde5ad3091613490ab7d3497eb1cfd277024603314e84f7f7e40f6c19",
+      "componentImports": [
+        "@/components/zhiban/learning-station",
+        "@/components/zhiban/learning-station-locked"
+      ],
+      "family": "学习中心／站点",
+      "businessStatus": "部分可用",
+      "current": "文本／PNG 已可浏览，完整站点未交付",
+      "gap": "课程结构、通用站点、先修与导航；运行器另到 P4",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P2 / P4"
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]/learning-center",
+      "source": "app/zhiban/student/courses/[courseId]/learning-center/page.tsx",
+      "blob": "23d970c417ce810a5a3295091333ec1e87cf71a2",
+      "sha256": "e86c6d06a326b5934c8a5e8e47bfae5d937d4a39c0a61c784738b43cce4199a8",
+      "componentImports": [
+        "@/components/zhiban/learning-center"
+      ],
+      "family": "学习中心／站点",
+      "businessStatus": "部分可用",
+      "current": "文本／PNG 已可浏览，完整站点未交付",
+      "gap": "课程结构、通用站点、先修与导航；运行器另到 P4",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P2 / P4"
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]",
+      "source": "app/zhiban/student/courses/[courseId]/page.tsx",
+      "blob": "364fbd8f477e4ea89ac7d7542b38c43b3afcfa42",
+      "sha256": "31468180b4090325a958c9aaf1f7dc7805f27e40ddc12ab695113b22e6c6a388",
+      "componentImports": [
+        "@/components/zhiban/student-course-structure"
+      ],
+      "family": "课程详情／结构",
+      "businessStatus": "部分可用",
+      "current": "现有课程入口和活动，章节树未交付",
+      "gap": "独立课程工作区、章节／单元及旧布局",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P1 / P2"
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]/resources",
+      "source": "app/zhiban/student/courses/[courseId]/resources/page.tsx",
+      "blob": "d249c3d49a46835fb322ec530a0e78cac5d7ae1d",
+      "sha256": "3f9a852cadbd2608e262039f2669ce71667137ad4f8b8ad43fbc1c109cfef06c",
+      "componentImports": [
+        "@/components/zhiban/student-course-content"
+      ],
+      "family": "课程资源",
+      "businessStatus": "部分可用",
+      "current": "文本／PNG 内容入口已接入",
+      "gap": "旧目录页面及更多格式／下载管理",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P2 / P3"
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]/support",
+      "source": "app/zhiban/student/courses/[courseId]/support/page.tsx",
+      "blob": "80979bf894d859cf2ca8b044af70f0e23803c193",
+      "sha256": "d30e429a772cbc7dc9ec7f8330f47f7b07a219353790ba09cf171a4001ed4f1b",
+      "componentImports": [
+        "@/components/zhiban/student-risk-console"
+      ],
+      "family": "风险与支持",
+      "businessStatus": "待实现",
+      "current": "未交付",
+      "gap": "风险依据、人工处置、支持及页面",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P5"
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]/tools",
+      "source": "app/zhiban/student/courses/[courseId]/tools/page.tsx",
+      "blob": "15d402189cb5849914f409fff5c7cfebd5505ea9",
+      "sha256": "af8ea120c10c5b1e6897ee575713fbfac9566c5964f8150b59d81710ba537d61",
+      "componentImports": [
+        "@/components/zhiban/student-course-peer",
+        "@/components/zhiban/student-course-tutor"
+      ],
+      "family": "AI",
+      "businessStatus": "待产品决定",
+      "current": "未向用户启用",
+      "gap": "教师起草、Tutor／Peer 与旧布局",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P6"
+    },
+    {
+      "route": "/zhiban/student/grades",
+      "source": "app/zhiban/student/grades/page.tsx",
+      "blob": "34a1ea1a20645a87050be976075eab8c5b2c5a47",
+      "sha256": "555a6b0822768cfcfe40352870446f240a09cdb18bf3610db191c6d4aac12a34",
+      "componentImports": [
+        "@/components/zhiban/student-grade-console"
+      ],
+      "family": "成绩",
+      "businessStatus": "部分可用",
+      "current": "单提交人工评分、发布／更正与本人读取可用",
+      "gap": "完整成绩簿、跨活动汇总及经规则确认的导出／总评",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P1 / P3"
+    },
+    {
+      "route": "/zhiban/student/pbl/[instanceId]",
+      "source": "app/zhiban/student/pbl/[instanceId]/page.tsx",
+      "blob": "9ce83cf162f257bd481dbe5fdffe1941fe8f486b",
+      "sha256": "08869336d913987f94d201a8ab73f8666cb71cc5c0d08b8a1520cb9eb8630bb1",
+      "componentImports": [
+        "@/components/zhiban/pbl-instance-runner"
+      ],
+      "family": "PBL",
+      "businessStatus": "待产品决定",
+      "current": "未交付",
+      "gap": "项目／实例／协作／评价及页面",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P6"
+    },
+    {
+      "route": "/zhiban/student/pbl",
+      "source": "app/zhiban/student/pbl/page.tsx",
+      "blob": "bbc272190e45ccc88aca835a923ee6cc6855fcf1",
+      "sha256": "6648f384726b1c89b0385ef8586df33ce1c3606de2c3a3c73e0e687491e97870",
+      "componentImports": [
+        "@/components/zhiban/student-pbl-console"
+      ],
+      "family": "PBL",
+      "businessStatus": "待产品决定",
+      "current": "未交付",
+      "gap": "项目／实例／协作／评价及页面",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P6"
+    },
+    {
+      "route": "/zhiban/student/profile",
+      "source": "app/zhiban/student/profile/page.tsx",
+      "blob": "c50a6960bbbd20c20fedb28e62ac30bdb279c23f",
+      "sha256": "65ae4a8b40507c6c277e11165f2dfbee426645f331919321a625f837137e9772",
+      "componentImports": [
+        "@/components/zhiban/student-profile-console"
+      ],
+      "family": "画像与分析",
+      "businessStatus": "部分可用",
+      "current": "仅有基础统计／个人概览",
+      "gap": "画像维度、证据、纠错及旧视图",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P5"
+    },
+    {
+      "route": "/zhiban/student/risks",
+      "source": "app/zhiban/student/risks/page.tsx",
+      "blob": "250df65d73fb624a7ac3d069d0842e6e630a9dd4",
+      "sha256": "9e59c530aaff4db5a22314da56df0b9a0ab02208bcae59b7213216ff1cadb1e4",
+      "componentImports": [
+        "@/components/zhiban/student-risk-console"
+      ],
+      "family": "风险与支持",
+      "businessStatus": "待实现",
+      "current": "未交付",
+      "gap": "风险依据、人工处置、支持及页面",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P5"
+    },
+    {
+      "route": "/zhiban/student/settings",
+      "source": "app/zhiban/student/settings/page.tsx",
+      "blob": "daa765c54e354b48ba390813c087da5fd8da9dd0",
+      "sha256": "8bbda60e4da147dc70d0fd63039ddb3ab6c1268b9a942a194b6024a50beff5e4",
+      "componentImports": [
+        "@/components/zhiban/student-personal-settings"
+      ],
+      "family": "个人设置",
+      "businessStatus": "待实现",
+      "current": "未交付",
+      "gap": "个人资料与受控设置页面",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P3"
+    },
+    {
+      "route": "/zhiban/teacher/agents",
+      "source": "app/zhiban/teacher/agents/page.tsx",
+      "blob": "c80dd7ca0328fc83654bb346349cd6190c7e3c74",
+      "sha256": "c92e36a3d7e7e0ce0af2887cb16892ee9229f8efb29dc05fe782cfe8535e4076",
+      "componentImports": [
+        "@/components/zhiban/teacher-agent-console"
+      ],
+      "family": "AI",
+      "businessStatus": "待产品决定",
+      "current": "未向用户启用",
+      "gap": "教师起草、Tutor／Peer 与旧布局",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P6"
+    },
+    {
+      "route": "/zhiban/teacher/classrooms",
+      "source": "app/zhiban/teacher/classrooms/page.tsx",
+      "blob": "b9f82240cb6092d6225669a82c205095918300e7",
+      "sha256": "41a1c8e81eb594fab72405636726e49d47991c4bdabc1ead7abe65f16b055398",
+      "componentImports": [
+        "@/components/zhiban/teacher-classroom-console"
+      ],
+      "family": "课堂／互动",
+      "businessStatus": "部分可用",
+      "current": "文字活动可用，真实课堂／Runtime 未开放",
+      "gap": "保留作者活动入口并补真实课堂和旧播放布局",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P1 / P2 / P4"
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/agents",
+      "source": "app/zhiban/teacher/courses/[courseId]/agents/page.tsx",
+      "blob": "bd7fb56cbd6a0756090d06ee52bcef1cd916a039",
+      "sha256": "7355ea8ad94f502687bc021073cab135db0cbc3b471219bcc798f3f1f5d8fae2",
+      "componentImports": [
+        "@/components/zhiban/teacher-agent-console",
+        "@/components/zhiban/teacher-course-tutor",
+        "@/components/zhiban/teacher-course-peer"
+      ],
+      "family": "AI",
+      "businessStatus": "待产品决定",
+      "current": "未向用户启用",
+      "gap": "教师起草、Tutor／Peer 与旧布局",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P6"
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/analytics",
+      "source": "app/zhiban/teacher/courses/[courseId]/analytics/page.tsx",
+      "blob": "fba086274ec1bfb7e979be7ad96dd2497d808eae",
+      "sha256": "ddceed7fbf5fcdc15aa0002a6812771c575e9c442ddfec2769f48e74ae74c9d8",
+      "componentImports": [
+        "@/components/zhiban/teacher-teaching-analytics"
+      ],
+      "family": "教师统计",
+      "businessStatus": "部分可用",
+      "current": "当前班／活动统计可用",
+      "gap": "旧课程内统计布局；扩展分析另到 P5",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P1 / P5"
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/classrooms",
+      "source": "app/zhiban/teacher/courses/[courseId]/classrooms/page.tsx",
+      "blob": "5af04e0ec58d4b842cf0dda1ce726e3f5b818169",
+      "sha256": "9ae1c7a20b008178b1657d62c9a0997f918dc307bcc84ad8fb9572d7f8017bae",
+      "componentImports": [
+        "@/components/zhiban/teacher-classroom-console",
+        "@/components/zhiban/course-structure-designer",
+        "@/components/zhiban/course-content-console",
+        "@/components/zhiban/teacher-coursework-console"
+      ],
+      "family": "课堂／互动",
+      "businessStatus": "部分可用",
+      "current": "文字活动可用，真实课堂／Runtime 未开放",
+      "gap": "保留作者活动入口并补真实课堂和旧播放布局",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P1 / P2 / P4"
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/grades",
+      "source": "app/zhiban/teacher/courses/[courseId]/grades/page.tsx",
+      "blob": "eeb748857b446fb3bc715150dc671155e085b05e",
+      "sha256": "d4c3a3eff40e777259815d004f85ce81d156573a9ef7145175888d6c980b28f4",
+      "componentImports": [
+        "@/components/zhiban/teacher-gradebook-console"
+      ],
+      "family": "成绩",
+      "businessStatus": "部分可用",
+      "current": "单提交人工评分、发布／更正与本人读取可用",
+      "gap": "完整成绩簿、跨活动汇总及经规则确认的导出／总评",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P1 / P3"
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/learning-center/[stationId]",
+      "source": "app/zhiban/teacher/courses/[courseId]/learning-center/[stationId]/page.tsx",
+      "blob": "29c232b1e97b5f648dcfeb5eab026a5b39650a0b",
+      "sha256": "8254cca563d4217a487a42ec40eb1b4c0c530872b0ef24f576df9526f39b2a93",
+      "componentImports": [
+        "@/components/zhiban/learning-station"
+      ],
+      "family": "学习中心／站点",
+      "businessStatus": "部分可用",
+      "current": "文本／PNG 已可浏览，完整站点未交付",
+      "gap": "课程结构、通用站点、先修与导航；运行器另到 P4",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P2 / P4"
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/learning-center/analytics",
+      "source": "app/zhiban/teacher/courses/[courseId]/learning-center/analytics/page.tsx",
+      "blob": "7c1aec28adef7710e20b9b3547b2c4ff89e420bf",
+      "sha256": "a6cb34ccad406f4dd5e576ea5e819d00965f7c0ae014cfbf098b3a2ca4823ea2",
+      "componentImports": [
+        "@/components/zhiban/teacher-virtual-lab-analytics"
+      ],
+      "family": "虚拟实验",
+      "businessStatus": "待实现",
+      "current": "未交付",
+      "gap": "执行、证据、实验评价和分析页",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P4"
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/learning-center",
+      "source": "app/zhiban/teacher/courses/[courseId]/learning-center/page.tsx",
+      "blob": "20ffd9312a6207a8a45a732e4ed9d14a5f75973d",
+      "sha256": "96081db7052bc527b8fa5e7105aa2295003e42dd89effb3d73a2fa45a6e3e7cc",
+      "componentImports": [
+        "@/components/zhiban/learning-center"
+      ],
+      "family": "学习中心／站点",
+      "businessStatus": "部分可用",
+      "current": "文本／PNG 已可浏览，完整站点未交付",
+      "gap": "课程结构、通用站点、先修与导航；运行器另到 P4",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P2 / P4"
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]",
+      "source": "app/zhiban/teacher/courses/[courseId]/page.tsx",
+      "blob": "f6605e2c2f43b0b6d02b76ef4dd7ad87ac85c342",
+      "sha256": "cc1eb76a611915ba56a1277ed867bf53bdb3b8e0305bd296c1b5467d442863e5",
+      "componentImports": [
+        "@/components/zhiban/teacher-course-workspace"
+      ],
+      "family": "课程详情／结构",
+      "businessStatus": "部分可用",
+      "current": "现有课程入口和活动，章节树未交付",
+      "gap": "独立课程工作区、章节／单元及旧布局",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P1 / P2"
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/pbl",
+      "source": "app/zhiban/teacher/courses/[courseId]/pbl/page.tsx",
+      "blob": "5cc8475c7e448ba193478a0f991e2d773aef3604",
+      "sha256": "dd41567df69d85fdca72347557d68c7f9f0c8bd6a2189551d39e3ad8e39c75b4",
+      "componentImports": [
+        "@/components/zhiban/pbl-project-console"
+      ],
+      "family": "PBL",
+      "businessStatus": "待产品决定",
+      "current": "未交付",
+      "gap": "项目／实例／协作／评价及页面",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P6"
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/profiles",
+      "source": "app/zhiban/teacher/courses/[courseId]/profiles/page.tsx",
+      "blob": "ee5dce2382da05c0d44fca44b02d742d272bbe2f",
+      "sha256": "5f8830f1418a6616907e84ec43be0df1872adafbf5e6a29fff8c457cddd10058",
+      "componentImports": [
+        "@/components/zhiban/teacher-profile-console"
+      ],
+      "family": "画像与分析",
+      "businessStatus": "部分可用",
+      "current": "仅有基础统计／个人概览",
+      "gap": "画像维度、证据、纠错及旧视图",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P5"
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/risks",
+      "source": "app/zhiban/teacher/courses/[courseId]/risks/page.tsx",
+      "blob": "df5f5da8fe2dfad01f73cc14507c21a5c407387a",
+      "sha256": "afeed7972f75d5029461eaabd190902917c025ec6c40d918e2e595bbaae4db13",
+      "componentImports": [
+        "@/components/zhiban/teacher-risk-console"
+      ],
+      "family": "风险与支持",
+      "businessStatus": "待实现",
+      "current": "未交付",
+      "gap": "风险依据、人工处置、支持及页面",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P5"
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/settings",
+      "source": "app/zhiban/teacher/courses/[courseId]/settings/page.tsx",
+      "blob": "c3f917f47ebd94d005ec7d9ec68c4316c5e6fc61",
+      "sha256": "f371f817a6963c934eec6267845d54cec2ad1ace9f1cdbcb46c75397076404be",
+      "componentImports": [
+        "@/components/zhiban/teacher-course-console"
+      ],
+      "family": "课程设置",
+      "businessStatus": "部分可用",
+      "current": "管理员掌握课程／教学班配置",
+      "gap": "旧教师设置页与 V2 管理职责的明确映射",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P1 / P3"
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/students",
+      "source": "app/zhiban/teacher/courses/[courseId]/students/page.tsx",
+      "blob": "dc5a143d7342f6ae7d6464818daef6491f94ac26",
+      "sha256": "8f3b8fe56aceb0dc725dac29957e30c55d8d398b47827ace8152e1e3310c5cbb",
+      "componentImports": [
+        "@/components/zhiban/teacher-course-roster"
+      ],
+      "family": "课程学生名单",
+      "businessStatus": "基础本地可用",
+      "current": "任教范围分页名单已可用",
+      "gap": "旧课程内名单布局与交互",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P1"
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/teachers",
+      "source": "app/zhiban/teacher/courses/[courseId]/teachers/page.tsx",
+      "blob": "88cbf71f1fbe2a8123680904e432ce61f329daa7",
+      "sha256": "b31b25c6145b831d5f52b8726e013a1fe2e727dc7f8ab4ff12abee0845351fc6",
+      "componentImports": [
+        "@/components/zhiban/teacher-course-roster"
+      ],
+      "family": "任教关系",
+      "businessStatus": "部分可用",
+      "current": "管理员任教管理已可用",
+      "gap": "教师课程内任教名单投影及旧布局",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P1 / P3"
+    },
+    {
+      "route": "/zhiban/teacher/courses",
+      "source": "app/zhiban/teacher/courses/page.tsx",
+      "blob": "8f369000cf7559b790b2d453385c7941b8cc7cca",
+      "sha256": "a448cba92e000dcdd53348e1d6219aeca783e8cb3543d4d04a31506feab488c1",
+      "componentImports": [
+        "@/components/zhiban/teacher-portal"
+      ],
+      "family": "角色课程首页",
+      "businessStatus": "基础本地可用",
+      "current": "师生课程分页已可用",
+      "gap": "旧顶栏／侧栏／课程列表与筛选；不伪造未有字段",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P1"
+    },
+    {
+      "route": "/zhiban/teacher/grades",
+      "source": "app/zhiban/teacher/grades/page.tsx",
+      "blob": "7337bd0234fa0d3536f7c61dcdb9f7fea0be8214",
+      "sha256": "0db18e1e0fca60f740a2f32418018c0e3525d924d13ab30c9226f0fa52bdddea",
+      "componentImports": [
+        "@/components/zhiban/teacher-gradebook-console"
+      ],
+      "family": "成绩",
+      "businessStatus": "部分可用",
+      "current": "单提交人工评分、发布／更正与本人读取可用",
+      "gap": "完整成绩簿、跨活动汇总及经规则确认的导出／总评",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P1 / P3"
+    },
+    {
+      "route": "/zhiban/teacher/pbl",
+      "source": "app/zhiban/teacher/pbl/page.tsx",
+      "blob": "fc69d34171c2a33b232740dbcc446b910cebdf96",
+      "sha256": "ddabd385c5c2db6cf149f6736cec680ae67c4d24b39b40818041e236c4e17124",
+      "componentImports": [
+        "@/components/zhiban/pbl-project-console"
+      ],
+      "family": "PBL",
+      "businessStatus": "待产品决定",
+      "current": "未交付",
+      "gap": "项目／实例／协作／评价及页面",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P6"
+    },
+    {
+      "route": "/zhiban/teacher/profile",
+      "source": "app/zhiban/teacher/profile/page.tsx",
+      "blob": "a45e0ac3990dd7fd0945d9630047b67737cd4e34",
+      "sha256": "c7b6984f038bed3c5d0e9c3f2e6f0ce4742cba193120776c8683e6fc7b7966a2",
+      "componentImports": [
+        "@/components/zhiban/teacher-personal-settings"
+      ],
+      "family": "个人设置",
+      "businessStatus": "待实现",
+      "current": "未交付",
+      "gap": "个人资料与受控设置页面",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P3"
+    },
+    {
+      "route": "/zhiban/teacher/profiles",
+      "source": "app/zhiban/teacher/profiles/page.tsx",
+      "blob": "5c82d163c68f3364a37e0f26401b1bed19c40ff0",
+      "sha256": "b51b34ce8c8cf3fc64dee5c43c2803dbf22433f24da470d7148170175fd5361e",
+      "componentImports": [
+        "@/components/zhiban/teacher-profile-console"
+      ],
+      "family": "画像与分析",
+      "businessStatus": "部分可用",
+      "current": "仅有基础统计／个人概览",
+      "gap": "画像维度、证据、纠错及旧视图",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P5"
+    },
+    {
+      "route": "/zhiban/teacher/risks",
+      "source": "app/zhiban/teacher/risks/page.tsx",
+      "blob": "f48041214067e34e947e50f8a60492adf5c252ef",
+      "sha256": "525696030a8308c5f327278d167087cd436596c9ab50e94cbc58ff9b396da89b",
+      "componentImports": [
+        "@/components/zhiban/teacher-risk-console"
+      ],
+      "family": "风险与支持",
+      "businessStatus": "待实现",
+      "current": "未交付",
+      "gap": "风险依据、人工处置、支持及页面",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P5"
+    },
+    {
+      "route": "/zhiban/teacher/virtual-lab",
+      "source": "app/zhiban/teacher/virtual-lab/page.tsx",
+      "blob": "9ec8b0984e922e263b2c17aa2a87886e2ae65cab",
+      "sha256": "8e17b067334a757844e7ddfdf53b1552070c53bd7c096e24859b8feee7dad5d1",
+      "componentImports": [
+        "@/components/zhiban/teacher-virtual-lab-analytics"
+      ],
+      "family": "虚拟实验",
+      "businessStatus": "待实现",
+      "current": "未交付",
+      "gap": "执行、证据、实验评价和分析页",
+      "visualStatus": "未完成旧版视觉签收",
+      "batch": "P4"
+    }
+  ],
+  "layouts": [
+    {
+      "path": "app/zhiban/admin/layout.tsx",
+      "blob": "1c5e4bd3f559b7d65ef6515a3605abf595dcab03"
+    },
+    {
+      "path": "app/zhiban/layout.tsx",
+      "blob": "2f3185d71e9dea85c7ea6c7c8b84b4a7963ee8dd"
+    },
+    {
+      "path": "app/zhiban/student/courses/[courseId]/layout.tsx",
+      "blob": "dba50d9a4b89f9ba13085684004fbec78ac1baa1"
+    },
+    {
+      "path": "app/zhiban/student/layout.tsx",
+      "blob": "6e54223bb2d87a377939a62e819000c8a9caa43f"
+    },
+    {
+      "path": "app/zhiban/teacher/courses/[courseId]/layout.tsx",
+      "blob": "a9f4e7d3f73b62730aa5b3c2d2145e76f1132fa0"
+    },
+    {
+      "path": "app/zhiban/teacher/layout.tsx",
+      "blob": "7050978f7955f1e25e5767ffe4a49009946de3f5"
+    }
+  ],
+  "capabilities": [
+    {
+      "id": 1,
+      "capability": "Identity / local authentication",
+      "originalStrategy": "REWRITE",
+      "currentStatus": "基础本地可用",
+      "remaining": "登录／会话／权限底座已有；账号标识、个人资料与真实入驻非全部完成",
+      "batch": "P1 / P3 / 上线"
+    },
+    {
+      "id": 2,
+      "capability": "Tenant isolation",
+      "originalStrategy": "KEEP_CONCEPT",
+      "currentStatus": "基础本地可用",
+      "remaining": "继续复用租户隔离，逐新增功能核对，不重新实现",
+      "batch": "各批复用"
+    },
+    {
+      "id": 3,
+      "capability": "RBAC and data scopes",
+      "originalStrategy": "REWRITE",
+      "currentStatus": "基础本地可用",
+      "remaining": "继续复用冻结授权；完整账号／角色管理产品页另补",
+      "batch": "P1 / P3"
+    },
+    {
+      "id": 4,
+      "capability": "Student role and experience",
+      "originalStrategy": "KEEP_CONCEPT",
+      "currentStatus": "部分可用",
+      "remaining": "文字学习闭环已有，旧学生导航／课程工作区及高级页面未恢复",
+      "batch": "P1–P6"
+    },
+    {
+      "id": 5,
+      "capability": "Teacher role and experience",
+      "originalStrategy": "KEEP_CONCEPT",
+      "currentStatus": "部分可用",
+      "remaining": "教务／活动／评分可用，旧教师课程工作区及完整课堂未恢复",
+      "batch": "P1–P6"
+    },
+    {
+      "id": 6,
+      "capability": "Admin role and console",
+      "originalStrategy": "REWRITE",
+      "currentStatus": "部分可用",
+      "remaining": "分页教务入口已有，完整账号／学籍／权限控制台未齐",
+      "batch": "P1 / P3"
+    },
+    {
+      "id": 7,
+      "capability": "Academic organization",
+      "originalStrategy": "KEEP_CONCEPT",
+      "currentStatus": "部分可用",
+      "remaining": "已有学期与必要元数据；复杂组织树／外部目录需单独决定和适配",
+      "batch": "P3"
+    },
+    {
+      "id": 8,
+      "capability": "Course",
+      "originalStrategy": "REWRITE",
+      "currentStatus": "部分可用",
+      "remaining": "课程／版本／负责人已有，章节结构／课程内页面待补",
+      "batch": "P1 / P2"
+    },
+    {
+      "id": 9,
+      "capability": "Administrative Class",
+      "originalStrategy": "KEEP_CONCEPT",
+      "currentStatus": "基础本地可用",
+      "remaining": "行政班成员管理已可用，恢复页面；复杂学籍属性另补",
+      "batch": "P1 / P3"
+    },
+    {
+      "id": 10,
+      "capability": "Teaching Class / Course Offering",
+      "originalStrategy": "KEEP_CONCEPT",
+      "currentStatus": "基础本地可用",
+      "remaining": "教学班／容量／任教已有；恢复旧页与 Course/Offering 明确切换",
+      "batch": "P1"
+    },
+    {
+      "id": 11,
+      "capability": "Enrollment / roster",
+      "originalStrategy": "REWRITE",
+      "currentStatus": "基础本地可用",
+      "remaining": "入退班／恢复／转班及历史访问已验证；不扩大为自主选课",
+      "batch": "P1，后续规则另定"
+    },
+    {
+      "id": 12,
+      "capability": "Activity and course content",
+      "originalStrategy": "REWRITE",
+      "currentStatus": "部分可用",
+      "remaining": "文字活动和文本／PNG 已有；目录编排、其他类型与完整作者页待补",
+      "batch": "P1 / P2 / P3 / P4"
+    },
+    {
+      "id": 13,
+      "capability": "Scene orchestration",
+      "originalStrategy": "REVIEW",
+      "currentStatus": "待产品决定",
+      "remaining": "通用先修和编排需设计；不能直接复制机电 25-scene 注册表",
+      "batch": "P2 / P4，保留 REVIEW"
+    },
+    {
+      "id": 14,
+      "capability": "Classroom",
+      "originalStrategy": "ADAPT",
+      "currentStatus": "待实现",
+      "remaining": "完整 Classroom 会话／派发／场景事件和旧课堂页",
+      "batch": "P4"
+    },
+    {
+      "id": 15,
+      "capability": "PBL",
+      "originalStrategy": "REVIEW",
+      "currentStatus": "待产品决定",
+      "remaining": "PBL 项目／实例／协作／评价，需对照公开 PBL 合同",
+      "batch": "P6"
+    },
+    {
+      "id": 16,
+      "capability": "Interactive HTML / OpenMAIC activity",
+      "originalStrategy": "ADAPT",
+      "currentStatus": "待实现",
+      "remaining": "互动 HTML／其他逐类型运行能力及安全 host；类型枚举不算实现",
+      "batch": "P4"
+    },
+    {
+      "id": 17,
+      "capability": "Learning Event",
+      "originalStrategy": "KEEP_CONCEPT",
+      "currentStatus": "部分可用",
+      "remaining": "文字活动事实已有；可信 Runtime 学习证据及去重／来源需接线",
+      "batch": "P2 / P4"
+    },
+    {
+      "id": 18,
+      "capability": "Attempt, progress and completion",
+      "originalStrategy": "REWRITE",
+      "currentStatus": "部分可用",
+      "remaining": "Attempt／提交已有；章节进度、先修和可信完成条件未齐",
+      "batch": "P2 / P4"
+    },
+    {
+      "id": 19,
+      "capability": "Assessment",
+      "originalStrategy": "REWRITE",
+      "currentStatus": "部分可用",
+      "remaining": "人工评价已有；测验／自动评价／实验评分按批准规则补齐",
+      "batch": "P3 / P4"
+    },
+    {
+      "id": 20,
+      "capability": "Concept Error",
+      "originalStrategy": "KEEP_CONCEPT",
+      "currentStatus": "待实现",
+      "remaining": "概念错误的证据、版本化诊断和纠错生命周期",
+      "batch": "P5"
+    },
+    {
+      "id": 21,
+      "capability": "Learner Profile",
+      "originalStrategy": "REWRITE",
+      "currentStatus": "待实现",
+      "remaining": "证据型画像、置信度与纠错；统计概览不是画像",
+      "batch": "P5"
+    },
+    {
+      "id": 22,
+      "capability": "Six-Dimension Profile",
+      "originalStrategy": "REVIEW",
+      "currentStatus": "待产品决定",
+      "remaining": "先明确六维／旧五维差异和有效证据，不照搬计算器",
+      "batch": "P5"
+    },
+    {
+      "id": 23,
+      "capability": "Remediation",
+      "originalStrategy": "REWRITE",
+      "currentStatus": "待实现",
+      "remaining": "补救／重试建议、计划和人工确认",
+      "batch": "P5"
+    },
+    {
+      "id": 24,
+      "capability": "Risk",
+      "originalStrategy": "REWRITE",
+      "currentStatus": "待实现",
+      "remaining": "风险规则、解释、审阅／处置、隐私范围和支持页",
+      "batch": "P5"
+    },
+    {
+      "id": 25,
+      "capability": "Grade",
+      "originalStrategy": "REWRITE",
+      "currentStatus": "部分可用",
+      "remaining": "人工发布／更正和本人查看已有；完整成绩簿／导出／总评／申诉按规则补",
+      "batch": "P1 / P3"
+    },
+    {
+      "id": 26,
+      "capability": "EMA",
+      "originalStrategy": "REVIEW",
+      "currentStatus": "待产品决定",
+      "remaining": "EMA 含义、问卷／分析用途、输入及治理先明确",
+      "batch": "P6"
+    },
+    {
+      "id": 27,
+      "capability": "Virtual Lab",
+      "originalStrategy": "ADAPT",
+      "currentStatus": "待实现",
+      "remaining": "通用实验协议／运行／提示／证据／评价与教师分析",
+      "batch": "P4"
+    },
+    {
+      "id": 28,
+      "capability": "AI Tutor",
+      "originalStrategy": "REWRITE",
+      "currentStatus": "待实现",
+      "remaining": "课程 Tutor 与真实 provider／成本／权限及教师学生工具页",
+      "batch": "P6"
+    },
+    {
+      "id": 29,
+      "capability": "AI Peer support",
+      "originalStrategy": "REVIEW",
+      "currentStatus": "待产品决定",
+      "remaining": "Peer 支持用途、边界、升级／隐私等单独确认",
+      "batch": "P6"
+    },
+    {
+      "id": 30,
+      "capability": "Agent / AI support modes",
+      "originalStrategy": "ADAPT",
+      "currentStatus": "待实现",
+      "remaining": "教师 AI 起草与 Agent 模式逐用途接线；foundation fake 不算产品",
+      "batch": "P6"
+    },
+    {
+      "id": 31,
+      "capability": "Teacher analytics",
+      "originalStrategy": "REWRITE",
+      "currentStatus": "部分可用",
+      "remaining": "教师当前活动统计已有；旧分析页面、扩展指标／导出另补",
+      "batch": "P1 / P5"
+    },
+    {
+      "id": 32,
+      "capability": "Student dashboard",
+      "originalStrategy": "REWRITE",
+      "currentStatus": "部分可用",
+      "remaining": "学生个人概览已有；旧工作区、学习档案／支持与完整仪表盘未齐",
+      "batch": "P1 / P2 / P5"
+    },
+    {
+      "id": 33,
+      "capability": "Admin import and directory",
+      "originalStrategy": "REWRITE",
+      "currentStatus": "部分可用",
+      "remaining": "已有学生目录及教学班名册 CSV；外部目录／多类导入／批次治理未齐",
+      "batch": "P1 / P3"
+    },
+    {
+      "id": 34,
+      "capability": "Monitoring and intervention workflow",
+      "originalStrategy": "KEEP_CONCEPT",
+      "currentStatus": "待实现",
+      "remaining": "人工干预、监控、通知、处置结果与责任闭环",
+      "batch": "P5"
+    },
+    {
+      "id": 35,
+      "capability": "Coursework / file submission",
+      "originalStrategy": "REWRITE",
+      "currentStatus": "部分可用",
+      "remaining": "文字作业／重交／反馈已有；文件提交、讨论及原完整作业页未齐",
+      "batch": "P1 / P3"
+    },
+    {
+      "id": 36,
+      "capability": "Competition-specific mechatronics implementation",
+      "originalStrategy": "REMOVE",
+      "currentStatus": "已排除通用核心",
+      "remaining": "原机电专用站点／PLC／模拟器维持此前 REMOVE；恢复需另列课程包",
+      "batch": "范围决定，不计已迁移"
+    }
+  ],
+  "keySourceReferences": [
+    {
+      "path": "app/zhiban/login/page.tsx",
+      "sha256": "35c0e7ba0fd9ffb9326415426f207a5ba778f2be4d4bf412c55971d6f7c4bc34"
+    },
+    {
+      "path": "app/zhiban/teacher/layout.tsx",
+      "sha256": "0a2596dfab1b8e51738f2d3558a37ac7cd478bcd8b071e6d3e772df41bcaf280"
+    },
+    {
+      "path": "app/zhiban/student/layout.tsx",
+      "sha256": "71312f3e64d0c9e1adccb42022646a992a7498d7627b26d4a9178e25e2ddfb1c"
+    },
+    {
+      "path": "app/zhiban/admin/layout.tsx",
+      "sha256": "182bf3eb5963a7a26bf64b14941ada4bad6fbd666dff33ac2383f9b63f2e28a4"
+    },
+    {
+      "path": "app/zhiban/teacher/courses/[courseId]/layout.tsx",
+      "sha256": "288c42b166cd1cd4a2996216760f845a939849a93f9b80096b356d713409d6f8"
+    },
+    {
+      "path": "components/zhiban/teacher-global-shell.tsx",
+      "sha256": "3b6196fdffc428505c371a889cd0d2835a3cd638b29fb5792cd007f96e5598ba"
+    },
+    {
+      "path": "components/zhiban/student-global-shell.tsx",
+      "sha256": "f524b70bc001c02f27659776e8844799ed372c7c34c4ac290efff8fc1cb90754"
+    },
+    {
+      "path": "components/zhiban/admin-global-shell.tsx",
+      "sha256": "d45b3212bdfb4534c7696db56b74266fb79a2d476f1ab34a697aa7ffa513ed55"
+    },
+    {
+      "path": "components/zhiban/teacher-portal.tsx",
+      "sha256": "998a0da90bdb006363fc633a3fbc7c06f7ffc33dee7c71ac527bedc584219b53"
+    },
+    {
+      "path": "components/zhiban/student-course-catalog.tsx",
+      "sha256": "a4a2ef2cff62f9456e1cbf9084ac7edf012ecb0970c2bd19379c17980631c19b"
+    },
+    {
+      "path": "components/zhiban/teacher-course-workspace.tsx",
+      "sha256": "8260357d00048e1156b74692c7711445de23411019de30f5334832b665dca60d"
+    },
+    {
+      "path": "components/zhiban/student-course-workspace.tsx",
+      "sha256": "0c266cf4ee8fc99b73ae652209a4311a51d41f6ccbf5ad28ab87fbc8f4a9e8da"
+    },
+    {
+      "path": "components/zhiban/course-structure-designer.tsx",
+      "sha256": "b21e5ca4a41ef25af8886cac64cc9c802fcf253124802c8d6d62f312287fbbcc"
+    },
+    {
+      "path": "components/zhiban/learning-center.tsx",
+      "sha256": "a86f860d35271653b6971c0878e9d724b027ea15e4c8094ad7fd87c1e89373cb"
+    }
+  ],
+  "visualEvidence": {
+    "oldRuntimeStarted": false,
+    "oldScreenshotsCaptured": false,
+    "pixelParitySignedOff": false,
+    "referenceKind": "SOURCE_CODE_ONLY",
+    "next": "Establish real isolated visual reference during P1."
+  },
+  "estimates": {
+    "unit": "ENGINEERING_PERSON_DAYS",
+    "confidence": "ROUGH_PLANNING_NOT_MEASURED_THROUGHPUT",
+    "singleContinuousWorkstreamAssumed": true,
+    "batches": [
+      {
+        "id": "P1",
+        "name": "旧版核心界面恢复",
+        "min": 5,
+        "max": 8,
+        "conditional": false
+      },
+      {
+        "id": "P2",
+        "name": "课程结构和学习中心",
+        "min": 4,
+        "max": 7,
+        "conditional": false
+      },
+      {
+        "id": "P3",
+        "name": "常规教学与管理",
+        "min": 8,
+        "max": 14,
+        "conditional": false
+      },
+      {
+        "id": "P4",
+        "name": "课堂Runtime与实验",
+        "min": 12,
+        "max": 20,
+        "conditional": true
+      },
+      {
+        "id": "P5",
+        "name": "画像分析干预",
+        "min": 8,
+        "max": 14,
+        "conditional": false
+      },
+      {
+        "id": "P6",
+        "name": "高级AI与PBL等",
+        "min": 12,
+        "max": 25,
+        "conditional": true
+      },
+      {
+        "id": "P7",
+        "name": "整体收口",
+        "min": 4,
+        "max": 7,
+        "conditional": false
+      }
+    ],
+    "uiRange": [
+      5,
+      8
+    ],
+    "uiAndCourseRange": [
+      9,
+      15
+    ],
+    "allConditionalRange": [
+      53,
+      95
+    ],
+    "calendarDeadlineCommitted": false,
+    "excluded": "waiting, unresolved scope, unavailable public contracts, production and true-data migration"
+  },
+  "runtimeObserved": {
+    "origin": "https://127.0.0.1:3461",
+    "recordedPid": 11040,
+    "pidExists": false,
+    "recordedRoot": "/tmp/zhiban-trial-content-CkNgQo",
+    "rootExists": false,
+    "https3461Listening": false,
+    "closeReceiptExists": true,
+    "closeReceiptRoot": "/tmp/zhiban-trial-content-nsFsMb",
+    "closeReceiptMatchesRoot": false,
+    "cause": "NOT_ESTABLISHED",
+    "stoppedOrDeletedByThisTask": false,
+    "classroomData": "HISTORICAL_EVIDENCE_ONLY_NOT_RESTORED",
+    "startupMetadataSha256": "2dff7a6d8d86dcd8651db6b00ae5c8ec28d1a5b2d66ee4576cb77f0ed019fc19",
+    "existingSourceDrift": [
+      "app/zhiban/local/content.html",
+      "app/zhiban/local/learning.js",
+      "app/zhiban/local/workspace.js",
+      "scripts/zhiban-local/trial-control.ts",
+      "package.json"
+    ],
+    "missingStartupArtifacts": [
+      "/tmp/zhiban-trial-content-CkNgQo/content-client.js"
+    ]
+  },
+  "documents": [
+    {
+      "path": "docs/v2/zhiban-v2-migration-completion-plan.md",
+      "sha256": "38e4ce8b8be3264f23cecf6a98b5ddbeb79769b228cd4445bf5f3c55695ed3b8"
+    },
+    {
+      "path": "docs/v2/zhiban-v2-ui-page-gap-matrix.md",
+      "sha256": "59df5f1522d8c76c88355fe240b4e0d32fb156299ccc8aecdcef8842d2a98909"
+    },
+    {
+      "path": "docs/v2/zhiban-v2-feature-gap-matrix.md",
+      "sha256": "234ec54bc111712cb6ccc3e4815c1f3793449a86c24436375922d6812fdd38dd"
+    },
+    {
+      "path": "docs/v2/zhiban-v2-delivery-plan.md",
+      "sha256": "51a5e51a1b562eed24f4796e10d1cdaccb71fc6c75d7d22870f8fea193355d5f"
+    },
+    {
+      "path": "docs/v2/zhiban-v2-execution-plan.md",
+      "sha256": "39bb0825a0ee3c23cb99481e2e25d08fc4f11bcdcbaab54701a6ccf48f5cff48"
+    },
+    {
+      "path": "docs/v2/zhiban-v2-v1-page-retention-audit.md",
+      "sha256": "9b781ad28c3e845e18011c6684858562815bedf99f2a334245bfa6c44401501e"
+    },
+    {
+      "path": "TRIAL.md",
+      "sha256": "b2c4b8c54b7e5f916734357f71408e225344d224d6ffbc022eb40f10ce71f876"
+    },
+    {
+      "path": "docs/v2/zhiban-v2-trial-guide.md",
+      "sha256": "390b342ac60e22cb1c0f0a9acbb36151eea64e9e1b06e76f1f9f2e69504daba8"
+    },
+    {
+      "path": "docs/v2/zhiban-v2-trial-entry-handoff.md",
+      "sha256": "2965a11881983c4cf3ce37b89b5554db8696320988f51985dd2e98f839d35ed8"
+    }
+  ],
+  "checks": {
+    "pageSourceHashes": "PASS",
+    "all55PagesAssignedBatch": true,
+    "all36CapabilitiesAssignedStatus": true,
+    "estimateArithmetic": "PASS",
+    "unchangedAppliedMigrationFiles": 16,
+    "wiringImplementationFilesUnchanged": true
+  },
+  "actions": {
+    "businessCodeChanged": false,
+    "databaseConnected": false,
+    "credentialsRead": false,
+    "buildStartStopOrDataRestore": false,
+    "automatedSuiteOrCi": false,
+    "commitOrPush": false
+  },
+  "next": "Implement P1 login, three role shells and course lists; new owned demo needed later for UI acceptance."
+}

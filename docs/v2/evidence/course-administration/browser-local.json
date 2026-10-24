@@ -1,0 +1,40 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-23T11:31:54.127Z",
+  "root": "/tmp/zhiban-trial-content-e5zuw0",
+  "scope": "TEACHER_SETTINGS_READ_ONLY_AND_MINIMAL_ASSIGNMENT_PROJECTION",
+  "checks": [
+    "Teacher overview -> read-only published-version/offering settings -> existing content/AI/Tutor links -> settings; bounded current assignment-name projection; Chinese search and literal wildcard empty result; no private Identity/profile fields",
+    "Real PG16: student/admin/foreign tenant/nonexistent offering rejected; teacher cannot read admin assignment API; committed END_TEACHER denies new list read, refresh clears rows, settings fails; ASSIGN_TEACHER restores ACTIVE via original revision checks"
+  ],
+  "commands": [
+    "END_TEACHER",
+    "ASSIGN_TEACHER"
+  ],
+  "relationRestored": "ACTIVE; original command advances revision and valid_from",
+  "modelCalls": false,
+  "sourceHashes": {
+    "lib/zhiban/application/workspace/service.ts": "3e69137179db30859e7ab96c3eee40135042d1b760fc46109d3129a78e414d34",
+    "lib/zhiban/infrastructure/workspace/http.ts": "90eee07523cf595db0a8f8e3777e097603bc11d2008c11826f6aa8c4836b5f53",
+    "lib/zhiban/infrastructure/workspace/postgres/transaction.ts": "50beff7f5c1ba060fc38b235528571c0e55f4b319ebbe9286af28892807cdc4d",
+    "tests/zhiban/workspace/query.test.ts": "09ddde364311b807372aef687033a6188a7494e1dd58fe2da6c937f205fe6f02",
+    "app/zhiban/local/course-administration.html": "6fd3f16e93634e7147cebf787981dd313d1ec83bd5a6c0d01bf838609ac15327",
+    "app/zhiban/local/course-administration.js": "629b376fd1ef144d696adb61c8aa3de9364ba74c6e1bfbf775c6ec593f7fecbc",
+    "app/zhiban/local/course-page.js": "0b625b474211893594fbd0646d13a4e8b7b4f3e3412d01cf5b390d2bfef34e40",
+    "app/zhiban/local/workspace.js": "8262433f31bb87da3ad65abae2cc7a3bdd00e2e674f83ad3fcc0942054bafc7f",
+    "scripts/zhiban-local/request-target.ts": "884f063a6047e6d5fb4efecf54f999b36240c1626576ca4ef5d61de7be7908a9",
+    "scripts/zhiban-local/server.ts": "688e5c2b6350f14d8bff33b04cb8959b4d8632c7ae38a41cd7b2bfc6a5276090",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "f7fb49e9a1b0b38def4530e238634863bffa0956be6e41f248d72f1d55c7af2e",
+    "scripts/zhiban-local/verify-course-administration.cjs": "b3d275fee9ed74e9aa19b4057bff44b4af350d1737c82f18a272e48825cd45e6"
+  },
+  "excluded": [
+    "No new administrator configuration authority",
+    "Assignment facts are not colleagues effective Identity authorization",
+    "No contact/login/role directory exposed",
+    "Single teaching relation fixture, no real multi-page/multi-space journey",
+    "No new concurrency semantics; canonical access/assignment locks reused",
+    "No migration/ACL/model/full classroom/CI changes"
+  ]
+}

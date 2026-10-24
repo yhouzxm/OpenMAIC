@@ -1,0 +1,72 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-23T10:42:15.953Z",
+  "scope": "P1_P3_THREE_LEGACY_ADMIN_LOGIN_ROUTES_FIXED_TARGET_AND_TENANT_CONTEXT",
+  "branch": "refactor/zhiban-v2",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "legacyReference": "origin/feature/zhiban-mechatronics@0fa0a15e8b12ae9e4f7a2d78e80338874599bbae",
+  "implemented": [
+    "/zhiban/login",
+    "/zhiban/admin",
+    "/zhiban/admin/users"
+  ],
+  "runtime": {
+    "root": "/tmp/zhiban-trial-content-ozWwaC",
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "boundSourceFiles": 2736,
+    "newSyntheticAccountsAndClassroom": true,
+    "priorRootPrivatelyArchived": true,
+    "restoreTested": false
+  },
+  "verification": {
+    "realThreeRoleBrowser": "PASS",
+    "eslint": "PASS",
+    "prettier": "PASS",
+    "nodeSyntax": "PASS",
+    "scopedDiffCheck": "PASS",
+    "businessWrites": false,
+    "fullPg16Regression": false,
+    "fullClassroom": false,
+    "modelOrScannerExercised": false
+  },
+  "sourceHashes": {
+    "app/zhiban/local/client.js": "33133fdede0447bbb9bf91e2df734465b18fdb2dddafdc2da955d39a45cd2ec4",
+    "app/zhiban/local/admin-entry.html": "768e8148aff4ded339149349e212edbb0255516defd21b13461d556a75a7f0a5",
+    "app/zhiban/local/admin-entry.js": "fe994d159c5897939a7e7e1e8a3eeb0e93d8ea38d7917b44f9a7880f5f14e0e9",
+    "scripts/zhiban-local/request-target.ts": "7dc1cfbbf894830c07a20752d5c012af7a28a24e634e429ef48f7a1b5f11f78e",
+    "scripts/zhiban-local/server.ts": "e7651df018d2d67c86980f7574006e573d87e8938c057db6a8cf4bf281c08e09",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "f387ebdfb959689762666189f5599b62a679dea3922af88263fecfef3fcf8736",
+    "scripts/zhiban-local/verify-admin-login-routes.cjs": "c14f2074667fc63edc183a06e842782a3ba7061d2bdaf0ced9b2363da4a7966c"
+  },
+  "docHashes": {
+    "docs/v2/zhiban-v2-admin-login-routes-local.md": "e5dcc8678ad1b64484e6cb6744314b650cf5a445696de70c11e06dbc0e4d1bb1",
+    "docs/v2/zhiban-v2-ui-page-gap-matrix.md": "1328d3d657d7867f19372ec89a96a1ec4bf1013af6327974fc5a3f575e3bf792",
+    "docs/v2/zhiban-v2-migration-completion-plan.md": "e9b21d1040c55d7ff2d50cca03be6e5453bdb8c771a0038eb1f91b15ab08a25e",
+    "docs/v2/zhiban-v2-trial-guide.md": "aa10d8b51012d6d28c80b62bc47da562548b8ca708ea5cd6c4161be42a29e23b"
+  },
+  "evidenceHashes": {
+    "browser-local.json": "3412b981299a191e5f0066b84918547b29d17df565b4da3c5a3c03696c55109f",
+    "private-backup.json": "a7eea7bf4d352cca6f0ac4685a5c126b9c835f32f71ababd71b1086d30040361",
+    "admin-users.png": "d5b439d60df46bf801b0564f16e479ab80737b965d4f7b7c8a5ce159a1509198",
+    "teacher.png": "97a471e58fedcf1d46e1d0d30b6305ba11744fcd9c05e7dad3d892d8476fe749",
+    "student.png": "873156c6a684d9558c8cca2b56adbe4bc4c249592c3fdeea1c6a2983af3cfb2b"
+  },
+  "boundaries": [
+    "Original Session/UserId/confirmed alias and tenant ADMIN authorization retained",
+    "No arbitrary return URLs; fixed admin/admin-users targets only",
+    "Old delete/reset-password/phone/studentNo login not enabled",
+    "No migration/API/ACL/data model changes",
+    "Real multi-space fixture selector not retested",
+    "Prior P7 archive and receipts retain original hashes/scope"
+  ],
+  "git": {
+    "commit": false,
+    "push": false,
+    "ciDispatch": false
+  },
+  "nextPackage": "P1/P5 existing evidence-backed learning-profile and risk/support legacy aggregate entries; dimensions remain REVIEW",
+  "suggestedModel": "GPT-6.1 Sol / medium"
+}

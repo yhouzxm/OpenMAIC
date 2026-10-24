@@ -1,0 +1,12 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "LOCAL_REGISTERED_USER_SPACE_MEMBERSHIP_AND_ALLOWED_ROLES",
+  "tenant": "01a14f74-c820-7213-94c7-c22eb43a36ef",
+  "member": "01a14f79-b9b9-765d-a1be-fae977743c92",
+  "adminUrl": "https://127.0.0.1:3461/zhiban/admin/members?tenant=01a14f74-c820-7213-94c7-c22eb43a36ef&member=01a14f79-b9b9-765d-a1be-fae977743c92",
+  "privateInputFile": "/tmp/zhiban-trial-content-faL99P/member-inputs.json",
+  "checks": 5,
+  "at": "2026-10-18T14:45:48.114Z"
+}

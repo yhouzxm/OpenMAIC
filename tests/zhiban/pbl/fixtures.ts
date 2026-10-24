@@ -1,0 +1,57 @@
+import type { PBLProject } from '@openmaic/dsl';
+export const projectExample = (): PBLProject => ({
+  uiPhase: 'hero',
+  title: '节能教室改造项目',
+  description: '共同调查教室用电，提出有证据的节能方案并说明局限。',
+  learningObjective: '提出问题、协作验证并反思',
+  tags: ['项目学习'],
+  language: 'zh-CN',
+  proficiency: '',
+  status: 'active',
+  roles: [],
+  milestones: [
+    {
+      id: 'investigate',
+      title: '调查与方案',
+      description: '从可核对的观察出发。',
+      status: 'active',
+      order: 0,
+      documents: [
+        {
+          id: 'reference-1',
+          title: '调查说明',
+          content: '记录观察来源，不把估算当作自动测量。',
+          docType: 'reference',
+        },
+      ],
+      microtasks: [
+        {
+          id: 'task-1',
+          title: '调查问题',
+          description: '记录现状、来源和假设。',
+          status: 'todo',
+          assignee: 'user',
+          hints: ['区分事实与估计'],
+          order: 0,
+          completionCriteria: '明确问题与依据',
+        },
+        {
+          id: 'task-2',
+          title: '改造方案',
+          description: '给出方案与验证方法。',
+          status: 'todo',
+          assignee: 'user',
+          hints: [],
+          order: 1,
+          completionCriteria: '说明取舍与可验证结果',
+        },
+      ],
+    },
+  ],
+  submissions: [],
+  evaluations: [],
+  threads: [],
+  engagementEvents: [],
+  createdAt: '2026-10-24T00:00:00.000Z',
+  updatedAt: '2026-10-24T00:00:00.000Z',
+});

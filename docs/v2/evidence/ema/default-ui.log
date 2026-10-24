@@ -1,0 +1,8 @@
+[]
+locator.click: Error: strict mode violation: locator('section').filter({ has: getByRole('heading', { name: '浏览器实测：分析公开的本次教师概念观察，六维无依据时保留证据不足。', exact: true }) }).getByRole('button', { name: '查看作业', exact: true }) resolved to 2 elements:
+    1) <button type="button">查看作业</button> aka getByRole('button', { name: '查看作业' }).first()
+    2) <button type="button">查看作业</button> aka getByRole('button', { name: '查看作业' }).nth(1)
+
+Call log:
+[2m  - waiting for locator('section').filter({ has: getByRole('heading', { name: '浏览器实测：分析公开的本次教师概念观察，六维无依据时保留证据不足。', exact: true }) }).getByRole('button', { name: '查看作业', exact: true })[22m
+

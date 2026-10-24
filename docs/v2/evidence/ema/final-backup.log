@@ -1,0 +1,5 @@
+
+> openmaic@1.2.1 trial:zhiban:backup /home/zxm/openmaic/zhiban
+> tsx scripts/zhiban-local/persistent-snapshot.ts backup
+
+/home/zxm/.local/share/zhiban-persistent/2026-10-24T00-44-16.944Z-5a884e6a

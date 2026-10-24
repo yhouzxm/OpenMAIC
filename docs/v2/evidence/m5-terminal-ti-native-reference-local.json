@@ -1,0 +1,110 @@
+{
+  "formatVersion": 1,
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_WITH_DEFERRED_MAINTENANCE_GATES",
+  "candidateInventorySha256": "4ab88165a1f6382f6540ac2cbbb9899203ba0648d11a2e70be909def377337ce",
+  "referenceDraftSha256": "0a28fec5083f9dfedca74fcb8e946eec57a5080949e3adcd581163ae98839d18",
+  "sourceBindingsSha256": "24e3c87b10b860c12baf71b81fe366179d4df6a4dd319763586c3bf2227dcc2e",
+  "checks": [
+    {
+      "name": "actual provisionNative/public Storage ensure functions create fresh Native schema",
+      "status": "PASS"
+    },
+    {
+      "name": "TI-03: additive ACL removes PUBLIC-derived cross-DB access and preserves seven ordinary roles",
+      "status": "PASS"
+    },
+    {
+      "name": "TI-01: same-name Native index predicate drift is rejected by full and terminal profiles",
+      "status": "PASS"
+    },
+    {
+      "name": "TI-01: invalid Native index state is rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "TI-01: same-name unique index drift is rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "current blocked loader accepts signed disposable receipt over actual Native reference",
+      "status": "PASS"
+    },
+    {
+      "name": "TI-02: loader rejects late admission drift before returning",
+      "status": "PASS"
+    },
+    {
+      "name": "TI-02: loader rejects late ordinary writer LOGIN drift",
+      "status": "PASS"
+    },
+    {
+      "name": "prepared broker refuses overlapping inspections",
+      "status": "PASS"
+    },
+    {
+      "name": "prepared broker retains physical sessions and rechecks blocked receipt",
+      "status": "PASS"
+    },
+    {
+      "name": "prepared broker detects late admission drift and latches BLOCKED without reconnect",
+      "status": "PASS"
+    },
+    {
+      "name": "harness observes closed admission after failure cleanup; broker has no reopen/recovery API",
+      "status": "PASS"
+    },
+    {
+      "name": "source and distributed runtime byte bindings stable through reference build",
+      "status": "PASS"
+    }
+  ],
+  "observations": {
+    "nativeTableCount": 11,
+    "nativeIndexCount": 23,
+    "brokerEndState": {
+      "state": "BLOCKED",
+      "mode": "installed",
+      "observedInstallationStatus": null,
+      "checkedAt": "2026-10-12T14:36:26.379Z",
+      "receiptSha256": null,
+      "observationOnly": true,
+      "runtimeAccepted": false,
+      "terminalActionsAllowed": false,
+      "leaseIssued": false,
+      "evidenceOrigin": "LOCAL",
+      "githubActions": false
+    },
+    "reviewFindingsAddressed": ["TI-01", "TI-02", "TI-03"],
+    "downstreamProbeOnlyAdjustment": null,
+    "referenceArtifactAdjustmentApplied": false
+  },
+  "disposableClusterOnly": true,
+  "tcpListening": false,
+  "existingClustersConnected": false,
+  "temporaryClusterStoppedAndRemoved": true,
+  "realReceiptIssued": false,
+  "runtimeAccepted": false,
+  "kind": "LOCAL_M5_TERMINAL_TI_FIX_REAL_NATIVE_REFERENCE",
+  "gitBaselineSha": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "artifacts": {
+    "native-reference-draft.json": {
+      "path": "/home/zxm/.local/share/zhiban-terminal-references/fix-ti-20261012-3/native-reference-draft.json",
+      "sha256": "0a28fec5083f9dfedca74fcb8e946eec57a5080949e3adcd581163ae98839d18"
+    },
+    "source-bindings.json": {
+      "path": "/home/zxm/.local/share/zhiban-terminal-references/fix-ti-20261012-3/source-bindings.json",
+      "sha256": "561cb76069ff3e7c6eeb63565e508c592ed07ede931fa24bfa9d3bc60b9bd401"
+    },
+    "evidence.json": {
+      "path": "/home/zxm/.local/share/zhiban-terminal-references/fix-ti-20261012-3/evidence.json",
+      "sha256": "3336178de0c7114f3a960b7c16b5b5c8b567146542808e2c8f082ff77bf6eb6d"
+    }
+  },
+  "referenceSigned": false,
+  "existingClusterApplied": false,
+  "maintenanceExecutionEnabled": false,
+  "targetedTypecheck": "PASS",
+  "fullProjectTypecheck": "NOT_COMPLETED_NODE_DEFAULT_2GB_HEAP_OOM"
+}

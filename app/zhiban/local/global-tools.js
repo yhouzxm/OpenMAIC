@@ -1,0 +1,401 @@
+/* Navigation only; original Workspace and course Tutor APIs remain authoritative. */
+(async () => {
+  const root = document.getElementById('global-tools');
+  const pblRoute = /^\/zhiban\/(teacher|student)\/pbl(?:\/([A-Za-z0-9_-]{1,128}))?$/.exec(
+    location.pathname,
+  );
+  const pbl = !!pblRoute;
+  const role = pbl ? pblRoute[1] : 'student';
+  const activityRoute =
+    /^\/zhiban\/student\/courses\/([0-9a-f-]{36})\/activities\/([0-9a-f-]{36})$/.exec(
+      location.pathname,
+    );
+  const classroomRoute = /^\/zhiban\/student\/classroom\/([0-9a-f-]{36})$/.exec(location.pathname);
+  const deep = !!activityRoute || !!classroomRoute;
+  const target = activityRoute?.[2] ?? classroomRoute?.[1];
+  const validRoute = pbl || deep || location.pathname === '/zhiban/student/tools';
+  const globalPath = pbl || deep ? location.pathname : '/zhiban/student/tools';
+  const title = pbl
+    ? 'PBL 小组项目入口'
+    : deep
+      ? activityRoute
+        ? '学习活动入口'
+        : '课堂入口'
+      : '学生 AI 学习辅导入口';
+  const text = (value) =>
+    pbl
+      ? value.replaceAll('AI 学习辅导', 'PBL 小组项目')
+      : deep
+        ? value.replaceAll('AI 学习辅导', '教学')
+        : value;
+  document.title = title;
+  document.querySelector('.topbar .local').textContent = title;
+  const input = new URLSearchParams(location.search);
+  const uuid = (v) =>
+    /^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(v ?? '');
+  let tenant = input.get('space') ?? input.get('tenant'),
+    course = activityRoute?.[1] ?? input.get('courseId');
+  const targetOffering = input.get('offering');
+  let dead = false,
+    busy = false,
+    key,
+    q = '',
+    state = 'ALL',
+    limit = '20',
+    cursors = [null],
+    index = 0;
+  const controllers = new Set();
+  const el = (tag, text) => {
+    const n = document.createElement(tag);
+    if (text !== undefined)
+      n.textContent = pbl
+        ? text.replaceAll('AI 学习辅导', 'PBL 小组项目')
+        : deep
+          ? text.replaceAll('AI 学习辅导', '教学')
+          : text;
+    return n;
+  };
+  const link = (text, href) => {
+    const n = el('a', text);
+    n.href = href;
+    n.className = 'button secondary';
+    return n;
+  };
+  const button = (text, fn, disabled = false) => {
+    const n = el('button', text);
+    n.type = 'button';
+    n.disabled = disabled;
+    n.onclick = () => void fn();
+    return n;
+  };
+  const back = () =>
+    link('返回当前空间工作台', '/zhiban' + (uuid(tenant) ? '?space=' + tenant : ''));
+  function error(text) {
+    if (!dead) root.replaceChildren(el('h1', title), el('p', text), back());
+  }
+  async function get(path) {
+    const controller = new AbortController();
+    controllers.add(controller);
+    const timer = setTimeout(() => controller.abort(), 10000);
+    try {
+      const r = await fetch(path, {
+        headers: { 'x-zhiban-request': 'identity-v1' },
+        credentials: 'same-origin',
+        cache: 'no-store',
+        signal: controller.signal,
+      });
+      if (!r.ok)
+        throw Error(
+          r.status === 401
+            ? '请先返回工作台登录。'
+            : r.status === 403
+              ? '当前空间或课程关系已变化，请返回工作台核对。'
+              : 'AI 学习辅导入口暂不可用，请重试。',
+        );
+      return await r.json();
+    } finally {
+      clearTimeout(timer);
+      controllers.delete(controller);
+    }
+  }
+  function remember() {
+    try {
+      sessionStorage.setItem(key, JSON.stringify({ q, state, limit, cursors, index }));
+    } catch {
+      /* Storage is optional and never an authorization source. */
+    }
+  }
+  async function load() {
+    if (dead || busy) return;
+    busy = true;
+    root.querySelectorAll('button,input,select').forEach((n) => (n.disabled = true));
+    try {
+      const params = new URLSearchParams({ q, state, limit });
+      if (cursors[index]) params.set('cursor', cursors[index]);
+      const data = await get(`/api/zhiban/workspace/${tenant}/courses?${params}`);
+      if (dead) return;
+      if (data.mode !== 'MEMBER' || !data.roles.includes(role.toUpperCase())) {
+        error('当前身份不具备此 AI 学习辅导入口的角色，请返回工作台。');
+        return;
+      }
+      const rows = data.rows.filter(
+        (row) =>
+          row.mode === role.toUpperCase() &&
+          (!course || row.course_id === course) &&
+          (!pbl || !targetOffering || row.id === targetOffering),
+      );
+      root.replaceChildren(
+        el('h1', title),
+        back(),
+        el(
+          'p',
+          pbl
+            ? '选择当前有权限的教学班，进入课程项目、共同成果与教师评价。'
+            : deep
+              ? '先选择有权限的教学班，再精确核对当前课堂或活动；不会自动开始作答或进入任务。'
+              : '选择在读教学班进入课程 Tutor。由教师控制开关，对话和历史仅本人可见，不计成绩或完成。',
+        ),
+        el(
+          'p',
+          pbl
+            ? pblRoute[2]
+              ? '旧原生实例ID不自动转换为新小组或Runtime；进入课程后选择当前项目，旧实例历史未导入。'
+              : '复用当前教学班权限；发布、分组、共同提交和评价均在课程内完成。'
+            : deep
+              ? '仅识别当前系统的精确目标ID；旧Native绑定、机电站点与场景ID不自动转换。Runtime和实验门禁保持。'
+              : '旧课程工具入口复用现有 Tutor；AI Peer 和工具型 Agent 未启用。',
+        ),
+      );
+      if (pbl && targetOffering)
+        root.append(link('显示全部教学班', `${globalPath}?space=${tenant}`));
+      if (course)
+        root.append(
+          el('p', '当前按旧链接指定课程筛选教学班。'),
+          link('显示全部课程', `${globalPath}?space=${tenant}`),
+        );
+      const form = el('form');
+      form.className = 'course-filters';
+      const label = el('label', '搜索课程或教学班'),
+        search = el('input');
+      search.value = q;
+      search.maxLength = 120;
+      label.append(search);
+      form.append(label);
+      const select = (title, values, current) => {
+        const l = el('label', title),
+          s = el('select');
+        for (const [value, text] of values) {
+          const o = el('option', text);
+          o.value = value;
+          s.append(o);
+        }
+        s.setAttribute('aria-label', text(title));
+        s.value = current;
+        l.append(s);
+        form.append(l);
+        return s;
+      };
+      const statuses = select(
+          '教学班状态',
+          [
+            ['ALL', '全部'],
+            ['OPEN', '开放'],
+            ['CLOSED', '关闭'],
+          ],
+          state,
+        ),
+        size = select(
+          'AI 学习辅导入口每页条数',
+          [
+            ['10', '10'],
+            ['20', '20'],
+            ['50', '50'],
+          ],
+          limit,
+        );
+      const submit = el('button', '查询AI 学习辅导课程');
+      submit.type = 'submit';
+      form.append(submit);
+      form.onsubmit = (e) => {
+        e.preventDefault();
+        if (busy) return;
+        q = search.value.trim();
+        state = statuses.value;
+        limit = size.value;
+        cursors = [null];
+        index = 0;
+        void load();
+      };
+      root.append(form, button('刷新 AI 学习辅导课程', load));
+      const list = el('section');
+      list.setAttribute('aria-label', text('可访问的 AI 学习辅导课程'));
+      root.append(list);
+      for (const row of rows) {
+        const card = el('article');
+        card.className = 'learning-activity';
+        card.append(
+          el('h2', row.course_name),
+          el('p', `${row.name} · ${row.term_name} · ${row.status === 'OPEN' ? '开放' : '关闭'}`),
+          link(
+            pbl ? '进入课程 PBL 小组项目' : deep ? '核对本教学班目标' : '进入课程 AI 学习辅导',
+            pbl
+              ? `/zhiban/${role}/courses/${row.course_id}/pbl?space=${tenant}&offering=${row.id}`
+              : deep
+                ? `${globalPath}?space=${tenant}&offering=${row.id}${course ? '&courseId=' + course : ''}`
+                : `/zhiban/student/courses/${row.course_id}/tools?space=${tenant}&offering=${row.id}${course ? '&toolsCourse=' + course : ''}`,
+          ),
+        );
+        list.append(card);
+      }
+      if (!rows.length)
+        list.append(
+          el(
+            'p',
+            data.nextCursor
+              ? '当前页没有匹配的 AI 学习辅导课程，可继续下一页。'
+              : '暂无匹配的可访问 AI 学习辅导课程。',
+          ),
+        );
+      root.append(
+        button(
+          '上一页 AI 学习辅导课程',
+          () => {
+            index--;
+            void load();
+          },
+          index === 0,
+        ),
+        el('span', `第 ${index + 1} 页 · 本页 ${rows.length} 个教学班`),
+        button(
+          '下一页 AI 学习辅导课程',
+          () => {
+            cursors[index + 1] = data.nextCursor;
+            index++;
+            void load();
+          },
+          !data.nextCursor || index >= 99,
+        ),
+      );
+      remember();
+    } catch (e) {
+      if (!dead) {
+        error(e.message);
+        root.append(
+          button('重试AI 学习辅导课程', () => {
+            cursors = [null];
+            index = 0;
+            return load();
+          }),
+        );
+      }
+    } finally {
+      busy = false;
+    }
+  }
+  const channel =
+    typeof BroadcastChannel === 'function' ? new BroadcastChannel('zhiban-session') : null;
+  function destroy() {
+    dead = true;
+    controllers.forEach((c) => c.abort());
+    channel?.close();
+    root.replaceChildren(el('p', '会话已变化，请返回工作台重新进入。'), back());
+  }
+  if (channel) channel.onmessage = destroy;
+  window.addEventListener('pagehide', destroy, { once: true });
+  if (
+    !validRoute ||
+    [...input.keys()].some(
+      (k) => !['tenant', 'space', 'courseId', ...(deep || pbl ? ['offering'] : [])].includes(k),
+    ) ||
+    new Set(input.keys()).size !== [...input.keys()].length ||
+    (input.has('tenant') && input.has('space')) ||
+    (tenant !== null && !uuid(tenant)) ||
+    (course !== null && !uuid(course)) ||
+    (deep && !uuid(target)) ||
+    (targetOffering !== null && !uuid(targetOffering)) ||
+    (activityRoute && input.has('courseId') && input.get('courseId') !== course)
+  ) {
+    error('AI 学习辅导入口地址无效，请从工作台进入。');
+    return;
+  }
+  async function resolveTarget() {
+    const data = await get(`/api/zhiban/workspace/${tenant}/courses?q=${targetOffering}&limit=50`);
+    const row =
+      data.mode === 'MEMBER' &&
+      data.rows.find(
+        (r) =>
+          r.id === targetOffering && r.mode === 'STUDENT' && (!course || r.course_id === course),
+      );
+    if (!row) throw Error('当前课程不可访问，或课程关系已变化。');
+    const base = `/api/zhiban/learning/${tenant}/offerings/${row.id}`;
+    const result = await get(
+      base + (activityRoute ? `/activities?q=${target}&limit=10` : '/classrooms'),
+    );
+    if (dead) return;
+    const found =
+      result.mode === 'STUDENT' &&
+      (activityRoute ? result.rows : result.sessions).some((r) => r.id === target);
+    if (!found) {
+      error(
+        activityRoute
+          ? '未找到可访问的当前活动；旧Native或机电活动ID不能自动转换。'
+          : '未找到当前开放课堂；课堂可能已结束、无权访问，或旧Native绑定尚未迁移。',
+      );
+      root.append(
+        link(
+          '返回本教学班活动与课堂',
+          `/zhiban/student/courses/${row.course_id}/coursework?space=${tenant}&offering=${row.id}`,
+        ),
+      );
+      return;
+    }
+    location.replace(
+      `/zhiban/student/courses/${row.course_id}/coursework?space=${tenant}&offering=${row.id}#${activityRoute ? 'activity' : 'classroom'}-${target}`,
+    );
+  }
+  async function enter(space) {
+    if (dead) return;
+    tenant = space.tenantId;
+    key = `${pbl ? 'zhiban-pbl-entry-' + (pblRoute[2] ?? 'list') : deep ? 'zhiban-deep-' + target : 'zhiban-tools'}:${space.membershipId}:${role}:${course ?? 'all'}`;
+    try {
+      const saved = JSON.parse(sessionStorage.getItem(key));
+      if (
+        saved &&
+        typeof saved.q === 'string' &&
+        saved.q.length <= 120 &&
+        ['ALL', 'OPEN', 'CLOSED'].includes(saved.state) &&
+        ['10', '20', '50'].includes(saved.limit) &&
+        Array.isArray(saved.cursors) &&
+        saved.cursors.length <= 100 &&
+        saved.cursors[0] === null &&
+        saved.cursors.every(
+          (x) => x === null || (typeof x === 'string' && /^[A-Za-z0-9_-]{1,512}$/.test(x)),
+        ) &&
+        Number.isInteger(saved.index) &&
+        saved.index >= 0 &&
+        saved.index < saved.cursors.length
+      ) {
+        ({ q, state, limit, cursors, index } = saved);
+      }
+    } catch {
+      /* Ignore invalid local navigation state. */
+    }
+    if (deep && targetOffering) {
+      await resolveTarget();
+      return;
+    }
+    const params = new URLSearchParams({ space: tenant });
+    if (course) params.set('courseId', course);
+    history.replaceState(null, '', `${globalPath}?${params}`);
+    await load();
+  }
+  try {
+    const spaces = [];
+    let after = null;
+    do {
+      const data = await get(
+        '/api/zhiban/identity/spaces?limit=50' + (after ? '&afterMembershipId=' + after : ''),
+      );
+      spaces.push(...data.spaces);
+      after = data.nextCursor;
+      if (spaces.length > 1000) throw Error('空间数量超过当前上限，请从工作台进入。');
+    } while (after && !dead);
+    if (dead) return;
+    if (tenant) {
+      const space = spaces.find((s) => s.tenantId === tenant);
+      if (!space) {
+        error('当前空间不可访问，请返回工作台。');
+        return;
+      }
+      await enter(space);
+    } else if (spaces.length === 1) await enter(spaces[0]);
+    else {
+      error(spaces.length ? '请选择查看AI 学习辅导的空间。' : '当前没有可访问空间。');
+      for (const space of spaces)
+        if (uuid(space.tenantId))
+          root.append(button(space.displayName + ' · ' + space.tenantCode, () => enter(space)));
+    }
+  } catch (e) {
+    error(e.message);
+  }
+})();

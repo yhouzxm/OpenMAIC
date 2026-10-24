@@ -1,0 +1,24 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "origin": "https://127.0.0.1:3461",
+  "checks": [
+    "Teacher/student current published lecture and resource: 8 real downloads",
+    "Editable PPTX text and embedded PNG; no external relationships",
+    "Offline file:// native player with browser offline, rendered text/PNG and zero network requests",
+    "No tenant/account/session/owner link in offline snapshot",
+    "Activity exports absent; unauthorized/admin-proxy/withdrawn-member source reads denied"
+  ],
+  "artifacts": {
+    "/home/zxm/openmaic/zhiban/docs/v2/evidence/course-export/teacher-lecture.pptx": "27ce37085cfcf6ee1531481b8fb9f600a704954059bd93caae7e0814bba6092b",
+    "/home/zxm/openmaic/zhiban/docs/v2/evidence/course-export/teacher-lecture.html": "21be98f90e83773a49fd75572f0eb602fb3aae0120ac69d7339658a6ed73a90b",
+    "/home/zxm/openmaic/zhiban/docs/v2/evidence/course-export/teacher-material.pptx": "1e6b4f8f0f41dd37db92e5d0385098feb70a9810137613b3d80bd3318e95009c",
+    "/home/zxm/openmaic/zhiban/docs/v2/evidence/course-export/teacher-material.html": "24f490baf01e569b1af083f5e9ba802d1599f1802456daf0f1ab865bc7e6250e",
+    "/home/zxm/openmaic/zhiban/docs/v2/evidence/course-export/student-lecture.pptx": "321323e6dee42f8e9d17e7dcff2a3eb2605f5ae54e9fc6f8db86286f393396df",
+    "/home/zxm/openmaic/zhiban/docs/v2/evidence/course-export/student-lecture.html": "0b52778a3b814dfacbc32fc30112a70fbcdc5c0f423609371d853b9668e1c1a9",
+    "/home/zxm/openmaic/zhiban/docs/v2/evidence/course-export/student-material.pptx": "8ee52b14bb7b66d1efc503e4d356c0b7115a9d62991a3cb33f4e276d115d3086",
+    "/home/zxm/openmaic/zhiban/docs/v2/evidence/course-export/student-material.html": "311c296585b225517c7a5957c01c3d075f30dec1b9130706157988326a9f11ed"
+  },
+  "at": "2026-10-18T14:45:38.522Z"
+}

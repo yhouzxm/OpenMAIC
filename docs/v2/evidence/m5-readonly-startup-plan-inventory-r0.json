@@ -1,0 +1,17 @@
+{
+  "formatVersion": 1,
+  "status": "UNISSUED_PLAN",
+  "executionAllowed": false,
+  "runtimeAccepted": false,
+  "realTargetExecuted": false,
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "r6InventorySha256": "fa51a67d9733fc6b436e89ec339306472ceb8566368cc3f9ce3c3122d873c13b",
+  "filesSha256": {
+    "README.md": "ea49f3d0b392b734c4f74d7086be4c0a7481d307f02faadea088bbab4978bdd4",
+    "verify-plan.py": "4d108684d5f7fb287044e49b1951c9556b63bd1f6c13f03ea07297d55cb397eb",
+    "management-only-hba.conf": "9c5c96b7926e763f21108d4a8843ac3aac90ddd03889234c9a670edc19d9905d",
+    "management-observe.sql": "7c0400ee634c9e3932b2213451ec95573f617258a007209ec10b47ffb209439c",
+    "request.template.json": "a9055010d605048354d8348e9e70e108593ac8542a04bb7cf8c038dc9681187d"
+  }
+}

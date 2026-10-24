@@ -1,0 +1,22 @@
+{
+  "extends": "./tsconfig.ema.json",
+  "include": [
+    "../../lib/zhiban/domain/attainment/**/*.ts",
+    "../../lib/zhiban/application/attainment/**/*.ts",
+    "../../lib/zhiban/infrastructure/attainment/**/*.ts",
+    "../../lib/zhiban/domain/autograde/**/*.ts",
+    "../../lib/zhiban/application/autograde/**/*.ts",
+    "../../lib/zhiban/infrastructure/autograde/**/*.ts",
+    "../../tests/zhiban/attainment/**/*.ts",
+    "../../tests/zhiban/autograde/**/*.ts",
+    "./attainment.ts",
+    "./autograde.ts",
+    "./build-attainment-reference.ts",
+    "./build-autograde-reference.ts",
+    "./verify-attainment.ts",
+    "./seed-attainment-demo.ts",
+    "./verify-m6-catalog.mts",
+    "../../next-env.d.ts",
+    "../../types/**/*.d.ts"
+  ]
+}

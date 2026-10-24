@@ -1,0 +1,60 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "LOCAL_HANDOFF_COMPLETE_WITH_DECLARED_LIMITATIONS",
+  "at": "2026-10-23T13:19:15.712437+00:00",
+  "scope": "P7_PROGRESS_PREREQUISITES_AND_WEIGHTED_TOTALS_APPEALS_HANDOFF",
+  "versionId": "zhiban-local-20261023-c1b02652eaac",
+  "sourceDigest": "c1b02652eaac3320d527f59648de9ce9733603278250e85971e9d7b782fd79f8",
+  "archiveSha256": "8eb453b1006bf36f4fb5c8a55171b02f9912a894473fcf6a1ab82b315b8b157e",
+  "archive": "/home/zxm/.local/share/zhiban-handoff/zhiban-local-20261023-c1b02652eaac/source.tar.gz",
+  "artifactDirectory": "/home/zxm/.local/share/zhiban-handoff/zhiban-local-20261023-c1b02652eaac",
+  "sourceFiles": 5588,
+  "archiveBytes": 146201166,
+  "branch": "refactor/zhiban-v2",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "previousVersion": {
+    "versionId": "zhiban-local-20261023-a6ef3a535563",
+    "archiveUnchanged": true,
+    "receiptsReissued": false
+  },
+  "runtime": {
+    "root": "/tmp/zhiban-trial-content-fQSIds",
+    "pid": 49193,
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "restarted": false,
+    "businessMutations": false,
+    "identityLoginsEstablished": true,
+    "dataCleared": false
+  },
+  "verification": {
+    "archiveIndependentReadback": "PASS",
+    "workspaceFileHashComparisons": 5588,
+    "runtimeIncluded": 1864,
+    "runtimeArtifactOmissions": 899,
+    "featureSourceApplicability": "BOTH_PRODUCT_SOURCE_SETS_UNCHANGED",
+    "entryReadonly": "PASS",
+    "fullClassroomRerun": false,
+    "ci": false,
+    "productionSignoff": false,
+    "cleanHostInstallTested": false,
+    "databaseRestoreTested": false
+  },
+  "included": [
+    "Progress/completion and prerequisite rules",
+    "Explicit weighted offering totals, immutable publications and student appeals",
+    "Ordinary entry batch and previous delivered legacy entry packages"
+  ],
+  "boundaries": [
+    "Owned LOCAL host and synthetic demo only",
+    "New finalgrade schema only installed in fresh disposable host; production rollout not authorized",
+    "Current accounts, secrets, runtime metadata and dumps excluded",
+    "Scanner/parse services, full Native Runtime/maintenance inputs and REVIEW gates retain scope",
+    "No cross-offering credit/certificates/secondary adjudication/totals CSV",
+    "P7 hash and GET checks do not repeat functional/concurrency signoff"
+  ],
+  "committed": false,
+  "pushed": false,
+  "ciDispatched": false
+}

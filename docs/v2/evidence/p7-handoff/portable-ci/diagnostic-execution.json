@@ -1,0 +1,81 @@
+{
+  "kind": "ZHIBAN_PORTABLE_DIAGNOSTIC_EXECUTION_V1",
+  "at": "2026-10-24T11:19:26.324767+00:00",
+  "authorization": "User explicitly authorized only diagnostic supervisor/test checkpoint and push, approved SHA update, and one remote diagnostic acceptance.",
+  "status": "REMOTE_DIAGNOSTIC_FAIL_PG_START_ROOT_CAUSE_REPRODUCED_LOCALLY",
+  "workflowSha": "2da64bd644968561aaa7e0480166f9a19e827c98",
+  "changedCheckpointFiles": [
+    "scripts/zhiban-ci/portable-acceptance.cjs",
+    "tests/zhiban/local/portable-ci.test.cjs"
+  ],
+  "previousRun": 40087593933,
+  "previousResult": "FAIL_RESTORE_START_UNCONFIRMED",
+  "applicationSourceDigest": "a310b5758e14af73e614935f44dde97b933b4b2f9f15f6ddbd2a41548e47a18d",
+  "ciphertextSha256": "a35f89f43c05f529bd8191b7b877d1a19dbda35bfb6a82452f1bcf18f054c3f8",
+  "approvedEnvironment": "zhiban-portable-acceptance",
+  "dispatchCountThisAuthorization": 1,
+  "run": {
+    "id": 40089510426,
+    "attempt": 1,
+    "url": "https://github.com/yhouzxm/OpenMAIC/actions/runs/40089510426",
+    "workflowSha": "2da64bd644968561aaa7e0480166f9a19e827c98",
+    "conclusion": "failure"
+  },
+  "cleanup": {
+    "runner": {
+      "status": "PASS",
+      "privateNamespacePurged": true
+    },
+    "transportSecret": "DELETED_AND_EMPTY_LIST_VERIFIED",
+    "ciphertextReleaseAndTag": "ASSET_RELEASE_TAG_ALL_404_VERIFIED"
+  },
+  "scope": [
+    "One additional explicitly authorized run only.",
+    "Frozen business kit unchanged; LOCAL input evidence retains its origin.",
+    "No main update, unrelated CI, model, parser or full classroom regression.",
+    "No original default 3461 stop or production/Native authority change."
+  ],
+  "asset": {
+    "id": 672073965,
+    "serverDigestMatched": true,
+    "bytes": 267167876
+  },
+  "updatedAt": "2026-10-24T11:33:09.102728+00:00",
+  "publicReport": {
+    "path": "docs/v2/evidence/p7-handoff/portable-ci/run-40089510426/zhiban-portable-report-40089510426-1.json",
+    "report": {
+      "kind": "ZHIBAN_PORTABLE_REMOTE_ACCEPTANCE_V1",
+      "executionOrigin": "GITHUB_ACTIONS",
+      "status": "FAIL",
+      "runId": "40089510426",
+      "workflowSha": "2da64bd644968561aaa7e0480166f9a19e827c98",
+      "failureStage": "RESTORE_START",
+      "diagnostic": {
+        "code": "HOST_EXITED",
+        "exitCode": 1,
+        "elapsedMs": 40055,
+        "mode": "start-rebind",
+        "reason": "PG_START_FAILED"
+      },
+      "phaseTimings": {
+        "CONTEXT": 1,
+        "DELIVERY": 3955,
+        "PREREQUISITES": 10,
+        "FROZEN_INSTALL": 121181,
+        "BROWSER_PREREQUISITES": 15811,
+        "PRIVATE_IMPORT": 1313,
+        "NSS_TRUST": 22,
+        "RESTORE_START": 40058
+      },
+      "cleanup": {
+        "status": "PASS",
+        "privateNamespacePurged": true
+      }
+    }
+  },
+  "rootCause": "V1 encrypted transport enumerated regular files only. Empty PG directories, including pg_notify, disappeared while file-only hash closure still passed. Authenticated original ciphertext reproduced PG missing-directory startup failure in a local isolated namespace.",
+  "newRemoteRunAllowed": false,
+  "localFixSummary": "docs/v2/evidence/p7-handoff/portable-ci/directory-closure-fix-local/summary.json",
+  "localFixResult": "PASS_ACTUAL_V2_TRANSPORT_START_AND_NORMAL_RESTART_UID1001",
+  "newCipherUploaded": false
+}

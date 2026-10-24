@@ -1,0 +1,50 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "P3_TENANT_SELF_PNG_AVATAR_AND_ADMIN_DIRECTORY",
+  "at": "2026-10-23T09:59:25.384Z",
+  "validation": {
+    "pg16AndBrowser": "PASS",
+    "focusedTypecheck": "PASS",
+    "eslint": "PASS",
+    "profileAndPngUnit": "12/12 PASS",
+    "broaderTypecheck": "Existing onboarding verifier extra store parameter error remains"
+  },
+  "runtime": {
+    "root": "/tmp/zhiban-trial-content-BSZzAt",
+    "sourceMatches": true,
+    "drift": 0,
+    "decodedDefaultBrowser": [
+      "STUDENT 64x64",
+      "ADMIN 64x64"
+    ]
+  },
+  "migrationBoundary": "0002 added only; original migrations unchanged; fresh disposable PG16 only",
+  "sourceHashes": {
+    "lib/zhiban/infrastructure/profile/postgres/migrations/0002_avatar.sql": "bbc023b346c3402c8c1f971c4878625e7e90d85cd80589032a47269dcec2e771",
+    "lib/zhiban/domain/profile/model.ts": "39cca90d29247f098a7b1261ca13fff1cbf5988d39d8051678b692874af6794d",
+    "lib/zhiban/application/profile/service.ts": "cf99447348838ca2edaee965dccdef7081dea8b2838ae123bb545a52b4cebbb3",
+    "lib/zhiban/infrastructure/profile/postgres/transaction.ts": "882ea0df27108ca46a58f9b204ecdbb865c1324ee8866635277598ce309dbc59",
+    "lib/zhiban/infrastructure/profile/http.ts": "c31c0b6a92917588391dfd9851841b3dc144b718e8f09733f3d4675fcff6e217",
+    "app/zhiban/local/profile.js": "3e23a5718686267a10c592df9460ab4d2c66221cb656425adf95eea6bac4a476",
+    "scripts/zhiban-local/profile.ts": "349a37e70336dd34adc7b13a294c9fcbb93650fe6c3c32795cc33092b7c10031",
+    "scripts/zhiban-local/build-profile-reference.ts": "07a4b3dcf039a91b58dd2d477ad78e8b52878d1162cbc06d3845526fd8de5146",
+    "scripts/zhiban-local/verify-avatar.ts": "2ce1b365fa37d88caee66056e583e1c0175fa333a37e49d472fe06bd929f8643",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "12193efad0560eab6f155a4525c2f8e1b5516b723c350cb5a2876a08695eee46",
+    "scripts/zhiban-local/run-m6-catalog.ts": "12c18176ea6a9f08da4c121aac36ac318b610264f1744766f8b53d247f704fce",
+    "scripts/zhiban-local/tsconfig.avatar.json": "246a318e8e429d9de59f4604f5e99837d3ee991582dadcb456be0a1d9e3a1347",
+    "package.json": "09871fcb3624708ce14378dd9921f3c75a7511926897b9486608f39ef973cd98",
+    "docs/v2/evidence/zhiban-profile-directory-reference-local.json": "f882854113186e42f6ad0e9bf1f6e6caee8e87b632c60cb211f50edbd15cf9eb",
+    "docs/v2/evidence/zhiban-avatar-local.json": "63a551f5c57788973b4d13fa34f502d8abc018e88debb885f0b94a0b3af0ee87",
+    "docs/v2/zhiban-v2-avatar-local.md": "4dc155773bff755c05dc9ba8cc5a13965aa5c2c8b8099331fa47fa3ec8066146",
+    "docs/v2/evidence/zhiban-avatar-3461-student.png": "0d1914ba203a36b2a1b2f798d25077130ef65a5b21c8f85304563ed842d916a6",
+    "docs/v2/evidence/zhiban-avatar-3461-admin.png": "8c79f31d54337c6668c2585c19914e4e0454b2a32ea7d6cb2ddcd428f14da934"
+  },
+  "excluded": [
+    "production/55432/55433",
+    "CI/commit/push",
+    "JPEG/crop/global avatars/public directory",
+    "restore proof; old instance already stopped"
+  ]
+}

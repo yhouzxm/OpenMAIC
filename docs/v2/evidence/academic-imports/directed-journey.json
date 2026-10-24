@@ -1,0 +1,14 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "SEVEN_ACADEMIC_IMPORT_KINDS_AND_DURABLE_BATCH_RESULTS",
+  "businessPreviewNoWrite": true,
+  "perRowAtomicNotWholeBatch": true,
+  "reconstructedServiceReadback": true,
+  "realCommitLostAckRecovery": true,
+  "adminRevocation": true,
+  "crossTenantRls": true,
+  "importsDidNotChangeCredentialOrRoles": true,
+  "noProductionOrRealData": true
+}

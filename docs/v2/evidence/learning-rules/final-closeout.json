@@ -1,0 +1,112 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "recordedAt": "2026-10-23T12:30:12.382258+00:00",
+  "branch": "refactor/zhiban-v2",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "candidateIsDirty": true,
+  "committed": false,
+  "pushed": false,
+  "ciDispatched": false,
+  "runtime": {
+    "status": "RUNNING_LOCAL_DISPOSABLE",
+    "origin": "https://127.0.0.1:3461",
+    "root": "/tmp/zhiban-trial-content-t6MxsR",
+    "workspace": "https://127.0.0.1:3461/zhiban?space=01a168bb-820e-73f4-b7a3-a63510981973",
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "sourceCount": 2755,
+    "sourceManifestSha256": "6d587818c344d0639e965dd9141480a1b625926111f3e1b7940350df65706ddf"
+  },
+  "checks": {
+    "rulesAndCurriculumUnit": {
+      "command": "pnpm exec vitest run tests/zhiban/progress/rules.test.ts tests/zhiban/curriculum/model.test.ts",
+      "exitCode": 0
+    },
+    "buildTypes": {
+      "command": "pnpm exec tsc --noEmit -p tsconfig.build.json",
+      "exitCode": 0,
+      "note": "Final TypeScript product files unchanged since this successful check"
+    },
+    "scopedLint": {
+      "exitCode": 0,
+      "scope": [
+        "new progress rules",
+        "curriculum model and transaction",
+        "curriculum UI",
+        "learning center UI",
+        "progress tests",
+        "LOCAL journey script"
+      ]
+    },
+    "formatAndJsSyntax": {
+      "exitCode": 0
+    },
+    "browserAndPG16": {
+      "command": "node scripts/zhiban-local/verify-learning-rules.cjs",
+      "exitCode": 0,
+      "scope": "teacher authoring and explicit publication; student course and learning center; original text/Quiz/classroom entry; published grade/draft/correction; queued concurrency; resubmission; enrollment revoke/rejoin; version binding; restricted API rejection; practice exclusion; evidence audit"
+    },
+    "documentationLinks": {
+      "status": "PASS"
+    },
+    "repositoryDiffWhitespace": {
+      "exitCode": 2,
+      "scope": "Existing dirty CHANGELOG.md lines 186 and 213 contain trailing whitespace; this task did not edit that file",
+      "taskSourceFormatting": "PASS"
+    }
+  },
+  "boundaries": [
+    "No applied migration or database ACL changed",
+    "No frozen Identity or assessment completion authority changed",
+    "Required counts concern explicitly configured activities only",
+    "Native Runtime/HTML interaction mastery, course final grading and certificates remain deferred",
+    "No unrelated classroom/model/scanner/full suite/CI/P7 rebuild",
+    "Coarse offering write barrier validated for correctness, not production throughput",
+    "Historical P7 archive retains its original source scope"
+  ],
+  "sourceHashes": {
+    "lib/zhiban/domain/academic/model.ts": "588e8df0da0fb7a6c1b05b40204d8589395055375f661b43e41195303490401f",
+    "lib/zhiban/domain/curriculum/model.ts": "1a8aa81a7007401647e219a1c5afb384f888e4016e08bbc3895a9fc3595f3a79",
+    "lib/zhiban/domain/progress/rules.ts": "8386f121e8c550d24868d3a7131a053345334e63ddd840f3df9b931f505c8433",
+    "lib/zhiban/infrastructure/curriculum/postgres/progress.ts": "de5e12aa6ba1ac1e52cb5f4fdace3d931380febc2809a6ff05ffd42c53e484af",
+    "lib/zhiban/infrastructure/curriculum/postgres/transaction.ts": "88d8850ff1b24c3962126383a8817a16e86861b1f94920093b025643dce5a167",
+    "lib/zhiban/infrastructure/learning/postgres/transaction.ts": "214125174bacb9f2073b232fe9a7f8e60c532b56d1ad24c84d7295973d8ede36",
+    "lib/zhiban/infrastructure/assessment/postgres/transaction.ts": "2e5ef33ee077d6699c2454e7c8afe54af1a7cd41075dca162acaa6289550c199",
+    "lib/zhiban/infrastructure/quiz/postgres/transaction.ts": "1adf3cc38fcae0ee8caf5c4e97e67e13678463fa5df12d88792dbe57d92a7f84",
+    "lib/zhiban/infrastructure/classroom/postgres/transaction.ts": "6c572eeb006fc10576e2e036c6f1b616e288b22a45ff5c83f74554be5048cf07",
+    "app/zhiban/local/curriculum.js": "c51f1d4b4e1f0c88a998f33e14ffa9f3eba95ed40cf3c9797b348498414e727c",
+    "app/zhiban/local/learning.js": "ab0eb4aa41661d64b043e16ef197eca860f2b9d8bd6d0d1d94b834662f0f5d08",
+    "app/zhiban/local/classrooms.js": "3a587b3e726188d181c1741108b5627a152860cf4256f6ac4678ad1a8011e904",
+    "app/zhiban/local/learning-center-client.tsx": "11caaa4d359a58cc279065cb06c9d383e56bf56315a6b035b7fe6f80f763672b",
+    "app/zhiban/local/quiz-client.tsx": "5e1ec052bf1e7c9230047156b6ccf219db39194d4cc176faf0cfece2e84ad726",
+    "scripts/zhiban-local/verify-learning-rules.cjs": "ba17f69927f11e854d51d4eea5a8090f833b8eec0172c0fa6ec9f634029cc724",
+    "tests/zhiban/progress/rules.test.ts": "20e82da8e9d2b995f8a64d483ebbeb598fda49441e057de64a84096efc995094"
+  },
+  "evidenceHashes": {
+    "format.log": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+    "runtime-info.json": "43f502f062e48a22aca644a5e07804f60ccfdf7900ca5d351455ab2976e621f4",
+    "lint.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "student-progress.png": "7ffdc20241f96a20ec640465225acb3914ea250386c7bec6aad6ebd7c5ec4d1e",
+    "journey.json": "8e0145a689247d5eeb706d6c971211a6b7f0d77c5bbf8c7299ca8906a4970c00",
+    "backup.json": "a8f49a4e6200227342129d0a789202d899037d94a70656c07c478436f7ea6054",
+    "unit.log": "5f97b19a82f4514ee849baf373dd0a92c7834bb59a4e5b1ea8f6876184db3651",
+    "journey.log": "9b50ab3a7878714f347f6e11fa88b7da2fc1b489a41e8fff52b03c92a2359a4f",
+    "build-types.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "backup-index.json": "0ab3759740d2d082452ada18f6f629c533a97eb579c1427b04b1218de359551f",
+    "learning-center.png": "d48bc4e7e534fa73f1e22a73b2614520397ff96420aa4cf98cc8fdfccf9edd22",
+    "pre-validation-backup.json": "ab9234527a052ab1076211aae01fba598f2c6a5d98efd3c4f07cb6c9cdc8489d"
+  },
+  "documentationHashes": {
+    "docs/v2/zhiban-v2-learning-rules-local.md": "f11dd720125512c288ec89423cd2754e7c82b980366b5f546faf9267e536aa47",
+    "docs/v2/zhiban-v2-migration-completion-plan.md": "b0c4cb7f4d19179abe1716f0292078e809498eadce18f797d6096ca79b4bd982",
+    "docs/v2/zhiban-v2-feature-gap-matrix.md": "5bd4669912c935a1348f0b4a01677fe3e29de1a5b8f050d5cc70496ff6e48726",
+    "docs/v2/zhiban-v2-ui-page-gap-matrix.md": "727f1b5ddb2a6538945065e23f85ebc24ae20a3fb39af15575715f7d0971347e"
+  },
+  "environment": {
+    "node": "v22.23.3",
+    "pnpm": "10.28.0",
+    "pg16": "160015"
+  }
+}

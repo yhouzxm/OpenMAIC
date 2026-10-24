@@ -1,0 +1,5 @@
+
+> openmaic@1.2.1 trial:zhiban:backup:verify /home/zxm/openmaic/zhiban
+> tsx scripts/zhiban-local/persistent-snapshot.ts verify
+
+{"status":"PASS","evidenceOrigin":"LOCAL","snapshot":"/home/zxm/.local/share/zhiban-persistent/2026-10-24T08-03-40.976Z-e6d9a78c","files":3122,"scope":"FILE_HASH_CLOSURE_ONLY"}

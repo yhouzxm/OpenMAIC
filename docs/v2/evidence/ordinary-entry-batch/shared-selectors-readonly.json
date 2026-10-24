@@ -1,0 +1,13 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "SHARED_SELECTOR_BRANCH_READINESS_ONLY_NO_AI_WORKFLOW",
+  "root": "/tmp/zhiban-trial-content-UkH8Fz",
+  "checks": [
+    "TEACHER: original AI selector retained under shared component changes",
+    "STUDENT: original AI selector retained under shared component changes"
+  ],
+  "modelCalls": false,
+  "businessWrites": false
+}

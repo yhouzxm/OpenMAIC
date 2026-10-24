@@ -1,0 +1,51 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "date": "2026-10-17",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "origin": "https://127.0.0.1:3463",
+  "startupEvidence": "zhiban-classroom-edit-demo-local.json",
+  "sourceMatchesAtCloseout": true,
+  "sourceDriftCount": 0,
+  "pg16": 160015,
+  "directedChecks": [
+    "Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately",
+    "disposable content loader rejects wrong target, artifact hash and elevated Bridge ACL; restored state required before serving",
+    "PG16 restricted roles + real Identity sessions + validated trusted HTTPS",
+    "trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands",
+    "real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft",
+    "three real browser logins share one origin: admin history, teacher activities/queue/analytics, student activities/published feedback; no script errors",
+    "student/admin cannot acquire teacher grading; malformed content routes and Runtime/control remain closed",
+    "classroom edit: teacher-only draft metadata, draft isolation, strict fields/time range, durable replay, stale revision and edit/publish contention pass",
+    "classroom schedule: delayed/closed windows reject new enters; restoring unended window retains Attempt; existing draft survives; close/enter barrier and ENDED terminal hold; before/after audit excludes description",
+    "classroom edit loader rejects missing update column and excess DELETE; exact ACL restored before serving",
+    "classroom edit browser: teacher edits draft and reloads, cancel and conflict preserve input, navigation cancellation keeps form, Beijing-time schedule hides/shows student entry; no page errors"
+  ],
+  "unitTests": "4/4 PASS (tests/zhiban/classroom)",
+  "scopedTypes": "PASS (tsconfig.classroom.json)",
+  "javascriptSyntax": "PASS",
+  "migrations": {
+    "0002_classroom_edit.sql": "3bc1acaead53db6060df328731296f30980a5fb9aebddbbe6a1c7d4dfe413a4d",
+    "0001_classroom.sql": "1668814bdc87f8137609ca511c51037c43958b1a57843d2900f09f360ccb6a2f"
+  },
+  "existing0001Unchanged": true,
+  "manualBrowser": {
+    "draftTitleDescription": "PASS",
+    "publishedBeijingWindow": "2099-10-17 09:00–10:00 saved and displayed",
+    "clearWindow": "PASS; final version 5 has no time bounds",
+    "screenshot": "zhiban-classroom-edit-browser.png"
+  },
+  "previousEnvironments": {
+    "3461": "STOPPED; prior temporary root missing at first inspection",
+    "3462": "STOPPED; prior temporary root missing at first inspection",
+    "changedThisTurn": false
+  },
+  "exclusions": [
+    "full repository typecheck/regression",
+    "GitHub CI",
+    "native refresh/close confirmation acceptance",
+    "real PG55432/55433",
+    "Runtime/AI/real maintenance",
+    "old classroom data recovery"
+  ]
+}

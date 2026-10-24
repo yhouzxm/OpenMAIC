@@ -1,0 +1,8 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "status": "PASS",
+  "scope": "UNCHANGED_EXISTING_SQL_IDENTITY_AND_FROZEN_RUNTIME_SINCE_P7",
+  "baselineVersion": "zhiban-local-20261024-2035f8a244ba",
+  "files": 183,
+  "drift": []
+}

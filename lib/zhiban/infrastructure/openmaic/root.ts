@@ -1,3 +1,4 @@
+import { verifyNativeSchemaState } from './schema-state';
 import type { TransactionPool } from '../identity/postgres/transactions';
 import { Pool } from 'pg';
 import type { createIdentityComposition } from '../identity/composition/root';
@@ -57,6 +58,7 @@ async function inspect(
         r.rows[0].version >= 160000 &&
         r.rows[0].version < 170000,
     );
+    if (schema === 'public') await verifyNativeSchemaState(client);
     check((await catalogFingerprint(client, schema)) === fingerprint);
   });
 }

@@ -1,0 +1,138 @@
+{
+  "status": "PASS",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "candidateInventorySha256": "4e5585a55aae259a39ac5c0aa01f40e66c4dbb138d99b2d093c626565c9d662a",
+  "candidateMigrationSha256": "ec2aa8066aae0455127522df40a32b86249a98417391dc714d243f366e592548",
+  "checks": [
+    {
+      "name": "shared launcher excludes exclusive maintenance and concurrent launch is allowed",
+      "status": "PASS"
+    },
+    {
+      "name": "exclusive lock excludes another process and flag survives owner exit",
+      "status": "PASS"
+    },
+    {
+      "name": "host inherits shared lock after launcher parent releases its descriptor",
+      "status": "PASS"
+    },
+    {
+      "name": "unsafe parameter logging rejects before maintenance flag or admission mutation",
+      "status": "PASS"
+    },
+    {
+      "name": "tampered signed approval rejects before admission/HBA changes",
+      "status": "PASS"
+    },
+    {
+      "name": "normal executor rotates credentials, drains idle Native backend, holds exact four sessions",
+      "status": "PASS"
+    },
+    {
+      "name": "renew checks actual barrier with current physical sessions",
+      "status": "PASS"
+    },
+    {
+      "name": "normal resume commits RESUMING before opening, clears claims only at CLOSED",
+      "status": "PASS"
+    },
+    {
+      "name": "normal window can restart with higher epoch and block without restoring admission",
+      "status": "PASS"
+    },
+    {
+      "name": "takeover drains old maintenance and hands both claims to higher epoch; old credentials denied",
+      "status": "PASS"
+    },
+    {
+      "name": "SIGKILL of real controller process leaves durable launcher block and closed databases",
+      "status": "PASS"
+    },
+    {
+      "name": "takeover COMMIT acknowledgement loss preserves committed successor and blocks",
+      "status": "PASS"
+    },
+    {
+      "name": "same committed takeover pair is ACK-only and never creates another successor",
+      "status": "PASS"
+    },
+    {
+      "name": "fresh request takes over lost successor at higher epoch and normal resume works",
+      "status": "PASS"
+    },
+    {
+      "name": "full catalog drift rejects normal resume and keeps both admissions closed",
+      "status": "PASS"
+    },
+    {
+      "name": "HBA tampering is detected on renewal and does not release startup flag",
+      "status": "PASS"
+    },
+    {
+      "name": "partial normal restore failure preserves RESUMING, closes gates and disables writers",
+      "status": "PASS"
+    },
+    {
+      "name": "credential staging failure occurs before any password ALTER",
+      "status": "PASS"
+    },
+    {
+      "name": "Business helper drift rejects before fresh controller authority is seeded",
+      "status": "PASS"
+    },
+    {
+      "name": "lost CLOSED COMMIT ACK keeps flag and isolation despite committed CLOSED",
+      "status": "PASS"
+    },
+    {
+      "name": "fresh closed-ack bootstrap observes exact CLOSED without replay or flag release",
+      "status": "PASS"
+    },
+    {
+      "name": "wrong CLOSED epoch rejects without granting restore authority",
+      "status": "PASS"
+    },
+    {
+      "name": "wrong resume journal binding rejects before credential rotation",
+      "status": "PASS"
+    },
+    {
+      "name": "CLOSED helper execute ACL excludes runtime, issuer, executor and PUBLIC",
+      "status": "PASS"
+    },
+    {
+      "name": "historical CLOSED ACK does not clear a later active window claim",
+      "status": "PASS"
+    },
+    {
+      "name": "NOT_CLOSED after failed complete_resume never authorizes write replay",
+      "status": "PASS"
+    },
+    {
+      "name": "wrong service scope refuses controller seed in CLOSED ACK bootstrap",
+      "status": "PASS"
+    },
+    {
+      "name": "partial password rotation retains prepared secrets and exact per-role progress",
+      "status": "PASS"
+    },
+    {
+      "name": "prepared credential file drift prevents resume and never marks delivery ready",
+      "status": "PASS"
+    },
+    {
+      "name": "secrets absent from durable journals; generated credential files are 0600",
+      "status": "PASS"
+    }
+  ],
+  "disposableClusterOnly": true,
+  "temporaryClusterStoppedAndRemoved": true,
+  "existingClustersConnected": false,
+  "runtimeAccepted": false,
+  "terminalActionsAllowed": false,
+  "limitations": [
+    "Synthetic ready installation and minimal Native fixture; no production authority",
+    "No Native proof/finalize or actual host restart acceptance"
+  ]
+}

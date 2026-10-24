@@ -1,0 +1,79 @@
+#roster {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 36px 24px 64px;
+}
+#roster h1 {
+  font-size: 30px;
+  margin: 8px 0;
+}
+#roster h2 {
+  font-size: 22px;
+  margin-top: 28px;
+}
+.roster-input {
+  padding: 24px;
+  margin: 20px 0;
+}
+.roster-input label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 18px 0;
+}
+.roster-input textarea,
+.roster-input select {
+  width: 100%;
+  font: inherit;
+  border: 1px solid #cedbd1;
+  border-radius: 8px;
+  padding: 12px;
+  background: white;
+}
+.roster-input textarea {
+  font-family: monospace;
+  font-size: 13px;
+}
+.roster-input details summary {
+  cursor: pointer;
+}
+.roster-input input {
+  max-width: 100%;
+}
+.roster-note {
+  font-size: 13px;
+  color: #576579;
+  line-height: 1.8;
+}
+.roster-table {
+  overflow-x: auto;
+  margin: 20px 0;
+  border: 1px solid #dbe5e1;
+  border-radius: 10px;
+  background: white;
+}
+.roster-table table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+.roster-table th {
+  background: #edf4ef;
+}
+.roster-table td,
+.roster-table th {
+  padding: 14px;
+  border-bottom: 1px solid #e5ece8;
+  white-space: nowrap;
+}
+.roster-table td:nth-child(2) {
+  font: 12px monospace;
+}
+@media (max-width: 700px) {
+  #roster {
+    padding: 24px 16px;
+  }
+  .roster-input {
+    padding: 16px;
+  }
+}

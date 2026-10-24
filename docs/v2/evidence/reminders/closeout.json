@@ -1,0 +1,37 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "branch": "refactor/zhiban-v2",
+  "head": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "businessReceipt": "zhiban-reminders-local.json",
+  "presentationIncrement": "reminders/style-increment.json",
+  "currentIabJourney": "reminders/default-browser-journey.json",
+  "sourceMatches": true,
+  "frozenSourceDrift": 0,
+  "currentRoot": "/tmp/zhiban-trial-content-febOEf",
+  "scope": "P5_SINGLE_RECIPIENT_IN_APP_REMINDER_AND_EXPLICIT_STUDENT_CONFIRMATION",
+  "backendTests": "RECIPIENT_ROLE_AND_STATUS_GUARDS_BOTH_REVOCATION_ORDERS_DEDUP_ACK_ROLLBACK_RLS",
+  "typecheck": "PASS",
+  "eslint": "PASS",
+  "dtoGatewayUnit": "PASS",
+  "backupRestoreTested": false,
+  "externalNotifications": false,
+  "nativeRuntimeGates": "UNCHANGED_CLOSED",
+  "commit": false,
+  "push": false,
+  "ciDispatch": false,
+  "realPg55432or55433Touched": false,
+  "nextProductPackage": "P5_TEACHER_REMEDIATION_PLAN_STUDENT_TASK_AND_EVIDENCE_REVIEW",
+  "suggestedModel": "GPT-6.1 Sol / medium",
+  "whitespaceCheck": {
+    "affectedTrackedFiles": "PASS",
+    "globalDiff": "PREEXISTING_CHANGELOG_WHITESPACE_LINES_186_213_NOT_CHANGED"
+  },
+  "businessReceiptPresentationOnlyDrift": [
+    "/home/zxm/openmaic/zhiban/app/zhiban/local/reminders.html",
+    "/home/zxm/openmaic/zhiban/app/zhiban/local/analytics.html",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/trial-content.ts",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/verify-m6-catalog.mts"
+  ]
+}

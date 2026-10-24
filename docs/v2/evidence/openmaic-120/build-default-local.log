@@ -1,0 +1,2388 @@
+
+> openmaic@1.2.0 build /home/zxm/openmaic/zhiban
+> node scripts/assert-vendor-maic-importer.mjs && node scripts/build-standalone-player.mjs && next build
+
+[assert-vendor] ok: public/vendor/maic-importer/index.js
+[standalone-player] player.min.js: 693.3 KiB (gzip 214.5 KiB)
+[standalone-player] player-charts.min.js: 532.5 KiB (gzip 180.8 KiB)
+[standalone-player] player.min.css: 42.9 KiB (gzip 8.4 KiB)
+[standalone-player] katex-fonts.min.css: 341.0 KiB (gzip 254.7 KiB)
+▲ Next.js 16.3.3 (Turbopack)
+✓ Running next.config.ts took 60ms
+- Experiments (use with caution):
+  · proxyClientMaxBodySize: "200mb"
+
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead.
+
+  To migrate automatically, run:
+  npx @next/codemod@canary middleware-to-proxy .
+
+  Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+✓ Compiled successfully in 3.6min
+  Running TypeScript ...
+✓ Finished writing to filesystem cache in 78s
+  Finished TypeScript in 2.6min ...
+  Collecting page data using 3 workers ...
+  Generating static pages using 3 workers (0/52) ...
+  Generating static pages using 3 workers (13/52) 
+  Generating static pages using 3 workers (26/52) 
+  Generating static pages using 3 workers (39/52) 
+✓ Generating static pages using 3 workers (52/52) in 2.0s
+Turbopack build encountered 44 warnings:
+./packages/@openmaic/storage/dist/server/reference.js:116:5
+Warning: A Node.js API is used (process.argv at line: 116) which is not supported in the Edge Runtime.
+    Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+  [90m114 |[0m     process.once([32m'SIGTERM'[0m, close);
+  [90m115 |[0m }
+[33m[1m>[0m [90m116 |[0m [36mif[0m (process.argv[[35m1[0m] && [36mimport[0m.meta.url === pathToFileURL(process.argv[[35m1[0m]).href) {
+  [90m    |[0m     [33m[1m^^^^^^^^^^^^[0m
+  [90m117 |[0m     [36mvoid[0m main().[36mcatch[0m((error) => {
+  [90m118 |[0m         process.stderr.write([32m`[0m${error [36minstanceof[0m [33mError[0m ? error.stack : [33mString[0m(error)[32m}\n`[0m);
+  [90m119 |[0m         process.exitCode = [35m1[0m;
+
+Ecmascript file had an error
+
+Import traces:
+  #1 [App Route]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #2 [App Route]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/workspace-model-config.ts
+    ./app/api/model-config/import/route.ts
+
+  #3 [Instrumentation]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/asset-collector-schedule.ts
+    ./instrumentation.ts
+
+  #4 [Edge Instrumentation]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+  #6 [Server Component]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./packages/@openmaic/storage/dist/server/reference.js:116:58
+Warning: A Node.js API is used (process.argv at line: 116) which is not supported in the Edge Runtime.
+    Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+  [90m114 |[0m     process.once([32m'SIGTERM'[0m, close);
+  [90m115 |[0m }
+[33m[1m>[0m [90m116 |[0m [36mif[0m (process.argv[[35m1[0m] && [36mimport[0m.meta.url === pathToFileURL(process.argv[[35m1[0m]).href) {
+  [90m    |[0m                                                          [33m[1m^^^^^^^^^^^^[0m
+  [90m117 |[0m     [36mvoid[0m main().[36mcatch[0m((error) => {
+  [90m118 |[0m         process.stderr.write([32m`[0m${error [36minstanceof[0m [33mError[0m ? error.stack : [33mString[0m(error)[32m}\n`[0m);
+  [90m119 |[0m         process.exitCode = [35m1[0m;
+
+Ecmascript file had an error
+
+Import traces:
+  #1 [App Route]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #2 [App Route]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/workspace-model-config.ts
+    ./app/api/model-config/import/route.ts
+
+  #3 [Instrumentation]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/asset-collector-schedule.ts
+    ./instrumentation.ts
+
+  #4 [Edge Instrumentation]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+  #6 [Server Component]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/server/secret-box.ts:151:31
+Warning: A Node.js API is used (process.cwd at line: 151) which is not supported in the Edge Runtime.
+    Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+  [90m149 |[0m [36mexport[0m [36mfunction[0m inspectInstanceSecret(
+  [90m150 |[0m   env: [33mReadonly[0m<[33mRecord[0m<string, string | [36mundefined[0m>> = process.env,
+[33m[1m>[0m [90m151 |[0m   dataDir: string = path.join(process.cwd(), [32m'data'[0m),
+  [90m    |[0m                               [33m[1m^^^^^^^^^^^[0m
+  [90m152 |[0m ): [33mInstanceSecretState[0m {
+  [90m153 |[0m   [36mconst[0m configured = env.[33mOPENMAIC_SECRET_KEY[0m?.trim();
+  [90m154 |[0m   [36mconst[0m file = path.join(dataDir, [33mINSTANCE_SECRET_FILE[0m);
+
+Ecmascript file had an error
+
+Import traces:
+  #1 [App Route]:
+    ./lib/server/secret-box.ts
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #2 [App Route]:
+    ./lib/server/secret-box.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./app/api/model-config/import/route.ts
+
+  #3 [Instrumentation]:
+    ./lib/server/secret-box.ts
+    ./lib/server/instance-secret-check.ts
+    ./instrumentation.ts
+
+  #4 [Edge Instrumentation]:
+    ./lib/server/secret-box.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./lib/server/secret-box.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+  #6 [Server Component]:
+    ./lib/server/secret-box.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/media/adapters/comfyui-image-adapter.ts:171:33
+Warning: A Node.js API is used (process.cwd at line: 171) which is not supported in the Edge Runtime.
+    Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+  [90m169 |[0m     }
+  [90m170 |[0m
+[33m[1m>[0m [90m171 |[0m     [36mconst[0m publicDir = path.join(process.cwd(), [32m'public'[0m);
+  [90m    |[0m                                 [33m[1m^^^^^^^^^^^[0m
+  [90m172 |[0m     [36mconst[0m filePath = path.join(publicDir, filename);
+  [90m173 |[0m
+  [90m174 |[0m     [90m// Defense in depth: even after the allowlist check above, verify the[0m
+
+Ecmascript file had an error
+
+Import traces:
+  #1 [App Route]:
+    ./lib/media/adapters/comfyui-image-adapter.ts
+    ./lib/server/provider-config.ts
+    ./app/api/health/route.ts
+
+  #2 [App Route]:
+    ./lib/media/adapters/comfyui-image-adapter.ts
+    ./lib/media/image-providers.ts
+    ./app/api/verify-image-provider/route.ts
+
+  #3 [Edge Instrumentation]:
+    ./lib/media/adapters/comfyui-image-adapter.ts
+    ./lib/media/image-providers.ts
+    ./lib/server/model-config/model-authorization.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #4 [Instrumentation]:
+    ./lib/media/adapters/comfyui-image-adapter.ts
+    ./lib/media/image-providers.ts
+    ./lib/server/model-config/model-authorization.ts
+    ./lib/server/generation/run/runner.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./lib/media/adapters/comfyui-image-adapter.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+  #6 [Client Component Browser]:
+    ./lib/media/adapters/comfyui-image-adapter.ts [Client Component Browser]
+    ./lib/media/image-providers.ts [Client Component Browser]
+    ./lib/legacy-browser-import/model-settings.ts [Client Component Browser]
+    ./lib/store/settings.ts [Client Component Browser]
+    ./lib/store/stage.ts [Client Component Browser]
+    ./app/eval/whiteboard/page.tsx [Client Component Browser]
+    ./app/eval/whiteboard/page.tsx [Server Component]
+
+  #7 [Client Component SSR]:
+    ./lib/media/adapters/comfyui-image-adapter.ts [Client Component SSR]
+    ./lib/media/image-providers.ts [Client Component SSR]
+    ./lib/config/provider-presets.ts [Client Component SSR]
+    ./lib/legacy-browser-import/model-settings-import.ts [Client Component SSR]
+    ./components/model-settings-init.tsx [Client Component SSR]
+    ./components/access-code-guard.tsx [Client Component SSR]
+    ./components/access-code-guard.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
+
+  #8 [Server Component]:
+    ./lib/media/adapters/comfyui-image-adapter.ts
+    ./lib/media/image-providers.ts
+    ./lib/config/provider-presets.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/server/secret-box.ts:182:31
+Warning: A Node.js API is used (process.cwd at line: 182) which is not supported in the Edge Runtime.
+    Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+  [90m180 |[0m [36mexport[0m [36mfunction[0m instanceKey(
+  [90m181 |[0m   env: [33mReadonly[0m<[33mRecord[0m<string, string | [36mundefined[0m>> = process.env,
+[33m[1m>[0m [90m182 |[0m   dataDir: string = path.join(process.cwd(), [32m'data'[0m),
+  [90m    |[0m                               [33m[1m^^^^^^^^^^^[0m
+  [90m183 |[0m ): [33mInstanceKey[0m {
+  [90m184 |[0m   [36mconst[0m configured = env.[33mOPENMAIC_SECRET_KEY[0m?.trim();
+  [90m185 |[0m   [36mconst[0m source = configured ? [32m`env:[0m${configured[32m}`[0m : [32m`file:[0m${dataDir[32m}`[0m;
+
+Ecmascript file had an error
+
+Import traces:
+  #1 [App Route]:
+    ./lib/server/secret-box.ts
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #2 [App Route]:
+    ./lib/server/secret-box.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./app/api/model-config/import/route.ts
+
+  #3 [Instrumentation]:
+    ./lib/server/secret-box.ts
+    ./lib/server/instance-secret-check.ts
+    ./instrumentation.ts
+
+  #4 [Edge Instrumentation]:
+    ./lib/server/secret-box.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./lib/server/secret-box.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+  #6 [Server Component]:
+    ./lib/server/secret-box.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/server/provider-config.ts:224:32
+Warning: A Node.js API is used (process.cwd at line: 224) which is not supported in the Edge Runtime.
+    Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+  [90m222 |[0m [36mfunction[0m loadYamlFile(filename: string): [33mYamlData[0m {
+  [90m223 |[0m   [36mtry[0m {
+[33m[1m>[0m [90m224 |[0m     [36mconst[0m filePath = path.join(process.cwd(), filename);
+  [90m    |[0m                                [33m[1m^^^^^^^^^^^[0m
+  [90m225 |[0m     [36mif[0m (!fs.existsSync(filePath)) [36mreturn[0m {};
+  [90m226 |[0m     [36mconst[0m raw = fs.readFileSync(filePath, [32m'utf-8'[0m);
+  [90m227 |[0m     [36mconst[0m parsed = yaml.load(raw) [36mas[0m [33mRecord[0m<string, unknown> | [36mnull[0m;
+
+Ecmascript file had an error
+
+Import traces:
+  #1 [App Route]:
+    ./lib/server/provider-config.ts
+    ./app/api/verify-pdf-provider/route.ts
+
+  #2 [App Route]:
+    ./lib/server/provider-config.ts
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #3 [Instrumentation]:
+    ./lib/server/provider-config.ts
+    ./lib/server/config-validation.ts
+    ./instrumentation.ts
+
+  #4 [Edge Instrumentation]:
+    ./lib/server/provider-config.ts
+    ./lib/server/model-config/deployment-layer.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./lib/server/provider-config.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/server/model-config/openmaic-yml.ts:449:17
+Warning: A Node.js API is used (process.cwd at line: 449) which is not supported in the Edge Runtime.
+    Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+  [90m447 |[0m [36mexport[0m [36mfunction[0m loadModelConfigFile(
+  [90m448 |[0m   env: [33mConfigEnv[0m = process.env,
+[33m[1m>[0m [90m449 |[0m   cwd: string = process.cwd(),
+  [90m    |[0m                 [33m[1m^^^^^^^^^^^[0m
+  [90m450 |[0m ): [33mModelConfigFile[0m | [36mnull[0m {
+  [90m451 |[0m   [36mconst[0m explicit = env.[33mOPENMAIC_CONFIG[0m?.trim();
+  [90m452 |[0m   [36mconst[0m file = path.resolve(cwd, explicit || [33mDEFAULT_MODEL_CONFIG_FILE[0m);
+
+Ecmascript file had an error
+
+Import traces:
+  #1 [App Route]:
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #2 [App Route]:
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/server/model-config/runtime.ts
+    ./app/api/chat/pi/route.ts
+
+  #3 [Edge Instrumentation]:
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #4 [Instrumentation]:
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/media/comfyui-workflows.ts:81:35
+Warning: A Node.js API is used (process.cwd at line: 81) which is not supported in the Edge Runtime.
+    Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+  [90m79 |[0m       [36mconst[0m fs = [36mawait[0m [36mimport[0m([32m'fs'[0m);
+  [90m80 |[0m       [36mconst[0m path = [36mawait[0m [36mimport[0m([32m'path'[0m);
+[33m[1m>[0m [90m81 |[0m       [36mconst[0m publicDir = path.join(process.cwd(), [32m'public'[0m);
+  [90m   |[0m                                   [33m[1m^^^^^^^^^^^[0m
+  [90m82 |[0m       [36mif[0m (!fs.existsSync(publicDir)) [36mreturn[0m [];
+  [90m83 |[0m
+  [90m84 |[0m       [36mreturn[0m fs
+
+Ecmascript file had an error
+
+Import traces:
+  #1 [App Route]:
+    ./lib/media/comfyui-workflows.ts
+    ./app/api/comfyui-workflows/route.ts
+
+  #2 [App Route]:
+    ./lib/media/comfyui-workflows.ts
+    ./lib/server/provider-config.ts
+    ./app/api/health/route.ts
+
+  #3 [Server Component]:
+    ./lib/media/comfyui-workflows.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+  #4 [Edge Instrumentation]:
+    ./lib/media/comfyui-workflows.ts
+    ./lib/media/adapters/comfyui-image-adapter.ts
+    ./lib/media/image-providers.ts
+    ./lib/server/model-config/model-authorization.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #5 [Instrumentation]:
+    ./lib/media/comfyui-workflows.ts
+    ./lib/media/adapters/comfyui-image-adapter.ts
+    ./lib/media/image-providers.ts
+    ./lib/server/model-config/model-authorization.ts
+    ./lib/server/generation/run/runner.ts
+    ./instrumentation.ts
+
+  #6 [Client Component Browser]:
+    ./lib/media/comfyui-workflows.ts [Client Component Browser]
+    ./lib/media/adapters/comfyui-image-adapter.ts [Client Component Browser]
+    ./lib/media/image-providers.ts [Client Component Browser]
+    ./lib/legacy-browser-import/model-settings.ts [Client Component Browser]
+    ./lib/store/settings.ts [Client Component Browser]
+    ./lib/store/stage.ts [Client Component Browser]
+    ./app/eval/whiteboard/page.tsx [Client Component Browser]
+    ./app/eval/whiteboard/page.tsx [Server Component]
+
+  #7 [Client Component SSR]:
+    ./lib/media/comfyui-workflows.ts [Client Component SSR]
+    ./lib/media/adapters/comfyui-image-adapter.ts [Client Component SSR]
+    ./lib/media/image-providers.ts [Client Component SSR]
+    ./lib/config/provider-presets.ts [Client Component SSR]
+    ./lib/legacy-browser-import/model-settings-import.ts [Client Component SSR]
+    ./components/model-settings-init.tsx [Client Component SSR]
+    ./components/access-code-guard.tsx [Client Component SSR]
+    ./components/access-code-guard.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
+
+  #8 [Server Component]:
+    ./lib/media/comfyui-workflows.ts
+    ./lib/media/adapters/comfyui-image-adapter.ts
+    ./lib/media/image-providers.ts
+    ./lib/config/provider-presets.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./packages/@openmaic/storage/dist/server/reference.js:110:43
+Warning: A Node.js API is used (process.exit at line: 110) which is not supported in the Edge Runtime.
+    Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+  [90m108 |[0m     [36mconst[0m close = () => {
+  [90m109 |[0m         server.close(() => {
+[33m[1m>[0m [90m110 |[0m             [36mvoid[0m pool.end().[36mfinally[0m(() => process.exit([35m0[0m));
+  [90m    |[0m                                           [33m[1m^^^^^^^^^^^^[0m
+  [90m111 |[0m         });
+  [90m112 |[0m     };
+  [90m113 |[0m     process.once([32m'SIGINT'[0m, close);
+
+Ecmascript file had an error
+
+Import traces:
+  #1 [App Route]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #2 [App Route]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/workspace-model-config.ts
+    ./app/api/model-config/import/route.ts
+
+  #3 [Instrumentation]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/asset-collector-schedule.ts
+    ./instrumentation.ts
+
+  #4 [Edge Instrumentation]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+  #6 [Server Component]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./packages/@openmaic/storage/dist/server/reference.js:119:9
+Warning: A Node.js API is used (process.exitCode at line: 119) which is not supported in the Edge Runtime.
+    Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+  [90m117 |[0m     [36mvoid[0m main().[36mcatch[0m((error) => {
+  [90m118 |[0m         process.stderr.write([32m`[0m${error [36minstanceof[0m [33mError[0m ? error.stack : [33mString[0m(error)[32m}\n`[0m);
+[33m[1m>[0m [90m119 |[0m         process.exitCode = [35m1[0m;
+  [90m    |[0m         [33m[1m^^^^^^^^^^^^^^^^[0m
+  [90m120 |[0m     });
+  [90m121 |[0m }
+  [90m122 |[0m [90m//# sourceMappingURL=reference.js.map[0m
+
+Ecmascript file had an error
+
+Import traces:
+  #1 [App Route]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #2 [App Route]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/workspace-model-config.ts
+    ./app/api/model-config/import/route.ts
+
+  #3 [Instrumentation]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/asset-collector-schedule.ts
+    ./instrumentation.ts
+
+  #4 [Edge Instrumentation]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+  #6 [Server Component]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./packages/@openmaic/storage/dist/server/reference.js:113:5
+Warning: A Node.js API is used (process.once at line: 113) which is not supported in the Edge Runtime.
+    Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+  [90m111 |[0m         });
+  [90m112 |[0m     };
+[33m[1m>[0m [90m113 |[0m     process.once([32m'SIGINT'[0m, close);
+  [90m    |[0m     [33m[1m^^^^^^^^^^^^[0m
+  [90m114 |[0m     process.once([32m'SIGTERM'[0m, close);
+  [90m115 |[0m }
+  [90m116 |[0m [36mif[0m (process.argv[[35m1[0m] && [36mimport[0m.meta.url === pathToFileURL(process.argv[[35m1[0m]).href) {
+
+Ecmascript file had an error
+
+Import traces:
+  #1 [App Route]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #2 [App Route]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/workspace-model-config.ts
+    ./app/api/model-config/import/route.ts
+
+  #3 [Instrumentation]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/asset-collector-schedule.ts
+    ./instrumentation.ts
+
+  #4 [Edge Instrumentation]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+  #6 [Server Component]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./packages/@openmaic/storage/dist/server/reference.js:114:5
+Warning: A Node.js API is used (process.once at line: 114) which is not supported in the Edge Runtime.
+    Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+  [90m112 |[0m     };
+  [90m113 |[0m     process.once([32m'SIGINT'[0m, close);
+[33m[1m>[0m [90m114 |[0m     process.once([32m'SIGTERM'[0m, close);
+  [90m    |[0m     [33m[1m^^^^^^^^^^^^[0m
+  [90m115 |[0m }
+  [90m116 |[0m [36mif[0m (process.argv[[35m1[0m] && [36mimport[0m.meta.url === pathToFileURL(process.argv[[35m1[0m]).href) {
+  [90m117 |[0m     [36mvoid[0m main().[36mcatch[0m((error) => {
+
+Ecmascript file had an error
+
+Import traces:
+  #1 [App Route]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #2 [App Route]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/workspace-model-config.ts
+    ./app/api/model-config/import/route.ts
+
+  #3 [Instrumentation]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/asset-collector-schedule.ts
+    ./instrumentation.ts
+
+  #4 [Edge Instrumentation]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+  #6 [Server Component]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./instrumentation.ts:193:3
+Warning: A Node.js API is used (process.once at line: 193) which is not supported in the Edge Runtime.
+    Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+  [90m191 |[0m   };
+  [90m192 |[0m
+[33m[1m>[0m [90m193 |[0m   process.once([32m'SIGTERM'[0m, () => [36mvoid[0m shutdown());
+  [90m    |[0m   [33m[1m^^^^^^^^^^^^[0m
+  [90m194 |[0m   process.once([32m'SIGINT'[0m, () => [36mvoid[0m shutdown());
+  [90m195 |[0m }
+  [90m196 |[0m
+
+Ecmascript file had an error
+
+Import traces:
+  App Route:
+    ./instrumentation.ts
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  Server Component:
+    ./instrumentation.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./instrumentation.ts:194:3
+Warning: A Node.js API is used (process.once at line: 194) which is not supported in the Edge Runtime.
+    Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+  [90m192 |[0m
+  [90m193 |[0m   process.once([32m'SIGTERM'[0m, () => [36mvoid[0m shutdown());
+[33m[1m>[0m [90m194 |[0m   process.once([32m'SIGINT'[0m, () => [36mvoid[0m shutdown());
+  [90m    |[0m   [33m[1m^^^^^^^^^^^^[0m
+  [90m195 |[0m }
+  [90m196 |[0m
+  [90m197 |[0m /**
+
+Ecmascript file had an error
+
+Import traces:
+  App Route:
+    ./instrumentation.ts
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  Server Component:
+    ./instrumentation.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/server/secret-box.ts:87:32
+Warning: A Node.js API is used (process.pid at line: 87) which is not supported in the Edge Runtime.
+    Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+  [90m85 |[0m   [90m// exclusive link: the file is never visible half written, and of two[0m
+  [90m86 |[0m   [90m// processes starting together exactly one publishes, the other reads it.[0m
+[33m[1m>[0m [90m87 |[0m   [36mconst[0m temporary = [32m`[0m${file[32m}.[0m${process.pid[32m}.[0m${randomBytes([35m6[0m).toString([32m'hex'[0m)[32m}.tmp`[0m;
+  [90m   |[0m                                [33m[1m^^^^^^^^^^^[0m
+  [90m88 |[0m   [36mtry[0m {
+  [90m89 |[0m     [36mconst[0m fd = fs.openSync(temporary, [32m'wx'[0m, [35m0o600[0m);
+  [90m90 |[0m     [36mtry[0m {
+
+Ecmascript file had an error
+
+Import traces:
+  #1 [App Route]:
+    ./lib/server/secret-box.ts
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #2 [App Route]:
+    ./lib/server/secret-box.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./app/api/model-config/import/route.ts
+
+  #3 [Instrumentation]:
+    ./lib/server/secret-box.ts
+    ./lib/server/instance-secret-check.ts
+    ./instrumentation.ts
+
+  #4 [Edge Instrumentation]:
+    ./lib/server/secret-box.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./lib/server/secret-box.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+  #6 [Server Component]:
+    ./lib/server/secret-box.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./packages/@openmaic/storage/dist/server/reference.js:118:9
+Warning: A Node.js API is used (process.stderr at line: 118) which is not supported in the Edge Runtime.
+    Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+  [90m116 |[0m [36mif[0m (process.argv[[35m1[0m] && [36mimport[0m.meta.url === pathToFileURL(process.argv[[35m1[0m]).href) {
+  [90m117 |[0m     [36mvoid[0m main().[36mcatch[0m((error) => {
+[33m[1m>[0m [90m118 |[0m         process.stderr.write([32m`[0m${error [36minstanceof[0m [33mError[0m ? error.stack : [33mString[0m(error)[32m}\n`[0m);
+  [90m    |[0m         [33m[1m^^^^^^^^^^^^^^[0m
+  [90m119 |[0m         process.exitCode = [35m1[0m;
+  [90m120 |[0m     });
+  [90m121 |[0m }
+
+Ecmascript file had an error
+
+Import traces:
+  #1 [App Route]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #2 [App Route]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/workspace-model-config.ts
+    ./app/api/model-config/import/route.ts
+
+  #3 [Instrumentation]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/asset-collector-schedule.ts
+    ./instrumentation.ts
+
+  #4 [Edge Instrumentation]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+  #6 [Server Component]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./packages/@openmaic/storage/dist/server/reference.js:107:5
+Warning: A Node.js API is used (process.stdout at line: 107) which is not supported in the Edge Runtime.
+    Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+  [90m105 |[0m         [36mthrow[0m error;
+  [90m106 |[0m     }
+[33m[1m>[0m [90m107 |[0m     process.stdout.write([32m`Runtime reference server listening on http://127.0.0.1:[0m${port[32m}\..[0m.
+  [90m    |[0m     [33m[1m^^^^^^^^^^^^^^[0m
+  [90m108 |[0m     [36mconst[0m close = () => {
+  [90m109 |[0m         server.close(() => {
+  [90m110 |[0m             [36mvoid[0m pool.end().[36mfinally[0m(() => process.exit([35m0[0m));
+
+Ecmascript file had an error
+
+Import traces:
+  #1 [App Route]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #2 [App Route]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/workspace-model-config.ts
+    ./app/api/model-config/import/route.ts
+
+  #3 [Instrumentation]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/asset-collector-schedule.ts
+    ./instrumentation.ts
+
+  #4 [Edge Instrumentation]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+  #6 [Server Component]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/media/adapters/kling-adapter.ts:20:1
+Warning: A Node.js module is loaded ('crypto' at line 20) which is not supported in the Edge Runtime.
+    Learn More: https://nextjs.org/docs/messages/node-module-in-edge-runtime
+  [90m18 |[0m [90m */[0m
+  [90m19 |[0m
+[33m[1m>[0m [90m20 |[0m [36mimport[0m crypto [36mfrom[0m [32m'crypto'[0m;
+  [90m   |[0m [33m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m21 |[0m [36mimport[0m [36mtype[0m {
+  [90m22 |[0m   [33mMediaProviderFetch[0m,
+  [90m23 |[0m   [33mVideoGenerationConfig[0m,
+
+Ecmascript file had an error
+
+Import traces:
+  #1 [App Route]:
+    ./lib/media/adapters/kling-adapter.ts
+    ./lib/server/provider-config.ts
+    ./app/api/health/route.ts
+
+  #2 [App Route]:
+    ./lib/media/adapters/kling-adapter.ts
+    ./lib/media/video-providers.ts
+    ./app/api/verify-video-provider/route.ts
+
+  #3 [Edge Instrumentation]:
+    ./lib/media/adapters/kling-adapter.ts
+    ./lib/media/video-providers.ts
+    ./lib/server/model-config/model-authorization.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #4 [Instrumentation]:
+    ./lib/media/adapters/kling-adapter.ts
+    ./lib/media/video-providers.ts
+    ./lib/server/model-config/model-authorization.ts
+    ./lib/server/generation/run/runner.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./lib/media/adapters/kling-adapter.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+  #6 [Client Component Browser]:
+    ./lib/media/adapters/kling-adapter.ts [Client Component Browser]
+    ./lib/media/video-providers.ts [Client Component Browser]
+    ./lib/config/provider-presets.ts [Client Component Browser]
+    ./lib/legacy-browser-import/model-settings-import.ts [Client Component Browser]
+    ./components/model-settings-init.tsx [Client Component Browser]
+    ./components/access-code-guard.tsx [Client Component Browser]
+    ./components/access-code-guard.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
+
+  #7 [Client Component SSR]:
+    ./lib/media/adapters/kling-adapter.ts [Client Component SSR]
+    ./lib/media/video-providers.ts [Client Component SSR]
+    ./lib/config/provider-presets.ts [Client Component SSR]
+    ./lib/legacy-browser-import/model-settings-import.ts [Client Component SSR]
+    ./components/model-settings-init.tsx [Client Component SSR]
+    ./components/access-code-guard.tsx [Client Component SSR]
+    ./components/access-code-guard.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
+
+  #8 [Server Component]:
+    ./lib/media/adapters/kling-adapter.ts
+    ./lib/media/video-providers.ts
+    ./lib/config/provider-presets.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/media/adapters/comfyui-image-adapter.ts:120:22
+Warning: A Node.js module is loaded ('fs' at line 120) which is not supported in the Edge Runtime.
+    Learn More: https://nextjs.org/docs/messages/node-module-in-edge-runtime
+  [90m118 |[0m   [90m// Server-side: read from disk (public/ directory relative to cwd)[0m
+  [90m119 |[0m   [36mif[0m ([36mtypeof[0m window === [32m'undefined'[0m) {
+[33m[1m>[0m [90m120 |[0m     [36mconst[0m fs = [36mawait[0m [36mimport[0m([32m'fs'[0m);
+  [90m    |[0m                      [33m[1m^^^^^^^^^^^^[0m
+  [90m121 |[0m     [36mconst[0m path = [36mawait[0m [36mimport[0m([32m'path'[0m);
+  [90m122 |[0m     [36mconst[0m { isComfyuiWorkflowFilename, listComfyuiWorkflowFilenames } =
+  [90m123 |[0m       [36mawait[0m [36mimport[0m([32m'../comfyui-workflows'[0m);
+
+Ecmascript file had an error
+
+Import traces:
+  #1 [App Route]:
+    ./lib/media/adapters/comfyui-image-adapter.ts
+    ./lib/server/provider-config.ts
+    ./app/api/health/route.ts
+
+  #2 [App Route]:
+    ./lib/media/adapters/comfyui-image-adapter.ts
+    ./lib/media/image-providers.ts
+    ./app/api/verify-image-provider/route.ts
+
+  #3 [Edge Instrumentation]:
+    ./lib/media/adapters/comfyui-image-adapter.ts
+    ./lib/media/image-providers.ts
+    ./lib/server/model-config/model-authorization.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #4 [Instrumentation]:
+    ./lib/media/adapters/comfyui-image-adapter.ts
+    ./lib/media/image-providers.ts
+    ./lib/server/model-config/model-authorization.ts
+    ./lib/server/generation/run/runner.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./lib/media/adapters/comfyui-image-adapter.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+  #6 [Client Component Browser]:
+    ./lib/media/adapters/comfyui-image-adapter.ts [Client Component Browser]
+    ./lib/media/image-providers.ts [Client Component Browser]
+    ./lib/legacy-browser-import/model-settings.ts [Client Component Browser]
+    ./lib/store/settings.ts [Client Component Browser]
+    ./lib/store/stage.ts [Client Component Browser]
+    ./app/eval/whiteboard/page.tsx [Client Component Browser]
+    ./app/eval/whiteboard/page.tsx [Server Component]
+
+  #7 [Client Component SSR]:
+    ./lib/media/adapters/comfyui-image-adapter.ts [Client Component SSR]
+    ./lib/media/image-providers.ts [Client Component SSR]
+    ./lib/config/provider-presets.ts [Client Component SSR]
+    ./lib/legacy-browser-import/model-settings-import.ts [Client Component SSR]
+    ./components/model-settings-init.tsx [Client Component SSR]
+    ./components/access-code-guard.tsx [Client Component SSR]
+    ./components/access-code-guard.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
+
+  #8 [Server Component]:
+    ./lib/media/adapters/comfyui-image-adapter.ts
+    ./lib/media/image-providers.ts
+    ./lib/config/provider-presets.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/server/provider-config.ts:18:1
+Warning: A Node.js module is loaded ('fs' at line 18) which is not supported in the Edge Runtime.
+    Learn More: https://nextjs.org/docs/messages/node-module-in-edge-runtime
+  [90m16 |[0m [90m */[0m
+  [90m17 |[0m
+[33m[1m>[0m [90m18 |[0m [36mimport[0m fs [36mfrom[0m [32m'fs'[0m;
+  [90m   |[0m [33m[1m^^^^^^^^^^^^^^^^^^^^[0m
+  [90m19 |[0m [36mimport[0m path [36mfrom[0m [32m'path'[0m;
+  [90m20 |[0m [36mimport[0m yaml [36mfrom[0m [32m'js-yaml'[0m;
+  [90m21 |[0m [36mimport[0m { createLogger } [36mfrom[0m [32m'@/lib/logger'[0m;
+
+Ecmascript file had an error
+
+Import traces:
+  #1 [App Route]:
+    ./lib/server/provider-config.ts
+    ./app/api/verify-pdf-provider/route.ts
+
+  #2 [App Route]:
+    ./lib/server/provider-config.ts
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #3 [Instrumentation]:
+    ./lib/server/provider-config.ts
+    ./lib/server/config-validation.ts
+    ./instrumentation.ts
+
+  #4 [Edge Instrumentation]:
+    ./lib/server/provider-config.ts
+    ./lib/server/model-config/deployment-layer.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./lib/server/provider-config.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/media/comfyui-workflows.ts:79:24
+Warning: A Node.js module is loaded ('fs' at line 79) which is not supported in the Edge Runtime.
+    Learn More: https://nextjs.org/docs/messages/node-module-in-edge-runtime
+  [90m77 |[0m   [36mif[0m ([36mtypeof[0m window === [32m'undefined'[0m) {
+  [90m78 |[0m     [36mtry[0m {
+[33m[1m>[0m [90m79 |[0m       [36mconst[0m fs = [36mawait[0m [36mimport[0m([32m'fs'[0m);
+  [90m   |[0m                        [33m[1m^^^^^^^^^^^^[0m
+  [90m80 |[0m       [36mconst[0m path = [36mawait[0m [36mimport[0m([32m'path'[0m);
+  [90m81 |[0m       [36mconst[0m publicDir = path.join(process.cwd(), [32m'public'[0m);
+  [90m82 |[0m       [36mif[0m (!fs.existsSync(publicDir)) [36mreturn[0m [];
+
+Ecmascript file had an error
+
+Import traces:
+  #1 [App Route]:
+    ./lib/media/comfyui-workflows.ts
+    ./app/api/comfyui-workflows/route.ts
+
+  #2 [App Route]:
+    ./lib/media/comfyui-workflows.ts
+    ./lib/server/provider-config.ts
+    ./app/api/health/route.ts
+
+  #3 [Server Component]:
+    ./lib/media/comfyui-workflows.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+  #4 [Edge Instrumentation]:
+    ./lib/media/comfyui-workflows.ts
+    ./lib/media/adapters/comfyui-image-adapter.ts
+    ./lib/media/image-providers.ts
+    ./lib/server/model-config/model-authorization.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #5 [Instrumentation]:
+    ./lib/media/comfyui-workflows.ts
+    ./lib/media/adapters/comfyui-image-adapter.ts
+    ./lib/media/image-providers.ts
+    ./lib/server/model-config/model-authorization.ts
+    ./lib/server/generation/run/runner.ts
+    ./instrumentation.ts
+
+  #6 [Client Component Browser]:
+    ./lib/media/comfyui-workflows.ts [Client Component Browser]
+    ./lib/media/adapters/comfyui-image-adapter.ts [Client Component Browser]
+    ./lib/media/image-providers.ts [Client Component Browser]
+    ./lib/legacy-browser-import/model-settings.ts [Client Component Browser]
+    ./lib/store/settings.ts [Client Component Browser]
+    ./lib/store/stage.ts [Client Component Browser]
+    ./app/eval/whiteboard/page.tsx [Client Component Browser]
+    ./app/eval/whiteboard/page.tsx [Server Component]
+
+  #7 [Client Component SSR]:
+    ./lib/media/comfyui-workflows.ts [Client Component SSR]
+    ./lib/media/adapters/comfyui-image-adapter.ts [Client Component SSR]
+    ./lib/media/image-providers.ts [Client Component SSR]
+    ./lib/config/provider-presets.ts [Client Component SSR]
+    ./lib/legacy-browser-import/model-settings-import.ts [Client Component SSR]
+    ./components/model-settings-init.tsx [Client Component SSR]
+    ./components/access-code-guard.tsx [Client Component SSR]
+    ./components/access-code-guard.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
+
+  #8 [Server Component]:
+    ./lib/media/comfyui-workflows.ts
+    ./lib/media/adapters/comfyui-image-adapter.ts
+    ./lib/media/image-providers.ts
+    ./lib/config/provider-presets.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/server/secret-box.ts:16:1
+Warning: A Node.js module is loaded ('node:crypto' at line 16) which is not supported in the Edge Runtime.
+    Learn More: https://nextjs.org/docs/messages/node-module-in-edge-runtime
+  [90m14 |[0m [90m * so a lost or rotated secret shows up as "enter this key again".[0m
+  [90m15 |[0m [90m */[0m
+[33m[1m>[0m [90m16 |[0m [36mimport[0m { createCipheriv, createDecipheriv, createHash, randomBytes } [36mfrom[0m [32m'node:crypto'[0m;
+  [90m   |[0m [33m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m17 |[0m [36mimport[0m fs [36mfrom[0m [32m'node:fs'[0m;
+  [90m18 |[0m [36mimport[0m path [36mfrom[0m [32m'node:path'[0m;
+  [90m19 |[0m
+
+Ecmascript file had an error
+
+Import traces:
+  #1 [App Route]:
+    ./lib/server/secret-box.ts
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #2 [App Route]:
+    ./lib/server/secret-box.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./app/api/model-config/import/route.ts
+
+  #3 [Instrumentation]:
+    ./lib/server/secret-box.ts
+    ./lib/server/instance-secret-check.ts
+    ./instrumentation.ts
+
+  #4 [Edge Instrumentation]:
+    ./lib/server/secret-box.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./lib/server/secret-box.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+  #6 [Server Component]:
+    ./lib/server/secret-box.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/persistence/owner-materials.ts:24:1
+Warning: A Node.js module is loaded ('node:crypto' at line 24) which is not supported in the Edge Runtime.
+    Learn More: https://nextjs.org/docs/messages/node-module-in-edge-runtime
+  [90m22 |[0m [32m * the pointer to the bytes.[0m
+  [90m23 |[0m [32m */[0m
+[33m[1m>[0m [90m24 |[0m [32mimport { randomUUID } from '[0mnode:crypto[32m';[0m
+  [90m   |[0m [33m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m25 |[0m
+  [90m26 |[0m [32mimport type { Queryable } from '[0m@openmaic/storage/document/pg[32m';[0m
+  [90m27 |[0m [32mimport { applySchemaMigrations, type SchemaMigrationSet } from '[0m@openmaic/storage/pg-migra...
+
+Ecmascript file had an error
+
+Import traces:
+  #1 [App Route]:
+    ./lib/persistence/owner-materials.ts
+    ./app/api/materials/route.ts
+
+  #2 [App Route]:
+    ./lib/persistence/owner-materials.ts
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #3 [Instrumentation]:
+    ./lib/persistence/owner-materials.ts
+    ./lib/persistence/server-provider.ts
+    ./instrumentation.ts
+
+  #4 [Edge Instrumentation]:
+    ./lib/persistence/owner-materials.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./lib/persistence/owner-materials.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+  #6 [Server Component]:
+    ./lib/persistence/owner-materials.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/persistence/owner-merges.ts:28:1
+Warning: A Node.js module is loaded ('node:crypto' at line 28) which is not supported in the Edge Runtime.
+    Learn More: https://nextjs.org/docs/messages/node-module-in-edge-runtime
+  [90m26 |[0m [32m * wait.[0m
+  [90m27 |[0m [32m */[0m
+[33m[1m>[0m [90m28 |[0m [32mimport { createHash } from '[0mnode:crypto[32m';[0m
+  [90m   |[0m [33m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m29 |[0m
+  [90m30 |[0m [32mimport { DocumentWriteRefusedError } from '[0m@openmaic/storage[32m';[0m
+  [90m31 |[0m [32mimport type { Queryable } from '[0m@openmaic/storage/document/pg[32m';[0m
+
+Ecmascript file had an error
+
+Import traces:
+  #1 [App Route]:
+    ./lib/persistence/owner-merges.ts
+    ./app/api/agent/skills/route.ts
+
+  #2 [App Route]:
+    ./lib/persistence/owner-merges.ts
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #3 [Edge Instrumentation]:
+    ./lib/persistence/owner-merges.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #4 [Instrumentation]:
+    ./lib/persistence/owner-merges.ts
+    ./lib/server/agent-runtime/runner.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./lib/persistence/owner-merges.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+  #6 [Server Component]:
+    ./lib/persistence/owner-merges.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/server/model-config/openmaic-yml.ts:15:1
+Warning: A Node.js module is loaded ('node:fs' at line 15) which is not supported in the Edge Runtime.
+    Learn More: https://nextjs.org/docs/messages/node-module-in-edge-runtime
+  [90m13 |[0m  * instrumentation).
+  [90m14 |[0m  */
+[33m[1m>[0m [90m15 |[0m [36mimport[0m fs [36mfrom[0m [32m'node:fs'[0m;
+  [90m   |[0m [33m[1m^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m16 |[0m [36mimport[0m path [36mfrom[0m [32m'node:path'[0m;
+  [90m17 |[0m [36mimport[0m yaml [36mfrom[0m [32m'js-yaml'[0m;
+  [90m18 |[0m [36mimport[0m { z } [36mfrom[0m [32m'zod'[0m;
+
+Ecmascript file had an error
+
+Import traces:
+  #1 [App Route]:
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #2 [App Route]:
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/server/model-config/runtime.ts
+    ./app/api/chat/pi/route.ts
+
+  #3 [Edge Instrumentation]:
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #4 [Instrumentation]:
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/server/secret-box.ts:17:1
+Warning: A Node.js module is loaded ('node:fs' at line 17) which is not supported in the Edge Runtime.
+    Learn More: https://nextjs.org/docs/messages/node-module-in-edge-runtime
+  [90m15 |[0m [90m */[0m
+  [90m16 |[0m [36mimport[0m { createCipheriv, createDecipheriv, createHash, randomBytes } [36mfrom[0m [32m'node:crypto'[0m;
+[33m[1m>[0m [90m17 |[0m [36mimport[0m fs [36mfrom[0m [32m'node:fs'[0m;
+  [90m   |[0m [33m[1m^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m18 |[0m [36mimport[0m path [36mfrom[0m [32m'node:path'[0m;
+  [90m19 |[0m
+  [90m20 |[0m [36mimport[0m { createLogger } [36mfrom[0m [32m'@/lib/logger'[0m;
+
+Ecmascript file had an error
+
+Import traces:
+  #1 [App Route]:
+    ./lib/server/secret-box.ts
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #2 [App Route]:
+    ./lib/server/secret-box.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./app/api/model-config/import/route.ts
+
+  #3 [Instrumentation]:
+    ./lib/server/secret-box.ts
+    ./lib/server/instance-secret-check.ts
+    ./instrumentation.ts
+
+  #4 [Edge Instrumentation]:
+    ./lib/server/secret-box.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./lib/server/secret-box.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+  #6 [Server Component]:
+    ./lib/server/secret-box.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./packages/@openmaic/storage/dist/server/reference.js:12:1
+Warning: A Node.js module is loaded ('node:http' at line 12) which is not supported in the Edge Runtime.
+    Learn More: https://nextjs.org/docs/messages/node-module-in-edge-runtime
+  [90m10 |[0m [90m *   DATABASE_URL=postgres://... node dist/server/reference.js[0m
+  [90m11 |[0m [90m */[0m
+[33m[1m>[0m [90m12 |[0m [36mimport[0m { createServer } [36mfrom[0m [32m'node:http'[0m;
+  [90m   |[0m [33m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m13 |[0m [36mimport[0m { pathToFileURL } [36mfrom[0m [32m'node:url'[0m;
+  [90m14 |[0m [36mimport[0m { [33mPgRuntimeStore[0m, ensureSchema } [36mfrom[0m [32m'../runtime/pg.js'[0m;
+  [90m15 |[0m [36mimport[0m { createRuntimeHttpHandler, createStorageHttpHandler } [36mfrom[0m [32m'./index.js'[0m;
+
+Ecmascript file had an error
+
+Import traces:
+  #1 [App Route]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #2 [App Route]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/workspace-model-config.ts
+    ./app/api/model-config/import/route.ts
+
+  #3 [Instrumentation]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/asset-collector-schedule.ts
+    ./instrumentation.ts
+
+  #4 [Edge Instrumentation]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+  #6 [Server Component]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/server/model-config/openmaic-yml.ts:16:1
+Warning: A Node.js module is loaded ('node:path' at line 16) which is not supported in the Edge Runtime.
+    Learn More: https://nextjs.org/docs/messages/node-module-in-edge-runtime
+  [90m14 |[0m  */
+  [90m15 |[0m [36mimport[0m fs [36mfrom[0m [32m'node:fs'[0m;
+[33m[1m>[0m [90m16 |[0m [36mimport[0m path [36mfrom[0m [32m'node:path'[0m;
+  [90m   |[0m [33m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m17 |[0m [36mimport[0m yaml [36mfrom[0m [32m'js-yaml'[0m;
+  [90m18 |[0m [36mimport[0m { z } [36mfrom[0m [32m'zod'[0m;
+  [90m19 |[0m [36mimport[0m {
+
+Ecmascript file had an error
+
+Import traces:
+  #1 [App Route]:
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #2 [App Route]:
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/server/model-config/runtime.ts
+    ./app/api/chat/pi/route.ts
+
+  #3 [Edge Instrumentation]:
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #4 [Instrumentation]:
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/server/secret-box.ts:18:1
+Warning: A Node.js module is loaded ('node:path' at line 18) which is not supported in the Edge Runtime.
+    Learn More: https://nextjs.org/docs/messages/node-module-in-edge-runtime
+  [90m16 |[0m [36mimport[0m { createCipheriv, createDecipheriv, createHash, randomBytes } [36mfrom[0m [32m'node:crypto'[0m;
+  [90m17 |[0m [36mimport[0m fs [36mfrom[0m [32m'node:fs'[0m;
+[33m[1m>[0m [90m18 |[0m [36mimport[0m path [36mfrom[0m [32m'node:path'[0m;
+  [90m   |[0m [33m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m19 |[0m
+  [90m20 |[0m [36mimport[0m { createLogger } [36mfrom[0m [32m'@/lib/logger'[0m;
+  [90m21 |[0m
+
+Ecmascript file had an error
+
+Import traces:
+  #1 [App Route]:
+    ./lib/server/secret-box.ts
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #2 [App Route]:
+    ./lib/server/secret-box.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./app/api/model-config/import/route.ts
+
+  #3 [Instrumentation]:
+    ./lib/server/secret-box.ts
+    ./lib/server/instance-secret-check.ts
+    ./instrumentation.ts
+
+  #4 [Edge Instrumentation]:
+    ./lib/server/secret-box.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./lib/server/secret-box.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+  #6 [Server Component]:
+    ./lib/server/secret-box.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./packages/@openmaic/storage/dist/server/reference.js:13:1
+Warning: A Node.js module is loaded ('node:url' at line 13) which is not supported in the Edge Runtime.
+    Learn More: https://nextjs.org/docs/messages/node-module-in-edge-runtime
+  [90m11 |[0m [90m */[0m
+  [90m12 |[0m [36mimport[0m { createServer } [36mfrom[0m [32m'node:http'[0m;
+[33m[1m>[0m [90m13 |[0m [36mimport[0m { pathToFileURL } [36mfrom[0m [32m'node:url'[0m;
+  [90m   |[0m [33m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m14 |[0m [36mimport[0m { [33mPgRuntimeStore[0m, ensureSchema } [36mfrom[0m [32m'../runtime/pg.js'[0m;
+  [90m15 |[0m [36mimport[0m { createRuntimeHttpHandler, createStorageHttpHandler } [36mfrom[0m [32m'./index.js'[0m;
+  [90m16 |[0m /**
+
+Ecmascript file had an error
+
+Import traces:
+  #1 [App Route]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #2 [App Route]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/workspace-model-config.ts
+    ./app/api/model-config/import/route.ts
+
+  #3 [Instrumentation]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/asset-collector-schedule.ts
+    ./instrumentation.ts
+
+  #4 [Edge Instrumentation]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+  #6 [Server Component]:
+    ./packages/@openmaic/storage/dist/server/reference.js
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/media/adapters/comfyui-image-adapter.ts:121:24
+Warning: A Node.js module is loaded ('path' at line 121) which is not supported in the Edge Runtime.
+    Learn More: https://nextjs.org/docs/messages/node-module-in-edge-runtime
+  [90m119 |[0m   [36mif[0m ([36mtypeof[0m window === [32m'undefined'[0m) {
+  [90m120 |[0m     [36mconst[0m fs = [36mawait[0m [36mimport[0m([32m'fs'[0m);
+[33m[1m>[0m [90m121 |[0m     [36mconst[0m path = [36mawait[0m [36mimport[0m([32m'path'[0m);
+  [90m    |[0m                        [33m[1m^^^^^^^^^^^^^^[0m
+  [90m122 |[0m     [36mconst[0m { isComfyuiWorkflowFilename, listComfyuiWorkflowFilenames } =
+  [90m123 |[0m       [36mawait[0m [36mimport[0m([32m'../comfyui-workflows'[0m);
+  [90m124 |[0m
+
+Ecmascript file had an error
+
+Import traces:
+  #1 [App Route]:
+    ./lib/media/adapters/comfyui-image-adapter.ts
+    ./lib/server/provider-config.ts
+    ./app/api/health/route.ts
+
+  #2 [App Route]:
+    ./lib/media/adapters/comfyui-image-adapter.ts
+    ./lib/media/image-providers.ts
+    ./app/api/verify-image-provider/route.ts
+
+  #3 [Edge Instrumentation]:
+    ./lib/media/adapters/comfyui-image-adapter.ts
+    ./lib/media/image-providers.ts
+    ./lib/server/model-config/model-authorization.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #4 [Instrumentation]:
+    ./lib/media/adapters/comfyui-image-adapter.ts
+    ./lib/media/image-providers.ts
+    ./lib/server/model-config/model-authorization.ts
+    ./lib/server/generation/run/runner.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./lib/media/adapters/comfyui-image-adapter.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+  #6 [Client Component Browser]:
+    ./lib/media/adapters/comfyui-image-adapter.ts [Client Component Browser]
+    ./lib/media/image-providers.ts [Client Component Browser]
+    ./lib/legacy-browser-import/model-settings.ts [Client Component Browser]
+    ./lib/store/settings.ts [Client Component Browser]
+    ./lib/store/stage.ts [Client Component Browser]
+    ./app/eval/whiteboard/page.tsx [Client Component Browser]
+    ./app/eval/whiteboard/page.tsx [Server Component]
+
+  #7 [Client Component SSR]:
+    ./lib/media/adapters/comfyui-image-adapter.ts [Client Component SSR]
+    ./lib/media/image-providers.ts [Client Component SSR]
+    ./lib/config/provider-presets.ts [Client Component SSR]
+    ./lib/legacy-browser-import/model-settings-import.ts [Client Component SSR]
+    ./components/model-settings-init.tsx [Client Component SSR]
+    ./components/access-code-guard.tsx [Client Component SSR]
+    ./components/access-code-guard.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
+
+  #8 [Server Component]:
+    ./lib/media/adapters/comfyui-image-adapter.ts
+    ./lib/media/image-providers.ts
+    ./lib/config/provider-presets.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/server/provider-config.ts:19:1
+Warning: A Node.js module is loaded ('path' at line 19) which is not supported in the Edge Runtime.
+    Learn More: https://nextjs.org/docs/messages/node-module-in-edge-runtime
+  [90m17 |[0m
+  [90m18 |[0m [36mimport[0m fs [36mfrom[0m [32m'fs'[0m;
+[33m[1m>[0m [90m19 |[0m [36mimport[0m path [36mfrom[0m [32m'path'[0m;
+  [90m   |[0m [33m[1m^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m20 |[0m [36mimport[0m yaml [36mfrom[0m [32m'js-yaml'[0m;
+  [90m21 |[0m [36mimport[0m { createLogger } [36mfrom[0m [32m'@/lib/logger'[0m;
+  [90m22 |[0m [36mimport[0m {
+
+Ecmascript file had an error
+
+Import traces:
+  #1 [App Route]:
+    ./lib/server/provider-config.ts
+    ./app/api/verify-pdf-provider/route.ts
+
+  #2 [App Route]:
+    ./lib/server/provider-config.ts
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #3 [Instrumentation]:
+    ./lib/server/provider-config.ts
+    ./lib/server/config-validation.ts
+    ./instrumentation.ts
+
+  #4 [Edge Instrumentation]:
+    ./lib/server/provider-config.ts
+    ./lib/server/model-config/deployment-layer.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./lib/server/provider-config.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/media/comfyui-workflows.ts:80:26
+Warning: A Node.js module is loaded ('path' at line 80) which is not supported in the Edge Runtime.
+    Learn More: https://nextjs.org/docs/messages/node-module-in-edge-runtime
+  [90m78 |[0m     [36mtry[0m {
+  [90m79 |[0m       [36mconst[0m fs = [36mawait[0m [36mimport[0m([32m'fs'[0m);
+[33m[1m>[0m [90m80 |[0m       [36mconst[0m path = [36mawait[0m [36mimport[0m([32m'path'[0m);
+  [90m   |[0m                          [33m[1m^^^^^^^^^^^^^^[0m
+  [90m81 |[0m       [36mconst[0m publicDir = path.join(process.cwd(), [32m'public'[0m);
+  [90m82 |[0m       [36mif[0m (!fs.existsSync(publicDir)) [36mreturn[0m [];
+  [90m83 |[0m
+
+Ecmascript file had an error
+
+Import traces:
+  #1 [App Route]:
+    ./lib/media/comfyui-workflows.ts
+    ./app/api/comfyui-workflows/route.ts
+
+  #2 [App Route]:
+    ./lib/media/comfyui-workflows.ts
+    ./lib/server/provider-config.ts
+    ./app/api/health/route.ts
+
+  #3 [Server Component]:
+    ./lib/media/comfyui-workflows.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+  #4 [Edge Instrumentation]:
+    ./lib/media/comfyui-workflows.ts
+    ./lib/media/adapters/comfyui-image-adapter.ts
+    ./lib/media/image-providers.ts
+    ./lib/server/model-config/model-authorization.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #5 [Instrumentation]:
+    ./lib/media/comfyui-workflows.ts
+    ./lib/media/adapters/comfyui-image-adapter.ts
+    ./lib/media/image-providers.ts
+    ./lib/server/model-config/model-authorization.ts
+    ./lib/server/generation/run/runner.ts
+    ./instrumentation.ts
+
+  #6 [Client Component Browser]:
+    ./lib/media/comfyui-workflows.ts [Client Component Browser]
+    ./lib/media/adapters/comfyui-image-adapter.ts [Client Component Browser]
+    ./lib/media/image-providers.ts [Client Component Browser]
+    ./lib/legacy-browser-import/model-settings.ts [Client Component Browser]
+    ./lib/store/settings.ts [Client Component Browser]
+    ./lib/store/stage.ts [Client Component Browser]
+    ./app/eval/whiteboard/page.tsx [Client Component Browser]
+    ./app/eval/whiteboard/page.tsx [Server Component]
+
+  #7 [Client Component SSR]:
+    ./lib/media/comfyui-workflows.ts [Client Component SSR]
+    ./lib/media/adapters/comfyui-image-adapter.ts [Client Component SSR]
+    ./lib/media/image-providers.ts [Client Component SSR]
+    ./lib/config/provider-presets.ts [Client Component SSR]
+    ./lib/legacy-browser-import/model-settings-import.ts [Client Component SSR]
+    ./components/model-settings-init.tsx [Client Component SSR]
+    ./components/access-code-guard.tsx [Client Component SSR]
+    ./components/access-code-guard.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
+
+  #8 [Server Component]:
+    ./lib/media/comfyui-workflows.ts
+    ./lib/media/adapters/comfyui-image-adapter.ts
+    ./lib/media/image-providers.ts
+    ./lib/config/provider-presets.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/server/provider-config.ts:224:22
+Warning: The file pattern ('/ROOT/' <dynamic> | '/ROOT' <dynamic>) matches 10002 files in [project]/
+  [90m222 |[0m [36mfunction[0m loadYamlFile(filename: string): [33mYamlData[0m {
+  [90m223 |[0m   [36mtry[0m {
+[33m[1m>[0m [90m224 |[0m     [36mconst[0m filePath = path.join(process.cwd(), filename);
+  [90m    |[0m                      [33m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m225 |[0m     [36mif[0m (!fs.existsSync(filePath)) [36mreturn[0m {};
+  [90m226 |[0m     [36mconst[0m raw = fs.readFileSync(filePath, [32m'utf-8'[0m);
+  [90m227 |[0m     [36mconst[0m parsed = yaml.load(raw) [36mas[0m [33mRecord[0m<string, unknown> | [36mnull[0m;
+
+Overly broad patterns can lead to build performance issues and over bundling.
+
+Import traces:
+  #1 [App Route]:
+    ./lib/server/provider-config.ts
+    ./app/api/verify-pdf-provider/route.ts
+
+  #2 [App Route]:
+    ./lib/server/provider-config.ts
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #3 [Instrumentation]:
+    ./lib/server/provider-config.ts
+    ./lib/server/config-validation.ts
+    ./instrumentation.ts
+
+  #4 [Edge Instrumentation]:
+    ./lib/server/provider-config.ts
+    ./lib/server/model-config/deployment-layer.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./lib/server/provider-config.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/document/extractors/local-media.ts:202:20
+Warning: Dynamic filesystem access causes tracing of the whole project
+  [90m200 |[0m   }
+  [90m201 |[0m   [36mfor[0m ([36mconst[0m directory [36mof[0m [[32m'/usr/local/bin'[0m, [32m'/opt/homebrew/bin'[0m, [32m'/usr/bin'[0m, [32m'/bin'[0m]) {
+[33m[1m>[0m [90m202 |[0m     candidates.add(join(directory, name));
+  [90m    |[0m                    [33m[1m^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m203 |[0m   }
+  [90m204 |[0m   [36mfor[0m ([36mconst[0m candidate [36mof[0m candidates) {
+  [90m205 |[0m     [36mtry[0m {
+
+Static analysis determined that this filesystem access causes the whole project to be traced and included in the output.
+This is usually unintentional and leads to all source files (including the public folder) to be deployed as part of the server code.
+This can slow down deployments or lead to failures when size limits are exceeded.
+To resolve this, you can
+- make sure the path is statically scoped to some subfolder, for example path.join(process.cwd(), 'data', bar), or
+- only use them in development, or
+- opt out by adding an ignore comment to the highlighted call: path.join(/*turbopackIgnore: true*/ ...), or
+- remove them.
+
+Import traces:
+  #1 [App Route]:
+    ./lib/document/extractors/local-media.ts
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #2 [App Route]:
+    ./lib/document/extractors/local-media.ts
+    ./lib/document/extractors/media-registry.ts
+    ./lib/document/index.ts
+    ./app/api/parse-pdf/route.ts
+
+  #3 [Instrumentation]:
+    ./lib/document/extractors/local-media.ts
+    ./lib/document/extractors/media-registry.ts
+    ./lib/server/generation/steps/material-analysis.ts
+    ./lib/server/materials/extraction.ts
+    ./instrumentation.ts
+
+  #4 [Server Component]:
+    ./lib/document/extractors/local-media.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/server/agent-runtime/skills.ts:702:26
+Warning: Dynamic filesystem access causes tracing of the whole project
+  [90m700 |[0m       [36mconst[0m canonical = [36mawait[0m assertAllowed(resolve(skillsDir, params.path));
+  [90m701 |[0m       [36mawait[0m access(canonical, constants.[33mR_OK[0m);
+[33m[1m>[0m [90m702 |[0m       [36mconst[0m text = [36mawait[0m readFile(canonical, [32m'utf8'[0m);
+  [90m    |[0m                          [33m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m703 |[0m       [36mconst[0m lines = text.split([35m/\r?\n/[0m);
+  [90m704 |[0m       [36mconst[0m offset = [33mMath[0m.max([35m1[0m, [33mMath[0m.floor(params.offset ?? [35m1[0m));
+  [90m705 |[0m       [36mconst[0m limit = [33mMath[0m.max([35m1[0m, [33mMath[0m.floor(params.limit ?? [33mNATIVE_READ_DEFAULT_LINE_LIMIT[0m));
+
+Static analysis determined that this filesystem access causes the whole project to be traced and included in the output.
+This is usually unintentional and leads to all source files (including the public folder) to be deployed as part of the server code.
+This can slow down deployments or lead to failures when size limits are exceeded.
+To resolve this, you can
+- make sure the path is statically scoped to some subfolder, for example path.join(process.cwd(), 'data', bar), or
+- only use them in development, or
+- opt out by adding an ignore comment to the highlighted call: fs.readFile(/*turbopackIgnore: true*/ ...), or
+- remove them.
+
+Import traces:
+  #1 [App Route]:
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/skills/route.ts
+
+  #2 [App Route]:
+    ./lib/server/agent-runtime/skills.ts
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #3 [Instrumentation]:
+    ./lib/server/agent-runtime/skills.ts
+    ./lib/server/agent-runtime/runner.ts
+    ./instrumentation.ts
+
+  #4 [Server Component]:
+    ./lib/server/agent-runtime/skills.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/server/legacy-classroom-import.ts:225:30
+Warning: Dynamic filesystem access causes tracing of the whole project
+  [90m223 |[0m ...
+  [90m224 |[0m ...classroomRoot) [36mthrow[0m [36mnew[0m [33mImportRefusedError[0m();
+[33m[1m>[0m [90m225 |[0m ... realPath = [36mawait[0m fs.realpath(path.join(classroomRoot, relativeFile));
+  [90m    |[0m                      [33m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m226 |[0m ...realPath.startsWith(classroomRoot + path.sep)) [36mthrow[0m [36mnew[0m [33mImportRefusedError[0m();
+  [90m227 |[0m ... bytes = [36mawait[0m fs.readFile(realPath);
+  [90m228 |[0m ... mimeType = classroomMediaMimeType(path.extname(realPath)) ?? [32m'application/octet-stream'[0m;
+
+Static analysis determined that this filesystem access causes the whole project to be traced and included in the output.
+This is usually unintentional and leads to all source files (including the public folder) to be deployed as part of the server code.
+This can slow down deployments or lead to failures when size limits are exceeded.
+To resolve this, you can
+- make sure the path is statically scoped to some subfolder, for example path.join(process.cwd(), 'data', bar), or
+- only use them in development, or
+- opt out by adding an ignore comment to the highlighted call: fs.realpath(/*turbopackIgnore: true*/ ...), or
+- remove them.
+
+Import traces:
+  Instrumentation:
+    ./lib/server/legacy-classroom-import.ts
+    ./instrumentation.ts
+
+  App Route:
+    ./lib/server/legacy-classroom-import.ts
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  Server Component:
+    ./lib/server/legacy-classroom-import.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/server/legacy-classroom-import.ts:225:42
+Warning: Dynamic filesystem access causes tracing of the whole project
+  [90m223 |[0m ...
+  [90m224 |[0m ...oomRoot) [36mthrow[0m [36mnew[0m [33mImportRefusedError[0m();
+[33m[1m>[0m [90m225 |[0m ...ath = [36mawait[0m fs.realpath(path.join(classroomRoot, relativeFile));
+  [90m    |[0m                            [33m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m226 |[0m ...th.startsWith(classroomRoot + path.sep)) [36mthrow[0m [36mnew[0m [33mImportRefusedError[0m();
+  [90m227 |[0m ... = [36mawait[0m fs.readFile(realPath);
+  [90m228 |[0m ...ype = classroomMediaMimeType(path.extname(realPath)) ?? [32m'application/octet-stream'[0m;
+
+Static analysis determined that this filesystem access causes the whole project to be traced and included in the output.
+This is usually unintentional and leads to all source files (including the public folder) to be deployed as part of the server code.
+This can slow down deployments or lead to failures when size limits are exceeded.
+To resolve this, you can
+- make sure the path is statically scoped to some subfolder, for example path.join(process.cwd(), 'data', bar), or
+- only use them in development, or
+- opt out by adding an ignore comment to the highlighted call: path.join(/*turbopackIgnore: true*/ ...), or
+- remove them.
+
+Import traces:
+  Instrumentation:
+    ./lib/server/legacy-classroom-import.ts
+    ./instrumentation.ts
+
+  App Route:
+    ./lib/server/legacy-classroom-import.ts
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  Server Component:
+    ./lib/server/legacy-classroom-import.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/server/model-config/openmaic-yml.ts:453:8
+Warning: Dynamic filesystem access causes tracing of the whole project
+  [90m451 |[0m   [36mconst[0m explicit = env.[33mOPENMAIC_CONFIG[0m?.trim();
+  [90m452 |[0m   [36mconst[0m file = path.resolve(cwd, explicit || [33mDEFAULT_MODEL_CONFIG_FILE[0m);
+[33m[1m>[0m [90m453 |[0m   [36mif[0m (!fs.existsSync(file)) {
+  [90m    |[0m        [33m[1m^^^^^^^^^^^^^^^^^^^[0m
+  [90m454 |[0m     [36mif[0m (explicit)
+  [90m455 |[0m       [36mthrow[0m [36mnew[0m [33mModelConfigError[0m(file, [[32m'OPENMAIC_CONFIG points at a file that does not e...[0m
+  [90m456 |[0m     [36mreturn[0m [36mnull[0m;
+
+Static analysis determined that this filesystem access causes the whole project to be traced and included in the output.
+This is usually unintentional and leads to all source files (including the public folder) to be deployed as part of the server code.
+This can slow down deployments or lead to failures when size limits are exceeded.
+To resolve this, you can
+- make sure the path is statically scoped to some subfolder, for example path.join(process.cwd(), 'data', bar), or
+- only use them in development, or
+- opt out by adding an ignore comment to the highlighted call: fs.existsSync(/*turbopackIgnore: true*/ ...), or
+- remove them.
+
+Import traces:
+  #1 [App Route]:
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #2 [App Route]:
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/server/model-config/runtime.ts
+    ./app/api/chat/pi/route.ts
+
+  #3 [Edge Instrumentation]:
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #4 [Instrumentation]:
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/server/model-config/openmaic-yml.ts:458:27
+Warning: Dynamic filesystem access causes tracing of the whole project
+  [90m456 |[0m     [36mreturn[0m [36mnull[0m;
+  [90m457 |[0m   }
+[33m[1m>[0m [90m458 |[0m   [36mreturn[0m parseModelConfig(fs.readFileSync(file, [32m'utf-8'[0m), { file, env });
+  [90m    |[0m                           [33m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m459 |[0m }
+  [90m460 |[0m
+  [90m461 |[0m [90m/** Boot check: an invalid configuration file stops the server. */[0m
+
+Static analysis determined that this filesystem access causes the whole project to be traced and included in the output.
+This is usually unintentional and leads to all source files (including the public folder) to be deployed as part of the server code.
+This can slow down deployments or lead to failures when size limits are exceeded.
+To resolve this, you can
+- make sure the path is statically scoped to some subfolder, for example path.join(process.cwd(), 'data', bar), or
+- only use them in development, or
+- opt out by adding an ignore comment to the highlighted call: fs.readFileSync(/*turbopackIgnore: true*/ ...), or
+- remove them.
+
+Import traces:
+  #1 [App Route]:
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #2 [App Route]:
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/server/model-config/runtime.ts
+    ./app/api/chat/pi/route.ts
+
+  #3 [Edge Instrumentation]:
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #4 [Instrumentation]:
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/server/provider-config.ts:224:22
+Warning: Dynamic filesystem access causes tracing of the whole project
+  [90m222 |[0m [36mfunction[0m loadYamlFile(filename: string): [33mYamlData[0m {
+  [90m223 |[0m   [36mtry[0m {
+[33m[1m>[0m [90m224 |[0m     [36mconst[0m filePath = path.join(process.cwd(), filename);
+  [90m    |[0m                      [33m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m225 |[0m     [36mif[0m (!fs.existsSync(filePath)) [36mreturn[0m {};
+  [90m226 |[0m     [36mconst[0m raw = fs.readFileSync(filePath, [32m'utf-8'[0m);
+  [90m227 |[0m     [36mconst[0m parsed = yaml.load(raw) [36mas[0m [33mRecord[0m<string, unknown> | [36mnull[0m;
+
+Static analysis determined that this filesystem access causes the whole project to be traced and included in the output.
+This is usually unintentional and leads to all source files (including the public folder) to be deployed as part of the server code.
+This can slow down deployments or lead to failures when size limits are exceeded.
+To resolve this, you can
+- make sure the path is statically scoped to some subfolder, for example path.join(process.cwd(), 'data', bar), or
+- only use them in development, or
+- opt out by adding an ignore comment to the highlighted call: path.join(/*turbopackIgnore: true*/ ...), or
+- remove them.
+
+Import traces:
+  #1 [App Route]:
+    ./lib/server/provider-config.ts
+    ./app/api/verify-pdf-provider/route.ts
+
+  #2 [App Route]:
+    ./lib/server/provider-config.ts
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #3 [Instrumentation]:
+    ./lib/server/provider-config.ts
+    ./lib/server/config-validation.ts
+    ./instrumentation.ts
+
+  #4 [Edge Instrumentation]:
+    ./lib/server/provider-config.ts
+    ./lib/server/model-config/deployment-layer.ts
+    ./lib/server/model-config/runtime.ts
+    ./instrumentation.ts
+
+  #5 [Server Component]:
+    ./lib/server/provider-config.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/server/usage-storage.ts:194:23
+Warning: Dynamic filesystem access causes tracing of the whole project
+  [90m192 |[0m     [36mlet[0m content: string;
+  [90m193 |[0m     [36mtry[0m {
+[33m[1m>[0m [90m194 |[0m       content = [36mawait[0m fs.readFile(path.join(dir, file), [32m'utf-8'[0m);
+  [90m    |[0m                       [33m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m195 |[0m     } [36mcatch[0m {
+  [90m196 |[0m       [36mcontinue[0m;
+  [90m197 |[0m     }
+
+Static analysis determined that this filesystem access causes the whole project to be traced and included in the output.
+This is usually unintentional and leads to all source files (including the public folder) to be deployed as part of the server code.
+This can slow down deployments or lead to failures when size limits are exceeded.
+To resolve this, you can
+- make sure the path is statically scoped to some subfolder, for example path.join(process.cwd(), 'data', bar), or
+- only use them in development, or
+- opt out by adding an ignore comment to the highlighted call: fs.readFile(/*turbopackIgnore: true*/ ...), or
+- remove them.
+
+Import traces:
+  #1 [App Route]:
+    ./lib/server/usage-storage.ts
+    ./app/api/usage/route.ts
+
+  #2 [App Route]:
+    ./lib/server/usage-storage.ts
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #3 [Instrumentation]:
+    ./lib/server/usage-storage.ts
+    ./lib/server/agent-runtime/generate-image.ts
+    ./lib/server/agent-runtime/course-tools.ts
+    ./lib/server/agent-runtime/runner.ts
+    ./instrumentation.ts
+
+  #4 [Server Component]:
+    ./lib/server/usage-storage.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/server/usage-storage.ts:182:20
+Warning: Dynamic filesystem access causes tracing of the whole project
+  [90m180 |[0m   [36mlet[0m files: string[];
+  [90m181 |[0m   [36mtry[0m {
+[33m[1m>[0m [90m182 |[0m     files = ([36mawait[0m fs.readdir(dir)).filter((f) => f.endsWith([32m'.jsonl'[0m));
+  [90m    |[0m                    [33m[1m^^^^^^^^^^^^^^^[0m
+  [90m183 |[0m   } [36mcatch[0m {
+  [90m184 |[0m     [36mreturn[0m [];
+  [90m185 |[0m   }
+
+Static analysis determined that this filesystem access causes the whole project to be traced and included in the output.
+This is usually unintentional and leads to all source files (including the public folder) to be deployed as part of the server code.
+This can slow down deployments or lead to failures when size limits are exceeded.
+To resolve this, you can
+- make sure the path is statically scoped to some subfolder, for example path.join(process.cwd(), 'data', bar), or
+- only use them in development, or
+- opt out by adding an ignore comment to the highlighted call: fs.readdir(/*turbopackIgnore: true*/ ...), or
+- remove them.
+
+Import traces:
+  #1 [App Route]:
+    ./lib/server/usage-storage.ts
+    ./app/api/usage/route.ts
+
+  #2 [App Route]:
+    ./lib/server/usage-storage.ts
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #3 [Instrumentation]:
+    ./lib/server/usage-storage.ts
+    ./lib/server/agent-runtime/generate-image.ts
+    ./lib/server/agent-runtime/course-tools.ts
+    ./lib/server/agent-runtime/runner.ts
+    ./instrumentation.ts
+
+  #4 [Server Component]:
+    ./lib/server/usage-storage.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+./lib/server/usage-storage.ts:194:35
+Warning: Dynamic filesystem access causes tracing of the whole project
+  [90m192 |[0m     [36mlet[0m content: string;
+  [90m193 |[0m     [36mtry[0m {
+[33m[1m>[0m [90m194 |[0m       content = [36mawait[0m fs.readFile(path.join(dir, file), [32m'utf-8'[0m);
+  [90m    |[0m                                   [33m[1m^^^^^^^^^^^^^^^^^^^^[0m
+  [90m195 |[0m     } [36mcatch[0m {
+  [90m196 |[0m       [36mcontinue[0m;
+  [90m197 |[0m     }
+
+Static analysis determined that this filesystem access causes the whole project to be traced and included in the output.
+This is usually unintentional and leads to all source files (including the public folder) to be deployed as part of the server code.
+This can slow down deployments or lead to failures when size limits are exceeded.
+To resolve this, you can
+- make sure the path is statically scoped to some subfolder, for example path.join(process.cwd(), 'data', bar), or
+- only use them in development, or
+- opt out by adding an ignore comment to the highlighted call: path.join(/*turbopackIgnore: true*/ ...), or
+- remove them.
+
+Import traces:
+  #1 [App Route]:
+    ./lib/server/usage-storage.ts
+    ./app/api/usage/route.ts
+
+  #2 [App Route]:
+    ./lib/server/usage-storage.ts
+    ./lib/server/agent-runtime/skills.ts
+    ./app/api/agent/sessions/route.ts
+
+  #3 [Instrumentation]:
+    ./lib/server/usage-storage.ts
+    ./lib/server/agent-runtime/generate-image.ts
+    ./lib/server/agent-runtime/course-tools.ts
+    ./lib/server/agent-runtime/runner.ts
+    ./instrumentation.ts
+
+  #4 [Server Component]:
+    ./lib/server/usage-storage.ts
+    ./lib/server/model-config/openmaic-yml.ts
+    ./lib/persistence/workspace-model-config.ts
+    ./lib/persistence/server-provider.ts
+    ./lib/server/agent-runtime/store.ts
+    ./lib/workbench/workspace-actions.ts
+
+
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /api/access-code/status
+├ ƒ /api/access-code/verify
+├ ƒ /api/agent/owner-events
+├ ƒ /api/agent/runtime
+├ ƒ /api/agent/sessions
+├ ƒ /api/agent/sessions/[id]
+├ ƒ /api/agent/sessions/[id]/cancel
+├ ƒ /api/agent/sessions/[id]/events
+├ ƒ /api/agent/sessions/[id]/messages
+├ ƒ /api/agent/sessions/status
+├ ƒ /api/agent/skills
+├ ƒ /api/agent/skills/[id]
+├ ƒ /api/agents
+├ ƒ /api/agents/[id]
+├ ƒ /api/agents/import
+├ ƒ /api/azure-voices
+├ ƒ /api/chat
+├ ƒ /api/chat/pi
+├ ƒ /api/chat/pi/whiteboard-visibility
+├ ƒ /api/classroom-media/[classroomId]/[...path]
+├ ƒ /api/comfyui-workflows
+├ ƒ /api/export-video/capability
+├ ƒ /api/export-video/render
+├ ƒ /api/export-video/render/[jobId]
+├ ƒ /api/export-video/render/[jobId]/download
+├ ƒ /api/folders
+├ ƒ /api/folders/[id]
+├ ƒ /api/folders/members
+├ ƒ /api/generate-classroom
+├ ƒ /api/generate-classroom/[jobId]
+├ ƒ /api/generate-classroom/capabilities
+├ ƒ /api/generate/image
+├ ƒ /api/generate/tts
+├ ƒ /api/generate/video
+├ ƒ /api/generate/voice
+├ ƒ /api/generation-runs
+├ ƒ /api/generation-runs/[id]
+├ ƒ /api/generation-runs/[id]/confirm-outline
+├ ƒ /api/generation-runs/[id]/events
+├ ƒ /api/generation-runs/[id]/hold-outline
+├ ƒ /api/generation-runs/[id]/retry
+├ ƒ /api/generation-runs/events
+├ ƒ /api/health
+├ ƒ /api/identity/claim
+├ ƒ /api/identity/legacy-import-binding
+├ ƒ /api/materials
+├ ƒ /api/materials/[id]
+├ ƒ /api/materials/[id]/extraction
+├ ƒ /api/model-config
+├ ƒ /api/model-config/import
+├ ƒ /api/parse-pdf
+├ ƒ /api/pbl/v2/evaluate
+├ ƒ /api/pbl/v2/instructor
+├ ƒ /api/pbl/v2/open-task
+├ ƒ /api/pbl/v2/simulator
+├ ƒ /api/pbl/v2/task/update
+├ ƒ /api/persistence/[...path]
+├ ƒ /api/provider/probe-models
+├ ƒ /api/proxy-media
+├ ƒ /api/quiz-grade
+├ ƒ /api/server-providers
+├ ƒ /api/skills/[id]
+├ ƒ /api/stage-meta/[stageId]
+├ ƒ /api/stages
+├ ƒ /api/stages/[id]
+├ ƒ /api/stages/[id]/freshness
+├ ƒ /api/stages/[id]/generation-complete
+├ ƒ /api/stages/[id]/manifest
+├ ƒ /api/stages/[id]/publish
+├ ƒ /api/stages/[id]/scenes
+├ ƒ /api/stages/[id]/status
+├ ƒ /api/stages/[id]/unpublish
+├ ƒ /api/transcription
+├ ƒ /api/usage
+├ ƒ /api/verify-image-provider
+├ ƒ /api/verify-model
+├ ƒ /api/verify-pdf-provider
+├ ƒ /api/verify-video-provider
+├ ƒ /api/zhiban/identity/[[...unknown]]
+├ ƒ /api/zhiban/identity/csrf
+├ ƒ /api/zhiban/identity/login
+├ ƒ /api/zhiban/identity/logout
+├ ƒ /api/zhiban/identity/logout-all
+├ ƒ /api/zhiban/identity/me
+├ ƒ /api/zhiban/identity/password
+├ ƒ /api/zhiban/identity/spaces
+├ ƒ /api/zhiban/identity/tenants/[tenantId]/admin-transfer
+├ ƒ /api/zhiban/identity/tenants/[tenantId]/consent-context
+├ ƒ /api/zhiban/identity/tenants/[tenantId]/consents
+├ ƒ /api/zhiban/identity/tenants/[tenantId]/invitations
+├ ƒ /api/zhiban/identity/tenants/[tenantId]/memberships/[membershipId]
+├ ƒ /api/zhiban/identity/tenants/[tenantId]/memberships/[membershipId]/[command]
+├ ○ /apple-icon.png
+├ ƒ /classroom/[id]
+├ ○ /eval/whiteboard
+├ ƒ /generation-preview
+├ ƒ /workbench/new
+└ ƒ /workspace
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

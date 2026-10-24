@@ -1,0 +1,1435 @@
+.course-filters,
+.course-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 12px;
+  margin: 16px 0;
+}
+.course-filters label {
+  display: grid;
+  gap: 6px;
+}
+.course-filters input,
+.course-filters select {
+  font: inherit;
+  border: 1px solid #bdc9d8;
+  border-radius: 8px;
+  padding: 10px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.course-filters input {
+  min-width: 220px;
+}
+.course-pagination {
+  align-items: center;
+}
+.workspace-courses > article {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.workspace-courses details {
+  margin-top: 16px;
+}
+.course-roster small {
+  display: block;
+  overflow-wrap: anywhere;
+  color: #5e6c7d;
+}
+.course-roster p {
+  border-bottom: 1px solid #e2e8f0;
+  padding: 8px 0;
+}
+@media (max-width: 550px) {
+  .course-filters label,
+  .course-filters input {
+    width: 100%;
+    min-width: 0;
+  }
+  .course-pagination button {
+    max-width: 100%;
+  }
+}
+
+/* P1 portal presentation. Scoped so separate content/assessment pages retain their layout. */
+body.portal {
+  color: #253247;
+  background: #f1f5fb;
+}
+.portal .ambient {
+  background: #f1f5fb;
+}
+.portal .topbar {
+  height: 52px;
+  background: #176fda;
+  color: white;
+  padding: 0 24px;
+  border: 0;
+}
+.portal .brand {
+  font-size: 19px;
+  gap: 8px;
+}
+.portal .mark {
+  width: 28px;
+  height: 28px;
+  font-size: 16px;
+  border-radius: 6px;
+  background: #ffffff24;
+}
+.portal .brand-en {
+  color: #d9eaff;
+  font-size: 10px;
+}
+.portal .local {
+  color: #e3eeff;
+  border-color: #ffffff40;
+  padding: 4px 10px;
+}
+.portal main {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  min-height: calc(100vh - 52px);
+}
+.portal footer {
+  display: none;
+}
+.portal .workspace-header {
+  margin: 0;
+  padding: 0;
+}
+.portal #app > .workspace-header {
+  min-height: 64px;
+  padding: 12px 28px;
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+}
+.portal #app > .workspace-header h1 {
+  font-size: 18px;
+  margin: 0;
+  letter-spacing: 0;
+}
+.portal #app > .workspace-header .eyebrow {
+  display: none;
+}
+.portal .role-shell {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  min-height: calc(100vh - 116px);
+}
+.portal .role-sidebar {
+  background: white;
+  border-right: 1px solid #e2e8f0;
+  padding: 24px 0;
+}
+.portal .role-title {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 0 20px 12px;
+}
+.portal .account {
+  margin: 0 20px 16px;
+  font-size: 11px;
+  overflow-wrap: anywhere;
+  color: #64748b;
+}
+.portal .spaces {
+  display: grid;
+  padding: 0 16px;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.portal .space-card {
+  padding: 10px;
+  border-radius: 6px;
+  text-align: left;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  width: 100%;
+}
+.portal .space-card.selected {
+  border-color: #b9d8ff;
+  background: #eff6ff;
+}
+.portal .space-name {
+  font-size: 12px;
+}
+.portal .space-code {
+  font-size: 10px;
+}
+.portal .role-nav {
+  display: grid;
+  gap: 4px;
+}
+.portal .role-nav-item {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  text-decoration: none;
+  font-size: 14px;
+  color: #475569;
+  border-left: 3px solid transparent;
+}
+.portal .role-nav-item[aria-current] {
+  color: #1677e8;
+  border-left-color: #1677e8;
+  background: #edf5ff;
+  font-weight: 600;
+}
+.portal .role-nav-item[aria-disabled] {
+  color: #94a3b8;
+}
+.portal .role-nav-item small {
+  font-size: 10px;
+  font-weight: 400;
+}
+.portal .role-main {
+  padding: 28px 32px 48px;
+  min-width: 0;
+}
+.portal h2 {
+  font-size: 23px;
+  color: #1e293b;
+}
+.portal .catalog-subtitle {
+  font-size: 13px;
+  color: #64748b;
+  margin: 6px 0 24px;
+}
+.portal .button,
+.portal button {
+  border-radius: 6px;
+}
+.portal .secondary {
+  color: #315679;
+  background: white;
+  border: 1px solid #d7e1ee;
+}
+.portal .primary {
+  background: #1677e8;
+}
+.portal .muted {
+  color: #64748b;
+}
+.portal .course-filters {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 0 0 20px;
+}
+.portal .course-filters label {
+  margin: 0;
+  color: #64748b;
+  font-size: 12px;
+}
+.portal .course-filters input {
+  background: white;
+  min-width: min(260px, 100%);
+}
+.portal .course-filters input,
+.portal .course-filters select {
+  border-radius: 6px;
+  padding: 8px 10px;
+  height: 38px;
+}
+.portal .workspace-courses {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+}
+.portal .workspace-courses > .academic-card {
+  display: block;
+  padding: 24px 24px 24px 204px;
+  position: relative;
+  min-height: 200px;
+  border-radius: 8px;
+  border-color: #e2e8f0;
+  box-shadow: none;
+}
+.portal .academic-card > h3 {
+  font-size: 18px;
+  margin: 0 0 12px;
+  color: #1e293b;
+}
+.portal .academic-card > p {
+  font-size: 13px;
+  color: #64748b;
+  margin: 8px 0;
+}
+.portal .academic-card > a {
+  display: inline-block;
+  padding: 8px 12px;
+  margin: 8px 8px 4px 0;
+  font-size: 12px;
+  text-decoration: none;
+}
+.portal .academic-card summary {
+  color: #176fda;
+  font-size: 13px;
+  cursor: pointer;
+}
+.portal .course-cover {
+  position: absolute;
+  left: 24px;
+  top: 24px;
+  width: 156px;
+  height: 140px;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 10px;
+  border-radius: 6px;
+  color: white;
+  background: linear-gradient(135deg, #0e4eab, #398cf0);
+}
+.portal .course-cover span {
+  font-size: 48px;
+  line-height: 1;
+}
+.portal .course-cover small {
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: #d5e8ff;
+}
+.portal .learning-section[open],
+.portal .academic-card > details[open] {
+  margin-left: -180px;
+  background: #f8fafc;
+  padding: 18px;
+  border-radius: 6px;
+}
+.portal .nav-toggle {
+  display: none;
+}
+.portal[data-screen='login'] .ambient {
+  background:
+    radial-gradient(ellipse at 10% 5%, #d6f4ef, transparent 60%),
+    radial-gradient(ellipse at 95% 90%, #dbeafe, transparent 60%), #f8fafc;
+}
+.portal[data-screen='login'] .topbar {
+  display: none;
+}
+.portal[data-screen='login'] main {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 32px 20px;
+}
+.portal .login-layout {
+  display: block;
+  padding: 0;
+  width: 100%;
+  max-width: 448px;
+}
+.portal .login-card {
+  padding: 36px;
+  border-radius: 16px;
+  border: 1px solid #ffffff;
+  box-shadow: 0 20px 65px #23405210;
+  background: #ffffffed;
+}
+.portal .login-emblem {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 18px;
+  background: #0d9488;
+  color: white;
+  border-radius: 12px;
+  font-size: 24px;
+}
+.portal .login-card h1 {
+  font-size: 26px;
+  margin: 0;
+  text-align: center;
+  letter-spacing: 0;
+}
+.portal .login-card > .muted {
+  text-align: center;
+  font-size: 13px;
+}
+.portal .login-card .primary {
+  background: #0d9488;
+}
+.portal input:focus-visible,
+.portal select:focus-visible,
+.portal button:focus-visible,
+.portal a:focus-visible {
+  outline: 2px solid #1677e8;
+  outline-offset: 3px;
+}
+@media (max-width: 800px) {
+  .portal .brand-en {
+    display: none;
+  }
+  .portal .topbar {
+    padding: 0 16px;
+  }
+  .portal #app > .workspace-header {
+    padding: 12px 16px;
+    gap: 12px;
+  }
+  .portal .role-shell {
+    display: block;
+  }
+  .portal .role-sidebar {
+    display: none;
+  }
+  .portal .nav-open .role-sidebar {
+    display: block;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .portal .nav-toggle {
+    display: block;
+    margin: 12px 16px;
+  }
+  .portal .role-main {
+    padding: 16px;
+  }
+  .portal .workspace-courses > .academic-card {
+    padding: 18px;
+  }
+  .portal .course-cover {
+    position: static;
+    width: 100%;
+    height: 100px;
+    margin-bottom: 18px;
+  }
+  .portal .course-cover span {
+    font-size: 32px;
+  }
+  .portal .learning-section[open],
+  .portal .academic-card > details[open] {
+    margin-left: 0;
+    padding: 12px;
+  }
+}
+.portal .offering-name {
+  display: inline-block;
+  color: #176fda;
+  font-size: 12px;
+  font-weight: 500;
+  margin: 0 0 4px;
+  padding: 4px 8px;
+  background: #edf5ff;
+  border-radius: 4px;
+}
+
+/* Distinct course workspaces keep the old role-specific header/navigation hierarchy. */
+.portal[data-screen='course'] #app > .workspace-header {
+  min-height: 0;
+}
+.portal .course-workspace {
+  min-height: calc(100vh - 116px);
+  background: #f1f5fb;
+}
+.portal .course-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 22px 32px;
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+}
+.portal .course-hero .button {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 0;
+  border: 0;
+  background: none;
+  color: #176fda;
+}
+.portal .course-hero h1 {
+  margin: 7px 0 4px;
+  font-size: 24px;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+.portal .course-hero p {
+  color: #64748b;
+  font-size: 13px;
+  margin: 0;
+}
+.portal .student-course .course-hero {
+  color: white;
+  background: linear-gradient(100deg, #071b48, #102849 60%, #6d310b);
+  min-height: 180px;
+}
+.portal .student-course .course-hero .button {
+  color: #dbeafe;
+}
+.portal .student-course .course-hero h1,
+.portal .student-course .course-hero p {
+  color: white;
+}
+.portal .course-hero-cover {
+  flex: none;
+  width: 190px;
+  height: 110px;
+  display: grid;
+  place-content: center;
+  background: linear-gradient(135deg, #438bf5, #254a9d);
+  border-radius: 8px;
+  font-size: 52px;
+  color: #eaf3ff;
+}
+.portal .course-body {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  align-items: start;
+}
+.portal .course-inner-nav {
+  position: sticky;
+  top: 0;
+  display: grid;
+  min-height: calc(100vh - 200px);
+  align-content: start;
+  padding: 18px 0;
+  background: white;
+  border-right: 1px solid #e2e8f0;
+}
+.portal .course-inner-nav a {
+  display: block;
+  padding: 14px 22px;
+  color: #475569;
+  text-decoration: none;
+  font-size: 14px;
+  border-left: 4px solid transparent;
+}
+.portal .course-inner-nav a:hover {
+  color: #176fda;
+  background: #f4f9ff;
+}
+.portal .course-inner-nav a[aria-current] {
+  color: #176fda;
+  border-left-color: #176fda;
+  background: #edf5ff;
+  font-weight: 600;
+}
+.portal .course-panel {
+  min-width: 0;
+  margin: 0;
+  padding: 32px;
+  max-width: 1100px;
+}
+.portal .course-panel h2 {
+  margin: 0 0 20px;
+}
+.portal .course-panel > p {
+  margin: 8px 0 18px;
+  line-height: 1.7;
+}
+.portal .course-panel > .button {
+  display: inline-flex;
+  margin: 12px 12px 0 0;
+  text-decoration: none;
+}
+.portal .course-description {
+  max-width: 75ch;
+  white-space: pre-line;
+}
+.portal .course-boundary {
+  max-width: 75ch;
+  background: white;
+  border: 1px solid #dce6f4;
+  padding: 16px;
+  border-radius: 8px;
+  color: #475569;
+}
+.portal .course-activities {
+  min-width: 0;
+}
+.portal .course-student-list {
+  max-width: 700px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  padding: 16px;
+  border-radius: 8px;
+}
+.portal .course-student-row {
+  padding: 12px 8px;
+  margin: 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+@media (max-width: 800px) {
+  .portal .course-hero {
+    padding: 18px 16px;
+  }
+  .portal .course-hero h1 {
+    font-size: 21px;
+  }
+  .portal .course-hero-cover {
+    display: none;
+  }
+  .portal .course-body {
+    display: block;
+  }
+  .portal .course-inner-nav {
+    position: static;
+    display: flex;
+    min-height: 0;
+    padding: 0 8px;
+    max-width: 100%;
+    overflow-x: auto;
+    border-right: 0;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .portal .course-inner-nav a {
+    white-space: nowrap;
+    flex: none;
+    border-left: 0;
+    border-bottom: 3px solid transparent;
+    padding: 12px;
+    font-size: 13px;
+  }
+  .portal .course-inner-nav a[aria-current] {
+    border-left: 0;
+    border-bottom-color: #176fda;
+  }
+  .portal .course-panel {
+    padding: 20px 16px;
+  }
+}
+
+/* Shared business surfaces inside the course shell. */
+.portal .course-surface,
+.portal #root.course-surface,
+.portal #analytics.course-surface,
+.portal #personal.course-surface {
+  margin: 0;
+  max-width: none;
+  padding: 28px 32px;
+  min-height: 0;
+}
+.portal .course-surface > h1 {
+  font-size: 24px;
+  margin: 0 0 18px;
+  letter-spacing: 0;
+}
+.portal .course-surface .content-layout {
+  grid-template-columns: minmax(150px, 200px) minmax(0, 1fr);
+  gap: 18px;
+}
+.portal .course-surface .content-preview {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16/9;
+}
+.portal .course-surface .content-card {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+.portal .course-surface .analytics-heading h1,
+.portal .course-surface .personal-heading h1 {
+  font-size: 23px;
+}
+@media (max-width: 1000px) {
+  .portal .course-surface .content-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .portal .course-surface .geometry {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 800px) {
+  .portal .course-surface,
+  .portal #root.course-surface,
+  .portal #analytics.course-surface,
+  .portal #personal.course-surface {
+    padding: 20px 16px;
+  }
+}
+
+/* Offering chapter and unit authoring shares the course workspace. */
+.curriculum {
+  margin: 24px 0;
+  min-width: 0;
+}
+.outline-toolbar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.outline-toolbar p {
+  flex-basis: 100%;
+  margin: 4px 0;
+}
+.outline-chapter {
+  border: 1px solid #dbe3ef;
+  background: #fff;
+  border-radius: 8px;
+  padding: 18px;
+  margin: 14px 0;
+}
+.outline-chapter h4 {
+  margin: 0 0 14px;
+  font-size: 18px;
+}
+.outline-chapter > input {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.outline-chapter button {
+  margin: 4px;
+}
+.outline-chapter ol {
+  padding-left: 24px;
+}
+.outline-unit {
+  margin: 12px 0;
+  padding: 12px;
+  background: #f5f8fc;
+  border-radius: 6px;
+  overflow-wrap: anywhere;
+}
+.outline-unit a {
+  display: block;
+  margin: 4px 0 12px;
+}
+.outline-unit input {
+  width: 100%;
+  display: block;
+}
+.outline-add {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.outline-add select,
+.outline-unit select {
+  max-width: 100%;
+  min-width: 0;
+}
+.outline-add select {
+  flex: 1 1 230px;
+}
+@media (max-width: 600px) {
+  .outline-chapter {
+    padding: 12px;
+  }
+  .outline-unit {
+    padding: 10px;
+  }
+  .outline-chapter ol {
+    padding-left: 18px;
+  }
+}
+
+.learning-unit-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  padding: 1rem;
+  background: #f1f5fb;
+  border-radius: 0.75rem;
+}
+.learning-unit-list a[aria-current='page'] {
+  font-weight: 700;
+  color: #176fda;
+}
+.learning-center article {
+  min-width: 0;
+}
+.learning-center .content-controls a {
+  padding: 0.6rem;
+  border: 1px solid #dbe4ef;
+  border-radius: 0.4rem;
+}
+.learning-center .content-preview {
+  width: 100%;
+  overflow: hidden;
+}
+
+.discussion-text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* Reference-led portal refresh: shared desktop, tablet and phone presentation. */
+body.portal {
+  --portal-blue: #176ddd;
+  --portal-accent: #1677ff;
+  --portal-ink: #10243e;
+  --portal-muted: #6f86a6;
+  --portal-line: #e1e5ec;
+  --portal-canvas: #f1f5fb;
+  color: var(--portal-ink);
+  background: var(--portal-canvas);
+  font-family: 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+  line-height: 1.6;
+}
+.portal .topbar {
+  height: auto;
+  min-height: 56px;
+  padding: 8px 32px;
+  gap: 16px;
+  background: var(--portal-blue);
+  color: white;
+}
+.portal .topbar .brand {
+  min-width: 0;
+  font-size: 20px;
+  line-height: 1.3;
+  gap: 10px;
+  letter-spacing: 0;
+}
+
+.portal .brand .mark,
+.portal .brand .brand-en {
+  display: none;
+}
+.portal .topbar .local {
+  margin-left: auto;
+  font-size: 12px;
+  white-space: nowrap;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  color: #e9f2ff;
+}
+.portal .topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.portal .topbar .button,
+.portal.admin-portal .topbar .button {
+  color: white;
+  background: transparent;
+  border: 1px solid #ffffff80;
+  border-radius: 8px;
+  padding: 7px 12px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.portal .topbar a:focus-visible,
+.portal .topbar button:focus-visible {
+  outline-color: white;
+}
+.portal .topbar [role='status']:empty {
+  display: none;
+}
+.portal :where(button, input, select, textarea, .button) {
+  font: inherit;
+}
+.portal :where(input, select, textarea) {
+  min-width: 0;
+  max-width: 100%;
+  border: 1px solid var(--portal-line);
+  background: white;
+  border-radius: 7px;
+  padding: 9px 12px;
+  color: var(--portal-ink);
+}
+.portal :where(input, select, button, .button) {
+  min-height: 40px;
+}
+.portal input:read-only,
+.portal textarea:read-only {
+  background: #f7f9fb;
+  color: #526a89;
+}
+.portal .role-shell {
+  grid-template-columns: 264px minmax(0, 1fr);
+  min-height: calc(100dvh - 56px);
+}
+.portal .role-sidebar {
+  padding: 30px 0 24px;
+  border-color: var(--portal-line);
+  min-width: 0;
+}
+.portal .role-title {
+  text-align: center;
+  font-size: 16px;
+  margin: 0 22px 12px;
+  color: var(--portal-ink);
+}
+
+.portal .role-sidebar .account {
+  margin: 0 24px 18px;
+  text-align: center;
+  font-size: 11px;
+  color: var(--portal-muted);
+}
+.portal .role-sidebar .spaces {
+  padding: 0 24px 22px;
+  border-bottom: 1px solid var(--portal-line);
+  margin-bottom: 20px;
+}
+.portal .space-card {
+  min-width: 0;
+}
+.portal .role-nav {
+  gap: 3px;
+}
+.portal .role-nav-item,
+.portal .course-inner-nav a {
+  justify-content: flex-start;
+  align-items: center;
+  gap: 13px;
+  color: var(--portal-ink);
+  font-size: 14px;
+  padding: 14px 26px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.portal .role-nav-item[aria-current],
+.portal .course-inner-nav a[aria-current] {
+  color: var(--portal-accent);
+  background: #eef5ff;
+  border-color: var(--portal-accent);
+}
+.portal .role-nav-item:hover,
+.portal .course-inner-nav a:hover {
+  background: #f3f7fd;
+}
+.portal .role-main,
+.portal.admin-portal .admin-main {
+  padding: 28px 34px 48px;
+}
+.portal :where(.role-main, .admin-main, .course-panel) {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.portal #app > .workspace-header {
+  min-height: 0;
+  padding: 12px 32px;
+}
+.portal #app > .workspace-header h1 {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--portal-muted);
+}
+.portal .workspace-header h2 {
+  font-size: 23px;
+  margin: 0;
+}
+.portal .catalog-subtitle {
+  margin-bottom: 24px;
+  color: var(--portal-muted);
+}
+.portal .course-filters {
+  padding: 20px 22px;
+  gap: 16px;
+  border: 1px solid var(--portal-line);
+  background: white;
+  border-radius: 9px;
+}
+.portal .course-filters label {
+  flex: 1 1 170px;
+  color: var(--portal-ink);
+  font-size: 13px;
+}
+.portal .course-filters input,
+.portal .course-filters select {
+  width: 100%;
+  min-width: 0;
+  height: 40px;
+  border-color: var(--portal-line);
+}
+.portal .workspace-courses > .academic-card {
+  min-height: 176px;
+  padding: 24px 26px 24px 200px;
+  border-radius: 9px;
+  background: white;
+  border-color: var(--portal-line);
+}
+.portal .academic-card > h3 {
+  color: #0865da;
+  font-size: 19px;
+}
+.portal .academic-card > p {
+  line-height: 1.7;
+  color: var(--portal-muted);
+}
+.portal .course-cover {
+  width: 150px;
+  height: 108px;
+  background: linear-gradient(135deg, #3182ff, #4931e7);
+  border-radius: 10px;
+}
+.portal .course-cover span {
+  font-size: 44px;
+}
+.portal .course-cover small {
+  display: none;
+}
+.portal .course-cover span {
+  font-size: 0;
+  width: 48px;
+  height: 48px;
+  background: center / contain no-repeat none;
+}
+.portal .course-workspace {
+  min-height: calc(100dvh - 56px);
+}
+.portal .course-hero,
+.portal .student-course .course-hero {
+  min-height: 100px;
+  padding: 20px 34px;
+  background: white;
+  color: var(--portal-ink);
+  border-color: var(--portal-line);
+}
+.portal .student-course .course-hero :where(h1, p) {
+  color: var(--portal-ink);
+}
+.portal .course-hero h1 {
+  font-size: 24px;
+}
+.portal .course-hero p,
+.portal .student-course .course-hero p {
+  color: var(--portal-muted);
+  line-height: 1.7;
+}
+.portal .student-course .course-hero .button {
+  color: #176ddd;
+}
+.portal .course-hero-cover {
+  display: none;
+}
+.portal .course-body {
+  grid-template-columns: 264px minmax(0, 1fr);
+}
+.portal .course-inner-nav {
+  position: sticky;
+  align-self: start;
+  top: 0;
+  max-height: 100dvh;
+  overflow-y: auto;
+  min-height: 0;
+  padding: 16px 0;
+  background: white;
+}
+.portal .course-inner-nav a {
+  display: flex;
+}
+.portal .course-panel,
+.portal .course-surface,
+.portal #root.course-surface {
+  padding: 28px 34px;
+}
+.portal :where(.outline-chapter, .management-card, .content-card) {
+  border-color: var(--portal-line);
+}
+.portal.admin-portal .management-filters {
+  border-radius: 12px;
+  padding: 20px;
+  background: #f8fafc;
+}
+.portal.admin-portal .management-card,
+.portal.admin-portal .management-list.admin-table {
+  border-radius: 12px;
+}
+.portal.admin-portal :where(.management-actions, .management-pagination) {
+  gap: 10px;
+}
+.portal.profile-page:not(.admin-portal) > main {
+  width: min(1340px, calc(100% - 48px));
+  max-width: none;
+  margin: 24px auto 48px;
+  padding: 0;
+  background: white;
+  border: 1px solid var(--portal-line);
+  border-radius: 12px;
+  min-height: 0;
+}
+.portal.profile-page #profile-root > h1 {
+  margin: 0;
+  padding: 18px 26px;
+  font-size: 20px;
+  letter-spacing: 0;
+  border-bottom: 1px solid var(--portal-line);
+  background: #f8fafc;
+  border-radius: 12px 12px 0 0;
+}
+.portal.profile-page #profile-root > [role='status'] {
+  margin: 0;
+  padding: 0 26px;
+  color: #176ddd;
+}
+.portal.profile-page #profile-root > [role='status']:not(:empty) {
+  padding-block: 12px;
+}
+.portal .profile-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 18px 26px;
+  border-bottom: 1px solid var(--portal-line);
+}
+.portal .profile-overview {
+  display: grid;
+  grid-template-columns: minmax(220px, 28%) minmax(0, 1fr);
+  gap: 36px;
+  padding: 32px;
+  align-items: start;
+}
+.portal .profile-avatar-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-width: 0;
+  gap: 12px;
+}
+.portal .profile-avatar-panel h2,
+.portal .profile-identity h2 {
+  font-size: 17px;
+  margin: 0 0 10px;
+}
+.portal .profile-avatar-panel p,
+.portal .profile-help {
+  font-size: 12px;
+  color: var(--portal-muted);
+  line-height: 1.7;
+  margin: 0;
+}
+.portal .profile-avatar {
+  display: grid;
+  place-items: center;
+  width: 180px;
+  height: 180px;
+  border: 3px solid var(--portal-accent);
+  border-radius: 50%;
+  background: #eff6ff;
+  overflow: hidden;
+  flex: none;
+}
+.portal .profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.portal .profile-avatar:not(:has(img)) {
+  background: #eff6ff center 35px / 95px no-repeat none;
+}
+.portal .profile-avatar > span {
+  align-self: end;
+  padding-bottom: 12px;
+  color: #567ba6;
+  font-size: 12px;
+}
+.portal .profile-avatar-panel label {
+  width: 100%;
+  font-size: 13px;
+  text-align: left;
+  margin: 0;
+}
+.portal .profile-avatar-panel input[type='file'] {
+  width: 100%;
+  font-size: 12px;
+  padding: 7px;
+}
+.portal .profile-identity {
+  min-width: 0;
+}
+.portal .profile-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 24px;
+}
+.portal .profile-fields label {
+  margin: 0;
+  font-size: 14px;
+}
+.portal .profile-fields input,
+.portal .profile-fields textarea {
+  width: 100%;
+}
+.portal .profile-fields label:has(textarea) {
+  grid-column: 1 / -1;
+}
+.portal .profile-identity .profile-help {
+  margin-top: 16px;
+}
+.portal .profile-editor,
+.portal.profile-page #profile-root > .learning-activity {
+  padding: 26px 32px;
+  margin: 0;
+  border: 0;
+  border-top: 1px solid var(--portal-line);
+  border-radius: 0;
+}
+.portal .profile-editor h2,
+.portal.profile-page #profile-root > .learning-activity h2 {
+  font-size: 18px;
+  margin: 0 0 12px;
+}
+.portal .profile-editor > p {
+  color: var(--portal-muted);
+  font-size: 13px;
+  margin-bottom: 24px;
+}
+.portal .profile-editor > .primary {
+  justify-self: start;
+  width: auto;
+  min-width: 140px;
+  margin-top: 24px;
+}
+@media (min-width: 801px) and (max-width: 1100px) {
+  .portal .role-shell,
+  .portal .course-body {
+    grid-template-columns: 220px minmax(0, 1fr);
+  }
+  .portal .role-main,
+  .portal.admin-portal .admin-main,
+  .portal .course-panel {
+    padding: 24px;
+  }
+  .portal .profile-overview {
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: 24px;
+    padding: 24px;
+  }
+}
+@media (max-width: 800px) {
+  .portal .topbar {
+    padding: 10px 16px;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .portal .topbar .brand {
+    font-size: 17px;
+  }
+
+  .portal .topbar-actions {
+    margin-left: auto;
+    gap: 8px;
+  }
+  .portal .topbar .button {
+    padding: 7px 10px;
+    font-size: 12px;
+  }
+  .portal .role-shell,
+  .portal .course-body {
+    display: block;
+  }
+  .portal .role-sidebar {
+    padding-top: 20px;
+  }
+  .portal .nav-open .role-sidebar {
+    max-height: 65dvh;
+    overflow-y: auto;
+  }
+
+  .portal .role-nav-item {
+    padding: 13px 20px;
+  }
+  .portal .role-main,
+  .portal.admin-portal .admin-main,
+  .portal .course-panel,
+  .portal .course-surface,
+  .portal #root.course-surface {
+    padding: 20px 16px;
+  }
+  .portal .workspace-header {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .portal .workspace-courses > .academic-card {
+    padding: 20px;
+  }
+  .portal .course-cover {
+    position: static;
+    width: 100%;
+    height: 120px;
+    margin: 0 0 18px;
+  }
+  .portal .course-hero,
+  .portal .student-course .course-hero {
+    padding: 18px 16px;
+  }
+  .portal .course-inner-nav {
+    position: static;
+    display: flex;
+    padding: 0 6px;
+    max-height: none;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-right: 0;
+  }
+  .portal .course-inner-nav a {
+    flex: none;
+    padding: 14px 12px;
+    gap: 8px;
+    white-space: nowrap;
+    border-left: 0;
+  }
+  .portal .course-inner-nav a[aria-current] {
+    border-bottom-color: var(--portal-accent);
+  }
+  .portal.profile-page:not(.admin-portal) > main {
+    width: calc(100% - 32px);
+    margin: 16px auto 32px;
+  }
+  .portal .profile-overview {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+    padding: 24px 20px;
+  }
+  .portal .profile-avatar-panel {
+    max-width: 320px;
+    justify-self: center;
+  }
+  .portal .profile-toolbar,
+  .portal .profile-editor,
+  .portal.profile-page #profile-root > .learning-activity {
+    padding: 20px;
+  }
+  .portal .profile-fields {
+    gap: 16px;
+  }
+}
+@media (max-width: 520px) {
+  .portal .topbar .local {
+    display: none;
+  }
+  .portal .topbar .brand {
+    font-size: 16px;
+  }
+  .portal .topbar-actions > a {
+    max-width: 9em;
+    white-space: normal;
+    text-align: center;
+  }
+  .portal .course-filters {
+    padding: 16px;
+  }
+  .portal .course-filters label,
+  .portal .course-filters > button {
+    flex-basis: 100%;
+    width: 100%;
+  }
+  .portal .profile-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .portal .profile-toolbar > .button {
+    flex: 1 1 100%;
+    text-align: center;
+  }
+  .portal .course-pagination,
+  .portal .management-pagination {
+    flex-wrap: wrap;
+  }
+  .portal .course-pagination .button,
+  .portal .management-pagination button {
+    min-width: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .portal *,
+  .portal *::before,
+  .portal *::after {
+    scroll-behavior: auto;
+  }
+}
+
+/* Local inline vectors; compatible with the original image/content policy. */
+.portal .portal-brand-icon {
+  width: 36px;
+  height: 36px;
+  flex: none;
+}
+.portal .portal-user-icon {
+  display: block;
+  width: 88px;
+  height: 88px;
+  padding: 18px;
+  margin: 0 auto 18px;
+  border: 2px solid #1677ff;
+  border-radius: 50%;
+  color: #1677ff;
+  background: #f0f7ff;
+}
+.portal .portal-nav-icon {
+  width: 20px;
+  height: 20px;
+  flex: none;
+}
+.portal .course-cover span {
+  display: grid;
+  place-items: center;
+}
+.portal .portal-cover-icon {
+  width: 44px;
+  height: 44px;
+  color: #eef3ff;
+}
+.portal .profile-avatar:not(:has(img)) {
+  background: #eff6ff;
+  position: relative;
+}
+.portal .portal-avatar-icon {
+  position: absolute;
+  width: 104px;
+  height: 104px;
+  left: calc(50% - 52px);
+  top: 24px;
+  color: #1677ff;
+}
+@media (max-width: 800px) {
+  .portal .portal-brand-icon {
+    width: 30px;
+    height: 30px;
+  }
+  .portal .portal-user-icon {
+    width: 64px;
+    height: 64px;
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+}
+
+html:has(body.portal) {
+  background: #f1f5fb;
+  color-scheme: light;
+}
+.portal.profile-page #profile-root > details.academic-form {
+  margin: 0;
+  padding: 22px 32px;
+  border-top: 1px solid var(--portal-line);
+}
+@media (max-width: 800px) {
+  .portal.profile-page #profile-root > details.academic-form {
+    padding: 20px;
+  }
+  .portal :where(button, .button) {
+    min-height: 44px;
+  }
+}
+
+/* Business controls without button classes share the same portal treatment. */
+.portal button {
+  border: 1px solid #d7e1ee;
+  background: white;
+  color: #315679;
+  border-radius: 7px;
+  padding: 9px 14px;
+  line-height: 1.5;
+  cursor: pointer;
+}
+.portal button.primary {
+  background: #1677e8;
+  color: white;
+  border-color: #1677e8;
+}
+.portal button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}

@@ -1,0 +1,34 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "CLASSROOM_RESULTS_AND_CURRENTLY_AUTHORIZED_STUDENT_HISTORY",
+  "branch": "refactor/zhiban-v2",
+  "head": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "checks": {
+    "directedPg16AndTeacherStudentBrowser": "PASS",
+    "typecheckExitCode": 0,
+    "affectedEslintExitCode": 0,
+    "persistentSourceDrift": 0,
+    "cleanedEphemeralSources": 3,
+    "frozenSourceFiles": 154,
+    "frozenSourceDrift": 0,
+    "defaultSourceMatches": true,
+    "defaultHttpsPort": 3461,
+    "defaultOwnedPgPort": 56517,
+    "inAppBrowser": "TEACHER_RESULTS_VISIBLE",
+    "newDatabaseMigrations": 0
+  },
+  "boundaries": [
+    "Current Identity/course/assignment/Enrollment guards remain required",
+    "Only latest submission and its latest published grade summarized",
+    "No inferred Runtime completion or score",
+    "No new attempts created by historical reads",
+    "Demo data uses real LOCAL commands; no real teaching data claimed",
+    "Backups archive and TOC verified; restore not tested"
+  ],
+  "gitCommit": false,
+  "gitPush": false,
+  "ciDispatch": false,
+  "modelGenerationCalled": false
+}

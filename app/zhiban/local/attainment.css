@@ -1,0 +1,82 @@
+#attainment,
+#auto-grading {
+  max-width: 1100px;
+  margin: 24px auto;
+  padding: 16px;
+}
+#attainment section,
+#auto-grading section {
+  border: 1px solid #d8dfeb;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 18px 0;
+  background: #fff;
+}
+#attainment label,
+#auto-grading label {
+  display: block;
+  margin: 12px 0;
+}
+#attainment input,
+#attainment select,
+#attainment textarea,
+#auto-grading input,
+#auto-grading textarea {
+  display: block;
+  width: 100%;
+  max-width: 660px;
+  margin: 6px 0;
+  padding: 9px;
+  border: 1px solid #abb8cc;
+  border-radius: 6px;
+}
+#attainment button,
+#auto-grading button {
+  border: 1px solid #a8bbdc;
+  background: #edf3ff;
+  color: #133b79;
+  border-radius: 6px;
+  padding: 8px 14px;
+  margin: 8px 8px 8px 0;
+  cursor: pointer;
+}
+#attainment button:disabled,
+#auto-grading button:disabled {
+  opacity: 0.5;
+}
+#attainment [role='alert'],
+#auto-grading [role='alert'] {
+  color: #9d2932;
+}
+.certificate-record {
+  line-height: 1.8;
+}
+.certificate-record dl {
+  display: grid;
+  grid-template-columns: 7em 1fr;
+  gap: 8px;
+}
+.certificate-record dt {
+  font-weight: 600;
+}
+.certificate-record dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  body .print-record,
+  body .print-record * {
+    visibility: visible;
+  }
+  .print-record {
+    position: absolute;
+    inset: 0;
+    padding: 2cm !important;
+  }
+  button {
+    display: none !important;
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "status": "PASS",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "candidateInventorySha256": "877f2f66146fd628ffd056a70df68a2632478a7b035277fcec7d6a76dd0f1f86",
+  "candidateMigrationSha256": "bbede0be2e773562730bb2b1c756d4aceba853143b298b768de7c0d70d624a8e",
+  "checks": [
+    {
+      "name": "six prior credentials really authenticate through exact loopback SCRAM before fixture rotation",
+      "status": "PASS"
+    },
+    {
+      "name": "actual immutable build emits product, validator, browser assets, pinned native/ELF and manifests",
+      "status": "PASS"
+    },
+    {
+      "name": "fault injection clone proves child cannot listen/write/load ambient packages/spawn/connect outside approved target",
+      "status": "PASS"
+    },
+    {
+      "name": "same release ID cannot overwrite an existing generation; no workspace symlink/external package leaves",
+      "status": "PASS"
+    },
+    {
+      "name": "staged configuration drift during a build fails before an artifact manifest can activate the partial generation",
+      "status": "PASS"
+    },
+    {
+      "name": "fresh guarded child loads actual frozen composition/native via six TCP roles without HTTP or business writes",
+      "status": "PASS"
+    },
+    {
+      "name": "independent test receipts and full HBA/actual old credentials complete all nine validation checks",
+      "status": "PASS"
+    },
+    {
+      "name": "reviewed shadow evidence binds the exact executable/native closure; another build cannot substitute",
+      "status": "PASS"
+    },
+    {
+      "name": "wrong signed compatibility generation is rejected by child without a partial positive ACK",
+      "status": "PASS"
+    },
+    {
+      "name": "missing/truncated/unknown source, mixed config and artifact mutations fail before child admission",
+      "status": "PASS"
+    },
+    {
+      "name": "native bytes/ABI/system-library drift and nonliteral dynamic import cannot be silently accepted",
+      "status": "PASS"
+    },
+    {
+      "name": "expired approval and changed fence block validation; raw secrets do not enter argv/env/result",
+      "status": "PASS"
+    },
+    {
+      "name": "after all child exits target backends are gone and ready/claims/session/admission business counts unchanged",
+      "status": "PASS"
+    }
+  ],
+  "build": {
+    "artifactManifestSha256": "4a4bb50a8dd81e9815a70df41402fa2f99149649af7bb3042fc86cefcd8944ba",
+    "buildManifestSha256": "3ef454944b0216e05448f78b2898989945ef4c3d780000aa4eaf3732284d9516",
+    "closureManifestSha256": "b812b8607ae8d12ebd7d69a3895154e625777ebc6eed935360832cc1adeea907",
+    "files": 20
+  },
+  "actualProductCompositionBuilt": true,
+  "actualRendererEditorAssetsBuilt": true,
+  "actualArgon2NativeExecuted": true,
+  "sixRoleLoopbackTcpScramVerified": true,
+  "oldCredentialNegativeProbesVerified": true,
+  "disposableClusterStoppedAndRemoved": true,
+  "existingClustersConnected": false,
+  "realReceiptIssued": false,
+  "realGatePublished": false,
+  "runtimeAccepted": false,
+  "limitations": [
+    "Synthetic test keys/signed expected/compatibility/transport lineage and privileged CLOSED fixture; minimal Native and local corpus",
+    "Validation startup only, no login/session mutation/course/content publication or HTTP listener; ordinary supervisor/fd inheritance not wired",
+    "No real target credentials, artifact delivery, authority signing, target HBA mutation or clear execution"
+  ]
+}

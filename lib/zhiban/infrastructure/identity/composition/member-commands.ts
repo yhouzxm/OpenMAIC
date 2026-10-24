@@ -1,3 +1,4 @@
+import type { TeacherRelationships } from './teacher-relationships';
 import {
   Membership,
   instant,
@@ -276,8 +277,19 @@ export class MemberCommands implements MembershipCompositionPort {
     private readonly catalog: ApprovedIdentityCatalog,
     private readonly ids: IdentityIds,
     policy: MembershipCompositionPolicy,
+    private readonly teacherRelationships: TeacherRelationships | null = null,
   ) {
     this.policy = membershipCompositionPolicy(policy);
+  }
+  private async relationship(
+    client: Client,
+    tenant: MembershipCommandRequest['tenantId'],
+    member: MembershipId,
+    grant: Membership['roleGrants'][number] | undefined,
+  ) {
+    return grant !== undefined && this.teacherRelationships !== null && grant.roleCode === 'TEACHER'
+      ? this.teacherRelationships.verify(client, tenant, member, grant)
+      : false;
   }
   execute(
     handle: AuthenticatedRequestHandle,
@@ -522,7 +534,12 @@ export class MemberCommands implements MembershipCompositionPort {
                       catalog: catalog.snapshot,
                       now: at,
                       preserve: true,
-                      resourceRelationshipVerified: false,
+                      resourceRelationshipVerified: await this.relationship(
+                        client,
+                        request.tenantId,
+                        before.value.id,
+                        grant,
+                      ),
                     }),
                 );
               }
@@ -546,9 +563,9 @@ export class MemberCommands implements MembershipCompositionPort {
                     (g) => !before.value.roleGrants.some((old) => old.id === g.id),
                   );
             integrity(grants.length <= 16);
-            if (
-              !grants.every((g) =>
-                mayDelegate({
+            for (const g of grants)
+              if (
+                !mayDelegate({
                   actor: actor.value,
                   actorGrant: authorityGrant,
                   target: before.value,
@@ -557,11 +574,15 @@ export class MemberCommands implements MembershipCompositionPort {
                   catalog: catalog.snapshot,
                   now: at,
                   preserve,
-                  resourceRelationshipVerified: false,
-                }),
+                  resourceRelationshipVerified: await this.relationship(
+                    client,
+                    request.tenantId,
+                    before.value.id,
+                    g,
+                  ),
+                })
               )
-            )
-              refuse('POLICY_DENIED', 'INTEGRITY_FAILURE');
+                refuse('POLICY_DENIED', 'INTEGRITY_FAILURE');
             plans.push({ target: t, before, after, intent, authorityId: decision.grantId });
             candidates.set(after.id, { value: after, revision: before.revision });
           }
@@ -797,8 +818,8 @@ export class MemberCommands implements MembershipCompositionPort {
             : p.after.roleGrants.filter(
                 (g) => !p.before.value.roleGrants.some((old) => old.id === g.id),
               );
-          integrity(
-            approved.every((g) =>
+          for (const g of approved)
+            integrity(
               mayDelegate({
                 actor: actor.value,
                 actorGrant: authorityGrant,
@@ -808,10 +829,14 @@ export class MemberCommands implements MembershipCompositionPort {
                 catalog: catalog.snapshot,
                 now: finalAt,
                 preserve: true,
-                resourceRelationshipVerified: false,
+                resourceRelationshipVerified: await this.relationship(
+                  client,
+                  request.tenantId,
+                  p.after.id,
+                  g,
+                ),
               }),
-            ),
-          );
+            );
         }
         if (existing === null)
           for (const p of plans)
@@ -823,8 +848,8 @@ export class MemberCommands implements MembershipCompositionPort {
           const authorityGrant = actor.value.roleGrants.find(
             (g) => g.id === confirmed.authorityId,
           )!;
-          integrity(
-            confirmed.grants.every((g) =>
+          for (const g of confirmed.grants)
+            integrity(
               mayDelegate({
                 actor: actor.value,
                 actorGrant: authorityGrant,
@@ -834,10 +859,14 @@ export class MemberCommands implements MembershipCompositionPort {
                 catalog: catalog.snapshot,
                 now: finalAt,
                 preserve: true,
-                resourceRelationshipVerified: false,
+                resourceRelationshipVerified: await this.relationship(
+                  client,
+                  request.tenantId,
+                  confirmed.target.value.id,
+                  g,
+                ),
               }),
-            ),
-          );
+            );
         }
         return Object.freeze({
           commandId,

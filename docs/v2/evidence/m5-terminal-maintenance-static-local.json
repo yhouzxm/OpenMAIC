@@ -1,0 +1,109 @@
+{
+  "formatVersion": 1,
+  "kind": "LOCAL_M5_TERMINAL_CANDIDATE_STATIC",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "gitBaselineSha": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "candidateInventorySha256": "0774292a6013eee00e80da90b5c90e294d596c053bbb5f39101dcc537877c046",
+  "candidateMigrationSha256": "e1e7ea9517462edd855fb8715f49346db4c467c01aac43e8a370c39eebf7184a",
+  "status": "STATIC_PASS",
+  "checks": [
+    {
+      "name": "candidate-and-prerequisite-byte-bindings",
+      "status": "PASS",
+      "detail": 51
+    },
+    {
+      "name": "ordered-business-aggregate",
+      "status": "PASS",
+      "detail": "e1e7ea9517462edd855fb8715f49346db4c467c01aac43e8a370c39eebf7184a"
+    },
+    {
+      "name": "unissued-derived-receipts",
+      "status": "PASS",
+      "detail": "installation and resolution templates; normalized semantic hashes"
+    },
+    {
+      "name": "exact-helper-signatures-and-client-acl",
+      "status": "PASS",
+      "detail": "declared helper signatures match EXECUTE grants; no client raw DML/SELECT"
+    },
+    {
+      "name": "declared-trust-and-role-boundaries",
+      "status": "PASS",
+      "detail": "observer stats edge only; Native id write privilege explicitly disclosed"
+    },
+    {
+      "name": "terminal-scope-and-history-static-boundaries",
+      "status": "PASS",
+      "detail": "no pointer/publication mutation; private scope and constraint forcing; no current lease/TTL dependency in history"
+    },
+    {
+      "name": "takeover-ack-lookup-static-boundaries",
+      "status": "PASS",
+      "detail": "controller capability; precise historical pair and current claims; no write replay"
+    },
+    {
+      "name": "lookup-lifecycle-audit-static-boundaries",
+      "status": "PASS",
+      "detail": "same helper transaction, explicit provenance and repeated revoke no-op"
+    },
+    {
+      "name": "combined-profile-static-contract",
+      "status": "PASS",
+      "detail": "Business/Native collectors, actual cluster/catalog ACL and effective permissions; closed exact offline comparison"
+    },
+    {
+      "name": "signed-blocked-installation-static-boundaries",
+      "status": "PASS",
+      "detail": "pinned independent expected, exact approval, atomic ledger, blocked receipt and no reopen"
+    },
+    {
+      "name": "offline-recovery-and-resume-plans",
+      "status": "PASS",
+      "detail": "two synthetic plans; other cluster/database/extra field/window replay rejected; never execute finalize"
+    },
+    {
+      "name": "candidate-document-links",
+      "status": "PASS",
+      "detail": "all local Markdown links resolve"
+    },
+    {
+      "name": "sql-and-plpgsql-static-parsing",
+      "status": "PASS",
+      "detail": {
+        "name": "pglast",
+        "version": "v6.16",
+        "postgresqlGrammar": [
+          16,
+          1
+        ],
+        "sqlStatements": 122,
+        "plpgsqlFunctionsParsed": 34,
+        "limitations": []
+      }
+    }
+  ],
+  "parser": {
+    "name": "pglast",
+    "version": "v6.16",
+    "postgresqlGrammar": [
+      16,
+      1
+    ],
+    "sqlStatements": 122,
+    "plpgsqlFunctionsParsed": 34,
+    "limitations": []
+  },
+  "databaseConnected": false,
+  "migrationApplied": false,
+  "receiptIssued": false,
+  "runtimeAccepted": false,
+  "notRun": [
+    "live function compile/catalog binding",
+    "PG16 semantic/RLS/ACL/atomic settlement",
+    "Native proof worker",
+    "crash recovery/drain/HBA/credential regression",
+    "affected host/business regression"
+  ]
+}

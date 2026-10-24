@@ -1,0 +1,9 @@
+packages/@openmaic/importer              |  WARN  The field "pnpm.onlyBuiltDependencies" was found in /home/zxm/openmaic/zhiban/packages/@openmaic/importer/package.json. This will not take effect. You should configure "pnpm.onlyBuiltDependencies" at the root of the workspace instead.
+packages/@openmaic/renderer              |  WARN  The field "pnpm.onlyBuiltDependencies" was found in /home/zxm/openmaic/zhiban/packages/@openmaic/renderer/package.json. This will not take effect. You should configure "pnpm.onlyBuiltDependencies" at the root of the workspace instead.
+
+> @openmaic/dsl@0.11.3 build /home/zxm/openmaic/zhiban/packages/@openmaic/dsl
+> node -e "require('fs').rmSync('dist',{recursive:true,force:true})" && tsc -p tsconfig.json && node scripts/gen-schema.mjs
+
+wrote dist/schema/stage.schema.json
+wrote dist/schema/scene.schema.json
+wrote dist/schema/action.schema.json

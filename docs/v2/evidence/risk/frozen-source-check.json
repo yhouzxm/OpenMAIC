@@ -1,0 +1,8 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "comparedAgainst": "zhiban-remediation-local.json",
+  "files": 35,
+  "drift": [],
+  "newMigration": "risk/postgres/migrations/0001_risk.sql"
+}

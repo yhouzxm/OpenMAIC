@@ -5,9 +5,15 @@ import { hasBillableTokens, type NormalizedUsage } from '@/lib/usage/normalize';
 
 const log = createLogger('UsageStorage');
 
+let hostUsageDirectory: string | undefined;
+/** An embedded host may keep its accounting with its own durable private data. */
+export function configureUsageStorageDirectory(directory: string) {
+  if (hostUsageDirectory || !path.isAbsolute(directory)) throw Error('Usage directory rejected');
+  hostUsageDirectory = directory;
+}
 /** Base directory for usage logs; lands in the openmaic-data volume in Docker. */
 function usageDir(baseDir?: string): string {
-  return baseDir ?? path.join(process.cwd(), 'data', 'usage');
+  return baseDir ?? hostUsageDirectory ?? path.join(process.cwd(), 'data', 'usage');
 }
 
 /** Current month's jsonl file name, e.g. usage/2026-06.jsonl. */

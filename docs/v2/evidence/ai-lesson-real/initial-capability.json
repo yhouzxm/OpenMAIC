@@ -1,0 +1,9 @@
+{
+  "status": 200,
+  "capability": {
+    "ready": false,
+    "models": [],
+    "reason": "MODEL_CONFIGURATION_REQUIRED"
+  },
+  "runs": 0
+}

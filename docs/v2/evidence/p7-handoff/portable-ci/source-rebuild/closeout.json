@@ -1,0 +1,48 @@
+{
+  "kind": "PORTABLE_SOURCE_REBUILD_REMOTE_CLOSEOUT_V1",
+  "status": "PASS",
+  "executionOrigin": "GITHUB_ACTIONS",
+  "runId": 40096542805,
+  "runAttempt": 1,
+  "checkpointSha": "c709c7815506ed7532d174ba899e76884bb3a98f",
+  "sourceDigest": "1b553320a1b4bb029dbae6827a84ba6a667b44a954a43f350ad9c24d3aaab7e8",
+  "installManifestSha256": "85c5886def45d0efc2d55f3197f280575ce61935af2ca8915eb74b8f6131ba55",
+  "ciphertextSha256": "a0f4bf43dd68f63fa53a86d21f17535874ec4788e49c0d7f210ec2b03ee4327c",
+  "scope": "EPHEMERAL_GITHUB_UBUNTU_VM_INSTALL_RESTORE_SAME_INTERNAL_PG_ROOT",
+  "passed": [
+    "independent online dependency installation on distinct Ubuntu VM and UID",
+    "three-role login and workspace",
+    "trusted Chromium HTTPS",
+    "three-database 212-table 572-row fingerprints and accounts preserved",
+    "ordinary restart receipt and data unchanged",
+    "final snapshot verified",
+    "runner private namespace and temporary NSS cleanup",
+    "transport secret and asset/release/tag deletion verified"
+  ],
+  "remainingBoundaries": [
+    "ephemeral GitHub VM, same internal PG root; not long-lived production or arbitrary-root relocation",
+    "synthetic data and LOCAL approval/TLS material only",
+    "operational Native maintenance remains isolated pending trusted inputs",
+    "no model/parser or full-classroom regression claimed"
+  ],
+  "previousFailuresRetained": [
+    40087593933,
+    40089510426,
+    40090990321
+  ],
+  "phaseTimingsMs": {
+    "CONTEXT": 1,
+    "DELIVERY": 2439,
+    "PREREQUISITES": 8,
+    "FROZEN_INSTALL": 77175,
+    "BROWSER_PREREQUISITES": 12720,
+    "PRIVATE_IMPORT": 859,
+    "NSS_TRUST": 17,
+    "RESTORE_START": 26039,
+    "DATA_ROLES_HTTPS": 2077,
+    "NORMAL_RESTART": 11400,
+    "FINAL_SNAPSHOT": 114
+  },
+  "remoteHeadVerified": "c709c7815506ed7532d174ba899e76884bb3a98f",
+  "resultEvidenceCommit": "Local closeout files created after approved checkpoint; not additionally committed"
+}

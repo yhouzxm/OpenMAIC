@@ -1,0 +1,122 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "LOCAL_HANDOFF_COMPLETE_WITH_DECLARED_LIMITATIONS",
+  "at": "2026-10-23T11:41:54.648Z",
+  "scope": "P7_SOURCE_HANDOFF_REFRESH_INCLUDING_ALL_SEVEN_DELIVERED_LEGACY_ENTRY_INCREMENTS",
+  "versionId": "zhiban-local-20261023-a6ef3a535563",
+  "sourceDigest": "a6ef3a535563bd90e9e7952557ff2eea743c80cfde3b03ccf6fd00f6b077a390",
+  "archiveSha256": "e9895f1d5baac00b9c1da9d29b2589be63d519a66cae319ee13c536b70a339bb",
+  "artifactDirectory": "/home/zxm/.local/share/zhiban-handoff/zhiban-local-20261023-a6ef3a535563",
+  "archive": "/home/zxm/.local/share/zhiban-handoff/zhiban-local-20261023-a6ef3a535563/source.tar.gz",
+  "sourceFiles": 5545,
+  "archiveBytes": 144015656,
+  "branch": "refactor/zhiban-v2",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "dirtyCandidatesPreserved": true,
+  "officialVersion": "1.2.1",
+  "officialPin": "e19d0d4f45d81b8f7ab599b33ab03b0b8b68d5c0",
+  "previousPackage": {
+    "versionId": "zhiban-local-20261023-7b5fc1a08e0d",
+    "archiveUnchanged": true,
+    "historicalEvidenceReissued": false
+  },
+  "includedFeatures": [
+    "Existing filtered cross-page gradebook CSV and tenant PNG avatar",
+    "Personal settings aliases",
+    "Global teacher/student grade selectors",
+    "Administrator/login aliases",
+    "Profile/evidence and risk/support aggregate entries",
+    "Teacher native authoring legacy entry replacement",
+    "Student course Tutor legacy tools entry",
+    "Read-only teacher course settings and minimal current-offering assignment roster"
+  ],
+  "runtime": {
+    "sameRootKept": true,
+    "root": "/tmp/zhiban-trial-content-e5zuw0",
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "restarted": false,
+    "dataCleared": false,
+    "businessMutations": false,
+    "identityLoginsEstablished": true,
+    "currentEntryReadiness": "PASS",
+    "entriesChecked": 21,
+    "modelCalls": false
+  },
+  "verification": {
+    "archiveReadback": "PASS",
+    "workspaceFilesHashCompared": 5545,
+    "requiredEntryAndReceiptFiles": 42,
+    "runtimeHashesCompared": 2750,
+    "runtimeIncluded": 1851,
+    "runtimeArtifactOmissions": {
+      "TEMPORARY_HARNESS_REBUILD_REQUIRED": 1,
+      "BROWSER_BUNDLE_REBUILD_REQUIRED": 2,
+      "DEPENDENCY_REINSTALL_REQUIRED": 1,
+      "PACKAGE_REBUILD_REQUIRED": 889,
+      "STANDALONE_PLAYER_REBUILD_REQUIRED": 4,
+      "INSTALLED_CONTENT_BUNDLE_REBUILD_REQUIRED": 1,
+      "PRIVATE_RUNTIME_CONTROL_INTENTIONALLY_NOT_EXPORTED": 1
+    },
+    "uncoveredApplicationSource": [],
+    "knownInputExclusions": "PASS; pack eligibility/credential-like checks and known forbidden manifest paths checked, not a universal secret-detection guarantee",
+    "readOnlyVerifierSha256": "b63a12685b5353e671eb2c8fb526d4451d0e2c223655c61669907f1d92269e61",
+    "fullClassroomRetested": false,
+    "aiOrScannerRetested": false,
+    "cleanHostInstall": false,
+    "restoreDrill": false
+  },
+  "knownWiderCheckFailures": {
+    "retestedThisTurn": false,
+    "source": "docs/v2/evidence/course-administration/final-closeout.json",
+    "failures": [
+      {
+        "command": "pnpm exec vitest run tests/zhiban/workspace/query.test.ts",
+        "result": "8 PASS / 1 FAIL",
+        "failure": "Existing localAdminPageAsset /zhiban/admin/import/registrations expectation /zhiban/roster is not mapped; unrelated assertion retained"
+      },
+      {
+        "command": "pnpm exec tsc --noEmit -p tsconfig.build.json",
+        "result": "FAIL TS2353",
+        "failure": "Existing verifyOnboarding call in verify-m6-catalog.mts passes store outside Input; call not changed by this package"
+      }
+    ]
+  },
+  "deferred": [
+    "Scanner pin and new scanned uploads",
+    "Office/OCR/audio/video service inputs",
+    "Full Native Runtime/maintenance recovery and trusted inputs",
+    "Real identity/operational approvals and delivery/external directory",
+    "Remaining unmapped legacy routes",
+    "Profile dimensions/PBL/EMA/AI Peer REVIEW",
+    "Course total/appeal rules",
+    "User-deferred native refresh/close guard",
+    "Clean-host installation and data restore"
+  ],
+  "boundaries": [
+    "Source snapshot for existing trusted same-path checkout; official Git pin objects required",
+    "Dependencies/package and browser builds/CA/expected profiles/private model inputs supplied or rebuilt separately",
+    "Private runtime member-control excluded; not restorable from this source kit",
+    "No Git history/runtime PG data/private credentials in source archive",
+    "Historical receipts retain source/root/run limits; changed hashes explicitly compared",
+    "P7-EVIDENCE sidecar carries excluded P7 receipts; package hash is not deployment approval"
+  ],
+  "git": {
+    "commit": false,
+    "push": false,
+    "ciDispatch": false
+  },
+  "nextPackage": "Teacher course-list legacy entry and current paginated workspace navigation closeout",
+  "suggestedModel": "GPT-6.1 Sol / medium",
+  "evidenceHashes": {
+    "status-before.json": "29ce992552306534c5eb7a42a2fa241cbce40ce5e1e3d6ecfcac2839dccc019f",
+    "status-after.json": "3a125a40c3aba768b5d0f445c2167e7d788f2b544f009e804690d45c74227274",
+    "package.json": "1a4aafdb6f011279ede26f7f91c6d2911aea4d40d75fe1d21c8b693e4f856c28",
+    "archive-readback.json": "335588164fe52fa0bdc3f74d2ece2b731ae819559791a0925bf7356c8bd12267",
+    "source-coverage.json": "e4cdf630a5676c528b8e9e634f9d65b29ee5e0e4a8a32801ea1f76e5caf912a7",
+    "evidence-applicability.json": "ebb70d4118b3af2a7f6793bca866060268fd46a4ce23e72706db5e0322e34293",
+    "current-entries-readonly.json": "4f3620d14e0e792faf68079488a9179a7e0f106a664ba6d757520fe56ebf9ea1",
+    "current-entries-readonly.cjs": "b63a12685b5353e671eb2c8fb526d4451d0e2c223655c61669907f1d92269e61"
+  }
+}

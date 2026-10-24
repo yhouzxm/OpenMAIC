@@ -1,0 +1,67 @@
+{
+  "status": "PASS",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "candidateInventorySha256": "a31d8cf76ff35ae38635f94fb644168334d3e20292a43d9f7438c6e978292027",
+  "candidateMigrationSha256": "bbede0be2e773562730bb2b1c756d4aceba853143b298b768de7c0d70d624a8e",
+  "checks": [
+    {
+      "name": "new handoff SQL/helper/ACL compiles in one owner transaction with separate ledger",
+      "status": "PASS"
+    },
+    {
+      "name": "ordinary read token cannot enumerate another release and receives no raw table rights",
+      "status": "PASS"
+    },
+    {
+      "name": "REGISTERED read scope precedes receipt and owner seals digest exactly once",
+      "status": "PASS"
+    },
+    {
+      "name": "ordinary runtime/issuer/executor cannot call clear helpers",
+      "status": "PASS"
+    },
+    {
+      "name": "guard-only COMMIT rejects deferred consistency and creates no activation",
+      "status": "PASS"
+    },
+    {
+      "name": "guard serializes epoch writer and rejects a late target backend before commit",
+      "status": "PASS"
+    },
+    {
+      "name": "real idle transaction timeout destroys guard; fresh backend can only lookup old attempt",
+      "status": "PASS"
+    },
+    {
+      "name": "commit_clear without same guarded transaction refuses",
+      "status": "PASS"
+    },
+    {
+      "name": "guard + final recheck consumes only control approval; exact ACK is COMMITTED",
+      "status": "PASS"
+    },
+    {
+      "name": "consumed clear approval cannot be replayed",
+      "status": "PASS"
+    },
+    {
+      "name": "host facts requires exact token and exposes committed gate binding without enabling ready",
+      "status": "PASS"
+    },
+    {
+      "name": "offline closure structurally rejects ambient imports, escape and undeclared native addon",
+      "status": "PASS"
+    }
+  ],
+  "disposableClusterOnly": true,
+  "existingClustersConnected": false,
+  "temporaryClusterStoppedAndRemoved": true,
+  "runtimeAccepted": false,
+  "gatePublished": false,
+  "realReceiptIssued": false,
+  "limitations": [
+    "Synthetic privileged replica control fixture; minimal Native, no product provenance",
+    "No trusted owner/signing authority, real release, dependency resolution, gate fsync/publisher or complete crash/concurrency matrix"
+  ]
+}

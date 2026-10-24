@@ -1,0 +1,26 @@
+
+/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/content/service.ts
+    35:11  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+    94:18  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   102:48  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   111:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   138:20  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   161:13  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   166:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   246:8   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   281:15  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   306:22  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   513:36  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   515:55  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   535:64  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   641:56  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   738:15  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   762:8   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   763:11  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  1079:43  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  1141:16  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  1259:32  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  1289:14  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+✖ 21 problems (21 errors, 0 warnings)
+

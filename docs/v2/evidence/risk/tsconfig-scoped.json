@@ -1,0 +1,30 @@
+{
+  "extends": "/home/zxm/openmaic/zhiban/tsconfig.json",
+  "compilerOptions": {
+    "incremental": true,
+    "tsBuildInfoFile": "/tmp/zhiban-risk-scoped.tsbuildinfo",
+    "plugins": [],
+    "types": [
+      "node"
+    ],
+    "typeRoots": [
+      "/home/zxm/openmaic/zhiban/node_modules/@types"
+    ],
+    "allowJs": false
+  },
+  "include": [
+    "/home/zxm/openmaic/zhiban/lib/zhiban/domain/risk/**/*.ts",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/application/risk/**/*.ts",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/risk/**/*.ts",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/application/academic/service.ts",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/academic/postgres/store.ts",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/risk.ts",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/build-risk-reference.ts",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/verify-risk.ts",
+    "/home/zxm/openmaic/zhiban/tests/zhiban/risk/**/*.ts"
+  ],
+  "exclude": [
+    "/home/zxm/openmaic/zhiban/node_modules",
+    "/home/zxm/openmaic/zhiban/.next"
+  ]
+}

@@ -1,0 +1,38 @@
+
+> openmaic@1.2.1 trial:zhiban:info /home/zxm/openmaic/zhiban
+> tsx scripts/zhiban-local/trial-control.ts info --unified-trial
+
+{
+  "status": "RUNNING_LOCAL_DISPOSABLE",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "sourceMatches": true,
+  "sourceDriftCount": 0,
+  "urls": {
+    "workspace": "https://127.0.0.1:3461/zhiban?space=01a16369-4fb1-737f-98e6-c6392d94200f",
+    "grading": "https://127.0.0.1:3461/zhiban/grading?tenant=01a16369-4fb1-737f-98e6-c6392d94200f&offering=01a16369-c447-7564-9e79-0b63d53d47c9#queue",
+    "analytics": "https://127.0.0.1:3461/zhiban/analytics?tenant=01a16369-4fb1-737f-98e6-c6392d94200f&offering=01a16369-c447-7564-9e79-0b63d53d47c9",
+    "progress": "https://127.0.0.1:3461/zhiban/progress?tenant=01a16369-4fb1-737f-98e6-c6392d94200f&offering=01a16369-c447-7564-9e79-0b63d53d47c9",
+    "roster": "https://127.0.0.1:3461/zhiban/roster?tenant=01a16369-4fb1-737f-98e6-c6392d94200f&offering=01a16369-c447-7564-9e79-0b63d53d47c9"
+  },
+  "accounts": [
+    {
+      "label": "管理员 · 王管理员",
+      "role": "ADMIN",
+      "userId": "01a16369-519f-7769-892a-6aa1f2308f56"
+    },
+    {
+      "label": "教师 · 周老师",
+      "role": "TEACHER",
+      "userId": "01a16369-4fc2-715b-aa40-f8a078cdccd4"
+    },
+    {
+      "label": "学生 · 陈同学",
+      "role": "STUDENT",
+      "userId": "01a16369-5059-7751-a056-be7fcc93f374"
+    }
+  ],
+  "privateAccountsFile": "/tmp/zhiban-trial-content-Gu8Osi/accounts.json",
+  "rosterExample": "/tmp/zhiban-trial-content-Gu8Osi/roster-example.csv",
+  "stop": "pnpm trial:zhiban:stop",
+  "dataLifetime": "Stop removes this owned cluster; restart creates new synthetic data and passwords."
+}

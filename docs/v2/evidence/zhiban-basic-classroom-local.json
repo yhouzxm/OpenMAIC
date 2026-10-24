@@ -1,0 +1,194 @@
+{
+  "kind": "LOCAL_BASIC_CLASSROOM_CLOSEOUT",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "at": "2026-10-17T01:09:55.029772+00:00",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "branch": "refactor/zhiban-v2",
+  "worktree": "PREEXISTING_DIRTY_CANDIDATES_PRESERVED",
+  "candidate": {
+    "origin": "https://127.0.0.1:3462",
+    "root": "/tmp/zhiban-shared-classroom-nmKtSq",
+    "pgPort": 56518,
+    "database": "zhiban_shared_classroom_disposable",
+    "pid": 48643,
+    "processStart": "1081940",
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "startupEvidence": "zhiban-shared-classroom-demo-local.json",
+    "startupEvidenceSha256": "b0099b7ec28f239f348dcecb07bf58c9cb3c97a6267816a0b44cc39964cca6db",
+    "sourceHashes": {
+      "lib/zhiban/domain/classroom/model.ts": "d403183545d5829fc1468a3f8b5c498bf42e60fbc2a61a8609e7bbab455e998b",
+      "lib/zhiban/application/classroom/service.ts": "877fcc691192d069dd5b608f13ef8b190739d4d2e107b64f3a6e02944b8d01ce",
+      "lib/zhiban/infrastructure/classroom/postgres/transaction.ts": "a46661c14404d7399cf78fafa800026ef8effeb3f86e85eaae33d89a119d644c",
+      "lib/zhiban/infrastructure/classroom/postgres/migrations/0001_classroom.sql": "1668814bdc87f8137609ca511c51037c43958b1a57843d2900f09f360ccb6a2f",
+      "lib/zhiban/application/academic/service.ts": "662828ffc32966daef33ed759e03ba6d6c45ad0ab9760973bb65edb41521d0f9",
+      "lib/zhiban/infrastructure/academic/postgres/store.ts": "788ffa34b27724bf1f2dd6f6c7f986fb35b741014406801a0f9aea3d83937942",
+      "lib/zhiban/application/learning/service.ts": "180760671054bfd7df6438cf5b469968a96bf550ef525819f1cd82d27aefd9b5",
+      "lib/zhiban/application/learning/pages.ts": "e493ee0fce377ed43be12951b6fbf87099ad88ed7b943dccb7703ac8c6b11076",
+      "lib/zhiban/domain/learning/model.ts": "682e9b8d3334fb8c5cd5d68d5241cbf88e42bc986dd1a20a245298cb24a8de21",
+      "lib/zhiban/infrastructure/learning/http.ts": "f7013f3efec81ffa22918a75c882348517c3950b519f2e02a12b986bb5700d8c",
+      "lib/zhiban/infrastructure/learning/postgres/transaction.ts": "7ee2894ed70cfcaaa19a4cc4930047ce2b45b8af87fb09df3c0663641bb73577",
+      "lib/zhiban/infrastructure/content/http.ts": "6b3ff09f9a4901ec08852552a71d542eaedc9554b72dd25db453c6f4a9f93808",
+      "lib/zhiban/infrastructure/content/service.ts": "28e3a87142aea7281588df903df41dda43db8391089e5c5614a17f00e79dd05f",
+      "app/zhiban/local/classrooms.js": "af8a88730a3071f4c8a6f3f44e62c8d54b50d8147b39a3fc4774e0ff8afd59a3",
+      "app/zhiban/local/workspace.js": "485c9d835d82f75c8d5a40546dbc405db1eea2a8fd74a8808e776357a4c15de3",
+      "app/zhiban/local/client.js": "8da83619fa5c2722b37d80a6fce17b6150517b4e4e44be2656220cdc23e78bd5",
+      "app/zhiban/local/learning.js": "e53faa6136b665016b9acf10f7ccd74ca2c7bb989f670bbf8704448bb8a34ccb",
+      "app/zhiban/local/course-page.js": "fbe8cd777cc4ce7a456340ccbe248724b14d6b99739e41e8da2754edec9cd590",
+      "app/zhiban/local/content-client.tsx": "8b1e9048c645367f26fbba912a81f292762ced01b07367c22195a3f87e43dc8e",
+      "scripts/zhiban-local/classroom.ts": "e38c877b8c6d2c7822ceb59b7ee90cc38eee28a194ec1e46d355afe630d0f3dc",
+      "scripts/zhiban-local/academic.ts": "809a0b1fdb88fc5b9bb534bc0ec2dc2d1e7d9891fcf121a82710681dfb92ff97",
+      "scripts/zhiban-local/server.ts": "7b47b6bee1b8b98fb8d0d6c68fa7dd68fd7b426b5312f23a9bb86ac86368fc32",
+      "scripts/zhiban-local/request-target.ts": "1c170d61521157663ff6982b1cc04686bad9a7cc6db29a1077d3e24da523b49b",
+      "scripts/zhiban-local/trial-content.ts": "31fc8e19603bd4d78e7b1a3a598d4a09d7805d4c2da16d1b3399424d7161b58f",
+      "scripts/zhiban-local/trial-control.ts": "552accfb771908e8ca43909a6fbcd42866556abb43efb8ccb8d6851790ac4cc2",
+      "scripts/zhiban-local/run-m6-catalog.ts": "3094c19e98b3ac3c5f883db44a7d9a5164feb0cac32b8994e338253161c22f55",
+      "scripts/zhiban-local/verify-m6-catalog.mts": "14084486dacba1cc903842c1ddba7cf182c798d42490c2bff790be9238aae684",
+      "scripts/zhiban-local/verify-shared-classroom.ts": "00e986dae6719a4de6c8837a24ac8bfd9e94f82bfff7ce40dd75cb73679d60e9",
+      "scripts/zhiban-local/tsconfig.classroom.json": "2a04f4c0cb3f1aa0a1e8ee0daf74f8f04f86489770d6d7b1222453b5faa34192",
+      "tests/zhiban/classroom/model.test.ts": "d945f50f670e8c9a314401a34f8dba041c4dadef3a313d7f52d51fb81e9bfadf",
+      "package.json": "4bbc22228592504cb5a1fa37803f0c5320723b9ca7dfce8f0b63b4f3eaef7f23"
+    }
+  },
+  "validation": {
+    "unit": {
+      "files": 5,
+      "passed": 35,
+      "failed": 0
+    },
+    "scopedTypecheck": {
+      "command": "pnpm exec tsc -p scripts/zhiban-local/tsconfig.classroom.json --pretty false",
+      "result": "PASS"
+    },
+    "wholeRepositoryTypecheck": "NOT_SIGNED: full repository tsc exhausted default Node heap; scoped changed dependency closure passed",
+    "pg16": 160015,
+    "groups": [
+      "unified content installed only in owned PG16 dual databases; fixed PNG profile and Native reference matched without new SQL/ACL",
+      "disposable content loader rejects wrong target, artifact hash and elevated Bridge ACL; restored state required before serving",
+      "PG16 restricted roles + real Identity sessions + validated trusted HTTPS",
+      "trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands",
+      "real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft",
+      "three real browser logins share one origin: admin history, teacher activities/queue/analytics, student activities/published feedback; no script errors",
+      "student/admin cannot acquire teacher grading; malformed content routes and Runtime/control remain closed",
+      "classroom HTTP rejects unauthenticated, wrong role, foreign tenant, bad CSRF and invalid time window",
+      "classroom PG16: draft isolation, idempotency/digest conflict, duplicate entry, stale revision, concurrent dispatch and end/enter barrier pass",
+      "classroom: future/expired windows, withdrawn Enrollment, ended teacher assignment and tenant RLS fail closed",
+      "classroom browser: teacher creates/publishes/dispatches text+PNG and activity; student enters correct lecture and returns with course context",
+      "classroom: new-key continuation retains first Attempt without consuming limits; a second classroom excludes earlier submissions",
+      "classroom journey: exact-version Attempt entry, original submit, teacher sees submission, end blocks entry and preserves answer/history",
+      "classroom version guards reject mismatched lecture preview/Attempt and ended dispatch; no browser script errors"
+    ],
+    "browser": {
+      "tool": "Codex in-app browser / CUA",
+      "result": "PASS",
+      "classroomId": "01a14764-f343-70fb-b720-48cb44e3b47c",
+      "classroomState": "ENDED",
+      "classroomRevision": "4",
+      "attemptNo": 2,
+      "activityVersion": 1,
+      "submissionVersion": 1,
+      "classroomSubmissionCount": 1,
+      "publishedGradeCount": 0,
+      "studentScreenshot": "zhiban-shared-classroom-student-browser.png",
+      "teacherScreenshot": "zhiban-shared-classroom-teacher-browser.png",
+      "checks": [
+        "correct bound Attempt opens automatically",
+        "save and submit real answer",
+        "teacher count excludes earlier classroom submission",
+        "end retains submission and history"
+      ]
+    },
+    "postBrowserFacts": {
+      "scope": "candidate3462",
+      "pg": 160015,
+      "classrooms": [
+        {
+          "id": "01a14764-bc75-71a7-b6bd-8cf97c72bb53",
+          "title": "故障验证课堂",
+          "state": "ENDED",
+          "revision": "6"
+        },
+        {
+          "id": "01a14764-c970-7432-a13b-1f4fc5ceb878",
+          "title": "时间屏障",
+          "state": "PUBLISHED",
+          "revision": "2"
+        },
+        {
+          "id": "01a14764-caf9-7589-b9c1-d825194ce1b0",
+          "title": "时间屏障",
+          "state": "DRAFT",
+          "revision": "1"
+        },
+        {
+          "id": "01a14764-d35b-7105-a0d0-e9e5208c7660",
+          "title": "课堂演示：讲义",
+          "state": "PUBLISHED",
+          "revision": "3"
+        },
+        {
+          "id": "01a14764-e598-75d4-ad93-5789c0a14331",
+          "title": "课堂演示：作答",
+          "state": "ENDED",
+          "revision": "4"
+        },
+        {
+          "id": "01a14764-f343-70fb-b720-48cb44e3b47c",
+          "title": "第二课堂尝试绑定",
+          "state": "ENDED",
+          "revision": "4"
+        }
+      ],
+      "attempts": [
+        {
+          "id": "01a14764-ec2a-7719-9600-92098ff71866",
+          "attempt_no": 1,
+          "status": "SUBMITTED",
+          "submissions": 1
+        },
+        {
+          "id": "01a14764-f457-7401-bc06-384cafaf098c",
+          "attempt_no": 2,
+          "status": "SUBMITTED",
+          "submissions": 1
+        }
+      ]
+    }
+  },
+  "preserved3461": {
+    "running": true,
+    "sourceMatches": false,
+    "sourceDriftCount": 23,
+    "receiptResigned": false,
+    "dataReset": false,
+    "facts": {
+      "scope": "preserved3461",
+      "pg": 160015,
+      "grades": [
+        {
+          "score_points": 8800,
+          "max_points": 10000
+        },
+        {
+          "score_points": 9200,
+          "max_points": 10000
+        }
+      ]
+    }
+  },
+  "boundaries": [
+    "no commit/push/CI dispatch",
+    "no access to real PG55432/55433",
+    "no applied migration edits",
+    "new additive migration applied only to disposable clusters",
+    "no complete OpenMAIC/Quiz/HTML/3D/VirtualLab/AI gate signoff",
+    "enter/read observations never count as completion or grade"
+  ],
+  "knownLimits": [
+    "100 classrooms per offering / 100 dispatches per classroom / participant detail read cap 1000, exceeding fails closed",
+    "no draft editing/reopen/delete",
+    "hidden-tab polling paused; active tab interval 5s, request timeout 10s",
+    "two 127.0.0.1 origins share host cookies; switching demo environments may require re-login"
+  ]
+}

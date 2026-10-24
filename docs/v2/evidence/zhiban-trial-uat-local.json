@@ -1,0 +1,84 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "COMPLETED_WITH_FINDINGS",
+  "at": "2026-10-15T15:04:27.387614+00:00",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "branch": "refactor/zhiban-v2",
+  "origin": "https://127.0.0.1:3459",
+  "pgPort": 56515,
+  "database": "zhiban_trial_disposable",
+  "trialPid": 45681,
+  "trialProcessStart": "1294721",
+  "sourceMismatches": [],
+  "runtimeMetadataSha256": "d42eaf92cbda881e9145c7f2a5c7a27b5b014bbc47fcd68cb68b2607b6f98dac",
+  "execution": "Codex in-app browser, sequential real role logins and UI commands against one disposable synthetic dataset",
+  "issues": [
+    {
+      "id": "UAT-01",
+      "priority": "P2",
+      "status": "OPEN",
+      "title": "Ambiguous Start/Resume creates a new limited attempt after a formal submission",
+      "observed": "Safety attempt 1 submitted; same labeled action creates empty IN_PROGRESS attempt 2 without explicit new-attempt wording/confirmation. Old submission remains."
+    },
+    {
+      "id": "UAT-02",
+      "priority": "P2",
+      "status": "OPEN",
+      "title": "Enrollment history omits affected member",
+      "observed": "Two ENROLL records share the same target offering ID and show no student ID/name."
+    }
+  ],
+  "observedOutcomes": [
+    "Admin course owner/assignment/two enrollments match",
+    "Teacher saved and published 92/100, TODO list emptied",
+    "Student saved a draft and submitted safety attempt 1; teacher received it",
+    "Student saw published 92 and feedback; private teacher draft absent",
+    "Teacher corrected 92 to 94 with public reason; versions 1 and 2 retained",
+    "Teacher selected-activity statistics display 94/100 v2",
+    "Student re-login displays 94 v2 and correction reason, averagePercent 91"
+  ],
+  "dataMutations": {
+    "waitingAssignmentGrade": [
+      "DRAFT_92",
+      "PUBLISHED_V1_92",
+      "PUBLISHED_V2_94"
+    ],
+    "safetyAttempt1": "SUBMITTED_VERSION_1",
+    "safetyAttempt2": "IN_PROGRESS_CREATED_TO_REPRODUCE_UAT_01",
+    "originalPublishedGrade88": "UNCHANGED",
+    "originalTeacherDraft": "UNCHANGED",
+    "seedReset": false
+  },
+  "browserConsoleErrorsObserved": [],
+  "certificateBypass": false,
+  "screenshots": {
+    "docs/v2/evidence/zhiban-trial-uat-analytics-local.png": "a6aa3305f1f9a1f4af618acc27d0b169f186b6223a322ac640dadfb816092f76",
+    "docs/v2/evidence/zhiban-trial-uat-attempt-after-local.png": "4efcc94c1bfb469bf83496788be2ec08663980db05aecc824d80b15dc905f5b4",
+    "docs/v2/evidence/zhiban-trial-uat-attempt-before-local.png": "40b53b3fe09021d3a8973c2c99ed250b0fb2c11d88c40face958c49591f9b394",
+    "docs/v2/evidence/zhiban-trial-uat-correction-local.png": "cc900d467f75fa8d867f5a1eacfbf8a015d5df435b81a089a548a1ddb88cb94b",
+    "docs/v2/evidence/zhiban-trial-uat-final-local.png": "344def6c434dfc9fbf00edfdb78a63e9b79b720bc81d4dda591957dbb167560a",
+    "docs/v2/evidence/zhiban-trial-uat-grade-published-local.png": "a82acaff69ca948c37dfe4b9da417922ccae58df91249f0b227f025ed16d5c6a",
+    "docs/v2/evidence/zhiban-trial-uat-history-local.png": "64dd0c2bae10fe00b39475a68efb21a941ef15dc700476981beea42f4bc4ba1b",
+    "docs/v2/evidence/zhiban-trial-uat-new-submission-local.png": "e792e2d5f3b2bd2bc6812f1769f820d4817d74e04cf6902aabc126d9022726ab",
+    "docs/v2/evidence/zhiban-trial-uat-student-results-local.png": "39124dfb47873cad627f55901c3bb71d03727b31c9bcdfa6598f5da820661018"
+  },
+  "reportSha256": "e9b1d11ec74a7b82530e457d303fa48dfa81014cbcc8d3381f9d4f6961827100",
+  "notRun": [
+    "Optional CSV import",
+    "Course/activity creation or publication",
+    "Deadline/attempt-limit negative matrices",
+    "Mobile",
+    "Full automated regression",
+    "GitHub CI",
+    "M5 enablement or production acceptance"
+  ],
+  "actions": {
+    "businessSourceEdits": false,
+    "migrationsEdited": false,
+    "commit": false,
+    "push": false,
+    "ciDispatch": false,
+    "real55432or55433Access": false
+  }
+}

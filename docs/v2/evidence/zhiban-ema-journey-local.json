@@ -1,0 +1,22 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-24T00:33:08.323Z",
+  "scope": "SIX_DESCRIPTIVE_DIMENSIONS_FIXED_EVIDENCE_NATIVE_MODEL_AND_TEACHER_REVIEW",
+  "actualModel": {
+    "model": "glm-5.3",
+    "provider": "glm"
+  },
+  "realJobId": "01a16b52-b694-71f2-87c9-11211b015977",
+  "adoptedNoteId": "01a16b53-4a18-7690-909d-4a60d90f9d26",
+  "controlledFailureTestsSeparate": true,
+  "numericAbilityScores": false,
+  "unattendedDispatch": false,
+  "sourceKinds": [
+    "GRADE",
+    "CONCEPT",
+    "REMEDIATION"
+  ],
+  "browserErrors": []
+}

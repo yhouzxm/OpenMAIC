@@ -1,0 +1,19 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "groups": 5,
+  "scope": [
+    "NATIVE_TEXT_AND_UNPDF",
+    "COURSE_OFFERING_OWNERSHIP",
+    "IMMUTABLE_PUBLICATIONS",
+    "MATERIAL_OUTLINE_UNIT",
+    "STUDENT_READ_AND_DOWNLOAD"
+  ],
+  "excluded": [
+    "OFFICE_OCR_MEDIA_SERVICE_CONFIGURATION",
+    "NATIVE_OWNER_MATERIAL_AUTH",
+    "RUNTIME_AI",
+    "NATIVE_REFRESH_CLOSE_MANUAL_SIGNOFF"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "formatVersion": 1,
+  "status": "UNISSUED_PLAN",
+  "executionAllowed": false,
+  "runtimeAccepted": false,
+  "realTargetExecuted": false,
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "r6InventorySha256": "fa51a67d9733fc6b436e89ec339306472ceb8566368cc3f9ce3c3122d873c13b",
+  "filesSha256": {
+    "observer-executor.cjs": "19461a5054fb7adcc1341187116d2b8264be97b55537697a579aaea51f59d04c",
+    "observation-approval.template.json": "df4e1481bbd21f7a51810a076b9a215b481a592eb2f6ba3ae9ac715e5f39a4fe",
+    "README.md": "c6cfc09a68b3f3637a3a0f3fb31d47c5bdc34d899ec4c76c1d82f59bce2f195d",
+    "observer-test-driver.cjs": "fb3f38af7a56e54f4bb7e28c1578cda62c89f79a077fcaea1e944f45a5259873",
+    "verify-plan.py": "d94445d151b63caaf018632366315afdf625966b7ea2e01504626cb3565c12eb",
+    "observer-contract.cjs": "e7162868740a9b79f4ec3a53273a8ca8abd60d83403dd5823751048a30dfdbc0",
+    "management-only-hba.conf": "9c5c96b7926e763f21108d4a8843ac3aac90ddd03889234c9a670edc19d9905d",
+    "management-observe.sql": "db49925dfa3e6a3081fe4d254c27b38978e4e90e802e6f335b44f9e2e1902377",
+    "prepare-observation-packet.cjs": "4e31f5255d70173578498244514e01ab86d89233bbf55a7e7cb099269a9383d7",
+    "verify-observer-pg16.cjs": "5ecc47e98b11e5b6e4d8852f5d1aadfb3c2a64fd6a657796c83b55e1399a8c1e",
+    "observer-preflight.cjs": "0ac9969544de8e412bb0686c8e187a1db103912217e18ba44fc11e6090ae918e",
+    "observer-cli.cjs": "4d30d20c6ec0cc59e0d02c0a6873c0c5d67d3d9da2f4051d8226a53298af6ee5",
+    "observer-guardian.cjs": "29886e387dba3c6b57bb4b012a1463cc25b258b2b95ede0f39f56b36987c432a",
+    "request.template.json": "a9055010d605048354d8348e9e70e108593ac8542a04bb7cf8c038dc9681187d"
+  }
+}

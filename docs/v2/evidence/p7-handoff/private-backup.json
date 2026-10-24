@@ -1,0 +1,21 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "scope": "PRIVATE_THREE_DATABASE_AND_CONTROL_ARCHIVES_SEPARATE_FROM_SOURCE_KIT",
+  "status": "ARCHIVES_AND_TOC_VERIFIED",
+  "root": "/tmp/zhiban-trial-content-1d5Gh2",
+  "directory": "/home/zxm/.local/state/zhiban-trial-backups/p7-handoff-20261023-163020",
+  "files": {
+    "zhiban_trial_content_disposable.dump": "4e87c3f38c37260a5eca9f3fb5cf0d4fe2ec2535bc39f9bd86afec6e6d298611",
+    "zhiban_trial_content_native.dump": "4e9f80e3ff097dfcb380fa12af7bbcb55c995a75c7a9b2dd0010cdef3cc5dcdc",
+    "zhiban_trial_lesson_native.dump": "b1becddff743cdb4d4ccde3507c34174adcbf2800d57515047caf22d46ce519b",
+    "accounts.json": "58cc35e3a5f9bb9a0ed49f8665eb4e45cf5a6847bfc5cb50fb21a96e5bb549e1",
+    "member-control.json": "77d857c684ca0e9622a4f664808d209c59ef80e73b11dc48b559c3001da85586",
+    "member-inputs.json": "d18c114c14f09ce91b0fa23475cb2ea9802b28faaafc544c6a206f1f0699113d",
+    "member-operator.pem": "9d762e9963c9a180bafc7ec7bb1a5fd59e8a0b7c2ff09f907f5402db4e46bfc2",
+    "member-approver.pem": "b8659bc7a89f652cc7aca4354cf3d935f086f0cfe6efae51543f182b29fb9502",
+    "content-installation.json": "5d982231984d18277924f6f56b4ea29507d71ba97ef1607a13ad541010685408"
+  },
+  "restoreTested": false,
+  "includedInSourceKit": false
+}

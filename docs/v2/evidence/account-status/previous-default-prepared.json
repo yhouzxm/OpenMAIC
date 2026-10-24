@@ -1,0 +1,16 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "operationRef": "01a163d4-ad76-710d-bcd1-76be80ebaadb",
+  "commandId": "01a163d4-ad76-710d-bcd1-78c5710dc247",
+  "userId": "01a163d3-d816-751c-bb43-385f01cdfb06",
+  "action": "USER_DISABLE",
+  "reason": "ACCESS_REVIEW",
+  "expectedRevision": "1",
+  "expectedStatus": "ACTIVE",
+  "resultStatus": "DISABLED",
+  "expiresAt": "1792678044853",
+  "impact": "ALL_SPACES; disable revokes all existing sessions; restore requires fresh login and current memberships/grants/Enrollment",
+  "state": "PREPARED_NOT_APPLIED",
+  "secretPrinted": false
+}

@@ -1,0 +1,23 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "FIXED_SERVER_CALCULATED_DC_RC_MODELS_ORIGINAL_REPORT_AND_TEACHER_GRADING",
+  "checks": [
+    "teacher model selection / immutable publish",
+    "real DC and RC textbook results / actual executor source hash",
+    "student run / refresh / immutable outputs / conclusion retained",
+    "replay and concurrent CAS / late audit rollback",
+    "wrong member / tenant / role / forged output / raw submission refused",
+    "pause and step-switch refuse new execution",
+    "fixed report references preserve older inputs/results after later runs",
+    "teacher evidence read and original grade publish / learner result",
+    "append-only grants and exact expected profile drift rejection"
+  ],
+  "classroomId": "01a16ce8-2d32-71a8-8750-ceb8d80f88c7",
+  "notebookId": "01a16ce8-3854-7585-9d6b-c6f4e84cf8ce",
+  "rcNotebookId": "01a16ce8-544b-73ce-bbca-634459548ac8",
+  "physicalMeasurements": false,
+  "nativeMaintenanceExecuted": false,
+  "automaticGradePublished": false
+}

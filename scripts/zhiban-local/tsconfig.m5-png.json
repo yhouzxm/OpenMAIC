@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": { "incremental": false },
+  "include": [
+    "../../lib/zhiban/infrastructure/content/*.ts",
+    "../../app/zhiban/local/content-client.tsx",
+    "./verify-m5-png.mts",
+    "./run-m5-png.ts",
+    "./server.ts",
+    "./setup-m5.ts",
+    "./install-m5.ts",
+    "../../tests/zhiban/content/png.test.ts"
+  ]
+}

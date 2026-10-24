@@ -1,0 +1,68 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-15T14:50:33.966700+00:00",
+  "baseBranch": "refactor/zhiban-v2",
+  "baseHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "validation": {
+    "compactPg16HttpsBrowserGroups": 5,
+    "targetedTypeScript": "PASS",
+    "targetedEslint": "PASS",
+    "targetedPrettier": "PASS",
+    "priorMigrationsUnchanged": 16,
+    "infoDoesNotPrintPasswords": true,
+    "accountsFileMode": "0600",
+    "rootMode": "0700",
+    "controlledStopAndFreshRestart": "PASS"
+  },
+  "reports": {
+    "zhiban-trial-local.json": {
+      "status": "PASS",
+      "checks": 5,
+      "sourceMismatches": [],
+      "removedBundleCount": 1,
+      "sha256": "1a5f369565d71bb30ca2fb4341d5b0a1edbf83ddc4c4244db76e9d95c773e88e"
+    },
+    "zhiban-trial-demo-close-local.json": {
+      "status": "PASS",
+      "checks": 5,
+      "sourceMismatches": [],
+      "removedBundleCount": 1,
+      "sha256": "0b9d74f19405f39060ab02a089d85899d81b0a07ef623425d79e60e47e9514b8"
+    },
+    "zhiban-trial-demo-local.json": {
+      "status": "RUNNING_DISPOSABLE",
+      "checks": 5,
+      "sourceMismatches": [],
+      "removedBundleCount": 0,
+      "sha256": "d42eaf92cbda881e9145c7f2a5c7a27b5b014bbc47fcd68cb68b2607b6f98dac"
+    }
+  },
+  "lifecycleReportSha256": "9c7039e1d9967b217b1127ed6bf25ac608b3b1e6dd821f929c5087feba86c15d",
+  "infoReportSha256": "359d9b0dab027f85dfe54b4462c9172c870326b9fa7f4156c9616682e11e1659",
+  "documents": {
+    "TRIAL.md": "671b1e0e95f0f896e741c1c708b9e8312431cde0f09e5f61a82d394c162b10fc",
+    "README.md": "1bb6d7c195f6d1bf4ec0cf18cff563ccca83b4d46152e4f1dd5e5a06ce30f572",
+    "README-zh.md": "89c91dafa29a2e96fa11245508e67f4236928b6c10f3bcf72d2f48eb2e198c42",
+    "docs/v2/zhiban-v2-trial-guide.md": "4548e3c365f274f802d681d134b9b77bc04252a2f6fdaf561d6361bb8b266ce1"
+  },
+  "inAppBrowser": {
+    "origin": "https://127.0.0.1:3459",
+    "view": "unified local trial -> real admin login -> one trial class and two enrolled students",
+    "certificateBypass": false,
+    "screenshot": "docs/v2/evidence/zhiban-trial-iab-local.png",
+    "screenshotSha256": "d5fda34932824f5d2a7867b8751994643871dc6eed9cf24da07c9ebaee7e787f"
+  },
+  "excluded": [
+    "production/CI signoff",
+    "M5 content/PNG/Runtime enabled composition",
+    "real 55432/55433 and maintenance inputs",
+    "persistent or real teaching data"
+  ],
+  "gitActions": {
+    "commit": false,
+    "push": false,
+    "ciDispatch": false
+  }
+}

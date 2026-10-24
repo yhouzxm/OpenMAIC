@@ -1,0 +1,54 @@
+PASS exact dev preflight rejects isolated fixture target
+PASS F4 exact baseline PG16 role edges accepted
+PASS F4 rejects role edge INHERIT TRUE
+PASS F4 rejects role edge SET FALSE
+PASS F4 rejects unapproved incoming owner edge
+PASS 1.2.0 provider tuple rejects mixed package versions
+PASS F4 actual receipt queries include INHERIT and SET
+PASS helper real owner FOR SHARE and closed projection
+PASS Bridge raw Academic UPDATE denied
+PASS owner lock-only policy rejects actual Academic write
+PASS structural gate accepts DRAFT and rejects null/wrong tenant/unregistered
+PASS F1 Bridge-only first activation fails deferred COMMIT
+PASS F1 rollback retains DRAFT and no ACTIVE generation
+PASS publication missing content audit rolls back both pointers
+PASS F1 complete publication atomic settlement succeeds
+PASS withdrawal preserves suspended ACTIVE history
+PASS 1.2.0 generation rejects a DSL stamp from another deployment version
+PASS F1 alternate deployment unbound activation rejected
+PASS F2 cancelled content cannot hide unbound Bridge prepare
+PASS F2 UNKNOWN prepare cannot release fence through FAILED
+PASS F2 preserved fence denies save
+PASS F2 atomic known failure releases fence
+PASS F2 save after safe terminal failure succeeds
+PASS F2 dispatched RESERVED prepare cannot release fence
+PASS F3 wrong prepared Native digest rejected at COMMIT
+PASS F3 mismatch rollback leaves no reservation or Bridge generation
+PASS F3 expected Native digest is immutable
+PASS F3 trigger rejects digest mutation under controlled extra fixture grant
+PASS F3 existing reservation completes after rejected mutation
+PASS F2 prepared known success with no activation may safely cancel
+PASS F3 another reservation cannot reuse prior prepare
+PASS SM01 unbound RESERVED activation rejects COMMIT (cancel=false)
+PASS SM01 unbound RESERVED activation rejects COMMIT (cancel=true)
+PASS SM01 rejected RESERVED activation rolls back ledger, slot and content
+PASS SM01 bound RESERVED activation prevents content FAILED
+PASS SM01 bound RESERVED activation retains SAVE fence
+PASS SM01 bound RESERVED activation cannot be replaced
+PASS SM01 bound RESERVED activation reconciled FAILED allows atomic content failure
+PASS SM01 SAVE after RESERVED activation safely failed succeeds
+PASS SM01 unbound OUTCOME_UNKNOWN activation rejects COMMIT (cancel=false)
+PASS SM01 unbound OUTCOME_UNKNOWN activation rejects COMMIT (cancel=true)
+PASS SM01 rejected OUTCOME_UNKNOWN activation rolls back ledger, slot and content
+PASS SM01 bound OUTCOME_UNKNOWN activation prevents content FAILED
+PASS SM01 bound OUTCOME_UNKNOWN activation retains SAVE fence
+PASS SM01 bound OUTCOME_UNKNOWN activation cannot be replaced
+PASS SM01 bound OUTCOME_UNKNOWN activation reconciled FAILED allows atomic content failure
+PASS SM01 SAVE after OUTCOME_UNKNOWN activation safely failed succeeds
+PASS SM01 activation binding rejects a different prepared generation
+PASS SM01 correct generation still publishes after mismatched binding rollback
+PASS SM01 content RESERVED to UNKNOWN retains durable preparation
+PASS SM01 content UNKNOWN prevents SAVE
+PASS SM01 content UNKNOWN atomically binds successful activation and publication
+PASS SM01 content UNKNOWN cannot fail while prepare UNKNOWN
+PASS SM01 content UNKNOWN can fail with reconciled prepare

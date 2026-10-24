@@ -1,0 +1,101 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "COMPLETED_MANUAL_CLASSROOM_REVISION",
+  "at": "2026-10-16T14:42:28.750818+00:00",
+  "head": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "origin": "https://127.0.0.1:3461",
+  "tenantId": "01a14505-1e98-752c-b372-1cc669735ff5",
+  "offeringId": "01a14505-3417-71cd-8a33-fbb7246e2ed4",
+  "metadataSha256": "2dff7a6d8d86dcd8651db6b00ae5c8ec28d1a5b2d66ee4576cb77f0ed019fc19",
+  "nativeRefreshCloseGate": {
+    "status": "DEFERRED_BY_USER",
+    "passed": false,
+    "priorEvidenceRetained": true
+  },
+  "activity": "试用：安全巡检报告",
+  "attemptNumber": 1,
+  "newSubmissionVersion": 2,
+  "submittedAt": "2026-10-16T22:39:37+08:00",
+  "grade": {
+    "submissionVersion": 2,
+    "gradeVersion": 1,
+    "score": 96,
+    "maxScore": 100,
+    "publishedAt": "2026-10-16T22:40:44+08:00",
+    "studentVisible": true
+  },
+  "oldSubmissionAndGradeRetained": {
+    "submissionVersion": 1,
+    "score": 94,
+    "observedInHistoryBeforeNewGrade": true
+  },
+  "beforeNewGrade": {
+    "latestSubmissionPending": true,
+    "publishedGrades": 1,
+    "meanPercent": 88
+  },
+  "finalStudentOverview": {
+    "publishedActivities": 3,
+    "submitted": 3,
+    "publishedGrades": 2,
+    "pendingGrades": 1,
+    "otherGrade": 88,
+    "meanPercent": 92
+  },
+  "teacherActivityStats": {
+    "roster": 2,
+    "submitted": 1,
+    "publishedGrades": 1,
+    "meanPercent": 96,
+    "latestSubmissionVersion": 2
+  },
+  "newBlockersObserved": [],
+  "dataEffects": {
+    "saveDraft": 1,
+    "newAttempts": 0,
+    "newSubmissions": 1,
+    "gradeDraft": 1,
+    "gradePublish": 1,
+    "gradeCorrection": 0
+  },
+  "boundaries": {
+    "sourceDrift": [
+      "app/zhiban/local/content.html",
+      "app/zhiban/local/learning.js",
+      "app/zhiban/local/workspace.js"
+    ],
+    "unchangedMigrationFiles": 16,
+    "businessCodeChanged": false,
+    "buildRestartAutomaticSuiteCiCommitPush": false,
+    "realEnvironmentTouched": false,
+    "runtimeAndAi": "CLOSED",
+    "candidateKeptRunning": true
+  },
+  "report": {
+    "path": "docs/v2/zhiban-v2-classroom-revision-local.md",
+    "sha256": "e0c23410c47b081ecef1a60a1167d2dd7bd87aed200209cba1227448dc110363"
+  },
+  "screenshots": [
+    {
+      "path": "docs/v2/evidence/zhiban-classroom-revision-analytics-local.png",
+      "sha256": "85fec5a8a9b65bf5efc9751bb63b41a4be6e56fabab7b57fadd03d49daea5203"
+    },
+    {
+      "path": "docs/v2/evidence/zhiban-classroom-revision-history-local.png",
+      "sha256": "d4583a2bda174d4aa38d852a73433120936d346d1e859603ec47b6b620d2b62a"
+    },
+    {
+      "path": "docs/v2/evidence/zhiban-classroom-revision-pending-local.png",
+      "sha256": "ade513761e2a3bd77c76a0dd1ed2cf148bdfbcfa3d7b032d4da03d640e426dab"
+    },
+    {
+      "path": "docs/v2/evidence/zhiban-classroom-revision-student-local.png",
+      "sha256": "c0ebcecda898af2267537fbb0532960f2579019573a7cc0f1592a48cf5b0e984"
+    },
+    {
+      "path": "docs/v2/evidence/zhiban-classroom-revision-teacher-local.png",
+      "sha256": "60e3869d58ac078ff570be78bff3463600d7d30f397a6ba0e686c7b11b693da6"
+    }
+  ]
+}

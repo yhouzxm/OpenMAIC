@@ -1,0 +1,20 @@
+lib/zhiban/domain/concept/model.ts 225ms
+lib/zhiban/application/concept/service.ts 74ms
+lib/zhiban/infrastructure/concept/http.ts 87ms (unchanged)
+lib/zhiban/infrastructure/concept/postgres/sources.ts 26ms (unchanged)
+lib/zhiban/infrastructure/concept/postgres/transaction.ts 276ms
+lib/zhiban/application/academic/service.ts 72ms
+lib/zhiban/infrastructure/academic/postgres/store.ts 396ms
+scripts/zhiban-local/concept.ts 20ms
+scripts/zhiban-local/build-concept-reference.ts 33ms
+scripts/zhiban-local/verify-concept.ts 334ms
+scripts/zhiban-local/verify-m6-catalog.mts 1001ms
+scripts/zhiban-local/run-m6-catalog.ts 72ms (unchanged)
+scripts/zhiban-local/trial-content.ts 157ms (unchanged)
+scripts/zhiban-local/request-target.ts 18ms (unchanged)
+app/zhiban/local/concepts.css 102ms
+app/zhiban/local/concepts.html 69ms (unchanged)
+app/zhiban/local/concepts.js 419ms
+app/zhiban/local/course-page.js 164ms (unchanged)
+app/zhiban/local/workspace.js 283ms (unchanged)
+tests/zhiban/concept/model.test.ts 37ms

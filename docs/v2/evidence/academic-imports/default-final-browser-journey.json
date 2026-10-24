@@ -1,0 +1,14 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "root": "/tmp/zhiban-trial-content-1d5Gh2",
+  "url": "https://127.0.0.1:3461/zhiban/admin/import/classes?tenant=01a167c7-db5d-7005-93b4-ab3c4a5ba8aa&batch=01a167c9-3832-73cd-96c5-217f2a581292",
+  "scope": "FINAL_FRONTEND_LAYOUT_INITIALIZATION_INPUT_GUARD_PREVIEW_CONFIRM_RELOAD_CSV",
+  "fastInitialInputPreserved": true,
+  "importedRows": 2,
+  "csvDownloaded": true,
+  "formulaEscaped": true,
+  "originalBatchReloaded": true,
+  "realHumanData": false
+}

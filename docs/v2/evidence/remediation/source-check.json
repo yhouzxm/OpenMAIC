@@ -1,0 +1,11 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "comparedAgainst": "zhiban-remediation-local.json",
+  "persistentDrift": [],
+  "cleanedTemporarySources": [
+    "/home/zxm/openmaic/zhiban/.zhiban-catalog-run-HS2Vap/verify.mjs",
+    "/tmp/zhiban-trial-content-nXxDfP/content-client.js",
+    "/tmp/zhiban-trial-content-nXxDfP/member-control.json"
+  ]
+}

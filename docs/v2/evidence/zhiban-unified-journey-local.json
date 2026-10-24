@@ -1,0 +1,26 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "origin": "https://127.0.0.1:3461",
+  "tenant": "01a14f74-c820-7213-94c7-c22eb43a36ef",
+  "course": "01a14f75-3dbc-713f-ad8e-8c730463a083",
+  "offering": "01a14f75-3eb3-7517-8d37-2f5fe60a65af",
+  "classroom": "01a14f75-ae07-771e-8355-1100b1dd4867",
+  "lecture": "01a14f75-97de-7784-89b1-ac946d7624fc",
+  "activity": "01a14f75-a3e5-703b-99d7-55cc365f043d",
+  "attempt": "01a14f75-aee7-7724-9f21-f9aa94d5557f",
+  "submission": "01a14f76-0f8c-72fb-9ec5-4b69f496f2ff",
+  "file": {
+    "digest": "154355ae02d677d8988d92e49b2bafb29d38d043232f8dc653efbcd28e33e3be",
+    "clearance_status": "TRUSTED_SCANNER",
+    "clearance_ref": "clamav-sha256:8c93c544e24bc800f9d19832712c2009ab1dfed3c237026cdac94bd96ad3563d:154355ae02d677d8988d92e49b2bafb29d38d043232f8dc653efbcd28e33e3be:1792334499716"
+  },
+  "grade": "92/100",
+  "ordinaryChromiumDownloads": "attachment bytes and gradebook CSV read back",
+  "excluded": [
+    "Native maintenance inputs",
+    "Runtime/AI",
+    "old visual parity",
+    "native refresh/close signoff"
+  ]
+}

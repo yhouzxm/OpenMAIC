@@ -1,0 +1,113 @@
+#risk .card {
+  padding: 1.25rem;
+  margin: 1rem 0;
+  overflow-wrap: anywhere;
+}
+#risk form {
+  display: grid;
+  gap: 1rem;
+  max-width: 52rem;
+  margin: 1.25rem 0;
+}
+#risk label {
+  display: grid;
+  gap: 0.5rem;
+}
+#risk input:not([type='checkbox']),
+#risk textarea,
+#risk select {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+  padding: 0.7rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.5rem;
+  font: inherit;
+}
+#risk textarea {
+  min-height: 6rem;
+  resize: vertical;
+}
+#risk button {
+  cursor: pointer;
+  margin: 0.3rem 0.5rem 0.3rem 0;
+  padding: 0.7rem 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.5rem;
+  background: white;
+  color: #164b8e;
+}
+#risk button[type='submit'] {
+  background: #1764d0;
+  color: white;
+}
+#risk button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+#risk .notice:empty {
+  display: none;
+}
+#risk .prose {
+  white-space: pre-wrap;
+}
+#risk .task-option {
+  display: flex;
+  align-items: start;
+  gap: 0.75rem;
+  padding: 0.65rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+#risk .task-options {
+  max-height: 22rem;
+  overflow-y: auto;
+}
+#risk .table-wrap {
+  overflow: auto;
+}
+#risk table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+#risk th,
+#risk td {
+  padding: 0.7rem;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+#risk .actions {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+dialog.risk-dialog {
+  max-width: 46rem;
+  width: calc(100% - 3rem);
+  border: 1px solid #cbd5e1;
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+dialog.risk-dialog textarea {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 8rem;
+  margin: 0.75rem 0;
+  padding: 0.75rem;
+}
+dialog.risk-dialog select {
+  padding: 0.7rem;
+  margin: 0.5rem 0;
+}
+dialog.risk-dialog button {
+  margin: 0.5rem;
+  padding: 0.7rem 1rem;
+}
+.risk-private {
+  color: #72521a;
+  background: #fff8e8;
+  padding: 0.8rem;
+  border-radius: 0.5rem;
+}

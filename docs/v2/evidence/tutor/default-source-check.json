@@ -1,0 +1,9 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "root": "/tmp/zhiban-trial-content-vZFq8q",
+  "comparedAgainst": "../zhiban-trial-content-demo-local.json",
+  "sourceMatches": true,
+  "sourceDrift": [],
+  "hostStatus": "RUNNING_LOCAL_DISPOSABLE"
+}

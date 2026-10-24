@@ -1,0 +1,48 @@
+{
+  "formatVersion": 1,
+  "receiptKind": "LOCAL_M5_CONTENT_ENABLEMENT_CANDIDATE",
+  "status": "UNISSUED",
+  "migrationStatus": "UNAPPLIED",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "approvalRef": null,
+  "issuedAt": null,
+  "installedAt": null,
+  "gitBaselineSha": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "acceptedImplementationSha": null,
+  "candidateInventorySha256": "b0a74e3c7a4bfacb3d3ec3d190a194b032796ffd2a52ef1aa96208d6d79acc47",
+  "candidateMigrationSha256": "e335f83bb48cc6c4ec754f8e3270dc0e6941e14f38306bd67aa29844c3713324",
+  "target": {
+    "host": "127.0.0.1",
+    "port": 55433,
+    "database": "zhiban_m1_dev",
+    "pgMajor": 16,
+    "dataDirectory": "/home/zxm/.local/share/zhiban-m1/pgdata"
+  },
+  "actualServerVersionNum": null,
+  "prerequisiteLedgerVerified": null,
+  "contentLedgerVerified": null,
+  "expectedProfiles": {
+    "academic": "academic-v1-content-enabled",
+    "bridge": "bridge-v1-content-text-v1"
+  },
+  "liveCatalogManifest": null,
+  "liveCatalogFingerprint": null,
+  "identityUnchangedFingerprint": null,
+  "nativeReceiptDigest": null,
+  "nativeDeploymentFingerprint": null,
+  "sourceArtifactBindings": null,
+  "localTlsCspHostBindings": null,
+  "checks": {
+    "sqlSemanticAndRls": "NOT_RUN",
+    "sameClientAtomicSettlement": "NOT_RUN",
+    "revocationCasAndFence": "NOT_RUN",
+    "nativeCommitLocalFailure": "NOT_RUN",
+    "receiptDriftAndStartup": "NOT_RUN",
+    "m1ToM4AffectedRegression": "NOT_RUN",
+    "httpsEditorPreview": "NOT_RUN"
+  },
+  "runtimeAccepted": false,
+  "storage": "private issued receipt must be 0600; template contains no credentials/DSN/token",
+  "issuanceRule": "Only explicit authorized LOCAL install + exact expected-vs-live manifest + all required gates may issue VERIFIED. Template and static evidence are never startup credentials."
+}

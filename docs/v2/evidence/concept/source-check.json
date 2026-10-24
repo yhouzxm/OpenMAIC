@@ -1,0 +1,11 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "comparedAgainst": "../zhiban-concept-local.json",
+  "persistentDrift": [],
+  "cleanedTemporarySources": [
+    "/home/zxm/openmaic/zhiban/.zhiban-catalog-run-EpMDFf/verify.mjs",
+    "/tmp/zhiban-trial-content-lfbR3P/content-client.js",
+    "/tmp/zhiban-trial-content-lfbR3P/member-control.json"
+  ]
+}

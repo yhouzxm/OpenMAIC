@@ -1,0 +1,170 @@
+#analytics {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 36px 24px 64px;
+}
+.analytics-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.analytics-heading h1 {
+  font-size: 30px;
+  margin: 6px 0;
+}
+.analytics-cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin: 24px 0 16px;
+}
+.analytics-metric {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.analytics-metric span {
+  font-size: 14px;
+  color: #576579;
+}
+.analytics-metric strong {
+  font-size: 32px;
+  color: #184544;
+}
+.analytics-note {
+  font-size: 13px;
+  line-height: 1.8;
+  color: #576579;
+  max-width: 1000px;
+}
+.analytics-tools {
+  display: flex;
+  gap: 20px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+#analytics label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 440px;
+  font-size: 14px;
+}
+#analytics select,
+#analytics input {
+  font: inherit;
+  padding: 10px 12px;
+  border: 1px solid #d1dbd8;
+  border-radius: 8px;
+  background: white;
+  min-width: 240px;
+  max-width: 100%;
+}
+.analytics-table {
+  overflow-x: auto;
+  border: 1px solid #dbe5e1;
+  border-radius: 12px;
+  background: white;
+}
+.analytics-table table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+.analytics-table caption {
+  padding: 18px;
+  text-align: left;
+  font-weight: 600;
+}
+.analytics-table th {
+  background: #f1f6f3;
+  font-size: 13px;
+}
+.analytics-table td,
+.analytics-table th {
+  padding: 16px;
+  border-top: 1px solid #e5ece8;
+  white-space: nowrap;
+}
+.analytics-table small {
+  display: block;
+  font-size: 11px;
+  margin-top: 6px;
+  color: #657482;
+}
+.analytics-status {
+  border-radius: 6px;
+  padding: 5px 8px;
+  background: #eef2f5;
+  font-size: 12px;
+}
+.analytics-status.graded {
+  background: #e3f4eb;
+  color: #176342;
+}
+.analytics-status.waiting {
+  background: #fff1d5;
+  color: #735518;
+}
+.analytics-status.started {
+  background: #e7effd;
+  color: #25518f;
+}
+.empty-state {
+  margin-top: 30px;
+  padding: 28px;
+  background: #f1f6f3;
+  border-radius: 12px;
+}
+@media (max-width: 700px) {
+  #analytics {
+    padding: 24px 16px;
+  }
+  .analytics-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .analytics-heading {
+    align-items: flex-start;
+  }
+  .analytics-heading h1 {
+    font-size: 24px;
+  }
+}
+
+.followup-editor {
+  width: min(680px, 90vw);
+  max-height: 90vh;
+  overflow: auto;
+  border: 1px solid #d1dbd8;
+  border-radius: 12px;
+  padding: 24px;
+}
+.followup-editor::backdrop {
+  background: #10203066;
+}
+.followup-editor label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 16px 0;
+}
+.followup-editor textarea {
+  width: 100%;
+  font: inherit;
+  padding: 12px;
+  box-sizing: border-box;
+}
+.followup-editor button {
+  margin: 4px;
+}
+.followup-case-card {
+  padding: 20px;
+  margin: 16px 0;
+}
+.followup-note-body {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

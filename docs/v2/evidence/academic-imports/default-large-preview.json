@@ -1,0 +1,10 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "DEFAULT_REAL_HTTPS_PREVIEW_ABOVE_PREVIOUS_GATEWAY_LIMIT",
+  "csvBytes": 57811,
+  "rows": 30,
+  "batchId": "01a167b5-8041-7614-9676-308f41018bb6",
+  "businessCommitted": false
+}

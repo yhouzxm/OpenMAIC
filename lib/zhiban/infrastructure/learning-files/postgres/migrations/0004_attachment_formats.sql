@@ -1,0 +1,3 @@
+-- Additive format support; bytes remain scanner-gated, bounded and download-only.
+ALTER TABLE zhiban_learning_files.files DROP CONSTRAINT files_mime_check;
+ALTER TABLE zhiban_learning_files.files ADD CONSTRAINT files_mime_check CHECK(mime IN ('text/plain','text/markdown','text/csv','application/pdf','application/vnd.openxmlformats-officedocument.wordprocessingml.document','application/vnd.openxmlformats-officedocument.presentationml.presentation','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','image/png','image/jpeg','image/webp','audio/mpeg','audio/wav','audio/mp4','audio/aac','video/mp4','video/quicktime','video/webm'));

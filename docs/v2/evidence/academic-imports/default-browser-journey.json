@@ -1,0 +1,21 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "root": "/tmp/zhiban-trial-content-SwEEZO",
+  "url": "https://127.0.0.1:3461/zhiban/admin/import?tenant=01a167b1-8ada-70b0-b230-a423a844e389&batch=01a167b3-5159-7011-b8b8-dbd04d7817d6",
+  "scope": "DEFAULT_IAB_ADMIN_NAVIGATION_PREVIEW_TWO_CLASSES_COMMIT_DOWNLOAD_AND_RELOAD",
+  "importedRows": 2,
+  "resultCsvDownloaded": true,
+  "formulaEscaped": true,
+  "reloadReadsOriginalBatch": true,
+  "realHumanData": false,
+  "fileUpload": {
+    "actualFileChooser": true,
+    "status": "PASS",
+    "imported": 1,
+    "skipped": 1,
+    "url": "https://127.0.0.1:3461/zhiban/admin/import?tenant=01a167b1-8ada-70b0-b230-a423a844e389&batch=01a167b5-f531-7211-8cab-0dbd3aa6ae86",
+    "screenshot": "default-file-upload.png"
+  }
+}

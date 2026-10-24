@@ -1,0 +1,113 @@
+{
+  "status": "PASS",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "candidateInventorySha256": "877f2f66146fd628ffd056a70df68a2632478a7b035277fcec7d6a76dd0f1f86",
+  "candidateMigrationSha256": "bbede0be2e773562730bb2b1c756d4aceba853143b298b768de7c0d70d624a8e",
+  "checks": [
+    {
+      "name": "trusted purpose/source/extra-field/deadline rejection occurs before owner seed",
+      "status": "PASS"
+    },
+    {
+      "name": "installer rolls back DDL/ledger when reviewed after profile differs",
+      "status": "PASS"
+    },
+    {
+      "name": "reviewed installer applies only new handoff ledger in one owner transaction",
+      "status": "PASS"
+    },
+    {
+      "name": "direct ACTIVE/CONSUMED insert is rejected, including privileged normal DML",
+      "status": "PASS"
+    },
+    {
+      "name": "all-client ACL and new automatic control audit are owner-only and append-only",
+      "status": "PASS"
+    },
+    {
+      "name": "prepare registers exact release read scope without a future receipt",
+      "status": "PASS"
+    },
+    {
+      "name": "prepare approval is single-use and source/profile registration stays immutable",
+      "status": "PASS"
+    },
+    {
+      "name": "incomplete validation ACK and stale challenge cannot authorize owner seal",
+      "status": "PASS"
+    },
+    {
+      "name": "seal binds signed synthetic ACK once and atomically publishes same-generation pointer under BLOCKED",
+      "status": "PASS"
+    },
+    {
+      "name": "private artifacts reject symlinks/hardlinks/byte drift and higher reserved fence blocks old permission",
+      "status": "PASS"
+    },
+    {
+      "name": "shared maintenance flock prevents a second delivery owner from acting",
+      "status": "PASS"
+    },
+    {
+      "name": "clear performs nonrotating bootstrap, known DB COMMIT, fresh check and exact gate publication",
+      "status": "PASS"
+    },
+    {
+      "name": "ordinary limited loader requires matching signature, DB commit, latest scope and all ledgers",
+      "status": "PASS"
+    },
+    {
+      "name": "unexpected namespace and new unrelated role are rejected by complete profile",
+      "status": "PASS"
+    },
+    {
+      "name": "failure after durable COMMIT retains BLOCKED, no publisher replay and closes partial bootstrap sessions",
+      "status": "PASS"
+    },
+    {
+      "name": "fresh exact ACK observes control commit without publishing or granting write replay",
+      "status": "PASS"
+    },
+    {
+      "name": "newer committed release prevents old per-release activation even at unchanged epoch",
+      "status": "PASS"
+    },
+    {
+      "name": "facts read lock serializes owner revocation; after commit token stops working",
+      "status": "PASS"
+    },
+    {
+      "name": "revocation before clear bootstrap rejects seeding, preserves BLOCKED and closes controller",
+      "status": "PASS"
+    },
+    {
+      "name": "guarded clear prevents concurrent owner revocation before control COMMIT",
+      "status": "PASS"
+    },
+    {
+      "name": "lost COMMIT ACK never publishes dormant signed gate or retries control write",
+      "status": "PASS"
+    },
+    {
+      "name": "unknown COMMIT is exactly observed COMMITTED, inspection leaves gate and write state unchanged",
+      "status": "PASS"
+    },
+    {
+      "name": "handoff changes no ready/service/window/claim/grant/proof or tenant business state",
+      "status": "PASS"
+    }
+  ],
+  "disposableClusterOnly": true,
+  "existingClustersConnected": false,
+  "temporaryClusterStoppedAndRemoved": true,
+  "runtimeAccepted": false,
+  "realReceiptIssued": false,
+  "realGatePublished": false,
+  "fixtureControlGatePublished": true,
+  "limitations": [
+    "Synthetic privileged replica CLOSED fixture and test authority/profile/ACK; no independent real-target provenance",
+    "Minimal Native and control-fixture leaf only; full host/native ABI/dependency closure/TCP-HBA/old password/compatibility receipt validation NOT_RUN",
+    "No real target installer/receipt/launcher/clear execution; complete OS crash/restart matrix deferred"
+  ]
+}

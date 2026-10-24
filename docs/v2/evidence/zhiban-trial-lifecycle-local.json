@@ -1,0 +1,31 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-15T14:48:33.795093+00:00",
+  "firstStart": {
+    "pid": 44961,
+    "processStart": "1285047",
+    "root": "/tmp/zhiban-trial-zllIW4",
+    "accountsPath": "/tmp/zhiban-trial-zllIW4/accounts.json",
+    "users": [
+      "01a14007-fb27-73d6-b1a2-8f04e76fd38f",
+      "01a14007-f5e0-749a-8672-ace630715a8f",
+      "01a14007-f889-72d0-a87f-1d86b418a4e5"
+    ],
+    "sourceHashCount": 299
+  },
+  "stopCommand": "pnpm trial:zhiban:stop",
+  "stopBoundPid": 44961,
+  "processExited": true,
+  "ownedRootRemoved": true,
+  "closeReportSha256": "0b9d74f19405f39060ab02a089d85899d81b0a07ef623425d79e60e47e9514b8",
+  "restart": "PASS",
+  "freshSyntheticAccounts": true,
+  "secondStart": {
+    "pid": 45681,
+    "root": "/tmp/zhiban-trial-nm5aWl",
+    "origin": "https://127.0.0.1:3459",
+    "status": "RUNNING_DISPOSABLE"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "status": "ARCHIVES_CREATED_AND_TABLE_OF_CONTENTS_VERIFIED",
+  "root": "/tmp/zhiban-trial-content-BMRvuH",
+  "backupDirectory": "/home/zxm/.local/state/zhiban-trial-backups/course-administration-20261023-192732",
+  "databaseCount": 3,
+  "files": {
+    "zhiban_trial_content_disposable.dump": "5919f44e984e900eb19ece420e2c3f6f1fffb43707834d0f0eee9d7b9cdbb51b",
+    "zhiban_trial_content_native.dump": "ff63c7f238838c475904a1c271ad60f7ee8bb44d03e625307502f2cfb12464cb",
+    "zhiban_trial_lesson_native.dump": "5d058b71927ac8733ba90ce83635ddbb9cee3f712010c5c6927f4d9cca8a0e8b",
+    "accounts.json": "d82c0088af7c97536974c2795283fcb82af7c6a66ce5bf96bf10db7b2e5a4b63",
+    "member-control.json": "9a351905f77a8a6ba6abcfc616d2e26ab626650ba0afe4a40e10f3881172f856",
+    "member-inputs.json": "613ee8a25d378d38a029d1be300f7087dfe3c4c121407e7a0c981a01cceb7c13",
+    "member-operator.pem": "7a1b19db13a9920fd92fb10ca5a20216cfdd8584812ac2944a579689bd16b951",
+    "member-approver.pem": "3708dbf45449593fe8901e48f133427286c65ca211ebccedf8915862d10a4d06",
+    "roster-example.csv": "63e714c4e8b9320fb28c2f03db46d13aa8773e61989c37a74b881a4cceb3ea1d",
+    "content-installation.json": "12618b4dddc3a6eae766b7d832d60d228f9f20bedb836663d7d9745d719be2f2"
+  },
+  "restoreTested": false,
+  "secretsPrinted": false
+}

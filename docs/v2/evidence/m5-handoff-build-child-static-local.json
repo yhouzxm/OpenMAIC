@@ -1,0 +1,31 @@
+{
+  "status": "STATIC_PASS",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "candidateInventorySha256": "877f2f66146fd628ffd056a70df68a2632478a7b035277fcec7d6a76dd0f1f86",
+  "candidateMigrationSha256": "bbede0be2e773562730bb2b1c756d4aceba853143b298b768de7c0d70d624a8e",
+  "checks": [
+    "source-bindings-and-deferred-authority",
+    "pg16-grammar-and-no-old-business-mutation",
+    "client-helper-only-acl-and-owner-rls",
+    "same-transaction-commit-and-current-window-barriers",
+    "unissued-templates",
+    "control-executor-wired-product-authority-deferred",
+    "initial-state-and-atomic-owner-control-audit",
+    "complete-roles-and-latest-deployment-activation",
+    "candidate-executor-syntax-no-issuer-or-unlink",
+    "actual-builder-child-wired-real-acceptance-deferred",
+    "exclusive-offline-build-source-tool-native-closure",
+    "private-fd-challenge-readonly-child-and-runtime-guards",
+    "missing-evidence-blocks-and-ack-binds-compatible-receipts",
+    "local-document-links"
+  ],
+  "sqlStatements": 36,
+  "plpgsqlFunctions": 10,
+  "grammar": [
+    16,
+    1
+  ],
+  "runtimeAccepted": false,
+  "liveChecks": "NOT_RUN"
+}

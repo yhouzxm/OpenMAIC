@@ -1,0 +1,66 @@
+/** Readiness only. A web host never installs or derives its own trusted expected catalog. */
+import { readFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
+import type { Pool, PoolClient } from 'pg';
+import { catalogFingerprint } from '../../lib/zhiban/infrastructure/openmaic/catalog';
+export const profileMigration =
+  'lib/zhiban/infrastructure/profile/postgres/migrations/0001_profile.sql';
+export const profileReference = 'docs/v2/evidence/zhiban-profile-directory-reference-local.json';
+const hash = (v: string | Buffer) => createHash('sha256').update(v).digest('hex');
+export async function profileCatalog(client: PoolClient) {
+  // The catalog collector is SQL-generic; its public union names only Native/Bridge profiles.
+  await client.query('SET LOCAL search_path TO pg_catalog');
+  const catalog = await catalogFingerprint(client, 'zhiban_profile' as 'public');
+  const facts = (
+    await client.query(`SELECT jsonb_build_object(
+    'schema',(SELECT jsonb_build_object('owner',pg_get_userbyid(nspowner),'acl',nspacl::text) FROM pg_namespace WHERE nspname='zhiban_profile'),
+    'functions',(SELECT coalesce(jsonb_agg(jsonb_build_object('name',p.proname,'owner',pg_get_userbyid(p.proowner)) ORDER BY p.proname),'[]') FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace WHERE n.nspname='zhiban_profile'),
+    'role',(SELECT jsonb_build_object('super',rolsuper,'inherit',rolinherit,'createRole',rolcreaterole,'createDb',rolcreatedb,'bypass',rolbypassrls,'replication',rolreplication) FROM pg_roles WHERE rolname='zhiban_academic_runtime'),
+    'edges',(SELECT count(*) FROM pg_auth_members WHERE member=(SELECT oid FROM pg_roles WHERE rolname='zhiban_academic_runtime')),
+    'schemaPrivileges',jsonb_build_object('usage',has_schema_privilege('zhiban_academic_runtime','zhiban_profile','USAGE'),'create',has_schema_privilege('zhiban_academic_runtime','zhiban_profile','CREATE'))
+  ) AS facts`)
+  ).rows[0].facts;
+  return hash(JSON.stringify({ catalog, facts }));
+}
+export async function loadProfile(pool: Pool): Promise<boolean> {
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');
+    if (
+      !(await client.query("SELECT to_regclass('zhiban_profile.schema_migrations') AS name"))
+        .rows[0].name
+    )
+      return false;
+    const reference = JSON.parse(await readFile(profileReference, 'utf8'));
+    const sourceHash = hash(await readFile(profileMigration));
+    const avatarHash = hash(
+      await readFile('lib/zhiban/infrastructure/profile/postgres/migrations/0002_avatar.sql'),
+    );
+    if (
+      reference.evidenceOrigin !== 'LOCAL' ||
+      reference.githubActions !== false ||
+      reference.scope !== 'FRESH_OWNED_PG16_PROFILE_REFERENCE' ||
+      reference.migrationSha256 !== sourceHash ||
+      reference.avatarMigrationSha256 !== avatarHash ||
+      !/^[a-f0-9]{64}$/.test(reference.profileSha256)
+    )
+      throw Error('Profile expected profile/source rejected');
+    const ledger = (
+      await client.query(
+        'SELECT version,checksum FROM zhiban_profile.schema_migrations ORDER BY version',
+      )
+    ).rows;
+    if (
+      ledger.length !== 2 ||
+      !ledger.some((r) => r.version === '0002' && r.checksum === avatarHash) ||
+      ledger[0].version !== '0001' ||
+      ledger[0].checksum !== sourceHash ||
+      (await profileCatalog(client)) !== reference.profileSha256
+    )
+      throw Error('Profile live ledger/catalog/ACL rejected');
+    return true;
+  } finally {
+    await client.query('ROLLBACK');
+    client.release();
+  }
+}

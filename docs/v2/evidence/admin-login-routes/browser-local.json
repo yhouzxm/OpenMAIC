@@ -1,0 +1,29 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-23T10:40:30.240Z",
+  "scope": "THREE_LEGACY_ADMIN_LOGIN_ENTRIES_AND_FIXED_POST_LOGIN_CONTEXT",
+  "root": "/tmp/zhiban-trial-content-ozWwaC",
+  "tenant": "01a16857-f25f-71f0-82ed-d827b5aeac33",
+  "checks": [
+    "ADMIN: anonymous users bookmark -> fixed login target surviving reload -> real restricted directory; workspace return, bare admin/users, tenant alias and signed-in login; foreign space, malformed/duplicate/unknown contexts and extra paths refused",
+    "TEACHER: real login via old admin bookmark does not grant admin; old users and canonical directory denied; signed-in old login returns own workspace with space",
+    "STUDENT: real login via old admin bookmark does not grant admin; old users and canonical directory denied; signed-in old login returns own workspace with space"
+  ],
+  "businessWrites": false,
+  "sourceHashes": {
+    "app/zhiban/local/client.js": "33133fdede0447bbb9bf91e2df734465b18fdb2dddafdc2da955d39a45cd2ec4",
+    "app/zhiban/local/admin-entry.html": "768e8148aff4ded339149349e212edbb0255516defd21b13461d556a75a7f0a5",
+    "app/zhiban/local/admin-entry.js": "fe994d159c5897939a7e7e1e8a3eeb0e93d8ea38d7917b44f9a7880f5f14e0e9",
+    "scripts/zhiban-local/request-target.ts": "7dc1cfbbf894830c07a20752d5c012af7a28a24e634e429ef48f7a1b5f11f78e",
+    "scripts/zhiban-local/server.ts": "e7651df018d2d67c86980f7574006e573d87e8938c057db6a8cf4bf281c08e09",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "f387ebdfb959689762666189f5599b62a679dea3922af88263fecfef3fcf8736",
+    "scripts/zhiban-local/verify-admin-login-routes.cjs": "c14f2074667fc63edc183a06e842782a3ba7061d2bdaf0ced9b2363da4a7966c"
+  },
+  "excluded": [
+    "No user create/delete/password reset/role mutation",
+    "No multi-space fixture coverage; original session spaces API reused",
+    "No full classroom/PG16/CI rerun"
+  ]
+}

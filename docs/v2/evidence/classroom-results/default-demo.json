@@ -1,0 +1,16 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "SYNTHETIC_DEMO_REAL_COMMANDS_READY",
+  "root": "/tmp/zhiban-trial-content-XSiPP8",
+  "tenant": "01a15e96-146d-75b4-9568-dc082cc64ca9",
+  "offering": "01a15e96-89a9-761c-aa34-38e7c4d93fa4",
+  "course": "01a15e96-8895-7033-9171-f81fdd7e430e",
+  "session": "01a15e96-cd6e-71e0-ba80-bdf74f5a995f",
+  "dispatch": "01a15e96-ce22-70d5-ac2f-1eaf443c6ae4",
+  "attempt": "01a15e96-cea2-7503-b1c3-0ebf67da0532",
+  "teacherUrl": "https://127.0.0.1:3461/zhiban/teacher/courses/01a15e96-8895-7033-9171-f81fdd7e430e/classrooms?space=01a15e96-146d-75b4-9568-dc082cc64ca9&offering=01a15e96-89a9-761c-aa34-38e7c4d93fa4",
+  "studentUrl": "https://127.0.0.1:3461/zhiban/student/courses/01a15e96-8895-7033-9171-f81fdd7e430e/coursework?space=01a15e96-146d-75b4-9568-dc082cc64ca9&offering=01a15e96-89a9-761c-aa34-38e7c4d93fa4",
+  "score": "92.00/100.00",
+  "nativeRuntimeEnabled": false
+}

@@ -1,0 +1,23 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "status": "ARCHIVES_CREATED_AND_TABLE_OF_CONTENTS_VERIFIED",
+  "root": "/tmp/zhiban-trial-content-VVpcc3",
+  "backupDirectory": "/home/zxm/.local/state/zhiban-trial-backups/login-identifiers-current-20261023-074206",
+  "databaseCount": 3,
+  "files": {
+    "zhiban_trial_content_disposable.dump": "dd53165ac6b0ec4c96a7aaf3f30f1d96e0015e709f1a21a837c7db41c2c6629b",
+    "zhiban_trial_content_native.dump": "420f4c4ea603ea22a18ae4511474b73a6eadc4514cf69c8958c647711dc1b522",
+    "zhiban_trial_lesson_native.dump": "0d6bebe0e9a33a8d4e16059c04f21d5c3eb15b797239c2524ff9fd57921446c4",
+    "accounts.json": "2379fa4bc7f8708e1284b03dad8075e79817c3af8c16b084e7994f2dafbd6257",
+    "member-control.json": "1bb245234bf160e63a8ee21a8a307f4e67292fba23bca70c4d86ab22e52769f1",
+    "member-inputs.json": "b818de136e118aeaae0a9bcb51a67311d2526fbe671923c7be7e4d4a68e1eec4",
+    "member-operator.pem": "41765aaf3708083dd37555c63a2a2ae45dfbb774396d66b105329ead9fa4ee36",
+    "member-approver.pem": "00358611b36b4395255bbc9fd4c0e662ad9141e3ca867de21b17b034be12debb",
+    "roster-example.csv": "db4efb757adaceac80f37ba51e7db119be7cd0e112f88cfc994c8dddf42991f5",
+    "content-installation.json": "51f0e338bf9e5496d6a62531ce636f9fa662949d8235a4f5036e663396701f8e",
+    "login-identifier-approvals/01a165fc-a1d4-734b-879b-c49250f7d3f8.json": "fa3507b978d54af180fc838572308ccd3e2c6af836a990353b3b233dd61b2eb3",
+    "login-identifier-approvals/01a165fc-8df7-753b-80a7-905f2e62ddeb.json": "32a2e41e52077ff16f2625267fe26ef854f7256de44e7947d5a00756fb6fac68"
+  },
+  "restoreTested": false,
+  "secretsPrinted": false
+}

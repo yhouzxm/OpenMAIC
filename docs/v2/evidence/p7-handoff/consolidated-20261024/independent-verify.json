@@ -1,0 +1,14 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "ARCHIVE_ENTRY_SET_AND_FILE_HASHES_ONLY",
+  "versionId": "zhiban-local-20261024-2035f8a244ba",
+  "sourceDigest": "2035f8a244ba35b6df0ea395a4079f7493078701f89095c55c48b08e99ba4385",
+  "files": 5841,
+  "bytes": 228274577,
+  "credentialAudit": "NOT_ASSERTED_BY_HASH_VERIFICATION",
+  "dependenciesIncluded": false,
+  "gitHistoryIncluded": false,
+  "productionSignoff": false
+}

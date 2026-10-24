@@ -1,0 +1,15 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-24T08:51:50.842Z",
+  "checks": [
+    "Normal restart argv has no upgrade flag",
+    "Existing content receipt bytes unchanged; no automatic reissue",
+    "Certificate-verified HTTPS login GET 200",
+    "Snapshot retained in independent state namespace",
+    "All three-database non-Identity row fingerprints and original accounts unchanged after normal restart"
+  ],
+  "receiptHash": "448c45de251b87e5941dd76b37f5793718832e0a32a97686b060376a21421212",
+  "snapshotManifestSha256": "335425aba379f58420b18c13a3669e48407e7819b09ab38e3c5f3f8a44b50587"
+}

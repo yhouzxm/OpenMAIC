@@ -1,0 +1,15 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "REAL_GUARDED_PUBLISHED_SYNTHETIC_LECTURE",
+  "root": "/tmp/zhiban-trial-content-vZFq8q",
+  "tenant": "01a16389-2d5c-72c8-9805-b95cc11636d0",
+  "offering": "01a16389-a9db-76f2-8061-dcde7b81da22",
+  "course": "01a16389-a830-7146-9c75-8b71d675e05a",
+  "resourceId": "01a16389-e830-7461-ba61-dcc78ff86a1f",
+  "publicationId": "01a1638a-7d80-73d1-b4bd-1822726415f3",
+  "publicationNo": 1,
+  "teacherUrl": "https://127.0.0.1:3461/zhiban/teacher/courses/01a16389-a830-7146-9c75-8b71d675e05a/tutor?space=01a16389-2d5c-72c8-9805-b95cc11636d0&offering=01a16389-a9db-76f2-8061-dcde7b81da22",
+  "studentUrl": "https://127.0.0.1:3461/zhiban/student/courses/01a16389-a830-7146-9c75-8b71d675e05a/tutor?space=01a16389-2d5c-72c8-9805-b95cc11636d0&offering=01a16389-a9db-76f2-8061-dcde7b81da22",
+  "modelRequestsMade": 0
+}

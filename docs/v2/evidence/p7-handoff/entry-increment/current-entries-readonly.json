@@ -1,0 +1,121 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-23T11:37:28.269Z",
+  "root": "/tmp/zhiban-trial-content-e5zuw0",
+  "scope": "CURRENT_ENTRY_READINESS_ONLY_NOT_FULL_FUNCTIONAL_REGRESSION",
+  "checks": [
+    {
+      "route": "/zhiban/login",
+      "role": "ANONYMOUS",
+      "result": "LOGIN_FORM"
+    },
+    {
+      "route": "/zhiban/admin",
+      "role": "ADMIN",
+      "result": "READ_ONLY_READY"
+    },
+    {
+      "route": "/zhiban/admin/users",
+      "role": "ADMIN",
+      "result": "READ_ONLY_READY"
+    },
+    {
+      "route": "/zhiban/teacher/profile",
+      "role": "TEACHER",
+      "result": "READ_ONLY_READY"
+    },
+    {
+      "route": "/zhiban/teacher/grades",
+      "role": "TEACHER",
+      "result": "READ_ONLY_READY"
+    },
+    {
+      "route": "/zhiban/teacher/profiles",
+      "role": "TEACHER",
+      "result": "READ_ONLY_READY"
+    },
+    {
+      "route": "/zhiban/teacher/risks",
+      "role": "TEACHER",
+      "result": "READ_ONLY_READY"
+    },
+    {
+      "route": "/zhiban/teacher/courses/01a16886-bb5f-742e-aa80-0ef3578c44d3/profiles",
+      "role": "TEACHER",
+      "result": "READ_ONLY_READY"
+    },
+    {
+      "route": "/zhiban/teacher/courses/01a16886-bb5f-742e-aa80-0ef3578c44d3/risks",
+      "role": "TEACHER",
+      "result": "READ_ONLY_READY"
+    },
+    {
+      "route": "/zhiban/teacher/agents",
+      "role": "TEACHER",
+      "result": "READ_ONLY_READY"
+    },
+    {
+      "route": "/zhiban/teacher/courses/01a16886-bb5f-742e-aa80-0ef3578c44d3/agents",
+      "role": "TEACHER",
+      "result": "READ_ONLY_READY"
+    },
+    {
+      "route": "/zhiban/teacher/courses/01a16886-bb5f-742e-aa80-0ef3578c44d3/settings",
+      "role": "TEACHER",
+      "result": "READ_ONLY_READY"
+    },
+    {
+      "route": "/zhiban/teacher/courses/01a16886-bb5f-742e-aa80-0ef3578c44d3/teachers",
+      "role": "TEACHER",
+      "result": "READ_ONLY_READY"
+    },
+    {
+      "route": "/zhiban/student/settings",
+      "role": "STUDENT",
+      "result": "READ_ONLY_READY"
+    },
+    {
+      "route": "/zhiban/student/grades",
+      "role": "STUDENT",
+      "result": "READ_ONLY_READY"
+    },
+    {
+      "route": "/zhiban/student/profile",
+      "role": "STUDENT",
+      "result": "READ_ONLY_READY"
+    },
+    {
+      "route": "/zhiban/student/risks",
+      "role": "STUDENT",
+      "result": "READ_ONLY_READY"
+    },
+    {
+      "route": "/zhiban/student/courses/01a16886-bb5f-742e-aa80-0ef3578c44d3/analysis",
+      "role": "STUDENT",
+      "result": "READ_ONLY_READY"
+    },
+    {
+      "route": "/zhiban/student/courses/01a16886-bb5f-742e-aa80-0ef3578c44d3/support",
+      "role": "STUDENT",
+      "result": "READ_ONLY_READY"
+    },
+    {
+      "route": "/zhiban/student/tools",
+      "role": "STUDENT",
+      "result": "READ_ONLY_READY"
+    },
+    {
+      "route": "/zhiban/student/courses/01a16886-bb5f-742e-aa80-0ef3578c44d3/tools",
+      "role": "STUDENT",
+      "result": "READ_ONLY_READY"
+    }
+  ],
+  "businessPosts": [],
+  "modelCalls": false,
+  "excluded": [
+    "No business writes, adoption/publication/ASK/scanner/grade workflow",
+    "Historical per-feature negative/concurrency proofs not rerun"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "kind": "ZHIBAN_PORTABLE_REMOTE_ACCEPTANCE_V1",
+  "executionOrigin": "GITHUB_ACTIONS",
+  "status": "FAIL",
+  "runId": "40087593933",
+  "workflowSha": "0f6903b2eeb39ccf8e27762705ac3a86d60f7911",
+  "failureStage": "RESTORE_START",
+  "cleanup": {
+    "status": "PASS",
+    "privateNamespacePurged": true
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-23T10:29:13.648Z",
+  "scope": "GLOBAL_GRADE_ENTRY_ROUTES_AND_AUTHORIZED_COURSE_RETURN_ONLY",
+  "root": "/tmp/zhiban-trial-content-WWbMFP",
+  "tenant": "01a1684e-10e6-729c-b413-c5a986cdc58f",
+  "checks": [
+    "Anonymous teacher/student legacy entries require original login and reveal no grade/course data",
+    "TEACHER: sidebar -> bounded searchable/state-filtered course selector -> existing authorized course grades -> sticky return/reload; correct gradebook or own 88/100; legacy courseId/tenant and bare bookmark; wrong role/space/malformed contexts denied",
+    "STUDENT: sidebar -> bounded searchable/state-filtered course selector -> existing authorized course grades -> sticky return/reload; correct gradebook or own 88/100; legacy courseId/tenant and bare bookmark; wrong role/space/malformed contexts denied"
+  ],
+  "businessWrites": false,
+  "sourceHashes": {
+    "app/zhiban/local/global-grades.html": "9e2a099dac340e8064c13107ecc8310057515f0ecc192a7701b2357bdb0380cc",
+    "app/zhiban/local/global-grades.js": "21a139bbab3347ea1c5798c3368ff1d1983a722106c53ef49ba19d28c7991449",
+    "app/zhiban/local/client.js": "27f693774fe3148b1c21ddfc6d26192fe4798b0e45b151df57d116cce445db1d",
+    "app/zhiban/local/course-page.js": "954420710bf99548d63e0ec8d2ac142528d99138401e644449388287141523c6",
+    "scripts/zhiban-local/request-target.ts": "1246741f993c7b4366c18d9d0d1bb9bf4233ef2d5301144551f0eb7c5dbbfef9",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "cee449986abe055d78b5fdb2ce384196f35a37111d1541ec390a938c6db17272",
+    "scripts/zhiban-local/server.ts": "5e7bb7382b8b9038f08f781afed12d21fdd5ba6e44603753810b4fde599a1367",
+    "scripts/zhiban-local/verify-global-grades.cjs": "ec4dd4e979609fdefcabc38f0e1b29dc876418d43ff6b348621916719b0bab32"
+  },
+  "excluded": [
+    "No new totals/weights/appeals or global student CSV",
+    "No multi-page/multi-space real fixture coverage; existing Workspace API pagination reused",
+    "No full classroom/PG16 regression/CI"
+  ]
+}

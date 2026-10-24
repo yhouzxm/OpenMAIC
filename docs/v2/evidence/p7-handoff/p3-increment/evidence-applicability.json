@@ -1,0 +1,57 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "scope": "HISTORICAL_P3_RECEIPT_REUSE_WITH_EXPLICIT_SOURCE_DIFFERENCES",
+  "packages": {
+    "gradebook": {
+      "receipt": "docs/v2/evidence/gradebook-export/final-closeout.json",
+      "receiptSha256": "2c595cf6b16444ab8cd0155305bc64df3c61e7b3fd67bdd945a5eeb6b9124312",
+      "status": "PASS",
+      "stableProductFiles": [
+        "lib/zhiban/application/assessment/gradebook.ts",
+        "lib/zhiban/application/assessment/gradebook-csv.ts",
+        "lib/zhiban/application/assessment/service.ts",
+        "lib/zhiban/infrastructure/assessment/http.ts",
+        "lib/zhiban/infrastructure/assessment/postgres/transaction.ts",
+        "lib/zhiban/domain/academic/model.ts",
+        "app/zhiban/local/gradebook.js",
+        "scripts/zhiban-local/request-target.ts",
+        "scripts/zhiban-local/verify-gradebook-export.ts",
+        "scripts/zhiban-local/tsconfig.gradebook-export.json",
+        "tests/zhiban/assessment/gradebook.test.ts",
+        "tests/zhiban/assessment/gradebook-csv.test.ts"
+      ],
+      "otherChangedFiles": [
+        "scripts/zhiban-local/verify-m6-catalog.mts",
+        "scripts/zhiban-local/run-m6-catalog.ts",
+        "package.json",
+        "docs/v2/zhiban-v2-migration-completion-plan.md",
+        "docs/v2/zhiban-v2-feature-gap-matrix.md",
+        "docs/v2/zhiban-v2-ui-page-gap-matrix.md",
+        "docs/v2/zhiban-v2-p7-handoff.md",
+        "docs/v2/zhiban-v2-trial-guide.md"
+      ],
+      "note": "Historical receipt not reissued; shared harness/package/docs changes are later avatar/handoff increments. Current running read-only evidence separate."
+    },
+    "avatar": {
+      "receipt": "docs/v2/evidence/zhiban-avatar-closeout-local.json",
+      "receiptSha256": "eec0555ce05c95936c3318fdd2f3714137756103e8e1fdf9ee1cbef906447ddd",
+      "status": "PASS",
+      "stableProductFiles": [
+        "lib/zhiban/infrastructure/profile/postgres/migrations/0002_avatar.sql",
+        "lib/zhiban/domain/profile/model.ts",
+        "lib/zhiban/application/profile/service.ts",
+        "lib/zhiban/infrastructure/profile/postgres/transaction.ts",
+        "lib/zhiban/infrastructure/profile/http.ts",
+        "app/zhiban/local/profile.js",
+        "scripts/zhiban-local/profile.ts",
+        "scripts/zhiban-local/build-profile-reference.ts",
+        "scripts/zhiban-local/verify-avatar.ts",
+        "scripts/zhiban-local/tsconfig.avatar.json",
+        "docs/v2/evidence/zhiban-profile-directory-reference-local.json"
+      ],
+      "otherChangedFiles": [],
+      "note": "Historical receipt not reissued; shared harness/package/docs changes are later avatar/handoff increments. Current running read-only evidence separate."
+    }
+  }
+}

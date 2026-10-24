@@ -1,0 +1,18 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "status": "PASS",
+  "at": "2026-10-09T13:16:39.404Z",
+  "checks": [
+    "two installer processes wait on the same whole-install session lock",
+    "serialized concurrent issuers succeed without reapplying SQL",
+    "stale entry source rejects installer before any migration",
+    "atomic receipt replacement produces complete JSON with exact 0600 permissions",
+    "ledger, Native rows and accepted source/catalog bindings unchanged"
+  ],
+  "implementationBindingHash": "a0946edb9a5cede3353794eff6da6d85049f4ccfb65985027ef235c9188e85a3",
+  "candidateMigrationSha256": "e335f83bb48cc6c4ec754f8e3270dc0e6941e14f38306bd67aa29844c3713324",
+  "runnerSha256": "ddff6011c9932a675ec86c5c47a571a4ce74a01068e3fba27416be61fbe97ab7",
+  "scope": "EXISTING_OWNED_LOCAL_INSTALL_REISSUE_CONCURRENCY_AND_NEGATIVES",
+  "firstInstallReplayed": false,
+  "commitPushCiDispatch": false
+}

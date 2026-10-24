@@ -1,0 +1,108 @@
+{
+  "status": "MANUAL_FULL_DEMO_PASS",
+  "evidenceKind": "LOCAL",
+  "recordedAt": "2026-10-16 Asia/Shanghai",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "branch": "refactor/zhiban-v2",
+  "runtime": {
+    "lifecycle": "RUNNING_LOCAL_DISPOSABLE",
+    "origin": "https://127.0.0.1:3459",
+    "postgresMajor": 16,
+    "postgresPort": 56515,
+    "database": "zhiban_trial_disposable",
+    "cluster": "owned temporary cluster/private Unix socket",
+    "tenantId": "01a141cb-c497-748f-8762-40cb043fe5b6",
+    "sourceOfferingId": "01a141cb-d590-751a-aafb-5eef273e801f",
+    "sourceMatches": false,
+    "sourceDriftCount": 3,
+    "sourceDriftFiles": [
+      "app/zhiban/local/management.js",
+      "scripts/zhiban-local/verify-m6-catalog.mts",
+      "scripts/zhiban-local/run-m6-catalog.ts"
+    ]
+  },
+  "scenarios": [
+    {
+      "role": "STUDENT",
+      "result": "PASS",
+      "actions": [
+        "created first attempt for 试用：安全巡检报告",
+        "saved answer draft",
+        "submitted attempt 1 / submission v1"
+      ]
+    },
+    {
+      "role": "TEACHER",
+      "result": "PASS",
+      "actions": [
+        "opened exact submission from grading queue",
+        "saved grading draft",
+        "published 92/100 and feedback"
+      ]
+    },
+    {
+      "role": "STUDENT",
+      "result": "PASS",
+      "actions": [
+        "verified published 92/100 and feedback in personal overview",
+        "verified aggregate updated to 4 submitted, 2 published grades, 2 pending grades, 90% unweighted mean"
+      ]
+    },
+    {
+      "role": "TEACHER",
+      "result": "PASS",
+      "actions": [
+        "selected 安全巡检报告 v1 in analytics",
+        "verified 4 current students, 1 published grade, 92% activity mean"
+      ]
+    },
+    {
+      "role": "ADMIN",
+      "result": "PASS",
+      "actions": [
+        "opened paginated academic workspace",
+        "verified TRY_01 4/20 and TRY_TRANSFER 1/1",
+        "opened TRY_01 roster showing four current students"
+      ]
+    }
+  ],
+  "resultingData": {
+    "student": "陈同学",
+    "offering": "TRY_01",
+    "activity": "试用：安全巡检报告",
+    "attemptNumber": 1,
+    "submissionVersion": 1,
+    "gradeVersion": 1,
+    "score": "92/100",
+    "feedback": "安全检查顺序清楚，识别出防护罩松动并停止送电。下次补充复核人员和仪表读数记录。",
+    "preexistingHandinAnd88GradePreserved": true,
+    "allDataSynthetic": true
+  },
+  "evidence": {
+    "document": "docs/v2/zhiban-v2-full-demo-local.md",
+    "documentSha256": "3104722ccb59a79b83f2c7d9250c7a45156fe12024d9411cd19bdf020bbf55dc",
+    "screenshots": {
+      "zhiban-trial-full-demo-student-submission-local.png": "87c0048d97ecad1ce46aa53c8bf054572539ceb03a7e289cc219de9926e7b8b3",
+      "zhiban-trial-full-demo-teacher-published-local.png": "722277737fe363b87de0e4cb3434c2537d91b252c5c351079f563ee9d81d3c02",
+      "zhiban-trial-full-demo-student-grade-local.png": "a404e75c9de056045d2f164cbb594092b7412641010e174b723c1c4cad99e961",
+      "zhiban-trial-full-demo-teacher-analytics-local.png": "6fa16e5c0528b77f05dc1a50e872a91e932bccd98194fcd42666b9f1a033cccf",
+      "zhiban-trial-full-demo-admin-workspace-local.png": "c8c50a04592e8300e83738aa440aef980cb0768d26e190a236e2c94d397cc57a",
+      "zhiban-trial-full-demo-admin-roster-local.png": "1c104cbe911c72122b96ba1f94257d24043ebb243f33de27705fc5de8a5d89cc"
+    }
+  },
+  "verification": {
+    "manualBrowserScenarios": "PASS",
+    "automatedTests": "NOT_RUN",
+    "fullRegression": "NOT_RUN",
+    "githubActions": "NOT_DISPATCHED",
+    "commit": "NONE",
+    "push": "NONE"
+  },
+  "limitations": [
+    "single tenant and sequential role logins",
+    "not a full API negative/concurrency/revocation-latency/security acceptance",
+    "M5 editor/assets/PNG/Runtime remain disabled in this unified trial",
+    "existing CI receipts apply only to their recorded SHA and gate",
+    "stopping the trial removes the disposable database and synthetic accounts"
+  ]
+}

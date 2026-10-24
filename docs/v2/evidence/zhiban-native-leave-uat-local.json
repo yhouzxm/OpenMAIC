@@ -1,0 +1,53 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "recordedAt": "2026-10-16T14:29:57.303218+00:00",
+  "status": "PENDING_NATIVE_UI_OBSERVATION",
+  "branch": "refactor/zhiban-v2",
+  "head": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "origin": "https://127.0.0.1:3461",
+  "metadataSha256": "2dff7a6d8d86dcd8651db6b00ae5c8ec28d1a5b2d66ee4576cb77f0ed019fc19",
+  "dirtyPage": {
+    "tabId": "4",
+    "unsavedMarker": "原生刷新取消验证，未保存。",
+    "reloadApi": "TIMEOUT_10_SECONDS",
+    "dialogApi": "NO_DIALOG_RETURNED",
+    "shortcut": "NO_VISIBLE_PAGE_CHANGE",
+    "textRemained": true,
+    "nativeRefreshCancel": "PENDING",
+    "nativeCloseCancel": "PENDING"
+  },
+  "cleanControl": {
+    "page": "student progress",
+    "reloadMs": 227,
+    "reload": "PASS",
+    "apiClose": "PASS",
+    "unsavedCloseVerified": false,
+    "submissionVersion": 1,
+    "grades": [
+      94,
+      88
+    ],
+    "averagePercent": 91
+  },
+  "dataEffects": {
+    "saveDrafts": 0,
+    "newAttempts": 0,
+    "submissions": 0,
+    "gradeWrites": 0,
+    "unsavedMarkerOnlyInPage": true
+  },
+  "sourceDriftCount": 3,
+  "unchangedMigrationFiles": 16,
+  "businessCodeChanged": false,
+  "buildRestartCiCommitPush": false,
+  "report": {
+    "path": "docs/v2/zhiban-v2-native-leave-uat-local.md",
+    "sha256": "2785c12bdec2f217382e57aac4217088e7d8f98752de4caf5ceb6287f9f2f027"
+  },
+  "screenshot": {
+    "path": "docs/v2/evidence/zhiban-native-leave-pending-local.png",
+    "sha256": "0e50e71b6d89ff876969ed0ad5397d1fcc23ed36793e9f2092921c391ae69301"
+  },
+  "next": "User directly observes native refresh and close controls; cancel each and report retained text."
+}

@@ -1,0 +1,5 @@
+
+> openmaic@1.2.1 trial:zhiban:info /home/zxm/openmaic/zhiban
+> tsx scripts/zhiban-local/trial-control.ts info --unified-trial
+
+STOPPED — trial process is no longer running. Start with pnpm trial:zhiban.

@@ -1,0 +1,112 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "packages": [
+    {
+      "package": "quiz-reuse",
+      "receipt": "docs/v2/evidence/quiz-reuse/final-closeout.json",
+      "receiptSha256": "7f2eeb83459b7f7127606f6a6b8b29e8e9fc414c107b0a639546fca029f3a250",
+      "originalStatus": "PASS",
+      "originalRoot": "/tmp/zhiban-trial-content-pvedyH",
+      "sourceFilesUnchanged": [
+        "lib/zhiban/domain/quiz/reuse.ts",
+        "scripts/zhiban-local/verify-quiz-reuse.cjs",
+        "docs/v2/zhiban-v2-quiz-reuse-local.md"
+      ],
+      "sourceFilesChanged": [
+        "lib/zhiban/domain/quiz/model.ts",
+        "lib/zhiban/infrastructure/quiz/postgres/transaction.ts",
+        "app/zhiban/local/quiz-client.tsx",
+        "app/zhiban/local/quiz-client.js",
+        "tests/zhiban/quiz/reuse.test.ts"
+      ],
+      "sourceFilesMissing": [],
+      "receiptReissued": false
+    },
+    {
+      "package": "quiz-fill",
+      "receipt": "docs/v2/evidence/quiz-fill/final-closeout.json",
+      "receiptSha256": "61faa1d1cc3395ab6f83d35a1582c837b9754096e2509df550dd91ff41d79c3f",
+      "originalStatus": "PASS",
+      "originalRoot": "/tmp/zhiban-trial-content-hmLuGX",
+      "sourceFilesUnchanged": [
+        "lib/zhiban/infrastructure/quiz/postgres/transaction.ts",
+        "lib/zhiban/infrastructure/learning/postgres/migrations/0003_fill_blank.sql",
+        "scripts/zhiban-local/verify-quiz-fill.cjs",
+        "tests/zhiban/quiz/fill.test.ts",
+        "tests/zhiban/quiz/reuse.test.ts",
+        "docs/v2/zhiban-v2-quiz-fill-local.md"
+      ],
+      "sourceFilesChanged": [
+        "lib/zhiban/domain/quiz/model.ts",
+        "lib/zhiban/domain/quiz/fill.ts",
+        "app/zhiban/local/quiz-client.tsx",
+        "app/zhiban/local/quiz-fill.tsx",
+        "app/zhiban/local/quiz-client.js",
+        "scripts/zhiban-local/learning.ts",
+        "scripts/zhiban-local/setup-m3.ts",
+        "docs/v2/evidence/p4-joint-classroom-profile-reference-local.json",
+        "docs/v2/evidence/p4-joint-classroom-profile-build-local.json"
+      ],
+      "sourceFilesMissing": [],
+      "receiptReissued": false
+    },
+    {
+      "package": "quiz-match",
+      "receipt": "docs/v2/evidence/quiz-match/final-closeout.json",
+      "receiptSha256": "a2ea17fdcd191608cc6be76fbe2e7454bd74d633871c76626f75aaf6aca0b111",
+      "originalStatus": "PASS",
+      "originalRoot": "/tmp/zhiban-trial-content-614Ypv",
+      "sourceFilesUnchanged": [
+        "lib/zhiban/domain/quiz/matching.ts",
+        "app/zhiban/local/quiz-matching.tsx",
+        "lib/zhiban/infrastructure/learning/postgres/migrations/0004_matching.sql",
+        "tests/zhiban/quiz/matching.test.ts",
+        "scripts/zhiban-local/verify-quiz-matching.cjs",
+        "docs/v2/zhiban-v2-quiz-matching-local.md"
+      ],
+      "sourceFilesChanged": [
+        "lib/zhiban/domain/quiz/model.ts",
+        "lib/zhiban/domain/quiz/fill.ts",
+        "app/zhiban/local/quiz-client.tsx",
+        "app/zhiban/local/quiz-fill.tsx",
+        "app/zhiban/local/quiz-client.js",
+        "scripts/zhiban-local/learning.ts",
+        "scripts/zhiban-local/setup-m3.ts",
+        "docs/v2/evidence/p4-joint-classroom-profile-reference-local.json",
+        "docs/v2/evidence/p4-joint-classroom-profile-build-local.json"
+      ],
+      "sourceFilesMissing": [],
+      "receiptReissued": false
+    },
+    {
+      "package": "quiz-ordering",
+      "receipt": "docs/v2/evidence/quiz-ordering/final-closeout.json",
+      "receiptSha256": "9d699a3fb288d3a19157e559b2925e6d41405d87389ea52df60cf7d25210ee4d",
+      "originalStatus": "PASS",
+      "originalRoot": "/tmp/zhiban-trial-content-IS9eTC",
+      "sourceFilesUnchanged": [
+        "lib/zhiban/domain/quiz/model.ts",
+        "lib/zhiban/domain/quiz/fill.ts",
+        "lib/zhiban/domain/quiz/ordering.ts",
+        "app/zhiban/local/quiz-client.tsx",
+        "app/zhiban/local/quiz-fill.tsx",
+        "app/zhiban/local/quiz-ordering.tsx",
+        "app/zhiban/local/quiz-client.js",
+        "lib/zhiban/infrastructure/learning/postgres/migrations/0005_ordering.sql",
+        "scripts/zhiban-local/learning.ts",
+        "scripts/zhiban-local/setup-m3.ts",
+        "tests/zhiban/quiz/ordering.test.ts",
+        "scripts/zhiban-local/verify-quiz-ordering.cjs",
+        "docs/v2/zhiban-v2-quiz-ordering-local.md",
+        "docs/v2/evidence/p4-joint-classroom-profile-reference-local.json",
+        "docs/v2/evidence/p4-joint-classroom-profile-build-local.json"
+      ],
+      "sourceFilesChanged": [],
+      "sourceFilesMissing": [],
+      "receiptReissued": false
+    }
+  ],
+  "currentRegression": "docs/v2/evidence/quiz-ordering/legacy-matching-journey.json",
+  "boundary": "Older receipts bind their original source/root; changed shared files are covered only to the extent of later package receipts, not retroactively resigned."
+}

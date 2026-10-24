@@ -1,0 +1,29 @@
+{
+  "kind": "ZHIBAN_PORTABLE_REMOTE_ACCEPTANCE_V1",
+  "executionOrigin": "GITHUB_ACTIONS",
+  "status": "FAIL",
+  "runId": "40090990321",
+  "workflowSha": "db5cf3c19f5a04c09f769864e6b91323c4b54504",
+  "failureStage": "RESTORE_START",
+  "diagnostic": {
+    "code": "HOST_EXITED",
+    "exitCode": 1,
+    "elapsedMs": 25028,
+    "mode": "start-rebind",
+    "reason": "UNCLASSIFIED"
+  },
+  "phaseTimings": {
+    "CONTEXT": 1,
+    "DELIVERY": 2634,
+    "PREREQUISITES": 9,
+    "FROZEN_INSTALL": 78940,
+    "BROWSER_PREREQUISITES": 11034,
+    "PRIVATE_IMPORT": 885,
+    "NSS_TRUST": 19,
+    "RESTORE_START": 25030
+  },
+  "cleanup": {
+    "status": "PASS",
+    "privateNamespacePurged": true
+  }
+}

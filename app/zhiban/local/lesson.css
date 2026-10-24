@@ -1,0 +1,58 @@
+.portal .lesson-workspace {
+  min-width: 0;
+  padding: 0;
+}
+.lesson-panel {
+  margin: 28px 32px 0;
+  padding: 20px;
+  background: white;
+  color: #24354a;
+  border: 1px solid #d8e2ef;
+  border-radius: 8px;
+  min-width: 0;
+}
+.lesson-panel summary {
+  font-weight: 600;
+  cursor: pointer;
+  color: #176fda;
+}
+.lesson-panel p {
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+.lesson-panel label {
+  display: block;
+  margin: 16px 0 12px;
+}
+.lesson-panel textarea {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 8px;
+  min-height: 100px;
+  padding: 10px;
+  font: inherit;
+  border: 1px solid #b8c9dd;
+  border-radius: 6px;
+}
+.lesson-panel button {
+  margin: 4px 8px 4px 0;
+}
+.lesson-panel article {
+  border-top: 1px solid #e2e8f0;
+  padding-top: 12px;
+  margin-top: 20px;
+}
+.lesson-panel pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: inherit;
+  line-height: 1.7;
+}
+@media (max-width: 600px) {
+  .lesson-panel {
+    margin: 18px 16px 0;
+    padding: 14px;
+  }
+}

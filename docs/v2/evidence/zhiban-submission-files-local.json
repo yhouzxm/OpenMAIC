@@ -1,0 +1,83 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "date": "2026-10-17",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "origin": "https://127.0.0.1:3466",
+  "database": "zhiban_submission_files_disposable",
+  "port": 56522,
+  "pg16": 160015,
+  "sourceMatches": true,
+  "sourceDriftCount": 0,
+  "receiptResigned": false,
+  "checks": [
+    "PG16 restricted roles + real Identity sessions + validated trusted HTTPS",
+    "trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands",
+    "real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft",
+    "three real browser logins share one origin: admin history, teacher activities/queue/analytics, student activities/published feedback; no script errors",
+    "student/admin cannot acquire teacher grading; content/Runtime/control APIs stay CLOSED and their trial page explains the boundary",
+    "LOCAL_SYNTHETIC_PINNED fixtures only; unregistered file rejected without submission; atomic binding, digest/bytes, replay, malformed/oversize, role/tenant/revoked denial and version history pass",
+    "submission files PDF bytes, concurrent revision barrier, 10 MiB attempt quota rollback and expired deadline rejection pass without partial submissions",
+    "submission file loader checks source ledger and exact append-only RLS/ACL; excess DELETE rejected and restored",
+    "submission files real browser selects file, saves text draft retaining selection, submits version, reopens historical list and downloads exact file bytes without script errors"
+  ],
+  "existingMigrationHashesCompared": 19,
+  "existingMigrationHashesUnchanged": true,
+  "newMigrations": {
+    "0001_submission_files.sql": "1f5208dba3578092e56f7c9fe1e025251b0459db3e8555b89c1e5887da584dec",
+    "0002_file_clearance.sql": "21bb7a88c29e783c37b111a97d2ffb1e715d819238dff4c262ea80016f73896d"
+  },
+  "unitTests": "29/29 PASS learning directed tests",
+  "scopedTypes": "PASS tsconfig.classroom.json",
+  "eslint": "PASS affected core/asset/fixture verifier files",
+  "manualBrowser": {
+    "teacherReviewSubmission": 4,
+    "filename": "页面巡检.txt",
+    "bytes": 71,
+    "clearanceLabelVisible": true,
+    "publishedGrade": {
+      "score": 95,
+      "max": 100,
+      "gradeVersion": 1
+    },
+    "screenshot": "zhiban-submission-files-teacher-local.png",
+    "downloadNotReclaimed": "Native/IAB file landing not signed; prior CSV host download limitation remains"
+  },
+  "assetPort": "PostgresSubmissionFileAssets; same transaction as Submission; no provider/Native IDs reused",
+  "clearance": {
+    "active": "LOCAL_SYNTHETIC_PINNED",
+    "productionScanner": "NOT_CONFIGURED",
+    "unregisteredUpload": "REJECTED_WITHOUT_SUBMISSION",
+    "unverifiedDownload": "REJECTED",
+    "normalStandaloneHost": "DISABLED",
+    "pendingInput": "trusted scanner command/config/socket path requested; no credentials received"
+  },
+  "limits": {
+    "perSubmissionFiles": 1,
+    "perFileBytes": 1048576,
+    "perAttemptBytes": 10485760,
+    "perMemberOfferingBytes": 104857600,
+    "perAttemptCount": 100,
+    "perMemberOfferingCount": 1000
+  },
+  "sample": {
+    "path": "zhiban-submission-file-fixture.txt",
+    "sha256": "a67e69718483a71f3f072d42e64c4df582955e51b197cc9898c850afd784dafc",
+    "bytes": 71
+  },
+  "oldEnvironmentStatusAtCloseout": {
+    "3463": "STOPPED",
+    "3464": "STOPPED",
+    "3465": "STOPPED",
+    "restartedOrCleanedThisSlice": false,
+    "oldDataRecoveryClaimed": false
+  },
+  "deferred": [
+    "real file malware scanner integration and activation",
+    "additional image/archive/office formats",
+    "multiple/file-only submissions",
+    "production retention/backup/deletion policy activation",
+    "full repository regression or GitHub CI",
+    "Runtime/AI/Native maintenance and native unload acceptance"
+  ]
+}

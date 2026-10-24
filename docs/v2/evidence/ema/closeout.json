@@ -1,0 +1,98 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-24T00:46:06.483Z",
+  "branch": "refactor/zhiban-v2",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "scope": "P5_SIX_DESCRIPTIVE_EVIDENCE_DIMENSIONS_AND_TEACHER_REVIEWED_EMA_LOCAL_SYNTHETIC_ONLY",
+  "implemented": [
+    "six explicitly defined descriptive dimensions, immutable classification and fixed public citations",
+    "teacher-created observations and real native-model EMA jobs",
+    "teacher per-dimension adoption to original Learner drafts, explicit publication, rejection and immutable audit",
+    "student own published observations, current-source differences and original self-correction",
+    "queued due time with current teacher dispatch, cancellation, timeout/expiry and stale-source rejection"
+  ],
+  "default": {
+    "origin": "https://127.0.0.1:3461/zhiban",
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "entry": "default-entry.json",
+    "actualModel": {
+      "model": "glm-5.3",
+      "provider": "glm",
+      "thinking": {
+        "mode": "enabled",
+        "effort": "low",
+        "budgetTokens": 1024
+      },
+      "promptSha256": "28989287be6408be77bbe95bcd62fe48ebaa31528280f2459f7f6b03faeb0ebb",
+      "maxOutputTokens": 6144
+    },
+    "originalFailedJobRetained": true,
+    "realModelElapsedMs": 5842
+  },
+  "verification": {
+    "independentProfile": "../zhiban-ema-profile-reference-local.json",
+    "pg16": "directed-r3.log",
+    "pg16SourceBoundary": "PG16 authorization/concurrency/closed-output journey passed before the final native transport correction; exact delta and separate final verification are recorded in accepted-source.json",
+    "nativeTransportUnits": "unit.log",
+    "defaultBrowser": "default-ui-journey.json",
+    "sourceDelta": "accepted-source.json",
+    "typecheck": "typecheck.log",
+    "lint": "lint.log",
+    "nativeTransportLint": "native-unit-hint-lint.log",
+    "existingMigrationsUnchanged": "existing-migrations-unchanged.json",
+    "preservedCoreTables": 56,
+    "preservedCoreRows": 212,
+    "accountsSha256": "91d73979d2a3a17ba17c69549682aa4d944f875c004bb8427ad5ba35d262e122",
+    "disposableStopped": true,
+    "disposableRemoved": true
+  },
+  "backup": {
+    "path": "/home/zxm/.local/share/zhiban-persistent/2026-10-24T00-44-16.944Z-5a884e6a",
+    "files": 3027,
+    "physicalPgBasebackup": true,
+    "pgVerifybackupPassedAtCreation": true,
+    "manifestSha256": "31ebd018adbc42a021fbfa4c7e5f141908fcba947d56ef1109bfd31044bd7a90",
+    "independentVerification": "FILE_HASH_CLOSURE_ONLY",
+    "crossHostRestoreVerified": false
+  },
+  "limits": {
+    "numericAbilityScores": false,
+    "sourceKinds": [
+      "GRADE",
+      "CONCEPT",
+      "REMEDIATION"
+    ],
+    "pblGroupScoreAssignedToPersonalDimensions": false,
+    "privateChatsIncluded": false,
+    "unattendedServiceActorDispatch": false,
+    "automaticIntervention": false,
+    "gradesCreditsCertificatesChanged": false,
+    "realNativeRuntimeEnabled": false
+  },
+  "nextPackage": "P3 school course certificates, controlled cross-offering credits and restricted-service-actor official AI grading",
+  "recommendedModel": "GPT-6.1 Sol / high",
+  "commit": false,
+  "push": false,
+  "ciDispatch": false,
+  "sourceHashes": {
+    "lib/zhiban/domain/ema/model.ts": "00373b357b4ad78e0d6b86e7860a8a98077744a31ee5fa2a14d1bd16dad9fadb",
+    "lib/zhiban/application/ema/service.ts": "03b09c3001668d7330f7763b3adba6dd0cd6cdf93e0007ac60652080e46deeea",
+    "lib/zhiban/infrastructure/ema/native.ts": "837caeb678d4fb856aa9697c72921650a3316fa9fff8d673820e141be7ce9ee7",
+    "lib/zhiban/infrastructure/ema/http.ts": "ee4051872df85b367852965340f0c4582d2f6128ace6292c80d5bdfd1da12396",
+    "lib/zhiban/infrastructure/ema/postgres/transaction.ts": "b2359a34d11d8daeaba559fd3538c6045fb9626652380250493080eb0940bf88",
+    "lib/zhiban/infrastructure/ema/postgres/migrations/0001_ema.sql": "595365b1ff89c04b223669dc0e79e978595fd3b088243a142e81837222d59078",
+    "scripts/zhiban-local/ema.ts": "c004c3f8fdfe62f90fb3d2b4df9942b61e8076d21f704ef44ed6de9efeaedaf4",
+    "scripts/zhiban-local/build-ema-reference.ts": "64cfa51c4a0762d3d88d594f463a1fc868ecdc75be2e6703f3639c95a04cf6d4",
+    "scripts/zhiban-local/verify-ema.ts": "85bb3852e28347cb53b979582881e11bc90ff8a7654d6e7683fc66a524b8cdcb",
+    "scripts/zhiban-local/seed-ema-demo.ts": "9cb480acfddd5e1b46fac00cdf2e5b10ca9e93e9cad623243027c834fc22ce6f",
+    "scripts/zhiban-local/tsconfig.ema.json": "a0520b3b26ec025e54b781cc1c38d638adc46980ff745a18a59e7821f8111c5d",
+    "app/zhiban/local/ema.html": "d56a29d38e0594dd5d619eb6fdb47b7e000fdc1e015a21fd07a9ecd9dfd5b83a",
+    "app/zhiban/local/ema.js": "72469e49373fcffb004388951c5acf6789fff4e35ee4b675da8e655d848c360e",
+    "app/zhiban/local/ema.css": "6efb7603c9bd176c11ce55a72edd10d9d2f0d38c6aee61efaf08151dc300fa3f",
+    "tests/zhiban/ema/model.test.ts": "ac6b562e5afeaa8e606a1750349ae72617c54fce518871260b8494f22ca524d2",
+    "tests/zhiban/ema/native.test.ts": "c72954be5006bbbb0bcd1b57fbe9abf1e6da5c619d1e4517cf0944b903047161"
+  }
+}

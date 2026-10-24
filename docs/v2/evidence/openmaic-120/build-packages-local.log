@@ -1,0 +1,75 @@
+
+> openmaic@1.2.0 build:packages /home/zxm/openmaic/zhiban
+> cd packages/mathml2omml && npm run build && cd ../pptxgenjs && npm run build && cd ../@openmaic/dsl && pnpm run build && cd ../generation && pnpm run build && cd ../storage && pnpm run build && cd ../importer && pnpm run build && cd ../renderer && pnpm run build && cd ../editor && pnpm run build && cd ../../.. && node scripts/sync-maic-importer.mjs
+
+
+> mathml2omml@0.5.0 build
+> rollup -c && node -e "require('fs').copyFileSync('src/index.d.ts','dist/index.d.ts')"
+
+
+src/index.js → dist/index.js, dist/index.cjs...
+created dist/index.js, dist/index.cjs in 783ms
+
+> pptxgenjs@4.0.1 build
+> rollup -c --bundleConfigAsCjs
+
+
+src/pptxgen.ts → ./dist/pptxgen.js, ./dist/pptxgen.cjs.js, ./dist/pptxgen.es.js...
+created ./dist/pptxgen.js, ./dist/pptxgen.cjs.js, ./dist/pptxgen.es.js in 6.2s
+../importer                              |  WARN  The field "pnpm.onlyBuiltDependencies" was found in /home/zxm/openmaic/zhiban/packages/@openmaic/importer/package.json. This will not take effect. You should configure "pnpm.onlyBuiltDependencies" at the root of the workspace instead.
+../renderer                              |  WARN  The field "pnpm.onlyBuiltDependencies" was found in /home/zxm/openmaic/zhiban/packages/@openmaic/renderer/package.json. This will not take effect. You should configure "pnpm.onlyBuiltDependencies" at the root of the workspace instead.
+
+> @openmaic/dsl@0.11.3 build /home/zxm/openmaic/zhiban/packages/@openmaic/dsl
+> node -e "require('fs').rmSync('dist',{recursive:true,force:true})" && tsc -p tsconfig.json && node scripts/gen-schema.mjs
+
+wrote dist/schema/stage.schema.json
+wrote dist/schema/scene.schema.json
+wrote dist/schema/action.schema.json
+../importer                              |  WARN  The field "pnpm.onlyBuiltDependencies" was found in /home/zxm/openmaic/zhiban/packages/@openmaic/importer/package.json. This will not take effect. You should configure "pnpm.onlyBuiltDependencies" at the root of the workspace instead.
+../renderer                              |  WARN  The field "pnpm.onlyBuiltDependencies" was found in /home/zxm/openmaic/zhiban/packages/@openmaic/renderer/package.json. This will not take effect. You should configure "pnpm.onlyBuiltDependencies" at the root of the workspace instead.
+
+> @openmaic/generation@0.3.20 build /home/zxm/openmaic/zhiban/packages/@openmaic/generation
+> node -e "require('fs').rmSync('dist',{recursive:true,force:true})" && tsc -p tsconfig.json
+
+../importer                              |  WARN  The field "pnpm.onlyBuiltDependencies" was found in /home/zxm/openmaic/zhiban/packages/@openmaic/importer/package.json. This will not take effect. You should configure "pnpm.onlyBuiltDependencies" at the root of the workspace instead.
+../renderer                              |  WARN  The field "pnpm.onlyBuiltDependencies" was found in /home/zxm/openmaic/zhiban/packages/@openmaic/renderer/package.json. This will not take effect. You should configure "pnpm.onlyBuiltDependencies" at the root of the workspace instead.
+
+> @openmaic/storage@0.37.3 build /home/zxm/openmaic/zhiban/packages/@openmaic/storage
+> node -e "require('fs').rmSync('dist',{recursive:true,force:true})" && tsc -p tsconfig.json
+
+ WARN  The field "pnpm.onlyBuiltDependencies" was found in /home/zxm/openmaic/zhiban/packages/@openmaic/importer/package.json. This will not take effect. You should configure "pnpm.onlyBuiltDependencies" at the root of the workspace instead.
+../renderer                              |  WARN  The field "pnpm.onlyBuiltDependencies" was found in /home/zxm/openmaic/zhiban/packages/@openmaic/renderer/package.json. This will not take effect. You should configure "pnpm.onlyBuiltDependencies" at the root of the workspace instead.
+
+> @openmaic/importer@0.3.1 build /home/zxm/openmaic/zhiban/packages/@openmaic/importer
+> node -e "require('fs').rmSync('dist',{recursive:true,force:true})" && rollup -c && tsc --emitDeclarationOnly
+
+
+src/index.ts → dist/index.umd.js...
+created dist/index.umd.js in 1m 15.7s
+
+src/index.ts → dist/index.cjs...
+created dist/index.cjs in 29.3s
+
+src/index.ts → dist/index.js...
+created dist/index.js in 43.3s
+../importer                              |  WARN  The field "pnpm.onlyBuiltDependencies" was found in /home/zxm/openmaic/zhiban/packages/@openmaic/importer/package.json. This will not take effect. You should configure "pnpm.onlyBuiltDependencies" at the root of the workspace instead.
+ WARN  The field "pnpm.onlyBuiltDependencies" was found in /home/zxm/openmaic/zhiban/packages/@openmaic/renderer/package.json. This will not take effect. You should configure "pnpm.onlyBuiltDependencies" at the root of the workspace instead.
+
+> @openmaic/renderer@0.1.14 build /home/zxm/openmaic/zhiban/packages/@openmaic/renderer
+> node scripts/generate-fonts-css.mjs && node scripts/generate-katex-fonts.mjs && node -e "require('fs').rmSync('dist',{recursive:true,force:true})" && rollup -c && tsc --emitDeclarationOnly --declarationDir dist
+
+[genfonts] wrote 6 @font-face rules → fonts.css (https://file.maic.chat/fonts)
+[gen-katex-fonts] embedded 20 KaTeX 0.16.38 faces → src/snapshot/katex-fonts-embed.ts (341 KB)
+
+src/index.ts, src/elements/index.ts, src/types/index.ts, src/snapshot/index.ts → dist...
+created dist in 13.7s
+../importer                              |  WARN  The field "pnpm.onlyBuiltDependencies" was found in /home/zxm/openmaic/zhiban/packages/@openmaic/importer/package.json. This will not take effect. You should configure "pnpm.onlyBuiltDependencies" at the root of the workspace instead.
+../renderer                              |  WARN  The field "pnpm.onlyBuiltDependencies" was found in /home/zxm/openmaic/zhiban/packages/@openmaic/renderer/package.json. This will not take effect. You should configure "pnpm.onlyBuiltDependencies" at the root of the workspace instead.
+
+> @openmaic/editor@0.0.11 build /home/zxm/openmaic/zhiban/packages/@openmaic/editor
+> node -e "require('fs').rmSync('dist',{recursive:true,force:true})" && rollup -c && tsc --emitDeclarationOnly --declarationDir dist
+
+
+src/core/index.ts, src/react/index.ts, src/ui/index.ts → dist...
+created dist in 20.3s
+[sync-maic-importer] copied packages/@openmaic/importer/dist → public/vendor/maic-importer

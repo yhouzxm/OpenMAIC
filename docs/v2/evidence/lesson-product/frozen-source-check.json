@@ -1,0 +1,14 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "baseline": "zhiban-ai-lesson-real-local.json",
+  "migrationBaselineHashes": {
+    "checked": 28,
+    "changed": []
+  },
+  "frozenIdentityPolicyHashes": {
+    "checked": 16,
+    "changed": []
+  }
+}

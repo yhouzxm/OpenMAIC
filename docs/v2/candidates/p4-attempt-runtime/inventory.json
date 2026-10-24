@@ -1,0 +1,21 @@
+{
+  "kind": "LOCAL_ADDITIVE_CANDIDATE_NEW_OWNED_PG16_ONLY",
+  "migration": "docs/v2/candidates/p4-attempt-runtime/0004-attempt-runtime.sql",
+  "sha256": "edffc0d7288c5fbeffe0b3662e615b660c3e1c12e8f1f728cb2e32256da35f86",
+  "tables": [
+    "zhiban_content.attempt_runtime_bindings",
+    "zhiban_content.attempt_runtime_schema_migrations"
+  ],
+  "newHelpers": [
+    "zhiban_content.attempt_runtime(uuid,uuid,uuid,uuid,uuid,boolean,uuid,uuid)"
+  ],
+  "replacedHelpers": [],
+  "additionalAcl": [
+    "Bridge SELECT binding and migration ledger",
+    "Bridge EXECUTE exact helper only",
+    "Owner scoped learning SELECT/row-lock policies, no raw Bridge learning grants"
+  ],
+  "frozenIdentityPermissionsChanged": false,
+  "nativeRuntimeEnabled": false,
+  "productionApplied": false
+}

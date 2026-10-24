@@ -1,0 +1,56 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_WITH_EXPLICIT_DEFERRED_GATES",
+  "scope": "CONSOLIDATED_P7_LOCAL_SOURCE_HANDOFF_NOT_FULL_PRODUCT_RETEST",
+  "versionId": "zhiban-local-20261024-2035f8a244ba",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "branch": "refactor/zhiban-v2",
+  "dirtyCandidatePreserved": true,
+  "sourceDigest": "2035f8a244ba35b6df0ea395a4079f7493078701f89095c55c48b08e99ba4385",
+  "archive": "/home/zxm/.local/share/zhiban-handoff/zhiban-local-20261024-2035f8a244ba/source.tar.gz",
+  "archiveSha256": "a66ac82a9b2774d4270233d76b52802c81f042c5c94475c9814d4b7394104ee2",
+  "manifest": "/home/zxm/.local/share/zhiban-handoff/zhiban-local-20261024-2035f8a244ba/HANDOFF.json",
+  "files": 5841,
+  "deliveryIndex": {
+    "path": "docs/v2/zhiban-v2-p7-delivery-index.json",
+    "sha256": "6c362de3eb58d371a4ce72d3e85034f6a2710f02bfed6f46a467321111d85cc4"
+  },
+  "runtime": {
+    "entry": "https://127.0.0.1:3461/zhiban",
+    "sourceMatches": true,
+    "restarted": false,
+    "leftRunning": true
+  },
+  "verification": {
+    "handoffTests": "handoff-tests.tap",
+    "documentLinksAndReceiptHashes": "document-check.json",
+    "archiveIndependentVerification": "independent-verify.json",
+    "archiveContentsAndSourceClosure": "archive-content-check.json",
+    "backup": {
+      "status": "PASS",
+      "evidenceOrigin": "LOCAL",
+      "snapshot": "/home/zxm/.local/share/zhiban-persistent/2026-10-24T01-53-34.767Z-9f8ddc11",
+      "files": 3101,
+      "scope": "FILE_HASH_CLOSURE_ONLY"
+    }
+  },
+  "evidencePolicy": "Existing receipts retain original source/instance scope, including documented post-PG deltas. Packaging does not promote historical source scopes to a current full regression.",
+  "privateDataDelivery": "Private snapshot and accounts retained locally, never included in source archive",
+  "restoreExecutedThisTurn": false,
+  "productJourneysRepeated": false,
+  "modelCallsRepeated": false,
+  "pgSuitesRepeated": false,
+  "commit": false,
+  "push": false,
+  "ciDispatch": false,
+  "productionDeployment": false,
+  "deferredGates": [
+    "Trusted real Native runtime / automatic lab / UNKNOWN-RESERVED remain isolated",
+    "Actual Office/OCR/audio/video parser configuration",
+    "Cross-host installation and restore, real identity operations, production capacity / deployment",
+    "Unattended EMA and distributed formal grading",
+    "User-deferred native refresh / close verification"
+  ],
+  "nextWholePackage": "Trusted Native classroom and automatic lab after required maintenance inputs; GPT-6.1 Sol / high"
+}

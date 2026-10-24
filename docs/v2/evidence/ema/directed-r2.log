@@ -1,0 +1,30 @@
+
+> openmaic@1.2.1 verify:zhiban:ema /home/zxm/openmaic/zhiban
+> tsx scripts/zhiban-local/run-m6-catalog.ts --unified-trial --ema-focus
+
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+Reused @openmaic/generation: matching LOCAL source/build hashes
+PASS Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately
+{"timestamp":"2026-10-24T00:27:58.230Z","level":"INFO","tag":"GenerationRunner","message":"generation runner 33469:c45f6151-795d-463d-a447-0cb4f449a437 started (scan=1000ms, heartbeat=2000ms, leaseTtl=10000ms, maxConcurrent=1)"}
+PASS PG16 restricted roles + real Identity sessions + validated trusted HTTPS
+PASS trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands
+PASS real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft
+{"timestamp":"2026-10-24T00:28:02.237Z","level":"INFO","tag":"ServerProviderConfig","message":"[ServerProviderConfig] Loaded (environment variables): 1 LLM, 0 TTS, 0 ASR, 0 PDF, 0 Image, 0 Video, 0 WebSearch providers"}
+{"timestamp":"2026-10-24T00:28:02.241Z","level":"WARN","tag":"ModelConfig","message":"The model configuration comes from the legacy provider variables, server-providers.yml, DEFAULT_MODEL and MODEL_FALLBACK, which are deprecated; move it to openmaic.yml"}
+PASS Six dimensions: shared Learner evidence locks, private drafts, original publication/recipient guard, current course/tenant/self scope and payload-bound replay
+AssertionError [ERR_ASSERTION]: Real evidence analysis should be able to describe the fixed formal task result; no fabricated success fallback
+    at verifyEma (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-mjyICO/verify.mjs:27737:10)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async main (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-mjyICO/verify.mjs:87749:7)
+    at async file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-mjyICO/verify.mjs:89105:3 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: undefined,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+ ELIFECYCLE  Command failed with exit code 1.

@@ -1,0 +1,31 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-23T10:01:57.014Z",
+  "scope": "CURRENT_RUNNING_INSTANCE_READ_ONLY_P3_HANDOFF_CHECK_NOT_FULL_REGRESSION",
+  "root": "/tmp/zhiban-trial-content-BSZzAt",
+  "tenant": "01a16832-0b96-73ab-ab74-82c6960bb707",
+  "offering": "01a16832-2796-7433-aeb6-8745cec326a4",
+  "gradebook": {
+    "httpStatus": 200,
+    "records": 6,
+    "bytes": 1505,
+    "sha256": "0546c22eacadbdc78c47087bc44e96228de864618e6c359198536764a504d756",
+    "published88": true,
+    "noStore": true
+  },
+  "avatar": {
+    "selfAndAdminMatch": true,
+    "pngWidth": 64,
+    "pngHeight": 64,
+    "sha256": "2e15a7e4fba80d74f987cacde2a7b2b9d259dc56b665c0883f2bf970f32b7f44",
+    "studentDirectoryDenied": true
+  },
+  "writes": "SESSION_LOGIN_ONLY_NO_BUSINESS_MUTATION",
+  "excluded": [
+    "No new grading/publishing",
+    "No full classroom/scanner/model execution",
+    "No restore or production proof"
+  ]
+}

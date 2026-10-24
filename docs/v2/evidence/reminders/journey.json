@@ -1,0 +1,18 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "sameKeySingleDelivery": true,
+  "differentKeyPendingSuppressed": true,
+  "explicitAckUnique": true,
+  "publicBodySeparateFromPrivateNotes": true,
+  "recipientRoleRequired": true,
+  "recipientRevocationRace": "REVOKE_FIRST_DENIED_AND_SEND_FIRST_GUARDED",
+  "withdrawDeniesReadAckAndReplay": true,
+  "receiptFailureRollsBackDelivery": true,
+  "immutableAcl": true,
+  "tenantRls": true,
+  "browserJourney": "TEACHER_SEND_STUDENT_CONFIRM_TEACHER_RECEIPT",
+  "lostCommitResponseRetrySameDelivery": true,
+  "externalDelivery": false
+}

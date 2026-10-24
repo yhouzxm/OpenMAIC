@@ -1,0 +1,84 @@
+{
+  "formatVersion": 1,
+  "status": "METADATA_ONLY_COLLECTED",
+  "observedAt": "2026-10-13T14:34:13.045239+00:00",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "candidateInventorySha256": "fa51a67d9733fc6b436e89ec339306472ceb8566368cc3f9ce3c3122d873c13b",
+  "candidateMigrationSha256": "bbede0be2e773562730bb2b1c756d4aceba853143b298b768de7c0d70d624a8e",
+  "branch": "refactor/zhiban-v2",
+  "head": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "runtime": {
+    "node": {
+      "returnCode": 0,
+      "text": "v22.23.3"
+    },
+    "pnpm": {
+      "returnCode": 0,
+      "text": "10.28.0"
+    },
+    "pgTool": {
+      "returnCode": 0,
+      "text": "pg_controldata (PostgreSQL) 16.15 (Ubuntu 16.15-1.pgdg24.04+2)"
+    }
+  },
+  "targetDirectories": [
+    {
+      "path": "/home/zxm/.local/share/zhiban-m1/pgdata",
+      "exists": true,
+      "canonical": true,
+      "directory": true,
+      "mode": "0o700",
+      "owner": "zxm",
+      "uid": 1000,
+      "gid": 1000
+    },
+    {
+      "path": "/home/zxm/.local/share/zhiban-m1/socket",
+      "exists": true,
+      "canonical": true,
+      "directory": true,
+      "mode": "0o700",
+      "owner": "zxm",
+      "uid": 1000,
+      "gid": 1000
+    }
+  ],
+  "pgControlMetadata": {
+    "status": "OBSERVED_FILE_METADATA",
+    "fields": {
+      "pg_control version number": "1300",
+      "Catalog version number": "202307071",
+      "Database system identifier": "7694054813252049413",
+      "Database cluster state": "shut down",
+      "pg_control last modified": "Mon Oct 12 23:03:59 2026",
+      "Database block size": "8192",
+      "WAL block size": "8192",
+      "Bytes per WAL segment": "16777216"
+    },
+    "source": "fixed pg_controldata reads pgdata/global/pg_control only",
+    "isSqlObservation": false,
+    "authorityAccepted": false
+  },
+  "listenerMetadata": [
+    {
+      "state": "LISTEN",
+      "localAddress": "127.0.0.1:55432",
+      "peerAddress": "0.0.0.0:*"
+    }
+  ],
+  "notCollected": [
+    "Business/Native OIDs and exact live SQL/profile/ACL/ledger/CLOSED/claims facts",
+    "credentials, pgpass, HMAC, signing keys or ordinary configuration",
+    "HBA bytes/rules or transport/shadow authority",
+    "TLS/CA receipt or OS/browser trust acceptance",
+    "maintenance gate, fence/pointer or activation receipt contents"
+  ],
+  "existingDatabaseConnections": false,
+  "credentialsRead": false,
+  "hbaRead": false,
+  "realAuthorityIssued": false,
+  "realGateChanged": false,
+  "runtimeAccepted": false,
+  "productionSignoff": false
+}

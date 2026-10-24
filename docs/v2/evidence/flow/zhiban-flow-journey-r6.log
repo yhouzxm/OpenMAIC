@@ -1,0 +1,239 @@
+
+> openmaic@1.2.1 verify:zhiban:flow /home/zxm/openmaic/zhiban
+> tsx scripts/zhiban-local/run-m6-catalog.ts --unified-trial --flow-focus
+
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+Reused @openmaic/generation: matching LOCAL source/build hashes
+PASS Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately
+{"timestamp":"2026-10-23T22:58:03.624Z","level":"INFO","tag":"GenerationRunner","message":"generation runner 12968:c71f6077-6afa-47f9-8f24-bca0343e4fd1 started (scan=1000ms, heartbeat=2000ms, leaseTtl=10000ms, maxConcurrent=1)"}
+PASS PG16 restricted roles + real Identity sessions + validated trusted HTTPS
+PASS trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands
+PASS real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft
+PASS FLOW: teacher browser edits, saves, publishes a fixed plan and starts its first native interactive scene
+PASS FLOW: pause/resume keeps one entry; advancement and draft writes use CAS; grade prerequisite blocks new entry; repeated entry atomically retains one Attempt, joint binding and notebook
+FLOW browser errors: []
+FLOW teacher page: https://127.0.0.1:3461/zhiban/teacher/courses/01a16afc-5c5d-74ee-9b2c-ae4c30e71526/grades?space=01a16afb-ed1b-704a-9ef4-d2e06b57fa9f&offering=01a16afc-5da5-7392-93ca-c88c572f6e52 智伴·创学
+教师课程工作区
+个人资料与账户
+退出登录
+返回全局成绩入口← 返回我的课程
+试用课程：机电入门
+
+试用教学班 · 试用学期 · 开放 · 发布版本 1
+
+课程概览
+课堂与互动
+讲义与图片
+AI 备课
+学习中心
+课程讨论
+选课学生
+任教名单
+课程设置
+学生成绩
+教学分析
+补救计划
+风险规则与审阅
+概念纠错
+学习证据画像
+教案与实验
+AI 学习辅导
+待评分与成绩
+
+每次尝试仅列最新正式提交；按活动和评分状态筛选。历史提交更正请从学习记录进入。
+
+课程成绩簿待评分列表
+课程成绩簿
+
+当前在班学生 × 当前发布活动。每格取该版本最新尝试、最新提交及其最新公开成绩；未提交不记零分。本表是单项成绩；课程总评由“课程总评与成绩申诉”中的显式权重及发布快照独立处理。
+
+搜索成绩簿学生
+成绩簿学生每页条数
+10
+20
+50
+成绩簿活动每页列数
+5
+10
+查询成绩簿
+刷新成绩簿导出当前页 CSV
+
+仅导出当前学生页 × 当前活动页，最多50人×10项、500条记录；使用已查询的筛选，以下载时数据为准。空页仅含表头，不含答题正文、反馈或评分草稿。
+
+按查询条件跨页导出 CSV
+
+跨页导出使用已查询的学生筛选，忽略当前学生页和活动页。最多500名学生、100项当前发布活动、10,000条记录、8 MiB；超限不生成文件。仅含公开成绩，未提交不记零分。
+
+查询时间：2026/10/24 06:58:19（北京时间）
+
+学生与活动成绩（公开成绩）
+学生	试用：安全巡检报告 · v1	试用：待评分作业 · v1	试用：已发布成绩 · v1	教案：预习解释 · v1	教案：实验报告 · v1
+陈同学
+01a16afb-ee61-765b-8bcc-130815f23d9b
+	
+
+未开始
+
+	
+
+已提交 · 待发布成绩
+
+尝试 1 · 提交 v1
+评分该提交	
+
+88.00 / 100.00
+
+尝试 1 · 提交 v1 · 成绩 v1
+查看该提交成绩	
+
+70.00 / 100.00
+
+尝试 1 · 提交 v1 · 成绩 v1
+查看该提交成绩	
+
+85.00 / 100.00
+
+尝试 1 · 提交 v1 · 成绩 v1
+查看该提交成绩
+李明
+01a16afb-f01e-74a1-9e26-6f53d6126f23
+	
+
+未开始
+
+	
+
+未开始
+
+	
+
+未开始
+
+	
+
+未开始
+
+	
+
+未开始
+
+上一页学生第 1 页 · 本页 2 人下一页学生
+上一页活动第 1 页 · 本页 5 项下一页活动
+课程总评与成绩申诉
+
+已发布权重版本 0；缺成绩保持待齐。总评须显式发布，后续变更只标记需重算。
+
+查看总评查看成绩申诉刷新总评与申诉
+教学班总评权重
+
+最多20项正式活动，权重合计100%。保存草稿不改变已发布权重；活动换版须重新绑定并发布。
+
+添加总评活动保存总评权重草稿发布总评权重
+选择在班学生预览并发布总评
+总评 · 李明总评 · 陈同学
+FLOW student page: https://127.0.0.1:3461/zhiban/student/courses/01a16afc-5c5d-74ee-9b2c-ae4c30e71526/classroom-plan?space=01a16afb-ed1b-704a-9ef4-d2e06b57fa9f&offering=01a16afc-5da5-7392-93ca-c88c572f6e52#notebook-01a16afc-86d3-7066-ab77-d251c4ce9d4b 智伴·创学
+学生课程工作区
+个人资料与账户
+退出登录
+← 返回我的课程
+试用课程：机电入门
+
+试用教学班 · 试用学期 · 开放 · 发布版本 1
+
+▤
+目录
+课程简介
+学习活动
+课程资源
+学习中心
+课程讨论
+学习成绩
+站内提醒
+补救任务
+概念纠错
+学习证据画像
+教案与实验
+AI 学习辅导
+教案、课堂环节与实验
+
+课堂按固定发布教案逐环节派发。实验数据为本人记录，正式结果仍由教师评分发布。
+
+课堂
+选择课堂
+课堂与实验完整旅程
+刷新课堂与教案
+返回学习活动
+重试同一操作
+安全电压测量实验
+
+实验记录版本 4 · 本版已正式提交
+
+本页数据由学生手动记录，不是 Native 自动采集、自动完成或自动评分证明。
+
+保持安全电压，记录电压和电流；此处数据为学生手动输入。
+
+电压（V，0–24）
+序号	电流（A）	备注
+1		删除此行
+增加一行测量
+
+说明测量结果、依据与误差。
+
+实验结论（最多3000字）
+保存实验记录
+正式提交实验报告
+查看本次作答与成绩
+打开本实验固定互动
+正式提交版本与已发布成绩
+记录版本 4 · 成绩 85.00/100.00（发布第1版）
+返回课堂教案
+我的实验历史
+安全电压测量实验
+
+课堂与实验完整旅程 · 已提交
+
+继续／回看实验记录
+A [Error]: expect(locator).toBeVisible() failed
+
+Locator: getByRole('link', { name: '查看完整实验数据与版本', exact: true }).first()
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "to.be.visible" with timeout 5000ms
+  - waiting for getByRole('link', { name: '查看完整实验数据与版本', exact: true }).first()
+
+    at Proxy.<anonymous> (/home/zxm/openmaic/zhiban/node_modules/.pnpm/playwright@1.58.2/node_modules/playwright/lib/matchers/expect.js:213:24)
+    at verifyFlow (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-zgB4JV/verify.mjs:26812:7)
+    at runNextTicks (node:internal/process/task_queues:64:5)
+    at process.processImmediate (node:internal/timers:452:9)
+    at process.callbackTrampoline (node:internal/async_hooks:130:17)
+    at async main (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-zgB4JV/verify.mjs:84661:7)
+    at async file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-zgB4JV/verify.mjs:85984:3 {
+  matcherResult: {
+    message: 'expect(locator).toBeVisible() failed\n' +
+      '\n' +
+      "Locator: getByRole('link', { name: '查看完整实验数据与版本', exact: true }).first()\n" +
+      'Expected: visible\n' +
+      'Timeout: 5000ms\n' +
+      'Error: element(s) not found\n' +
+      '\n' +
+      'Call log:\n' +
+      '  - Expect "to.be.visible" with timeout 5000ms\n' +
+      "  - waiting for getByRole('link', { name: '查看完整实验数据与版本', exact: true }).first()\n",
+    pass: false,
+    actual: undefined,
+    name: 'toBeVisible',
+    expected: 'visible',
+    log: [
+      '  - Expect "to.be.visible" with timeout 5000ms',
+      "  - waiting for getByRole('link', { name: '查看完整实验数据与版本', exact: true }).first()"
+    ],
+    timeout: 5000
+  }
+}
+ ELIFECYCLE  Command failed with exit code 1.

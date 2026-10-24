@@ -1,0 +1,97 @@
+#concepts .card {
+  padding: 1.25rem;
+  margin: 1rem 0;
+  overflow-wrap: anywhere;
+}
+#concepts form {
+  display: grid;
+  gap: 1rem;
+  max-width: 52rem;
+  margin: 1.25rem 0;
+}
+#concepts label {
+  display: grid;
+  gap: 0.5rem;
+}
+#concepts input:not([type='checkbox']),
+#concepts textarea,
+#concepts select {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+  padding: 0.7rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.5rem;
+  font: inherit;
+}
+#concepts textarea {
+  min-height: 6rem;
+  resize: vertical;
+}
+#concepts button {
+  cursor: pointer;
+  margin: 0.3rem 0.5rem 0.3rem 0;
+  padding: 0.7rem 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.5rem;
+  background: white;
+  color: #164b8e;
+}
+#concepts button[type='submit'] {
+  background: #1764d0;
+  color: white;
+}
+#concepts button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+#concepts .notice:empty {
+  display: none;
+}
+#concepts .prose {
+  white-space: pre-wrap;
+}
+#concepts .task-option {
+  display: flex;
+  align-items: start;
+  gap: 0.75rem;
+  padding: 0.65rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+#concepts .task-options {
+  max-height: 22rem;
+  overflow-y: auto;
+}
+#concepts .table-wrap {
+  overflow: auto;
+}
+#concepts table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+#concepts th,
+#concepts td {
+  padding: 0.7rem;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+#concepts .evidence {
+  background: #f0f5fb;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin: 0.75rem 0;
+}
+#concepts .actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+#concepts h3 {
+  margin: 0.7rem 0;
+}
+
+#concepts [hidden] {
+  display: none !important;
+}

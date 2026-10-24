@@ -1,0 +1,19 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-23T23:07:58.552Z",
+  "scope": "ADDITIVE_LOCAL_SYNTHETIC_DEMO_COURSE_WITH_PREEXISTING_TEACHING_ROWS_AND_ACCOUNTS_PRESERVED",
+  "root": "/tmp/zhiban-trial-content-rU1zAL",
+  "courseId": "01a16b05-5a10-75bc-99f2-3a6e1f3b5def",
+  "offeringId": "01a16b05-5aa6-72ec-9390-6fd0ea860203",
+  "classroomId": "01a16b05-6170-743f-aa49-b9586ed741d5",
+  "planVersion": "2",
+  "urls": {
+    "teacher": "https://127.0.0.1:3461/zhiban/teacher/courses/01a16b05-5a10-75bc-99f2-3a6e1f3b5def/classroom-plan?space=01a16958-5776-7381-a21c-e66fe3c2684b&offering=01a16b05-5aa6-72ec-9390-6fd0ea860203#classroom-01a16b05-6170-743f-aa49-b9586ed741d5",
+    "student": "https://127.0.0.1:3461/zhiban/student/courses/01a16b05-5a10-75bc-99f2-3a6e1f3b5def/classroom-plan?space=01a16958-5776-7381-a21c-e66fe3c2684b&offering=01a16b05-5aa6-72ec-9390-6fd0ea860203#classroom-01a16b05-6170-743f-aa49-b9586ed741d5"
+  },
+  "preexistingProtectedRows": 26,
+  "accountsHash": "91d73979d2a3a17ba17c69549682aa4d944f875c004bb8427ad5ba35d262e122",
+  "started": false
+}

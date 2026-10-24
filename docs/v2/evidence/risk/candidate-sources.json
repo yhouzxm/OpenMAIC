@@ -1,0 +1,122 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "comparedAgainst": "../zhiban-remediation-local.json",
+  "scope": "SOURCE_HASH_DELTA_NOT_GIT_DIFF; preserves previous dirty candidates",
+  "files": [
+    {
+      "path": "app/zhiban/local/risk.css",
+      "sha256": "9cf6927b62f6f5be6d2ec6ef94c53c0c9085e802b400eefeff2e4cb18cd796ae",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "app/zhiban/local/risk.html",
+      "sha256": "ddd90f1a2f9a64a0a0666e368245dde1b9fba53070d53f93a5c27c817cba5724",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "app/zhiban/local/course-page.js",
+      "sha256": "824bae21011615fa3e3486293b9720d88537272cd00d55a91e664ac6deeb30e3",
+      "status": "CHANGED_SINCE_REMEDIATION"
+    },
+    {
+      "path": "app/zhiban/local/workspace.js",
+      "sha256": "72873bd872f2eb7fb19c1c7d624d0f82418b195793ac133500a463371ab1c5e5",
+      "status": "CHANGED_SINCE_REMEDIATION"
+    },
+    {
+      "path": "app/zhiban/local/analytics.js",
+      "sha256": "e635db84247665f31e2455df862687e22746163324139210c064255c564119e9",
+      "status": "CHANGED_SINCE_REMEDIATION"
+    },
+    {
+      "path": "app/zhiban/local/risk.js",
+      "sha256": "7a9a6c6816961932ca2e8961b921418f03be35d3208319763f7199888b55a2b2",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "scripts/zhiban-local/risk.ts",
+      "sha256": "baa49de67dd5fdcfea890a4dd69df249587e3bbccd67c8ecbfd4f5b51020166b",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "scripts/zhiban-local/trial-content.ts",
+      "sha256": "81accf8c6efc004e115fb7f90dd3181404e00172d83c571c116b0b6740776a12",
+      "status": "CHANGED_SINCE_REMEDIATION"
+    },
+    {
+      "path": "scripts/zhiban-local/build-risk-reference.ts",
+      "sha256": "01bb334e1649675783f5aa0dfdf03b3dc374b9ec32f247d3ae04ea66b5a2a56f",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "scripts/zhiban-local/run-m6-catalog.ts",
+      "sha256": "eafad670638176c4551878c7dc470d14ee88644e478c46563f1f381b53cd51cf",
+      "status": "CHANGED_SINCE_REMEDIATION"
+    },
+    {
+      "path": "scripts/zhiban-local/request-target.ts",
+      "sha256": "00da785f7c86aef729f0f25684ac08774f9d067f07e1cbc292b66e4368c26e92",
+      "status": "CHANGED_SINCE_REMEDIATION"
+    },
+    {
+      "path": "scripts/zhiban-local/verify-m6-catalog.mts",
+      "sha256": "72709f7fa22d9189e3393069e407ae466e3cbbe37c59e2d6a8156dabec691d5b",
+      "status": "CHANGED_SINCE_REMEDIATION"
+    },
+    {
+      "path": "scripts/zhiban-local/verify-risk.ts",
+      "sha256": "3f291b9161c5704250dbb9fddfa398968eae893d86f2e1632042a01811905db5",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/risk/postgres/migrations/0001_risk.sql",
+      "sha256": "669dc9d4a6f752ac86cc8e7de79534e2da1abcdcc60068c7c0e6ec8ae465e0af",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/risk/postgres/transaction.ts",
+      "sha256": "5ec3701033854659afb172f2e3dab4d34c24a76d31388f5707fc6d76b7ebe45d",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/risk/postgres/sources.ts",
+      "sha256": "792e4ce8184ef863d60470f876822facb8278277707a2f2f738655bf925d3b28",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/risk/http.ts",
+      "sha256": "214d2df57de7c351f9b287fe9b50a64b70aeac438cf101e7d0731a662aebe906",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/academic/postgres/store.ts",
+      "sha256": "4d01c4370aa1e0581e2f739fe5cbcfd788b8d149edfe5cf53a2cbb1d6e1756d4",
+      "status": "CHANGED_SINCE_REMEDIATION"
+    },
+    {
+      "path": "lib/zhiban/application/risk/service.ts",
+      "sha256": "9c1caa35913c4f46a1c6b5466f1c2880d0269afd712280836948d6ac3177f84c",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "lib/zhiban/application/academic/service.ts",
+      "sha256": "b9b8417b8a8b3f6cf170f715261e013b77b7ee5098a9f135c051969fb28f5ba4",
+      "status": "CHANGED_SINCE_REMEDIATION"
+    },
+    {
+      "path": "lib/zhiban/domain/risk/model.ts",
+      "sha256": "1d0be354f62d3b8c4630ccae0d4f50d2802aadf889590d63c859292b51efde97",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "package.json",
+      "sha256": "e10bef088816670bcf2a81db3c73507875a6f7ec81e1ecd6df2d8e9f5ee225be",
+      "status": "CHANGED_SINCE_REMEDIATION"
+    },
+    {
+      "path": "docs/v2/evidence/zhiban-risk-profile-reference-local.json",
+      "sha256": "9dfe87edd4ef8ad91b3e5bec6c589ba1d784120a078b2eb9da6ceb75ef716902",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    }
+  ]
+}

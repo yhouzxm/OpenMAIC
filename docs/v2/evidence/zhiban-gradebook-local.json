@@ -1,0 +1,56 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "date": "2026-10-17",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "origin": "https://127.0.0.1:3464",
+  "database": "zhiban_gradebook_disposable",
+  "port": 56520,
+  "pg16": 160015,
+  "checks": [
+    "PG16 restricted roles + real Identity sessions + validated trusted HTTPS",
+    "trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands",
+    "real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft",
+    "three real browser logins share one origin: admin history, teacher activities/queue/analytics, student activities/published feedback; no script errors",
+    "student/admin cannot acquire teacher grading; content/Runtime/control APIs stay CLOSED and their trial page explains the boundary",
+    "gradebook current-version/latest-attempt/latest-submission/latest-publication projection excludes drafts/answers; correction, resubmit, new attempt and republication do not carry old grades",
+    "gradebook two-axis keyset pagination, no duplicate rows, filter/axis cursor binding, Chinese search and withdrawn-member exclusion pass; teacher/student/admin/foreign refusals hold",
+    "gradebook real browser search, activity-column paging, exact submission review and return with filter retained, mobile table scrolling and desktop page pass without script errors"
+  ],
+  "startupSourceDrift": [
+    "/home/zxm/openmaic/zhiban/app/zhiban/local/gradebook.js"
+  ],
+  "currentGradebookSha256": "c3f0c025b707ca18cecc0e4bd9e620b7b766a1720f1e82e00ffe1ad8de6de180",
+  "staticResponseMatches": true,
+  "migrationHashesUnchanged": true,
+  "unitTests": "2/2 PASS",
+  "scopedTypes": "PASS scripts/zhiban-local/tsconfig.classroom.json",
+  "manualBrowser": {
+    "fromCourseGrades": true,
+    "search": "陈同学",
+    "exactSubmissionReview": true,
+    "correction": {
+      "oldScore": 93,
+      "newScore": 94,
+      "maxScore": 100,
+      "gradeVersion": 2
+    },
+    "returnRetainsSearch": true,
+    "tableShowsCorrectedGrade": true,
+    "screenshot": "zhiban-gradebook-browser-local.png"
+  },
+  "old3463": {
+    "restarted": false,
+    "cleared": false,
+    "startupSourceDriftCount": 14,
+    "gradebookBackendEnabled": false
+  },
+  "exclusions": [
+    "CSV export",
+    "course total/rank/pass criteria",
+    "complete runtime/content in 3464",
+    "production/real data migration",
+    "full-repository regression/typecheck",
+    "GitHub CI"
+  ]
+}

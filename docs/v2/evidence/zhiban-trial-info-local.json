@@ -1,0 +1,34 @@
+{
+  "status": "RUNNING_LOCAL_DISPOSABLE",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "sourceMatches": true,
+  "sourceDriftCount": 0,
+  "urls": {
+    "workspace": "https://127.0.0.1:3459/zhiban?space=01a14009-5f66-772b-91ea-3e93f8aa041c",
+    "grading": "https://127.0.0.1:3459/zhiban/grading?tenant=01a14009-5f66-772b-91ea-3e93f8aa041c&offering=01a14009-6ea7-75f5-9571-025cad1f1659",
+    "analytics": "https://127.0.0.1:3459/zhiban/analytics?tenant=01a14009-5f66-772b-91ea-3e93f8aa041c&offering=01a14009-6ea7-75f5-9571-025cad1f1659",
+    "progress": "https://127.0.0.1:3459/zhiban/progress?tenant=01a14009-5f66-772b-91ea-3e93f8aa041c&offering=01a14009-6ea7-75f5-9571-025cad1f1659",
+    "roster": "https://127.0.0.1:3459/zhiban/roster?tenant=01a14009-5f66-772b-91ea-3e93f8aa041c&offering=01a14009-6ea7-75f5-9571-025cad1f1659"
+  },
+  "accounts": [
+    {
+      "label": "管理员 · 王管理员",
+      "role": "ADMIN",
+      "userId": "01a14009-61ca-73a2-aa31-3cf237991e76"
+    },
+    {
+      "label": "教师 · 周老师",
+      "role": "TEACHER",
+      "userId": "01a14009-5f76-736e-958a-c0bd477a236d"
+    },
+    {
+      "label": "学生 · 陈同学",
+      "role": "STUDENT",
+      "userId": "01a14009-601e-7572-bab8-de39f464ecd1"
+    }
+  ],
+  "privateAccountsFile": "/tmp/zhiban-trial-nm5aWl/accounts.json",
+  "rosterExample": "/tmp/zhiban-trial-nm5aWl/roster-example.csv",
+  "stop": "pnpm trial:zhiban:stop",
+  "dataLifetime": "Stop removes this owned cluster; restart creates new synthetic data and passwords."
+}

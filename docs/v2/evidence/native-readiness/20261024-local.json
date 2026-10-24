@@ -1,0 +1,117 @@
+{
+  "date": "2026-10-24",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "BLOCKED_TRUSTED_INPUTS_AND_PRODUCT_INTEGRATION_PENDING",
+  "scope": "REPOSITORY_ONLY_READINESS_NO_PRIVATE_INPUT_DISCOVERY_OR_TARGET_EXECUTION",
+  "branch": "refactor/zhiban-v2",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "sourceInventories": [
+    {
+      "inventory": "docs/v2/candidates/m5-readonly-startup/inventory.json",
+      "sha256": "447a2b38dfc4692fea08fe75c3bc191234dbfecce8771fa8c82c8285a4ec0869",
+      "filesChecked": 17,
+      "drift": [],
+      "originalStatus": "UNISSUED_PLAN"
+    },
+    {
+      "inventory": "docs/v2/candidates/m5-handoff/inventory.json",
+      "sha256": "fa51a67d9733fc6b436e89ec339306472ceb8566368cc3f9ce3c3122d873c13b",
+      "filesChecked": 60,
+      "drift": [
+        {
+          "path": "scripts/zhiban-local/build-m5.ts",
+          "expectedSha256": "4e42806f160c7e293e92de5df27e5754b4d326d6afc61de4c1db15f25806db11",
+          "actualSha256": "2762b46dd9238f6090b1b8a6ee54af03af4d0b1ffe51c9f0e36a506fc00fd590",
+          "matches": false
+        },
+        {
+          "path": "scripts/zhiban-local/content-receipt.ts",
+          "expectedSha256": "eb88e9f56944b94509f118b7a2fc8c4640e118d5465d7a54d75ef29cbef38c78",
+          "actualSha256": "ace55b1c8b61f779a8b9a33b11ba59674005bd0c9c88a1b9c51cbb52b9f8a4ae",
+          "matches": false
+        },
+        {
+          "path": "scripts/zhiban-local/server.ts",
+          "expectedSha256": "81e16cc0037ae54efe29cd16a16ae9e2a8566c8b42ed152aa74e878fedf40b7a",
+          "actualSha256": "3da72c7096aa7bbb20f43f080ce9a1a717f2a9686dd4f50af8fd289e2db83fa8",
+          "matches": false
+        }
+      ],
+      "originalStatus": "UNAPPLIED"
+    },
+    {
+      "inventory": "docs/v2/candidates/m5-terminal/inventory.json",
+      "sha256": "4e5585a55aae259a39ac5c0aa01f40e66c4dbb138d99b2d093c626565c9d662a",
+      "filesChecked": 56,
+      "drift": [
+        {
+          "path": "scripts/zhiban-local/content-receipt.ts",
+          "expectedSha256": "eb88e9f56944b94509f118b7a2fc8c4640e118d5465d7a54d75ef29cbef38c78",
+          "actualSha256": "ace55b1c8b61f779a8b9a33b11ba59674005bd0c9c88a1b9c51cbb52b9f8a4ae",
+          "matches": false
+        }
+      ],
+      "originalStatus": "UNAPPLIED"
+    },
+    {
+      "inventory": "docs/v2/candidates/p4-attempt-runtime/inventory.json",
+      "sha256": "ac0668a8b85ba61ad8cab984dbbb302a1303f04ea73f07abc83f57ec486317f6",
+      "filesChecked": 1,
+      "drift": [],
+      "originalStatus": "LOCAL_ADDITIVE_CANDIDATE_NEW_OWNED_PG16_ONLY"
+    }
+  ],
+  "actualInputPacket": {
+    "path": "docs/v2/evidence/m5-management-observer-real-inputs-or-fixed.json",
+    "sha256": "282aef0ee52e457e1074637c181dbe4f809168ff180286d731d31c3df5d34a0b",
+    "status": "INCOMPLETE_UNSIGNED_PACKET",
+    "executionAllowed": false,
+    "providedPaths": {
+      "controlDirectory": false,
+      "stageDirectory": false,
+      "pgpassFilePath": false,
+      "authenticationStageDirectory": false
+    },
+    "publicAuthorityProvided": false,
+    "externalPinProvided": false,
+    "signatureProvided": false
+  },
+  "nativeRuntime": {
+    "foundation": "DENIED",
+    "adapterScope": "INTERNAL_DIAGNOSTIC_CHAT_ONLY",
+    "productionAdapterReachable": false,
+    "labMeasurementContract": "NOT_IMPLEMENTED_IN_CURRENT_ZHIBAN_NATIVE_ADAPTER",
+    "unknownReservedQuarantine": "RETAINED"
+  },
+  "currentTrial": {
+    "entry": "https://127.0.0.1:3461/zhiban",
+    "status": "RUNNING_LOCAL_PERSISTENT",
+    "sourceMatches": true,
+    "sourceDriftCount": 0
+  },
+  "actionsExecuted": {
+    "privateInputsRead": false,
+    "target55433Connected": false,
+    "authorityGenerated": false,
+    "guardChanged": false,
+    "migrationApplied": false,
+    "runtimeEnabled": false,
+    "classroomRetested": false,
+    "p7Repacked": false,
+    "commitPushCI": false
+  },
+  "continuation": [
+    "Receive reviewed private staging paths and externally trusted public key pin; do not discover original secrets",
+    "Preflight scoped inputs and fixed target; issue exact independently approved management observation envelope",
+    "Collect read-only target facts then prepare reviewed same-generation profile/build/receipts; separate INSTALL/PREPARE/CLEAR/LAUNCH scopes",
+    "Wire actual Attempt-bound Native lifecycle and a versioned trusted lab executor contract, preserving frozen chat and Identity semantics",
+    "Accept one affected teacher-dispatch / learner-execute / trusted-evidence / teacher-result journey plus new authorization and concurrent cancellation boundaries"
+  ],
+  "inputsDisposition": "HUMAN_CONFIRMED_STILL_UNPREPARED_KEEP_ISOLATION",
+  "userDecision": "仍未准备好，保留隔离",
+  "approvalReuseAllowed": false,
+  "sourceRebaseRequiredBeforeFutureIssuance": true,
+  "readinessIsNotAuthorization": true,
+  "nextAction": "When reviewed external inputs are available, rebase current Native delivery source closure without relabeling historical receipts, then implement and accept the complete authorized Native classroom / trusted automatic lab journey."
+}

@@ -1,0 +1,14 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": 200,
+  "at": "2026-10-15T23:09:16.318Z",
+  "scope": "SUPPLEMENTAL_STATIC_ASSET_ON_ORIGINAL_RUNNING_BUNDLE",
+  "url": "https://127.0.0.1:3459/zhiban/management.js",
+  "cacheControl": "no-store",
+  "sha256": "e30a077bba9cb5d6759c1e0ab01969995e3cc7a64c83102714fc9067c2d6df3b",
+  "tlsValidation": true,
+  "startingMetadataSha256": "cd29e6d76e4f8869b55bc47c0b273146e100ea127a030725b8cea20ce5833016",
+  "pid": 12716,
+  "processStart": "199264"
+}

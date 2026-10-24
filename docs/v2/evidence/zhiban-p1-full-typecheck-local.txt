@@ -1,0 +1,17 @@
+components/edit/surfaces/slide/RendererEditorCanvas.tsx(4,15): error TS2305: Module '"@openmaic/editor/react"' has no exported member 'Selection'.
+components/edit/surfaces/slide/RendererEditorCanvas.tsx(7,8): error TS2305: Module '"@openmaic/editor/ui"' has no exported member 'EditorHostCapabilities'.
+components/edit/surfaces/slide/RendererEditorCanvas.tsx(8,8): error TS2305: Module '"@openmaic/editor/ui"' has no exported member 'EditorTranslate'.
+components/edit/surfaces/slide/RendererEditorCanvas.tsx(10,15): error TS2724: '"@openmaic/editor/core"' has no exported member named 'EditorTransaction'. Did you mean 'redoEditorTransaction'?
+components/edit/surfaces/slide/RendererEditorCanvas.tsx(66,6): error TS7006: Parameter 'key' implicitly has an 'any' type.
+components/edit/surfaces/slide/RendererEditorCanvas.tsx(66,11): error TS7006: Parameter 'params' implicitly has an 'any' type.
+components/edit/surfaces/slide/RendererEditorCanvas.tsx(66,19): error TS7006: Parameter 'defaultMessage' implicitly has an 'any' type.
+components/edit/surfaces/slide/RendererEditorCanvas.tsx(82,6): error TS2740: Type '{ slide: Slide; documentSlide: Slide; host: EditorHostCapabilities; selection: Selection; onSelectionChange: (next: Selection) => void; onTransaction: (transaction: EditorTransaction) => void; onScaleChange: (scale: number) => void; elementIdPrefix: string; hiddenElementIds: string[]; insertToolbarPlacement: string;...' is missing the following properties from type '{ slide: any; documentSlide?: any; host: any; selection: any; onSelectionChange: any; onTransaction: any; insertItems: any; insertToolbarPlacement?: string | undefined; scale: any; onScaleChange: any; ... 6 more ...; style: any; }': insertItems, scale, grid, ruler, and 2 more.
+components/edit/surfaces/slide/slide-edit-session.ts(26,8): error TS2305: Module '"@openmaic/editor/core"' has no exported member 'EditorHistory'.
+components/edit/surfaces/slide/slide-edit-session.ts(27,8): error TS2305: Module '"@openmaic/editor/core"' has no exported member 'EditorOperation'.
+components/edit/surfaces/slide/slide-edit-session.ts(28,8): error TS2724: '"@openmaic/editor/core"' has no exported member named 'EditorTransaction'. Did you mean 'redoEditorTransaction'?
+components/edit/surfaces/slide/slide-edit-session.ts(119,48): error TS7006: Parameter 'element' implicitly has an 'any' type.
+components/edit/surfaces/slide/use-slide-surface.ts(156,44): error TS7006: Parameter 'el' implicitly has an 'any' type.
+lib/edit/slide-edit-elements.ts(13,15): error TS2305: Module '"@openmaic/editor/ui"' has no exported member 'LatexEditorResult'.
+tests/edit/surfaces/slide/slide-canvas-renderer-flag.test.ts(5,15): error TS2724: '"@openmaic/editor/core"' has no exported member named 'EditorTransaction'. Did you mean 'redoEditorTransaction'?
+tests/edit/surfaces/slide/slide-canvas-renderer-flag.test.ts(6,15): error TS2724: '"@openmaic/editor/ui"' has no exported member named 'EditableSlideCanvasWithUIProps'. Did you mean 'EditableSlideCanvasWithUI'?
+tests/edit/surfaces/slide/z-order.test.ts(22,79): error TS7006: Parameter 'e' implicitly has an 'any' type.

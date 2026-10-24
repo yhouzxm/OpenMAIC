@@ -1,0 +1,47 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "at": "2026-10-15T12:39:03.151071+00:00",
+  "status": "PASS",
+  "baseBranch": "refactor/zhiban-v2",
+  "baseHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "validation": {
+    "pg16HttpsBrowserGroups": 23,
+    "targetedUnitTests": 53,
+    "targetedTypeScript": "PASS",
+    "targetedEslint": "PASS",
+    "targetedPrettier": "PASS"
+  },
+  "reports": {
+    "m6-admin-workspace-local.json": {
+      "status": "PASS",
+      "checks": 23,
+      "sourceMismatches": [],
+      "missingSources": [
+        "/home/zxm/openmaic/zhiban/.zhiban-catalog-run-3G01uF/verify.mjs"
+      ]
+    },
+    "m6-admin-workspace-demo-local.json": {
+      "status": "RUNNING_DISPOSABLE",
+      "checks": 23,
+      "sourceMismatches": [],
+      "missingSources": []
+    }
+  },
+  "reportHashes": {
+    "m6-admin-workspace-local.json": "53783af182a1fa2512e00e1c4f076b17d41b93f5495cc1047055d39288106eb7",
+    "m6-admin-workspace-demo-local.json": "c8a08d346f543bd04e26a3f36804263af1bb01f766c543b02e50a3b4091c80e7"
+  },
+  "inAppBrowser": {
+    "origin": "https://127.0.0.1:3453",
+    "view": "administrator original workspace, teaching-class filter and paged management",
+    "screenshot": "docs/v2/evidence/m6-admin-workspace-iab-local.png",
+    "screenshotSha256": "6fd3e00e79981330dc13be2a25802d63513a15f2a48ab038ff20fd36b0b74d2d",
+    "certificateBypass": false
+  },
+  "gitActions": {
+    "commit": false,
+    "push": false,
+    "ciDispatch": false
+  }
+}

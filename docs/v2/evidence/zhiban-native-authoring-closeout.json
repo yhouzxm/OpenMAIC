@@ -1,0 +1,139 @@
+{
+  "kind": "LOCAL_NATIVE_AUTHORING_CLOSEOUT_V1",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_WITH_MODEL_SOURCE_RECOVERY",
+  "at": "2026-10-24T16:10:06.884473+00:00",
+  "gitCheckpoint": "c709c7815506ed7532d174ba899e76884bb3a98f",
+  "branch": "refactor/zhiban-v2",
+  "workingTree": "DIRTY_CANDIDATE_PRESERVED",
+  "entry": "https://127.0.0.1:3461/zhiban",
+  "core": {
+    "status": "PASS",
+    "scope": "LOCAL_NATIVE_WORKSPACE_FULL_DOCUMENT_ASSET_ADOPTION_PUBLICATION",
+    "lifecycle": {
+      "root": "/tmp/zhiban-trial-content-9HsaNz",
+      "port": 56517,
+      "database": "zhiban_trial_content_disposable",
+      "stopped": true,
+      "removed": true,
+      "savedSnapshot": null
+    }
+  },
+  "realModel": {
+    "status": "PASS_WITH_SOURCE_RECOVERY",
+    "model": "glm-5.3",
+    "firstGeneration": {
+      "session": "01ea4a15-5297-4798-a718-f0d1f194934e",
+      "stage": "stage-fXDjSkfMgA",
+      "model": "glm-5.3",
+      "scenePersisted": true,
+      "finalAssistantStatus": "failed",
+      "reason": "LLM stream finished with other",
+      "sourceRecovery": "Teacher imports persisted synthetic generated document into current default course; no mock generation"
+    },
+    "continuedAgent": {
+      "model": "glm-5.3",
+      "status": "succeeded",
+      "session": "c6cc44f3-5e4b-4960-b7ca-cb15fc66ae95",
+      "verifiedEdit": "stage.name"
+    },
+    "resource": "01a16ea2-7546-73b7-b971-297127c754f2",
+    "publication": "01a16ea2-77aa-71bc-86a6-f2c5578bebca",
+    "sourceDigest": "f11c2b4eb8a771a4c74e37630292c2bb045bc97dafff17e4d9559e2d37e56d2b"
+  },
+  "default": {
+    "status": "RUNNING_LOCAL_PERSISTENT",
+    "businessSourceMatches": true,
+    "accountHashUnchanged": "91d73979d2a3a17ba17c69549682aa4d944f875c004bb8427ad5ba35d262e122",
+    "readback": {
+      "evidenceOrigin": "LOCAL",
+      "githubActions": false,
+      "status": "PASS",
+      "accountHash": "91d73979d2a3a17ba17c69549682aa4d944f875c004bb8427ad5ba35d262e122",
+      "publication": "01a16ea2-77aa-71bc-86a6-f2c5578bebca",
+      "privateMaterialRestored": true,
+      "fullSourceRestored": true,
+      "at": "2026-10-24T16:03:37.192Z"
+    },
+    "privateNativeMaterialAndUsageIncludedInPhysicalBackup": true
+  },
+  "validation": {
+    "scopedTypes": {
+      "status": "PASS",
+      "command": "NODE_OPTIONS=--max-old-space-size=2400 pnpm exec tsc -p scripts/zhiban-local/tsconfig.native-authoring.json"
+    },
+    "newFilesLint": {
+      "status": "PASS",
+      "errors": 0,
+      "warnings": 0
+    },
+    "sharedFilesLint": {
+      "errors": 0,
+      "warnings": 7,
+      "note": "Unused imports after browser-safe catalog/export extraction; non-blocking"
+    },
+    "affectedUnitTests": {
+      "status": "PASS",
+      "files": 5,
+      "tests": 32
+    },
+    "fullRepositoryTypes": "NOT_SIGNED_OFF; broad check exceeded local memory, scoped check passed",
+    "ciDispatched": false
+  },
+  "sourceHashes": {
+    "app/zhiban/local/content-client.tsx": "d3bbd90670879e6ea02457fc54d53e22b4401361c6d3b945cdd34eba64f7505c",
+    "app/zhiban/local/lesson.js": "416f9840737cf702e728a2fe44c26648577977e0a626f221d10378f35d86cd39",
+    "app/zhiban/local/native-published.html": "4544ba6282c65adba302352c2de55c6ef14e579834ac8c02f398659c485abbf0",
+    "app/zhiban/local/native-published.tsx": "e3e69d166b7d33386666f9a2c3a557dc20f3030bba134e678a4f1e5d3ab66313",
+    "app/zhiban/local/native-review.css": "5a4fa271e15fbf9c6481ebac7e68e6b35549028621d1df4a030c66676a093e29",
+    "app/zhiban/local/native-review.html": "01fc0d5524b2e0f367b98f1dfab9b61442b18fb5b7ee6fef2d82db187b380ef5",
+    "app/zhiban/local/native-review.tsx": "045aadac8c562f4df6be9b45ef8123b5c5ed784975ecb07f9fd238cb7428eec9",
+    "app/zhiban/local/native-theme.css": "85ba5ec84f9c3fb6124f55c173d4014b7e7e9c07f4fda64acb634aebfae2b34f",
+    "app/zhiban/local/native-workbench.bundle.css": "1d22b65a111e54bfe2dcde26158162413c11d0b4fd153da00fbcc8106bb8e63f",
+    "app/zhiban/local/native-workbench.css": "26bb14ea7bcda8c7309a68211dd8e063be3c667bbefb1d3ef2e91bd4f9d75d43",
+    "app/zhiban/local/native-workbench.html": "36ee350932d9dd9c6d81bf85459c9d38e94c1d4ddada026566011f8a26b6b84b",
+    "app/zhiban/local/native-workbench.tsx": "9ec0ab6865af7062ef48f4d78d30182dbe6b2e5ef10dfed83c45fe80c9a232ec",
+    "lib/export/manifest-actions.ts": "cc694eb7fd144a32481f085c227a58b7d65f4efe881307c79f1b0ca8de60fe2f",
+    "lib/media/image-catalog.ts": "173d34b465b4bc5a89e083a625480499dac2a6ea3420399fcc750e2cd669ab7b",
+    "lib/media/openrouter-default.ts": "c16fcfc9eed2072d0e013b558b150e7baeb8d4f9aaf1b85a1c011f14507015ee",
+    "lib/media/video-catalog.ts": "d11575bb2b11b78f8d99ae9fde5cdeb00cc03d8cc1a99d4167723515fca6f9cb",
+    "lib/persistence/browser-host-policy.ts": "b9f3f931350c164cbd6b915f9b05782a7babe2966ffbaec803af47fc57fa6dbb",
+    "lib/persistence/owner-bound-document-store.ts": "aef577d16e8364ce1dfdb52c4eb55f74a3721486d2a6580ba63afe1bbf50485d",
+    "lib/server/agent-runtime/conversation-title-task.ts": "5054710f1f1ab9425ea41baaf21ee72910aed24f20cc50f9a0e63df53db8d253",
+    "lib/server/agent-runtime/runner.ts": "826aa7b83a9836de67d65d612cf04990c8a241993faafb6aa75152b0243bcf3f",
+    "lib/server/materials/bytes.ts": "ee254280d635f3bf889d51164d953f229d2d99ae2718fed2f92bbb1c00be1d8f",
+    "lib/server/owner-host-policy.ts": "48a5e103bb43183232e3a1841c64a35148d6454664fed3b73de4a4beca39e7ac",
+    "lib/server/usage-storage.ts": "2d6e5621bf922cf6bb9ca4c1319e2750e5d10fa4dc81761c9fe85356bcb02fb4",
+    "lib/standalone-player/App.tsx": "a822ecb10d9e62da4712b3b19260a6911504af9a2604e78b888c7932907e701e",
+    "lib/store/stage.ts": "9a866e3b843f833328c2d4e5a194f74d333f727fc2dc27c5f86575d0823d20f1",
+    "lib/web-fetch/catalog.ts": "eafd7bff7f56aefc032383611fd032f3badfafd6d77d0d1917c6864bc6cc10c5",
+    "lib/zhiban/infrastructure/authoring/host.ts": "cae29d0433f357ca7748f18ed2376b99e1ece160445e19f554396b57f860c2ef",
+    "lib/zhiban/infrastructure/authoring/http.ts": "768e8b0e4a09e183a0a4961b09f81b24bfe7d17fea814278bee758d786e0f4e7",
+    "lib/zhiban/infrastructure/authoring/routes.ts": "1e63702b3bff4240311911f4de364f8b5a8bd7e7bf9876cc40b51d14686f1116",
+    "lib/zhiban/infrastructure/authoring/schema.sql": "43f135cf43df17374f6df84c3a4db1098e7587d5ea29201fc94cbd3c6d2a37b2",
+    "lib/zhiban/infrastructure/authoring/snapshot.ts": "bdedf86ffb7a838cbd60e20f61cfb37ef7e36c84e0b2fea6127aea9a3b676897",
+    "lib/zhiban/infrastructure/content/http.ts": "157292fb068bb7f7503e1705bbe497a56aa050881bb594aa8fecb9289604d333",
+    "lib/zhiban/infrastructure/lesson/service.ts": "3c0836c97197fabf31b4cb6c59ec86020ad7c568012bf1f23e0b7559cace9211",
+    "scripts/zhiban-local/build-native-authoring.ts": "3f6ac40845fc24b74286aad5ca944e9348e715f172f1de3d6620bf684c1946d5",
+    "scripts/zhiban-local/run-m6-catalog.ts": "f6ca26dd6b9b78eb5b7a262363ab6aea165b817d658ceb0c2e342d410c2e41a6",
+    "scripts/zhiban-local/tsconfig.native-authoring.json": "56f2c661eb808fa88a7ed4bea8b4867cd776afb7b0116eba902ab41f9f8ff79a",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "ae82f7e4edbebbb7c0fd0cd0c7d98286195b168e7235b5621aadac5ae8bbb5dd",
+    "scripts/zhiban-local/verify-native-authoring.ts": "8c4b6a74dc4bc381e159d8c9d8b9ded11fb2efe72daa53422dba673050c8704e"
+  },
+  "evidenceHashes": {
+    "zhiban-native-authoring-local.json": "636729f237a071a0dad24a0f7cad93056551b860da451fe23b2885f4090b58c9",
+    "zhiban-native-authoring-browser.json": "790b2897e80be68192cd3109bc75a244f030e94cd44eeda10f929d8f46b5d126",
+    "zhiban-native-authoring-real-model.json": "7812d30c0512a258c791676d454af7d6af4feddc862e6d99a4809132cd1a4b68",
+    "zhiban-native-authoring-real-model-first-failure.json": "63e8828d96649e89dad7c6bb8568e8494dad74908c05a3ef5203679dc36e0f5a",
+    "zhiban-native-authoring-default-readback.json": "5655a2298152ee14199f816aeea82c6aa002bca37c8f7397b04d7efbf95764ae",
+    "native-authoring-build-local.json": "d230be9b02ea1e1aa8a19dd451affa8618562c96f01c473f29c374d8508ae342"
+  },
+  "boundaries": [
+    "Initial model-generated page persisted, but its final assistant response failed with other; recovered synthetic source was imported into the default course, then a real Agent edit succeeded before explicit adoption/publication. This is not an uninterrupted generation-session PASS.",
+    "Office/OCR/AV parsing, image/video/voice providers, complete AI classroom, autonomous PBL and full-format portable archives not signed off by this package.",
+    "Self-test and PBL briefing playback do not create formal Attempt, completion or grade.",
+    "Old maintained Native root remains DENIED; UNKNOWN/RESERVED quarantine unchanged.",
+    "Old remote run 40096542805 applies only to its original frozen installation package; no new commit, push or CI."
+  ]
+}

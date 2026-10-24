@@ -1,0 +1,7 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "check": "Real verified backup import rejected while source internal root exists; no target state created",
+  "at": "2026-10-24T08:25:52.997Z"
+}

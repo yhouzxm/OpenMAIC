@@ -1,0 +1,8 @@
+
+/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/classroom/postgres/transaction.ts
+   18:27  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  113:35  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  114:26  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+✖ 3 problems (3 errors, 0 warnings)
+

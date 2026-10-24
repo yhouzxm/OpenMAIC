@@ -1,0 +1,445 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "networkTrace": [
+    {
+      "at": 1792334469020,
+      "actor": "teacher",
+      "event": "REQUEST",
+      "method": "GET",
+      "path": "/api/zhiban/identity/csrf"
+    },
+    {
+      "at": 1792334469056,
+      "actor": "teacher",
+      "event": "HEADERS",
+      "method": "GET",
+      "path": "/api/zhiban/identity/csrf",
+      "status": 200
+    },
+    {
+      "at": 1792334469057,
+      "actor": "teacher",
+      "event": "FINISHED",
+      "method": "GET",
+      "path": "/api/zhiban/identity/csrf",
+      "status": 200
+    },
+    {
+      "at": 1792334469683,
+      "actor": "teacher",
+      "event": "REQUEST",
+      "method": "GET",
+      "path": "/api/zhiban/identity/csrf"
+    },
+    {
+      "at": 1792334469722,
+      "actor": "teacher",
+      "event": "HEADERS",
+      "method": "GET",
+      "path": "/api/zhiban/identity/csrf",
+      "status": 200
+    },
+    {
+      "at": 1792334469724,
+      "actor": "teacher",
+      "event": "FINISHED",
+      "method": "GET",
+      "path": "/api/zhiban/identity/csrf",
+      "status": 200
+    },
+    {
+      "at": 1792334470219,
+      "actor": "teacher",
+      "event": "REQUEST",
+      "method": "GET",
+      "path": "/api/zhiban/identity/csrf"
+    },
+    {
+      "at": 1792334470245,
+      "actor": "teacher",
+      "event": "HEADERS",
+      "method": "GET",
+      "path": "/api/zhiban/identity/csrf",
+      "status": 200
+    },
+    {
+      "at": 1792334470246,
+      "actor": "teacher",
+      "event": "FINISHED",
+      "method": "GET",
+      "path": "/api/zhiban/identity/csrf",
+      "status": 200
+    },
+    {
+      "at": 1792334470706,
+      "actor": "teacher",
+      "event": "REQUEST",
+      "method": "GET",
+      "path": "/api/zhiban/identity/csrf"
+    },
+    {
+      "at": 1792334470735,
+      "actor": "teacher",
+      "event": "HEADERS",
+      "method": "GET",
+      "path": "/api/zhiban/identity/csrf",
+      "status": 200
+    },
+    {
+      "at": 1792334470737,
+      "actor": "teacher",
+      "event": "FINISHED",
+      "method": "GET",
+      "path": "/api/zhiban/identity/csrf",
+      "status": 200
+    },
+    {
+      "at": 1792334471151,
+      "actor": "teacher",
+      "event": "REQUEST",
+      "method": "GET",
+      "path": "/api/zhiban/identity/csrf"
+    },
+    {
+      "at": 1792334471180,
+      "actor": "teacher",
+      "event": "HEADERS",
+      "method": "GET",
+      "path": "/api/zhiban/identity/csrf",
+      "status": 200
+    },
+    {
+      "at": 1792334471181,
+      "actor": "teacher",
+      "event": "FINISHED",
+      "method": "GET",
+      "path": "/api/zhiban/identity/csrf",
+      "status": 200
+    },
+    {
+      "at": 1792334476276,
+      "actor": "student",
+      "event": "REQUEST",
+      "method": "GET",
+      "path": "/api/zhiban/identity/csrf"
+    },
+    {
+      "at": 1792334476304,
+      "actor": "student",
+      "event": "HEADERS",
+      "method": "GET",
+      "path": "/api/zhiban/identity/csrf",
+      "status": 200
+    },
+    {
+      "at": 1792334476305,
+      "actor": "student",
+      "event": "FINISHED",
+      "method": "GET",
+      "path": "/api/zhiban/identity/csrf",
+      "status": 200
+    },
+    {
+      "at": 1792334500523,
+      "actor": "teacher",
+      "event": "REQUEST",
+      "method": "GET",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af/queue"
+    },
+    {
+      "at": 1792334500583,
+      "actor": "teacher",
+      "event": "HEADERS",
+      "method": "GET",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af/queue",
+      "status": 200
+    },
+    {
+      "at": 1792334500585,
+      "actor": "teacher",
+      "event": "FINISHED",
+      "method": "GET",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af/queue",
+      "status": 200
+    },
+    {
+      "at": 1792334500677,
+      "actor": "teacher",
+      "event": "REQUEST",
+      "method": "GET",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af/queue"
+    },
+    {
+      "at": 1792334500711,
+      "actor": "teacher",
+      "event": "HEADERS",
+      "method": "GET",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af/queue",
+      "status": 200
+    },
+    {
+      "at": 1792334500712,
+      "actor": "teacher",
+      "event": "FINISHED",
+      "method": "GET",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af/queue",
+      "status": 200
+    },
+    {
+      "at": 1792334500785,
+      "actor": "teacher",
+      "event": "REQUEST",
+      "method": "GET",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af/publications"
+    },
+    {
+      "at": 1792334500826,
+      "actor": "teacher",
+      "event": "HEADERS",
+      "method": "GET",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af/publications",
+      "status": 200
+    },
+    {
+      "at": 1792334500827,
+      "actor": "teacher",
+      "event": "FINISHED",
+      "method": "GET",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af/publications",
+      "status": 200
+    },
+    {
+      "at": 1792334501109,
+      "actor": "teacher",
+      "event": "REQUEST",
+      "method": "GET",
+      "path": "/api/zhiban/identity/csrf"
+    },
+    {
+      "at": 1792334501134,
+      "actor": "teacher",
+      "event": "HEADERS",
+      "method": "GET",
+      "path": "/api/zhiban/identity/csrf",
+      "status": 200
+    },
+    {
+      "at": 1792334501138,
+      "actor": "teacher",
+      "event": "FINISHED",
+      "method": "GET",
+      "path": "/api/zhiban/identity/csrf",
+      "status": 200
+    },
+    {
+      "at": 1792334501141,
+      "actor": "teacher",
+      "event": "REQUEST",
+      "method": "POST",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af",
+      "command": "SAVE_GRADE"
+    },
+    {
+      "at": 1792334501179,
+      "actor": "teacher",
+      "event": "HEADERS",
+      "method": "POST",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af",
+      "status": 200
+    },
+    {
+      "at": 1792334501182,
+      "actor": "teacher",
+      "event": "FINISHED",
+      "method": "POST",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af",
+      "status": 200
+    },
+    {
+      "at": 1792334501188,
+      "actor": "teacher",
+      "event": "REQUEST",
+      "method": "GET",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af/queue"
+    },
+    {
+      "at": 1792334501191,
+      "actor": "teacher",
+      "event": "REQUEST",
+      "method": "GET",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af/publications"
+    },
+    {
+      "at": 1792334501253,
+      "actor": "teacher",
+      "event": "HEADERS",
+      "method": "GET",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af/publications",
+      "status": 200
+    },
+    {
+      "at": 1792334501259,
+      "actor": "teacher",
+      "event": "FINISHED",
+      "method": "GET",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af/publications",
+      "status": 200
+    },
+    {
+      "at": 1792334501339,
+      "actor": "teacher",
+      "event": "HEADERS",
+      "method": "GET",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af/queue",
+      "status": 200
+    },
+    {
+      "at": 1792334501342,
+      "actor": "teacher",
+      "event": "FINISHED",
+      "method": "GET",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af/queue",
+      "status": 200
+    },
+    {
+      "at": 1792334501381,
+      "actor": "teacher",
+      "event": "REQUEST",
+      "method": "GET",
+      "path": "/api/zhiban/identity/csrf"
+    },
+    {
+      "at": 1792334501400,
+      "actor": "teacher",
+      "event": "HEADERS",
+      "method": "GET",
+      "path": "/api/zhiban/identity/csrf",
+      "status": 200
+    },
+    {
+      "at": 1792334501402,
+      "actor": "teacher",
+      "event": "FINISHED",
+      "method": "GET",
+      "path": "/api/zhiban/identity/csrf",
+      "status": 200
+    },
+    {
+      "at": 1792334501404,
+      "actor": "teacher",
+      "event": "REQUEST",
+      "method": "POST",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af",
+      "command": "PUBLISH_GRADE"
+    },
+    {
+      "at": 1792334501450,
+      "actor": "teacher",
+      "event": "HEADERS",
+      "method": "POST",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af",
+      "status": 200
+    },
+    {
+      "at": 1792334501458,
+      "actor": "teacher",
+      "event": "FINISHED",
+      "method": "POST",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af",
+      "status": 200
+    },
+    {
+      "at": 1792334501460,
+      "actor": "teacher",
+      "event": "REQUEST",
+      "method": "GET",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af/queue"
+    },
+    {
+      "at": 1792334501462,
+      "actor": "teacher",
+      "event": "REQUEST",
+      "method": "GET",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af/publications"
+    },
+    {
+      "at": 1792334501513,
+      "actor": "teacher",
+      "event": "HEADERS",
+      "method": "GET",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af/queue",
+      "status": 200
+    },
+    {
+      "at": 1792334501513,
+      "actor": "teacher",
+      "event": "FINISHED",
+      "method": "GET",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af/queue",
+      "status": 200
+    },
+    {
+      "at": 1792334501528,
+      "actor": "teacher",
+      "event": "HEADERS",
+      "method": "GET",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af/publications",
+      "status": 200
+    },
+    {
+      "at": 1792334501529,
+      "actor": "teacher",
+      "event": "FINISHED",
+      "method": "GET",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af/publications",
+      "status": 200
+    },
+    {
+      "at": 1792334502142,
+      "actor": "teacher",
+      "event": "REQUEST",
+      "method": "GET",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af/gradebook"
+    },
+    {
+      "at": 1792334502188,
+      "actor": "teacher",
+      "event": "HEADERS",
+      "method": "GET",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af/gradebook",
+      "status": 200
+    },
+    {
+      "at": 1792334502189,
+      "actor": "teacher",
+      "event": "FINISHED",
+      "method": "GET",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af/gradebook",
+      "status": 200
+    },
+    {
+      "at": 1792334502251,
+      "actor": "teacher",
+      "event": "REQUEST",
+      "method": "GET",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af/gradebook.csv"
+    },
+    {
+      "at": 1792334502283,
+      "actor": "teacher",
+      "event": "HEADERS",
+      "method": "GET",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af/gradebook.csv",
+      "status": 200
+    },
+    {
+      "at": 1792334502284,
+      "actor": "teacher",
+      "event": "FINISHED",
+      "method": "GET",
+      "path": "/api/zhiban/assessment/01a14f74-c820-7213-94c7-c22eb43a36ef/offerings/01a14f75-3eb3-7517-8d37-2f5fe60a65af/gradebook.csv",
+      "status": 200
+    }
+  ]
+}

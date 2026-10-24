@@ -1,0 +1,191 @@
+{
+  "status": "PASS",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "observerInventorySha256": "e776806ccc2465de7d845a8525416c0f80ab49d39c9cd0d8cdf3b168cae66030",
+  "r6InventorySha256": "fa51a67d9733fc6b436e89ec339306472ceb8566368cc3f9ce3c3122d873c13b",
+  "migrationSha256": "bbede0be2e773562730bb2b1c756d4aceba853143b298b768de7c0d70d624a8e",
+  "checks": [
+    {
+      "name": "normal actual SCRAM management observation stops and preserves original configuration",
+      "status": "PASS",
+      "elapsedMs": 2166
+    },
+    {
+      "name": "actual delayed initialization keeps distinct PID-file and SQL start facts without weakening process binding",
+      "status": "PASS",
+      "elapsedMs": 3228,
+      "deltaSeconds": 2.1630001068115234
+    },
+    {
+      "name": "wrong scoped SCRAM credential fails without fallback and stops exact child",
+      "status": "PASS",
+      "elapsedMs": 1656
+    },
+    {
+      "name": "forged signature rejects before lifecycle",
+      "status": "PASS",
+      "elapsedMs": 103
+    },
+    {
+      "name": "expired authorization rejects before lifecycle",
+      "status": "PASS",
+      "elapsedMs": 100
+    },
+    {
+      "name": "wrong source authorization rejects before lifecycle",
+      "status": "PASS",
+      "elapsedMs": 141
+    },
+    {
+      "name": "business write scope rejects before lifecycle",
+      "status": "PASS",
+      "elapsedMs": 121
+    },
+    {
+      "name": "real target cannot enter disposable alias",
+      "status": "PASS",
+      "elapsedMs": 119
+    },
+    {
+      "name": "unissued approval is not executable",
+      "status": "PASS",
+      "elapsedMs": 109
+    },
+    {
+      "name": "existing shared lock blocks observer without creating stage or changing guard",
+      "status": "PASS",
+      "elapsedMs": 126
+    },
+    {
+      "name": "missing lock is never created",
+      "status": "PASS",
+      "elapsedMs": 122
+    },
+    {
+      "name": "approved nonempty auto.conf is rejected before startup hooks",
+      "status": "PASS",
+      "elapsedMs": 661
+    },
+    {
+      "name": "binary hash drift rejects before stage/start",
+      "status": "PASS",
+      "elapsedMs": 164
+    },
+    {
+      "name": "wildcard password entry rejects before stage/start",
+      "status": "PASS",
+      "elapsedMs": 125
+    },
+    {
+      "name": "actual control identity mismatch rejects before stage/start",
+      "status": "PASS",
+      "elapsedMs": 667
+    },
+    {
+      "name": "include_dir is rejected before startup",
+      "status": "PASS",
+      "elapsedMs": 652
+    },
+    {
+      "name": "include_if_exists is rejected before startup",
+      "status": "PASS",
+      "elapsedMs": 643
+    },
+    {
+      "name": "unlisted required include is never silently read",
+      "status": "PASS",
+      "elapsedMs": 661
+    },
+    {
+      "name": "explicitly approved include closure is bound and observed without persistence changes",
+      "status": "PASS",
+      "elapsedMs": 1639
+    },
+    {
+      "name": "existing postmaster is refused and never stopped",
+      "status": "PASS",
+      "elapsedMs": 346
+    },
+    {
+      "name": "actual staged HBA rejects Business and Native connections",
+      "status": "PASS",
+      "elapsedMs": 1650
+    },
+    {
+      "name": "lost start ACK observes exact real postmaster and stops; never replays start",
+      "status": "PASS",
+      "elapsedMs": 1601
+    },
+    {
+      "name": "lost stop ACK independently confirms real shutdown without replay",
+      "status": "PASS",
+      "elapsedMs": 1646
+    },
+    {
+      "name": "refused stop leaves actual PG alive and custodian lock held",
+      "status": "PASS",
+      "elapsedMs": 1680
+    },
+    {
+      "name": "start tool failure without bound tuple is UNKNOWN and cannot release lock",
+      "status": "PASS",
+      "elapsedMs": 1401
+    },
+    {
+      "name": "changed postmaster tuple never triggers unbound stop",
+      "status": "PASS",
+      "elapsedMs": 1621
+    },
+    {
+      "name": "postmaster tuple drift after actual SQL rejects observation and preserves custody",
+      "status": "PASS",
+      "elapsedMs": 1602
+    },
+    {
+      "name": "SIGTERM after start binding stops exact postmaster and releases lock",
+      "status": "PASS",
+      "elapsedMs": 1675
+    },
+    {
+      "name": "SIGKILL cut-start-intent retains independent lock and BLOCKED guard",
+      "status": "PASS",
+      "elapsedMs": 1358
+    },
+    {
+      "name": "SIGKILL cut-start-bound retains independent lock and BLOCKED guard",
+      "status": "PASS",
+      "elapsedMs": 1659
+    },
+    {
+      "name": "SIGKILL cut-start-bound-audit-fail retains independent lock and BLOCKED guard",
+      "status": "PASS",
+      "elapsedMs": 2006
+    },
+    {
+      "name": "single-use approval and stage cannot be replayed",
+      "status": "PASS",
+      "elapsedMs": 1738
+    },
+    {
+      "name": "business and Native sentinel rows remain unchanged",
+      "status": "PASS",
+      "elapsedMs": 85
+    }
+  ],
+  "pgMajor": 16,
+  "postgresVersion": "postgres (PostgreSQL) 16.15 (Ubuntu 16.15-1.pgdg24.04+2)",
+  "nodeVersion": "22.23.3",
+  "port": 56497,
+  "target": "UNIQUE_DISPOSABLE_PG16",
+  "actualScram": true,
+  "actualPostmaster": true,
+  "actualReadOnlyTransaction": true,
+  "actualCustodianFlock": true,
+  "faultToolAckAndStop": "TEST_ADAPTER_ONLY",
+  "realTargetExecuted": false,
+  "realCredentialsRead": false,
+  "runtimeAccepted": false,
+  "launchAllowed": false,
+  "cleanup": "CONFIRMED_STOPPED_AND_TEST_ROOT_REMOVED"
+}

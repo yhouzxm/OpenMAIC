@@ -1,0 +1,11 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "paginationTasks": 22,
+  "exactAttempt": "01a15e95-36e5-719b-81b8-e994b82b60d3",
+  "latestSubmissionVersion": 2,
+  "publishedGradeAfterResubmit": null,
+  "historicalReadCreatesAttempt": false,
+  "source": "REAL_GUARDED_LOCAL_COMMANDS"
+}

@@ -1,0 +1,48 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-20T14:32:15.967791+00:00",
+  "head": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "scope": "FIXED_PUBLICATION_NATIVE_OPENMAIC_PPT_TEXT_PNG_READONLY",
+  "nativePlayer": "lib/standalone-player/App.tsx",
+  "nativePlayerUnmodified": true,
+  "modelCalls": false,
+  "runtimeCompletionEvidence": false,
+  "commitPushCi": false,
+  "directedReceiptSourceDrift": [
+    "app/zhiban/local/published-player.css"
+  ],
+  "removedHarnessBundles": [
+    {
+      "path": ".zhiban-catalog-run-seCchD/verify.mjs",
+      "removed": true
+    }
+  ],
+  "driftDisposition": "CSS host height only; final owned default rebuilt and IAB entry/page-2/layout visually verified separately",
+  "finalCssSha256": "f2d2e0ca961a29b96a495205d072517c8798565349c8dec8ff8f7fca3f0ae336",
+  "defaultSourceMatches": true,
+  "artifacts": {
+    "docs/v2/evidence/native-player/before-backup.json": "7ecf477552d1ade55c508f6cefe8d9e79b02cda1d210c1dd02a415c2b550e65d",
+    "docs/v2/evidence/native-player/previous-stop.log": "e0312a91ed78d4759b55dbf692acdbb377d0b283b633123c89cbe387f47b4c76",
+    "docs/v2/evidence/native-player/default-iab.png": "4606a5e54cbe4313d7d90fc2bc2891b1adaf283cbcacb0928cfcd3cf7663fd50",
+    "docs/v2/evidence/native-player/intermediate-stop.log": "e0312a91ed78d4759b55dbf692acdbb377d0b283b633123c89cbe387f47b4c76",
+    "docs/v2/evidence/native-player/first-failure.json": "c4924061ab64c13e2c40f105c71895c893633b25b03bfe9870f25822e3f949c3",
+    "docs/v2/evidence/native-player/student.png": "47653f32c502f036c505810759639a505721a841267640559ba93b40049c2b72",
+    "docs/v2/evidence/native-player/lint.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/v2/evidence/native-player/student-mobile.png": "2b54d4ca00860ae1de482b71ee0480752a6d1ecaa01f98a932bba653c4258f17",
+    "docs/v2/evidence/native-player/default-backup.json": "898d724597f2dd06b77a11c6ad7f637671a08c885c0ccb3816a6edd071735d02",
+    "docs/v2/evidence/native-player/first-failure.log": "311703339e790743724ec0cb3917fdf33e28ca86537f0e983b45e1d3cad83e3a",
+    "docs/v2/evidence/native-player/source-boundary.json": "c9978624b22dc1e09db2c78a51dfb8d8df1786be629ffda7c39551d0eb00b8a8",
+    "docs/v2/evidence/native-player/journey.json": "1b46503e6a84954654fb6eeb1f1e231bf0def3f2a7766c12817b39c9da81db58",
+    "docs/v2/evidence/native-player/intermediate-backup.json": "6bb88222902df77d531a78ac4e19daa6d177a7fced578b127c594a74ac7bb518",
+    "docs/v2/evidence/native-player/unit.log": "41e7aad487e288a325ddfcf99dbcaebfc949b9ee7e6e6986e0d9bd58a8f6e565",
+    "docs/v2/evidence/native-player/directed.log": "d5f1ac5b85cfda742cb6e0e4ff212846b52033257576a7ba3d518be572e5a393",
+    "docs/v2/evidence/native-player/default-info.log": "5b824acd97721fb28e1bf24a641c424b31910b516cdac9ade306f60427bbf824",
+    "docs/v2/evidence/native-player/default-demo.json": "b1e58c26500bef93f25c79d218c713250d5636bea2ab6e9f4772ec45ff761fdc",
+    "docs/v2/evidence/native-player/intermediate-demo.json": "a02c72defec58b9ffe9f52dcdceb4c24f2c11e3d56c836fa5a1e300e6a770834",
+    "docs/v2/evidence/native-player/typecheck.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/v2/evidence/native-player/failed-fixture-cleanup.json": "2e403a6c03996cd60b825db38a2105805da66d716f92c00e5e1f746072cc4bfc",
+    "docs/v2/evidence/zhiban-native-player-local.json": "3a016307be1629c840f43189e19ea7e3348becb59ef2beae169dd11edd5eb2da"
+  }
+}

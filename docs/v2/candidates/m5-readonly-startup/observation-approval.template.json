@@ -1,0 +1,68 @@
+{
+  "formatVersion": 1,
+  "purpose": "LOCAL_MANAGEMENT_READONLY_OBSERVATION",
+  "status": "UNISSUED",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "humanAuthorizationRef": null,
+  "approvalId": null,
+  "attemptId": null,
+  "issuedAt": null,
+  "expiresAt": null,
+  "source": {
+    "observerInventorySha256": null,
+    "r6InventorySha256": null,
+    "migrationSha256": null
+  },
+  "target": {
+    "environment": "LOCAL_DEV",
+    "dataDirectory": "/home/zxm/.local/share/zhiban-m1/pgdata",
+    "systemIdentifier": "7694054813252049413",
+    "port": 55433,
+    "uid": null
+  },
+  "paths": {
+    "controlDirectory": null,
+    "stageDirectory": null,
+    "pgpassFilePath": null,
+    "authenticationStageDirectory": null
+  },
+  "hashes": {
+    "guardSha256": null,
+    "pgpassSha256": null,
+    "configurationClosureSha256": null
+  },
+  "lock": {
+    "device": null,
+    "inode": null
+  },
+  "configurationClosure": [
+    {
+      "path": "/home/zxm/.local/share/zhiban-m1/pgdata/postgresql.conf",
+      "sha256": null
+    },
+    {
+      "path": "/home/zxm/.local/share/zhiban-m1/pgdata/postgresql.auto.conf",
+      "sha256": null
+    }
+  ],
+  "binarySha256": {
+    "postgres": null,
+    "pg_ctl": null,
+    "psql": null,
+    "pg_controldata": null,
+    "node": null
+  },
+  "expectedStartArgumentsSha256": null,
+  "scope": {
+    "managementReadOnly": true,
+    "internalLifecycleWrites": true,
+    "businessWrites": false,
+    "launch": false,
+    "clear": false,
+    "receiptIssuance": false,
+    "credentialMutation": false,
+    "persistentConfigurationMutation": false,
+    "privateAuthenticationStaging": true
+  }
+}

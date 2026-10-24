@@ -519,6 +519,9 @@ function optionalBoundedString(
 }
 
 export function normalizeElementHtml(value: string): string {
+  if (typeof value !== 'string') {
+    throw new ElementReferenceValidationError('Referenced element HTML must be a string');
+  }
   return value
     .replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1\s*>/giu, ' ')
     .replace(/<[^>]*>/gu, ' ')
@@ -588,6 +591,18 @@ function validNumberSeries(value: unknown): number[][] {
           row.every((item) => typeof item === 'number' && Number.isFinite(item)),
       )
     : [];
+}
+
+function findReferencedElements(elements: PPTElement[], elementId: string): PPTElement[] {
+  if (!Array.isArray(elements)) {
+    throw new ElementReferenceValidationError('Referenced elements must be an array');
+  }
+  return elements.filter((element) => {
+    if (!element || typeof element !== 'object' || Array.isArray(element)) {
+      throw new ElementReferenceValidationError('Referenced elements must contain objects');
+    }
+    return element.id === elementId;
+  });
 }
 
 function projectElement(element: PPTElement): ProjectedElementEvidence {
@@ -755,6 +770,17 @@ function projectElement(element: PPTElement): ProjectedElementEvidence {
       };
     }
     case 'table': {
+      // Reject only the shapes that make this projection throw; anything it
+      // already projected keeps resolving.
+      if (!Array.isArray(element.data) || element.data.some((row) => row == null)) {
+        throw new ElementReferenceValidationError('Referenced table data must be a list of rows');
+      }
+      if (element.colWidths == null) {
+        throw new ElementReferenceValidationError('Referenced table colWidths are missing');
+      }
+      if (element.rowHeights != null && typeof element.rowHeights.slice !== 'function') {
+        throw new ElementReferenceValidationError('Referenced table rowHeights must be a list');
+      }
       const rows: Array<Array<{ id: string; text: string; colspan: number; rowspan: number }>> = [];
       let includedCells = 0;
       const totalCells = element.data.reduce((sum, row) => sum + row.length, 0);
@@ -765,6 +791,9 @@ function projectElement(element: PPTElement): ProjectedElementEvidence {
         for (let cellIndex = 0; cellIndex < row.length; cellIndex += 1) {
           if (includedCells >= TABLE_CELL_LIMIT) break;
           const cell = row[cellIndex];
+          if (cell == null) {
+            throw new ElementReferenceValidationError('Referenced table cells must be present');
+          }
           projectedRow.push({
             id: boundedString(
               cell.id,
@@ -820,10 +849,16 @@ function projectElement(element: PPTElement): ProjectedElementEvidence {
     case 'code': {
       const lines: Array<{ id: string; content: string }> = [];
       let remainingText = CODE_TOTAL_TEXT_LIMIT;
+      if (typeof element.lines?.slice !== 'function') {
+        throw new ElementReferenceValidationError('Referenced code lines must be a list');
+      }
       const candidates = element.lines.slice(0, CODE_LINE_LIMIT);
       for (let index = 0; index < candidates.length; index += 1) {
         if (remainingText <= 0) break;
         const line = candidates[index];
+        if (line == null) {
+          throw new ElementReferenceValidationError('Referenced code lines must be present');
+        }
         const perLine = boundedString(
           line.content,
           CODE_LINE_TEXT_LIMIT,
@@ -934,18 +969,27 @@ export function resolveSlideElementReference(
       'elementReference requires a valid request-start storeState.scenes snapshot',
     );
   }
-  const matchingScenes = body.storeState.scenes.filter((scene) => scene.id === reference.sceneId);
+  const matchingScenes = body.storeState.scenes.filter((scene) => {
+    if (scene == null) {
+      throw new ElementReferenceValidationError('storeState.scenes must not contain empty members');
+    }
+    return scene.id === reference.sceneId;
+  });
   if (matchingScenes.length !== 1) {
     throw new ElementReferenceValidationError(
       `elementReference.sceneId must resolve to exactly one Scene; found ${matchingScenes.length}`,
     );
   }
   const scene = matchingScenes[0];
-  if (scene.type !== 'slide' || scene.content.type !== 'slide') {
+  if (scene.type !== 'slide' || scene.content == null || scene.content.type !== 'slide') {
     throw new ElementReferenceValidationError('elementReference must resolve to a slide Scene');
   }
-  const matchingElements = scene.content.canvas.elements.filter(
-    (element) => element.id === reference.elementId,
+  if (scene.content.canvas == null) {
+    throw new ElementReferenceValidationError('The referenced slide Scene has no canvas');
+  }
+  const matchingElements = findReferencedElements(
+    scene.content.canvas.elements,
+    reference.elementId,
   );
   if (matchingElements.length !== 1) {
     throw new ElementReferenceValidationError(
@@ -1552,7 +1596,7 @@ function resolveWhiteboardElementReference(
       'The referenced whiteboard has changed or is unavailable; select it again.',
     );
   }
-  const matches = whiteboard.elements.filter((element) => element.id === reference.elementId);
+  const matches = findReferencedElements(whiteboard.elements, reference.elementId);
   if (matches.length !== 1 || !isPPTElementType(matches[0]?.type)) {
     throw new ElementReferenceValidationError(
       'The referenced whiteboard element is missing or ambiguous; select it again.',

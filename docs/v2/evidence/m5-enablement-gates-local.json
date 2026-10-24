@@ -1,0 +1,42 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "scope": "OWNED_PG16_CONTENT_STARTUP_AND_FAILURE_BOUNDARIES",
+  "at": "2026-10-09T13:16:47.819Z",
+  "status": "PASS",
+  "checks": [
+    "issued LOCAL receipt accepted with exact current source/catalog/ledger/Native/TLS bindings",
+    "receipt status drift rejected",
+    "receipt formatVersion drift rejected",
+    "receipt approvalRef drift rejected",
+    "receipt issuedAt drift rejected",
+    "receipt target drift rejected",
+    "receipt candidateInventorySha256 drift rejected",
+    "receipt candidateMigrationSha256 drift rejected",
+    "receipt profile drift rejected",
+    "receipt nativeFingerprint drift rejected",
+    "receipt githubActions drift rejected",
+    "receipt bindingHash drift rejected",
+    "configuration/deployment substitution rejected",
+    "entry/security source drift rejected: scripts/zhiban-local/config.ts",
+    "entry/security source drift rejected: lib/zhiban/infrastructure/openmaic/security.ts",
+    "actual browser artifact byte drift rejected",
+    "actual Native TEMP privilege drift rejected",
+    "catalog detects actual RLS drift",
+    "restored installation remains accepted",
+    "two real Sessions wait in the resource/Identity lock chain; exactly one CAS save commits",
+    "diagnostic log I/O failure does not crash the host or bypass business refusal",
+    "current TeachingAssignment revocation denies save/publish without Native writes",
+    "logged-out Session cannot save",
+    "actual Native commit plus local settlement failure leaves no publication and preserves UNKNOWN save fence",
+    "fixture-only failure trigger removed; exact production candidate profile restored"
+  ],
+  "candidateMigrationSha256": "e335f83bb48cc6c4ec754f8e3270dc0e6941e14f38306bd67aa29844c3713324",
+  "implementationBindingHash": "a0946edb9a5cede3353794eff6da6d85049f4ccfb65985027ef235c9188e85a3",
+  "unknownFixtureResource": "01a120cf-1b06-742a-bdcd-6261558a6748",
+  "unknownFixturePolicy": "Keep pending Native document and durable UNKNOWN fence; no automatic retry/delete or fabricated failed outcome",
+  "remaining": [
+    "exact authorized unknown-outcome reconciliation operator"
+  ],
+  "revocationEvidence": "m5-revocation-barriers-local.json",
+  "commitPushCiDispatch": false
+}

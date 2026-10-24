@@ -1,0 +1,24 @@
+{
+  "status": "STATIC_PASS",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "candidateInventorySha256": "cfcdca0e59cac133d1c74f803eb1a9407b48c1062c3dea16545d176f44e52235",
+  "candidateMigrationSha256": "38087fa9a1ec583d66179c8640c971bccf54ec6934d9791e5b3aa9bb98a72332",
+  "checks": [
+    "source-bindings-and-deferred-authority",
+    "pg16-grammar-and-no-old-business-mutation",
+    "client-helper-only-acl-and-owner-rls",
+    "same-transaction-commit-and-current-window-barriers",
+    "unissued-templates",
+    "execution-contract-deferred",
+    "local-document-links"
+  ],
+  "sqlStatements": 30,
+  "plpgsqlFunctions": 8,
+  "grammar": [
+    16,
+    1
+  ],
+  "runtimeAccepted": false,
+  "liveChecks": "NOT_RUN"
+}

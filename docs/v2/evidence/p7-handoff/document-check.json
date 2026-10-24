@@ -1,0 +1,8 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "status": "PASS",
+  "checkedCurrentGuides": 4,
+  "sourceSnapshotStillMatches": true,
+  "archiveSourceDigest": "ca53589fc2ad7b6ba1108033ce1c0e832bc867999352615b5843bf5322455e30",
+  "noRuntimeRestart": true
+}

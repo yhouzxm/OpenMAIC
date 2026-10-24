@@ -1,6 +1,6 @@
 {
   "name": "@openmaic/renderer",
-  "version": "0.1.11",
+  "version": "0.1.14",
   "description": "React component for rendering PPTist-style Slide JSON, extracted from OpenMAIC.",
   "type": "module",
   "main": "./dist/index.js",
@@ -27,6 +27,14 @@
     "./geometry": {
       "types": "./dist/utils/element.d.ts",
       "import": "./dist/utils/element.js"
+    },
+    "./quiz": {
+      "types": "./dist/quiz/index.d.ts",
+      "import": "./dist/quiz/index.js"
+    },
+    "./quiz/math": {
+      "types": "./dist/quiz/math-text.d.ts",
+      "import": "./dist/quiz/math-text.js"
     }
   },
   "files": [
@@ -109,5 +117,10 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": []
+  },
+  "zhibanExtensions": {
+    "quiz": "0.1.0",
+    "upstream": "a9da60b3b4adb429369c0da13d5637a904ead2b0",
+    "note": "Local supported subpath ABI; core provider version unchanged, not byte-identical upstream"
   }
 }

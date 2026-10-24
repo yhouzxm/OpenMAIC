@@ -1,0 +1,17 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "COURSE_TUTOR_AUTHORIZATION_AND_GOVERNANCE_WITH_CONTROLLED_PROVIDER_ONLY",
+  "realModelGeneration": false,
+  "nativeRuntimeEnabled": false,
+  "dimensions": "REVIEW",
+  "privateConversationIsolation": true,
+  "canonicalReplayAndRace": true,
+  "teacherPolicyAndSourceDeliveryBarriers": true,
+  "auditAtomicity": true,
+  "orphanNoAutoRetry": true,
+  "currentIdentityAndOriginalEnrollment": true,
+  "tenantRlsAndAcl": true,
+  "providerCalls": 10
+}

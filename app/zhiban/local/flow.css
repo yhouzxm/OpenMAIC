@@ -1,0 +1,117 @@
+#flow {
+  max-width: 1120px;
+  margin: 1.5rem auto;
+  padding: 0 1rem;
+}
+.flow-panel {
+  padding: 1rem;
+  margin: 1rem 0;
+  border: 1px solid #dbe2ee;
+  border-radius: 12px;
+  background: #fff;
+}
+.flow-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem;
+  margin: 0.8rem 0;
+}
+.flow-form {
+  display: grid;
+  gap: 0.7rem;
+}
+.flow-form label {
+  display: grid;
+  gap: 0.35rem;
+}
+.flow-form input,
+.flow-form select,
+.flow-form textarea {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 0.55rem;
+  border: 1px solid #b8c5d9;
+  border-radius: 6px;
+}
+.flow-form textarea {
+  min-height: 100px;
+}
+.flow-fields {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+  padding: 0.7rem;
+  background: #f4f7fb;
+  border-radius: 8px;
+  margin: 0.5rem 0;
+}
+.flow-fields label {
+  font-size: 0.85rem;
+}
+.flow-note {
+  color: #53627a;
+  font-size: 0.92rem;
+  white-space: pre-wrap;
+}
+.flow-error {
+  color: #9a2036;
+  white-space: pre-wrap;
+}
+.flow-table {
+  overflow: auto;
+}
+.flow-table table {
+  border-collapse: collapse;
+  min-width: 450px;
+  width: 100%;
+}
+.flow-table th,
+.flow-table td {
+  border: 1px solid #dae1eb;
+  padding: 0.5rem;
+  text-align: left;
+}
+.flow-table input {
+  min-width: 80px;
+  max-width: 160px;
+}
+.flow-report {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+#flow button,
+#flow a.button {
+  padding: 0.5rem 0.8rem;
+}
+#flow button:disabled {
+  opacity: 0.5;
+}
+#flow h2,
+#flow h3 {
+  margin-top: 0.7rem;
+}
+.flow-step {
+  border-left: 4px solid #7a8fb3;
+  padding: 0.7rem 1rem;
+  margin: 0.7rem 0;
+  background: #f7f9fc;
+}
+.flow-current {
+  border-left-color: #3371d1;
+}
+.flow-locked {
+  color: #735615;
+}
+@media (max-width: 600px) {
+  .flow-fields {
+    grid-template-columns: 1fr 1fr;
+  }
+  #flow {
+    padding: 0 0.6rem;
+  }
+  .flow-panel {
+    padding: 0.7rem;
+  }
+}

@@ -1,0 +1,14 @@
+app/zhiban/local/attempt-runtime-client.tsx 530ms
+app/zhiban/local/published-player.tsx 106ms
+app/zhiban/local/published-player.css 88ms
+lib/zhiban/infrastructure/content/service.ts 648ms
+lib/zhiban/infrastructure/content/http.ts 185ms
+lib/zhiban/infrastructure/content/player.ts 60ms (unchanged)
+scripts/zhiban-local/attempt-runtime-receipt.ts 19ms
+scripts/zhiban-local/verify-attempt-runtime.ts 167ms
+scripts/zhiban-local/trial-content.ts 203ms
+scripts/zhiban-local/content-receipt.ts 69ms
+scripts/zhiban-local/verify-m5-png.mts 699ms
+scripts/zhiban-local/run-m5-png.ts 19ms
+scripts/zhiban-local/verify-m6-catalog.mts 1510ms
+package.json 60ms (unchanged)

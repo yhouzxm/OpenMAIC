@@ -1,0 +1,14 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-24T00:43:26.115Z",
+  "scope": "DEFAULT_3461_ACTUAL_TEACHER_FORM_QUEUE_RUN_ADOPT_REJECT_PUBLISH_AND_STUDENT_READBACK",
+  "manualNoteId": "01a16b5b-fd37-739b-abe2-5114a8646da5",
+  "adoptedNoteId": "01a16b5c-2300-7203-88b8-a02a9e0f4c3b",
+  "realModelRun": true,
+  "unsavedCancellationPreserved": true,
+  "composedJourney": "Original driver passed manual observation, cancellation protection, model queue/run, adoption and publication; resumed only after a nested-section test locator error for rejection and student readback",
+  "unattendedDispatch": false,
+  "browserErrors": []
+}

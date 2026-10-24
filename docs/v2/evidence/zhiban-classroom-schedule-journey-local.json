@@ -1,0 +1,52 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "date": "2026-10-17",
+  "branch": "refactor/zhiban-v2",
+  "head": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "origin": "https://127.0.0.1:3463",
+  "mode": "manual Codex in-app browser; synthetic trial accounts",
+  "status": "PASS_WITH_NONBLOCKING_UX_NOTE",
+  "classroomId": "01a14997-64be-7522-8b74-2334bac73aa3",
+  "classroomTitle": "内置浏览器：已编辑课堂",
+  "classroomRevision": 7,
+  "windowBeijing": {
+    "opens": "2026-10-17T00:00",
+    "closes": "2026-10-18T23:59"
+  },
+  "activity": "试用：安全巡检报告",
+  "activityVersion": 1,
+  "attemptNumber": 1,
+  "submissionVersion": 1,
+  "grade": {
+    "score": 93,
+    "maximum": 100,
+    "version": 1
+  },
+  "observations": [
+    "Teacher adjusted window and dispatched published activity",
+    "Student entered classroom; existing first attempt was bound, no forced next attempt",
+    "Student saved draft then submitted version 1",
+    "Teacher saw submitted=1/publishedGrades=0 before grading",
+    "Published grade removed this item from pending queue",
+    "Teacher classroom showed entered=1/submitted=1/publishedGrades=1",
+    "Student saw 93/100 and exact public feedback; previous 88/100 remained; mean=90.5%"
+  ],
+  "issues": [
+    {
+      "id": "CEJ-01",
+      "severity": "minor",
+      "status": "OPEN",
+      "description": "Classroom grading link opens offering-wide queue without current activity filter; teacher must select activity again."
+    }
+  ],
+  "sourceMatches": true,
+  "sourceDriftCount": 0,
+  "screenshots": [
+    "zhiban-classroom-schedule-journey-teacher.png",
+    "zhiban-classroom-schedule-journey-submission.png",
+    "zhiban-classroom-schedule-journey-grade.png",
+    "zhiban-classroom-schedule-journey-student.png"
+  ],
+  "scope": "No business code, SQL, builds, restart, automated suites, commit, push or CI; native refresh/close gates unchanged."
+}

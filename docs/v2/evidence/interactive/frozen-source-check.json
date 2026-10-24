@@ -1,0 +1,19 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "status": "PASS",
+  "migrationBaselineHashes": {
+    "checked": 28,
+    "changed": []
+  },
+  "frozenIdentityPolicyHashes": {
+    "checked": 16,
+    "changed": []
+  },
+  "originalRuntimeBridgeCoreChanged": false,
+  "corePaths": [
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/openmaic/content.ts",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/openmaic/root.ts",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/openmaic/runtime/root.ts",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/openmaic/repository.ts"
+  ]
+}

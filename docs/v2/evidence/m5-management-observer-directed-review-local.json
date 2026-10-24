@@ -1,0 +1,77 @@
+{
+  "status": "REVIEW_REPRODUCED",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "observerInventorySha256": "e776806ccc2465de7d845a8525416c0f80ab49d39c9cd0d8cdf3b168cae66030",
+  "r6InventorySha256": "fa51a67d9733fc6b436e89ec339306472ceb8566368cc3f9ce3c3122d873c13b",
+  "migrationSha256": "bbede0be2e773562730bb2b1c756d4aceba853143b298b768de7c0d70d624a8e",
+  "checks": [
+    {
+      "name": "OR-01 REPRODUCED release ACK lost reports UNKNOWN but custody ends after parent exit",
+      "status": "PASS",
+      "elapsedMs": 4451,
+      "finding": "OR-01",
+      "reproduced": true,
+      "reportedLockRetained": true,
+      "actualLockHeldAfterParentExit": false,
+      "pgStopped": true,
+      "guardUnchanged": true
+    },
+    {
+      "name": "OR-02 REPRODUCED guardian short release audit write is accepted and leaves unparsable journal",
+      "status": "PASS",
+      "elapsedMs": 3900,
+      "finding": "OR-02",
+      "reproduced": true,
+      "acceptedDespiteIncompleteReleaseAudit": true,
+      "journalParseRejected": true,
+      "pgStopped": true
+    },
+    {
+      "name": "OR-03 REPRODUCED changed credential bytes after start are consumed under old signed digest",
+      "status": "PASS",
+      "elapsedMs": 2490,
+      "finding": "OR-03",
+      "reproduced": true,
+      "consumedCredentialBytesDifferFromSignedHash": true,
+      "pgStopped": true
+    },
+    {
+      "name": "OR-04 REPRODUCED quoted include with spaces falls through as generic setting and accepts incomplete closure",
+      "status": "PASS",
+      "elapsedMs": 2701,
+      "finding": "OR-04",
+      "reproduced": true,
+      "acceptedWithUnlistedInclude": true,
+      "baseConfigurationNotLoadedByObserver": true,
+      "pgStopped": true
+    },
+    {
+      "name": "business and Native sentinel rows remain unchanged",
+      "status": "PASS",
+      "elapsedMs": 304
+    }
+  ],
+  "pgMajor": 16,
+  "postgresVersion": "postgres (PostgreSQL) 16.15 (Ubuntu 16.15-1.pgdg24.04+2)",
+  "nodeVersion": "22.23.3",
+  "port": 56497,
+  "target": "UNIQUE_DISPOSABLE_PG16",
+  "actualScram": true,
+  "actualPostmaster": true,
+  "actualReadOnlyTransaction": true,
+  "actualCustodianFlock": true,
+  "faultToolAckAndStop": "TEST_ADAPTER_ONLY",
+  "reviewOnly": true,
+  "fixesImplemented": false,
+  "realTargetExecuted": false,
+  "realCredentialsRead": false,
+  "runtimeAccepted": false,
+  "launchAllowed": false,
+  "cleanup": "CONFIRMED_STOPPED_AND_TEST_ROOT_REMOVED",
+  "reviewProbeSha256": {
+    "probe-observer-review.cjs": "5907304cbec87453a7c4e11144809f094efbfb4f4b5bd7f8cd9c793072a1fc9e",
+    "probe-observer-review-worker.cjs": "0a1e1428a211630d42c180a402c7cd0e8f69c5ee00e6565f5df0c55e3ed5a8cf",
+    "probe-observer-review-guardian.cjs": "b59c25f21f8cf3773955888707c1416cafa8a77a0a398c21199f2f39bd3941da"
+  }
+}

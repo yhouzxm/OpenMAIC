@@ -1,10 +1,11 @@
-import { ensureSchema } from '@openmaic/storage/runtime/pg';
+import { verifyNativeSchemaState } from '../schema-state';
+import { RUNTIME_PG_MIGRATIONS, ensureSchema } from '@openmaic/storage/runtime/pg';
 import { RUNTIME_DSL_VERSION } from '@openmaic/dsl';
 import type { TransactionPool } from '../../identity/postgres/transactions';
 import type { BridgePgClient } from '../transactions';
 import { catalogFingerprint, official } from '../catalog';
 import { RuntimeDeadline } from './admission';
-import { runtimeTransaction } from './transactions';
+import { NativeFailure, runtimeTransaction } from './transactions';
 import { exact, hash, requireFact, text, digest } from './validation';
 
 const roles = Object.freeze([
@@ -24,6 +25,7 @@ export interface RuntimeReceipt {
   roles: readonly string[];
 }
 async function fingerprint(client: BridgePgClient) {
+  await verifyNativeSchemaState(client, [RUNTIME_PG_MIGRATIONS]);
   const r = await client.query(
     `SELECT jsonb_build_object(
     'db',(SELECT jsonb_build_object('acl',d.datacl::text,'owner',pg_get_userbyid(d.datdba)) FROM pg_database d WHERE d.datname=current_database()),
@@ -44,7 +46,7 @@ async function fingerprint(client: BridgePgClient) {
   requireFact(['roles', 'edges', 'ddl', 'ownership'].every((k) => safety.rows[0]?.[k] === true));
   const boundary = await client.query(`SELECT
     NOT EXISTS(SELECT 1 FROM pg_database d CROSS JOIN LATERAL aclexplode(coalesce(d.datacl,acldefault('d',d.datdba))) a WHERE d.datname=current_database() AND NOT (a.grantee=d.datdba OR (pg_get_userbyid(a.grantee) IN ('zhiban_openmaic_runtime','zhiban_openmaic_migrator') AND a.privilege_type='CONNECT' AND NOT a.is_grantable))) AS database_acl,
-    (SELECT array_agg(c.relname::text ORDER BY c.relname) FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname='public' AND c.relkind IN ('r','p','v','m','S','f'))=ARRAY['runtime_records','runtime_sessions'] AS objects,
+    (SELECT array_agg(c.relname::text ORDER BY c.relname) FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname='public' AND c.relkind IN ('r','p','v','m','S','f'))=ARRAY['openmaic_schema_migrations','runtime_records','runtime_sessions'] AS objects,
     NOT EXISTS(SELECT 1 FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace WHERE n.nspname='public') AS functions,
     NOT EXISTS(SELECT 1 FROM pg_namespace n CROSS JOIN LATERAL aclexplode(coalesce(n.nspacl,acldefault('n',n.nspowner))) a WHERE n.nspname='public' AND NOT(a.grantee=n.nspowner OR (pg_get_userbyid(a.grantee)='zhiban_openmaic_runtime' AND a.privilege_type='USAGE' AND NOT a.is_grantable))) AS schema_acl,
     NOT EXISTS(SELECT 1 FROM pg_roles r WHERE r.rolname IN ('zhiban_runtime','zhiban_auth_runtime','zhiban_control_runtime','zhiban_bridge_runtime','zhiban_migrator','zhiban_identity_owner') AND has_database_privilege(r.oid,current_database(),'CONNECT,CREATE,TEMP')) AS service_isolation,
@@ -82,15 +84,25 @@ export async function provisionRuntimeNative(
 ): Promise<RuntimeReceipt> {
   text(database, 128, true);
   text(approvalRef, 256, true);
-  return runtimeTransaction(pool, new RuntimeDeadline(), async (client) => {
+  const client = await pool.connect().catch(() => {
+    throw new NativeFailure('NOT_DISPATCHED');
+  });
+  try {
+    requireFact(
+      (await client.query('SELECT pg_try_advisory_lock(12061017) AS locked')).rows[0]?.locked ===
+        true,
+    );
     await identity(client, database);
     const r = await client.query(
       "SELECT ((SELECT count(*) FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname='public')+(SELECT count(*) FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace WHERE n.nspname='public'))::integer AS n",
     );
     requireFact(r.rows[0]?.n === 0);
-    await client.query('SET LOCAL ROLE zhiban_openmaic_owner');
-    await client.query('SET LOCAL search_path=public,pg_catalog,pg_temp');
+    await client.query('SET ROLE zhiban_openmaic_owner');
+    await client.query('SET search_path=public,pg_catalog,pg_temp');
+    await client.query("SET statement_timeout='15s'");
+    await client.query("SET lock_timeout='5s'");
     await ensureSchema(client);
+    await client.query('BEGIN');
     await client.query(
       'REVOKE ALL ON ALL TABLES IN SCHEMA public FROM PUBLIC,zhiban_openmaic_runtime',
     );
@@ -115,6 +127,8 @@ export async function provisionRuntimeNative(
     await client.query(
       'GRANT UPDATE(stage_id,learner_key,kind,status,created_at,updated_at,data) ON runtime_sessions TO zhiban_openmaic_runtime',
     );
+    const expectedFingerprint = await fingerprint(client);
+    requireFact((await client.query('COMMIT')).command === 'COMMIT');
     return Object.freeze({
       database,
       approvalRef,
@@ -124,9 +138,18 @@ export async function provisionRuntimeNative(
       dsl: official.dsl,
       runtimeProtocol: '0.1.0',
       roles,
-      fingerprint: await fingerprint(client),
+      fingerprint: expectedFingerprint,
     });
-  });
+  } catch {
+    try {
+      await client.query('ROLLBACK');
+    } catch {
+      /* destroy below */
+    }
+    throw new NativeFailure('UNKNOWN');
+  } finally {
+    client.release(true);
+  }
 }
 export async function verifyRuntimeProvisioning(pool: TransactionPool, receipt: RuntimeReceipt) {
   exact(receipt, [

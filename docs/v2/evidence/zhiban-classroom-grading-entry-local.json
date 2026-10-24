@@ -1,0 +1,47 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "date": "2026-10-17",
+  "issue": "CEJ-01",
+  "status": "FIXED_LOCAL",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "origin": "https://127.0.0.1:3463",
+  "files": {
+    "classrooms.js": {
+      "sourceSha256": "cbb59f4b0ea217e61599547de047dadb6ee571dd0fc45b392935113c68e1ffad",
+      "responseSha256": "cbb59f4b0ea217e61599547de047dadb6ee571dd0fc45b392935113c68e1ffad",
+      "matches": true,
+      "htmlInjection": false
+    },
+    "grading.js": {
+      "sourceSha256": "75b9f2eac77e4e199d256685d53257fc5100c48d97b30e586192b33416bac5c8",
+      "responseSha256": "75b9f2eac77e4e199d256685d53257fc5100c48d97b30e586192b33416bac5c8",
+      "matches": true,
+      "htmlInjection": false
+    },
+    "grading.html": {
+      "sourceSha256": "4e50aae44cd2313bc19f945951d0d40734fa6933afdf0a19221ed9beba883ed5",
+      "responseSha256": "1ccb47892c981439b05ff56fe74ca5f2932db75ef6e29e00b525ed1a028c6f66",
+      "matches": true,
+      "htmlInjection": true
+    }
+  },
+  "startupSourceMatches": false,
+  "startupSourceDriftCount": 3,
+  "receiptResigned": false,
+  "migrationsUnchanged": true,
+  "browserChecks": [
+    "classroom link presets target activity and ALL states; only target activity row",
+    "reload retains filter and published grade",
+    "review shows existing 93/100 without changes",
+    "TODO empty for published activity; ALL restores row",
+    "return keeps course/space/offering and original classroom anchor",
+    "explicit clear expands to 3 activity rows while retaining classroom return",
+    "ordinary course entry remains TODO with pending assignment only",
+    "malformed context rejected",
+    "student copied teacher URL denied by course access check"
+  ],
+  "scope": "Existing offering/activity queue authorization unchanged; not dispatch-only filtering",
+  "screenshot": "zhiban-classroom-grading-entry-local.png",
+  "noCommitPushCI": true
+}

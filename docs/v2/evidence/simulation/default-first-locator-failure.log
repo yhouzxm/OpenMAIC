@@ -1,0 +1,41 @@
+A [Error]: expect(locator).toBeVisible() failed
+
+Locator:  getByText('直流欧姆定律模拟实验').first()
+Expected: visible
+Received: hidden
+Timeout:  5000ms
+
+Call log:
+  - Expect "to.be.visible" with timeout 5000ms
+  - waiting for getByText('直流欧姆定律模拟实验').first()
+    9 × locator resolved to <option value="01a16cec-ee26-732c-8a74-e45edfeae365">直流欧姆定律模拟实验</option>
+      - unexpected value "hidden"
+
+    at Proxy.<anonymous> (/home/zxm/openmaic/zhiban/node_modules/.pnpm/playwright@1.58.2/node_modules/playwright/lib/matchers/expect.js:213:24)
+    at main (/home/zxm/openmaic/zhiban/scripts/zhiban-local/seed-simulation-demo.ts:391:76) {
+  matcherResult: {
+    message: 'expect(locator).toBeVisible() failed\n' +
+      '\n' +
+      "Locator:  getByText('直流欧姆定律模拟实验').first()\n" +
+      'Expected: visible\n' +
+      'Received: hidden\n' +
+      'Timeout:  5000ms\n' +
+      '\n' +
+      'Call log:\n' +
+      '  - Expect "to.be.visible" with timeout 5000ms\n' +
+      "  - waiting for getByText('直流欧姆定律模拟实验').first()\n" +
+      '    9 × locator resolved to <option value="01a16cec-ee26-732c-8a74-e45edfeae365">直流欧姆定律模拟实验</option>\n' +
+      '      - unexpected value "hidden"\n',
+    pass: false,
+    actual: 'hidden',
+    name: 'toBeVisible',
+    expected: 'visible',
+    log: [
+      '  - Expect "to.be.visible" with timeout 5000ms',
+      "  - waiting for getByText('直流欧姆定律模拟实验').first()",
+      '    9 × locator resolved to <option value="01a16cec-ee26-732c-8a74-e45edfeae365">直流欧姆定律模拟实验</option>',
+      '      - unexpected value "hidden"'
+    ],
+    timeout: 5000
+  }
+}

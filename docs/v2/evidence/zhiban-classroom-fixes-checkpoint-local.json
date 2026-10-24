@@ -1,0 +1,54 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "at": "2026-10-15T23:39:50.413Z",
+  "scope": "STATIC_LEARNING_PATCH_ON_ORIGINAL_RUNNING_BUNDLE",
+  "tlsValidation": true,
+  "url": "https://127.0.0.1:3459/zhiban/learning.js",
+  "status": 200,
+  "cacheControl": "no-store",
+  "sha256": "f8b0784c7121a135bf573ac1b9aa8002658e3f7a83c1c73db33fea2144dcff2a",
+  "sourceMatches": false,
+  "sourceDriftCount": 5,
+  "startingMetadataSha256": "cd29e6d76e4f8869b55bc47c0b273146e100ea127a030725b8cea20ce5833016",
+  "candidateMismatches": [],
+  "migrationsCompared": 16,
+  "migrationMismatches": [],
+  "failedAttempts": [
+    {
+      "attempt": 1,
+      "cause": "Fixture used activityId instead of START_ATTEMPT id; stopped by harness.",
+      "receipt": "zhiban-classroom-fixes-attempt1-local.json"
+    },
+    {
+      "attempt": 2,
+      "cause": "Playwright route.fetch request context did not load trusted local CA; switched to existing CA-validated HTTPS helper. Owned PG was stopped explicitly."
+    }
+  ],
+  "failedAttemptCleanup": [
+    {
+      "root": "/tmp/zhiban-classroom-fixes-934Sje",
+      "stopped": true,
+      "removed": true
+    },
+    {
+      "root": "/tmp/zhiban-classroom-fixes-0Dh9oW",
+      "stopped": true,
+      "removed": true
+    }
+  ],
+  "screenshot": {
+    "path": "docs/v2/evidence/zhiban-classroom-fixes-inline-validation-local.png",
+    "sha256": "777fdd5b9558cd8a416aedaaffe0d9e69ad155016b5bdf7f090546ee53ed8228"
+  },
+  "checks": {
+    "javascriptSyntax": "PASS",
+    "eslint": "PASS",
+    "scopedTypeScript": "PASS",
+    "gitDiffWhitespace": "PASS"
+  },
+  "documentHashes": {
+    "docs/v2/zhiban-v2-classroom-fixes-local.md": "5b24648b0f10a26f159ba23475e1ba88ca265e30ab42f887c01f99e0ebd8d168",
+    "docs/v2/zhiban-v2-trial-guide.md": "2a268ad4667f2bc40f784801e5472458db8d93766804e6190bf415ad194bc481"
+  }
+}

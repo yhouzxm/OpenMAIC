@@ -1,0 +1,82 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "createdAt": "2026-10-16T22:29:51.348440+00:00",
+  "branch": "refactor/zhiban-v2",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "scope": "P1 first slice: source-based login, role shells and course catalog; not complete P1 or pixel-equivalence signoff",
+  "oldReferenceSha": "0fa0a15e8b12ae9e4f7a2d78e80338874599bbae",
+  "sourceHashes": {
+    "app/zhiban/local/index.html": "c65a6798af75e1f2c0148c3ee629ae8fad43ba15c882d7f58bb0733abd410801",
+    "app/zhiban/local/client.js": "f4fc5545a92e48ca033b0041090574385976cad296bede1ef5ac0765652f7413",
+    "app/zhiban/local/workspace.js": "8f552e1db0edd18e3508f912f5ea978dc0fcb9ee372148d01579835a7892a650",
+    "app/zhiban/local/workspace.css": "57cef06c1d3cac45118406f3edd0a013ab6a2599547161d7566c699c39f9b64d",
+    "lib/zhiban/application/workspace/service.ts": "a743dd01e67b866a58c02f545c4d6a576b9a5419135fb2be65d22228158aba1c",
+    "tests/zhiban/workspace/query.test.ts": "8846f8441b1c6fa53cb93d6a9446951bcefa8fb139477a609432e6b961ad5792",
+    "scripts/zhiban-local/verify-trial-content.ts": "188759f47a267550fd9ef6538033eaadfff3d7ba0cd918fede411f494a4d1e98",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "1f8dbebc69c911aafb30618651acc7f23bf672a275d7d461c87e751e05ca19a3"
+  },
+  "checks": {
+    "workspaceVitest": "5/5 PASS; bounded queries, cursor binding, admin bootstrap, navigation role projection negative cases",
+    "eslint": "PASS all eight changed code/HTML/CSS files where applicable (JS/TS linted)",
+    "focusedTypecheck": "PASS workspace service and query test + transitive imports; incremental false, node typeRoots explicit",
+    "fullRepositoryTypecheck": {
+      "status": "FAIL",
+      "errors": 17,
+      "area": "slide editing consumers of @openmaic/editor exports and implicit any; no changed P1 file reported",
+      "detailFile": "zhiban-p1-full-typecheck-local.txt"
+    },
+    "trialStartup": {
+      "status": "PASS",
+      "checks": 12,
+      "pgVersion": 160015,
+      "evidence": "zhiban-trial-content-demo-local.json"
+    },
+    "browser": {
+      "provider": "Codex in-app browser / cua_repl",
+      "trustedTLS": true,
+      "passed": [
+        "real teacher login and role sidebar, course/offering names",
+        "empty search retains TEACHER role",
+        "real student login and read-only content link",
+        "student 390px no horizontal overflow and menu open/close",
+        "real admin login and teaching-management navigation/list",
+        "admin 390px no horizontal overflow"
+      ],
+      "desktopViewport": "1440x1000",
+      "mobileViewport": "390x844",
+      "nativeRefreshClose": "SKIPPED previously by user; not re-certified"
+    }
+  },
+  "runtime": {
+    "status": "RUNNING_LOCAL_DISPOSABLE",
+    "origin": "https://127.0.0.1:3461",
+    "root": "/tmp/zhiban-trial-content-jh6Ze8",
+    "pid": 9876,
+    "tenantId": "01a146d2-a689-735a-901e-3795df430b5e",
+    "offeringId": "01a146d2-e8d4-7745-a739-f5dea09d01f3",
+    "sourceMatchesAtInfo": true,
+    "data": "fresh synthetic; historical classroom not restored"
+  },
+  "screenshots": {
+    "admin-desktop.png": "3699ba9187d94f9a195879c42fd7123b280ac9afb9b017d671da81886061d949",
+    "login.png": "f9c0f88d83dcd4b56b90becd8edf6164d0770aad6564ddcb5c54699cf210ee33",
+    "student-desktop.png": "ab53f6609366a1c6258cba4fefdb9e03a5760c7c0c5596acd1ca69bb0965339d",
+    "student-mobile.png": "8bb2ddb3a0223acb4f3d58da831f325d3d21980888eac6c441efa460f390a896",
+    "teacher-desktop.png": "0fd9ba4659d43c746a7029193e18fa3aafb1a9bc95c286d9e51804f4dc9bcb1d"
+  },
+  "deferred": [
+    "old application live screenshot and pixel comparison",
+    "legacy role URL compatibility",
+    "independent course workspace and inner navigation",
+    "remaining P1 independent business pages",
+    "unmigrated menus remain explicitly unavailable"
+  ],
+  "mutations": {
+    "commit": false,
+    "push": false,
+    "ciDispatch": false,
+    "appliedMigrations": false,
+    "realPg55432_55433": false
+  }
+}

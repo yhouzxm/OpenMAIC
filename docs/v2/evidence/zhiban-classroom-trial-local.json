@@ -1,0 +1,81 @@
+{
+  "status": "MANUAL_CLASSROOM_COMPLETED_WITH_OPEN_ISSUES",
+  "evidenceKind": "LOCAL",
+  "recordedAt": "2026-10-15T23:33:28.269Z",
+  "branch": "refactor/zhiban-v2",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "runtime": {
+    "origin": "https://127.0.0.1:3459",
+    "postgresPort": 56515,
+    "database": "zhiban_trial_disposable",
+    "lifecycle": "RUNNING_LOCAL_DISPOSABLE",
+    "sourceMatches": false,
+    "sourceDriftCount": 3,
+    "originalMetadataSha256": "cd29e6d76e4f8869b55bc47c0b273146e100ea127a030725b8cea20ce5833016",
+    "staticSupplementSha256": "4d4c99bde2c5db8c6257e9d2fcb942c10b794574ef23873d5059cc6048c990d4"
+  },
+  "manualJourney": {
+    "activity": "课堂试讲：急停后的复位判断",
+    "publishedVersion": 1,
+    "allowResubmit": false,
+    "maxAttempts": 1,
+    "student": "陈同学",
+    "attempt": 1,
+    "submissionVersion": 1,
+    "gradeVersion": 1,
+    "grade": "96/100",
+    "feedback": "能先排除危险再恢复运行，正确识别防护罩联锁条件。建议再明确由谁完成最终复核和送电许可。",
+    "postTrialOverview": {
+      "publishedActivities": 5,
+      "submitted": 5,
+      "publishedGrades": 3,
+      "pendingGrades": 2,
+      "meanPublishedScorePercent": 92
+    },
+    "managementWrites": 0
+  },
+  "issues": [
+    {
+      "id": "CL-01",
+      "priority": "P2",
+      "status": "OPEN",
+      "observed": "Non-UUID input 陈同学 in complete member ID filter replaces attempts form with unrelated validation message; retry repeats same error with no editable filter.",
+      "workaround": "Grading queue name search succeeds; used to complete grading."
+    },
+    {
+      "id": "CL-02",
+      "priority": "P2",
+      "status": "OPEN",
+      "kind": "accidental-submission prevention improvement",
+      "observed": "Final submit immediately locks the non-resubmittable single attempt without a final confirm/cancel step.",
+      "scope": "Observed UI behavior; not a claim of data loss or authorization failure."
+    }
+  ],
+  "knownScopeGap": {
+    "id": "M5_UNIFIED_CONTENT_CLOSED",
+    "observed": "Teaching content link shows 本实例未启用教学内容编辑; text classroom only.",
+    "newRegression": false
+  },
+  "evidence": {
+    "document": "docs/v2/zhiban-v2-classroom-trial-local.md",
+    "documentSha256": "3e2f61b00b7ff09b8e42f61f86bd7a2c8bde734ab9c3ff6ec8de33ae5f21e92c",
+    "screenshots": {
+      "docs/v2/evidence/zhiban-classroom-published-local.png": "74640c33e23ebbfc469fc05c56eb27a85da8a40c9f126691c19a01f5417bb1ad",
+      "docs/v2/evidence/zhiban-classroom-submitted-limit-local.png": "1ecf4d49ac617da165d98c48f2858a5243ad1c5fc499390bed8d41ee5bf5660c",
+      "docs/v2/evidence/zhiban-classroom-student-search-error-local.png": "870df614dde41cda714b8ebf76b9baf74d81125e4d0196b853bbe56cca04f225",
+      "docs/v2/evidence/zhiban-classroom-teacher-grade-local.png": "1745755da494beb2ad5c933066cbfcea1038e4b5de59d16425f2033145fb33e3",
+      "docs/v2/evidence/zhiban-classroom-content-closed-local.png": "3714f36a736fc332ace8c7664024868ef6846454183b76e363e0469c86c9b538",
+      "docs/v2/evidence/zhiban-classroom-student-feedback-local.png": "87abaad2eaa86d8db556e561f47787f5dc41cddb4be85ba9b8ee8e57407664ae"
+    },
+    "learningAssetSha256": "47c5c00d799a0b23a938523fd4ac0016df24f9cea0ff690d7353739a29440167"
+  },
+  "boundaries": {
+    "businessSourceEdits": false,
+    "newAutomatedTests": false,
+    "ciDispatched": false,
+    "commit": false,
+    "push": false,
+    "realPg55432Or55433": false,
+    "scope": "single synthetic tenant, sequential teacher/student sessions; not full security/concurrency acceptance"
+  }
+}

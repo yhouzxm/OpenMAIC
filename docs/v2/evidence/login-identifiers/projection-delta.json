@@ -1,0 +1,10 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "scope": "POST_DIRECTED_EMPTY_DIRECTORY_RESPONSE_UNIFICATION",
+  "changedSource": [
+    "/home/zxm/openmaic/zhiban/lib/zhiban/application/profile/service.ts"
+  ],
+  "verification": "CURRENT_DEFAULT_REAL_HTTPS_UNKNOWN_AND_OUTSIDE_ALIAS_EMPTY_RESPONSE_SHAPE_AND_MAPPING",
+  "authAndRegistryImplementationChanged": false
+}

@@ -1,0 +1,13 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "target": "a9da60b3b4adb429369c0da13d5637a904ead2b0",
+  "source": "official release snapshot TypeScript bundled locally; no package install",
+  "checks": [
+    "old ownerId-only constructor rejects",
+    "documentOwnership:false without broad-access acknowledgement rejects",
+    "explicit ownership relation constructor accepts"
+  ],
+  "databaseQueries": 0,
+  "scope": "constructor compatibility only; no schema/ACL or PG1.2 runtime signoff"
+}

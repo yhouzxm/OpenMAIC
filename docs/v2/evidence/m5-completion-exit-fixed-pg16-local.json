@@ -1,0 +1,146 @@
+{
+  "status": "PASS",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "candidateInventorySha256": "fa51a67d9733fc6b436e89ec339306472ceb8566368cc3f9ce3c3122d873c13b",
+  "candidateMigrationSha256": "bbede0be2e773562730bb2b1c756d4aceba853143b298b768de7c0d70d624a8e",
+  "checks": [
+    {
+      "name": "six prior credentials really authenticate through exact loopback SCRAM before fixture rotation",
+      "status": "PASS"
+    },
+    {
+      "name": "actual immutable build emits product, validator, browser assets, pinned native/ELF and manifests",
+      "status": "PASS"
+    },
+    {
+      "name": "fault injection clone proves child cannot listen/write/load ambient packages/spawn/connect outside approved target",
+      "status": "PASS"
+    },
+    {
+      "name": "same release ID cannot overwrite an existing generation; no workspace symlink/external package leaves",
+      "status": "PASS"
+    },
+    {
+      "name": "staged configuration drift during a build fails before an artifact manifest can activate the partial generation",
+      "status": "PASS"
+    },
+    {
+      "name": "fresh guarded child loads actual frozen composition/native via six TCP roles without HTTP or business writes",
+      "status": "PASS"
+    },
+    {
+      "name": "independent test receipts and full HBA/actual old credentials complete all nine validation checks",
+      "status": "PASS"
+    },
+    {
+      "name": "reviewed shadow evidence binds the exact executable/native closure; another build cannot substitute",
+      "status": "PASS"
+    },
+    {
+      "name": "wrong signed compatibility generation is rejected by child without a partial positive ACK",
+      "status": "PASS"
+    },
+    {
+      "name": "missing/truncated/unknown source, mixed config and artifact mutations fail before child admission",
+      "status": "PASS"
+    },
+    {
+      "name": "native bytes/ABI/system-library drift and nonliteral dynamic import cannot be silently accepted",
+      "status": "PASS"
+    },
+    {
+      "name": "issuer rejects wrong independent review, mixed generation and wrong private key before completion; failed intent is not replayable",
+      "status": "PASS"
+    },
+    {
+      "name": "partial signed output without committed group is rejected and cannot be replayed",
+      "status": "PASS"
+    },
+    {
+      "name": "same issuance approval cannot replay into another output directory or maintenance root",
+      "status": "PASS"
+    },
+    {
+      "name": "independent reviewer authorizes exact same-generation compatibility and TLS outputs with a final complete marker",
+      "status": "PASS"
+    },
+    {
+      "name": "incomplete live validation produces no ACK or complete issuance and removes its credential request file",
+      "status": "PASS"
+    },
+    {
+      "name": "fresh child signed ACK and handoff receipt bind actual challenge, evidence, compatibility and generation",
+      "status": "PASS"
+    },
+    {
+      "name": "BLOCKED gate still rejects a fully signed ordinary release without publishing or repairing flags",
+      "status": "PASS"
+    },
+    {
+      "name": "occupied HTTPS port fails startup, leaves gate intact and releases inherited lock",
+      "status": "PASS"
+    },
+    {
+      "name": "ordinary HTTPS child holds inherited shared flock and serves actual workspace/editor and unauthenticated Identity with pinned CA",
+      "status": "PASS"
+    },
+    {
+      "name": "running host stops on gate byte drift and releases both inherited and supervisor locks; no automatic restart",
+      "status": "PASS"
+    },
+    {
+      "name": "canonical completion drift stops an already running host; sidecars cannot authorize a group",
+      "status": "PASS"
+    },
+    {
+      "name": "missing committed sibling stops running host even with unchanged selected receipts and master",
+      "status": "PASS"
+    },
+    {
+      "name": "actual disposable supervisor SIGTERM closes ordinary child and releases inherited lock",
+      "status": "PASS"
+    },
+    {
+      "name": "actual disposable supervisor SIGKILL closes ordinary child and releases inherited lock",
+      "status": "PASS"
+    },
+    {
+      "name": "TLS mismatch rejects launch before listener and without gate mutation",
+      "status": "PASS"
+    },
+    {
+      "name": "database scope revocation terminates an already running host and subsequent launch stays rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "expired approval and changed fence block validation; raw secrets do not enter argv/env/result",
+      "status": "PASS"
+    },
+    {
+      "name": "after all child exits target backends are gone and ready/claims/session/admission business counts unchanged",
+      "status": "PASS"
+    }
+  ],
+  "build": {
+    "artifactManifestSha256": "13937bbcee865217ab8f1b4d68113caac68c6f919b1335989a2f08e89427f9fc",
+    "buildManifestSha256": "5da0d424c8ac4942abb429573fb00bed56ca1ce3f4a2454c1baf2a0498c95e19",
+    "closureManifestSha256": "239ddc1a4ba362cf6b38fd3d253706db66c329b4a45a0fb7d1580f759e2f3c1c",
+    "files": 25
+  },
+  "actualProductCompositionBuilt": true,
+  "actualRendererEditorAssetsBuilt": true,
+  "actualArgon2NativeExecuted": true,
+  "sixRoleLoopbackTcpScramVerified": true,
+  "oldCredentialNegativeProbesVerified": true,
+  "disposableClusterStoppedAndRemoved": true,
+  "existingClustersConnected": false,
+  "realReceiptIssued": false,
+  "realGatePublished": false,
+  "runtimeAccepted": false,
+  "limitations": [
+    "Synthetic test keys/signed expected/compatibility/transport lineage and privileged CLOSED fixture; minimal Native and local corpus",
+    "Actual HTTPS pages/unauthenticated Identity and shutdown tested; no authenticated business writes or full browser journey. Test clear adds a controller authorization; other business/terminal row digests unchanged",
+    "No real target credentials, artifact delivery, authority signing, target HBA mutation or clear execution"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-23T10:58:20.280Z",
+  "scope": "EIGHT_LEGACY_PROFILE_AND_SUPPORT_ENTRY_ROUTES_WITH_DIMENSIONS_REVIEW",
+  "root": "/tmp/zhiban-trial-content-5idGk9",
+  "tenant": "01a16867-5a4c-72c1-bbff-9e807192f4ea",
+  "checks": [
+    "All four anonymous global entries require original login, no evidence/support data",
+    "TEACHER profile: global sidebar/search -> old course hub -> every governed feature -> return; courseId retained through nested return, bare bookmarks recover selection, wrong role/offering/context denied",
+    "TEACHER support: global sidebar/search -> old course hub -> every governed feature -> return; courseId retained through nested return, bare bookmarks recover selection, wrong role/offering/context denied",
+    "STUDENT profile: global sidebar/search -> old course hub -> every governed feature -> return; courseId retained through nested return, bare bookmarks recover selection, wrong role/offering/context denied",
+    "STUDENT support: global sidebar/search -> old course hub -> every governed feature -> return; courseId retained through nested return, bare bookmarks recover selection, wrong role/offering/context denied"
+  ],
+  "businessWrites": false,
+  "studentPrivateRiskOrAnalyticsReads": 0,
+  "sourceHashes": {
+    "app/zhiban/local/global-support.js": "bbc00903d6e0f775663af7f5ba7f1e660ba47eec5072ebe54bf411cfc8cfcb84",
+    "app/zhiban/local/global-support.html": "fde6f16803336cfbf554e6ad84ab505b61f88cb57465e9a269b7d3563cb8cc45",
+    "app/zhiban/local/support-hub.js": "5ea8c018f9882311748a254533c3759468e17146fff78a0fed1ffbb29412cce2",
+    "app/zhiban/local/support-hub.html": "4ab014ec3f8a9eb89a49cbbf5f838f3d52298633ef9f4af4ee2e19f8c09540be",
+    "app/zhiban/local/client.js": "134f14febc2f99ec68b2ecc74f081310bf1e9a5dfb4d29a4e728a9dbd2685e6b",
+    "app/zhiban/local/course-page.js": "6ac8600e50e2dfe816f0f03073089f68ab0a88b3ee9998899f474c845ef8d762",
+    "scripts/zhiban-local/request-target.ts": "2048b69d9a2c0ba9336f7f1dd774a1a7b6edf2a800995f26922e8dd773b76e2e",
+    "scripts/zhiban-local/server.ts": "6ff08d6c4fc898cd799c0fa55aa3b21c7ed5c785a21a5736f01fcfefbc52e70a",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "b9a4793073954f1cf0832ebe9b2fd2511b047193e7a195d4381eaadc93baec1d",
+    "scripts/zhiban-local/verify-support-routes.cjs": "4bd270ef02f43067a21452b9578eef9079f72b0af93cce645296ed6599214fc7",
+    "scripts/zhiban-local/verify-settings-routes.cjs": "ef9001b1f1f0104f96841b5b2cf434fe77eb653d4f232d12af7b80a454f008a2"
+  },
+  "excluded": [
+    "No synthetic observations/reminders/plans published; empty states are real",
+    "No scoring dimensions/diagnosis/ranking",
+    "No real multi-page or multi-space fixtures",
+    "No full classroom/PG16/CI rerun"
+  ]
+}

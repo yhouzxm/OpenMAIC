@@ -1,0 +1,9 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "ACCEPTED_FRESH_OWNED_FLOW_JOURNEY_SOURCE_MATCH",
+  "checkedSourceFiles": 628,
+  "changed": [],
+  "receiptSha256": "12ec7ffa9e9f6fe0415e805b10446be32dd8e16c1079b1df1a61dc92a6b21d82"
+}

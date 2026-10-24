@@ -1,0 +1,17 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "groups": 5,
+  "scope": [
+    "SELF_PROFILE",
+    "ADMIN_MEMBER_DIRECTORY",
+    "OWN_ACCOUNT_SECURITY"
+  ],
+  "excluded": [
+    "ACCOUNT_PROVISIONING",
+    "IDENTITY_STATE_OR_ROLE_MUTATION",
+    "NATIVE_RUNTIME_ACTIVATION",
+    "NATIVE_REFRESH_CLOSE_MANUAL_SIGNOFF"
+  ]
+}

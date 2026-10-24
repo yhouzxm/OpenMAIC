@@ -1,0 +1,21 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "modes": [
+    {
+      "mode": "start-rebind",
+      "ready": true,
+      "verifiedHttps": true
+    },
+    {
+      "mode": "start",
+      "ready": true,
+      "verifiedHttps": true
+    }
+  ],
+  "isolatedNetworkAndTmp": true,
+  "namespaceUid": 1001,
+  "transport": "ACTUAL_AES_GCM_V2_DIRECTORY_CLOSURE",
+  "sourcePatch": "autograde reference relocation + structured startup instrumentation; not original frozen sourceDigest"
+}

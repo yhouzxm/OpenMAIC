@@ -1,0 +1,21 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "status": "ARCHIVES_CREATED_AND_TABLE_OF_CONTENTS_VERIFIED",
+  "root": "/tmp/zhiban-trial-content-5idGk9",
+  "backupDirectory": "/home/zxm/.local/state/zhiban-trial-backups/authoring-routes-20261023-190515",
+  "databaseCount": 3,
+  "files": {
+    "zhiban_trial_content_disposable.dump": "fb55c449a57211b00af6fb632772e5dacdfe5ff90373979fb60955731294dad6",
+    "zhiban_trial_content_native.dump": "b7050b64a10e6fa1e5ee89c68c71ce241b7791728ce22fd2341cd904c99fe0dd",
+    "zhiban_trial_lesson_native.dump": "2a177b7d4a88a53243c9d58f8aed1852aabcd9ee1a404094f23e55009f3acfe9",
+    "accounts.json": "f7de4a9deed24a06dbe46c6449203de089e07ee36268dcea0e4a4ea20ec39ff5",
+    "member-control.json": "1a4bc3786a35f35574310475ef715180a4e20a3cd36be9290f0559aff30b2988",
+    "member-inputs.json": "d595010252a0baac6b772304dcc2247446e95a0c11c162d09b61137a0ed8bf4b",
+    "member-operator.pem": "9710b8200ac602057f7efa6bdd1438444cc3513bc49d154685af7f710d82a5f8",
+    "member-approver.pem": "0611114fa8b2a04d7bd7f4fbadb0c07e3c92d5a49659fd9818ebfcab5a2901a1",
+    "roster-example.csv": "d88dd61280f648bb9f1a0740dd160d0af4f8f7bb9119b8374950f0391c32a013",
+    "content-installation.json": "f0e8c60b52b402aa1a6d46a4d0a971228e3d7ff4f4627f45dde79497188fe9ff"
+  },
+  "restoreTested": false,
+  "secretsPrinted": false
+}

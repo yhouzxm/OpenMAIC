@@ -1,0 +1,15 @@
+
+> openmaic@1.2.1 verify:zhiban:ema /home/zxm/openmaic/zhiban
+> tsx scripts/zhiban-local/run-m6-catalog.ts --unified-trial --ema-focus
+
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+Reused @openmaic/generation: matching LOCAL source/build hashes
+PASS Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately
+Error: Disposable content receipt/source mismatch
+    at loadTrialContent (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-mGFgin/verify.mjs:73113:11)
+    at async main (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-mGFgin/verify.mjs:87079:45)
+    at async file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-mGFgin/verify.mjs:89080:3
+ ELIFECYCLE  Command failed with exit code 1.

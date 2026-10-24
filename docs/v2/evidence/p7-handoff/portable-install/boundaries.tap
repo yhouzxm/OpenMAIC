@@ -1,0 +1,76 @@
+TAP version 13
+# Subtest: verified snapshot permits immutable copy without PG startup
+ok 1 - verified snapshot permits immutable copy without PG startup
+  ---
+  duration_ms: 15.845176
+  type: 'test'
+  ...
+# Subtest: manifest substitution rejected
+ok 2 - manifest substitution rejected
+  ---
+  duration_ms: 5.501853
+  type: 'test'
+  ...
+# Subtest: changed PG file rejected
+ok 3 - changed PG file rejected
+  ---
+  duration_ms: 15.863461
+  type: 'test'
+  ...
+# Subtest: extra unmanifested file rejected
+ok 4 - extra unmanifested file rejected
+  ---
+  duration_ms: 49.921163
+  type: 'test'
+  ...
+# Subtest: snapshot link cannot read external private file
+ok 5 - snapshot link cannot read external private file
+  ---
+  duration_ms: 3.339443
+  type: 'test'
+  ...
+# Subtest: group accessible snapshot directory rejected
+ok 6 - group accessible snapshot directory rejected
+  ---
+  duration_ms: 2.640402
+  type: 'test'
+  ...
+# Subtest: symlink ancestor and noncanonical path rejected
+ok 7 - symlink ancestor and noncanonical path rejected
+  ---
+  duration_ms: 1.692433
+  type: 'test'
+  ...
+# Subtest: wrong package origin rejected even with its new pin
+ok 8 - wrong package origin rejected even with its new pin
+  ---
+  duration_ms: 1.961249
+  type: 'test'
+  ...
+# Subtest: invalid private import leaves target absent
+ok 9 - invalid private import leaves target absent
+  ---
+  duration_ms: 379.389965
+  type: 'test'
+  ...
+# Subtest: manifest metadata not accepted as arbitrary restore root
+ok 10 - manifest metadata not accepted as arbitrary restore root
+  ---
+  duration_ms: 2.990926
+  type: 'test'
+  ...
+# Subtest: portable launcher strips inherited provider and scanner; accepts only private per-instance service allowlist
+ok 11 - portable launcher strips inherited provider and scanner; accepts only private per-instance service allowlist
+  ---
+  duration_ms: 8.16137
+  type: 'test'
+  ...
+1..11
+# tests 11
+# suites 0
+# pass 11
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 709.557592

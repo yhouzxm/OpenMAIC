@@ -1,0 +1,32 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "CURRENT_DEFAULT_IAB_PUBLISH_SELF_DISPUTE_HUMAN_REVISE_AND_SELF_READBACK",
+  "root": "/tmp/zhiban-trial-content-Gu8Osi",
+  "noteId": "01a16369-cdf8-74e7-81b3-7309da52f77e",
+  "disputeId": "01a1636a-cd50-76d8-a5ac-add325944355",
+  "teacherUrl": "https://127.0.0.1:3461/zhiban/teacher/courses/01a16369-c358-703c-846b-25cacffbb01d/learning-profile?space=01a16369-4fb1-737f-98e6-c6392d94200f&offering=01a16369-c447-7564-9e79-0b63d53d47c9#dispute-01a1636a-cd50-76d8-a5ac-add325944355",
+  "studentUrl": "https://127.0.0.1:3461/zhiban/student/courses/01a16369-c358-703c-846b-25cacffbb01d/learning-profile?space=01a16369-4fb1-737f-98e6-c6392d94200f&offering=01a16369-c447-7564-9e79-0b63d53d47c9#dispute-01a1636a-cd50-76d8-a5ac-add325944355",
+  "disputeState": "RESOLVED",
+  "disputeRevision": "2",
+  "observationRevision": "3",
+  "fixedOriginalGradePoints": 4000,
+  "currentCitationGradePoints": 8000,
+  "formalPublicationHistoryPoints": [
+    8000,
+    4000
+  ],
+  "gradeCorrectionUsedOriginalAssessmentCommand": true,
+  "profileCommandChangesGrade": false,
+  "teacherNoteEvents": 3,
+  "studentNoteEvents": 2,
+  "disputeEvents": 2,
+  "studentDraftEventsAbsent": true,
+  "studentTeacherRosterAccess": 403,
+  "dimensionStatus": "REVIEW",
+  "automaticAbilityScores": false,
+  "automaticMastery": false,
+  "automaticReminders": 0,
+  "modelRequestMade": false
+}

@@ -1,0 +1,17 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "CURRENT_ENROLLMENT_CURRENT_ASSESSED_VERSION_FACT_BASED_FOLLOWUPS",
+  "pendingBeforeWithdrawal": 24,
+  "pagination": "KEYSET_ACTIVITY_MEMBER",
+  "gradeDraftNotExposed": true,
+  "resubmitReturnsToPending": true,
+  "republishUsesNewVersion": true,
+  "practiceAndWithdrawnExcluded": true,
+  "withdrawnMemberExcluded": true,
+  "revokedTeacherDenied": true,
+  "teacherGradingReturn": "PASS",
+  "automaticNotification": false,
+  "automaticRiskInference": false
+}

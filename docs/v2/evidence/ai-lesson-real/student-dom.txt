@@ -1,0 +1,50 @@
+- banner:
+  - link "智伴·创学":
+    - /url: /zhiban?space=01a1595a-5591-7595-9879-14c5c10b19fc
+  - generic: 学生课程工作区
+  - link "个人资料与账户":
+    - /url: /zhiban/profile?tenant=01a1595a-5591-7595-9879-14c5c10b19fc
+  - button "退出登录"
+  - status
+- link "← 返回我的课程":
+  - /url: /zhiban?space=01a1595a-5591-7595-9879-14c5c10b19fc
+- heading "试用课程：机电入门" [level=1]
+- paragraph: 试用教学班 · 试用学期 · 开放 · 发布版本 1
+- navigation "课程内导航":
+  - link "目录":
+    - /url: /zhiban/student/courses/01a1595a-c18c-70a9-a662-563fd4fd7085?space=01a1595a-5591-7595-9879-14c5c10b19fc&offering=01a1595a-c2b6-73aa-918f-8c6de55d3fe4
+  - link "课程简介":
+    - /url: /zhiban/student/courses/01a1595a-c18c-70a9-a662-563fd4fd7085/introduction?space=01a1595a-5591-7595-9879-14c5c10b19fc&offering=01a1595a-c2b6-73aa-918f-8c6de55d3fe4
+  - link "学习活动":
+    - /url: /zhiban/student/courses/01a1595a-c18c-70a9-a662-563fd4fd7085/coursework?space=01a1595a-5591-7595-9879-14c5c10b19fc&offering=01a1595a-c2b6-73aa-918f-8c6de55d3fe4
+  - link "课程资源":
+    - /url: /zhiban/student/courses/01a1595a-c18c-70a9-a662-563fd4fd7085/resources?space=01a1595a-5591-7595-9879-14c5c10b19fc&offering=01a1595a-c2b6-73aa-918f-8c6de55d3fe4
+  - link "学习中心":
+    - /url: /zhiban/student/courses/01a1595a-c18c-70a9-a662-563fd4fd7085/learning-center?space=01a1595a-5591-7595-9879-14c5c10b19fc&offering=01a1595a-c2b6-73aa-918f-8c6de55d3fe4
+  - link "课程讨论":
+    - /url: /zhiban/student/courses/01a1595a-c18c-70a9-a662-563fd4fd7085/discussions?space=01a1595a-5591-7595-9879-14c5c10b19fc&offering=01a1595a-c2b6-73aa-918f-8c6de55d3fe4
+  - link "学习成绩":
+    - /url: /zhiban/student/courses/01a1595a-c18c-70a9-a662-563fd4fd7085/grades?space=01a1595a-5591-7595-9879-14c5c10b19fc&offering=01a1595a-c2b6-73aa-918f-8c6de55d3fe4
+- main:
+  - heading "教学内容" [level=1]
+  - region "课程上传资源":
+    - heading "上传与发布教学资源" [level=2]
+    - paragraph: 支持 TXT、Markdown、PDF，每文件≤1MiB。复用新版本地解析，展示纯文本并提供原件下载；不调用外部解析或AI服务。资源按本教学班隔离，阅读不计完成率或成绩。
+    - status
+    - button "读取最新上传资源"
+    - paragraph: 暂无可查看的上传资源。
+    - generic "课程上传资源列表"
+  - paragraph: 这里只展示已发布讲义。阅读预览不代表已完成作答或获得成绩。
+  - complementary:
+    - button "刷新列表"
+    - article:
+      - heading "真实AI备课：欧姆定律" [level=3]
+      - text: 已发布
+      - button "查看已发布"
+  - heading "已发布预览" [level=2]
+  - paragraph: 当前已发布版本 ·
+  - button "第 1 页"
+  - button "第 2 页" [active]
+  - button "第 3 页"
+  - heading "页面预览" [level=3]
+  - generic: 课堂例题：12V、6Ω 求电流 已知：电压 U = 12V，电阻 R = 6Ω；求：电流 I。 解：依据欧姆定律 I = U ÷ R，代入数据： I = 12V ÷ 6Ω = 2A。 答：通过该导体的电流为 2A。 验算：U = I × R = 2A × 6Ω = 12V。

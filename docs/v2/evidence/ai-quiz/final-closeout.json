@@ -1,0 +1,76 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "branch": "refactor/zhiban-v2",
+  "dirtyCandidatesPreserved": true,
+  "root": "/tmp/zhiban-trial-content-lUuAi8",
+  "origin": "https://127.0.0.1:3461",
+  "pid": 72675,
+  "runId": "run-li4eqSiMLIiWSO-f",
+  "sourceHash": "1bd3c09a23d0299153be8653cd6447899631cc09e7e6292ea25fd2a46dfe68f8",
+  "compiledProductSourcesMatchStartup": true,
+  "liveAsset": {
+    "path": "app/zhiban/local/lesson.js",
+    "sha256": "b6af76d558c3b5fcf67d40fe9f24868b4e37d6e7a6d0b72598bbbed8a9782b5e",
+    "servedBytesComparedInBrowser": true
+  },
+  "startupReceiptDrift": [
+    "app/zhiban/local/lesson.js",
+    "scripts/zhiban-local/verify-ai-quiz-adoption.cjs",
+    "scripts/zhiban-local/verify-ai-quiz-generate.cjs"
+  ],
+  "startupReceiptUnmodified": true,
+  "verification": {
+    "realModel": "glm:glm-5.3",
+    "mock": false,
+    "browserJourney": "PASS",
+    "concurrentAdoption": "PASS",
+    "sourceHashConflict409": "PASS",
+    "transactionRollback": "PASS",
+    "inFlightCommittedRevocation": "PASS",
+    "sourceCancellationReceiptReplay": "PASS",
+    "projectionAndQuizContract": "PASS",
+    "targetedTypescript": "PASS",
+    "targetedEslint": "PASS",
+    "diffCheck": "PASS"
+  },
+  "disposableFinalState": {
+    "activityStatus": "PUBLISHED",
+    "activeTeachingAssignments": 1,
+    "faultFunctionsRemaining": 0,
+    "version": 160015
+  },
+  "privateBackup": "/home/zxm/.local/share/zhiban-backups/ai-quiz-first-real-20261023",
+  "privateBackupRestoreTested": false,
+  "previousP7Unchanged": true,
+  "noCommit": true,
+  "noPush": true,
+  "noCiDispatch": true,
+  "scopeExcludes": [
+    "AI grading suggestions",
+    "new native generated question types",
+    "full Runtime and trusted interactive completion",
+    "production deployment and independent restore"
+  ],
+  "files": {
+    "lib/zhiban/application/quiz/service.ts": "202b322d100d4bd4a35bb85d41ad776f1eb1d74d56e9277f1c52745063224b23",
+    "lib/zhiban/infrastructure/quiz/postgres/transaction.ts": "6f94677ed26d912794597deb49235c4779d9ac94ef065e153a39d35b5d964708",
+    "lib/zhiban/infrastructure/lesson/service.ts": "ad37e6f45564f4d2005360834baa435c5dd5e9ca831f6b816c8a1f33940a534d",
+    "lib/zhiban/infrastructure/lesson/quiz-projection.ts": "c248f263f214c64217f8d162de684b7fe60fd31ac8e4ed2ec93f11ebb37ce931",
+    "lib/zhiban/infrastructure/content/http.ts": "e4806a78c7b1944cb20571f61e323ad37025bd2db6b29b16ab777f00808a6dab",
+    "scripts/zhiban-local/lesson.ts": "04aa23dab74d5b1ebf34b773f9ed187a2f404a135c71fcfc5cdd5efe5d35802a",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "bdbf0c13c55267566254bfec8bd473539ea09624724415966a0609c262ec8dfc",
+    "app/zhiban/local/lesson.js": "b6af76d558c3b5fcf67d40fe9f24868b4e37d6e7a6d0b72598bbbed8a9782b5e",
+    "scripts/zhiban-local/verify-ai-quiz-generate.cjs": "47c279306e6d21c2710d2f4cec4fc6cae391c00d26d2717ff9571e2181726798",
+    "scripts/zhiban-local/verify-ai-quiz-adoption.cjs": "c80ccadf512181bd5cab76f75f967d7fcfa8c9ac2aab09bf601b1fef12566fed",
+    "tests/zhiban/lesson/quiz-projection.test.ts": "23733d1f3b7bbd41575d61943d8d5d530e239e388e54ccd9ea4527b20d5935d1",
+    "docs/v2/zhiban-v2-ai-quiz-local.md": "928a6d1dab014d2432217e8a4cefb70abf905a6691757ca0828a1e4803777cbf",
+    "docs/v2/zhiban-v2-migration-completion-plan.md": "cb868f5437316e0fc6dca7fbeef01381422ae0fc7ca9707768d8d00ec225d9d6",
+    "docs/v2/zhiban-v2-feature-gap-matrix.md": "fb802faf8167af88f10ae2fcc54a0d5e358cdb0422c3cb7f4b491d00087f0489",
+    "docs/v2/zhiban-v2-quiz-capability-gap.md": "c154cb7cfbd6809db60aa4d6ea8e604400f2140952a8473c456810421c0473fb",
+    "docs/v2/evidence/ai-quiz/generation.json": "75e897d10aa42e33d6404fe1319b6913e220a1d6236aa46d2f29eb20a973f463",
+    "docs/v2/evidence/ai-quiz/journey.json": "f1cac082d73a90cd298252a29248f69da81eca95650bac6c51cd8e91d11c267c"
+  }
+}

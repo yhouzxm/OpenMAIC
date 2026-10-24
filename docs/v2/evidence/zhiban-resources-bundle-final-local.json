@@ -1,0 +1,87 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "at": "2026-10-23T16:10:56.714778+00:00",
+  "status": "PASS_CONFIGURED_LOCAL_SCOPE_EXTERNAL_PARSING_PENDING",
+  "scope": "RESOURCE_ATTACHMENT_LOCAL_TARGETED",
+  "journey": {
+    "path": "docs/v2/evidence/zhiban-resources-bundle-continuation-local.json",
+    "sha256": "228038d553fdcc187c5366f1767c91c3314d43be3307c66f0b98f55c6b504a49",
+    "status": "PASS",
+    "checks": [
+      "Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately",
+      "PG16 restricted roles + real Identity sessions + validated trusted HTTPS",
+      "trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands",
+      "real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft",
+      "submission files real browser selects file, saves text draft retaining selection, submits version, reopens historical list and downloads exact file bytes without script errors",
+      "MATERIAL ownership/publication: real scanner + native Markdown extraction; draft secrecy, role/tenant boundaries, unpublished directory denial, published unit and exact original download",
+      "MATERIAL version/CAS: replacement stays teacher draft until explicit publish; concurrent publication has one winner; prior published bytes/text remain fixed",
+      "MATERIAL scan/parse/atomicity: EICAR and corrupt PDF leave no rows; official unpdf extracts real PDF; ledger failure rolls back blob/version/resource; original-key retry creates once",
+      "MATERIAL browser journey: teacher actual TXT upload/parse/preview/publish; student published course unit and actual version-bound download; no page errors",
+      "MATERIAL lifecycle/ACL: archived source inaccessible, closed offering read-only, append-only versions and expected catalog reject widened DELETE ACL; original state restored",
+      "RESOURCE BUNDLE: native CSV extraction and immutable publication visible to enrolled student; missing OCR service refused without resource creation"
+    ]
+  },
+  "earlierBoundaryEvidence": {
+    "path": "docs/v2/evidence/zhiban-resources-bundle-browser-wait-failure-local.json",
+    "sha256": "bcc382ae233b2d13dd6d4046b83f607996d054fd1674670c086316fbfd4ee6b6",
+    "overallStatus": "FAIL_BROWSER_HARNESS_WAIT",
+    "acceptedPartialChecks": [
+      "trusted scanner wrong profile pin, unavailable executable (including cached digest), and wrong file/proof digest fail closed; no partial submission",
+      "TRUSTED_SCANNER real official ClamAV clean TXT accepted; EICAR rejected without submission; atomic binding, digest/bytes, replay, malformed/oversize, role/tenant/revoked denial and version history pass",
+      "submission files PDF bytes, concurrent revision barrier, 10 MiB attempt quota rollback and expired deadline rejection pass without partial submissions",
+      "submission file loader checks source ledger and exact append-only RLS/ACL; excess DELETE rejected and restored",
+      "RESOURCE BUNDLE: real ClamAV-cleared DOCX submission and teacher exact-byte download; no parser configuration required for download-only attachments"
+    ],
+    "note": "These explicit passed boundary checks are retained only within their original source; the earlier run is not relabelled PASS."
+  },
+  "sourceHashes": {
+    "lib/zhiban/domain/learning/file-policy.ts": "866765630ceb5eb0195dc5a2c49f550b702be216ddd2703d23ec6d622847c465",
+    "lib/zhiban/domain/learning/attachment.ts": "7f0f52d419226e868bea6fb906f70cd23dd00d228d7d3cbfaf3e3fd330924295",
+    "lib/zhiban/domain/material/model.ts": "d71dbc3fb495cb88b5e039bb307ac74a95047f09c7113e0ed354bd309e2367a9",
+    "lib/zhiban/application/material/service.ts": "18f11ee5f4a7c20084b5b3b67c63bdc4ee5185786bff3f3534e6f1612d865e38",
+    "lib/zhiban/infrastructure/material/config.ts": "d95c2d72c49371b81027c8d10c6f7dda9cd1cf4e31e33171da9ac8d805e2a82d",
+    "lib/zhiban/infrastructure/material/parser.ts": "cb9562765e1cf514dcb790542a1cf0e09bfbf08416f1d87acdb14981576a0964",
+    "lib/zhiban/infrastructure/learning/http.ts": "6b299807c104a124df7c9b65688e159b05670ba28c8fc9a7b85da1a4ce7755d2",
+    "lib/zhiban/infrastructure/learning-files/scanner/clamav.ts": "515f248445ae0d452b52c33ae4dec6333d0c9ac138a424ba6084cf80c8366f9b",
+    "scripts/zhiban-local/material-parser-child.ts": "5cfc8046d7b3c65a23caf865f5cc9fb24cbad8cdf9bc87e3c1931c4e387ebf02",
+    "scripts/zhiban-local/material.ts": "796b52ca948e7b5fca53e9fc4ee4e01ef238f33072c99cade71f4630ee18f63f",
+    "scripts/zhiban-local/build-material-reference.ts": "5df24cacc1baf72200a035e084e1b1a3ff4ac122ebcfb86dbcc0dadd1b621fa2",
+    "scripts/zhiban-local/submission-files.ts": "007b9406ef9d6a6eecc31d53a8f38b0d034b1d4a45e17ee44f8b47b630bf715d",
+    "scripts/zhiban-local/scanner-profile.ts": "1638da4f62379e005514957765ef641374ff87960d48937bc1b3a80b1535dd77",
+    "app/zhiban/local/material-client.tsx": "41a84f551c89d1465b53631686a2027bbfdbbf337fe643ead6616eeab15d4ac2",
+    "app/zhiban/local/learning.js": "e0b69df9f9ff2b4cc0ad6c7093de6d59b01ef1b6046000671fbd4fa60560772c",
+    "lib/zhiban/infrastructure/material/postgres/migrations/0002_resource_formats.sql": "739a208ed97775c3bd0cd2b4ab4f18cab9bde701df0cf12f0ed0bd245eb56016",
+    "lib/zhiban/infrastructure/learning-files/postgres/migrations/0004_attachment_formats.sql": "b67f28ad5e1b69e4d9e2ac0ee3021bbca83a86420597f8cc82aec5d6741570ec",
+    "tests/zhiban/material/formats.test.ts": "d421f57db884fb722d0b1e01ab503b2c3f4be4967e24900bca6193c268300bd6"
+  },
+  "differencesAfterPassingJourneyStarted": [],
+  "scanner": {
+    "profile": "/home/zxm/.local/share/zhiban-scanner/snapshots/2026-10-23T15-46-54.983Z/profile.json",
+    "sha256": "4afd168e1c42aa169fdf2b5ad454384c28f07521a71b258f51e55c529b336271",
+    "evidenceOrigin": "LOCAL",
+    "engine": "ClamAV 1.5.4"
+  },
+  "externalGates": [
+    "User confirmed no Office/OCR/media service configuration; real parsing NOT verified",
+    "1MiB per file retained; large media unsupported",
+    "Default3461 process/data retained; new schema not applied there",
+    "No production installation, real database migration, P7 repack or CI"
+  ],
+  "verification": [
+    "Native TXT/MD/CSV/PDF extraction",
+    "Real ClamAV-cleared DOCX container attachment and teacher download",
+    "Browser file select, preserve on draft save, submit, history and exact download",
+    "Teacher resource upload, preview, publish and student published-unit download",
+    "Authorization, revocation, tenant isolation, CAS, rollback and exact loader ACL",
+    "Host config mode, hash, field and missing-service rejection",
+    "Targeted TypeScript and ESLint"
+  ],
+  "mutations": {
+    "commit": false,
+    "push": false,
+    "ci": false,
+    "appliedExistingMigrationsEdited": false,
+    "default3461Stopped": false
+  }
+}

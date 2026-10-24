@@ -1,0 +1,21 @@
+
+> openmaic@1.2.1 verify:zhiban:onboarding /home/zxm/openmaic/zhiban
+> tsx scripts/zhiban-local/run-m6-catalog.ts --unified-trial --onboarding-focus
+
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+Reused @openmaic/generation: matching LOCAL source/build hashes
+PASS Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately
+{"timestamp":"2026-10-22T13:11:18.450Z","level":"INFO","tag":"GenerationRunner","message":"generation runner 40055:75b28827-624c-42a6-a8aa-7d1d7b6f9874 started (scan=1000ms, heartbeat=2000ms, leaseTtl=10000ms, maxConcurrent=1)"}
+PASS PG16 restricted roles + real Identity sessions + validated trusted HTTPS
+PASS trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands
+PASS real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft
+LOCAL directed store refusal WORK FORBIDDEN 6
+LOCAL directed store refusal WORK FORBIDDEN 43
+LOCAL directed store refusal WORK CONFLICT 10
+LOCAL directed store refusal WORK FORBIDDEN 18
+PASS Ordinary account: independent signed USER_CREATE -> recipient first credential -> original login -> no automatic membership/grants/Enrollment -> original invite/consent/admin activation; tenant UI never gets ticket/password
+PASS Ordinary account partial failure: committed User stays without credentials; same signed control receipt and protected file resume once; credential audit failure rolls everything back; explicit CLAIMED read/login confirms discarded ACK
+PASS First-password boundary: expired/revoked/replaced ticket, disabled target, revoked platform authority during real KDF, permanent slot, auth helper ACL and source/profile drift refuse; old bootstrap/recovery untouched

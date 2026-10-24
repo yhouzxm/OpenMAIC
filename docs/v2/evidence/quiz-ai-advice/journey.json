@@ -1,0 +1,38 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "realModel": true,
+  "mock": false,
+  "model": "glm:glm-5.3",
+  "root": "/tmp/zhiban-trial-content-rU1zAL",
+  "ids": {
+    "quiz": "01a16958-fca7-7547-9e19-4b2576e5fe75",
+    "submission": "01a16958-fe9b-7501-af19-80f07e61e0c8",
+    "suggestion": "6a48bb4df120ac708d8ca271e378a291b9e52cddd78cf22922f840395f61c732",
+    "unit": "14f1dd1f-043f-4567-8adf-8afc8a9baf1b"
+  },
+  "verificationContinuation": "Original complete journey assertions passed through concurrent accept and teacher publish click; fixed immediate-read timing race, then independently verified persisted publication and student browser result without repeating model calls.",
+  "checks": [
+    "Native real advice x3",
+    "Teacher browser rejection leaves grade absent",
+    "Manual grade revision change conflicts with stale suggestion",
+    "Student/admin denied and injected client marks rejected",
+    "Committed teacher revocation denies, original management command restores",
+    "Injected grade INSERT failure rolls back",
+    "Concurrent independent accepts save one grade revision and one decision",
+    "Opposite decision conflicts",
+    "Original teacher explicit publication and student browser result; no advice in student response"
+  ],
+  "audits": [
+    {
+      "event_type": "QUIZ_AI_DECISION",
+      "n": 2
+    },
+    {
+      "event_type": "QUIZ_AI_SUGGESTION",
+      "n": 3
+    }
+  ],
+  "browserErrors": []
+}

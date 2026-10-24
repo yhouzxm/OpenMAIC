@@ -1,0 +1,43 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "origin": "https://127.0.0.1:3461",
+  "root": "/tmp/zhiban-trial-content-rU1zAL",
+  "tenantId": "01a16958-5776-7381-a21c-e66fe3c2684b",
+  "courseId": "01a16b95-df2e-72a7-916d-0ebfa7b685bd",
+  "offerings": [
+    "01a16b95-dfef-7067-b5c1-f30cbd595d2c",
+    "01a16b95-f252-77ef-9db8-b24a4d61784a"
+  ],
+  "service": {
+    "jobId": "01a16b95-e3a5-77cd-8988-76c134ecbca2",
+    "publicationId": "01a16b95-efaa-70fb-8b9e-c1897cdc339f",
+    "model": {
+      "model": "glm-5.3",
+      "provider": "glm",
+      "thinking": {
+        "mode": "enabled",
+        "effort": "low",
+        "budgetTokens": 1024
+      },
+      "promptSha256": "4a20a9933587ceb86cbb15d45cbe1dc8b72a8392f0c2b7aec910fe15f05cc108"
+    }
+  },
+  "quizServiceJobId": "01a16b95-f77a-7756-855e-50f33c844f74",
+  "originalQuizServicePublisherNull": true,
+  "certificateId": "01a16b97-0002-72b8-87d3-7eac2887e182",
+  "creditId": "01a16b97-0089-7353-a0c8-97cae4f88bbe",
+  "crossClassDuplicateRefused": true,
+  "browserForms": {
+    "teacherPolicy": true,
+    "certificateDisabledStateRetained": true,
+    "adminRosterAndDuplicateRefusal": true
+  },
+  "accountsSha256": "91d73979d2a3a17ba17c69549682aa4d944f875c004bb8427ad5ba35d262e122",
+  "urls": {
+    "teacher": "https://127.0.0.1:3461/zhiban/teacher/courses/01a16b95-df2e-72a7-916d-0ebfa7b685bd/auto-grading?space=01a16958-5776-7381-a21c-e66fe3c2684b&offering=01a16b95-dfef-7067-b5c1-f30cbd595d2c",
+    "student": "https://127.0.0.1:3461/zhiban/attainment?tenant=01a16958-5776-7381-a21c-e66fe3c2684b&mode=STUDENT",
+    "admin": "https://127.0.0.1:3461/zhiban/attainment?tenant=01a16958-5776-7381-a21c-e66fe3c2684b&mode=ADMIN"
+  }
+}

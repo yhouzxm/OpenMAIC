@@ -1,0 +1,155 @@
+{
+  "kind": "ZHIBAN_PORTABLE_REMOTE_EXECUTION_CHECKPOINT_V1",
+  "at": "2026-10-24T10:33:35.346980+00:00",
+  "authorization": "User confirmed scope and authorized minimum checkpoint, workflow registration, protected delivery and one remote acceptance.",
+  "status": "REMOTE_ACCEPTANCE_FAIL_RESTORE_START_CLEANED",
+  "workflowSha": "0f6903b2eeb39ccf8e27762705ac3a86d60f7911",
+  "registrationSha": "d280110a63736679be380e58691595640041f0b0",
+  "registrationScope": "main: workflow file only, [skip ci]; refactor branch: 12-file bootstrap/test/preparation checkpoint; unrelated dirty application files excluded",
+  "environment": {
+    "name": "zhiban-portable-acceptance",
+    "reviewer": "yhouzxm",
+    "preventSelfReview": false,
+    "canAdminsBypass": false,
+    "allowedBranch": "refactor/zhiban-v2",
+    "approvedWorkflowSha": "0f6903b2eeb39ccf8e27762705ac3a86d60f7911"
+  },
+  "applicationSourceDigest": "a310b5758e14af73e614935f44dde97b933b4b2f9f15f6ddbd2a41548e47a18d",
+  "ciphertextSha256": "a35f89f43c05f529bd8191b7b877d1a19dbda35bfb6a82452f1bcf18f054c3f8",
+  "localBoundaryTests": {
+    "passed": 18,
+    "failed": 0
+  },
+  "dispatchCount": 1,
+  "run": {
+    "id": 40087593933,
+    "attempt": 1,
+    "url": "https://github.com/yhouzxm/OpenMAIC/actions/runs/40087593933",
+    "headSha": "0f6903b2eeb39ccf8e27762705ac3a86d60f7911",
+    "conclusion": "failure",
+    "status": "completed"
+  },
+  "publicReport": {
+    "path": "docs/v2/evidence/p7-handoff/portable-ci/run-40087593933/zhiban-portable-report-40087593933-1.json",
+    "sha256": "55d09ed5eb28f9077ca60b8c7281b55dd0257d93c3c2828cf796204c34af34b9",
+    "report": {
+      "kind": "ZHIBAN_PORTABLE_REMOTE_ACCEPTANCE_V1",
+      "executionOrigin": "GITHUB_ACTIONS",
+      "status": "FAIL",
+      "runId": "40087593933",
+      "workflowSha": "0f6903b2eeb39ccf8e27762705ac3a86d60f7911",
+      "failureStage": "RESTORE_START",
+      "cleanup": {
+        "status": "PASS",
+        "privateNamespacePurged": true
+      }
+    }
+  },
+  "cleanup": {
+    "runner": {
+      "status": "PASS",
+      "privateNamespacePurged": true
+    },
+    "environmentTransportSecret": "DELETED_AND_EMPTY_LIST_VERIFIED",
+    "temporaryReleaseAndTag": "DELETED_ASSET_RELEASE_TAG_ALL_404_VERIFIED",
+    "localCipherAndKey": "RETAINED_OWNER_ONLY"
+  },
+  "boundaries": [
+    "Frozen dirty application snapshot is identified by sourceDigest, not checkpoint SHA.",
+    "LOCAL input evidence is not reissued as GITHUB_ACTIONS.",
+    "No Identity/Storage full suites or unrelated classroom regression.",
+    "Ephemeral remote acceptance does not constitute production deployment or persistent GitHub hosting.",
+    "Existing default 3461 and isolated operational Native environments are preserved."
+  ],
+  "updatedAt": "2026-10-24T11:00:09.954020+00:00",
+  "rejectedDispatchRequests": 3,
+  "asset": {
+    "id": 672009150,
+    "sha256": "a35f89f43c05f529bd8191b7b877d1a19dbda35bfb6a82452f1bcf18f054c3f8",
+    "serverDigestMatched": true,
+    "bytes": 267167876
+  },
+  "remoteAcceptance": "FAIL_NOT_SIGNED_OFF",
+  "repositoryActionsSettings": {
+    "before": {
+      "enabled": true,
+      "allowed_actions": "all",
+      "sha_pinning_required": false
+    },
+    "after": {
+      "enabled": true,
+      "allowed_actions": "all",
+      "sha_pinning_required": false
+    },
+    "defaultWorkflowPermissions": "read",
+    "canApprovePullRequestReviews": false,
+    "changedEffectivePermissions": false
+  },
+  "originalInstance": {
+    "status": "RUNNING_LOCAL_PERSISTENT",
+    "pid": 87878,
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "verifiedHttpsStatus": 200,
+    "stopped": false,
+    "restarted": false
+  },
+  "remoteHeadsVerified": {
+    "main": "d280110a63736679be380e58691595640041f0b0",
+    "refactor/zhiban-v2": "0f6903b2eeb39ccf8e27762705ac3a86d60f7911"
+  },
+  "githubWorkflowRunsTotal": 1,
+  "next": "Diagnose and fix RESTORE_START with safe startup failure classification and targeted local validation. No second remote run is authorized by the single-run scope.",
+  "resume": {
+    "at": "2026-10-24T10:49:27.206856+00:00",
+    "userConfirmedForkEnabled": true,
+    "approvedWorkflowShaUnchanged": true,
+    "priorRemoteRunCount": 0
+  },
+  "previousCheckpointSha": "6a7b30f8c6c0e614fb43d15828c75ca0e329c4c5",
+  "previousRegistrationSha": "e1b16e0c4d1b81953b23cc0f3da20e1d1ccd04aa",
+  "priorBlocker": {
+    "dispatchHttpStatus": 422,
+    "message": "Actions has been disabled for this repository.",
+    "actionsPermissionsEnabled": true,
+    "workflowState": "active",
+    "webPageMessage": "Workflows are not currently being run on this fork due to the scale of GitHub Actions usage. A repository maintainer can choose to re-enable these.",
+    "source": "https://github.com/yhouzxm/OpenMAIC/actions",
+    "resolution": "Maintainer browser fork opt-in; current browser is signed out. Normal workflow enable and repository Actions permissions API did not lift platform restriction."
+  },
+  "workflowRegistrationFix": {
+    "reason": "GitHub runner context unavailable in jobs.env; rejected before run creation",
+    "files": [
+      ".github/workflows/zhiban-portable-acceptance.yml",
+      "tests/zhiban/local/portable-ci.test.cjs"
+    ],
+    "scope": "Initialize RUNNER_TEMP paths in bootstrap shell then publish via GITHUB_ENV",
+    "actionlint": "PASS official release with checksum verification",
+    "boundaryTests": "18 PASS",
+    "businessCiphertextUnchanged": true
+  },
+  "environmentApproval": {
+    "reviewer": "yhouzxm",
+    "actor": "Existing authenticated user via pending_deployments API",
+    "userAuthorization": "Previously authorized protected delivery and single acceptance; no reviewer bypass",
+    "deploymentId": 7297604496,
+    "approvedWorkflowSha": "0f6903b2eeb39ccf8e27762705ac3a86d60f7911"
+  },
+  "diagnosis": {
+    "confirmedStage": "RESTORE_START",
+    "earlierPhasesCompletedByCodeOrdering": [
+      "DELIVERY",
+      "PREREQUISITES",
+      "FROZEN_INSTALL",
+      "BROWSER_PREREQUISITES",
+      "PRIVATE_IMPORT",
+      "NSS_TRUST"
+    ],
+    "notReached": ["DATA_ROLES_HTTPS", "NORMAL_RESTART", "FINAL_SNAPSHOT"],
+    "failedCombinedStepSeconds": 176,
+    "readinessBudgetSeconds": 180,
+    "readinessTimeoutExcluded": "Combined step duration is less than readiness wait alone; extending timeout is not supported by evidence.",
+    "rootCause": "UNCONFIRMED: private diagnostics were intentionally purged; current summary has phase only.",
+    "needed": "Allowlisted failure codes and subphase timing/exit status, without raw child logs or secret paths, then bounded reproduction/fix before any separately authorized rerun."
+  }
+}

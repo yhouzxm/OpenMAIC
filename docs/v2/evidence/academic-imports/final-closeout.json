@@ -1,0 +1,79 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "localDate": "2026-10-23",
+  "branch": "refactor/zhiban-v2",
+  "head": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "preexistingDirtyCandidatesPreserved": true,
+  "scope": "SEVEN_ACADEMIC_IMPORT_KINDS_PREVIEW_GUARDED_PER_ROW_COMMANDS_DURABLE_CREATOR_BATCHES_AND_RESULT_CSV",
+  "checks": {
+    "independentPg16Reference": "PASS",
+    "unitTests": 3,
+    "scopedTypeScript": "PASS",
+    "scopedEslint": "PASS",
+    "finalFrontendEslint": "PASS",
+    "scopedPg16Https": "PASS",
+    "postCommitAckLossReadback": "PASS",
+    "sameDatabaseServiceReconstruction": "PASS",
+    "wholeOperatingSystemProcessRecovery": "NOT_CLAIMED",
+    "originalIabFileChooserMixedSkipImport": "PASS",
+    "finalIabLayoutFastInputCommitReloadDownload": "PASS",
+    "oldRoutes": "PASS",
+    "largeHttpsPreviewBytes": 57811,
+    "currentRuntimeSources": 2724,
+    "currentRuntimeSourceDrift": [],
+    "unchangedPreexistingMigrations": 41,
+    "ownNewMigrations": 1
+  },
+  "sourceBoundary": {
+    "evidenceOrigin": "LOCAL",
+    "githubActions": false,
+    "scope": "POST_DIRECTED_FRONTEND_LAYOUT_INITIAL_INPUT_GUARD_AND_DISPOSABLE_WORDING_ONLY",
+    "changedSource": {
+      "/home/zxm/openmaic/zhiban/app/zhiban/local/imports.js": {
+        "directed": "f07a4de2ae6433ed0c26353ce7f889f6f467eb7cd2b0f03dc6ce6e44b9fff1ac",
+        "current": "49b7d2ae8082fe2dbf80a22cf6def2a70ac3c2c15f4be65ebfbf63e08cd0988a"
+      }
+    },
+    "backendChanged": false,
+    "verification": "default-final-browser-journey.json",
+    "originalDirectedReceiptPreserved": true
+  },
+  "currentDefault": {
+    "root": "/tmp/zhiban-trial-content-1d5Gh2",
+    "url": "https://127.0.0.1:3461/zhiban/admin/import?tenant=01a167c7-db5d-7005-93b4-ab3c4a5ba8aa",
+    "finalBrowserResult": "default-final-browser-journey.json"
+  },
+  "boundaries": {
+    "wholeBatchAtomic": false,
+    "previewWritesBatchReceiptOnly": true,
+    "eachBusinessCommandAndRowReceiptAtomic": true,
+    "creatorOnlyCurrentAdmin": true,
+    "noAutomaticUserCreationRoleGrantCoursePublicationTransferOrRestoration": true,
+    "productionExternalDirectoryAndRetentionInputs": "DEFERRED",
+    "real55432Or55433Changed": false,
+    "scanner": "UNAVAILABLE_NEW_SCANNED_UPLOADS_CLOSED",
+    "realModelCallPerformed": false,
+    "originalIdentityMigrationsAclOrResolverChanged": false,
+    "originalDisposedRootRestored": false,
+    "currentSyntheticDataOnly": true,
+    "commit": false,
+    "push": false,
+    "ciDispatch": false
+  },
+  "evidence": [
+    "../zhiban-imports-local.json",
+    "directed-journey.json",
+    "frontend-delta.json",
+    "default-final-browser-journey.json",
+    "default-browser-journey.json",
+    "default-route-checks.json",
+    "default-large-preview.json",
+    "migrations-check.json",
+    "previous-instance.json",
+    "default-backup.json"
+  ],
+  "nextPackage": "P7 统一试用版本与交接包",
+  "suggestedModel": "GPT-6.1 Sol / medium"
+}

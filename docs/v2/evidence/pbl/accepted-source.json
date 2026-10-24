@@ -1,0 +1,16 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "ACCEPTED_PBL_JOURNEY_BACKEND_AND_NATIVE_REUSE_UNCHANGED_WITH_LATER_NAVIGATION_AND_CHECKBOX_STYLES_SEPARATELY_VALIDATED",
+  "checkedExistingSourceFiles": 2823,
+  "receiptSha256": "389fac6489d9ad9aa07182d9057b24cde1a8e24e9461a7b9072ca062ed61df5d",
+  "laterSourceChanges": [
+    "scripts/zhiban-local/verify-m6-catalog.mts",
+    "scripts/zhiban-local/request-target.ts",
+    "app/zhiban/local/pbl.css",
+    "app/zhiban/local/global-tools.js"
+  ],
+  "laterNewAsset": "app/zhiban/local/pbl-entry.html",
+  "validationForLaterChanges": "Targeted default browser entry/readback receipt; no change to PBL/Identity/SQL business code"
+}

@@ -1,0 +1,40 @@
+{
+  "mode": "STUDENT",
+  "sessions": [
+    {
+      "id": "01a15e79-dde4-7497-9e0c-35f8ffae798c",
+      "title": "联合课堂演示",
+      "description": "固定互动＋作答；仅服务端学习事实可信。",
+      "state": "PUBLISHED",
+      "revision": "3",
+      "opens_at": null,
+      "closes_at": null,
+      "tasks": [
+        {
+          "id": "01a15e79-e46f-73fb-925e-2692931e2c49",
+          "kind": "ACTIVITY",
+          "target_id": "01a15e79-dbde-767e-8f55-f0d1aad7f7cd",
+          "target_version": "1",
+          "title": "联合互动：欧姆定律 ＋ 联合文字作答",
+          "state": "ACTIVE",
+          "created_at": "1792586409059",
+          "current_page": 1,
+          "presentation_revision": "1",
+          "presentation_updated_at": null,
+          "entered": false,
+          "joint": {
+            "resourceId": "01a15e79-d834-7149-8659-f0b2a55f1ed3",
+            "publicationId": "01a15e79-daeb-772e-90de-fb4fcfdd7802",
+            "title": "联合互动：欧姆定律"
+          },
+          "available": true,
+          "interactive": false,
+          "publicationId": null
+        }
+      ]
+    }
+  ],
+  "choices": [],
+  "editingEnabled": true,
+  "jointEnabled": true
+}

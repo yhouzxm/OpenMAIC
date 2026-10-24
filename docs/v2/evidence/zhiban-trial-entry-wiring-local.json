@@ -1,0 +1,144 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_LOCAL_PARAMETER_AND_TARGET_CHECKS_ONLY",
+  "at": "2026-10-16T15:05:45.275311+00:00",
+  "branch": "refactor/zhiban-v2",
+  "head": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "scope": "DEFAULT_CONTENT_AND_EXPLICIT_LEGACY_COMMAND_WIRING",
+  "scripts": {
+    "default": {
+      "trial:zhiban": "tsx scripts/zhiban-local/run-m6-catalog.ts --trial-content --serve",
+      "trial:zhiban:info": "tsx scripts/zhiban-local/trial-control.ts info --content",
+      "trial:zhiban:stop": "tsx scripts/zhiban-local/trial-control.ts stop --content",
+      "verify:zhiban:trial": "tsx scripts/zhiban-local/run-m6-catalog.ts --trial-content"
+    },
+    "content": {
+      "trial:zhiban:content": "tsx scripts/zhiban-local/run-m6-catalog.ts --trial-content --serve",
+      "trial:zhiban:content:info": "tsx scripts/zhiban-local/trial-control.ts info --content",
+      "trial:zhiban:content:stop": "tsx scripts/zhiban-local/trial-control.ts stop --content",
+      "verify:zhiban:trial-content": "tsx scripts/zhiban-local/run-m6-catalog.ts --trial-content"
+    },
+    "legacy": {
+      "trial:zhiban:legacy": "tsx scripts/zhiban-local/run-m6-catalog.ts --trial --serve",
+      "trial:zhiban:legacy:info": "tsx scripts/zhiban-local/trial-control.ts info --legacy",
+      "trial:zhiban:legacy:stop": "tsx scripts/zhiban-local/trial-control.ts stop --legacy",
+      "verify:zhiban:trial:legacy": "tsx scripts/zhiban-local/run-m6-catalog.ts --trial"
+    }
+  },
+  "validation": {
+    "unitCommand": "pnpm exec vitest run tests/zhiban/local/trial-control.test.ts",
+    "unitPassed": 24,
+    "unitFailed": 0,
+    "allUnitFilesystemAndSignalsMocked": true,
+    "scopedTypescript": "PASS",
+    "scopedEslint": "PASS",
+    "prettier": "PASS",
+    "diffWhitespace": "PASS",
+    "defaultContentInfoEqual": true,
+    "liveStopExecuted": false,
+    "startupOrVerifyRunnerExecuted": false,
+    "liveLegacyChecked": false,
+    "unchangedAppliedMigrationFileHashes": 16
+  },
+  "runtime": {
+    "status": "RUNNING_LOCAL_DISPOSABLE",
+    "origin": "https://127.0.0.1:3461",
+    "pgPort": 56517,
+    "pid": 11040,
+    "processStart": "96101",
+    "root": "/tmp/zhiban-trial-content-CkNgQo",
+    "sameProcessAndRoot": true,
+    "sourceMatches": false,
+    "sourceDriftCount": 5,
+    "sourceDrift": [
+      {
+        "path": "app/zhiban/local/content.html",
+        "startupSha256": "3e4c0e9a5dbb42b9502a7aa7635e61a414c1631260ac8aaabad7f3ee22badefc",
+        "currentSha256": "a3aa692ea473d4f2ec25a1868adae6b18b1b480aeb4d023702d20526a61df18d"
+      },
+      {
+        "path": "app/zhiban/local/learning.js",
+        "startupSha256": "f8b0784c7121a135bf573ac1b9aa8002658e3f7a83c1c73db33fea2144dcff2a",
+        "currentSha256": "c167485524ace5b71d40b7281870cb73b5c059f078c397e88cc3285fbea152a4"
+      },
+      {
+        "path": "app/zhiban/local/workspace.js",
+        "startupSha256": "e914cf336d3fee4652bbcfa65af9bc69590d8764929910401036573362573665",
+        "currentSha256": "46b21d1be47716a115a4c2513e530f0833b189fa69694ea6a236f67597151d5a"
+      },
+      {
+        "path": "scripts/zhiban-local/trial-control.ts",
+        "startupSha256": "528dc521c324ea5da9833d4907122f5732551018b60f3c343f42a13b17199346",
+        "currentSha256": "e720f9402a1ef7a67030c033a76a741b5bed687c8549fdc6d9e6baf7bbe5b419"
+      },
+      {
+        "path": "package.json",
+        "startupSha256": "38bc630eb748eefcd647a6f383d78d6f7aafd13aa6bec39966c455eda0c5c058",
+        "currentSha256": "14370b85410c07698c8f7b7552a1b5c1757534077f3e6dad91969e3a4fb54758"
+      }
+    ],
+    "metadataSha256": "2dff7a6d8d86dcd8651db6b00ae5c8ec28d1a5b2d66ee4576cb77f0ed019fc19",
+    "metadataModified": false,
+    "receiptReissued": false,
+    "classroomDataOperations": 0
+  },
+  "files": [
+    {
+      "path": "package.json",
+      "sha256": "14370b85410c07698c8f7b7552a1b5c1757534077f3e6dad91969e3a4fb54758"
+    },
+    {
+      "path": "scripts/zhiban-local/trial-control.ts",
+      "sha256": "e720f9402a1ef7a67030c033a76a741b5bed687c8549fdc6d9e6baf7bbe5b419"
+    },
+    {
+      "path": "tests/zhiban/local/trial-control.test.ts",
+      "sha256": "58d73d102daeca4bfae81a05dd4c2c1a912b8bba9f0100a9e74bafa39423fcaf"
+    },
+    {
+      "path": "README.md",
+      "sha256": "a6b5e9947d685a39b10bb5e8c8689b33d0f09039f32ef2c8425f7fd5cb4e53de"
+    },
+    {
+      "path": "README-zh.md",
+      "sha256": "76b9fe7d1eba4da9ebc341cd1b15eb8a1a23323fe6ce86a2cb5f8a84e62a7762"
+    },
+    {
+      "path": "TRIAL.md",
+      "sha256": "ed2bff02a71d02a8b747bf4edb0eb8fe13156e549281532d86025dfd23d79ca7"
+    },
+    {
+      "path": "docs/v2/zhiban-v2-trial-guide.md",
+      "sha256": "2a0854a345c9fe19a171fdf34c385ef39983a821920f91091249b33f7b1aee95"
+    },
+    {
+      "path": "docs/v2/zhiban-v2-trial-entry-handoff.md",
+      "sha256": "1e73dc0abfdd8c0bb54e8cbd036b0a0cf12780a5a9b035f5c61e15a961e0acbe"
+    },
+    {
+      "path": "docs/v2/zhiban-v2-trial-entry-wiring-local.md",
+      "sha256": "a5220d1361f4eaacc7c136b4dcf841753a0a1eb9b915219787a13481dc74952b"
+    }
+  ],
+  "historicalHandoff": {
+    "path": "docs/v2/evidence/zhiban-trial-entry-handoff-local.json",
+    "sha256": "e5c23c44924ee17d485c2e13a6a7251c8c7277e141279b725854a607bbbf36a1",
+    "modified": false
+  },
+  "limitations": [
+    "No new startup/cleanup lifecycle signoff",
+    "No complete classroom, PG16, M5 or GitHub CI rerun",
+    "Existing host/private bundle retained; five startup-source drifts disclosed",
+    "Native refresh/close gate deferred by user, not signed off",
+    "Real 55432/55433 and maintenance/Runtime/AI remain isolated"
+  ],
+  "actions": {
+    "liveSignalSent": false,
+    "pgConnectedByChecks": false,
+    "passwordPrinted": false,
+    "buildRestartOrDataMigration": false,
+    "commitPushCiDispatch": false
+  },
+  "next": "Continue current trial via pnpm trial:zhiban:info; plan lifecycle only when fresh disposable data is needed."
+}

@@ -1,0 +1,19 @@
+lib/zhiban/domain/risk/model.ts 544ms
+lib/zhiban/application/risk/service.ts 170ms
+lib/zhiban/infrastructure/risk/http.ts 124ms
+lib/zhiban/infrastructure/risk/postgres/sources.ts 22ms
+lib/zhiban/infrastructure/risk/postgres/transaction.ts 467ms
+lib/zhiban/application/academic/service.ts 117ms (unchanged)
+lib/zhiban/infrastructure/academic/postgres/store.ts 1271ms (unchanged)
+app/zhiban/local/risk.js 618ms
+app/zhiban/local/risk.css 173ms
+app/zhiban/local/risk.html 115ms (unchanged)
+app/zhiban/local/analytics.js 472ms (unchanged)
+app/zhiban/local/course-page.js 278ms (unchanged)
+app/zhiban/local/workspace.js 228ms (unchanged)
+scripts/zhiban-local/risk.ts 24ms
+scripts/zhiban-local/build-risk-reference.ts 77ms (unchanged)
+scripts/zhiban-local/verify-m6-catalog.mts 1662ms
+scripts/zhiban-local/run-m6-catalog.ts 126ms (unchanged)
+scripts/zhiban-local/trial-content.ts 168ms (unchanged)
+scripts/zhiban-local/request-target.ts 31ms (unchanged)

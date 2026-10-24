@@ -1,0 +1,6 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "status": "STOPPED_RESOURCE_PRESSURE_NOT_PASS",
+  "reason": "8GB host, heavy swap, full repository tsc exceeded 12 minutes; replaced by affected dependency closure check",
+  "command": "tsc --noEmit --incremental --tsBuildInfoFile /tmp/zhiban-classroom-results.tsbuildinfo"
+}

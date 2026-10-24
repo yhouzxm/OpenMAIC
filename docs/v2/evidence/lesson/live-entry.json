@@ -1,0 +1,12 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "root": "/tmp/zhiban-trial-content-cX7psx",
+  "origin": "https://127.0.0.1:3461",
+  "defaultGenerationRuns": 0,
+  "modelConfigured": false,
+  "fixtureLoaded": false,
+  "trustedHttps": true,
+  "teacherPanelVisible": true
+}

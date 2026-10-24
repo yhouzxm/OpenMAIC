@@ -1,0 +1,36 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "provider": "glm",
+  "model": "glm-5.3",
+  "text": {
+    "jobId": "01a16b91-f329-766f-9d15-e27722e15ec9",
+    "publicationId": "01a16b92-03fd-7792-b49b-c87f3031403d",
+    "model": {
+      "model": "glm-5.3",
+      "provider": "glm",
+      "thinking": {
+        "mode": "enabled",
+        "effort": "low",
+        "budgetTokens": 1024
+      },
+      "promptSha256": "4a20a9933587ceb86cbb15d45cbe1dc8b72a8392f0c2b7aec910fe15f05cc108"
+    }
+  },
+  "quiz": {
+    "jobId": "01a16b92-0a9b-70d1-8490-af93655b4de6",
+    "publicationId": "01a16b92-13b3-7170-8fac-43e7dbc73297",
+    "objective": 200,
+    "model": {
+      "model": "glm-5.3",
+      "provider": "glm",
+      "thinking": {
+        "mode": "enabled",
+        "effort": "low",
+        "budgetTokens": 1024
+      },
+      "promptSha256": "4a20a9933587ceb86cbb15d45cbe1dc8b72a8392f0c2b7aec910fe15f05cc108"
+    }
+  },
+  "controlledFaultResultsNotRealModel": true
+}

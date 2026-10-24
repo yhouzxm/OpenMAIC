@@ -1,0 +1,8 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "OWNED_FAILED_FIXTURE_CLEANED",
+  "root": "/tmp/zhiban-trial-content-yifJNl",
+  "pgPort": 56517,
+  "reason": "First verifier exited via unhandled response-recorder rejection; exact owned PG16 PID/data path checked and stopped before cleanup; prior material classroom backup remains verified"
+}

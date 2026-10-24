@@ -1,0 +1,14 @@
+{
+  "formatVersion": 1,
+  "status": "UNISSUED",
+  "purpose": "LOCAL_ORDINARY_CONFIGURATION_STAGING_BLUEPRINT",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "configuration": null,
+  "constraints": [
+    "closed single ordinary.json with six explicit credentials and same generation",
+    "no administrator/issuer/controller/migrator configuration",
+    "copy approved Identity admission/HMAC/catalog/Session policy without rewriting application identities",
+    "source paths never read the live private root by default"
+  ]
+}

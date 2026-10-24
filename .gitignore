@@ -35,6 +35,7 @@ CLAUDE.local.md
 
 # generated: synced from packages/@openmaic/importer/dist for runtime URL import
 /public/vendor/maic-importer
+/public/vendor/standalone-player
 
 # misc
 .DS_Store
@@ -92,3 +93,27 @@ e2e/screenshots/
 # local e2e screenshots for #619 review
 e2e/__screenshots-619/
 /.playwright-mcp/
+
+# Operator model configuration (see openmaic.yml in RFC #1701); it names secrets via ${VAR}
+/openmaic.yml
+
+# Temporary render-service sources extracted by the mixed-pool regression test
+render-service/.owner-bound-parent-*/
+
+# Generated from the reviewed Quiz host entry
+/app/zhiban/local/quiz-client.js
+
+# Local adapter bundle; native OpenMAIC player source remains unchanged
+/app/zhiban/local/published-player.js
+
+# Generated native course-host bundles, rebuilt from reviewed source on local launch
+/app/zhiban/local/native-workbench.bundle.js
+/app/zhiban/local/native-workbench.bundle.css
+/app/zhiban/local/native-review.js
+/app/zhiban/local/native-published.js
+/app/zhiban/local/native-theme.css
+/app/zhiban/local/native-assets/
+
+# Local verification process directories and generated portal bundle
+/.zhiban-*-run-*/
+/app/zhiban/local/content-client.js

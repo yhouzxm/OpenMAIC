@@ -1,0 +1,37 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "TARGETED_IN_APP_BROWSER_UI_DELTA_ON_REAL_PG16_IMPORT_REFERENCE",
+  "at": "2026-10-14T22:41:53.871289+00:00",
+  "baseEvidence": {
+    "path": "/home/zxm/openmaic/zhiban/docs/v2/evidence/m6-roster-import-demo-local.json",
+    "sha256": "276b75667fc9b6ac9fbd84f6afe553c62d2fa2d0d66c75a0f4eec9e1bef8b919",
+    "checks": 14
+  },
+  "changes": [
+    {
+      "path": "/home/zxm/openmaic/zhiban/app/zhiban/local/roster.js",
+      "before": "75718e31abe16eff62fbfdeee6c55efc2f53fbaea302ad1db4879fac7e372173",
+      "after": "2732eb2a005db6533f35cd440323cba320278f989ff95f6f6096afdb30d08e2d"
+    }
+  ],
+  "unchangedBackendSourceBinding": true,
+  "checks": [
+    "trusted built-in browser admin login -> workspace importer entry",
+    "real CSV file chooser -> UTF-8 decode -> preview -> import two synthetic students",
+    "directory multi-select -> CSV generation -> one new student plus one already enrolled",
+    "completed row names and IMPORTED/SKIPPED shown",
+    "independent GET refresh shows actual current Enrollment count 3/20"
+  ],
+  "rosterUrl": "https://127.0.0.1:3447/zhiban/roster?tenant=01a13c8d-ee08-7024-af9b-1e2926745c38&offering=01a13c8e-0e1d-74a0-bb2e-ec97aa0e852c",
+  "screenshot": {
+    "path": "/home/zxm/openmaic/zhiban/docs/v2/evidence/m6-roster-import-iab-local.png",
+    "sha256": "28104d175e52a7ce55af227425affe728ef0a1c000c5acf43fe1d4b834c993a2"
+  },
+  "excludes": [
+    "production/CI signoff",
+    "full re-run of 14 reference checks after display-only delta",
+    "failure injection of final count refresh"
+  ]
+}

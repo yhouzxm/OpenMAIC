@@ -1,0 +1,8 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "syntheticAuthority": true,
+  "admissionId": "01a14fa1-cd96-7159-936f-a034423e26ff",
+  "joinUrl": "https://127.0.0.1:3461/zhiban/join?tenant=01a14f9e-1f72-754e-a9d4-ad073aabebe4&admission=01a14fa1-cd96-7159-936f-a034423e26ff",
+  "expiresWithinMinutes": 30
+}

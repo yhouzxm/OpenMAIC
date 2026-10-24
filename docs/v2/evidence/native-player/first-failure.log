@@ -1,0 +1,53 @@
+
+> openmaic@1.2.1 verify:zhiban:native-player /home/zxm/openmaic/zhiban
+> tsx scripts/zhiban-local/run-m6-catalog.ts --unified-trial --native-player-focus
+
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+Reused @openmaic/generation: matching LOCAL source/build hashes
+PASS Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately
+{"timestamp":"2026-10-20T14:21:43.256Z","level":"INFO","tag":"GenerationRunner","message":"generation runner 32065:39948b36-0b76-4258-931c-e6e7d52b4bed started (scan=1000ms, heartbeat=2000ms, leaseTtl=10000ms, maxConcurrent=1)"}
+PASS PG16 restricted roles + real Identity sessions + validated trusted HTTPS
+PASS trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands
+PASS real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft
+PASS native PPT: exact publication required; ordinary course authorization, no-store, isolated document CSP and malformed/cross-site reads checked
+A [Error]: expect(locator).toHaveText(expected) failed
+
+Locator: getByTestId('counter')
+Expected: "2 / 2"
+Timeout: 5000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "to.have.text" with timeout 5000ms
+  - waiting for getByTestId('counter')
+
+    at Proxy.<anonymous> (/home/zxm/openmaic/zhiban/node_modules/.pnpm/playwright@1.58.2/node_modules/playwright/lib/matchers/expect.js:213:24)
+    at verifyNativePlayer (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-iNkWlB/verify.mjs:28883:46)
+    at async main (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-iNkWlB/verify.mjs:65289:7)
+    at async file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-iNkWlB/verify.mjs:66452:3 {
+  matcherResult: {
+    name: 'toHaveText',
+    expected: '2 / 2',
+    message: 'expect(locator).toHaveText(expected) failed\n' +
+      '\n' +
+      "Locator: getByTestId('counter')\n" +
+      'Expected: "2 / 2"\n' +
+      'Timeout: 5000ms\n' +
+      'Error: element(s) not found\n' +
+      '\n' +
+      'Call log:\n' +
+      '  - Expect "to.have.text" with timeout 5000ms\n' +
+      "  - waiting for getByTestId('counter')\n",
+    pass: false,
+    actual: undefined,
+    log: [
+      '  - Expect "to.have.text" with timeout 5000ms',
+      "  - waiting for getByTestId('counter')"
+    ],
+    timeout: 5000
+  }
+}
+ ELIFECYCLE  Command failed with exit code 1.

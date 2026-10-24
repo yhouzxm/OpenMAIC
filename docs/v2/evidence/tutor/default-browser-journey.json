@@ -1,0 +1,49 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "CURRENT_DEFAULT_IAB_PUBLISHED_LECTURE_PRIVATE_NATIVE_TUTOR_MULTI_TURN_AND_REFRESH",
+  "root": "/tmp/zhiban-trial-content-vZFq8q",
+  "tenant": "01a16389-2d5c-72c8-9805-b95cc11636d0",
+  "offering": "01a16389-a9db-76f2-8061-dcde7b81da22",
+  "sessionId": "01a1638b-ea90-7074-94f5-ee9c0005d490",
+  "publicationId": "01a1638a-7d80-73d1-b4bd-1822726415f3",
+  "publicationNo": 1,
+  "turns": [
+    {
+      "id": "01a1638c-33ff-7416-a2a6-a74d0cafe2ee",
+      "state": "COMPLETED",
+      "question": "根据这份讲义，用水流类比解释电压和电流的区别。请控制在150字以内，最后给我一个自检问题，不要给正式评价。",
+      "answer": "**水流类比：**\n- **电压**像水位差：水塔高、水龙头低，两点间的“压差”推动水流，类比电压（单位：伏特 V）。\n- **电流**像单位时间流过的水量：同样的水位差下，水管越细（阻力大），水流越小，类比电阻影响电流（单位：安培 A）。\n\n**类比局限：** 水会漏出来，电荷却必须始终在闭合回路里流动。\n\n**自检问题：** 如果把水塔加高（电压增大），但水管换得更细（电阻增大），水流一定变大吗？试着用 I = U/R 分析一下。",
+      "configuredPrimary": {
+        "model": "glm-5.3",
+        "provider": "glm"
+      },
+      "createdAt": "1792671495159",
+      "finishedAt": "1792671500475"
+    },
+    {
+      "id": "01a1638c-f6b0-76f1-9073-24024b81bcd1",
+      "state": "COMPLETED",
+      "question": "接着刚才的自检题，我认为水流不一定增大，因为电阻也增大了。请沿用刚才的类比，只给一个提示让我继续判断，不要公布成绩。",
+      "answer": "**提示：** 试着用 I = U/R 想一想——分子（电压 U）和分母（电阻 R）同时增大时，分数的大小取决于哪一个“增大得更多”。\n\n你可以举两组具体数字试试：比如 U 从 10 V 变到 20 V，R 从 5 Ω 变到 10 Ω，再换一组 R 变到 30 Ω，比较两次的电流各是多少。",
+      "configuredPrimary": {
+        "model": "glm-5.3",
+        "provider": "glm"
+      },
+      "createdAt": "1792671544992",
+      "finishedAt": "1792671548716"
+    }
+  ],
+  "actualModelGeneration": true,
+  "controlledFaultProvider": false,
+  "studentRefreshStable": true,
+  "teacherStudentTranscriptStatus": 404,
+  "teacherOwnConversations": 0,
+  "dimensions": "REVIEW",
+  "integratedNativeRuntimeGate": "UNCHANGED",
+  "officialGradesChangedByTutor": false,
+  "studentUrl": "https://127.0.0.1:3461/zhiban/student/courses/01a16389-a830-7146-9c75-8b71d675e05a/tutor?space=01a16389-2d5c-72c8-9805-b95cc11636d0&offering=01a16389-a9db-76f2-8061-dcde7b81da22#session-01a1638b-ea90-7074-94f5-ee9c0005d490",
+  "privateModelConfig": "/home/zxm/.local/state/zhiban-model-trial/openmaic-tutor.yml",
+  "keysIncluded": false
+}

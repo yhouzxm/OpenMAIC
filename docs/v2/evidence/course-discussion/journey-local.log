@@ -1,0 +1,29 @@
+
+> openmaic@1.2.0 trial:zhiban /home/zxm/openmaic/zhiban
+> tsx scripts/zhiban-local/run-m6-catalog.ts --unified-trial --serve
+
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+PASS Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately
+PASS disposable content loader rejects wrong target, artifact hash and elevated Bridge ACL; restored state required before serving
+PASS PG16 restricted roles + real Identity sessions + validated trusted HTTPS
+PASS trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands
+PASS real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft
+PASS three real browser logins share one origin: admin history, teacher activities/queue/analytics, student activities/published feedback; no script errors
+PASS student/admin cannot acquire teacher grading; malformed content routes and Runtime/control remain closed
+PASS unified origin: teacher edits/publishes text+PNG and course outline; student learning center reads published directory and decoded PNG using public SlideCanvas and real Content provider
+PASS same course: classroom dispatch binds student attempt; UI submits scanned TXT; teacher downloads exact bytes and publishes 92/100; student sees published grade
+PASS course learning entry: typed unit URLs, previous/next navigation, published-only teacher preview, unknown-unit denial and return to authorized directory pass
+PASS unified gradebook CSV reads back current 92/100; unauthorized export/content rejected, Runtime/control closed; student 390px has no overflow or script errors
+PASS QUIZ: unpublished/key projections, role/course isolation, text-command type barrier and concurrent resume preserve one Attempt
+PASS QUIZ: shared teacher editor publishes v2; student fixed-v1 save/reload/submit; exact Submission 9/10 publication, reasoned 9.5/10 correction and sealed student history
+PASS QUIZ: failure after parent insert rolls back fully; same-key retry/replay yields one Submission, changed payload and exhausted attempts rejected; real Enrollment withdrawal blocks submission
+PASS QUIZ: practice feedback excluded from grading queue and formal grading; append-only table ACL rejects mutation/deletion
+PASS DISCUSSION UI: teacher draft/open; student post/leave-cancel; teacher reply/hide/restore with audit; student replies; close read-only/reopen; course return context
+PASS DISCUSSION authorization: no admin proxy/student management; tenant/offering/parent isolation, draft/archive secrecy and stale revision barriers
+PASS DISCUSSION concurrency: close-before-post and hide-before-reply serialize on the topic; losing writes rejected
+PASS DISCUSSION atomicity: failed post/audit and moderation roll back; same-key retry/replay creates one post; changed actor/payload refused
+PASS DISCUSSION paging/revocation/ACL: signed cursors, withdrawal and assignment removal, closed offering read-only, immutable content/audit and widened ACL rejection
+LOCAL M6 catalog ready: https://127.0.0.1:3461/zhiban; accounts file: /tmp/zhiban-trial-content-ufZnB3/accounts.json

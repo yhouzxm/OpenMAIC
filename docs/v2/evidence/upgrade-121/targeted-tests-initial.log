@@ -1,0 +1,27 @@
+
+ RUN  v4.1.8 /home/zxm/openmaic/zhiban
+
+ ❯ tests/server/model-config/settings-route.test.ts (11 tests | 1 failed) 42644ms
+     × reads and edits the workspace settings, keeping keys out of every answer 10837ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/server/model-config/settings-route.test.ts > /api/model-config > reads and edits the workspace settings, keeping keys out of every answer
+Error: Hook timed out in 10000ms.
+If this is a long-running hook, pass a timeout value as the last argument or configure it globally with "hookTimeout".
+ ❯ tests/server/model-config/settings-route.test.ts:69:3
+     67|   let pool: PGlitePool;
+     68|
+     69|   beforeEach(async () => {
+       |   ^
+     70|     vi.resetModules();
+     71|     vi.unstubAllEnvs();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 26 passed | 1 skipped (28)
+      Tests  1 failed | 452 passed | 1 skipped (454)
+   Start at  20:12:02
+   Duration  45.17s (transform 12.40s, setup 1.44s, import 21.51s, tests 55.79s, environment 11ms)
+

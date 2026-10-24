@@ -1,0 +1,18 @@
+
+> openmaic@1.2.1 verify:zhiban:login-identifiers /home/zxm/openmaic/zhiban
+> tsx scripts/zhiban-local/run-m6-catalog.ts --unified-trial --login-identifiers-focus
+
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+Reused @openmaic/generation: matching LOCAL source/build hashes
+PASS Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately
+LOCAL scanner unavailable: new attachment/material uploads remain closed; account and ordinary teaching pages continue. Existing scanner pins were not changed.
+{"timestamp":"2026-10-22T23:36:49.830Z","level":"INFO","tag":"GenerationRunner","message":"generation runner 13360:d53411cc-b6b9-4713-a738-066cc9934642 started (scan=1000ms, heartbeat=2000ms, leaseTtl=10000ms, maxConcurrent=1)"}
+PASS PG16 restricted roles + real Identity sessions + validated trusted HTTPS
+PASS trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands
+PASS real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft
+PASS PASS nomination, subject confirmation, alias/UUID isolation, tenant directory and global disable/restore; respecting original ten-verifications/minute budget before concurrency phase
+PASS PASS controlled login identifier: two-key platform nomination -> target Session/current-password confirmation -> genuine original password/Session login; global directory mapping scoped to current tenant, UUID-only endpoint unchanged, global disable/restore enforced and credential slot unchanged
+PASS PASS identifier boundaries: tenant-only/wrong-password/foreign-subject/source-tamper/expired/revoked authority refuse; same-revision consent yields once, audit failure rolls back alias switch, retired names cannot transfer, final-delivery retirement rejects login, private ACL/profile drift fail closed

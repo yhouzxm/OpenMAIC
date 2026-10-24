@@ -1,0 +1,39 @@
+
+> openmaic@1.2.1 verify:zhiban:reminders /home/zxm/openmaic/zhiban
+> tsx scripts/zhiban-local/run-m6-catalog.ts --unified-trial --reminders-focus
+
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+Reused @openmaic/generation: matching LOCAL source/build hashes
+PASS Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately
+{"timestamp":"2026-10-21T14:42:36.421Z","level":"INFO","tag":"GenerationRunner","message":"generation runner 51816:6cd297d2-cafe-4bb7-9ead-b156bd7cb02a started (scan=1000ms, heartbeat=2000ms, leaseTtl=10000ms, maxConcurrent=1)"}
+PASS PG16 restricted roles + real Identity sessions + validated trusted HTTPS
+PASS trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands
+PASS real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft
+node:internal/process/promises:394
+    triggerUncaughtException(err, true /* fromPromise */);
+    ^
+
+route.fetch: unable to verify the first certificate
+Call log:
+[2m  - → POST https://127.0.0.1:3461/api/zhiban/reminders/01a15ee9-9a77-7297-b086-50560c04a5e8/offerings/01a15eea-0cb6-77da-a066-7565ae68f422[22m
+[2m    - user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36[22m
+[2m    - accept: */*[22m
+[2m    - accept-encoding: gzip,deflate,br[22m
+[2m    - origin: https://127.0.0.1:3461[22m
+[2m    - content-type: application/json[22m
+[2m    - sec-ch-ua: "Not:A-Brand";v="99", "HeadlessChrome";v="145", "Chromium";v="145"[22m
+[2m    - sec-ch-ua-mobile: ?0[22m
+[2m    - sec-ch-ua-platform: "Linux"[22m
+[2m    - x-zhiban-command: 372bc13b-be6b-470c-bb82-a3b3a1880ae4[22m
+[2m    - x-zhiban-request: identity-v1[22m
+[2m    - content-length: 216[22m
+
+    at /home/zxm/openmaic/zhiban/.zhiban-catalog-run-08VG7z/verify.mjs:26351:37 {
+  name: 'Error'
+}
+
+Node.js v22.23.3
+ ELIFECYCLE  Command failed with exit code 1.

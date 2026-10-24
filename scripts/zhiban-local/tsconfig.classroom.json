@@ -1,0 +1,22 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": { "incremental": false },
+  "include": [
+    "../../lib/zhiban/domain/classroom/**/*.ts",
+    "../../lib/zhiban/application/classroom/**/*.ts",
+    "../../lib/zhiban/infrastructure/classroom/**/*.ts",
+    "../../lib/zhiban/infrastructure/learning/http.ts",
+    "../../lib/zhiban/infrastructure/content/http.ts",
+    "../../app/zhiban/local/content-client.tsx",
+    "./classroom.ts",
+    "./verify-shared-classroom.ts",
+    "./verify-classroom-edit.ts",
+    "./verify-m6-catalog.mts",
+    "./academic.ts",
+    "./server.ts",
+    "./trial-content.ts",
+    "./trial-control.ts",
+    "../../tests/zhiban/classroom/**/*.ts"
+  ],
+  "exclude": ["../../node_modules", "../../.next"]
+}

@@ -1,0 +1,9 @@
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+Error: Disposable content target rejected
+    at target (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-UcGmuu/verify.mjs:44981:11)
+    at installTrialContent (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-UcGmuu/verify.mjs:45109:9)
+    at main (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-UcGmuu/verify.mjs:59798:52)
+    at async file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-UcGmuu/verify.mjs:61787:3

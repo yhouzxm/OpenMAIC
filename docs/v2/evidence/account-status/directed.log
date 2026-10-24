@@ -1,0 +1,16 @@
+
+> openmaic@1.2.1 verify:zhiban:account-status /home/zxm/openmaic/zhiban
+> tsx scripts/zhiban-local/run-m6-catalog.ts --unified-trial --account-status-focus
+
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+Reused @openmaic/generation: matching LOCAL source/build hashes
+PASS Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately
+{"timestamp":"2026-10-22T13:35:20.837Z","level":"INFO","tag":"GenerationRunner","message":"generation runner 46331:bda46dbe-2f92-497d-984d-8c0bd969a9df started (scan=1000ms, heartbeat=2000ms, leaseTtl=10000ms, maxConcurrent=1)"}
+PASS PG16 restricted roles + real Identity sessions + validated trusted HTTPS
+PASS trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands
+PASS real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft
+PASS PASS global account control: independent two-key source + original SystemAdmin/password/Session USER_DISABLE/RESTORE; two spaces deny old sessions, fresh login after restore; directory shows global vs member state, business history and grants preserved
+PASS PASS global control boundaries: source tamper/expiry, tenant-only actor, wrong password/self target, stale and superseded confirmation refuse; audit fault rolls back session revocation, concurrent same-revision commands yield once; independently revoked Session/operator grant refuse

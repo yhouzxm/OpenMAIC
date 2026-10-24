@@ -1,0 +1,21 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "BACKUP_ARCHIVES_LISTED",
+  "sourceRoot": "/tmp/zhiban-trial-content-yIB2Xq",
+  "backupRoot": "/home/zxm/.local/state/zhiban-trial-backups/teacher-scope-delivery-20261018-232247",
+  "postgres": 160015,
+  "hashes": {
+    "teacher-inputs.json": "0f99005e00102fa39b12f44d346a6ec013fb0fdd6e05c8ab1e83112f63e80037",
+    "member-operator.pem": "a6d0cdfa420c8101559b58ae28de1e8863765f46e05478e667f2ecb6242acb90",
+    "member-control.json": "374d1b6968e1eb69b3e7450f396cf6a8cdddf88c4e7d3f62cd9973c4f806215f",
+    "accounts.json": "c637310813705ef0d96174124032feb46eea8c8c990029c3cc0030fab4e6cb0d",
+    "scope.json": "735f0a65b61167ecf0b42187127aac2509ca503b53e420f2611b5e63820dd6a9",
+    "zhiban_trial_content_disposable.dump": "7d2afcf412f8c97ee0a9c9cbde1354a0141842da358af1a2f596f2b44b3f74a2",
+    "zhiban_trial_content_native.dump": "4800d5d79edb18b58e97c71cda352a40d5ecac45997615edab170a3864cf46e7",
+    "member-inputs.json": "b33a1becce23fb09be4e223282ef65c27f0b99fc142bcc05dba9f964833c6d6c",
+    "member-approver.pem": "157bd814f2453007c148ee3646e12583ed94a54f4b01aec07cacfbb5e67bd5de"
+  },
+  "restoreTested": false,
+  "privateAuthorityIncluded": true
+}

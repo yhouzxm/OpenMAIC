@@ -1,0 +1,7 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-24T08:34:54.114Z",
+  "check": "Injected TLS delivery failure after snapshot copy removes only newly created state; no latest or INSTANCE receipt; original bundle preserved; no PG started"
+}

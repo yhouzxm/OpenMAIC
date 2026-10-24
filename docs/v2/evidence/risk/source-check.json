@@ -1,0 +1,11 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "comparedAgainst": "zhiban-risk-local.json",
+  "persistentDrift": [],
+  "cleanedTemporarySources": [
+    "/home/zxm/openmaic/zhiban/.zhiban-catalog-run-u6DNso/verify.mjs",
+    "/tmp/zhiban-trial-content-KIaONj/content-client.js",
+    "/tmp/zhiban-trial-content-KIaONj/member-control.json"
+  ]
+}

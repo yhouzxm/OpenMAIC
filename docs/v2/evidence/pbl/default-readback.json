@@ -1,0 +1,23 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-24T00:07:53.965Z",
+  "scope": "DEFAULT_PBL_PAGES_LEGACY_ENTRIES_AND_SHARED_SELECTOR_STYLE_DELTA_ONLY",
+  "checks": [
+    "teacher course PBL page with 18px checkbox",
+    "/zhiban/teacher/pbl authorized selector -> existing course PBL",
+    "student course PBL page with 18px checkbox",
+    "/zhiban/student/pbl authorized selector -> existing course PBL",
+    "/zhiban/student/pbl/old-native-instance-2026 authorized selector -> existing course PBL",
+    "existing global Tutor selector remains Tutor; no model call",
+    "student cannot use teacher PBL selector"
+  ],
+  "browserErrors": [],
+  "sourceMatches": true,
+  "sourceFiles": 671,
+  "legacyNativeInstancesImported": false,
+  "nativeAutonomousRuntimeEnabled": false,
+  "groupMembers": 1,
+  "submitted": false
+}

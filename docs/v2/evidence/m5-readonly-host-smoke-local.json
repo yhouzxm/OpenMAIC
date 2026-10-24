@@ -1,0 +1,18 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "at": "2026-10-09T13:41:10.237Z",
+  "kind": "M5_INSPECTION_BUILD_HOST_SMOKE",
+  "implementationBindingHash": "6d2fb7e24c300b4334b65052331c5eb2589732b573112dcedcfd285957ad2362",
+  "origin": "https://127.0.0.1:3443",
+  "passed": 5,
+  "cases": [
+    "Trusted CA and hostname-verified HTTPS workspace 200",
+    "Unauthenticated identity 401",
+    "Existing synthetic teacher login 200",
+    "Authenticated identity 200",
+    "CSRF-protected logout 204"
+  ],
+  "limitations": [
+    "Startup and authentication smoke only; not a rerun of historical 19-case content journey"
+  ]
+}

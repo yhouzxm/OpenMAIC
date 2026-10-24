@@ -1,0 +1,8 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "comparedAgainst": "zhiban-followup-cases-local.json",
+  "files": 33,
+  "drift": [],
+  "newMigration": "reminder/postgres/migrations/0001_reminder.sql"
+}

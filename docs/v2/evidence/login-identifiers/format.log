@@ -1,0 +1,19 @@
+lib/zhiban/domain/login-identifiers/model.ts 163ms
+lib/zhiban/infrastructure/login-identifiers/http.ts 142ms
+lib/zhiban/infrastructure/login-identifiers/service.ts 189ms
+scripts/zhiban-local/login-identifiers.ts 51ms
+scripts/zhiban-local/build-login-identifiers-reference.ts 51ms
+scripts/zhiban-local/login-identifier-authority.ts 172ms
+scripts/zhiban-local/control-login-identifier.ts 20ms
+scripts/zhiban-local/verify-login-identifiers.ts 146ms
+tests/zhiban/login-identifiers/model.test.ts 14ms
+app/zhiban/local/login-identifiers.html 64ms
+app/zhiban/local/login-identifiers.js 195ms
+lib/zhiban/application/profile/service.ts 92ms
+lib/zhiban/infrastructure/profile/postgres/transaction.ts 58ms (unchanged)
+app/zhiban/local/profile.js 151ms
+app/zhiban/local/client.js 112ms
+scripts/zhiban-local/verify-m6-catalog.mts 989ms
+scripts/zhiban-local/run-m6-catalog.ts 65ms (unchanged)
+scripts/zhiban-local/trial-content.ts 191ms (unchanged)
+package.json 42ms (unchanged)

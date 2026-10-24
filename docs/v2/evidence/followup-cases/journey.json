@@ -1,0 +1,16 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "MANUAL_NOTE_CLOSE_REOPEN_IMMUTABLE_AUDIT",
+  "sameKeyReplayOnce": true,
+  "revisionRace": "ONE_SUCCESS_ONE_CONFLICT",
+  "auditInsertFailureRollsBack": true,
+  "eventsAndReceiptsImmutableAcl": true,
+  "closedCaseDoesNotResolveLearningFacts": true,
+  "republishDoesNotInheritCase": true,
+  "historicalEnrollmentCaseClosable": true,
+  "revokedTeacherReadWriteDenied": true,
+  "eventsPagination": "BOUND_TO_CASE",
+  "automaticNotification": false
+}

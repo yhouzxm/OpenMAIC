@@ -1,0 +1,10 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "preexistingMigrationsUnchanged": 41,
+  "drift": [],
+  "newMigrations": [
+    "lib/zhiban/infrastructure/imports/postgres/migrations/0001_imports.sql"
+  ]
+}

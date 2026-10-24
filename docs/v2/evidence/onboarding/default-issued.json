@@ -1,0 +1,12 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "requestId": "01a163c0-fd7b-7378-907d-cf7797a2694e",
+  "userId": "01a163c1-5149-7737-b2ba-fc4ae47e6c2c",
+  "claimId": "01a163c1-514a-71f4-a94f-f5180012f79e",
+  "deliveryFile": "/tmp/zhiban-trial-content-byK7dk/account-delivery/01a163c1-514a-71f4-a94f-f5180012f79e.json",
+  "setupUrl": "https://127.0.0.1:3461/zhiban/activate-account",
+  "expiresAt": 1792676775070,
+  "syntheticAuthority": true,
+  "ticketOrPasswordPrinted": false
+}

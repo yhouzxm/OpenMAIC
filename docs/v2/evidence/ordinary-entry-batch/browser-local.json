@@ -1,0 +1,43 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-23T11:55:26.952Z",
+  "root": "/tmp/zhiban-trial-content-UkH8Fz",
+  "scope": "THREE_ORDINARY_LEGACY_ENTRIES_AND_EXISTING_IMPORT_TARGET",
+  "checks": [
+    "Teacher old course-list URL uses current bounded workspace; sidebar, search, page size, course return and bare bookmark work; student/admin cannot impersonate teacher",
+    "Student deep activity and classroom IDs resolved exactly by original authorized APIs; missing context selects offering; published activity/current classroom reach existing target; drafts and ended classrooms fail closed; no automatic task entry/Attempt creation",
+    "Wrong role/course/offering and duplicate/unknown/old scene parameters rejected; existing registrations URL renders actual ENROLLMENTS importer, not obsolete roster alias"
+  ],
+  "commands": [
+    "CREATE_CLASSROOM",
+    "PUBLISH_CLASSROOM",
+    "END_CLASSROOM"
+  ],
+  "syntheticClassroom": {
+    "id": "01a1689d-a07a-72a4-887e-188e4383ff7a",
+    "state": "ENDED",
+    "tasks": 0
+  },
+  "attemptsCreated": false,
+  "modelCalls": false,
+  "sourceHashes": {
+    "app/zhiban/local/global-authoring.js": "665966c9be0c9fb05f1fa6c3effadd3d04594e4471c09ef1fd83bf5d096a67e8",
+    "app/zhiban/local/global-tools.js": "8e05c75bb7f534598548a176848a67a96d0079886312a16cc6da140c748e7a28",
+    "app/zhiban/local/client.js": "aa32e42fc0cb48916142477fa81006a3fc5347733dec7aa83994f98b7f5fa399",
+    "app/zhiban/local/course-page.js": "c22e38eab0ed455798735f554636ad16da667fca1d49370fcdfa5121f3cb69f3",
+    "app/zhiban/local/workspace.js": "17f9c8f8ef3ed1433fb284279b34a28ab69baefbd4958e088d7b4a484b92a43c",
+    "scripts/zhiban-local/request-target.ts": "e71afe131359a1557988d6169ed98b63db13e397e1e935f74a3dd6d14d2e765d",
+    "scripts/zhiban-local/server.ts": "e178c65721fad4d2654e96fba9bb8f5b1b3925824bda966b0328f3696eaafde3",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "cabbac54f41c366aed3521133ba4948b68a3bc480caf8d3e6d0ec3b7acacec21",
+    "scripts/zhiban-local/verify-ordinary-entry-batch.cjs": "b099420574fccf66de3173fcbc2a08558a73e7458493383722dd7bb840835da4",
+    "tests/zhiban/workspace/query.test.ts": "15ae812a9c01651b51e41e69f9b7bfbc2b31d790bf5ef4faf61b13d0f53f0d15"
+  },
+  "boundaries": [
+    "Only exact current Academic activity/Classroom session IDs; no old Native binding translation",
+    "Old Native/virtual-lab/scene Runtime gates retained",
+    "No full classroom/CI/scanner/model rerun",
+    "P7 archive not rebuilt"
+  ]
+}

@@ -1,0 +1,869 @@
+{
+  "kind": "ZHIBAN_PORTABLE_REMOTE_ACCEPTANCE_V1",
+  "executionOrigin": "GITHUB_ACTIONS",
+  "status": "PASS",
+  "runId": "40096542805",
+  "runAttempt": "1",
+  "repository": "yhouzxm/OpenMAIC",
+  "workflowSha": "c709c7815506ed7532d174ba899e76884bb3a98f",
+  "sourceDigest": "1b553320a1b4bb029dbae6827a84ba6a667b44a954a43f350ad9c24d3aaab7e8",
+  "installManifestSha256": "85c5886def45d0efc2d55f3197f280575ce61935af2ca8915eb74b8f6131ba55",
+  "restoreManifestSha256": "c2ab07cd0e69586d13ba62d3b26d767d93bc9d031a2b7a8bee4e7342baa17e76",
+  "node": "v22.23.3",
+  "pg": "postgres (PostgreSQL) 16.15 (Ubuntu 16.15-1.pgdg24.04+2)",
+  "startupTrace": [
+    {
+      "layer": "PERSISTENT",
+      "phase": "PERSISTENT_CONFIG",
+      "state": "ENTER",
+      "elapsedMs": 0,
+      "phaseMs": 0
+    },
+    {
+      "layer": "PERSISTENT",
+      "phase": "PERSISTENT_CONFIG",
+      "state": "LEAVE",
+      "elapsedMs": 1,
+      "phaseMs": 0
+    },
+    {
+      "layer": "PERSISTENT",
+      "phase": "RESTORE_POINTER",
+      "state": "ENTER",
+      "elapsedMs": 1,
+      "phaseMs": 0
+    },
+    {
+      "layer": "PERSISTENT",
+      "phase": "RESTORE_POINTER",
+      "state": "LEAVE",
+      "elapsedMs": 1,
+      "phaseMs": 0
+    },
+    {
+      "layer": "PERSISTENT",
+      "phase": "CATALOG_LAUNCH",
+      "state": "ENTER",
+      "elapsedMs": 1,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "PLAYER_BUILD",
+      "state": "ENTER",
+      "elapsedMs": 0,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "PLAYER_BUILD",
+      "state": "LEAVE",
+      "elapsedMs": 459,
+      "phaseMs": 458
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "ENTER",
+      "elapsedMs": 459,
+      "phaseMs": 0,
+      "component": "dsl"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "LEAVE",
+      "elapsedMs": 508,
+      "phaseMs": 48,
+      "component": "dsl"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_BUILD",
+      "state": "ENTER",
+      "elapsedMs": 508,
+      "phaseMs": 0,
+      "component": "dsl"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_BUILD",
+      "state": "LEAVE",
+      "elapsedMs": 2478,
+      "phaseMs": 1970,
+      "component": "dsl"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "ENTER",
+      "elapsedMs": 2478,
+      "phaseMs": 0,
+      "component": "storage"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "LEAVE",
+      "elapsedMs": 2525,
+      "phaseMs": 46,
+      "component": "storage"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_BUILD",
+      "state": "ENTER",
+      "elapsedMs": 2525,
+      "phaseMs": 0,
+      "component": "storage"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_BUILD",
+      "state": "LEAVE",
+      "elapsedMs": 4655,
+      "phaseMs": 2130,
+      "component": "storage"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "ENTER",
+      "elapsedMs": 4655,
+      "phaseMs": 0,
+      "component": "editor"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "LEAVE",
+      "elapsedMs": 4705,
+      "phaseMs": 49,
+      "component": "editor"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_BUILD",
+      "state": "ENTER",
+      "elapsedMs": 4705,
+      "phaseMs": 0,
+      "component": "editor"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_BUILD",
+      "state": "LEAVE",
+      "elapsedMs": 11864,
+      "phaseMs": 7159,
+      "component": "editor"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "ENTER",
+      "elapsedMs": 11864,
+      "phaseMs": 0,
+      "component": "renderer"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "LEAVE",
+      "elapsedMs": 11921,
+      "phaseMs": 56,
+      "component": "renderer"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_BUILD",
+      "state": "ENTER",
+      "elapsedMs": 11921,
+      "phaseMs": 0,
+      "component": "renderer"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_BUILD",
+      "state": "LEAVE",
+      "elapsedMs": 17295,
+      "phaseMs": 5374,
+      "component": "renderer"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "ENTER",
+      "elapsedMs": 17296,
+      "phaseMs": 0,
+      "component": "generation"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "LEAVE",
+      "elapsedMs": 17351,
+      "phaseMs": 55,
+      "component": "generation"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_BUILD",
+      "state": "ENTER",
+      "elapsedMs": 17351,
+      "phaseMs": 0,
+      "component": "generation"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_BUILD",
+      "state": "LEAVE",
+      "elapsedMs": 18840,
+      "phaseMs": 1489,
+      "component": "generation"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_CACHE_WRITE",
+      "state": "ENTER",
+      "elapsedMs": 18841,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_CACHE_WRITE",
+      "state": "LEAVE",
+      "elapsedMs": 18966,
+      "phaseMs": 125
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "QUIZ_CSS",
+      "state": "ENTER",
+      "elapsedMs": 18966,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "QUIZ_CSS",
+      "state": "LEAVE",
+      "elapsedMs": 19039,
+      "phaseMs": 72
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "QUIZ_BUNDLE",
+      "state": "ENTER",
+      "elapsedMs": 19039,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "QUIZ_BUNDLE",
+      "state": "LEAVE",
+      "elapsedMs": 19223,
+      "phaseMs": 183
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "PUBLISHED_PLAYER_BUNDLE",
+      "state": "ENTER",
+      "elapsedMs": 19223,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "PUBLISHED_PLAYER_BUNDLE",
+      "state": "LEAVE",
+      "elapsedMs": 19644,
+      "phaseMs": 421
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "ATTEMPT_RUNTIME_BUNDLE",
+      "state": "ENTER",
+      "elapsedMs": 19644,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "ATTEMPT_RUNTIME_BUNDLE",
+      "state": "LEAVE",
+      "elapsedMs": 19694,
+      "phaseMs": 49
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "HOST_BUNDLE",
+      "state": "ENTER",
+      "elapsedMs": 19694,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "HOST_BUNDLE",
+      "state": "LEAVE",
+      "elapsedMs": 19844,
+      "phaseMs": 149
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "HOST_LAUNCH",
+      "state": "ENTER",
+      "elapsedMs": 19844,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "RESTORE_SNAPSHOT",
+      "state": "ENTER",
+      "elapsedMs": 0,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "RESTORE_SNAPSHOT",
+      "state": "LEAVE",
+      "elapsedMs": 1231,
+      "phaseMs": 1231
+    },
+    {
+      "layer": "HOST",
+      "phase": "RESTORED_CONTROL",
+      "state": "ENTER",
+      "elapsedMs": 1231,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "RESTORED_CONTROL",
+      "state": "LEAVE",
+      "elapsedMs": 1232,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "PG_START",
+      "state": "ENTER",
+      "elapsedMs": 1232,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "PG_START",
+      "state": "LEAVE",
+      "elapsedMs": 1658,
+      "phaseMs": 425
+    },
+    {
+      "layer": "HOST",
+      "phase": "DB_VERSION",
+      "state": "ENTER",
+      "elapsedMs": 1658,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "DB_VERSION",
+      "state": "LEAVE",
+      "elapsedMs": 1767,
+      "phaseMs": 109
+    },
+    {
+      "layer": "HOST",
+      "phase": "LOCAL_DB_BOOTSTRAP",
+      "state": "ENTER",
+      "elapsedMs": 1768,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "LOCAL_DB_BOOTSTRAP",
+      "state": "LEAVE",
+      "elapsedMs": 1849,
+      "phaseMs": 81
+    },
+    {
+      "layer": "HOST",
+      "phase": "MIGRATION_CHECK",
+      "state": "ENTER",
+      "elapsedMs": 1849,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "MIGRATION_CHECK",
+      "state": "LEAVE",
+      "elapsedMs": 1862,
+      "phaseMs": 12
+    },
+    {
+      "layer": "HOST",
+      "phase": "CONTENT_REBIND",
+      "state": "ENTER",
+      "elapsedMs": 1862,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "CONTENT_REBIND",
+      "state": "LEAVE",
+      "elapsedMs": 2801,
+      "phaseMs": 939
+    },
+    {
+      "layer": "HOST",
+      "phase": "CONTENT_LOAD",
+      "state": "ENTER",
+      "elapsedMs": 2801,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "CONTENT_LOAD",
+      "state": "LEAVE",
+      "elapsedMs": 2801,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "IDENTITY_COMPOSITION",
+      "state": "ENTER",
+      "elapsedMs": 2801,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "IDENTITY_COMPOSITION",
+      "state": "LEAVE",
+      "elapsedMs": 2802,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "TLS_LOAD",
+      "state": "ENTER",
+      "elapsedMs": 2802,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "TLS_LOAD",
+      "state": "LEAVE",
+      "elapsedMs": 3424,
+      "phaseMs": 622
+    },
+    {
+      "layer": "HOST",
+      "phase": "SERVICE_COMPOSITION",
+      "state": "ENTER",
+      "elapsedMs": 3425,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "SERVICE_COMPOSITION",
+      "state": "LEAVE",
+      "elapsedMs": 3426,
+      "phaseMs": 1
+    },
+    {
+      "layer": "HOST",
+      "phase": "HTTPS_LISTEN",
+      "state": "ENTER",
+      "elapsedMs": 3427,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "HOST_READY",
+      "state": "READY",
+      "elapsedMs": 3430,
+      "phaseMs": 0
+    },
+    {
+      "layer": "PERSISTENT",
+      "phase": "PERSISTENT_CONFIG",
+      "state": "ENTER",
+      "elapsedMs": 0,
+      "phaseMs": 0
+    },
+    {
+      "layer": "PERSISTENT",
+      "phase": "PERSISTENT_CONFIG",
+      "state": "LEAVE",
+      "elapsedMs": 0,
+      "phaseMs": 0
+    },
+    {
+      "layer": "PERSISTENT",
+      "phase": "RESTORE_POINTER",
+      "state": "ENTER",
+      "elapsedMs": 0,
+      "phaseMs": 0
+    },
+    {
+      "layer": "PERSISTENT",
+      "phase": "RESTORE_POINTER",
+      "state": "LEAVE",
+      "elapsedMs": 1,
+      "phaseMs": 0
+    },
+    {
+      "layer": "PERSISTENT",
+      "phase": "CATALOG_LAUNCH",
+      "state": "ENTER",
+      "elapsedMs": 1,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "PLAYER_BUILD",
+      "state": "ENTER",
+      "elapsedMs": 0,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "PLAYER_BUILD",
+      "state": "LEAVE",
+      "elapsedMs": 547,
+      "phaseMs": 546
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "ENTER",
+      "elapsedMs": 547,
+      "phaseMs": 0,
+      "component": "dsl"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "LEAVE",
+      "elapsedMs": 585,
+      "phaseMs": 37,
+      "component": "dsl"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "ENTER",
+      "elapsedMs": 585,
+      "phaseMs": 0,
+      "component": "storage"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "LEAVE",
+      "elapsedMs": 631,
+      "phaseMs": 46,
+      "component": "storage"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "ENTER",
+      "elapsedMs": 631,
+      "phaseMs": 0,
+      "component": "editor"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "LEAVE",
+      "elapsedMs": 711,
+      "phaseMs": 79,
+      "component": "editor"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "ENTER",
+      "elapsedMs": 711,
+      "phaseMs": 0,
+      "component": "renderer"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "LEAVE",
+      "elapsedMs": 759,
+      "phaseMs": 47,
+      "component": "renderer"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "ENTER",
+      "elapsedMs": 759,
+      "phaseMs": 0,
+      "component": "generation"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_VERIFY",
+      "state": "LEAVE",
+      "elapsedMs": 801,
+      "phaseMs": 42,
+      "component": "generation"
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_CACHE_WRITE",
+      "state": "ENTER",
+      "elapsedMs": 801,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "SDK_CACHE_WRITE",
+      "state": "LEAVE",
+      "elapsedMs": 979,
+      "phaseMs": 178
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "QUIZ_CSS",
+      "state": "ENTER",
+      "elapsedMs": 979,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "QUIZ_CSS",
+      "state": "LEAVE",
+      "elapsedMs": 1099,
+      "phaseMs": 119
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "QUIZ_BUNDLE",
+      "state": "ENTER",
+      "elapsedMs": 1099,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "QUIZ_BUNDLE",
+      "state": "LEAVE",
+      "elapsedMs": 1337,
+      "phaseMs": 238
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "PUBLISHED_PLAYER_BUNDLE",
+      "state": "ENTER",
+      "elapsedMs": 1337,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "PUBLISHED_PLAYER_BUNDLE",
+      "state": "LEAVE",
+      "elapsedMs": 1814,
+      "phaseMs": 476
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "ATTEMPT_RUNTIME_BUNDLE",
+      "state": "ENTER",
+      "elapsedMs": 1814,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "ATTEMPT_RUNTIME_BUNDLE",
+      "state": "LEAVE",
+      "elapsedMs": 1934,
+      "phaseMs": 119
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "HOST_BUNDLE",
+      "state": "ENTER",
+      "elapsedMs": 1934,
+      "phaseMs": 0
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "HOST_BUNDLE",
+      "state": "LEAVE",
+      "elapsedMs": 2027,
+      "phaseMs": 92
+    },
+    {
+      "layer": "CATALOG",
+      "phase": "HOST_LAUNCH",
+      "state": "ENTER",
+      "elapsedMs": 2027,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "RESTORE_SNAPSHOT",
+      "state": "ENTER",
+      "elapsedMs": 0,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "RESTORE_SNAPSHOT",
+      "state": "LEAVE",
+      "elapsedMs": 1299,
+      "phaseMs": 1299
+    },
+    {
+      "layer": "HOST",
+      "phase": "RESTORED_CONTROL",
+      "state": "ENTER",
+      "elapsedMs": 1299,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "RESTORED_CONTROL",
+      "state": "LEAVE",
+      "elapsedMs": 1299,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "PG_START",
+      "state": "ENTER",
+      "elapsedMs": 1300,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "PG_START",
+      "state": "LEAVE",
+      "elapsedMs": 1412,
+      "phaseMs": 112
+    },
+    {
+      "layer": "HOST",
+      "phase": "DB_VERSION",
+      "state": "ENTER",
+      "elapsedMs": 1412,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "DB_VERSION",
+      "state": "LEAVE",
+      "elapsedMs": 1419,
+      "phaseMs": 7
+    },
+    {
+      "layer": "HOST",
+      "phase": "CONTENT_LOAD",
+      "state": "ENTER",
+      "elapsedMs": 1419,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "CONTENT_LOAD",
+      "state": "LEAVE",
+      "elapsedMs": 1419,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "IDENTITY_COMPOSITION",
+      "state": "ENTER",
+      "elapsedMs": 1419,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "IDENTITY_COMPOSITION",
+      "state": "LEAVE",
+      "elapsedMs": 1420,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "TLS_LOAD",
+      "state": "ENTER",
+      "elapsedMs": 1420,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "TLS_LOAD",
+      "state": "LEAVE",
+      "elapsedMs": 2039,
+      "phaseMs": 619
+    },
+    {
+      "layer": "HOST",
+      "phase": "SERVICE_COMPOSITION",
+      "state": "ENTER",
+      "elapsedMs": 2039,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "SERVICE_COMPOSITION",
+      "state": "LEAVE",
+      "elapsedMs": 2041,
+      "phaseMs": 1
+    },
+    {
+      "layer": "HOST",
+      "phase": "HTTPS_LISTEN",
+      "state": "ENTER",
+      "elapsedMs": 2041,
+      "phaseMs": 0
+    },
+    {
+      "layer": "HOST",
+      "phase": "HOST_READY",
+      "state": "READY",
+      "elapsedMs": 2046,
+      "phaseMs": 0
+    }
+  ],
+  "phaseTimings": {
+    "CONTEXT": 1,
+    "DELIVERY": 2439,
+    "PREREQUISITES": 8,
+    "FROZEN_INSTALL": 77175,
+    "BROWSER_PREREQUISITES": 12720,
+    "PRIVATE_IMPORT": 859,
+    "NSS_TRUST": 17,
+    "RESTORE_START": 26039,
+    "DATA_ROLES_HTTPS": 2077,
+    "NORMAL_RESTART": 11400,
+    "FINAL_SNAPSHOT": 114
+  },
+  "distinctMachine": true,
+  "freshDependencyStore": true,
+  "threeRoleLoginAndWorkspace": true,
+  "trustedBrowserHttps": true,
+  "sourceMatches": true,
+  "accountsPreserved": true,
+  "allNonIdentityRowFingerprintsPreserved": true,
+  "ordinaryRestartReceiptUnchanged": true,
+  "ordinaryRestartDataPreserved": true,
+  "finalSnapshotVerified": true,
+  "productionDeployment": false,
+  "originalSourceHostUntouched": true,
+  "modelCalls": false,
+  "parserCalls": false,
+  "fullClassroomRetest": false,
+  "sourceUid": 1000,
+  "destinationUid": 1001,
+  "sourceDriftCount": 0,
+  "tables": 212,
+  "rows": 572,
+  "inputEvidenceOrigin": "LOCAL",
+  "scope": "EPHEMERAL_GITHUB_UBUNTU_VM_INSTALL_RESTORE_SAME_INTERNAL_PG_ROOT",
+  "cleanup": {
+    "status": "PASS",
+    "privateNamespacePurged": true
+  }
+}

@@ -1,0 +1,7 @@
+
+/home/zxm/openmaic/zhiban/scripts/zhiban-local/verify-login-identifiers.ts
+  143:7  error  'n' is never reassigned. Use 'const' instead  prefer-const
+
+✖ 1 problem (1 error, 0 warnings)
+  1 error and 0 warnings potentially fixable with the `--fix` option.
+

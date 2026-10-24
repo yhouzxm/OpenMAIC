@@ -1,0 +1,20 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "sourceRoot": "/tmp/zhiban-trial-content-2LqPuJ",
+  "backupDirectory": "/home/zxm/.local/state/zhiban-trial-backups/ai-lesson-20261020-073529",
+  "databases": 3,
+  "files": {
+    "/home/zxm/.local/state/zhiban-trial-backups/ai-lesson-20261020-073529/zhiban_trial_content_disposable.dump": "c2e65dfe280bddd0f91c592471af9df509773eabef1238f418c92ea2518b9fe5",
+    "/home/zxm/.local/state/zhiban-trial-backups/ai-lesson-20261020-073529/zhiban_trial_content_native.dump": "3eb70d12b9a39194769334a2ba3a17d29f11cce991c6e84b6c283f888c1c10e2",
+    "/home/zxm/.local/state/zhiban-trial-backups/ai-lesson-20261020-073529/zhiban_trial_lesson_native.dump": "f03b54efe09d63fc7d59cb04265aa7b3bf22f8ca9d3debcc258d0191d4baf031",
+    "/home/zxm/.local/state/zhiban-trial-backups/ai-lesson-20261020-073529/accounts.json": "82446155e3719bc7b17dcbc9933f056cf07f97fe952f985a28bbd1141f528ece",
+    "/home/zxm/.local/state/zhiban-trial-backups/ai-lesson-20261020-073529/member-inputs.json": "c99f6c987bb5b27e59cdffe2043b30c32950135fb79a8f8ac2bedf50ef1f6d2a",
+    "/home/zxm/.local/state/zhiban-trial-backups/ai-lesson-20261020-073529/member-control.json": "5ea9777f510b127bacf200bc45a9bfe2e8aeabe0ab7fad99c516693323899245",
+    "/home/zxm/.local/state/zhiban-trial-backups/ai-lesson-20261020-073529/member-operator.pem": "28c6955448283d2e3d0cfb0b90308d5d66784121b086c63da37a560e68d683d3",
+    "/home/zxm/.local/state/zhiban-trial-backups/ai-lesson-20261020-073529/member-approver.pem": "ec9a1e8e9bf894338e5457574c4470b391c78fa3b0d49d1311ced2c1a68bf6c3"
+  },
+  "archiveListsVerified": true,
+  "restoreTested": false
+}

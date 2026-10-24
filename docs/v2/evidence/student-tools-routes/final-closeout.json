@@ -1,0 +1,100 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-23T11:19:51.885Z",
+  "branch": "refactor/zhiban-v2",
+  "head": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "oldReference": {
+    "ref": "origin/feature/zhiban-mechatronics",
+    "sha": "0fa0a15e8b12ae9e4f7a2d78e80338874599bbae",
+    "behavior": "StudentCourseTutor plus StudentCoursePeer; only Tutor compatibility delivered"
+  },
+  "routes": {
+    "legacy": "/zhiban/student/courses/:course/tools",
+    "selection": "/zhiban/student/tools",
+    "canonicalRetained": "/zhiban/student/courses/:course/tutor"
+  },
+  "scope": "STUDENT_COURSE_TUTOR_LEGACY_ENTRY_AND_GOVERNED_NAVIGATION",
+  "runtime": {
+    "root": "/tmp/zhiban-trial-content-BMRvuH",
+    "origin": "https://127.0.0.1:3461",
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "verifiedSourceCount": 2747
+  },
+  "sourceHashes": {
+    "app/zhiban/local/global-tools.js": "23be2028afbdf976564739b18618ef133b882b0a04dca52646fa586184a93faa",
+    "app/zhiban/local/global-tools.html": "8675fabd07f54899e0d967ea0ebc3603c9eb1bf86d5cfc24bdf77d73192fa324",
+    "app/zhiban/local/course-page.js": "39abb23e71bd8040d4edffd3032456b2f95a1958931432c098273f07cb7a9ae2",
+    "app/zhiban/local/client.js": "a2515d0910d8d6a1962000eb93653fe70e6d426eaea72a0c203d73345ba87ef9",
+    "app/zhiban/local/workspace.js": "5ff71a400184388961d9779cfe6a00e782fdbba278fcaa1a60228555c4f3d3a5",
+    "app/zhiban/local/tutor.js": "3e78c6d2464dcb42a37ab70502382a4ae4253b255c1f3db67a9d427d59d5e35e",
+    "scripts/zhiban-local/request-target.ts": "fdb294e19d652d828eb330a8689276764c89909a85c43ed2267756de66241d20",
+    "scripts/zhiban-local/server.ts": "8a12d81ffaa23a57549a89250d8856c8a237151f6ac558efab36473d2151cc48",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "77c33c12eb557dc8d330495b22af1b8cbd214a6542bbd0296557b52e9820d836",
+    "scripts/zhiban-local/verify-student-tools-routes.cjs": "7133c97104367cdbd8d70cd98f238abb1367f93b9f60911d35c1f712e7f438a2"
+  },
+  "validation": {
+    "browser": "PASS",
+    "eslint": "PASS",
+    "prettierCode": "PASS",
+    "javascriptSyntax": "PASS",
+    "scopedDiffCheck": "PASS",
+    "visual": "Student course tools layout/history/current navigation inspected; screenshot taken while temporarily enabled before restoring policy",
+    "commands": [
+      "SET_POLICY",
+      "CREATE_SESSION",
+      "CLOSE_SESSION",
+      "SET_POLICY"
+    ],
+    "policyRestored": "DISABLED",
+    "modelCalls": false,
+    "syntheticPrivateSession": {
+      "id": "01a1687c-2630-76c8-81dc-f242550c275f",
+      "title": "旧入口兼容：本人空对话",
+      "state": "CLOSED",
+      "turnCount": 0
+    },
+    "teacherReadingStudentSession": 404,
+    "initialAttempt": "Separate API client lacked local CA trust; final checks use browser same-origin fetch with normal certificate validation. Initial disposable test instance not retained as final evidence."
+  },
+  "evidenceHashes": {
+    "browser-local.json": "14b676facae83e3ff6969dda2d8019434ba9531d550f3c0d0686fdcbcfa958eb",
+    "private-backup.json": "4bd02fff525a25fda4c56bc8d6eb473a4a5fd9af1dce412d5a5b835f8cdf01f8",
+    "student-tools.png": "e30cdd777a124cfc8a338f05da5b9299297525a0ffdc784fa513c0e85773b556"
+  },
+  "documentationHashes": {
+    "docs/v2/zhiban-v2-student-tools-routes-local.md": "0856172dd083261f3f337180ccf1d78ca9c38321d6449d23b2292047537cc30a",
+    "docs/v2/zhiban-v2-ui-page-gap-matrix.md": "04aba506e8c4a965e936a7f40abc62cb1837a71bd3c75a9d8a3aea7f5aeb92fb",
+    "docs/v2/zhiban-v2-migration-completion-plan.md": "d3f144cba9a1bb36906f22e9a73803215061e503d1524a63e2c0a650d918437e",
+    "docs/v2/zhiban-v2-feature-gap-matrix.md": "7be27288d6371359c374812d6f6dfa0d7126b78d48a137a0adb5ad84c4fdd16f",
+    "docs/v2/zhiban-v2-trial-guide.md": "11bef63d76d0999ea2d6ba5b0ef67923f178ba9b5653a932ff3ecafbf74d0e1a"
+  },
+  "priorIndependentEvidence": {
+    "path": "docs/v2/evidence/tutor/default-browser-journey.json",
+    "sha256": "c7b113c082536fb0119b5be743806740a8f102695700af124604c32a786a623e",
+    "scope": "Original real Tutor responses retain original run/source scope; not rerun or reissued"
+  },
+  "boundaries": [
+    "No ASK/provider response invented or model rerun",
+    "No Peer/tool Agent/Runtime enablement",
+    "No new API/schema/ACL/migration",
+    "No multi-space/multi-page fixture journey",
+    "No full classroom/PG16/CI rerun",
+    "No real 55432/55433 access",
+    "Dimensions REVIEW remains unchanged",
+    "Previous-runtime backup archives/TOCs verified, no restore claim",
+    "New synthetic accounts/classroom created by restart",
+    "Prior P7 immutable package not regenerated"
+  ],
+  "git": {
+    "commit": false,
+    "push": false,
+    "ciDispatch": false
+  },
+  "next": {
+    "package": "Teacher course settings and teaching-assignment legacy entries, preserving administrator management and teacher restricted reads",
+    "suggestedModel": "GPT-6.1 Sol / medium"
+  }
+}

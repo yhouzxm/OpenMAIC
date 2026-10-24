@@ -1,0 +1,9 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "status": "PASS",
+  "baselineVersion": "zhiban-local-20261024-2035f8a244ba",
+  "scope": "EXISTING_SQL_IDENTITY_AND_FROZEN_NATIVE_RUNTIME_UNCHANGED",
+  "files": 183,
+  "drift": [],
+  "newMigration": "lib/zhiban/infrastructure/flow/postgres/migrations/0002_simulation.sql"
+}

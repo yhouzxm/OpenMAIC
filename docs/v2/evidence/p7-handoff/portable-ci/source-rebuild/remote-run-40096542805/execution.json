@@ -1,0 +1,24 @@
+{
+  "kind": "AUTHORIZED_REMOTE_PORTABLE_EXECUTION_V1",
+  "checkpointSha": "c709c7815506ed7532d174ba899e76884bb3a98f",
+  "runId": 40096542805,
+  "runUrl": "https://github.com/yhouzxm/OpenMAIC/actions/runs/40096542805",
+  "runAttempt": 1,
+  "conclusion": "success",
+  "ciphertextSha256": "a0f4bf43dd68f63fa53a86d21f17535874ec4788e49c0d7f210ec2b03ee4327c",
+  "remoteCiphertextDigestVerified": true,
+  "reviewer": "yhouzxm",
+  "adminBypass": false,
+  "dispatchCount": 1,
+  "deliveryCleanup": {
+    "transportSecretAbsent": true,
+    "assetAbsent404": true,
+    "releaseAbsent404": true,
+    "tagAbsent404": true
+  },
+  "previousRunsRemainFail": [
+    40087593933,
+    40089510426,
+    40090990321
+  ]
+}

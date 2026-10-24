@@ -1,0 +1,4 @@
+{"state":"FAILED","failure":"MODEL_FAILED"}
+
+'FAILED' !== 'READY'
+

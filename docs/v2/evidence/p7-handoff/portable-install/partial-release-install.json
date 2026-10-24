@@ -1,0 +1,8 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "kitManifestSha256": "103cea12346762c01794464d7b79c1a196818ba2f05806f596cdca810ff07af0",
+  "check": "Injected dependency exit 43 leaves incomplete marker and no installation success receipt; target retained; source unchanged",
+  "at": "2026-10-24T08:46:06.697Z"
+}

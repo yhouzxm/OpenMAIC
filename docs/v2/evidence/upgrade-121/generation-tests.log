@@ -1,0 +1,11 @@
+packages/@openmaic/importer              |  WARN  The field "pnpm.onlyBuiltDependencies" was found in /home/zxm/openmaic/zhiban/packages/@openmaic/importer/package.json. This will not take effect. You should configure "pnpm.onlyBuiltDependencies" at the root of the workspace instead.
+packages/@openmaic/renderer              |  WARN  The field "pnpm.onlyBuiltDependencies" was found in /home/zxm/openmaic/zhiban/packages/@openmaic/renderer/package.json. This will not take effect. You should configure "pnpm.onlyBuiltDependencies" at the root of the workspace instead.
+
+ RUN  v4.1.8 /home/zxm/openmaic/zhiban/packages/@openmaic/generation
+
+
+ Test Files  1 passed (1)
+      Tests  16 passed (16)
+   Start at  20:12:30
+   Duration  4.23s (transform 2.49s, setup 0ms, import 3.09s, tests 266ms, environment 1ms)
+

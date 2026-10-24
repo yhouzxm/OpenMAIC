@@ -1,0 +1,10 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "scope": "CURRENT_DOC_LINKS_RECEIPT_HASH_INDEX_AND_RUNTIME_SOURCE_ONLY",
+  "status": "PASS",
+  "linksChecked": 265,
+  "missing": [],
+  "receiptHashesChecked": 14,
+  "runtimeSourceMatches": true,
+  "fullRegressionExecuted": false
+}

@@ -1,0 +1,22 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "READ_ONLY_HANDOFF_ENTRY_NOT_FUNCTIONAL_RESIGNOFF",
+  "root": "/tmp/zhiban-trial-content-IS9eTC",
+  "checks": [
+    {
+      "role": "teacher",
+      "course": "01a16924-8012-76d0-b753-cbcd9e6239f1",
+      "entry": "GET_PAGE_READY"
+    },
+    {
+      "role": "student",
+      "course": "01a16924-8012-76d0-b753-cbcd9e6239f1",
+      "entry": "GET_PAGE_READY"
+    }
+  ],
+  "businessPosts": [],
+  "errors": [],
+  "identityLogins": true
+}

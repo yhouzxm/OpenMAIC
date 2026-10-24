@@ -1,0 +1,94 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-23T23:15:01.773532+00:00",
+  "scope": "FIXED_CLASSROOM_FLOW_AND_LEARNER_REPORTED_LAB_WITH_ORIGINAL_GRADING_AND_SAME_HOST_PERSISTENCE",
+  "branch": "refactor/zhiban-v2",
+  "head": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "dirtyCandidatesPreserved": true,
+  "validation": {
+    "freshPg16Journey": "PASS",
+    "realNativeFixedPlayback": "PASS",
+    "originalManualGradeAndHistory": "PASS",
+    "negativeAuthorizationConcurrencyRollbackAndAcl": "PASS",
+    "modelInputTests": "PASS",
+    "scopedTypes": "PASS",
+    "newFlowStrictLint": "PASS",
+    "seedStrictLint": "PASS",
+    "legacyMetadataLint": "PASS_WITH_EXISTING_NO_EXPLICIT_ANY_RULE_DISABLED",
+    "existingSqlUnchanged": 80,
+    "defaultRestoredTeacherStudentPages": "PASS",
+    "defaultRuntimeSourceMatches": true,
+    "boundRuntimeFiles": 650
+  },
+  "acceptedJourneyBoundary": {
+    "acceptedReceiptSha256": "12ec7ffa9e9f6fe0415e805b10446be32dd8e16c1079b1df1a61dc92a6b21d82",
+    "laterChanges": [
+      "scripts/zhiban-local/verify-m6-catalog.mts: restored metadata scanner/flow state only",
+      "scripts/zhiban-local/trial-control.ts: report persistent status from actual process arguments",
+      "scripts/zhiban-local/tsconfig.flow.json: include isolated synthetic seed verifier"
+    ],
+    "laterValidation": "Scoped type/lint and actual default snapshot restore/readback; did not repeat unrelated classroom journey or rewrite earlier proof",
+    "newSeedTool": "Added isolated demo course after fresh journey, original teaching rows and account file preserved"
+  },
+  "default": {
+    "origin": "https://127.0.0.1:3461",
+    "running": true,
+    "flowEnabled": true,
+    "scannerMode": "TRUSTED_SCANNER",
+    "nativeRuntimeEnabled": false,
+    "demoStarted": false
+  },
+  "snapshot": {
+    "path": "/home/zxm/.local/share/zhiban-persistent/2026-10-23T23-14-30.040Z-6370b6ba",
+    "manifestSha256": "858a8124e47a813eee8a9d68665f88699b7529100437af807bed8630cece7e3b",
+    "method": "PG16 live pg_basebackup with pg_verifybackup, then independent full file/hash closure",
+    "files": 2942,
+    "private": true
+  },
+  "unchangedP7ArchiveScope": true,
+  "noCommitPushCi": true,
+  "notDelivered": [
+    "Native Runtime CREATE/APPEND/COMPLETE production composition and trusted automatic laboratory evidence",
+    "PBL group collaboration",
+    "six-dimension evidence profile and EMA analysis",
+    "certificates and cross-offering credits",
+    "restricted automatic official AI grading",
+    "cross-host and real operational deployment"
+  ],
+  "missingInputs": [
+    "real Native maintenance control root, restricted pgpass staging, trusted Ed25519 public key and pin",
+    "Office/OCR/media actual services"
+  ],
+  "next": "P6 whole PBL collaboration package; GPT-6.1 Sol / high",
+  "files": {
+    "docs/v2/evidence/zhiban-flow-local.json": "12ec7ffa9e9f6fe0415e805b10446be32dd8e16c1079b1df1a61dc92a6b21d82",
+    "docs/v2/evidence/zhiban-flow-journey-local.json": "dbaa6703692e8bfe7c13f2a7bc0b1b7dadaa3d2c46fa259e7e36bfe57be0f6b6",
+    "docs/v2/evidence/zhiban-flow-profile-reference-local.json": "bda64130c08e2c347ea8a1a0313970062791b8181cb49f75ba17144b0374a2f8",
+    "docs/v2/evidence/zhiban-flow-frozen-source-local.json": "060771b0098fb24b525b6b5db4a48917ae8eaeee6b5d6fe13943ccbdf19b5601",
+    "docs/v2/evidence/flow/default-entry.json": "76e72b572193dd288b3db6934af79ffaa365a12cc1c710d0f5a763a44b0c82e6",
+    "docs/v2/evidence/flow/default-restored.json": "51044e8a12a493d3afec8aa0b829aa28ea723e8dd1674689daddc5f777d99a45",
+    "scripts/zhiban-local/seed-flow-demo.ts": "38b57b24787c43f819307306ca1ac7ee9c5e5515acc3e44779153f707a8d5a01",
+    "scripts/zhiban-local/tsconfig.flow.json": "5ace454c60dc32d5b0496e3c3052daf9a44a3c26941c95145c6f23903230b9a6",
+    "lib/zhiban/infrastructure/flow/postgres/migrations/0001_flow.sql": "d23db08fe03d444c7673a09794e63039c7f117f80a1664a6ba09219c02461ecc",
+    "docs/v2/evidence/flow/backup-verify-final.log": "d8bf9ca61792ea844582aec91be51db50229edae3b67cf278a1ae7cc4a2f3a57",
+    "docs/v2/evidence/flow/legacy-lint.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/v2/evidence/flow/info-final.log": "4dd79bf40c17145c0eeb84581661747c84c2e4bfbd7617a3110bb3cb5214dd2b",
+    "docs/v2/evidence/flow/zhiban-flow-journey-r7.log": "b91670c676c517c304adc59bca873e19b00c464123a261a1a1f850ba2aa8e41d",
+    "docs/v2/evidence/flow/zhiban-flow-journey-r3.log": "8bc66ed1e479da64b97ccec236b422277c520c06dea75e89f275aa64551209df",
+    "docs/v2/evidence/flow/backup-final.log": "682f1b7bc06d0058f9ad23c5992b673e0d3528b1d10b3d8790f4de392fa81a1a",
+    "docs/v2/evidence/flow/zhiban-flow-journey.log": "aa06354f0815a3ef4fb766d8fc9309ba3f8c47b30de598c7b8adfc971e2dc9f5",
+    "docs/v2/evidence/flow/zhiban-flow-journey-r5.log": "03e599fb33c8513e9300b3df0fc6adc532360713c0aef4bb75292bbd9afb4076",
+    "docs/v2/evidence/flow/zhiban-flow-journey-r4.log": "73edf1c0630c2a5c09f2192e937a57526b2278ecd42d6b8005d1c82c0718b92d",
+    "docs/v2/evidence/flow/seed-lint.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/v2/evidence/flow/default-demo.log": "1881a8a70ca269374a888b1384a856bef8aff27c210aefa69742920e9d63c336",
+    "docs/v2/evidence/flow/stop-final.log": "e0312a91ed78d4759b55dbf692acdbb377d0b283b633123c89cbe387f47b4c76",
+    "docs/v2/evidence/flow/default-readback.log": "4e775bc2dbb45fd6a50e45e25a67d3b35697572e96a44c8189c02bbeb59cc743",
+    "docs/v2/evidence/flow/persistent-final.log": "2a89dd434a7cb0b63a9a9d3c2abfd317898ccb189541025fc8b17d3f8b528ee6",
+    "docs/v2/evidence/flow/zhiban-flow-journey-r2.log": "954f88de269751dbec358261584cb9708ed371d2b5cc0ea62e4492446ca25306",
+    "docs/v2/evidence/flow/types-bound.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/v2/evidence/flow/strict-lint.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/v2/evidence/flow/zhiban-flow-journey-r6.log": "8e580f31c225c0413954248245deb388e3d471a7e25bbd572bd6a37801fac6b7"
+  }
+}

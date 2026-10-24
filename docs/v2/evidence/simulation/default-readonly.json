@@ -1,0 +1,22 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "DEFAULT_EXISTING_ACCOUNTS_CURRENT_SIMULATION_ASSET_FIXED_PLAN_READINESS_NOT_REPEATED_EXPERIMENT_OR_GRADING",
+  "origin": "https://127.0.0.1:3461",
+  "roles": [
+    "ADMIN",
+    "TEACHER",
+    "STUDENT"
+  ],
+  "models": [
+    "DC_OHM_V1",
+    "RC_CHARGE_V1"
+  ],
+  "sourceAssetMatches": true,
+  "trustedHttpsBrowser": true,
+  "courseStarted": false,
+  "simulationsPrecreated": false,
+  "studentAnswersPrecreated": false,
+  "modelCalls": false
+}

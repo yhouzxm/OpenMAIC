@@ -1,0 +1,26 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "acceptedRun": "directed-r3.log",
+  "scope": "PG16_AUTHORIZATION_CONCURRENCY_CLOSED_OUTPUT_AND_REAL_MODEL_REVIEW",
+  "subsequentDelta": [
+    {
+      "path": "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/ema/native.ts",
+      "acceptedSha256": "ee10c41758b8f2b6c1c1f8a8ef0273e2812ff44f155f790cac3d63bb4c090ca5",
+      "currentSha256": "837caeb678d4fb856aa9697c72921650a3316fa9fff8d673820e141be7ce9ee7"
+    }
+  ],
+  "added": [
+    {
+      "path": "/home/zxm/openmaic/zhiban/tests/zhiban/ema/native.test.ts",
+      "sha256": "c72954be5006bbbb0bcd1b57fbe9abf1e6da5c619d1e4517cf0944b903047161"
+    }
+  ],
+  "deltaScope": "EMA native transport only: human score units, concise output, bounded default reasoning/output, explicit fallback=false, finish-reason refusal, safe failure classifications and recorded prompt/transport provenance. No migration, DTO, authorization or job-state-machine change.",
+  "validation": [
+    "unit.log (closed transport contract; controlled fixture, not real-model evidence)",
+    "default-ui-journey.json (actual default 3461 model run, teacher forms, adoption/rejection/publication, student readback)",
+    "default-model-runs.json (new model provenance; original failed job retained)"
+  ]
+}

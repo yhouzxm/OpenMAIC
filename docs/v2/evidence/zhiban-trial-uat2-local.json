@@ -1,0 +1,124 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "COMPLETED_WITH_LOCAL_FIX",
+  "at": "2026-10-15T23:02:43.201102+00:00",
+  "branch": "refactor/zhiban-v2",
+  "head": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "manualTrial": {
+    "origin": "https://127.0.0.1:3459",
+    "browser": "Codex in-app browser",
+    "observedInstance": {
+      "file": "zhiban-trial-uat2-observed-instance-local.json",
+      "sha256": "6fe48b2b7cb6958aec40adeebc93e8f96a8589b3a90881fdb187419a3cec32b1",
+      "sourceMatchesAtStart": true,
+      "subsequentlyStoppedAndRemoved": true
+    },
+    "flows": [
+      "Student safety attempt 1 -> draft -> submission v1",
+      "Teacher creates and publishes equipment handoff: no resubmit, max 2",
+      "Teacher safety grade draft 90/100 -> publish",
+      "Admin creates TRY_UAT2 with restricted teacher owner selection -> history",
+      "Admin name search returns Chen with active membership/student role",
+      "Student handoff submitted -> non-resubmittable read-only; overview safety 90 plus original 88, mean 89%"
+    ],
+    "findings": [
+      {
+        "id": "UAT-03",
+        "priority": "P3",
+        "status": "LOCAL_FIXED",
+        "summary": "Submitted entry promised resubmission when frozen rule forbids it",
+        "fix": "Use neutral View submitted attempt; per-attempt write guards unchanged"
+      }
+    ],
+    "browserConsoleErrorsObserved": 0,
+    "certificateBypass": false,
+    "unverifiedAction": "New course publish was clicked but outcome not separately checked"
+  },
+  "reports": {
+    "zhiban-trial-uat2-fixes-local.json": {
+      "sha256": "efdd64d0235b63ed10d981fdcf2f073ff6b709ca9e0097db2c9e0fa5a782c03c",
+      "status": "PASS",
+      "scope": "LOCAL_UAT_03_AND_01_02_REGRESSION",
+      "checks": 12,
+      "sourceMismatches": [],
+      "removedBundleCount": 1
+    },
+    "zhiban-trial-demo-local.json": {
+      "sha256": "cd29e6d76e4f8869b55bc47c0b273146e100ea127a030725b8cea20ce5833016",
+      "status": "RUNNING_DISPOSABLE",
+      "scope": "LOCAL_SYNTHETIC_TRIAL",
+      "checks": 5,
+      "sourceMismatches": [],
+      "removedBundleCount": 0
+    },
+    "zhiban-trial-demo-close-local.json": {
+      "sha256": "443f7593ca07e197a3734f9d853fdc3743d765e463219a9155bc21dac2cf5a0f",
+      "status": "PASS",
+      "scope": "LOCAL_SYNTHETIC_THREE_ROLE_TEACHING_TRIAL",
+      "checks": 5,
+      "sourceMismatches": [
+        "/home/zxm/openmaic/zhiban/scripts/zhiban-local/verify-uat-fixes.ts",
+        "/home/zxm/openmaic/zhiban/scripts/zhiban-local/verify-m6-catalog.mts",
+        "/home/zxm/openmaic/zhiban/scripts/zhiban-local/run-m6-catalog.ts",
+        "/home/zxm/openmaic/zhiban/app/zhiban/local/learning.js"
+      ],
+      "removedBundleCount": 1
+    }
+  },
+  "validation": {
+    "directedGroupsPassed": 12,
+    "refreshedTrialSmokeGroupsPassed": 5,
+    "targetedTypeScript": "PASS",
+    "targetedEslint": "PASS",
+    "targetedPrettier": "PASS",
+    "priorMigrationsUnchanged": 16,
+    "unitTestsRerun": false,
+    "fullBuildRun": false,
+    "sourceDriftCurrentDemo": 0
+  },
+  "currentDemoState": {
+    "tenantId": "01a141cb-c497-748f-8762-40cb043fe5b6",
+    "origin": "https://127.0.0.1:3459",
+    "status": "RUNNING_DISPOSABLE",
+    "changedSyntheticData": [
+      "Teacher created and published equipment handoff: no resubmit, max 2",
+      "Student handoff attempt 1 submitted version 1, ungraded"
+    ],
+    "originalSamplesRetained": true,
+    "prior90GradeAndTryUat2Retained": false,
+    "accountsFileMode": "0600",
+    "rootMode": "0700"
+  },
+  "candidateFiles": {
+    "app/zhiban/local/learning.js": "47c5c00d799a0b23a938523fd4ac0016df24f9cea0ff690d7353739a29440167",
+    "scripts/zhiban-local/verify-uat-fixes.ts": "25da412a4ee18e74dc3903cbb58d0d0ab1650fbecb069da78612f4c531c79efd",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "620dd373f054f57dacf4b688477332e6f25a83a39cac832a00e0c81f984e406c",
+    "scripts/zhiban-local/run-m6-catalog.ts": "ba11f043c486f4461e59336bc46e119d886a5dff58e7bc299a3e5469d2e7a748"
+  },
+  "documents": {
+    "docs/v2/zhiban-v2-trial-uat-round2.md": "a7c7efa4965aea483a93346d1668f1403e5b262b45e19de18db338a97011eaff",
+    "docs/v2/zhiban-v2-delivery-plan.md": "d90c1abbcf3083e8765d24133ec662070262c282219af6a1a18c564f19441aa3",
+    "docs/v2/zhiban-v2-execution-plan.md": "e2a8fdf5861a491f07032b52eea38c33ee5f2eb14ecdb52fa5509f92f6c02b15"
+  },
+  "screenshots": {
+    "zhiban-trial-uat2-admin-local.png": "101e54a1d8e93f29d50df9e403e1fc6ddfc2aab4a9eda09a03c04037b9445d7e",
+    "zhiban-trial-uat2-grade-local.png": "639627bb423413266342e8cfcb86ccd3dc8b8da941401c9f73f8d2e52cb09938",
+    "zhiban-trial-uat2-no-resubmit-after-local.png": "387194cbe5728fea9abf79ba2c951bb7952ddda1bc2e2c6a429dcf0a16b2b82e",
+    "zhiban-trial-uat2-no-resubmit-before-local.png": "4eb7a73f0f69fb10818469973a946a94b56d89d0c41da020f9afe51d05829106",
+    "zhiban-trial-uat2-progress-local.png": "f492ba84faf878e9f3a63af118bb9e3f4bd8ab519dbf484d94d1c019d8f69421",
+    "zhiban-trial-uat2-submit-local.png": "e3366bfa3775b0704a309babf57bbc3dd02e57dd30b23bf667e8bf7d38849c17"
+  },
+  "gitActions": {
+    "commit": false,
+    "push": false,
+    "ciDispatch": false
+  },
+  "excluded": [
+    "Actual 55432/55433 and Native/maintenance inputs",
+    "Applied migrations, frozen production semantics and M5 enabled composition",
+    "Bulk import, roster transfer and actual large-page traversal in manual trial",
+    "Production/CI/release acceptance",
+    "Historical evidence applicability to changed sources"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "PREEXISTING_MIGRATION_SOURCE_ONLY",
+  "checked": 51,
+  "changes": [],
+  "newMigration": "lib/zhiban/infrastructure/pbl/postgres/migrations/0001_pbl.sql"
+}

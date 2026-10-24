@@ -1,0 +1,81 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "branch": "refactor/zhiban-v2",
+  "dirtyCandidatesPreserved": true,
+  "root": "/tmp/zhiban-trial-content-rU1zAL",
+  "pid": 76989,
+  "origin": "https://127.0.0.1:3461",
+  "compiledAndBrowserSourcesMatchStartup": true,
+  "startupReceiptUnmodified": true,
+  "verificationScriptTimingFixAfterStartup": true,
+  "realModelJourney": "glm:glm-5.3",
+  "mock": false,
+  "verification": {
+    "strictParserAndOriginalContract": "PASS",
+    "joinedSessionRevocationUnit": "PASS (unit substitute, not real PG/model)",
+    "targetedTypescript": "PASS",
+    "targetedEslint": "PASS",
+    "diffCheck": "PASS",
+    "browserAndPg": [
+      "Native real advice x3",
+      "Teacher browser rejection leaves grade absent",
+      "Manual grade revision change conflicts with stale suggestion",
+      "Student/admin denied and injected client marks rejected",
+      "Committed teacher revocation denies, original management command restores",
+      "Injected grade INSERT failure rolls back",
+      "Concurrent independent accepts save one grade revision and one decision",
+      "Opposite decision conflicts",
+      "Original teacher explicit publication and student browser result; no advice in student response"
+    ],
+    "publicationReadTimingContinuation": "Original complete journey assertions passed through concurrent accept and teacher publish click; fixed immediate-read timing race, then independently verified persisted publication and student browser result without repeating model calls."
+  },
+  "finalState": {
+    "publishedGrade": {
+      "score_points": 200,
+      "max_points": 200
+    },
+    "activeAssignments": 1,
+    "faultFunctionsRemaining": 0,
+    "serverVersion": 160015
+  },
+  "sourcePins": {
+    "lib/zhiban/application/quiz/advice.ts": "8fee7e0aac233860db7547f1e6edbdf6c6818bd0db718c12e4e3402b6d50c2f2",
+    "lib/zhiban/application/quiz/advice-parser.ts": "a641ad676ce721dedebdbfbe4dddb32d51bf8ac30ea78bdf831b97af838f760e",
+    "lib/zhiban/application/quiz/service.ts": "999d016d0885e044413a372bc5a3dbf2bd8ac2b87a96160e31f3cff37eab216e",
+    "lib/zhiban/infrastructure/quiz/advisor.ts": "d167eb300920bbcd3d59c1933fb05aaac05bb060e78cea1e4457b8e0c3e2fce0",
+    "lib/zhiban/infrastructure/quiz/postgres/transaction.ts": "5815d7838009bee1109a8bc3f724503bcb1ac0174dee7d353e080012863d66d2",
+    "lib/zhiban/infrastructure/assessment/http.ts": "da3b77ce6a30aeb09e63954208108e898e934583d3d4d1fb8529c6f7c44d659d",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "35022d1c1e7c8e51eda58735610ac951d886141ca38f17af523228358a010743",
+    "app/zhiban/local/quiz-client.tsx": "f998886cfc0d74603a34e0af2e7f04562e1d301ba8c66a05d632af1e69602d7b",
+    "app/zhiban/local/quiz-client.js": "17d1f96d035b392092126a3f88d00c929019a577fc9af8a87839b170ce873489",
+    "tests/zhiban/quiz/advice.test.ts": "947821baae26aa2f5ed2ce76e2eef943f33a165e95d3c47b7ed5df5493f58b57",
+    "scripts/zhiban-local/verify-quiz-ai-advice.cjs": "070c4c65cacb481a7966e22ee47c470014c2328a1aa5941a7cd4d1732541fc50",
+    "scripts/zhiban-local/verify-quiz-ai-advice-result.cjs": "c842c06d2bcab4f46711c3c8262798a1d2eced55b808a46ac33ce14c1250cbfb",
+    "docs/v2/zhiban-v2-quiz-ai-advice-local.md": "9a9eb9e0668efaef370155054820d30388e8c4a10bbb80d23f8f3fed57491425",
+    "docs/v2/zhiban-v2-migration-completion-plan.md": "e21a33af7e030c0acad83d3511b873529d74c76e221365563b09fca30294cfeb",
+    "docs/v2/zhiban-v2-feature-gap-matrix.md": "793b2bb27e8f1153d5ed63849e18d33015193c09799622856d0b689bd586f3dd",
+    "docs/v2/zhiban-v2-quiz-capability-gap.md": "3964fa44d539f0771a839ad244e67fe794d42fb29c40fdc7df897f5877f706a4",
+    "docs/v2/evidence/quiz-ai-advice/journey.json": "db878aa129a1b5912faf5f64b064bb0c896976ca68567a98d891012a58070f3e"
+  },
+  "noMigrationsOrAclChanges": true,
+  "noCommit": true,
+  "noPush": true,
+  "noCiDispatch": true,
+  "p7NotRepacked": true,
+  "backups": [
+    "/home/zxm/.local/share/zhiban-backups/before-ai-advice-20261023",
+    "/home/zxm/.local/share/zhiban-backups/ai-advice-diagnostics-20261023"
+  ],
+  "backupRestoreTested": false,
+  "boundaries": [
+    "Unpublished ASSESSED short-answer submissions only",
+    "Teacher adopts/rejects whole short-answer batch; accept saves draft only",
+    "Only current LOCAL unified host wired; other compositions unavailable",
+    "Configured model route recorded; upstream fallback follows deployment configuration",
+    "Automatic official grading and AI correction of published grades excluded",
+    "Old P7/root evidence not relabeled"
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "createdAt": "2026-10-16T22:44:43.531531+00:00",
+  "branch": "refactor/zhiban-v2",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "scope": "P1 second slice: teacher/student distinct course shells, bounded course navigation and contextual returns",
+  "sourceReference": {
+    "ref": "refs/remotes/origin/feature/zhiban-mechatronics",
+    "sha": "0fa0a15e8b12ae9e4f7a2d78e80338874599bbae",
+    "comparison": "source structure only; no old live pixel comparison"
+  },
+  "sourceHashes": {
+    "app/zhiban/local/client.js": "e83d43cc6b40902279fa74e76738a695b544ec6dde966268225db0d349f13e5e",
+    "app/zhiban/local/workspace.js": "e672a9e15a0a84957e717921f0daae5bdf0250ec319aab986630c482ffad385f",
+    "app/zhiban/local/workspace.css": "8aa73c4a8119a9d424ea9ac1d2d2f24e108a57b9315aedb68ddf889884209d79",
+    "app/zhiban/local/grading.js": "2ea1c90bfaef1de0ec58834e5d2e71d3c72fb177fba4c86a4607f9dfb8395bef",
+    "app/zhiban/local/analytics.js": "1b78947994d128b561cdea3f19f533960b09be4e5c42ba8c7914cedebfc425b2",
+    "app/zhiban/local/progress.js": "834704b9d0aea2decb9a78e3b0d6e671736056b704a9a37b2d9e6d16f6b2434c",
+    "scripts/zhiban-local/request-target.ts": "50d22a45be62e19d5f27cb55fedb5a0369b437ba27ec67b0b9f8ff083091e2e7",
+    "scripts/zhiban-local/server.ts": "1b4c044f83b30eae6007bdf2eefd4a9b9a1060e453b3daa1ddf9bf69790e1ee6",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "c371576f572da9004c4969ee989b2e4f3f97f06c32149369f8e9563504c4df57",
+    "scripts/zhiban-local/prepare-trial.ts": "c59ae093e0dcd90a13d5aded97def1a25daad6ee599a421a01c00ae9756a3d41",
+    "tests/zhiban/workspace/query.test.ts": "e3511369a70b275ef54f4717977e0624e039888729ca94da11ba75e3e31d1e26"
+  },
+  "checks": {
+    "workspaceRouteTests": "6/6 PASS, including allowed role/section paths and malformed/unknown paths",
+    "focusedTypecheck": "PASS, scripts request-target/server/catalog/prepare-trial and workspace test; Node types configured",
+    "eslint": "PASS for changed JS/TS files",
+    "syntaxAndDiff": "node --check PASS for changed frontend JS; git diff --check PASS",
+    "disposablePG16": {
+      "status": "PASS",
+      "checkCount": 12,
+      "pgVersion": 160015,
+      "startupEvidence": "zhiban-trial-content-demo-local.json"
+    },
+    "browser": {
+      "provider": "Codex in-app browser / cua_repl",
+      "desktop": "1440x1000 teacher and student",
+      "mobile": "390x844 student; document width 375 <= viewport 390",
+      "passed": [
+        "course card to distinct teacher and student page",
+        "teacher roster and pagination visible",
+        "teacher grades to grading and back to course section",
+        "student grades to personal overview and back to course section",
+        "student activity navigation on narrow viewport",
+        "trusted local HTTPS and current source hash"
+      ],
+      "sourceStartupAlsoPassed": [
+        "admin rejected teacher course URL",
+        "teacher rejected student course URL and mismatched offering",
+        "student rejected teacher course URL",
+        "text/PNG content journey",
+        "existing three-role trial journey"
+      ]
+    }
+  },
+  "runtime": {
+    "status": "RUNNING_LOCAL_DISPOSABLE",
+    "origin": "https://127.0.0.1:3461",
+    "root": "/tmp/zhiban-trial-content-4w1IRi",
+    "pid": 17098,
+    "tenantId": "01a146e1-b72f-77a4-8770-a1f410b68920",
+    "offeringId": "01a146e1-ce14-718b-afad-2d585c38b17c",
+    "sourceMatchesAtInfo": true,
+    "sourceDriftCountAtInfo": 0,
+    "data": "fresh synthetic; previous trial classrooms not restored"
+  },
+  "cleanup": {
+    "failedRunRootsRemoved": [
+      "/tmp/zhiban-trial-content-Xfpgjq",
+      "/tmp/zhiban-trial-content-GqZcCG"
+    ],
+    "pgCtlReported": "no server running for each before deletion",
+    "successfulPriorRoot": "removed by trial:zhiban:stop"
+  },
+  "screenshots": {
+    "student-desktop.png": {
+      "sha256": "70ba79e0d5aec1630bc6ab7e61e7c701d5266fc9138c964da7fe5617457c1b1f",
+      "bytes": 58378
+    },
+    "student-mobile-activities.png": {
+      "sha256": "575f3db2d7cc34fb365596cf630cdaab24fd23be579366e0061a106a89240f57",
+      "bytes": 81031
+    },
+    "student-mobile.png": {
+      "sha256": "1c04b2b8fdaff9490fa1674c946ef8f2b71ddb76aae63758f17cb9800ed5cc5e",
+      "bytes": 36926
+    },
+    "teacher-desktop.png": {
+      "sha256": "e1717a3d1bbcc9cd88ce9b9f1941477c1d778e9e9a0217dd0150dabe58154f30",
+      "bytes": 53032
+    }
+  },
+  "limitations": [
+    "module/chapter data and ordering not implemented",
+    "existing lecture/grading/analytics/progress business pages use their previous layout after navigation",
+    "old application not run for pixel comparison",
+    "other P1 pages and legacy route aliases remain pending",
+    "full repository typecheck has known unrelated slide-editor errors from prior slice; not rerun this slice"
+  ],
+  "mutations": {
+    "commit": false,
+    "push": false,
+    "ciDispatch": false,
+    "appliedMigrations": false,
+    "realPG55432Or55433": false
+  }
+}

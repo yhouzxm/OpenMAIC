@@ -1,0 +1,18 @@
+lib/zhiban/domain/attainment/model.ts 142ms
+lib/zhiban/application/attainment/service.ts 62ms
+lib/zhiban/infrastructure/attainment/http.ts 87ms (unchanged)
+lib/zhiban/infrastructure/attainment/postgres/transaction.ts 292ms
+lib/zhiban/domain/autograde/model.ts 38ms
+lib/zhiban/application/autograde/service.ts 39ms
+lib/zhiban/infrastructure/autograde/http.ts 39ms
+lib/zhiban/infrastructure/autograde/native.ts 28ms
+lib/zhiban/infrastructure/autograde/postgres/transaction.ts 108ms
+lib/zhiban/infrastructure/autograde/worker.ts 72ms
+scripts/zhiban-local/attainment.ts 34ms
+scripts/zhiban-local/autograde.ts 32ms
+scripts/zhiban-local/build-attainment-reference.ts 31ms
+scripts/zhiban-local/build-autograde-reference.ts 49ms
+lib/zhiban/infrastructure/finalgrade/postgres/transaction.ts 213ms
+lib/zhiban/application/academic/service.ts 89ms (unchanged)
+lib/zhiban/infrastructure/academic/postgres/store.ts 363ms
+lib/zhiban/infrastructure/assessment/postgres/transaction.ts 84ms (unchanged)

@@ -1,0 +1,12 @@
+{
+  "formatVersion": 1,
+  "status": "UNISSUED",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "approvalId": null,
+  "dbCommitStatus": "NOT_OBSERVED",
+  "targetGateSha256": null,
+  "publicationStatus": "NOT_OBSERVED",
+  "launchAllowed": false,
+  "replayAllowed": false
+}

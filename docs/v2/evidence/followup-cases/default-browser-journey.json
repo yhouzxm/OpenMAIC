@@ -1,0 +1,17 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "root": "/tmp/zhiban-trial-content-S39pyV",
+  "caseId": "01a15ecd-c8ea-72c1-93be-d6ba65fc4433",
+  "state": "CLOSED",
+  "revision": "2",
+  "eventActions": [
+    "CLOSE_CASE",
+    "CREATE_CASE"
+  ],
+  "caseCreatedAndClosedThrough": "IN_APP_BROWSER_REAL_UI",
+  "escapePreservesDraft": "OBSERVED_IN_APP_BROWSER",
+  "originalPendingItems": 6,
+  "externalNotificationSent": false
+}

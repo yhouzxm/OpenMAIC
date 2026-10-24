@@ -24,6 +24,7 @@ const onwarn = (warning) => {
 export default {
   input: {
     'core/index': 'src/core/index.ts',
+    'quiz/index': 'src/quiz/index.tsx',
     'react/index': 'src/react/index.ts',
     'ui/index': 'src/ui/index.ts',
   },

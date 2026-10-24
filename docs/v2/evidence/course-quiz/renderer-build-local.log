@@ -1,0 +1,11 @@
+packages/@openmaic/importer              |  WARN  The field "pnpm.onlyBuiltDependencies" was found in /home/zxm/openmaic/zhiban/packages/@openmaic/importer/package.json. This will not take effect. You should configure "pnpm.onlyBuiltDependencies" at the root of the workspace instead.
+packages/@openmaic/renderer              |  WARN  The field "pnpm.onlyBuiltDependencies" was found in /home/zxm/openmaic/zhiban/packages/@openmaic/renderer/package.json. This will not take effect. You should configure "pnpm.onlyBuiltDependencies" at the root of the workspace instead.
+
+> @openmaic/renderer@0.1.14 build /home/zxm/openmaic/zhiban/packages/@openmaic/renderer
+> node scripts/generate-fonts-css.mjs && node scripts/generate-katex-fonts.mjs && node -e "require('fs').rmSync('dist',{recursive:true,force:true})" && rollup -c && tsc --emitDeclarationOnly --declarationDir dist
+
+[genfonts] wrote 6 @font-face rules → fonts.css (https://file.maic.chat/fonts)
+[gen-katex-fonts] embedded 20 KaTeX 0.16.38 faces → src/snapshot/katex-fonts-embed.ts (341 KB)
+
+src/index.ts, src/quiz/index.tsx, src/elements/index.ts, src/types/index.ts, src/snapshot/index.ts → dist...
+created dist in 10.5s

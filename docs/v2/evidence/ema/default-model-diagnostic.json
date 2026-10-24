@@ -1,0 +1,41 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "scope": "READ_ONLY_SYNTHETIC_INPUT_DIAGNOSTIC_NO_PRODUCT_RESULT",
+  "elapsedMs": 74439,
+  "finishReason": "length",
+  "usage": {
+    "inputTokens": 1094,
+    "inputTokenDetails": {
+      "noCacheTokens": 6,
+      "cacheReadTokens": 1088
+    },
+    "outputTokens": 5000,
+    "outputTokenDetails": {
+      "textTokens": 4,
+      "reasoningTokens": 4996
+    },
+    "totalTokens": 6094,
+    "raw": {
+      "prompt_tokens": 1094,
+      "completion_tokens": 5000,
+      "total_tokens": 6094,
+      "prompt_tokens_details": {
+        "cached_tokens": 1088
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 4996
+      }
+    },
+    "reasoningTokens": 4996,
+    "cachedInputTokens": 1088
+  },
+  "textLength": 0,
+  "valid": false,
+  "errorCode": "UNAVAILABLE",
+  "model": {
+    "provider": "glm",
+    "model": "glm-5.3"
+  },
+  "untrustedModelOutput": ""
+}

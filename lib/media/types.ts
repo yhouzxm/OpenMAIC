@@ -77,6 +77,7 @@ export type ImageProviderId =
   | 'nano-banana'
   | 'minimax-image'
   | 'grok-image'
+  | 'glm-image'
   | 'comfyui-image'
   | 'openrouter-image'
   | 'lemonade';
@@ -113,7 +114,7 @@ export interface ImageProviderConfig {
   /** Available models for this provider */
   models: ImageModelInfo[];
   /** Aspect ratios supported by this provider */
-  supportedAspectRatios: Array<'16:9' | '4:3' | '1:1' | '9:16'>;
+  supportedAspectRatios: Array<'16:9' | '4:3' | '1:1' | '9:16' | '3:4'>;
   /** Optional artistic styles supported by this provider */
   supportedStyles?: string[];
   /** Maximum supported output resolution */
@@ -273,6 +274,14 @@ export interface VideoGenerationConfig {
   model?: string;
   /** Transport for provider requests (see {@link MediaProviderFetch}). */
   fetchImpl?: MediaProviderFetch;
+  /**
+   * Transport for downloading a finished clip from a provider-returned file
+   * URI that may redirect to storage. It follows redirects, re-validating
+   * every hop and dropping credential headers on a cross-origin hop
+   * (`lib/server/media-provider-fetch.ts`). Left unset, the download uses
+   * `fetchImpl` and refuses redirects.
+   */
+  downloadFetchImpl?: MediaProviderFetch;
 }
 
 /**

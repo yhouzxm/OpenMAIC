@@ -1,0 +1,10 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "scope": "OWNED_UNIFIED_DISCUSSION_READINESS_COMPOSITION",
+  "expectedComponents": {
+    "docs/v2/evidence/m5-png-profile-reference-quiz-local.json": "b92e9eaef1dd177933a5d1d4e128d492c58ce6b9675d82ea98c0636a5b13b22d",
+    "docs/v2/evidence/zhiban-discussion-profile-reference-local.json": "ce8edaea5b805827f134bfdf972fb26b52cc617fdce65dfdeae0c5f19a0a46cd"
+  },
+  "activation": "Both existing Content/Native profile and independent Discussion loader must pass; Classroom/Curriculum retain existing checks. No Native/Bridge privilege expansion."
+}

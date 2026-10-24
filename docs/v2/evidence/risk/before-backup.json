@@ -1,0 +1,14 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PREVIOUS_THREE_DATABASE_ARCHIVES_REVERIFIED_NO_LIVE_INSTANCE",
+  "previousBackupIndex": "remediation/default-backup.json",
+  "backupDirectory": "/home/zxm/.local/state/zhiban-trial-backups/remediation-current-20261021-232204",
+  "previousRoot": "/tmp/zhiban-trial-content-1odRdD",
+  "freshPreChangeDump": false,
+  "previousDumpHashesAndTocVerified": true,
+  "databaseCount": 3,
+  "restoreTested": false,
+  "note": "Prior disposable root/socket already absent; no current live data backup is claimed.",
+  "failedEmptyFreshDumpCleaned": true
+}

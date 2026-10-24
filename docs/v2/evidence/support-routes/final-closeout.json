@@ -1,0 +1,80 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-23T10:59:15.973Z",
+  "branch": "refactor/zhiban-v2",
+  "head": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "oldReference": {
+    "ref": "origin/feature/zhiban-mechatronics",
+    "sha": "0fa0a15e8b12ae9e4f7a2d78e80338874599bbae"
+  },
+  "scope": "EIGHT_LEGACY_PROFILE_AND_SUPPORT_ROUTES_NAVIGATION_ONLY",
+  "dimensions": "REVIEW",
+  "runtime": {
+    "root": "/tmp/zhiban-trial-content-5idGk9",
+    "origin": "https://127.0.0.1:3461",
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "verifiedSourceCount": 2741
+  },
+  "sourceHashes": {
+    "app/zhiban/local/global-support.js": "bbc00903d6e0f775663af7f5ba7f1e660ba47eec5072ebe54bf411cfc8cfcb84",
+    "app/zhiban/local/global-support.html": "fde6f16803336cfbf554e6ad84ab505b61f88cb57465e9a269b7d3563cb8cc45",
+    "app/zhiban/local/support-hub.js": "5ea8c018f9882311748a254533c3759468e17146fff78a0fed1ffbb29412cce2",
+    "app/zhiban/local/support-hub.html": "4ab014ec3f8a9eb89a49cbbf5f838f3d52298633ef9f4af4ee2e19f8c09540be",
+    "app/zhiban/local/client.js": "134f14febc2f99ec68b2ecc74f081310bf1e9a5dfb4d29a4e728a9dbd2685e6b",
+    "app/zhiban/local/course-page.js": "6ac8600e50e2dfe816f0f03073089f68ab0a88b3ee9998899f474c845ef8d762",
+    "scripts/zhiban-local/request-target.ts": "2048b69d9a2c0ba9336f7f1dd774a1a7b6edf2a800995f26922e8dd773b76e2e",
+    "scripts/zhiban-local/server.ts": "6ff08d6c4fc898cd799c0fa55aa3b21c7ed5c785a21a5736f01fcfefbc52e70a",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "b9a4793073954f1cf0832ebe9b2fd2511b047193e7a195d4381eaadc93baec1d",
+    "scripts/zhiban-local/verify-support-routes.cjs": "4bd270ef02f43067a21452b9578eef9079f72b0af93cce645296ed6599214fc7",
+    "scripts/zhiban-local/verify-settings-routes.cjs": "ef9001b1f1f0104f96841b5b2cf434fe77eb653d4f232d12af7b80a454f008a2"
+  },
+  "validation": {
+    "browser": "PASS",
+    "eslint": "PASS",
+    "prettierCode": "PASS",
+    "javascriptSyntax": "PASS",
+    "scopedDiffCheck": "PASS",
+    "visual": "Teacher profile and student support screenshots inspected; centered layout and feature links visible",
+    "businessWrites": false,
+    "studentPrivateRiskOrAnalyticsReads": 0
+  },
+  "evidenceHashes": {
+    "browser-local.json": "0936a15baf80659f3b95f98cb63634b66372fe9354edcfe4476030fc4be6120e",
+    "private-backup.json": "d613969c4a64e3bd8db81ff1a61a251b654a23784ee81db255221cb890d4df8d",
+    "teacher-profile.png": "0613021435b6527aa8f852185affdb785515e2d80dbfb410965a89c3da569b26",
+    "teacher-support.png": "a4708fb56c54b539751c08418bd5c4aca5d2d67f34d85af0767d49e302363a79",
+    "student-profile.png": "fb8fb5e1cce2d909e080adae40f37d4bc06f6b5b8934ebe87df1e24956091878",
+    "student-support.png": "37edaf33d350c641d6d3d822c7a1920ae8a0118f1540a984b5db288ca4b3459f"
+  },
+  "documentationHashes": {
+    "docs/v2/zhiban-v2-support-routes-local.md": "ae2c332a88908bec653887edddd7bd108dcdaa633f4071995cc2886e880e5c29",
+    "docs/v2/zhiban-v2-ui-page-gap-matrix.md": "c6cc08c8832cd405c65e80ae4c6d59fdb790c12d5e7f4cf8d13f502531c7fc97",
+    "docs/v2/zhiban-v2-migration-completion-plan.md": "f0df5ac8a956da2ded2a9facbfbb2a0de48f0458fdf6f95272c3b01357de092b",
+    "docs/v2/zhiban-v2-feature-gap-matrix.md": "1c8f4a915b8a2b28d89e7566be44bf2df3f7348c8c3c7c1431fd2f25dac4c665",
+    "docs/v2/zhiban-v2-trial-guide.md": "a2f6e6ec0567d4a9e58d71467792e6ee403afbee40e6dee04612d2bc3b0d3052"
+  },
+  "boundaries": [
+    "No synthetic observations/reminders/plans published; empty states are real",
+    "No scoring dimensions/diagnosis/ranking",
+    "No real multi-page or multi-space fixtures",
+    "No full classroom/PG16/CI rerun",
+    "Original P5 write/auth/concurrency receipts retain their independent scope",
+    "No API/ACL/schema/applied migration changes",
+    "No production/real 55432 or 55433 access",
+    "No model/scanner rerun",
+    "Old P7 immutable package not regenerated",
+    "Private prior-runtime backup has verified archive/TOCs, no restore claim"
+  ],
+  "git": {
+    "commit": false,
+    "push": false,
+    "ciDispatch": false
+  },
+  "next": {
+    "package": "P1/P6 teacher AI authoring legacy entry compatibility, reusing native generation/adoption/publication",
+    "suggestedModel": "GPT-6.1 Sol / medium"
+  }
+}

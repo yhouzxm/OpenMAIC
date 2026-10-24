@@ -1,0 +1,70 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "localDate": "2026-10-23",
+  "branch": "refactor/zhiban-v2",
+  "head": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "preexistingDirtyEntries": 1493,
+  "preexistingCandidatesPreserved": true,
+  "scope": "CONTROLLED_NOMINATION_OWNER_CONFIRMATION_OR_RETIREMENT_ALIAS_LOGIN_AND_TENANT_DIRECTORY",
+  "checks": {
+    "scopedPg16Https": "PASS",
+    "independentProfileReferenceConstruction": "PASS",
+    "unitTests": {
+      "passed": 2
+    },
+    "scopedTypeScript": "PASS",
+    "scopedEslint": "PASS",
+    "currentDefaultRealHttps": "PASS",
+    "currentDefaultInAppBrowser": "PASS",
+    "runtimeSourceCount": 2713,
+    "runtimeSourceDrift": [],
+    "preexistingMigrationCountUnchanged": 39,
+    "ownNewMigrations": 2
+  },
+  "postDirectedSourceDelta": {
+    "file": "lib/zhiban/application/profile/service.ts",
+    "purpose": "Unify unknown and known-outside-tenant empty directory response shape",
+    "verification": "CURRENT_DEFAULT_REAL_HTTPS",
+    "otherMissingDirectedArtifacts": "Owned scoped fixture and transient bundle cleaned after successful run; original receipt preserved"
+  },
+  "currentDefault": {
+    "root": "/tmp/zhiban-trial-content-VVpcc3",
+    "url": "https://127.0.0.1:3461/zhiban",
+    "ownPage": "https://127.0.0.1:3461/zhiban/login-identifiers",
+    "syntheticStudentAlias": "@trial.chen01",
+    "accountSecretsPrinted": false
+  },
+  "boundaries": {
+    "authority": "LOCAL_SYNTHETIC_TWO_KEYS_NOT_REAL_HUMAN_APPROVAL",
+    "productionDeployment": false,
+    "real55432Or55433Changed": false,
+    "frozenUserIdResolverChanged": false,
+    "originalIdentityMigrationsOrAclChanged": false,
+    "credentialSlotChanged": false,
+    "roleOrMembershipGrantedByAlias": false,
+    "retirementRevokesPreviouslyDeliveredSessions": false,
+    "scanner": "UNAVAILABLE_NEW_SCAN_UPLOADS_CLOSED",
+    "backup": "THREE_DATABASE_ARCHIVES_AND_CONTROL_INPUTS_TOC_VERIFIED",
+    "restoreTested": false
+  },
+  "git": {
+    "commit": false,
+    "push": false,
+    "ciDispatch": false
+  },
+  "evidence": [
+    "directed-journey.json",
+    "../zhiban-login-identifiers-local.json",
+    "default-browser-journey.json",
+    "default-backup.json",
+    "migrations-check.json",
+    "default-info.log",
+    "unit.log",
+    "typecheck-final.log",
+    "lint-final.log"
+  ],
+  "nextPackage": "P3 多类教务导入与批次结果",
+  "suggestedModel": "GPT-6.1 Sol / medium"
+}

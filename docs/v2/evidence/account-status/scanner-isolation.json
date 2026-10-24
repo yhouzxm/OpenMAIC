@@ -1,0 +1,12 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "CURRENT_DEFAULT_UNAVAILABLE_SCANNER_ISOLATION",
+  "scannerMode": "UNAVAILABLE",
+  "teachingActivitiesStatus": 200,
+  "studentAttachmentMode": null,
+  "newMaterialUploadStatus": 503,
+  "pinsUnchanged": true,
+  "syntheticScannerFallback": false
+}

@@ -1,0 +1,74 @@
+{
+  "formatVersion": 1,
+  "kind": "LOCAL_M5_INSTALLATION",
+  "status": "VERIFIED",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "approvalRef": "LOCAL_USER_M5_BUILD_20261009",
+  "issuedAt": "2026-10-09T13:16:38.394Z",
+  "candidateMigrationSha256": "e335f83bb48cc6c4ec754f8e3270dc0e6941e14f38306bd67aa29844c3713324",
+  "candidateInventorySha256": "c02250c7a6eca4941aff02fa4d2e8e502065c8a2b51fb866fc27047b76dd3a57",
+  "profile": "59d93dd5ba57e387a7032a1cd7f92ecf1d70b82a1546bf16fd1b9cdc6a402ae4",
+  "nativeFingerprint": "50841b3ad3830ea74dd48247939be9108aa0b9aad5c1e4f84dc5489b12e39036",
+  "configHash": "5f937c79b03ed4392d24bfd71161757c3d0551c942751c380d3ceb45839606be",
+  "bindingHash": "a0946edb9a5cede3353794eff6da6d85049f4ccfb65985027ef235c9188e85a3",
+  "scope": "Exact LOCAL installation/source/catalog/ledger/Native/TLS bindings; product acceptance tracked in separate evidence, not a production signoff",
+  "gitBaselineSha": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "branch": "refactor/zhiban-v2",
+  "runtime": {
+    "node": "v22.23.3",
+    "pnpm": "10.28.0",
+    "pgMajor": 16,
+    "port": 55433,
+    "businessDatabase": "zhiban_m1_dev",
+    "nativeDatabase": "zhiban_m5_native",
+    "host": "https://127.0.0.1:3443"
+  },
+  "installationApplied": true,
+  "reissue": "VERIFIED_WITHOUT_REAPPLYING",
+  "startupDdl": false,
+  "testCluster55432Touched": false,
+  "completeEnablementTemplateStatus": "UNISSUED",
+  "commitPushCiDispatch": false,
+  "receiptFiles": "Owner-only local files, 0600; public record omits DSNs and credentials",
+  "validation": {
+    "productJourney": "19/19 PASS",
+    "enabledBoundaries": "25/25 PASS",
+    "isolatedSqlMatrix": "53/53 PASS",
+    "static": "42/42 PASS",
+    "typecheck": "PASS",
+    "gitDiffCheck": "PASS",
+    "frozenMigrationFilesChanged": false,
+    "officialPackageSourcesChanged": false,
+    "revocationBarriers": "26/26 PASS",
+    "installerReview": "5/5 PASS"
+  },
+  "regression": {
+    "M1": {
+      "checks": 18,
+      "status": "PASS",
+      "logSha256": "9404ce2021e8b469e1d46efcd5379891aed07724c9a8fa6715079e5cb0826fef",
+      "scope": "Same enabled local PG16; M3/M4 rerun on final artifact, M1/M2 before final bounded content/error/CSS fixes"
+    },
+    "M2": {
+      "checks": 20,
+      "status": "PASS",
+      "logSha256": "4fb03e47ae5ba01d9b59c497ae8c77b6e54ce7126b2cc9dc4eeaf5bb6dddd1f5",
+      "scope": "Same enabled local PG16; M3/M4 rerun on final artifact, M1/M2 before final bounded content/error/CSS fixes"
+    },
+    "M3": {
+      "checks": 26,
+      "status": "PASS",
+      "logSha256": "711ba1138a1dfd8ecf859ce00abeb54909d685ac9de36d0cc9faa81f0d85f182",
+      "scope": "Same enabled local PG16; M3/M4 rerun on final artifact, M1/M2 before final bounded content/error/CSS fixes"
+    },
+    "M4": {
+      "checks": 21,
+      "status": "PASS",
+      "logSha256": "8d876487eb16781dae091b7128a419b115f23f8ce82ef10476fe36d1e50869c7",
+      "scope": "Same enabled local PG16; M3/M4 rerun on final artifact, M1/M2 before final bounded content/error/CSS fixes"
+    }
+  },
+  "reviewEvidence": "m5-installer-review-local.json",
+  "revocationEvidence": "m5-revocation-barriers-local.json"
+}

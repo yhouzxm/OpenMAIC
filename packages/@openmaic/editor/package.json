@@ -1,6 +1,6 @@
 {
   "name": "@openmaic/editor",
-  "version": "0.0.9",
+  "version": "0.0.11",
   "description": "Composable slide editing core, React surface, and UI for OpenMAIC.",
   "type": "module",
   "main": "./dist/core/index.js",
@@ -21,6 +21,10 @@
     "./ui": {
       "types": "./dist/ui/index.d.ts",
       "import": "./dist/ui/index.js"
+    },
+    "./quiz": {
+      "types": "./dist/quiz/index.d.ts",
+      "import": "./dist/quiz/index.js"
     }
   },
   "files": [
@@ -76,5 +80,10 @@
     "rollup-plugin-preserve-directives": "^0.4.0",
     "typescript": "^5",
     "vitest": "^4.1.8"
+  },
+  "zhibanExtensions": {
+    "quiz": "0.1.0",
+    "upstream": "a9da60b3b4adb429369c0da13d5637a904ead2b0",
+    "note": "Local supported subpath ABI; core provider version unchanged, not byte-identical upstream"
   }
 }

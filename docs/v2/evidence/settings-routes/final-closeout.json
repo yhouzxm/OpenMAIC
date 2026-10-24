@@ -1,0 +1,67 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "P1_P3_TWO_LEGACY_SETTINGS_ALIASES_CONTEXT_AND_LOCAL_BROWSER",
+  "at": "2026-10-23T10:16:00.190Z",
+  "branch": "refactor/zhiban-v2",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "legacyReference": "origin/feature/zhiban-mechatronics@0fa0a15e8b12ae9e4f7a2d78e80338874599bbae",
+  "implemented": [
+    "/zhiban/student/settings",
+    "/zhiban/teacher/profile"
+  ],
+  "runtime": {
+    "root": "/tmp/zhiban-trial-content-hXyuOJ",
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "boundSources": 2730,
+    "restarted": true,
+    "newSyntheticData": true,
+    "oldRootPrivatelyArchived": true,
+    "restoreTested": false
+  },
+  "verification": {
+    "realBrowser": "PASS",
+    "eslint": "PASS",
+    "prettier": "PASS",
+    "scopedDiffCheck": "PASS",
+    "businessWrites": false,
+    "fullPg16Suite": false,
+    "fullClassroom": false
+  },
+  "sourceHashes": {
+    "app/zhiban/local/profile.js": "72cf177893af9663bbe1cd46d700aa73c4c1cf499a5495a75dc118956b874241",
+    "app/zhiban/local/client.js": "33538bc358f9581504fa8621413a6ec3eba0f78c2416901494a9986ee3fb369d",
+    "app/zhiban/local/login-identifiers.js": "5e608b61e158c453c6dc16bdc102c633737f3282fa55af2b6dec7dff67693540",
+    "scripts/zhiban-local/request-target.ts": "e7aa3e4950a73be9e252ac3e88d4fa6019430235f01e1f77963cf8bac0f9940a",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "3902db716cf3c09c12d0b091fca5c16cd8eafa2482a29ba8d60a885a5f8d9969",
+    "scripts/zhiban-local/server.ts": "2ee44cf0d69fd04b9ee229ae478c4f5ae884b09491b00f55e0f6f2e5d84dc2fa",
+    "scripts/zhiban-local/verify-settings-routes.cjs": "daac03893fef93383aaa73b43829376639f19463ce7c9c1bedd8d38c80ce7f7a"
+  },
+  "docHashes": {
+    "docs/v2/zhiban-v2-personal-settings-routes-local.md": "2396477ae994d95fa75c0546ec41f867ca15dbcbeaad92cd6edd01086bb0f18d",
+    "docs/v2/zhiban-v2-ui-page-gap-matrix.md": "ca011a6eb5f5bdc232242efd51efa025d1337665fa1522efddc9629b1cda9693",
+    "docs/v2/zhiban-v2-migration-completion-plan.md": "5c6f2bea5c9a67306e05e71e13ab71d9f6607de93dab354241e822114b1693b7",
+    "docs/v2/zhiban-v2-p7-handoff.md": "ffc3e2ec652344f13ba392bd8dddfeb8650a6397c8ee642e0748579758a24380",
+    "docs/v2/zhiban-v2-trial-guide.md": "13a94bb68e663e5672ddc79cc2361fb882877443246c640dbae3a45bbabdf1b3"
+  },
+  "evidenceHashes": {
+    "browser-local.json": "4757477c2be83518f3dd7fa3257e7678ab47f7a213d5d9cb0acebfa01780d72d",
+    "private-backup.json": "9f464b1ca58089685fd85b17b0175bf6b5512509c3bb8902fec00345a2f966da",
+    "student.png": "b15de3c21742dedfc99bdd7e18f8b096d693a277085e7e58545ed985660695b6",
+    "teacher.png": "886b658af27b378777afaf8c135c8b912521e897b39160a079803313095d0f67"
+  },
+  "limits": [
+    "Real multi-space fixture selector not tested",
+    "No learning-profile or course-settings alias expansion",
+    "Previous P7 source package retains original digest and excludes this increment"
+  ],
+  "git": {
+    "commit": false,
+    "push": false,
+    "ciDispatch": false
+  },
+  "next": "P1/P3 teacher/student global grades legacy entry compatibility",
+  "suggestedModel": "GPT-6.1 Sol / medium"
+}

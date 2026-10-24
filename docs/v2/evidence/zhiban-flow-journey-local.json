@@ -1,0 +1,13 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-23T23:01:06.875Z",
+  "scope": "FIXED_TEACHING_PLAN_NATIVE_PLAYBACK_LEARNER_REPORTED_EXPERIMENT_AND_ORIGINAL_GRADING_NOT_NATIVE_AUTOMATIC_COMPLETION",
+  "classroomId": "01a16afe-e241-7184-b8b8-967c70b6199f",
+  "notebookId": "01a16aff-0347-70b9-a388-b461a1b60f02",
+  "source": "LEARNER_REPORTED",
+  "nativeRuntimeEnabled": false,
+  "reportDigest": "994f0e9fb34dee96fefa4636f2ceff2f61c4c70a990599272f7ed3a1769117f7",
+  "browserErrors": []
+}

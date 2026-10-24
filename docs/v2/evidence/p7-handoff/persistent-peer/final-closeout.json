@@ -1,0 +1,120 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_WITH_EXPLICIT_REMAINING_SCOPE",
+  "at": "2026-10-23T16:52:36.216523+00:00",
+  "branch": "refactor/zhiban-v2",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "dirtyCandidatesPreserved": true,
+  "archive": {
+    "evidenceOrigin": "LOCAL",
+    "githubActions": false,
+    "status": "PASS",
+    "scope": "ARCHIVE_ENTRY_SET_AND_FILE_HASHES_ONLY",
+    "versionId": "zhiban-local-20261024-dd24af081acc",
+    "sourceDigest": "dd24af081acc94c4a0b687100f2277336a5d9785f069fa536447239183f055bd",
+    "files": 5684,
+    "bytes": 219374023,
+    "credentialAudit": "NOT_ASSERTED_BY_HASH_VERIFICATION",
+    "dependenciesIncluded": false,
+    "gitHistoryIncluded": false,
+    "productionSignoff": false,
+    "output": "/home/zxm/.local/share/zhiban-handoff/zhiban-local-20261024-dd24af081acc",
+    "archive": "/home/zxm/.local/share/zhiban-handoff/zhiban-local-20261024-dd24af081acc/source.tar.gz",
+    "archiveSha256": "39407d23c71f7b3c332bb37a578cb87ab9582579a649b3bb7892baa902f4b335",
+    "privateInputExclusionEnforced": true,
+    "restoreExecuted": false
+  },
+  "privateSnapshot": {
+    "path": "/home/zxm/.local/share/zhiban-persistent/2026-10-23T16-47-46.108Z-4e98a604",
+    "manifestHash": "738c258c6f24eeabc25107e54a02e1adc518ac86d548ac094218fb77d9dff3d4"
+  },
+  "runtime": "STOPPED_AND_SAVED",
+  "pgVersion": 160015,
+  "checks": {
+    "scopedTypes": "PASS",
+    "affectedESLint": "PASS",
+    "tutorCommandUnitChecks": "PASS",
+    "normalRestart": "PASS",
+    "forcedHttpsExitRecovery": "PASS",
+    "actualModelPeerAndBrowser": "PASS",
+    "duringGenerationWithdrawal": "PASS"
+  },
+  "receipts": {
+    "zhiban-persistent-first-local.json": {
+      "sha256": "7b30c2409f8181acc152eb6a6d69dadbe12da5c2fa6193cff331da669729f32a",
+      "scope": "PERSISTENT_THREE_DATABASE_RESTORE_LOGIN_AND_WORKSPACE_NOT_FULL_CLASSROOM",
+      "checks": [
+        "Existing ADMIN account login and workspace remain available",
+        "Existing TEACHER account login and workspace remain available",
+        "Existing STUDENT account login and workspace remain available",
+        "Trusted HTTPS browser login page renders",
+        "Snapshot hash tamper and foreign path rejected"
+      ]
+    },
+    "zhiban-persistent-second-local.json": {
+      "sha256": "ab5ba4973ddf8be24e86fbc4f4d0a6a9d6ba9cb9b5ca98d6898c7d23198afff4",
+      "scope": "PERSISTENT_THREE_DATABASE_RESTORE_LOGIN_AND_WORKSPACE_NOT_FULL_CLASSROOM",
+      "checks": [
+        "Existing ADMIN account login and workspace remain available",
+        "Existing TEACHER account login and workspace remain available",
+        "Existing STUDENT account login and workspace remain available",
+        "Trusted HTTPS browser login page renders",
+        "Snapshot hash tamper and foreign path rejected",
+        "Stop/save/restart retains exact account file and all business/native table row counts"
+      ]
+    },
+    "zhiban-persistent-recovered-local.json": {
+      "sha256": "315a63d31214e8a31d2447374dcd61336ac0a2e8e4f731797f60ce1013cdfdef",
+      "scope": "PERSISTENT_THREE_DATABASE_RESTORE_LOGIN_AND_WORKSPACE_NOT_FULL_CLASSROOM",
+      "checks": [
+        "Existing ADMIN account login and workspace remain available",
+        "Existing TEACHER account login and workspace remain available",
+        "Existing STUDENT account login and workspace remain available",
+        "Trusted HTTPS browser login page renders",
+        "Snapshot hash tamper and foreign path rejected",
+        "Forced HTTPS process exit, owned PG stop/checkpoint/restart retains pre-existing classroom tables and actual companion answer",
+        "Crash recovery retains account file, unchanged classroom/native row counts and separately verified companion answer"
+      ]
+    },
+    "zhiban-peer-local.json": {
+      "sha256": "06409b52d874800ac8be7d32003a3b2243758ecf3eb8ec8a3ea0fe063c409f9e",
+      "scope": "PRIVATE_COURSE_AI_LEARNING_COMPANION_NOT_CLINICAL_OR_HUMAN_PEER",
+      "checks": [
+        "Companion defaults closed; student cannot enable teacher policy",
+        "Concurrent teacher policy update has one winner and one conflict",
+        "Creation is idempotent; session remains private to its owner",
+        "Prior real native Agent/model response remains persisted; no duplicate model call",
+        "Student browser shows labelled companion, fixed private session and real answer",
+        "Withdrawal during a real in-flight companion turn prevents answer delivery",
+        "Teacher withdrawal blocks new companion turns while preserving private history",
+        "Runtime SQL role cannot mutate the fixed session style"
+      ]
+    }
+  },
+  "remaining": [
+    "full classroom/runtime and laboratory",
+    "scene orchestration",
+    "PBL collaboration",
+    "six-dimension evidence profile",
+    "EMA evidence/model analysis jobs",
+    "certificates",
+    "cross-offering credits",
+    "automatic official AI grading",
+    "cross-host and real operational delivery"
+  ],
+  "shutdown": {
+    "scheduledLocal": "2026-10-24 00:58:00 Asia/Shanghai",
+    "verifiedBy": "shutdown --show",
+    "powerOffCompleted": false
+  },
+  "noCommitPushCi": true,
+  "next": "P4 complete classroom/scene/laboratory package; GPT-6.1 Sol / high",
+  "limitations": [
+    "Same-host LOCAL synthetic authority; not production or cross-host signoff",
+    "Office/OCR/media services unconfigured",
+    "Native maintenance/receipt inputs remain missing",
+    "Peer is private learning support, not clinical care or human collaboration",
+    "Unit/browser verification scripts repaired for current login completion; no fabricated model success"
+  ]
+}

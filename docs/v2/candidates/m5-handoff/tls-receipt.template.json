@@ -1,0 +1,21 @@
+{
+  "releaseId": null,
+  "credentialGenerationId": null,
+  "deploymentId": null,
+  "sourceBindingsSha256": null,
+  "artifactManifestSha256": null,
+  "configurationSha256": null,
+  "origin": null,
+  "certificateSha256": null,
+  "privateKeySha256": null,
+  "caSha256": null,
+  "validUntil": null,
+  "formatVersion": 1,
+  "status": "UNISSUED",
+  "purpose": "LOCAL_ORDINARY_TLS_RECEIPT",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "authorityKeySha256": null,
+  "trust": "PINNED_LOCAL_CA_REQUIRES_CLIENT_TRUST",
+  "launchAllowed": false
+}

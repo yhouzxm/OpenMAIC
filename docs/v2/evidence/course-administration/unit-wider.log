@@ -1,0 +1,33 @@
+
+ RUN  v4.1.8 /home/zxm/openmaic/zhiban
+
+ ❯ tests/zhiban/workspace/query.test.ts (9 tests | 1 failed) 84ms
+   × maps only implemented administrator compatibility routes 13ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/zhiban/workspace/query.test.ts > maps only implemented administrator compatibility routes
+AssertionError: expected null to be '/zhiban/roster' // Object.is equality
+
+- Expected:
+"/zhiban/roster"
+
++ Received:
+null
+
+ ❯ tests/zhiban/workspace/query.test.ts:159:69
+    157|   expect(localAdminPageAsset('/zhiban/admin/academic')).toBe('/zhiban/…
+    158|   expect(localAdminPageAsset('/zhiban/admin/students')).toBe('/zhiban/…
+    159|   expect(localAdminPageAsset('/zhiban/admin/import/registrations')).to…
+       |                                                                     ^
+    160|   for (const path of [
+    161|     '/zhiban/admin',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 8 passed (9)
+   Start at  19:25:04
+   Duration  1.31s (transform 417ms, setup 209ms, import 367ms, tests 84ms, environment 4ms)
+

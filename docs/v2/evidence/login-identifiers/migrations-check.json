@@ -1,0 +1,13 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "preexistingCount": 39,
+  "drift": [],
+  "new": [
+    "lib/zhiban/infrastructure/login-identifiers/postgres/migrations/0001_login_identifiers.sql",
+    "lib/zhiban/infrastructure/login-identifiers/postgres/migrations/0002_nomination_status_qualified.sql"
+  ],
+  "head": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "branch": "refactor/zhiban-v2"
+}

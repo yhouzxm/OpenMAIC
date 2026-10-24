@@ -1,0 +1,65 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "packages": [
+    {
+      "package": "learning-rules",
+      "receipt": "docs/v2/evidence/learning-rules/final-closeout.json",
+      "receiptSha256": "8e513269d1cb240de795308b243e5dddbcc718ef49d433696e43ae31b3bd9f08",
+      "originalStatus": "PASS",
+      "sourceFilesUnchanged": [
+        "lib/zhiban/domain/academic/model.ts",
+        "lib/zhiban/domain/curriculum/model.ts",
+        "lib/zhiban/domain/progress/rules.ts",
+        "lib/zhiban/infrastructure/curriculum/postgres/progress.ts",
+        "lib/zhiban/infrastructure/curriculum/postgres/transaction.ts",
+        "lib/zhiban/infrastructure/learning/postgres/transaction.ts",
+        "lib/zhiban/infrastructure/assessment/postgres/transaction.ts",
+        "lib/zhiban/infrastructure/quiz/postgres/transaction.ts",
+        "lib/zhiban/infrastructure/classroom/postgres/transaction.ts",
+        "app/zhiban/local/curriculum.js",
+        "app/zhiban/local/learning.js",
+        "app/zhiban/local/classrooms.js",
+        "app/zhiban/local/learning-center-client.tsx",
+        "app/zhiban/local/quiz-client.tsx",
+        "scripts/zhiban-local/verify-learning-rules.cjs",
+        "tests/zhiban/progress/rules.test.ts"
+      ],
+      "sourceFilesChanged": [],
+      "originalRoot": "/tmp/zhiban-trial-content-t6MxsR",
+      "sameAsCurrentRoot": false,
+      "reissued": false,
+      "scope": "Original functional/negative/concurrency evidence only; P7 GET smoke does not rerun it"
+    },
+    {
+      "package": "final-grades",
+      "receipt": "docs/v2/evidence/final-grades/final-closeout.json",
+      "receiptSha256": "1fa291cbff7e434248967dced249fe37546926f3fdeee80f6734cc49cfe531d1",
+      "originalStatus": "PASS",
+      "sourceFilesUnchanged": [
+        "lib/zhiban/domain/finalgrade/model.ts",
+        "lib/zhiban/application/finalgrade/service.ts",
+        "lib/zhiban/application/academic/service.ts",
+        "lib/zhiban/infrastructure/finalgrade/postgres/transaction.ts",
+        "lib/zhiban/infrastructure/finalgrade/postgres/migrations/0001_finalgrade.sql",
+        "lib/zhiban/infrastructure/academic/postgres/store.ts",
+        "lib/zhiban/infrastructure/assessment/http.ts",
+        "scripts/zhiban-local/finalgrade.ts",
+        "scripts/zhiban-local/build-finalgrade-reference.ts",
+        "scripts/zhiban-local/verify-m6-catalog.mts",
+        "scripts/zhiban-local/server.ts",
+        "scripts/zhiban-local/verify-final-grades.cjs",
+        "app/zhiban/local/final-grades.js",
+        "app/zhiban/local/gradebook.js",
+        "app/zhiban/local/grading.html",
+        "app/zhiban/local/progress.html",
+        "tests/zhiban/finalgrade/model.test.ts"
+      ],
+      "sourceFilesChanged": [],
+      "originalRoot": "/tmp/zhiban-trial-content-fQSIds",
+      "sameAsCurrentRoot": true,
+      "reissued": false,
+      "scope": "Original functional/negative/concurrency evidence only; P7 GET smoke does not rerun it"
+    }
+  ]
+}

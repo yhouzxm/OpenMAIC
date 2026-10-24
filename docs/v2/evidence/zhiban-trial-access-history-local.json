@@ -1,0 +1,134 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "MANUAL_SCENARIOS_PASS",
+  "scope": "MEMBERSHIP_CHANGE_TEACHER_STUDENT_ACCESS_AND_VISIBLE_HISTORY_MANUAL_TRIAL",
+  "at": "2026-10-15T23:16:35.266035+00:00",
+  "branch": "refactor/zhiban-v2",
+  "head": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "origin": "https://127.0.0.1:3459",
+  "tenantId": "01a141cb-c497-748f-8762-40cb043fe5b6",
+  "sourceOfferingId": "01a141cb-d590-751a-aafb-5eef273e801f",
+  "targetOfferingId": "01a141d0-1746-777a-bdfd-5d27a6d3c9bd",
+  "manualScenarios": [
+    "Baseline student: 4 activities, 3 submitted attempts, 88/100 v1; teacher roster 4 excludes Wang Yue",
+    "Teacher without target assignment: target not listed and direct target analytics denied",
+    "Withdrawn student: no source course entry; direct source progress denied; source teacher roster 3",
+    "Assigned source teacher: old handoff attempt 1/submission v1 and original answer still readable after withdrawal",
+    "Explicit student restoration: source course, 3 attempts and original 88/100 v1 visible again",
+    "Transfer with temporary target capacity 2: student only sees target, which has 0 activities/history; source direct progress denied",
+    "Teacher after transfer: source roster 3; target assignment not granted",
+    "Return Chen to source and restore target capacity: source 4/20; target Wang Yue 1/1",
+    "Final student: same handoff answer, attempt 1/submission v1 and original 2026-10-16 07:01:29 +08:00 timestamp; original 3 attempts and 88/100 v1 retained"
+  ],
+  "findings": [],
+  "businessMutations": {
+    "successfulAdminCommands": [
+      "WITHDRAW Chen source",
+      "ENROLL restore Chen source",
+      "UPDATE_OFFERING target capacity 2",
+      "TRANSFER Chen source to target",
+      "TRANSFER Chen target to source",
+      "UPDATE_OFFERING target capacity 1"
+    ],
+    "via": "Real browser UI using existing guarded commands",
+    "newLearningAttemptsOrSubmissions": false,
+    "gradeMutations": false,
+    "roleOrAssignmentGrants": false,
+    "directSqlMutations": false
+  },
+  "finalState": {
+    "sourceNames": [
+      "陈同学",
+      "李明",
+      "批量学生甲",
+      "批量学生乙"
+    ],
+    "sourceActiveCount": 4,
+    "sourceCapacity": 20,
+    "targetNames": [
+      "王悦"
+    ],
+    "targetActiveCount": 1,
+    "targetCapacity": 1,
+    "chenSourceActive": true,
+    "chenTargetWithdrawnRelationRetained": true,
+    "managementAuditAndRevisionChangesRetained": true,
+    "visibleOriginalHistoryPreserved": true,
+    "serviceRestarted": false,
+    "databaseRestarted": false,
+    "accountsRotated": false
+  },
+  "runtimeEvidence": {
+    "startingMetadataSha256": "cd29e6d76e4f8869b55bc47c0b273146e100ea127a030725b8cea20ce5833016",
+    "pid": 12716,
+    "processStart": "199264",
+    "sameCombinationAs": {
+      "file": "zhiban-trial-roster-uat-local.json",
+      "sha256": "ea64bc560606fcba22914311866690d733e68b965df2bfb9390d2415086bd4bd"
+    },
+    "originalBundleHashes": {
+      "/home/zxm/openmaic/zhiban/.zhiban-catalog-run-0Sju10/verify.mjs": "28ac100120d2320d2022cf8c0be4d3dd49c7fd378613199e262dca2e5d9ffff7"
+    },
+    "startupInventoryDrift": [
+      "/home/zxm/openmaic/zhiban/scripts/zhiban-local/verify-m6-catalog.mts",
+      "/home/zxm/openmaic/zhiban/scripts/zhiban-local/run-m6-catalog.ts",
+      "/home/zxm/openmaic/zhiban/app/zhiban/local/management.js"
+    ],
+    "newSourceChangesThisTurn": false,
+    "priorCandidateFilesUnchanged": {
+      "app/zhiban/local/management.js": "e30a077bba9cb5d6759c1e0ab01969995e3cc7a64c83102714fc9067c2d6df3b",
+      "scripts/zhiban-local/verify-roster-trial.ts": "ebdd3108f31bedfa0d4c7f3c9338f07f3cf41c2c4a93e88dbc205ffdd0b74ae7",
+      "scripts/zhiban-local/verify-m6-catalog.mts": "fe410b218c07352129908c9393fff591b7a84df5894bd54b083a7c4aa7fab09e",
+      "scripts/zhiban-local/run-m6-catalog.ts": "e3070c02d3a6fbe867ba76902402452befe74085ba807115a20f85424df1b4ba"
+    },
+    "staticAssetSupplement": {
+      "file": "zhiban-trial-roster-served-asset-local.json",
+      "sha256": "4d4c99bde2c5db8c6257e9d2fcb942c10b794574ef23873d5059cc6048c990d4"
+    }
+  },
+  "validation": {
+    "priorMigrationsUnchanged": 16,
+    "newAutomatedTestsRun": false,
+    "fullBuildRun": false,
+    "documentPrettier": "PASS",
+    "certificateBypass": false,
+    "finalTabConsoleErrorsObserved": 0
+  },
+  "screenshots": {
+    "zhiban-trial-access-baseline-local.png": "01e45136a1a2aa4ed65323626e5c3d87e2c73a176d06fe4af9d6f054d33b3528",
+    "zhiban-trial-access-final-original-answer-local.png": "d73ebd7b5c93979f7b5464d609618d777712cb03f250974c064e781e00ca501c",
+    "zhiban-trial-access-final-progress-local.png": "fcb002f3ff1e2a0a9f52d7639328eb6ac4267840a7d463f247227ec691238439",
+    "zhiban-trial-access-final-target-local.png": "b8e6841055be77493e87f23e0f38a72f92e3d7fcc13c94faad643e5a2691def0",
+    "zhiban-trial-access-restored-progress-local.png": "b192cf41b6e5b87ca4f2558817f280539222f28b2df779e99cf7209e4772d6e9",
+    "zhiban-trial-access-target-empty-history-local.png": "71e041f7fdf571b1c3edec9ab4772fa71638788f24fec439265787191e887008",
+    "zhiban-trial-access-teacher-baseline-local.png": "a88a8ae7c9a0afcdd5097fdb866632eb97b3a0c0098f607a20b8aaf2859c60b0",
+    "zhiban-trial-access-teacher-historical-answer-local.png": "dd212ce644252816f1b887a46575085fd2f1517fc9a040457826b3e889f9e2a2",
+    "zhiban-trial-access-teacher-target-denied-local.png": "108b82e6e7db994ae3ddd851b5620822afc406b0c361e759bf89cf5d920f72f0",
+    "zhiban-trial-access-teacher-transferred-roster-local.png": "021d9c1be380300f7f51f119b8e3389aacf47512f3da7e88e0fe796a46d83641",
+    "zhiban-trial-access-teacher-withdrawn-roster-local.png": "021d9c1be380300f7f51f119b8e3389aacf47512f3da7e88e0fe796a46d83641",
+    "zhiban-trial-access-transferred-source-denied-local.png": "adac196fb88324316c8ca7f9cd2b5536b97d1bc5cefc3f338d137f08f450d78f",
+    "zhiban-trial-access-transferred-workspace-local.png": "1aea02f76e225f98dbf6acfe1b620c505ec59b45d0c4dd2f39998b1bd86eeca7",
+    "zhiban-trial-access-withdrawn-link-denied-local.png": "adac196fb88324316c8ca7f9cd2b5536b97d1bc5cefc3f338d137f08f450d78f",
+    "zhiban-trial-access-withdrawn-workspace-local.png": "03df126620db7b05bdb0d388c033cb25f14d84aaf8b757fcb5e29bd613da2fb4"
+  },
+  "documents": {
+    "docs/v2/zhiban-v2-trial-access-history-uat.md": "96f4078a68afac5263f4dd929a6a30749fd3c624dd8bd19bb320d1fb3da6db74",
+    "docs/v2/zhiban-v2-execution-plan.md": "96bf54abab4ea6373a343c88c514ad53b473b78692570075c3a369c7673a76b7",
+    "docs/v2/zhiban-v2-delivery-plan.md": "579d4d3a403dbb0e03f68f13aa33c2bd9d38d9f1712520ff8c0bc26473c2ce5d"
+  },
+  "gitActions": {
+    "commit": false,
+    "push": false,
+    "ciDispatch": false
+  },
+  "excluded": [
+    "Production, CI or complete security acceptance",
+    "Timing of revocation propagation in pre-opened tabs",
+    "Every direct read/write API negative and concurrent transfer",
+    "Cross-tenant attack and large-history traversal",
+    "Real 55432/55433, Native/maintenance/HBA/credentials staging",
+    "Frozen production semantics or migration changes",
+    "M5 enabled composition"
+  ]
+}

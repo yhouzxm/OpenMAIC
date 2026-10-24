@@ -1,0 +1,31 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "TWO_LEGACY_PERSONAL_SETTINGS_ROUTES_AND_RETURN_CONTEXT_ONLY",
+  "at": "2026-10-23T10:15:00.069Z",
+  "origin": "https://127.0.0.1:3461",
+  "root": "/tmp/zhiban-trial-content-hXyuOJ",
+  "tenant": "01a16840-b056-733f-937e-9516bfda9631",
+  "checks": [
+    "Both anonymous legacy settings entries reveal no profile and provide login/workspace recovery with explicit space retained",
+    "STUDENT: role navigation -> exact alias -> canonical own profile; @identifier return and workspace retain tenant; cancel dirty leave keeps text; bare bookmark/space alias/reload; malformed/duplicate/unknown context and foreign tenant denied; learning-profile paths remain 404",
+    "TEACHER: role navigation -> exact alias -> canonical own profile; @identifier return and workspace retain tenant; cancel dirty leave keeps text; bare bookmark/space alias/reload; malformed/duplicate/unknown context and foreign tenant denied; learning-profile paths remain 404"
+  ],
+  "businessWrites": false,
+  "sourceHashes": {
+    "app/zhiban/local/profile.js": "72cf177893af9663bbe1cd46d700aa73c4c1cf499a5495a75dc118956b874241",
+    "app/zhiban/local/client.js": "33538bc358f9581504fa8621413a6ec3eba0f78c2416901494a9986ee3fb369d",
+    "app/zhiban/local/login-identifiers.js": "5e608b61e158c453c6dc16bdc102c633737f3282fa55af2b6dec7dff67693540",
+    "scripts/zhiban-local/request-target.ts": "e7aa3e4950a73be9e252ac3e88d4fa6019430235f01e1f77963cf8bac0f9940a",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "3902db716cf3c09c12d0b091fca5c16cd8eafa2482a29ba8d60a885a5f8d9969",
+    "scripts/zhiban-local/server.ts": "2ee44cf0d69fd04b9ee229ae478c4f5ae884b09491b00f55e0f6f2e5d84dc2fa",
+    "scripts/zhiban-local/verify-settings-routes.cjs": "daac03893fef93383aaa73b43829376639f19463ce7c9c1bedd8d38c80ce7f7a"
+  },
+  "excluded": [
+    "No password/alias/profile/avatar mutation",
+    "No new PG16 authorization or migration gate",
+    "Multi-space selector implemented but not covered by current single-space real fixtures",
+    "No full classroom/CI"
+  ]
+}

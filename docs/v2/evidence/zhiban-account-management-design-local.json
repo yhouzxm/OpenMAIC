@@ -1,0 +1,40 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "DESIGN_CANDIDATE",
+  "scope": "P3_ACCOUNT_MEMBERSHIP_ROLE_GAP_AND_PRODUCT_DESIGN_ONLY",
+  "at": "2026-10-18T13:12:40.912436+00:00",
+  "branch": "refactor/zhiban-v2",
+  "head": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "worktree": "DIRTY_PREEXISTING_CANDIDATES_PRESERVED",
+  "legacyRef": "0fa0a15e8b12ae9e4f7a2d78e80338874599bbae",
+  "findings": [
+    "Default composition operator/membership null; member/consent queries Closed",
+    "Existing Identity member/control/HTTP/recovery code is not absent",
+    "TEACHER delegation requires verified CLASS/COURSE relationships; member commands supply false",
+    "Academic eligible query currently filters role code without scope; consumer closure required before scoped teacher grants",
+    "Ordinary global-user first-password provisioning is not supplied by platform FIRST bootstrap",
+    "Identity stale-before-no-op confirmation differs from business profile retry"
+  ],
+  "changedDocumentHashes": {
+    "docs/v2/zhiban-v2-account-management-design.md": "9bf191da9cc714e57555bbe20b3f9b7fb51c7bfe148764e0e449d65af031ed57",
+    "docs/v2/zhiban-v2-migration-completion-plan.md": "e84228b79c9663ff15aa417fdf569116efa888e32ee2e89c48cf4590d118e2b4",
+    "docs/v2/zhiban-v2-feature-gap-matrix.md": "c6d06da8d9bde9b8112bd6c97ee3bb2ee435fd03b074497b17da5fc003a39c5b",
+    "TRIAL.md": "3585b387f4c1deb01fd2328463a66bdfcae2715b5aaa55822f7dd95a4c53e558"
+  },
+  "runtimeSourceDriftCount": 0,
+  "runtimeUnchangedHashes": 1528,
+  "migrationFilesUnchanged": 28,
+  "verification": [
+    "Directed source/design/legacy comparison",
+    "Local document link check",
+    "All prior runtime source and migration hashes unchanged"
+  ],
+  "notPerformed": [
+    "Implementation or enablement",
+    "Database operations or server restart",
+    "New product tests or full regression",
+    "Commit/push/CI dispatch"
+  ],
+  "next": "Implement LOCAL space-member lifecycle and allowed roles as one product package; teacher scope loader/consumer and ordinary first credential remain explicit independent gates"
+}

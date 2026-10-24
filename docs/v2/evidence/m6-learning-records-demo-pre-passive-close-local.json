@@ -1,0 +1,15 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "CLOSED_OWNED_ROOT_RECOVERY",
+  "at": "2026-10-15T13:23:33.558228+00:00",
+  "demoReceiptSha256": "83c48a518307a41d8304c840ad9c89ed40e444fdad6ff6a229200d6427b51d2f",
+  "reason": "Interrupted wrapper exited before fixture cleanup; controller stopped only the recorded owned PG16 root",
+  "lifecycle": {
+    "root": "/tmp/m6-learning-records-c79kRw",
+    "port": 56510,
+    "database": "zhiban_m6_records_disposable",
+    "stopped": true,
+    "removed": true
+  }
+}

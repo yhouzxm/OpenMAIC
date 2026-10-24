@@ -1,0 +1,237 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "55_LEGACY_ROUTE_TEMPLATE_ACCEPTANCE_ONLY_NOT_FUNCTIONAL_OR_OLD_ID_MIGRATION_SIGNOFF",
+  "counts": {
+    "200": 48,
+    "404": 7
+  },
+  "rows": [
+    {
+      "route": "/zhiban/admin/academic",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/admin/import/classes",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/admin/import",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/admin/import/registrations",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/admin/import/students",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/admin/import/users",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/admin",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/admin/students",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/admin/users",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/classroom",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/login",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/mech-iframe-validation",
+      "http": 404
+    },
+    {
+      "route": "/zhiban",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/student/classroom/[bindingId]",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/student/classrooms",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]/activities/[activityId]",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]/analysis",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]/coursework",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]/grades",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]/introduction",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]/learning-center/[stationId]",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]/learning-center",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]/resources",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]/support",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]/tools",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/student/grades",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/student/pbl/[instanceId]",
+      "http": 404
+    },
+    {
+      "route": "/zhiban/student/pbl",
+      "http": 404
+    },
+    {
+      "route": "/zhiban/student/profile",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/student/risks",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/student/settings",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/teacher/agents",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/teacher/classrooms",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/agents",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/analytics",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/classrooms",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/grades",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/learning-center/[stationId]",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/learning-center/analytics",
+      "http": 404
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/learning-center",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/pbl",
+      "http": 404
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/profiles",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/risks",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/settings",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/students",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/teachers",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/teacher/courses",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/teacher/grades",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/teacher/pbl",
+      "http": 404
+    },
+    {
+      "route": "/zhiban/teacher/profile",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/teacher/profiles",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/teacher/risks",
+      "http": 200
+    },
+    {
+      "route": "/zhiban/teacher/virtual-lab",
+      "http": 404
+    }
+  ],
+  "unchangedUnmappedGroups": {
+    "PBL_REVIEW": 4,
+    "VirtualLab_deferred": 2,
+    "Mechatronics_excluded": 1
+  }
+}

@@ -1,0 +1,31 @@
+
+> openmaic@1.2.1 verify:zhiban:imports /home/zxm/openmaic/zhiban
+> tsx scripts/zhiban-local/run-m6-catalog.ts --unified-trial --imports-focus
+
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+Reused @openmaic/generation: matching LOCAL source/build hashes
+PASS Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately
+LOCAL scanner unavailable: new attachment/material uploads remain closed; account and ordinary teaching pages continue. Existing scanner pins were not changed.
+{"timestamp":"2026-10-23T07:25:21.903Z","level":"INFO","tag":"GenerationRunner","message":"generation runner 10823:739b000c-ceff-47fb-9450-fe73dd9be424 started (scan=1000ms, heartbeat=2000ms, leaseTtl=10000ms, maxConcurrent=1)"}
+PASS PG16 restricted roles + real Identity sessions + validated trusted HTTPS
+PASS trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands
+PASS real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+403 !== 400
+
+    at verifyImports (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-3Z4iWw/verify.mjs:26448:10)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async main (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-3Z4iWw/verify.mjs:80280:7)
+    at async file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-3Z4iWw/verify.mjs:81654:3 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 403,
+  expected: 400,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+ ELIFECYCLE  Command failed with exit code 1.

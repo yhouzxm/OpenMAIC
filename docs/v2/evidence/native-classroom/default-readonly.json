@@ -1,0 +1,23 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "DEFAULT_SOURCE_ASSET_CLASSROOM_PROJECTION_STANDALONE_PLAYBACK_AND_SAME_HOST_DATA_RETENTION_NOT_FULL_CLASSROOM_RETEST",
+  "origin": "https://127.0.0.1:3461",
+  "views": {
+    "TEACHER": {
+      "mode": "TEACHER",
+      "courseId": "01a16958-724c-758d-899e-4afcda859615"
+    },
+    "STUDENT": {
+      "mode": "STUDENT",
+      "courseId": "01a16958-724c-758d-899e-4afcda859615"
+    }
+  },
+  "sourceAssetMatches": true,
+  "trustedHttpsBrowser": true,
+  "accountsAndNonIdentityCountsRetained": true,
+  "classroomWrites": false,
+  "modelCalls": false,
+  "root": "/tmp/zhiban-trial-content-rU1zAL"
+}

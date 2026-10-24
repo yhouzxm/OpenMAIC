@@ -1,0 +1,24 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "session": "01a15e79-dde4-7497-9e0c-35f8ffae798c",
+  "resource": "01a15e79-d834-7149-8659-f0b2a55f1ed3",
+  "publication": "01a15e79-daeb-772e-90de-fb4fcfdd7802",
+  "activity": "01a15e79-dbde-767e-8f55-f0d1aad7f7cd",
+  "quiz": "01a15e79-dc38-7590-b71d-fef89e184624",
+  "attempt": "01a15e79-ea0c-75e8-ab7e-aa3fd7bfe599",
+  "binding": "01a15e79-ea0f-70a5-a890-b5a104262b1c",
+  "checks": [
+    "teacher UI pairs published targets",
+    "atomic first entry and exact Attempt continuation",
+    "text submit and real teacher grade publication",
+    "native Quiz submit with pinned Attempt",
+    "post-start ACL failure rolls back all facts",
+    "concurrent publication replacement respects held SHARE lease",
+    "no retake on replay; limit/end/version denial",
+    "historical facts preserved; restricted ACL"
+  ],
+  "completionFromHtml": false,
+  "nativeRuntimeEnabled": false
+}

@@ -1,0 +1,63 @@
+{
+  "kind": "LOCAL_NATIVE_TEACHING_REUSE_AUDIT_V1",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "baselineHead": "c709c7815506ed7532d174ba899e76884bb3a98f",
+  "version": "1.2.1",
+  "method": "targeted native component, production adapter, DTO and host route review; no new business journey claims",
+  "metadataFlags": {
+    "ema": {
+      "enabled": true,
+      "evidenceOrigin": "LOCAL",
+      "numericAbilityScores": false,
+      "unattendedDispatch": false
+    },
+    "pbl": {
+      "enabled": true,
+      "evidenceOrigin": "LOCAL",
+      "nativeAutonomousRuntimeEnabled": false
+    },
+    "flow": {
+      "enabled": true,
+      "evidenceOrigin": "LOCAL",
+      "nativeRuntimeEnabled": false
+    },
+    "autograde": {
+      "enabled": true,
+      "evidenceOrigin": "LOCAL",
+      "serviceActor": "zhiban_autograde_worker",
+      "explicitPolicyRequired": true
+    },
+    "attainment": {
+      "enabled": true,
+      "evidenceOrigin": "LOCAL",
+      "schoolOnly": true
+    }
+  },
+  "scannerMode": "TRUSTED_SCANNER",
+  "sourceHashes": {
+    "package.json": "a08041a2943a987c6e056e3ba6f53efdde8752051677b657edf09d1aec4ab888",
+    "lib/zhiban/infrastructure/lesson/service.ts": "967724d6d819738ff131de97ff88303a96e37732ee0d904cec7d17d07f30b35e",
+    "lib/zhiban/infrastructure/lesson/projection.ts": "2819b0599a35eb3da2d49e16e8d12b2c64823067de7231adadf10adf0d5d38b8",
+    "lib/zhiban/infrastructure/content/model.ts": "567826a2a8bb930abb55ee9878b3392a9f2641a28861757b2b232875712d8cdf",
+    "lib/zhiban/infrastructure/content/player.ts": "748617086c83e495a849cfaf2ef3661584ec58061c67d23a40362483dc1b40c0",
+    "lib/zhiban/infrastructure/content/interactive.ts": "69dbb0fd53140e97344dad395580f8a2bc779ce4abf27f91b08e1d11ef30c309",
+    "lib/zhiban/infrastructure/tutor/native.ts": "240e3cf1383398f6cd88c3e86c7c5c0846f10f4ebcaafaba18414cda0c3daca7",
+    "lib/zhiban/domain/pbl/model.ts": "cf2674df1867235dcfd41e48133bc502ebfd60ee88eee36ed6c5924fdb75c6ca",
+    "lib/zhiban/infrastructure/openmaic/root.ts": "c22b88b248d22f34eb311d575c5428abff8baae354097c62d7961ca36e9668f9",
+    "lib/config/feature-flags.ts": "0118d56ebdad96d170174084a401b65eda96505baa2653844fa50810456cc84a",
+    "components/stage/header-controls.tsx": "750a7eb4d222520d5c63f333d4b112bbf78643bd2e1c6a6089e920aacee38e5c",
+    "components/roundtable/index.tsx": "aee963ed325a205c3e1cb7f4be5b333e4d3ee31a27690bfa4155e82d28d7bebc",
+    "components/classroom/ClassroomSurface.tsx": "9956d4a2f06ab21f3138401b3d4a61f9d5dfaab9af27134940377a3902eb946e",
+    "components/workbench/workspace/WorkspaceShell.tsx": "8893e34f5a77dbdc0b280266ce2620c81fbbda323955e4fd95c066de625a9351",
+    "lib/import/use-import-classroom.ts": "97a7bceef7dd10c2700e7cf9599678fe4be48bb5004c45505d3453d704ff6886",
+    "lib/import/use-import-pptx.ts": "8436ace47b7c531c930c4ef62bbb6f34f2cd3c50e2dba8556ef27abe67e0921f",
+    "app/zhiban/local/published-export.tsx": "a2c0971f4138f2c43c141d0c14885d847a1d79d37f1ec45f4eef160921bac845",
+    "packages/@openmaic/dsl/src/stage.ts": "628f3f5c25aae89334da7b130cf5b08f7f22dced829a8bc4abec9e5017ab7f2b",
+    "packages/@openmaic/dsl/src/slides.ts": "e456737f7ebcbb6da04fac53e73525dc313397aa5e323dc537d6f1204a5d3f1b"
+  },
+  "report": "docs/v2/zhiban-v2-native-teaching-reuse-audit.md",
+  "businessMutations": false,
+  "modelCalls": false,
+  "ciDispatch": false
+}

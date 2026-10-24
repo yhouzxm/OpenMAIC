@@ -1,0 +1,28 @@
+{
+  "formatVersion": 1,
+  "evidenceOrigin": "LOCAL",
+  "status": "UNAPPLIED_TO_DEVELOPMENT",
+  "gitBranch": "refactor/zhiban-v2",
+  "gitBaselineSha": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "migrationVersion": "0002",
+  "migrationPath": "docs/v2/candidates/m5-png/0002-png.sql",
+  "migrationSha256": "31acaad11fbcce3406ce1d22ee707d8143cd760aa135d4b997eec3df627c25ac",
+  "prerequisiteContent0001Sha256": "e335f83bb48cc6c4ec754f8e3270dc0e6941e14f38306bd67aa29844c3713324",
+  "policy": "content-png-v1",
+  "limits": {
+    "bytesPerPNG": 4194304,
+    "aggregateBytesPerResourceOrGeneration": 33554432,
+    "pixelsPerPNG": 4194304,
+    "maxDimension": 4096,
+    "registeredAssetsPerResource": 128,
+    "colorTypes": [
+      "RGB8",
+      "RGBA8"
+    ],
+    "interlace": false
+  },
+  "applicationBoundary": "Only isolated disposable PG16 verified this round. No automatic startup migration, real PG55433 upgrade, HBA/credential rotation, maintenance recovery or quarantine clearance.",
+  "files": [
+    "0002-png.sql"
+  ]
+}

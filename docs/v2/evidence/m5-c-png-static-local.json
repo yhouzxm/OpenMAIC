@@ -1,0 +1,48 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "at": "2026-10-14T15:21:43.899556+00:00",
+  "status": "PASS_WITH_EXPLICIT_LINT_SCOPE",
+  "productEvidence": "m5-c-png-local.json",
+  "productChecks": 23,
+  "productSourceBindingSha256": "3b1a6d126df8fea97daa1793fbc9767c09eec6a660d9117920a5a15ecf66fba2",
+  "commands": [
+    {
+      "command": "pnpm --filter @openmaic/dsl --filter @openmaic/storage --filter @openmaic/renderer --filter @openmaic/editor build",
+      "result": "PASS",
+      "source": "HEAD-exact public package src/package.json, fresh dist hashed by product evidence"
+    },
+    {
+      "command": "pnpm exec vitest run tests/zhiban/content/png.test.ts tests/zhiban/bridge/content.test.ts tests/zhiban/academic/session-authentication.test.ts",
+      "result": "PASS",
+      "tests": 34,
+      "files": 3
+    },
+    {
+      "command": "pnpm exec tsc -p scripts/zhiban-local/tsconfig.m5-png.json",
+      "result": "PASS",
+      "configurationSha256": "40ebfe186904ad07712c4dfd78578f2fe4f94beddf39616cac8aa96ba7de8701"
+    },
+    {
+      "command": "pnpm exec eslint [changed TS/TSX/MTS files] --rule @typescript-eslint/no-explicit-any:off",
+      "result": "PASS",
+      "errors": 0,
+      "warnings": 0,
+      "exception": "Existing dynamic JSON/PG local composition style uses any; default no-explicit-any lint is not claimed PASS."
+    },
+    {
+      "command": "git diff --check + affected prettier/source/hash consistency",
+      "result": "PASS"
+    }
+  ],
+  "limitations": [
+    "full repository tsc hit default V8 heap limit; affected entry points and imported dependency closure were checked separately",
+    "existing PG55433 installer, new receipt and maintenance clear not executed",
+    "Runtime/AI/full enabled/production gates remain deferred"
+  ],
+  "cleanup": "Four owned failed disposable roots checked already stopped (PG16, no postmaster.pid, pg_ctl status=3) and removed after diagnosis; passing validation root stopped and removed. Active demo has its own separate root and lifetime.",
+  "builtInBrowser": {
+    "url": "https://127.0.0.1:3444/zhiban",
+    "result": "Login page opened normally in Codex IAB, no certificate-warning bypass; tab retained as deliverable"
+  }
+}

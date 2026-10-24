@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "candidateInventorySha256": "fa51a67d9733fc6b436e89ec339306472ceb8566368cc3f9ce3c3122d873c13b",
+  "candidateMigrationSha256": "bbede0be2e773562730bb2b1c756d4aceba853143b298b768de7c0d70d624a8e",
+  "codeSha256": {
+    "ordinary-launcher.cjs": "3168655ff02a006330464e9ba7f2852a0c73357d008780e01a09ba306a0ebe08",
+    "ordinary-shutdown.cjs": "1d92883e5a9863e1870fb6e7fa055db12dc52948f2423e557ecb7f0198c112cb"
+  },
+  "checks": [
+    {
+      "name": "unconfirmed child observation retains actual supervisor fd and reports incomplete",
+      "status": "PASS",
+      "actualChildAliveAtIncomplete": true,
+      "localPgClosed": true,
+      "lockRetainedAfterChildActuallyExited": true,
+      "testCleanupOnly": true
+    }
+  ],
+  "authorizationProfileTls": "STUBBED_NOT_SIGNED_OFF",
+  "existingDatabaseConnections": false,
+  "realCredentialsRead": false,
+  "realHttpsStarted": false,
+  "runtimeAccepted": false
+}

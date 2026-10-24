@@ -1,0 +1,23 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "status": "PASS",
+  "scope": "PRESENTATION_ONLY_REAL_NATIVE_APP_WITH_INJECTED_TOOLBAR_SAMPLE_NOT_CLASSROOM_AUTHORIZATION_OR_BUSINESS_ACCEPTANCE",
+  "layouts": [
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "counterBottom": 700.5,
+      "withinViewport": true
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "counterBottom": 824.5,
+      "withinViewport": true
+    }
+  ]
+}

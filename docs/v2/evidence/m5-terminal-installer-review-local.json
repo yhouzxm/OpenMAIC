@@ -1,0 +1,104 @@
+{
+  "formatVersion": 1,
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_WITH_OPEN_REVIEW_FINDINGS",
+  "candidateInventorySha256": "38c415440ca07abb5565b96b1685376a85b5135dfcc4872baf5c2f1544860e98",
+  "referenceDraftSha256": "44a4f92ef3eb63dbfbd95384dffda16a12ac578b793822e3b0083d190cc8f5c3",
+  "sourceBindingsSha256": "f04d5d0ab2e49ad3b40d861308063a26ff4419a6d7d73d07d40659ba70db2d19",
+  "checks": [
+    {
+      "name": "actual provisionNative/public Storage ensure functions create fresh Native schema",
+      "status": "PASS"
+    },
+    {
+      "name": "review finding reproduced: actual bootstrap retains PUBLIC CONNECT and rejects terminal profile",
+      "status": "PASS"
+    },
+    {
+      "name": "test-only PUBLIC CONNECT normalization permits remaining directed probes",
+      "status": "PASS"
+    },
+    {
+      "name": "review finding reproduced: same-name Native index predicate drift passes current full collector",
+      "status": "PASS"
+    },
+    {
+      "name": "current blocked loader accepts signed disposable receipt over actual Native reference",
+      "status": "PASS"
+    },
+    {
+      "name": "review finding reproduced: loader returns success after late admission drift",
+      "status": "PASS"
+    },
+    {
+      "name": "prepared broker refuses overlapping inspections",
+      "status": "PASS"
+    },
+    {
+      "name": "prepared broker retains physical sessions and rechecks blocked receipt",
+      "status": "PASS"
+    },
+    {
+      "name": "prepared broker detects late admission drift and latches BLOCKED without reconnect",
+      "status": "PASS"
+    },
+    {
+      "name": "harness observes closed admission after failure cleanup; broker has no reopen/recovery API",
+      "status": "PASS"
+    },
+    {
+      "name": "source and distributed runtime byte bindings stable through reference build",
+      "status": "PASS"
+    }
+  ],
+  "observations": {
+    "nativeTableCount": 11,
+    "nativeIndexCount": 23,
+    "brokerEndState": {
+      "state": "BLOCKED",
+      "checkedAt": "2026-10-12T14:04:58.440Z",
+      "receiptSha256": null,
+      "observationOnly": true,
+      "runtimeAccepted": false,
+      "terminalActionsAllowed": false,
+      "leaseIssued": false,
+      "evidenceOrigin": "LOCAL",
+      "githubActions": false
+    },
+    "reviewFindingsReproduced": ["TI-01", "TI-02", "TI-03"],
+    "downstreamProbeOnlyAdjustment": "REVOKE CONNECT ON DATABASE zhiban_m1_dev FROM PUBLIC",
+    "referenceArtifactAdjustmentApplied": false
+  },
+  "disposableClusterOnly": true,
+  "tcpListening": false,
+  "existingClustersConnected": false,
+  "temporaryClusterStoppedAndRemoved": true,
+  "realReceiptIssued": false,
+  "runtimeAccepted": false,
+  "kind": "LOCAL_M5_TERMINAL_INSTALLER_REVIEW_AND_NATIVE_PREPARATION",
+  "gitBaselineSha": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "artifacts": {
+    "native-reference-draft.json": {
+      "path": "/home/zxm/.local/share/zhiban-terminal-references/review-20261012/native-reference-draft.json",
+      "sha256": "44a4f92ef3eb63dbfbd95384dffda16a12ac578b793822e3b0083d190cc8f5c3"
+    },
+    "source-bindings.json": {
+      "path": "/home/zxm/.local/share/zhiban-terminal-references/review-20261012/source-bindings.json",
+      "sha256": "3a220168210d04ed424c647e21a6c6d9763eff85d2b07953687350d7449be7ee"
+    },
+    "evidence.json": {
+      "path": "/home/zxm/.local/share/zhiban-terminal-references/review-20261012/evidence.json",
+      "sha256": "be0b2036602d828c6eb56046e547e8cf48197e5670935ba7e81da966d4886eef"
+    }
+  },
+  "scope": {
+    "originalCandidateChanged": false,
+    "reviewFindingsFixed": false,
+    "referenceSigned": false,
+    "brokerWiredToRealInstaller": false,
+    "maintenanceRecoveryImplemented": false,
+    "disposableSignatures": "loader fixtures only; same fixture authority, no independent review claimed",
+    "partialFailureEvidence": "previous 42/42 retains scope; no new PG/network crash claim"
+  }
+}

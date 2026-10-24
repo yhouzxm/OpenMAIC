@@ -1,0 +1,94 @@
+{
+  "kind": "ZHIBAN_PORTABLE_FINAL_EXECUTION_V1",
+  "at": "2026-10-24T11:41:23.924597+00:00",
+  "authorization": "User authorized review of the directory-closure repair and new ciphertext pin, minimal checkpoint and one final remote acceptance.",
+  "review": "PASS source and authenticated file/directory closure; local actual encrypted payload restore/restart proof reviewed",
+  "status": "FINAL_REMOTE_ACCEPTANCE_FAIL_NOT_SIGNED_OFF",
+  "workflowSha": "db5cf3c19f5a04c09f769864e6b91323c4b54504",
+  "checkpointFiles": [
+    "scripts/zhiban-ci/portable-delivery.cjs",
+    "tests/zhiban/local/portable-ci.test.cjs"
+  ],
+  "ciphertextSha256": "c3bf2f5c1e05e1148029345c314099a204381a350fd7ca9516cd4b15a610d07b",
+  "ciphertextBytes": 267166613,
+  "manifestKind": "ZHIBAN_PORTABLE_CI_DELIVERY_V2",
+  "fileCount": 3128,
+  "directoryCount": 35,
+  "applicationSourceDigest": "a310b5758e14af73e614935f44dde97b933b4b2f9f15f6ddbd2a41548e47a18d",
+  "dispatchCountThisAuthorization": 1,
+  "run": {
+    "id": 40090990321,
+    "attempt": 1,
+    "url": "https://github.com/yhouzxm/OpenMAIC/actions/runs/40090990321",
+    "workflowSha": "db5cf3c19f5a04c09f769864e6b91323c4b54504",
+    "conclusion": "failure",
+    "status": "completed"
+  },
+  "environment": "zhiban-portable-acceptance",
+  "cleanup": {
+    "runner": {
+      "status": "PASS",
+      "privateNamespacePurged": true
+    },
+    "transportSecret": "DELETED_AND_EMPTY_LIST_VERIFIED",
+    "ciphertextReleaseAndTag": "DELETED_ASSET_RELEASE_TAG_ALL_404_VERIFIED"
+  },
+  "boundaries": [
+    "One explicitly authorized final run only, no automatic retry.",
+    "No main update or unrelated CI suites.",
+    "LOCAL input receipt origin retained; remote acceptance recorded separately.",
+    "Frozen source/data and applied migrations unchanged.",
+    "Existing 3461 and real Native authority remain untouched."
+  ],
+  "asset": {
+    "id": 672119740,
+    "serverDigestMatched": true
+  },
+  "updatedAt": "2026-10-24T11:48:13.034952+00:00",
+  "reviewScope": "Directory-closure repair and ciphertext pin review passed; does not imply successful remote application startup.",
+  "publicReport": {
+    "path": "docs/v2/evidence/p7-handoff/portable-ci/run-40090990321/zhiban-portable-report-40090990321-1.json",
+    "sha256": "5be6933fd0dc6645d16ed5a0d166fd468ca149bf89b451faaa8863b0480d96d1",
+    "report": {
+      "kind": "ZHIBAN_PORTABLE_REMOTE_ACCEPTANCE_V1",
+      "executionOrigin": "GITHUB_ACTIONS",
+      "status": "FAIL",
+      "runId": "40090990321",
+      "workflowSha": "db5cf3c19f5a04c09f769864e6b91323c4b54504",
+      "failureStage": "RESTORE_START",
+      "diagnostic": {
+        "code": "HOST_EXITED",
+        "exitCode": 1,
+        "elapsedMs": 25028,
+        "mode": "start-rebind",
+        "reason": "UNCLASSIFIED"
+      },
+      "phaseTimings": {
+        "CONTEXT": 1,
+        "DELIVERY": 2634,
+        "PREREQUISITES": 9,
+        "FROZEN_INSTALL": 78940,
+        "BROWSER_PREREQUISITES": 11034,
+        "PRIVATE_IMPORT": 885,
+        "NSS_TRUST": 19,
+        "RESTORE_START": 25030
+      },
+      "cleanup": {
+        "status": "PASS",
+        "privateNamespacePurged": true
+      }
+    }
+  },
+  "next": "Diagnose the remaining unclassified startup failure using structured subphase/error evidence and targeted reproduction; no further remote run authorized.",
+  "sourceAndRemoteHeadVerified": "db5cf3c19f5a04c09f769864e6b91323c4b54504",
+  "directoryFix": "COMMITTED_AND_DELIVERED_V2; local actual encrypted transport proof remains applicable; not full remote signoff",
+  "furtherRemoteRun": false,
+  "originalDefault": {
+    "status": "RUNNING_LOCAL_PERSISTENT",
+    "pid": 87878,
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "verifiedHttpsStatus": 200,
+    "interrupted": false
+  }
+}

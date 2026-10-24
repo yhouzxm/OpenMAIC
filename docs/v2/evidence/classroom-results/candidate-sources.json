@@ -1,0 +1,20 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "baselineComparison": "zhiban-joint-classroom-local.json plus new result query and journey",
+  "sources": {
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/classroom/postgres/results.ts": "2b9281fb95dcf9e1ea0434feacdf9c3e801f000d060fe3b61972060758ae224f",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/classroom/postgres/transaction.ts": "3037ad1575f3d7ff7fd279bccd0ed42b8c73f280831d9291a8b82564f5c15d61",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/application/classroom/service.ts": "4d4cc98a1c7d4772ca9567ead219932eb518c4517abd7fb637e6a2acd3a75c8e",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/learning/http.ts": "167d6da78b74c1290306b118a868750622938a7a5d807fd4d4068a3e90b21912",
+    "/home/zxm/openmaic/zhiban/app/zhiban/local/classrooms.js": "b0b656ea8ca0512dc2498a835286bf6bea77c6e05328872bab3aa55e675a2bd1",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/verify-classroom-results.ts": "4cb3821baffd3e32be53f67550b76f0c10089e5daa5863da5448e5c0a2911cec",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/verify-m6-catalog.mts": "1a8c680e8d1404d36b7cd14cff4eb39fdf80c1ad11225b84e8bceedf5fc714a8",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/run-m6-catalog.ts": "98fe2b564b16544198ba4dd04ee72a1945b67230b902ad23e57d214ef3c17023",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/trial-content.ts": "76c81af8f27381c94f99e559379fecf4f9701e83296974cc4bf026c33460f9dd",
+    "/home/zxm/openmaic/zhiban/package.json": "30b89f70590601817e5870d9bcaee7d0a99f1ec44ab1be457c1507a689065b89",
+    "/home/zxm/openmaic/zhiban/docs/v2/zhiban-v2-classroom-results-local.md": "018cbf3bf0ea53e06f96ada5225c2e7896a75bd7337f831e60ebed791572092e",
+    "/home/zxm/openmaic/zhiban/docs/v2/zhiban-v2-migration-completion-plan.md": "6b2638e2326cebf10a5376e3e865d523068df72620a80d3c32df11e430da94fc",
+    "/home/zxm/openmaic/zhiban/docs/v2/zhiban-v2-feature-gap-matrix.md": "2871a4d0fff9807ea190a38be403270f32c882b6f6901ca448334283a48df1cc",
+    "/home/zxm/openmaic/zhiban/docs/v2/zhiban-v2-trial-guide.md": "4ec3c0a09f7e29ec5825c19d17b4ff59b787ce9fafe1d949cded0291fa38314c"
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "localDate": "2026-10-23",
+  "scope": "CURRENT_LOCAL_UNIFIED_TRIAL_AND_SOURCE_HANDOFF_PACKAGE_NOT_ALL_PROJECT_GATES",
+  "versionId": "zhiban-local-20261023-ca53589fc2ad",
+  "sourceDigest": "ca53589fc2ad7b6ba1108033ce1c0e832bc867999352615b5843bf5322455e30",
+  "archiveSha256": "495c38bccf0a84d112a1f7b6d9cf619b48bdc3e671772ef7a52d08ab89e8c44d",
+  "artifactDirectory": "/home/zxm/.local/share/zhiban-handoff/zhiban-local-20261023-ca53589fc2ad",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "branch": "refactor/zhiban-v2",
+  "dirtyCandidatesPreserved": true,
+  "sourceFiles": 5457,
+  "archiveMiB": 132.9,
+  "runtime": {
+    "sameRootKept": true,
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "boundSourceFiles": 2724,
+    "runtimeSourcesNotIncludedBecauseRegeneratedOrDependency": 897,
+    "uncoveredApplicationSource": [],
+    "restarted": false,
+    "dataCleared": false
+  },
+  "verification": {
+    "currentThreeRoleClassroom": "PASS",
+    "studentPublicResult": "93/100",
+    "archiveReadbackAndHashes": "PASS",
+    "toolNegativeTests": 4,
+    "toolEslint": "PASS",
+    "sameWorkspaceSourceReadback": "PASS",
+    "cleanHostInstall": "NOT_EXECUTED",
+    "restoreDrill": "NOT_EXECUTED",
+    "actualAiProviderCalled": false,
+    "scannerExercised": false,
+    "githubCiDispatched": false
+  },
+  "packageBoundaries": {
+    "gitHistory": false,
+    "nodeModules": false,
+    "credentialsAndRuntimeDatabase": false,
+    "requiresExistingTrustedGitAndLocalProfiles": true,
+    "differentAbsolutePathRequiresReconstruction": true,
+    "sourceArchiveVerificationDoesNotAuthorizeProduction": true
+  },
+  "deferred": [
+    "Scanner pin/real scanned uploads",
+    "Full Native Runtime and maintenance recovery",
+    "Office/OCR/audio/video parsing inputs",
+    "Real identity approval and delivery channels",
+    "Unmapped legacy URLs and avatar",
+    "Profile dimensions/PBL/EMA/AI Peer REVIEW",
+    "Course totals/appeals rules",
+    "Native refresh/close unsaved guard deferred by user"
+  ],
+  "knownNonBlocking": [
+    "Attachment panel retains old synthetic-mode wording while new scanner uploads remain closed"
+  ],
+  "git": {
+    "commit": false,
+    "push": false,
+    "ciDispatch": false
+  },
+  "nextPackage": "P3 课程成绩簿受限跨页导出",
+  "suggestedModel": "GPT-6.1 Sol / medium",
+  "evidence": [
+    "three-role-journey.json",
+    "final-status.json",
+    "package.json",
+    "archive-verification.json",
+    "private-backup.json",
+    "tool-tests.log",
+    "lint.log"
+  ]
+}

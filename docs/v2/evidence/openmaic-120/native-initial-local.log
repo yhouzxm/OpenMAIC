@@ -1,0 +1,66 @@
+
+ RUN  v4.1.8 /home/zxm/openmaic/zhiban
+
+ ❯ tests/server/model-config/settings-route.test.ts (11 tests | 1 failed) 37770ms
+     × reads and edits the workspace settings, keeping keys out of every answer 7407ms
+ ❯ tests/server/identity/cookie-guard.test.ts (41 tests | 1 failed) 1374ms
+     × reads an incoming Authorization header only in the host methods directory 143ms
+ ❯ tests/server/model-config/llm-transport.test.ts (2 tests | 1 failed) 27ms
+     × refuses redirects for a workspace endpoint 22ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/server/identity/cookie-guard.test.ts > owner identity boundary > reads an incoming Authorization header only in the host methods directory
+AssertionError: expected [ Array(1) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "lib/zhiban/infrastructure/identity/http/protocol.ts",
++ ]
+
+ ❯ tests/server/identity/cookie-guard.test.ts:250:63
+    248|
+    249|   it('reads gateway identity headers only in the host methods director…
+    250|     expect(offenders(GATEWAY_IDENTITY, outsideHostMethods)).toEqual([]…
+       |                                                               ^
+    251|   });
+    252|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  tests/server/model-config/llm-transport.test.ts > the transport a slot model gets > refuses redirects for a workspace endpoint
+ModelConfigurationError: Local/private network URLs are not allowed. If this is a self-hosted deployment or internal gateway (including split-horizon DNS), set ALLOW_LOCAL_NETWORKS=true to allow local network targets.
+ ❯ languageModelFor lib/server/model-config/llm.ts:89:24
+     87|   if (userEndpoint && endpoint) {
+     88|     const problem = await validateClientBaseUrl(endpoint);
+     89|     if (problem) throw new ModelConfigurationError('INVALID_URL', prob…
+       |                        ^
+     90|   }
+     91|   const apiKey = target.apiKey ?? '';
+ ❯ tests/server/model-config/llm-transport.test.ts:29:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  tests/server/model-config/settings-route.test.ts > /api/model-config > reads and edits the workspace settings, keeping keys out of every answer
+ModelConfigurationError: Local/private network URLs are not allowed. If this is a self-hosted deployment or internal gateway (including split-horizon DNS), set ALLOW_LOCAL_NETWORKS=true to allow local network targets.
+ ❯ languageModelFor lib/server/model-config/llm.ts:89:24
+     87|   if (userEndpoint && endpoint) {
+     88|     const problem = await validateClientBaseUrl(endpoint);
+     89|     if (problem) throw new ModelConfigurationError('INVALID_URL', prob…
+       |                        ^
+     90|   }
+     91|   const apiKey = target.apiKey ?? '';
+ ❯ slotLanguageModel lib/server/model-config/llm.ts:164:20
+ ❯ tests/server/model-config/settings-route.test.ts:167:22
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  3 failed | 104 passed | 2 skipped (109)
+      Tests  3 failed | 1279 passed | 85 skipped (1367)
+   Start at  22:45:02
+   Duration  335.48s (transform 17.43s, setup 2.19s, import 75.36s, tests 220.99s, environment 7.69s)
+

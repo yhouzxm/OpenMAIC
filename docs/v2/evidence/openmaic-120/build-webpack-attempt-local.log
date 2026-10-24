@@ -1,0 +1,141 @@
+
+> openmaic@1.2.0 build /home/zxm/openmaic/zhiban
+> node scripts/assert-vendor-maic-importer.mjs && node scripts/build-standalone-player.mjs && next build --webpack
+
+[assert-vendor] ok: public/vendor/maic-importer/index.js
+[standalone-player] player.min.js: 693.3 KiB (gzip 214.5 KiB)
+[standalone-player] player-charts.min.js: 532.5 KiB (gzip 180.8 KiB)
+[standalone-player] player.min.css: 42.9 KiB (gzip 8.4 KiB)
+[standalone-player] katex-fonts.min.css: 341.0 KiB (gzip 254.7 KiB)
+▲ Next.js 16.3.3 (webpack)
+✓ Running next.config.ts took 237ms
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+- Experiments (use with caution):
+  · proxyClientMaxBodySize: "200mb"
+
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead.
+
+  To migrate automatically, run:
+  npx @next/codemod@canary middleware-to-proxy .
+
+  Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+  Using tsconfig file: tsconfig.build.json
+⚠ Compiled with warnings in 4.1min
+
+./node_modules/.pnpm/unpdf@1.4.0_@napi-rs+canvas@0.1.96/node_modules/unpdf/dist/pdfjs.mjs
+Critical dependency: the request of a dependency is an expression
+
+Import trace for requested module:
+./node_modules/.pnpm/unpdf@1.4.0_@napi-rs+canvas@0.1.96/node_modules/unpdf/dist/pdfjs.mjs
+./node_modules/.pnpm/unpdf@1.4.0_@napi-rs+canvas@0.1.96/node_modules/unpdf/dist/index.mjs
+./lib/pdf/pdf-providers.ts
+./lib/document/extractors/pdf.ts
+./lib/document/extractors/registry.ts
+./lib/document/index.ts
+./app/api/parse-pdf/route.ts
+
+  Using tsconfig file: tsconfig.build.json
+Failed to compile.
+
+./lib/media/adapters/comfyui-image-adapter.ts:120:22
+Module not found: Can't resolve 'fs'
+  118 |   // Server-side: read from disk (public/ directory relative to cwd)
+  119 |   if (typeof window === 'undefined') {
+> 120 |     const fs = await import('fs');
+      |                      ^
+  121 |     const path = await import('path');
+  122 |     const { isComfyuiWorkflowFilename, listComfyuiWorkflowFilenames } =
+  123 |       await import('../comfyui-workflows');
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./lib/media/image-providers.ts
+./lib/server/model-config/model-authorization.ts
+./lib/server/model-config/runtime.ts
+./instrumentation.ts
+
+./lib/media/adapters/comfyui-image-adapter.ts:121:24
+Module not found: Can't resolve 'path'
+  119 |   if (typeof window === 'undefined') {
+  120 |     const fs = await import('fs');
+> 121 |     const path = await import('path');
+      |                        ^
+  122 |     const { isComfyuiWorkflowFilename, listComfyuiWorkflowFilenames } =
+  123 |       await import('../comfyui-workflows');
+  124 |
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./lib/media/image-providers.ts
+./lib/server/model-config/model-authorization.ts
+./lib/server/model-config/runtime.ts
+./instrumentation.ts
+
+./lib/media/adapters/kling-adapter.ts:20:1
+Module not found: Can't resolve 'crypto'
+  18 |  */
+  19 |
+> 20 | import crypto from 'crypto';
+     | ^
+  21 | import type {
+  22 |   MediaProviderFetch,
+  23 |   VideoGenerationConfig,
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./lib/media/video-providers.ts
+./lib/server/model-config/model-authorization.ts
+./lib/server/model-config/runtime.ts
+./instrumentation.ts
+
+./lib/pdf/alidocmind-client.ts:11:1
+Module not found: Can't resolve 'stream'
+   9 |  */
+  10 |
+> 11 | import { Readable } from 'stream';
+     | ^
+  12 | import Client, * as $Docmind from '@alicloud/docmind-api20220711';
+  13 | import { Config } from '@alicloud/openapi-client';
+  14 | import { RuntimeOptions } from '@alicloud/tea-util';
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./lib/pdf/pdf-providers.ts
+./lib/document/extractors/pdf.ts
+./lib/document/extractors/registry.ts
+./lib/document/index.ts
+./lib/server/material-extraction/extract.ts
+./lib/server/material-extraction/runner.ts
+./instrumentation.ts
+
+./lib/prompts/loader.ts:11:1
+Module not found: Can't resolve 'fs'
+   9 |  */
+  10 |
+> 11 | import fs from 'fs';
+     | ^
+  12 | import path from 'path';
+  13 | import type { PromptId, LoadedPrompt, SnippetId } from './types';
+  14 | import { createLogger } from '@/lib/logger';
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./lib/prompts/index.ts
+./lib/server/generation/steps/outline.ts
+./lib/server/generation/run/services.ts
+./lib/server/generation/run/runner.ts
+./instrumentation.ts
+
+
+> Build failed because of webpack errors
+ ELIFECYCLE  Command failed with exit code 1.

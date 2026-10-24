@@ -1,0 +1,11 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "status": "PASS_SCOPE_PRESERVED",
+  "originalProof": "docs/v2/evidence/zhiban-native-classroom-local.json",
+  "sourceDelta": [
+    "app/zhiban/local/published-player.css"
+  ],
+  "disposableClosurePathsRemovedAsExpected": 3,
+  "reason": "Viewport-only CSS flex layout after actual journey screenshot review; no authorization/API/SQL/engine changes after PG proof",
+  "additionalValidation": "layout.json plus default source-asset/status and preserved account/table-count checks; original PG receipt unchanged"
+}

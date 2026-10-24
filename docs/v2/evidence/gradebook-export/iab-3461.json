@@ -1,0 +1,13 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "at": "2026-10-23T08:54:54.815Z",
+  "scope": "IAB_CURRENT_3461_FILTERED_EXPORT_DOWNLOAD",
+  "origin": "https://127.0.0.1:3461",
+  "tenant": "01a167f4-b205-77d0-b82c-d4244becc291",
+  "offering": "01a167f4-cc2f-71f2-b35f-d91500241c33",
+  "records": 6,
+  "hasPublished88": true,
+  "utf8BOM": true,
+  "bytes": 1505
+}

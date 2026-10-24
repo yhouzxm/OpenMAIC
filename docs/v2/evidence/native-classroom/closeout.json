@@ -1,0 +1,82 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_WITH_EXPLICIT_DEFERRED_SCOPE",
+  "scope": "UPSTREAM_NATIVE_CLASSROOM_REUSE_BOUNDARY_AND_EXISTING_CLASSROOM_PRESENTATION_PRODUCT_PACKAGE",
+  "branch": "refactor/zhiban-v2",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "dirtyCandidatePreserved": true,
+  "sourceSha256": {
+    "app/zhiban/local/classroom-player.ts": "95dea3257a84ab73a3626a80970619df05bd1489d53e770b3cb203a8748ea18a",
+    "app/zhiban/local/published-player.tsx": "bad950363aec5d517f501a15bafeba732c08c006bd7874ab57c5bb8d2cd45500",
+    "app/zhiban/local/published-player.js": "38bab21c88dc33072853f9955c4a0ca55628e9d5832c8fbbbe425a0479c543f8",
+    "app/zhiban/local/published-player.css": "878a72b690c2408bc3601e6075c85b563ac1b9fb6109356f56fc67809ee3bf06",
+    "app/zhiban/local/classrooms.js": "50180447813abefbac594407b2f2aad9880fbbe4681c1675dd9c4570671abe2a",
+    "app/zhiban/local/flow.js": "fe1d100e385912be7b7eea9436e28718eeffe2b851e6b6910d5666d8d494ed69",
+    "lib/zhiban/infrastructure/content/http.ts": "9a9623ecf72b515f1c6e17d604460ce64861cc7dea8671a146697dc3ebab0fda",
+    "lib/zhiban/infrastructure/content/player.ts": "748617086c83e495a849cfaf2ef3661584ec58061c67d23a40362483dc1b40c0",
+    "lib/zhiban/infrastructure/classroom/postgres/transaction.ts": "ac25ac9e204ce8c053c734e524dd0e5115d635dd1a31b04633271e2010afcdd5",
+    "scripts/zhiban-local/trial-content.ts": "b1efb27c2bd7372cdbdf230fdf83b884bebb0d04af367ddb22497aa522e47472",
+    "scripts/zhiban-local/run-m6-catalog.ts": "3b59deb4d72dde474fcf40f016986429f59300379d50a83d23621cf5b620cf60",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "9393cfef49c6e670ae63f51c181f6bce47462eca2655bb721d9ff84a256c0885",
+    "scripts/zhiban-local/verify-native-classroom.ts": "64ef59e90730328d4fbaa4a1e5b25e39d9018c2713684d3f97f5d4c335e5473c",
+    "tests/zhiban/native-classroom/presentation.test.ts": "953728e1e0a76709b60c552530c18db7c0dcf232ef694669eca617e02690df56",
+    "docs/v2/zhiban-v2-native-classroom-reuse-local.md": "ad997c24361d17f2e00b9d62c3de3678ddd77488b7e485f300de7d60587511ae"
+  },
+  "evidenceSha256": {
+    "journey.json": "c3af93aad813b3300cc401a2c501ed3f27ce372c0e1ddecbd15e93f63f7fe816",
+    "post-pg-delta.json": "355bc3bf88e35c96832fd2503ad7a8752d6b9e4cd4993de6af4ed53d4c2a2e83",
+    "frozen-source.json": "4bf77570552ee232e21868c2cf672fc5bc7fc87fb49870c780e63e0cdb6941b7",
+    "default-readonly.json": "ac0147d5458e52503a480f89e2d21547b510179ad2778eb003650c18ff982193",
+    "default-status.json": "198e12fc582f0f98e6d6af27c7c3a8c413fb49d8372dbecb6a5744fd2dc4e754",
+    "default-backup-verify.log": "b0e881218508735646260c63e8616d51e110d05e9c92012cb27f157c6d4953f3",
+    "preserved-before.json": "94cc2214784d463a73ac84750380f2aaccf0349e32dbb9a5a668d4d81f223c36",
+    "preserved-after.json": "94cc2214784d463a73ac84750380f2aaccf0349e32dbb9a5a668d4d81f223c36",
+    "layout.json": "385a68cc2f23e74212dd1cebfa8c2f0de8ac768d591474442f7200cffa9199e5",
+    "unit.log": "b1e7aeb6be68751738ccbb8416775d9ff497f996ca92dc4a5d5fa47aaba6bc06",
+    "typecheck.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "lint.log": "e2a3e8049ebfa28447719651c84d27e5d6473979fddb4d9690676fb48a51e4ed",
+    "lint-new.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "lint-existing-file.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "historical-receipt-restored.json": "ab9b770c1ecf65fc1aa50e2fe055e40040715c3b2feedbd7667968acc518a598"
+  },
+  "pgProof": {
+    "path": "docs/v2/evidence/zhiban-native-classroom-local.json",
+    "sha256": "595925477a3f9604b2de83918f6facccce81f63ae2062aa6cef08e6c29c04572",
+    "scope": "Original final API/Identity/Native provider and browser source; later CSS-only delta separate"
+  },
+  "currentEntry": {
+    "origin": "https://127.0.0.1:3461/zhiban",
+    "status": "RUNNING_LOCAL_PERSISTENT",
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "accountsAndNonIdentityCountsRetained": true,
+    "nonIdentityTables": 210,
+    "rows": 525
+  },
+  "validation": {
+    "affectedJourney": "PASS",
+    "focusedTypes": "PASS",
+    "guardUnitChecks": "PASS",
+    "newFilesLint": "PASS",
+    "existingClassroomTransactionLint": "PASS_EXCLUDING_THREE_PREEXISTING_NO_EXPLICIT_ANY_ERRORS",
+    "viewportProof": "Layout-only real App with injected toolbar sample, no authorization simulation",
+    "oldSqlIdentityAndRuntimeUnchanged": true,
+    "docsLinks": "PASS"
+  },
+  "newMigrations": false,
+  "oldMaintenanceExecuted": false,
+  "target55433Connected": false,
+  "frozenNativeRuntimeEnabled": false,
+  "unknownReservedQuarantineRetained": true,
+  "modelCalls": false,
+  "p7Repacked": false,
+  "fullClassroomRegression": false,
+  "commitPushCI": false,
+  "deferred": [
+    "Real isolated Native chat Runtime composition and its trusted maintenance inputs",
+    "Independent trusted automatic lab executor / measured or simulated evidence contract; absent from current DSL scene types",
+    "Actual parser service configuration and production / cross-host operations remain original scope"
+  ],
+  "nextWholePackage": "Explicit-source automatic experiment executor and results, separate from legacy maintenance; GPT-6.1 Sol / high"
+}

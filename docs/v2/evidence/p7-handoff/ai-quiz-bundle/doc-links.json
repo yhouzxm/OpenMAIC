@@ -1,0 +1,10 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "files": [
+    "docs/v2/zhiban-v2-p7-handoff.md",
+    "docs/v2/zhiban-v2-p7-handoff-quiz-history.md"
+  ],
+  "checked": 13
+}

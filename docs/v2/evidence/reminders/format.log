@@ -1,0 +1,20 @@
+lib/zhiban/application/reminder/service.ts 156ms
+lib/zhiban/domain/reminder/model.ts 21ms
+lib/zhiban/infrastructure/reminder/http.ts 64ms
+lib/zhiban/infrastructure/reminder/postgres/transaction.ts 99ms
+lib/zhiban/application/academic/service.ts 55ms
+lib/zhiban/infrastructure/academic/postgres/store.ts 532ms
+scripts/zhiban-local/reminder.ts 31ms (unchanged)
+scripts/zhiban-local/build-reminder-reference.ts 63ms (unchanged)
+scripts/zhiban-local/verify-reminders.ts 156ms
+scripts/zhiban-local/verify-m6-catalog.mts 1045ms
+scripts/zhiban-local/run-m6-catalog.ts 44ms (unchanged)
+scripts/zhiban-local/trial-content.ts 95ms (unchanged)
+scripts/zhiban-local/request-target.ts 14ms (unchanged)
+app/zhiban/local/reminders.js 147ms
+app/zhiban/local/reminders.html 165ms (unchanged)
+app/zhiban/local/analytics.js 278ms (unchanged)
+app/zhiban/local/analytics.html 26ms (unchanged)
+app/zhiban/local/course-page.js 97ms
+app/zhiban/local/workspace.js 152ms (unchanged)
+tests/zhiban/reminder/model.test.ts 17ms

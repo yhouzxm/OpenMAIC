@@ -1,0 +1,82 @@
+{
+  "kind": "ZHIBAN_PORTABLE_DIRECTORY_CLOSURE_FIX_LOCAL_V1",
+  "at": "2026-10-24T11:34:44.015397+00:00",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "ROOT_CAUSE_REPRODUCED_AND_FIXED_LOCALLY_REMOTE_REACCEPTANCE_PENDING",
+  "diagnosticRun": {
+    "id": 40089510426,
+    "workflowSha": "2da64bd644968561aaa7e0480166f9a19e827c98",
+    "result": "FAIL",
+    "failure": "HOST_EXITED_1_PG_START_FAILED",
+    "restoreStartMs": 40058,
+    "cleanup": "PASS"
+  },
+  "rootCause": "V1 transport archived regular files only. PG required empty directories were absent after authenticated extraction while file-only manifests passed. Actual PG16 startup failed with missing pg_notify in isolated local reproduction.",
+  "missingEmptyPgDirectories": [
+    "pg_serial",
+    "pg_dynshmem",
+    "pg_snapshots",
+    "pg_tblspc",
+    "pg_stat_tmp",
+    "pg_notify",
+    "pg_stat",
+    "pg_subtrans",
+    "pg_commit_ts",
+    "pg_twophase",
+    "pg_replslot",
+    "pg_wal/archive_status",
+    "pg_logical/mappings",
+    "pg_logical/snapshots"
+  ],
+  "fix": [
+    "V2 manifest authenticates exact directory inventory, including empty directories.",
+    "Archive includes explicit directory entries; extraction enforces file AND directory closure and parent closure.",
+    "Directories owner-only 0700 and files 0600; reject links, duplicate/type collisions, unsafe paths, missing or extra directories.",
+    "V1 transport fails closed before candidate execution; regenerate cipher, do not reuse retired V1 pin."
+  ],
+  "unchanged": {
+    "applicationSourceDigest": "a310b5758e14af73e614935f44dde97b933b4b2f9f15f6ddbd2a41548e47a18d",
+    "all3128FileHashesIdentical": true,
+    "installManifestSha256": "103cea12346762c01794464d7b79c1a196818ba2f05806f596cdca810ff07af0",
+    "restoreManifestSha256": "c2ab07cd0e69586d13ba62d3b26d767d93bc9d031a2b7a8bee4e7342baa17e76",
+    "businessDataOrAppliedMigrationsEdited": false
+  },
+  "newLocalDelivery": {
+    "manifestKind": "ZHIBAN_PORTABLE_CI_DELIVERY_V2",
+    "files": 3128,
+    "directories": 35,
+    "ciphertextSha256": "c3bf2f5c1e05e1148029345c314099a204381a350fd7ca9516cd4b15a610d07b",
+    "bytes": 267166613,
+    "uploaded": false,
+    "approvedForRemoteRerun": false,
+    "key": "New independent owner-only key file, not included in evidence"
+  },
+  "validation": {
+    "unitAndBoundaryTestsPassed": 28,
+    "failed": 0,
+    "lint": "PASS",
+    "format": "PASS",
+    "actualOldCipherAuthenticatedDecryptAndPgFailure": "PASS_CAUSAL_REPRODUCTION",
+    "actualNewCipherDecryptRestoreAndNormalRestart": "PASS namespace UID1001; verified HTTPS twice",
+    "sameKernelNotSecondMachine": true,
+    "noLocalGithubActionsSpoofing": true,
+    "unrelatedRetests": false,
+    "actualV2DirectoryLossNegative": "PASS: removing authenticated pg_notify directory is refused before startup; restoring 0700 directory restores validated closure"
+  },
+  "sourceHashes": {
+    "scripts/zhiban-ci/portable-delivery.cjs": "5a5885ec490eeb3c65894a302abf65d837da13c2cec36beebaf84730b743d670",
+    "tests/zhiban/local/portable-ci.test.cjs": "d9023ad124e8def77fe6c8a3b3e03bf373b117e932f87bc8082bfb56c9ff83c9"
+  },
+  "fixCommitted": false,
+  "fixPushed": false,
+  "furtherRemoteRun": false,
+  "originalDefault": {
+    "pid": 87878,
+    "interrupted": false,
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "verifiedHttps": 200
+  },
+  "next": "Review the two-file directory-closure fix and new ciphertext pin; authorize its minimal checkpoint and one final remote acceptance only if desired."
+}

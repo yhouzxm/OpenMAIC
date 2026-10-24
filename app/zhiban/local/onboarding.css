@@ -1,0 +1,73 @@
+#onboarding [hidden],
+#account-setup [hidden] {
+  display: none !important;
+}
+#onboarding .account-card,
+#account-setup .account-card {
+  border: 1px solid #dbe3ed;
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 16px 0;
+}
+#onboarding label,
+#account-setup label {
+  display: block;
+  margin: 12px 0;
+}
+#onboarding input,
+#onboarding select,
+#account-setup input {
+  display: block;
+  font: inherit;
+  padding: 10px;
+  margin-top: 6px;
+  border: 1px solid #bac6d8;
+  border-radius: 8px;
+  max-width: 100%;
+  width: 440px;
+  box-sizing: border-box;
+}
+#onboarding button,
+#account-setup button {
+  padding: 10px 16px;
+  border-radius: 8px;
+  margin: 8px 10px 8px 0;
+  cursor: pointer;
+}
+#onboarding .account-notice,
+#account-setup .account-notice {
+  background: #eef4ff;
+  padding: 16px;
+  border-radius: 10px;
+  line-height: 1.7;
+}
+#onboarding .account-meta,
+#account-setup .account-meta {
+  color: #64748b;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+  line-height: 1.7;
+}
+#onboarding [role='alert'],
+#account-setup [role='alert'] {
+  color: #9c3429;
+  white-space: pre-wrap;
+}
+#account-setup {
+  max-width: 760px;
+  margin: 24px auto;
+  padding: 24px;
+}
+#account-setup .account-id {
+  font-family: monospace;
+  overflow-wrap: anywhere;
+  user-select: all;
+  padding: 14px;
+  background: #f1f5f9;
+  border-radius: 8px;
+}
+#onboarding .account-status {
+  font-weight: 600;
+  color: #254e8d;
+}

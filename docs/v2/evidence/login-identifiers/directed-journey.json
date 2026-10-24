@@ -1,0 +1,22 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "P3_CONTROLLED_LOGIN_IDENTIFIER_NOMINATION_RECIPIENT_CONFIRMATION_REAL_LOGIN_DIRECTORY",
+  "syntheticAuthority": true,
+  "humanVerification": false,
+  "frozenUserIdResolverChanged": false,
+  "originalCredentialAndSessionReused": true,
+  "passwordAndCredentialSlotUnchanged": true,
+  "tenantScopedDirectory": true,
+  "permanentNoReassignment": true,
+  "atomicAliasSwitchAndAuditRollback": true,
+  "concurrentAcceptOnce": true,
+  "postKdfBindingGuard": true,
+  "globalUserDisableAndRestore": true,
+  "expiredAndRevokedSourceRefused": true,
+  "privateAclProfileChecked": true,
+  "onlySyntheticBrowserCredentials": true,
+  "browserChangedCredential": false,
+  "real55432Or55433": false
+}

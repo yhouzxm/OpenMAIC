@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": { "incremental": false },
+  "include": [
+    "../../lib/zhiban/domain/profile/**/*.ts",
+    "../../lib/zhiban/application/profile/**/*.ts",
+    "../../lib/zhiban/infrastructure/profile/**/*.ts",
+    "./profile.ts",
+    "./build-profile-reference.ts",
+    "./verify-avatar.ts",
+    "../../tests/zhiban/profile/**/*.ts",
+    "../../next-env.d.ts",
+    "../../types/**/*.d.ts"
+  ]
+}

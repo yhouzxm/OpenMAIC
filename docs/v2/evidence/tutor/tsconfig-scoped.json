@@ -1,0 +1,31 @@
+{
+  "extends": "/home/zxm/openmaic/zhiban/tsconfig.json",
+  "compilerOptions": {
+    "incremental": true,
+    "tsBuildInfoFile": "/tmp/zhiban-tutor-scoped.tsbuildinfo",
+    "plugins": [],
+    "types": [
+      "node"
+    ],
+    "typeRoots": [
+      "/home/zxm/openmaic/zhiban/node_modules/@types"
+    ],
+    "allowJs": false
+  },
+  "include": [
+    "/home/zxm/openmaic/zhiban/lib/zhiban/domain/tutor/**/*.ts",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/application/tutor/**/*.ts",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/tutor/**/*.ts",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/application/academic/service.ts",
+    "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/academic/postgres/store.ts",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/tutor.ts",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/build-tutor-reference.ts",
+    "/home/zxm/openmaic/zhiban/scripts/zhiban-local/verify-tutor.ts",
+    "/home/zxm/openmaic/zhiban/tests/zhiban/tutor/**/*.ts",
+    "/home/zxm/openmaic/zhiban/types/web-extraction-vendors.d.ts"
+  ],
+  "exclude": [
+    "/home/zxm/openmaic/zhiban/node_modules",
+    "/home/zxm/openmaic/zhiban/.next"
+  ]
+}

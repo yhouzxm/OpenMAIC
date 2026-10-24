@@ -1,0 +1,59 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_RUNNING_CANDIDATE",
+  "at": "2026-10-16T14:05:31.628Z",
+  "metadataSha256": "2dff7a6d8d86dcd8651db6b00ae5c8ec28d1a5b2d66ee4576cb77f0ed019fc19",
+  "candidate": {
+    "pid": 11040,
+    "processStart": "96101",
+    "origin": "https://127.0.0.1:3461",
+    "port": 56517,
+    "database": "zhiban_trial_content_disposable",
+    "nativeDatabase": "zhiban_trial_content_native",
+    "root": "/tmp/zhiban-trial-content-CkNgQo",
+    "checks": 12,
+    "sourceMatches": true,
+    "sourceMismatches": []
+  },
+  "appliedMigrationsCompared": 16,
+  "migrationMismatches": [],
+  "staticChecks": {
+    "scopedTypeScript": "PASS",
+    "newFilesEslintDefault": "PASS",
+    "legacyDirectedEslintNoExplicitAnyException": "PASS",
+    "fixedDevelopmentEndpointContract": "PASS_NO_DB_CONNECTION"
+  },
+  "failedAttemptCleanup": [
+    {
+      "root": "/tmp/zhiban-trial-content-eht0ve",
+      "stopped": true,
+      "removed": true
+    },
+    {
+      "root": "/tmp/zhiban-trial-content-nsFsMb",
+      "stopped": true,
+      "removed": true
+    }
+  ],
+  "previousTrialObserved": {
+    "pid": 12716,
+    "root": "/tmp/zhiban-trial-pdjLeW",
+    "processRunning": false,
+    "rootExists": false,
+    "matchingCloseReceipt": false,
+    "cause": "NOT_ESTABLISHED",
+    "mutatedByThisTask": false,
+    "historicalEvidenceRetained": true
+  },
+  "screenshots": {
+    "docs/v2/evidence/zhiban-trial-content-student-local.png": "06e4add718b08cce08cf0fc3d10a0a584a4f6760718691d8be2bc450b01ff37b",
+    "docs/v2/evidence/zhiban-trial-content-teacher-local.png": "7b85f21d69d27a9f3e70597060eaaf6afc4ebd643a6bad06a0a0b7dd331428c9",
+    "docs/v2/evidence/zhiban-trial-content-in-app-student-local.png": "ae3777ea4a46bc77df26ec20721c9f6ccfb1bd8fbd7928857dab855508213775"
+  },
+  "documentHashes": {
+    "TRIAL.md": "09a6480b844b2da1dd7282ced2d2063ed47d64c24663a6620fd4a05cc49360ab",
+    "docs/v2/zhiban-v2-unified-content-local.md": "33d7dc508478bb2f8cb44b3bf974ad90661b6e79e9686b82738dcf2d775675f2",
+    "docs/v2/zhiban-v2-trial-guide.md": "b1d780e0e2ba1b7cf5e170c5f998e283e5fd29419ff188aa85569e03c6e7d3ab"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "synthetic": true,
+  "caseId": "01a15eee-824a-7709-aee2-6b90ba159523",
+  "revision": "1",
+  "teacherUrl": "https://127.0.0.1:3461/zhiban/teacher/courses/01a15eed-e258-73d6-bb95-5de4fbd9f657/analytics?space=01a15eed-711e-7125-9e0f-e096865aa691&offering=01a15eed-e363-719b-8c9d-52cb3ac49abe#followups",
+  "studentUrl": "https://127.0.0.1:3461/zhiban/student/courses/01a15eed-e258-73d6-bb95-5de4fbd9f657/reminders?space=01a15eed-711e-7125-9e0f-e096865aa691&offering=01a15eed-e363-719b-8c9d-52cb3ac49abe",
+  "activityTitle": "试用：安全巡检报告"
+}

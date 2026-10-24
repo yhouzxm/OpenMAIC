@@ -1,0 +1,10 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "status": "HISTORICAL_BUILD_RECEIPT_UNAVAILABLE",
+  "reason": "2026-10-20 interactive reference builder accidentally overwrote this untracked historical build receipt; original bytes unavailable. Do not attribute replacement output to the previous teacher build.",
+  "replacementOutput": "p4-interactive-profile-build-local.json",
+  "preservedEvidence": [
+    "m5-png-profile-reference-teacher-local.json",
+    "zhiban-teacher-scope-local.json"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "receiptStatus": "PASS",
+  "persistentDrift": [],
+  "cleanedEphemeralSources": [
+    "/home/zxm/openmaic/zhiban/.zhiban-catalog-run-22BEh2/verify.mjs",
+    "/tmp/zhiban-trial-content-j13t3d/content-client.js",
+    "/tmp/zhiban-trial-content-j13t3d/member-control.json"
+  ]
+}

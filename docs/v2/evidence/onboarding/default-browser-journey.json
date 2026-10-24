@@ -1,0 +1,23 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "CURRENT_DEFAULT_ADMIN_IAB_REQUEST_INDEPENDENT_CLI_RECIPIENT_HTTPS_SETUP_AND_ORIGINAL_LOGIN",
+  "root": "/tmp/zhiban-trial-content-byK7dk",
+  "requestId": "01a163c0-fd7b-7378-907d-cf7797a2694e",
+  "userId": "01a163c1-5149-7737-b2ba-fc4ae47e6c2c",
+  "claimId": "01a163c1-514a-71f4-a94f-f5180012f79e",
+  "globalCreateViaOriginalControl": true,
+  "syntheticAuthority": true,
+  "humanIdentityVerification": false,
+  "initialPasswordTransport": "REAL_GUARDED_HTTPS_SYNTHETIC_RECIPIENT",
+  "browserEnteredNewPassword": false,
+  "firstLoginStatus": 200,
+  "spaces": 0,
+  "claimState": "CLAIMED",
+  "claimRevision": "2",
+  "noAutomaticMembershipRoleEnrollment": true,
+  "setupUrl": "https://127.0.0.1:3461/zhiban/activate-account",
+  "recipientAccountFile": "/tmp/zhiban-trial-content-byK7dk/onboarding-recipient.json",
+  "ticketOrPasswordIncluded": false
+}

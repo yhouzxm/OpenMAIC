@@ -1,0 +1,9 @@
+packages/@openmaic/importer              |  WARN  The field "pnpm.onlyBuiltDependencies" was found in /home/zxm/openmaic/zhiban/packages/@openmaic/importer/package.json. This will not take effect. You should configure "pnpm.onlyBuiltDependencies" at the root of the workspace instead.
+packages/@openmaic/renderer              |  WARN  The field "pnpm.onlyBuiltDependencies" was found in /home/zxm/openmaic/zhiban/packages/@openmaic/renderer/package.json. This will not take effect. You should configure "pnpm.onlyBuiltDependencies" at the root of the workspace instead.
+
+> @openmaic/editor@0.0.11 build /home/zxm/openmaic/zhiban/packages/@openmaic/editor
+> node -e "require('fs').rmSync('dist',{recursive:true,force:true})" && rollup -c && tsc --emitDeclarationOnly --declarationDir dist
+
+
+src/core/index.ts, src/quiz/index.tsx, src/react/index.ts, src/ui/index.ts → dist...
+created dist in 10m 1.2s

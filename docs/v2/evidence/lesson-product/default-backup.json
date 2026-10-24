@@ -1,0 +1,21 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "status": "ARCHIVES_CREATED_AND_TABLE_OF_CONTENTS_VERIFIED",
+  "root": "/tmp/zhiban-trial-content-h6LTSk",
+  "backupDirectory": "/home/zxm/.local/state/zhiban-trial-backups/lesson-product-20261020-221117",
+  "databaseCount": 3,
+  "files": {
+    "zhiban_trial_content_disposable.dump": "7b58c955506b50a277dcb802d9915c91ca816b39e0acaf3b3e2711bba825f266",
+    "zhiban_trial_content_native.dump": "7f4d8415b606284fd8d1ee0e205ae5897988975cbacaacab939246967be3e94a",
+    "zhiban_trial_lesson_native.dump": "1130df292fc4c969dac36aa3e8b300e86b7da5011a6b7e9df216234e6ad69ed5",
+    "accounts.json": "4b4c2f238b43a6dfacb8dd10adc9457a341b64020ae5c29c600be90463adc550",
+    "member-control.json": "b76ca0a366d525975d8480c7a54172ea46105a3f88eca6104672582c77ade434",
+    "member-inputs.json": "ba87b3927129b26d32511e7d3c59dba3409890070b4ddd179aa24ef5793b6edd",
+    "member-operator.pem": "402385649079dae833e8e82cd2ca44fc4f0c6a2495b63db63a4357d06d3afb45",
+    "member-approver.pem": "728c9ee1d1f542886344dd0e9e9d463b5b1c1cee3ea8eb844172a085582739f6",
+    "roster-example.csv": "ffec587bd4c48766142a17d1e114820261fd0fab6aa99b5e8284370536729ddc",
+    "content-installation.json": "926bb10f7ad421fce1ab4e7fdc0b0978c27d2aad38953b9c95962e5f91563e5c"
+  },
+  "restoreTested": false,
+  "secretsPrinted": false
+}

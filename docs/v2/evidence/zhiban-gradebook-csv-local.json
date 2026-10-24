@@ -1,0 +1,51 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "date": "2026-10-17",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "origin": "https://127.0.0.1:3465",
+  "port": 56521,
+  "database": "zhiban_gradebook_csv_disposable",
+  "pg16": 160015,
+  "checks": [
+    "PG16 restricted roles + real Identity sessions + validated trusted HTTPS",
+    "trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands",
+    "real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft",
+    "three real browser logins share one origin: admin history, teacher activities/queue/analytics, student activities/published feedback; no script errors",
+    "student/admin cannot acquire teacher grading; content/Runtime/control APIs stay CLOSED and their trial page explains the boundary",
+    "gradebook current-version/latest-attempt/latest-submission/latest-publication projection excludes drafts/answers; correction, resubmit, new attempt and republication do not carry old grades",
+    "gradebook two-axis keyset pagination, no duplicate rows, filter/axis cursor binding, Chinese search and withdrawn-member exclusion pass; teacher/student/admin/foreign refusals hold",
+    "gradebook real browser search, activity-column paging, exact submission review and return with filter retained, mobile table scrolling and desktop page pass without script errors",
+    "gradebook CSV current-page bounds, column page/search/header-only export, published scores and blank missing scores, formula neutralization and private-text exclusion pass; student/admin/foreign and revoked teacher denied",
+    "gradebook CSV actual browser download matches applied filter, UTF-8 filename/content and page dimensions; unsent search text does not change export scope"
+  ],
+  "sourceMatches": true,
+  "sourceDriftCount": 0,
+  "receiptResigned": false,
+  "migrationsUnchanged": true,
+  "unitTests": "4/4 PASS across gradebook and CSV contracts",
+  "scopedTypes": "PASS tsconfig.classroom.json",
+  "sample": {
+    "file": "zhiban-gradebook-current-page-local.csv",
+    "source": "authenticated restricted HTTPS API with explicit development CA",
+    "sha256": "1f84605b9e23e31b77c8a0f9d10b931c429c1efb0db45f9a03e7ba3a7de2b03a",
+    "dataRows": 5,
+    "fields": 13,
+    "bytes": 1277,
+    "bom": "efbbbf"
+  },
+  "browser": {
+    "chromiumActualDownload": "PASS; file read and contents asserted",
+    "inAppUI": "generated state visible",
+    "inAppDownloadHandle": "NOT_OBSERVED; wait timed out, no file read claimed",
+    "screenshot": "zhiban-gradebook-csv-browser-local.png",
+    "old3464": "no export control after reload; original 94/100 still visible"
+  },
+  "limits": {
+    "students": 50,
+    "activities": 10,
+    "rows": 500,
+    "bytes": 2097152
+  },
+  "scope": "Current page only; no bulk export, total/rank/pass, private answer/feedback/grade draft, production or GitHub CI"
+}

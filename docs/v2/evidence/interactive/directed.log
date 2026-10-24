@@ -1,0 +1,17 @@
+
+> openmaic@1.2.1 verify:zhiban:interactive /home/zxm/openmaic/zhiban
+> tsx scripts/zhiban-local/run-m6-catalog.ts --unified-trial --interactive-focus
+
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+Reused @openmaic/generation: matching LOCAL source/build hashes
+PASS Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately
+{"timestamp":"2026-10-20T14:55:07.024Z","level":"INFO","tag":"GenerationRunner","message":"generation runner 39665:0c312a1f-a845-4d75-afb9-2c3dbe18c58b started (scan=1000ms, heartbeat=2000ms, leaseTtl=10000ms, maxConcurrent=1)"}
+PASS PG16 restricted roles + real Identity sessions + validated trusted HTTPS
+PASS trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands
+PASS real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft
+PASS interactive: real teacher HTML save/publish, draft leave protection, pinned Native provider generation, curriculum link and real slider in original OpenMAIC host
+PASS interactive: CAS, new draft isolation, replacement/withdrawal/revocation rejection; opaque iframe blocks parent DOM, cookies/storage and authenticated fetch; spoofed completion never writes
+PASS interactive: real Native write failure remains OUTCOME_UNKNOWN; draft/publish fenced, no retry bypass and no Runtime/Attempt/grade facts

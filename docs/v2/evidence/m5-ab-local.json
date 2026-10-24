@@ -1,0 +1,46 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "at": "2026-10-09T13:16:57.064Z",
+  "scope": "OWNED_PG16_HTTPS_CONTENT_TEXT_V1",
+  "checks": [
+    "M1/M2 real authentication and admin-managed fixture on enabled Academic profile",
+    "anonymous content request rejected",
+    "durable CREATE idempotency",
+    "student list hides DRAFT and title",
+    "student/unassigned/foreign tenant writes rejected",
+    "closed DTO, HTML and invalid CSRF rejected",
+    "saved draft and stale CAS rejection",
+    "real public DocumentStore Native commit and atomic Bridge/content publication",
+    "student preview reads Native published text only, including newline",
+    "editing published draft preserves old Native generation and published title",
+    "second publication retires old generation and exposes exact saved version",
+    "HTTPS public core text edit undo/redo save publish",
+    "HTTPS teacher CSP and no external requests",
+    "HTTPS student renderer preview has no editing controls",
+    "HTTPS student CSP and no external requests",
+    "withdraw denies student preview and hides list entry",
+    "withdraw no-op preserves revision",
+    "republish after withdrawal succeeds",
+    "current Enrollment revocation blocks Native published read"
+  ],
+  "status": "PASS",
+  "fixture": {
+    "tenant": "01a11875-db0a-746d-9c96-0622e182dda4",
+    "offering": "01a120cf-2c45-7500-918a-b295502f04a6",
+    "resource": "01a120cf-2cca-741b-92bb-d3b196e80e39"
+  },
+  "nativeDocumentStoreCalls": "ACTUAL",
+  "tlsVerification": "CA verified Node HTTPS and Chromium leaf SPKI pin; no blanket TLS bypass",
+  "remaining": [
+    "Native unknown outcome reconciliation operator",
+    "M5-C PNG",
+    "M5-D Runtime",
+    "M5-E AI"
+  ],
+  "commitPushCiDispatch": false,
+  "revocationEvidence": "m5-revocation-barriers-local.json",
+  "implementationBindingHash": "a0946edb9a5cede3353794eff6da6d85049f4ccfb65985027ef235c9188e85a3",
+  "candidateMigrationSha256": "e335f83bb48cc6c4ec754f8e3270dc0e6941e14f38306bd67aa29844c3713324",
+  "installationEvidence": "m5-installation-local.json",
+  "gitBaselineSha": "daf63afa83470d24a9ed41d171c6a17f8a80adb6"
+}

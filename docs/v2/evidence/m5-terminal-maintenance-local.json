@@ -1,0 +1,90 @@
+{
+  "status": "PASS",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "candidateInventorySha256": "0774292a6013eee00e80da90b5c90e294d596c053bbb5f39101dcc537877c046",
+  "candidateMigrationSha256": "e1e7ea9517462edd855fb8715f49346db4c467c01aac43e8a370c39eebf7184a",
+  "checks": [
+    {
+      "name": "shared launcher excludes exclusive maintenance and concurrent launch is allowed",
+      "status": "PASS"
+    },
+    {
+      "name": "exclusive lock excludes another process and flag survives owner exit",
+      "status": "PASS"
+    },
+    {
+      "name": "host inherits shared lock after launcher parent releases its descriptor",
+      "status": "PASS"
+    },
+    {
+      "name": "unsafe parameter logging rejects before maintenance flag or admission mutation",
+      "status": "PASS"
+    },
+    {
+      "name": "tampered signed approval rejects before admission/HBA changes",
+      "status": "PASS"
+    },
+    {
+      "name": "normal executor rotates credentials, drains idle Native backend, holds exact four sessions",
+      "status": "PASS"
+    },
+    {
+      "name": "renew checks actual barrier with current physical sessions",
+      "status": "PASS"
+    },
+    {
+      "name": "normal resume commits RESUMING before opening, clears claims only at CLOSED",
+      "status": "PASS"
+    },
+    {
+      "name": "normal window can restart with higher epoch and block without restoring admission",
+      "status": "PASS"
+    },
+    {
+      "name": "takeover drains old maintenance and hands both claims to higher epoch; old credentials denied",
+      "status": "PASS"
+    },
+    {
+      "name": "SIGKILL of real controller process leaves durable launcher block and closed databases",
+      "status": "PASS"
+    },
+    {
+      "name": "takeover COMMIT acknowledgement loss preserves committed successor and blocks",
+      "status": "PASS"
+    },
+    {
+      "name": "same committed takeover pair is ACK-only and never creates another successor",
+      "status": "PASS"
+    },
+    {
+      "name": "fresh request takes over lost successor at higher epoch and normal resume works",
+      "status": "PASS"
+    },
+    {
+      "name": "full catalog drift rejects normal resume and keeps both admissions closed",
+      "status": "PASS"
+    },
+    {
+      "name": "HBA tampering is detected on renewal and does not release startup flag",
+      "status": "PASS"
+    },
+    {
+      "name": "partial normal restore failure preserves RESUMING, closes gates and disables writers",
+      "status": "PASS"
+    },
+    {
+      "name": "secrets absent from durable journals; generated credential files are 0600",
+      "status": "PASS"
+    }
+  ],
+  "disposableClusterOnly": true,
+  "temporaryClusterStoppedAndRemoved": true,
+  "existingClustersConnected": false,
+  "runtimeAccepted": false,
+  "terminalActionsAllowed": false,
+  "limitations": [
+    "Synthetic ready installation and minimal Native fixture; no production authority",
+    "No Native proof/finalize or actual host restart acceptance"
+  ]
+}

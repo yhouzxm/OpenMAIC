@@ -1,0 +1,49 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-17T14:55:17.998Z",
+  "provider": {
+    "sha": "a9da60b3b4adb429369c0da13d5637a904ead2b0",
+    "storage": "0.37.3",
+    "dsl": "0.11.3",
+    "renderer": "0.1.14"
+  },
+  "node": "v22.23.3",
+  "checks": [
+    "Exact v1.1.2 document DDL upgrades in place; retained JSON/owner unchanged; wrong owner manifest/write denied",
+    "Runtime FOR SHARE works; ownership keys, deletion and schema ledger mutations denied",
+    "Unowned legacy row rejected; repeat upgrade idempotent; ahead-version and checksum tampering refused",
+    "Runtime fresh installer/readonly receipt supports the versioned owner-only ledger; nonempty reinstall denied",
+    "Official required PG16 contract suite passed against owned socket-only cluster"
+  ],
+  "sourceHashes": {
+    "oldDocumentProvider": "b5228739a4d106fc682b492a168ffdd95746f310f2f400b8fb58026242c96e9d",
+    "lib/zhiban/infrastructure/openmaic/document-ownership.ts": "106698bb8c7c5331d2a4fc241d264382cd76ad9b07626006718262687ce3922c",
+    "lib/zhiban/infrastructure/openmaic/provision.ts": "6b9dd5fb83b8b01e89695611ba355b40f30d9c5235bf7579327e1f406519895a",
+    "lib/zhiban/infrastructure/openmaic/schema-state.ts": "aa48560a2acd0574741467a433e0e14bad4ac3f892f526f667897411abc62e4c",
+    "lib/zhiban/infrastructure/openmaic/runtime/provision.ts": "d28326f5402502ad1b79226e95da0b9fa1f3e1c27bacc194d077d3ea6d6aadf6",
+    "lib/zhiban/infrastructure/identity/postgres/migrations/0014_openmaic_120_versions.sql": "2272b36bc16267070c4f62c155f8bdfef58d3f7dce7856be96fbbc4637747377",
+    "packages/@openmaic/storage/src/document/pg.ts": "625b6bdcbd4c20583ffd926b7cb3013adb2344b6f7d6fe4639cd907497477325",
+    "packages/@openmaic/storage/src/pg-migrations.ts": "670081b99a6402076e06ffd5cf1bce906fb4b395856ddf6671da85541d60179c",
+    "scripts/zhiban-local/verify-openmaic-120-upgrade.mts": "7cfc56e999389372c599379c4d25de40b6f446c309d53555d7c7e4881db09274",
+    "pnpm-lock.yaml": "8078b49337a7e3fa5bff9e71f992d5650d7394174fae1cbecf97697345b3b87f",
+    "executedVerifierArtifact": "f5d33cb9d114557ccaa6d03ae7b3ca3f5d422ac5918e09a865f4a62c5d7607c3"
+  },
+  "lifecycle": {
+    "root": "/tmp/zhiban-upgrade-120-pg16-9kvx1O",
+    "port": 56531,
+    "database": "zhiban_openmaic_120_contract",
+    "socketOnly": true,
+    "stopped": true,
+    "removed": true
+  },
+  "failure": null,
+  "excluded": [
+    "real 55432/55433",
+    "production data upgrade or rollback",
+    "real Native maintenance delivery",
+    "AI generation/provider calls",
+    "CI signoff"
+  ]
+}

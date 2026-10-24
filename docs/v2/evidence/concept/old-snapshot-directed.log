@@ -1,0 +1,65 @@
+
+> openmaic@1.2.1 verify:zhiban:concept /home/zxm/openmaic/zhiban
+> tsx scripts/zhiban-local/run-m6-catalog.ts --unified-trial --concept-focus
+
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+Reused @openmaic/generation: matching LOCAL source/build hashes
+PASS Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately
+{"timestamp":"2026-10-22T10:43:03.920Z","level":"INFO","tag":"GenerationRunner","message":"generation runner 10315:900b4fe0-9059-43a6-a6cf-7cb936a1b933 started (scan=1000ms, heartbeat=2000ms, leaseTtl=10000ms, maxConcurrent=1)"}
+PASS PG16 restricted roles + real Identity sessions + validated trusted HTTPS
+PASS trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands
+PASS real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft
+LOCAL concept store refusal WORK FORBIDDEN 9
+LOCAL concept store refusal WORK FORBIDDEN 42
+LOCAL concept store refusal WORK FORBIDDEN 44
+LOCAL concept store refusal WORK FORBIDDEN 44
+LOCAL concept store refusal WORK 23505 35
+LOCAL concept store refusal WORK CONFLICT 21
+LOCAL concept store refusal WORK NOT_FOUND 14
+LOCAL concept store refusal WORK INVALID_STATE 48
+LOCAL concept store refusal WORK 42501 50
+LOCAL concept store refusal WORK NOT_FOUND 19
+LOCAL concept store refusal WORK CONFLICT 53
+LOCAL concept store refusal WORK CONFLICT 33
+LOCAL concept store refusal WORK CONFLICT 50
+A [Error]: expect(locator).toBeVisible() failed
+
+Locator: getByText(/教师确认本次已纠正 · 版本/)
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "to.be.visible" with timeout 5000ms
+  - waiting for getByText(/教师确认本次已纠正 · 版本/)
+
+    at Proxy.<anonymous> (/home/zxm/openmaic/zhiban/node_modules/.pnpm/playwright@1.58.2/node_modules/playwright/lib/matchers/expect.js:213:24)
+    at verifyConcept (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-8eVznb/verify.mjs:26865:52)
+    at async main (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-8eVznb/verify.mjs:72602:7)
+    at async file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-8eVznb/verify.mjs:73882:3 {
+  matcherResult: {
+    message: 'expect(locator).toBeVisible() failed\n' +
+      '\n' +
+      'Locator: getByText(/教师确认本次已纠正 · 版本/)\n' +
+      'Expected: visible\n' +
+      'Timeout: 5000ms\n' +
+      'Error: element(s) not found\n' +
+      '\n' +
+      'Call log:\n' +
+      '  - Expect "to.be.visible" with timeout 5000ms\n' +
+      '  - waiting for getByText(/教师确认本次已纠正 · 版本/)\n',
+    pass: false,
+    actual: undefined,
+    name: 'toBeVisible',
+    expected: 'visible',
+    log: [
+      '  - Expect "to.be.visible" with timeout 5000ms',
+      '  - waiting for getByText(/教师确认本次已纠正 · 版本/)'
+    ],
+    timeout: 5000
+  }
+}
+ ELIFECYCLE  Command failed with exit code 1.

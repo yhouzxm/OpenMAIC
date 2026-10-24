@@ -1,0 +1,46 @@
+
+> openmaic@1.2.1 verify:zhiban:concept /home/zxm/openmaic/zhiban
+> tsx scripts/zhiban-local/run-m6-catalog.ts --unified-trial --concept-focus
+
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+Reused @openmaic/generation: matching LOCAL source/build hashes
+PASS Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately
+{"timestamp":"2026-10-22T10:44:57.179Z","level":"INFO","tag":"GenerationRunner","message":"generation runner 11214:758269db-f223-4f3b-803a-ff90e95979ac started (scan=1000ms, heartbeat=2000ms, leaseTtl=10000ms, maxConcurrent=1)"}
+PASS PG16 restricted roles + real Identity sessions + validated trusted HTTPS
+PASS trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands
+PASS real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft
+LOCAL concept store refusal WORK FORBIDDEN 7
+LOCAL concept store refusal WORK FORBIDDEN 39
+LOCAL concept store refusal WORK FORBIDDEN 43
+LOCAL concept store refusal WORK FORBIDDEN 40
+LOCAL concept store refusal WORK 23505 43
+LOCAL concept store refusal WORK CONFLICT 22
+LOCAL concept store refusal WORK NOT_FOUND 14
+LOCAL concept store refusal WORK INVALID_STATE 51
+LOCAL concept store refusal WORK 42501 59
+LOCAL concept store refusal WORK NOT_FOUND 12
+LOCAL concept store refusal WORK CONFLICT 65
+LOCAL concept store refusal WORK CONFLICT 36
+LOCAL concept store refusal WORK CONFLICT 44
+LOCAL concept store refusal WORK INVALID_STATE 10
+LOCAL concept store refusal WORK FORBIDDEN 6
+AssertionError [ERR_ASSERTION]: {"error":{"code":"FORBIDDEN","requestId":"7d4924e7-68da-4ce3-abab-904d0c40f164"}}
+
+403 !== 200
+
+    at read (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-9CBD1m/verify.mjs:26591:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async verifyConcept (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-9CBD1m/verify.mjs:26999:17)
+    at async main (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-9CBD1m/verify.mjs:72611:7)
+    at async file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-9CBD1m/verify.mjs:73891:3 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 403,
+  expected: 200,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+ ELIFECYCLE  Command failed with exit code 1.

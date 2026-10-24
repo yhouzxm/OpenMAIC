@@ -1,0 +1,185 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "currentHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "releasePin": "v1.1.2",
+  "target": "v1.2.0",
+  "targetSha": "a9da60b3b4adb429369c0da13d5637a904ead2b0",
+  "official": "https://github.com/THU-MAIC/OpenMAIC/releases/tag/v1.2.0",
+  "archiveUrl": "https://codeload.github.com/THU-MAIC/OpenMAIC/tar.gz/a9da60b3b4adb429369c0da13d5637a904ead2b0",
+  "archiveSha256": "3f378b4d2a5670cc0356b18b494cbc0bd81e2699c98cab3351740a21fd6f6068",
+  "sourceSnapshot": "/tmp/zhiban-openmaic-120-audit/source",
+  "packages": [
+    {
+      "package": "@openmaic/dsl",
+      "current": "0.11.2",
+      "target": "0.11.3",
+      "currentSha256": "e2088ac288fff79127d76f4cf96cee2df42626bc5028ce72a44ad3bb6d07b2a5",
+      "targetSha256": "5453ef5ac7915aaae62eb7c7e1824c398b321d074c99776ef2c29027423fe11d",
+      "exportsAdded": [],
+      "exportsRemoved": []
+    },
+    {
+      "package": "@openmaic/storage",
+      "current": "0.31.1",
+      "target": "0.37.3",
+      "currentSha256": "6af2c6447c7978f72519f7c4f700b45b8b3f2ed9b864c74f1b734a9d418dcc74",
+      "targetSha256": "710c878da30840e28c7fd9dda66de2d007e4929639156a3f7fcc1397790b633f",
+      "exportsAdded": [
+        "./pg-migrations"
+      ],
+      "exportsRemoved": []
+    },
+    {
+      "package": "@openmaic/generation",
+      "current": "0.3.13",
+      "target": "0.3.20",
+      "currentSha256": "575c7977dd5eb2ec94af07f344bc4696239ae6aa1ee5d5ddf33600f2d04b4be7",
+      "targetSha256": "1735cfb83fd2b0c46b898f190fcf9008d2342a96ad63914d9b9bf1497b2e64cc",
+      "exportsAdded": [],
+      "exportsRemoved": []
+    },
+    {
+      "package": "@openmaic/renderer",
+      "current": "0.1.11",
+      "target": "0.1.14",
+      "currentSha256": "ef6e80ad8b3391d9bbab3f0e845c291c3f3e5ff9dfe507526a5301379d8c8e19",
+      "targetSha256": "060b02fdbe3c7206dc4bc984fa10c0f35854c490f29f6c240061797aa84684c9",
+      "exportsAdded": [],
+      "exportsRemoved": []
+    },
+    {
+      "package": "@openmaic/editor",
+      "current": "0.0.9",
+      "target": "0.0.11",
+      "currentSha256": "8fb0cc1e357c706862a3af81a88299430beab83971405e547fe43466510b0f14",
+      "targetSha256": "6536b92fd4efc7dabf32431f97ffef8522b743396949843e77e7f31b28484192",
+      "exportsAdded": [],
+      "exportsRemoved": []
+    },
+    {
+      "package": "@openmaic/importer",
+      "current": "0.3.0",
+      "target": "0.3.1",
+      "currentSha256": "4f85029464fc2e156f2ab57cc2580584a6694ed8a5189f3ae733d9d5c10edd5e",
+      "targetSha256": "672e328afee3308ad0c8d3aa45cbecdae0964a0507ac1a3b7560048ea45ac4b5",
+      "exportsAdded": [],
+      "exportsRemoved": []
+    }
+  ],
+  "files": {
+    "packages/@openmaic/renderer/src/SlideCanvas.tsx": {
+      "target": "c36d26211985645e771a3976727ff25bcb4c7686458d221f2a91e670e60886de",
+      "current": "c36d26211985645e771a3976727ff25bcb4c7686458d221f2a91e670e60886de"
+    },
+    "packages/@openmaic/renderer/src/index.ts": {
+      "target": "8f0a5060a652ca3a681823eeab9b6fdae3b46b01b8d109d04781900ffadeaf52",
+      "current": "1dadad461396fcc1feb5e35fd24138a68cca51fdc67b565bc6066c2011a7737d"
+    },
+    "packages/@openmaic/storage/src/document/pg.ts": {
+      "target": "625b6bdcbd4c20583ffd926b7cb3013adb2344b6f7d6fe4639cd907497477325",
+      "current": "b5228739a4d106fc682b492a168ffdd95746f310f2f400b8fb58026242c96e9d"
+    },
+    "packages/@openmaic/storage/src/runtime/pg.ts": {
+      "target": "45abf1970d55ca2af0cd69bb26efd54a4947b56ca2de208abfd50d8a18e15b5e",
+      "current": "94fdc7d658615816284f58d36379a4385e65bf77bb070626b68cd91932256df9"
+    },
+    "packages/@openmaic/storage/src/pg-migrations.ts": {
+      "target": "670081b99a6402076e06ffd5cf1bce906fb4b395856ddf6671da85541d60179c",
+      "current": null
+    },
+    "components/stage/scene-renderer.tsx": {
+      "target": "64a21911780eff7c570f727dbc4c91687b322502c2554c5f38e9fe2de28e4820",
+      "current": "64a21911780eff7c570f727dbc4c91687b322502c2554c5f38e9fe2de28e4820"
+    }
+  },
+  "slideCanvasByteIdentical": true,
+  "constructorProbe": "zhiban-openmaic-120-probe-local.json",
+  "decision": "No in-place full upgrade: owner/schema/ACL/receipt changes required. Reuse compatible public SlideCanvas and existing Learning use cases for course entry.",
+  "appliedMigrationsChanged": false,
+  "dependenciesChanged": false,
+  "productionOrExistingNativeMigrated": false,
+  "hostRuntime": {
+    "currentEngines": {
+      "node": ">=22.19.0"
+    },
+    "targetEngines": {
+      "node": ">=22.19.0"
+    },
+    "packageManagerEqual": true,
+    "selectedDependencies": {
+      "next": {
+        "current": "16.3.3",
+        "target": "16.3.3"
+      },
+      "react": {
+        "current": "19.2.3",
+        "target": "19.2.3"
+      },
+      "react-dom": {
+        "current": "19.2.3",
+        "target": "19.2.3"
+      },
+      "ai": {
+        "current": "^6.0.168",
+        "target": "^6.0.168"
+      },
+      "pg": {
+        "current": "^8.16.3",
+        "target": "^8.16.3"
+      },
+      "zustand": {
+        "current": "^5.0.10",
+        "target": "^5.0.10"
+      },
+      "zod": {
+        "current": "^4.3.5",
+        "target": "^4.3.5"
+      }
+    },
+    "dependencyDeltas": {
+      "dependencies": {
+        "@node-rs/argon2": {
+          "current": "2.2.1",
+          "target": null
+        },
+        "htmlparser2": {
+          "current": null,
+          "target": "^8.0.2"
+        },
+        "uqr": {
+          "current": null,
+          "target": "^0.1.3"
+        },
+        "uuid": {
+          "current": "14.0.2",
+          "target": null
+        }
+      },
+      "devDependencies": {
+        "esbuild": {
+          "current": null,
+          "target": "0.27.7"
+        }
+      }
+    },
+    "targetLockSha256": "922758e618b6aae41b9d72acb4d37910df012031459f46593ca18be76efa56a4"
+  },
+  "courseEntry": {
+    "status": "LOCAL_VERIFIED_RUNNING",
+    "origin": "https://127.0.0.1:3461",
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "currentPinUnchanged": true,
+    "checks": 11,
+    "runtimeReceipt": "zhiban-trial-content-demo-local.json",
+    "journey": "zhiban-unified-journey-local.json",
+    "routesTests": "5/5 PASS",
+    "constructorProbe": "3/3 PASS, 0 database queries",
+    "typecheck": "PASS scripts/zhiban-local/tsconfig.classroom.json",
+    "eslint": "PASS directed TSX/JS/routes/launcher/journey",
+    "integrationFix": "pass verified offering id and status to existing Learning component; missing status had disabled response controls",
+    "gradeValidation": "await actual SAVE_GRADE/PUBLISH_GRADE responses and verify 92/100 in student UI; no Assessment business change",
+    "next": "one complete storage 0.37.3 ownership/schema/receipt/ACL upgrade adapter package"
+  }
+}

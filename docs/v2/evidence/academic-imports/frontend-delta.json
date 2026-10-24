@@ -1,0 +1,14 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "scope": "POST_DIRECTED_FRONTEND_LAYOUT_INITIAL_INPUT_GUARD_AND_DISPOSABLE_WORDING_ONLY",
+  "changedSource": {
+    "/home/zxm/openmaic/zhiban/app/zhiban/local/imports.js": {
+      "directed": "f07a4de2ae6433ed0c26353ce7f889f6f467eb7cd2b0f03dc6ce6e44b9fff1ac",
+      "current": "49b7d2ae8082fe2dbf80a22cf6def2a70ac3c2c15f4be65ebfbf63e08cd0988a"
+    }
+  },
+  "backendChanged": false,
+  "verification": "default-final-browser-journey.json",
+  "originalDirectedReceiptPreserved": true
+}

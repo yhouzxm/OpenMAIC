@@ -1,0 +1,4 @@
+scripts/zhiban-local/verify-onboarding.ts 493ms
+scripts/zhiban-local/account-authority.ts 551ms
+scripts/zhiban-local/onboarding.ts 84ms (unchanged)
+app/zhiban/local/account-setup.js 117ms (unchanged)

@@ -9,6 +9,7 @@ import { Deadline } from '@/lib/zhiban/infrastructure/openmaic/transactions';
 import { NativeStorage } from '@/lib/zhiban/infrastructure/openmaic/native-storage';
 import { preview, validateDocument } from '@/lib/zhiban/infrastructure/openmaic/content';
 import { BridgeError, newPrincipal } from '@/lib/zhiban/infrastructure/openmaic/validation';
+import { documentOwnership } from '@/lib/zhiban/infrastructure/openmaic/document-ownership';
 import { official } from '@/lib/zhiban/infrastructure/openmaic/catalog';
 
 // Real public providers and SQL in an in-memory engine. This is protocol/storage
@@ -23,6 +24,9 @@ describe('Bridge document protocol with real public providers', () => {
       };
       await ensureAssetSchema(queryable);
       await ensureDocumentSchema(queryable);
+      await db.query(`CREATE TABLE zhiban_document_ownership (
+        stage_id text PRIMARY KEY REFERENCES document_stages(id) ON DELETE CASCADE,
+        owner_id text NOT NULL)`);
       const release = vi.fn();
       const connect = vi.fn(async () => ({
         query: async <R extends Record<string, unknown>>(sql: string, params?: unknown[]) => {
@@ -121,7 +125,7 @@ describe('Bridge document protocol with real public providers', () => {
           ])
         ).rows,
       ).toEqual([{ scene_id: 'scene', asset_id: asset.ref }]);
-      expect(official.dsl).toBe('0.11.2');
+      expect(official.dsl).toBe('0.11.3');
       expect(DSL_VERSION).toBe('0.3.0');
       connect.mockClear();
       const invalid = { ...doc, dslVersion: official.dsl };
@@ -131,6 +135,7 @@ describe('Bridge document protocol with real public providers', () => {
       expect(connect).not.toHaveBeenCalled();
       // The real public provider independently rejects the package version as a future stamp.
       const provider = new PgDocumentStore(queryable, {
+        documentOwnership,
         ownerId: owner,
         withTransaction: (body) => db.transaction((tx) => body(tx)),
       });

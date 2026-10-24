@@ -1,0 +1,16 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "scope": "OPERATOR_CONFIGURATION_IN_OWNED_DISPOSABLE_NATIVE_WORKSPACE_ONLY",
+  "at": "2026-10-20T13:06:07.081Z",
+  "runId": "run-75tKWXVzt21rTGuo",
+  "ownerBoundToCurrentTeacher": true,
+  "slot": "course.actions",
+  "provider": "glm",
+  "model": "glm-5.3",
+  "thinkingEffort": "low",
+  "revision": 1,
+  "helper": "applyModelSettingsChange + saveWorkspaceModelConfig (CAS + owner fence)",
+  "newCredentials": false,
+  "rawNativeApiExposed": false,
+  "productionTimeoutChanged": false
+}

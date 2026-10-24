@@ -1,0 +1,11 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "ownedRoot": "/tmp/zhiban-trial-content-avcRXx",
+  "pgPort": 56517,
+  "reason": "Playwright forwarding trust-store failure terminated first fault-injection process before async finally",
+  "ownerAndPidAndUnixSocketChecked": true,
+  "pgStopped": true,
+  "rootRemoved": true,
+  "realClustersTouched": false
+}

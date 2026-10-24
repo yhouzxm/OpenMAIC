@@ -1,0 +1,112 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_WITH_EXPLICIT_SIMULATION_SCOPE",
+  "scope": "FIXED_SERVER_CALCULATED_DC_RC_MODELS_TO_IMMUTABLE_REPORT_ORIGINAL_TEACHER_GRADE_AND_SAME_HOST_PERSISTENCE",
+  "branch": "refactor/zhiban-v2",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "sourceSha256": {
+    "lib/zhiban/domain/flow/simulation.ts": "d9eb51bb36c126033080ca2ef19f2b4e6d2d01058cbd3beb11dfc359e26167ae",
+    "lib/zhiban/domain/flow/model.ts": "ea8fdb4111fe25630c26a765e78eb51dffe04c8aad116868c48d9cde4916dacd",
+    "lib/zhiban/application/flow/service.ts": "8f751592089d7960f1e52960cece0d6613339f68c695c4b5ee349f1b2d941185",
+    "lib/zhiban/infrastructure/flow/postgres/transaction.ts": "f0b22e95746ce93f7a83301d6bd309084bd835cc801592cc88529cf2b07b5a30",
+    "lib/zhiban/infrastructure/flow/postgres/migrations/0002_simulation.sql": "d1523551db34c6d46ddb10e82c2d2732ff14361464e810ae0e23deb55de9f540",
+    "app/zhiban/local/flow.js": "ea26c7306fc333e81e3a27a60d9ca50e11b4863c83bb9893fded92e1b3209964",
+    "scripts/zhiban-local/flow.ts": "81da5eaf6076f9ad001742b1958d5637d145a3e72e126130ecb0414ac1e1c28d",
+    "scripts/zhiban-local/trial-content.ts": "08b106aa66cc024449d188a0ef6d9b474391810b95077cba3d2e89ed4be607d7",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "38c0380e6419f7772e4a3742925ea69ac0d991610e722f0dd193b5f8cd97a439",
+    "scripts/zhiban-local/run-m6-catalog.ts": "8e0d9f7bc2a5feb38552a3aefeae9dba90761764242af9340bc0981726bd05ff",
+    "scripts/zhiban-local/verify-simulation.ts": "0abc6b2994d4f521da871d438a8e8f543d3795c166c1b5ddcaeff9be918d0125",
+    "scripts/zhiban-local/seed-simulation-demo.ts": "406beb090fbe3d7855fcfecd8abec39abd015f4eda37dca0fee3ee13cc612298",
+    "scripts/zhiban-local/tsconfig.flow.json": "52266a1aef0be10087d0750db4050530999e7ddb323d0f14cf1a04ae2b20d2f0",
+    "tests/zhiban/flow/simulation.test.ts": "cfa2336349aadec7d8eb1ff28860782f5cbd478c1791cf8e9328d1a11519770e",
+    "docs/v2/zhiban-v2-simulation-local.md": "2649083316f2917dbd6c86d9874c3e3d42bbf0a704b32993862adaf20eb31a5d"
+  },
+  "evidenceSha256": {
+    "journey.json": "bf90cffbf72072717071f6a3f5cfebe3d0db155ffa36a97b5658a5ea2e987b08",
+    "unit.log": "fc6853c85de8e6c8c5781e526d3a785f15182eae1675449ac5c2ba07aef8ea3d",
+    "typecheck.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "lint.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "lint-seed.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-boundary.json": "1d471104244ee4ab2320723bb44d6c1e33d4694c49f67455a8354282ae0e982b",
+    "frozen-source.json": "6d8ffea330ca4c9b0cfbaefffa2126b0869434105aeafc5b14864ef939777f5a",
+    "default-entry.json": "f575a26873bcf3271330d680baefa87ccec02afa54509cfa3cb832beb5604b49",
+    "default-readonly.json": "53aa89b79b39169f8d460b50e874beac9b2f629e1f09a35f57d56d4cacc410d6",
+    "default-status.json": "2238af9b2aad64f9cf36950f06ea4d73ba643b1c6b4093dfd0ed884bb83897a9",
+    "default-backup-verify.log": "ba348eeca21e22a100f4ed6c2bb6833aa09a5975f1836b14079181de7f804e14",
+    "upgrade-and-demo-deltas.json": "8e5cb8daae4f4f7e055cd0fa72cc67fe1736c717698f45d860f663df2ff4293c",
+    "default-before-final-rebind.json": "690ebe22cdf4545a10d350236d36cb114e24eb5a63458ee4e8f88771316b7950",
+    "default-after-final-rebind.json": "690ebe22cdf4545a10d350236d36cb114e24eb5a63458ee4e8f88771316b7950",
+    "default-seed-preserved-before.json": "84b7551f8a43350e316bcfb4dd04648d2b4c6fd6625408110865e245a47f2523",
+    "default-seed-preserved-after.json": "84b7551f8a43350e316bcfb4dd04648d2b4c6fd6625408110865e245a47f2523"
+  },
+  "pgProof": {
+    "path": "docs/v2/evidence/zhiban-simulation-local.json",
+    "sha256": "8d5c3328e5ea85e719749c8edf279a3c9bd56ad4b44dcba8eea567e19556f161",
+    "note": "Original final kernel/API/SQL/UI source scope; later seed/binding-only delta described separately"
+  },
+  "expectedProfile": {
+    "path": "docs/v2/evidence/zhiban-flow-simulation-profile-reference-local.json",
+    "sha256": "35285c22a88692833f0f9c34b6459b911132768905ca81865d8e7d7d5cb91d29",
+    "independentOwnedPg16": true
+  },
+  "defaultEntry": {
+    "teacher": "https://127.0.0.1:3461/zhiban/teacher/courses/01a16cec-ee8a-7433-b1c0-875e3ca256bb/classroom-plan?space=01a16958-5776-7381-a21c-e66fe3c2684b&offering=01a16cec-ef3d-752d-93e5-edcbcc963445#classroom-01a16cec-f20a-7249-89f2-3206b92006c2",
+    "student": "https://127.0.0.1:3461/zhiban/student/courses/01a16cec-ee8a-7433-b1c0-875e3ca256bb/classroom-plan?space=01a16958-5776-7381-a21c-e66fe3c2684b&offering=01a16cec-ef3d-752d-93e5-edcbcc963445#classroom-01a16cec-f20a-7249-89f2-3206b92006c2"
+  },
+  "currentHost": {
+    "origin": "https://127.0.0.1:3461/zhiban",
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "status": "RUNNING_LOCAL_PERSISTENT",
+    "keptRunning": true,
+    "syntheticDemoPublishedNotStarted": true,
+    "precreatedRunsAnswersGrades": false
+  },
+  "preservation": {
+    "originalAccounts": true,
+    "oldMigrationFilesIdentityAndFrozenNativeRuntimeUnchanged": true,
+    "historicalReceiptsUnchanged": [
+      "docs/v2/evidence/zhiban-flow-profile-reference-local.json",
+      "docs/v2/evidence/zhiban-flow-local.json",
+      "docs/v2/evidence/zhiban-native-player-local.json"
+    ],
+    "nativeDatabaseCountsUnchangedFromInitialBaseline": true,
+    "finalSameHostRestore": {
+      "tables": 212,
+      "rows": 572,
+      "countsAndAccountsExact": true
+    },
+    "initialTableCountClaim": "Nondecreasing with declared new migration ledger and demo additions; not all counts unchanged",
+    "seedRowHashClaim": "Final idempotent rerun, including already-provisioned demo; first UI locator failure retained"
+  },
+  "modelProvenance": "SERVER_CALCULATED_SIMULATION; actual model/source/input/output hashes stored. Not physical measurements.",
+  "migrations": {
+    "new": [
+      "flow/0002_simulation.sql"
+    ],
+    "existingRewritten": false,
+    "appliedOnlyToOwnedLocalInstance": true
+  },
+  "verification": {
+    "affectedJourney": "PASS",
+    "fixedMathAndManualCompatibility": "PASS",
+    "authorizationConcurrencyRollback": "PASS",
+    "typesAndLint": "PASS",
+    "defaultReadinessAndSameHostRestore": "PASS"
+  },
+  "nativeMaintenanceExecuted": false,
+  "nativeRuntimeEnabled": false,
+  "unknownReservedIsolationRetained": true,
+  "modelCalls": false,
+  "productionDeployment": false,
+  "crossHostRestoreAccepted": false,
+  "ciCommitPush": false,
+  "p7Repacked": false,
+  "deferred": [
+    "Real device measurement and calibration / source protocol",
+    "Old isolated real Native chat Runtime and its actual maintenance inputs",
+    "Parser service configuration and production / independent installation / cross-host operations"
+  ],
+  "nextWholePackage": "Independent installation and cross-host restore delivery; GPT-6.1 Sol / high"
+}

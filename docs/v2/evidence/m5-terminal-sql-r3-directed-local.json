@@ -1,0 +1,130 @@
+{
+  "formatVersion": 1,
+  "kind": "LOCAL_M5_TERMINAL_SQL_R3_DIRECTED",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "gitBaselineSha": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "candidateInventorySha256": "855ac6019326fdd4a56c4a231fa64364dff3f0b5cee85748a2b9952cb6ac8e5d",
+  "candidateMigrationSha256": "e1e7ea9517462edd855fb8715f49346db4c467c01aac43e8a370c39eebf7184a",
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "new UUID domain accepts nullable initial-window field",
+      "status": "PASS"
+    },
+    {
+      "name": "new UUID domain still rejects non-v7 and required NULL ids",
+      "status": "PASS"
+    },
+    {
+      "name": "closed profile accepts exact isolated fixture",
+      "status": "PASS"
+    },
+    {
+      "name": "Native whole-table UPDATE drift",
+      "status": "PASS"
+    },
+    {
+      "name": "Native necessary id privilege revoked",
+      "status": "PASS"
+    },
+    {
+      "name": "PUBLIC table UPDATE drift",
+      "status": "PASS"
+    },
+    {
+      "name": "PUBLIC column UPDATE drift",
+      "status": "PASS"
+    },
+    {
+      "name": "observer whole subscription SELECT drift",
+      "status": "PASS"
+    },
+    {
+      "name": "observer explicit control function ACL drift",
+      "status": "PASS"
+    },
+    {
+      "name": "cross-database CONNECT drift",
+      "status": "PASS"
+    },
+    {
+      "name": "PUBLIC database CREATE drift",
+      "status": "PASS"
+    },
+    {
+      "name": "missing collector part rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "exact uncommitted takeover reports NOT_OBSERVED, replay false",
+      "status": "PASS"
+    },
+    {
+      "name": "wrong deployment/window/secret rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "controller raw windows/claims SELECT denied",
+      "status": "PASS"
+    },
+    {
+      "name": "lookup issue event bound to scope, identity and provenance",
+      "status": "PASS"
+    },
+    {
+      "name": "issue audit error rolls back permission",
+      "status": "PASS"
+    },
+    {
+      "name": "revoke audit error rolls back status",
+      "status": "PASS"
+    },
+    {
+      "name": "lookup revocation serializes behind result reader",
+      "status": "PASS"
+    },
+    {
+      "name": "repeat revoke emits one immutable event",
+      "status": "PASS"
+    },
+    {
+      "name": "revoked lookup and wrong tenant denied",
+      "status": "PASS"
+    },
+    {
+      "name": "runtime cannot use takeover lookup",
+      "status": "PASS"
+    },
+    {
+      "name": "fresh sole controller commits atomic takeover",
+      "status": "PASS"
+    },
+    {
+      "name": "same takeover not replayed and wrong request/new rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "fresh backend recovers committed acknowledgement",
+      "status": "PASS"
+    },
+    {
+      "name": "successor further superseded preserves historical query",
+      "status": "PASS"
+    }
+  ],
+  "pgMajor": 16,
+  "scope": "disposable candidate DDL/controller/lookup/ACL; synthetic product fixtures, minimal Native tables",
+  "disposableClusterOnly": true,
+  "tcpListening": false,
+  "existingClustersConnected": false,
+  "appliedToExistingDatabase": false,
+  "receiptIssued": false,
+  "runtimeAccepted": false,
+  "temporaryClusterStoppedAndRemoved": true,
+  "limitations": [
+    "Synthetic Business FK/trigger-bypassed setup; not full product provenance",
+    "Minimal Native ACL fixture, not public Storage worker",
+    "No full finalize/host regression/HBA credential or crash execution driver"
+  ]
+}

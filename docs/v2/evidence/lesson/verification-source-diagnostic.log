@@ -1,0 +1,9 @@
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+PASS Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately
+Error: Disposable content receipt/source mismatch
+    at loadTrialContent (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-aWlplC/verify.mjs:45300:11)
+    at async main (file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-aWlplC/verify.mjs:60274:45)
+    at async file:///home/zxm/openmaic/zhiban/.zhiban-catalog-run-aWlplC/verify.mjs:61858:3

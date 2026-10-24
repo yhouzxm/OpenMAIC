@@ -1,0 +1,102 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-24T01:56:32.276Z",
+  "branch": "refactor/zhiban-v2",
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "scope": "P3_SCHOOL_ATTAINMENT_CONTROLLED_CROSS_CLASS_CREDITS_RESTRICTED_FORMAL_AI_GRADING_LOCAL",
+  "origin": "https://127.0.0.1:3461",
+  "courseId": "01a16b95-df2e-72a7-916d-0ebfa7b685bd",
+  "urls": {
+    "teacher": "https://127.0.0.1:3461/zhiban/teacher/courses/01a16b95-df2e-72a7-916d-0ebfa7b685bd/auto-grading?space=01a16958-5776-7381-a21c-e66fe3c2684b&offering=01a16b95-dfef-7067-b5c1-f30cbd595d2c",
+    "student": "https://127.0.0.1:3461/zhiban/attainment?tenant=01a16958-5776-7381-a21c-e66fe3c2684b&mode=STUDENT",
+    "admin": "https://127.0.0.1:3461/zhiban/attainment?tenant=01a16958-5776-7381-a21c-e66fe3c2684b&mode=ADMIN"
+  },
+  "model": {
+    "provider": "glm",
+    "model": "glm-5.3",
+    "actualTextAndMixedQuiz": true
+  },
+  "focusedPg16": {
+    "status": "PASS",
+    "receipt": "docs/v2/evidence/zhiban-attainment-local.json",
+    "scope": "LOCAL_SCHOOL_CERTIFICATE_CROSS_CLASS_CREDIT_RESTRICTED_SERVICE_GRADING",
+    "subsequentSourceDelta": [
+      "/home/zxm/openmaic/zhiban/app/zhiban/local/attainment.js",
+      "/home/zxm/openmaic/zhiban/app/zhiban/local/quiz-client.tsx",
+      "/home/zxm/openmaic/zhiban/scripts/zhiban-local/tsconfig.attainment.json",
+      "/home/zxm/openmaic/zhiban/lib/zhiban/infrastructure/quiz/postgres/transaction.ts",
+      "/home/zxm/openmaic/zhiban/app/zhiban/local/quiz-client.js"
+    ],
+    "removedEphemeralArtifacts": [
+      "/home/zxm/openmaic/zhiban/.zhiban-catalog-run-8yBc4b/verify.mjs",
+      "/tmp/zhiban-trial-content-4fdCXD/content-client.js",
+      "/tmp/zhiban-trial-content-4fdCXD/member-control.json"
+    ],
+    "note": "PG16 authorization/SQL/concurrency evidence retains its exact original source hashes. Subsequent delta is limited to Quiz published_by projection/labels, certificate selector off-state, and verification tsconfig; actual final host API/browser checks verify that presentation delta. Added seed tool is separately included in final host source closure."
+  },
+  "default": {
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "restoredAfterFinalSourceBinding": true,
+    "originalTables": 91,
+    "originalRows": 310,
+    "accountsSha256": "91d73979d2a3a17ba17c69549682aa4d944f875c004bb8427ad5ba35d262e122",
+    "pendingModelJobs": 0,
+    "browserForms": {
+      "teacherPolicy": true,
+      "certificateDisabledStateRetained": true,
+      "adminRosterAndDuplicateRefusal": true
+    }
+  },
+  "snapshot": {
+    "status": "PASS",
+    "evidenceOrigin": "LOCAL",
+    "snapshot": "/home/zxm/.local/share/zhiban-persistent/2026-10-24T01-53-34.767Z-9f8ddc11",
+    "files": 3101,
+    "scope": "FILE_HASH_CLOSURE_ONLY"
+  },
+  "checks": [
+    "Actual pinned native model TEXT and mixed QUIZ formal publications; objective marks unchanged",
+    "Dedicated actual SQL session_user, no fictional human publisher; ordinary business cannot forge SERVICE audit",
+    "Current delegation/source/attempt checks, wrong token/model/score, role revocation, expiry and audit-failure refusal",
+    "Exact commit Identity table-lock barrier and single concurrent publication",
+    "Original human correction and own appeal",
+    "Two source offerings with published totals; cross-class course-level duplicate refusal; retained revoke/stale history",
+    "Default host actual three-role pages, teacher policy form, certificate off-state, administrator roster and duplicate refusal",
+    "Original Quiz player actual service badge and SQL published_by NULL",
+    "Final restored host read-only authorization/current evidence checks; original records and account hashes preserved"
+  ],
+  "evidence": {
+    "docs/v2/evidence/zhiban-attainment-local.json": "c2b84906157d9f4610041ae40f2cc31fcbfeb2eb49d03cb3eb1e6a50d41d911a",
+    "docs/v2/evidence/attainment/real-model.json": "84e3eebf2b3fe832da8000eb1cc994f8d1371eb7c4f54912b36f865b2bbda596",
+    "docs/v2/evidence/attainment/default-demo.json": "a91399e90e6bc23e9d8a39f7f90a3488dd2b470d569b47464f14c31c3e6414b9",
+    "docs/v2/evidence/attainment/final-readonly.json": "c88c5812a7b9015fe8e84c111c93b82b20243d447f7726625ccbe9c8bc503431",
+    "docs/v2/evidence/attainment/preserved-before.json": "1990c36b5deaf10f2da785c3300d243137a4da42d160544ce43e204a310f7de0",
+    "docs/v2/evidence/attainment/preserved-upgrade.json": "834653bfa9104d22c0e70207debc6705e0a18ea66168c1d35442e211e578f19f",
+    "docs/v2/evidence/attainment/preserved-final.json": "abc4270ccf02dbc6f425393d691aaaf452b67f6215f6b46f8fe7ea91042a5204",
+    "docs/v2/evidence/zhiban-attainment-profile-reference-local.json": "356f5d166c067f652d9a56777076fe401c6cd7c32ec13bd8b38677b00e3033e5",
+    "docs/v2/evidence/zhiban-autograde-profile-reference-local.json": "37a9c0afd577760a08b6283858b7879d477aa1574b2975be95e94bc2688e9bbc",
+    "docs/v2/evidence/zhiban-autograde-content-reference-local.json": "d2cad10cb7c97c49fa371d3b0ccaf707c497337e904c7e64e5c6090cd3638e5f",
+    "docs/v2/evidence/attainment/focused.log": "3065fcd0b166ee9d5155ec538529965f9b8e6bb10a380df35db3211c9ab656f6",
+    "docs/v2/evidence/attainment/unit.log": "17fe69028054a1c93018e17522cbf4eeb4d943e59650084d309d7c4452015ecb",
+    "docs/v2/evidence/attainment/typecheck.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/v2/evidence/attainment/eslint.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/v2/evidence/attainment/delta-eslint.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/v2/evidence/attainment/default-original-quiz.png": "8fddf2dac7225d0d8353d2b2e4fedc1487a5ec813031b08c0d34e4807d314d0d",
+    "docs/v2/evidence/attainment/backup.log": "dd1387fa731a53bf7f5917c28add174e2e73de9275c1bfe00789023bb8415e51",
+    "docs/v2/evidence/attainment/backup-verify.log": "efb5f6f4e8645dc83c32475ca60809ad3cf66c1bf0884b08cbfff08dd5d491ab"
+  },
+  "limitations": [
+    "School-only records; no external qualifications/digital signature/public lookup",
+    "Admin explicit course equivalence ledger; no cross-school transfer, automatic target Enrollment or prerequisites",
+    "Explicit teacher fixed policy only; first-grade TEXT/ASSESSED short-answer, no overwrite of existing grade",
+    "Short Identity SHARE table locks conservatively block cross-tenant Identity writes during commit; no locks during model inference; production throughput not accepted",
+    "Local registered-tenant queue; no distributed or global tenant discovery signoff",
+    "Native Runtime CREATE/APPEND/COMPLETE integration, trusted automatic measurements and execution contracts still need implementation plus real maintenance inputs; root remains DENIED",
+    "Office/OCR/audio/video real parser configuration and cross-host/real operation remain deferred",
+    "No commit, push, CI dispatch or production deployment"
+  ],
+  "next": "P7 one combined handoff of accepted resource/classroom/PBL/EMA/attainment packages; GPT-6.1 Sol / medium"
+}

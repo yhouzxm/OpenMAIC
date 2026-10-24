@@ -1,0 +1,9 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "CLASSROOM_LECTURE_PRESENTATION_NOT_NATIVE_RUNTIME",
+  "modelCalls": false,
+  "completionEvidence": false,
+  "checks": 4
+}

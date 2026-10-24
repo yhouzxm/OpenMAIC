@@ -1,0 +1,28 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "runs": [
+    {
+      "id": "01a16b55-3a69-7372-aea3-ee07831da858",
+      "state": "FAILED",
+      "model": null,
+      "elapsed_ms": "75372"
+    },
+    {
+      "id": "01a16b5c-03fd-766c-a854-d3d7eef7a37e",
+      "state": "READY",
+      "model": {
+        "model": "glm-5.3",
+        "provider": "glm",
+        "thinking": {
+          "mode": "enabled",
+          "effort": "low",
+          "budgetTokens": 1024
+        },
+        "promptSha256": "28989287be6408be77bbe95bcd62fe48ebaa31528280f2459f7f6b03faeb0ebb",
+        "maxOutputTokens": 6144
+      },
+      "elapsed_ms": "5842"
+    }
+  ]
+}

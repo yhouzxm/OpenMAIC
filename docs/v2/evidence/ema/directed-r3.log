@@ -1,0 +1,21 @@
+
+> openmaic@1.2.1 verify:zhiban:ema /home/zxm/openmaic/zhiban
+> tsx scripts/zhiban-local/run-m6-catalog.ts --unified-trial --ema-focus
+
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+Reused @openmaic/generation: matching LOCAL source/build hashes
+PASS Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately
+{"timestamp":"2026-10-24T00:32:19.555Z","level":"INFO","tag":"GenerationRunner","message":"generation runner 34775:a80912fb-0a01-4a60-b279-06ef69021770 started (scan=1000ms, heartbeat=2000ms, leaseTtl=10000ms, maxConcurrent=1)"}
+PASS PG16 restricted roles + real Identity sessions + validated trusted HTTPS
+PASS trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands
+PASS real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft
+{"timestamp":"2026-10-24T00:32:23.335Z","level":"INFO","tag":"ServerProviderConfig","message":"[ServerProviderConfig] Loaded (environment variables): 1 LLM, 0 TTS, 0 ASR, 0 PDF, 0 Image, 0 Video, 0 WebSearch providers"}
+{"timestamp":"2026-10-24T00:32:23.341Z","level":"WARN","tag":"ModelConfig","message":"The model configuration comes from the legacy provider variables, server-providers.yml, DEFAULT_MODEL and MODEL_FALLBACK, which are deprecated; move it to openmaic.yml"}
+PASS Six dimensions: shared Learner evidence locks, private drafts, original publication/recipient guard, current course/tenant/self scope and payload-bound replay
+PASS EMA REAL_NATIVE_MODEL: fixed public evidence -> six descriptive findings -> teacher adopt/reject -> Learner draft/publication; concurrent adoption writes once; students cannot see private job/model/refusal notes
+PASS Real browser: teacher six-dimension/job page, student published-only dimensions -> original self-correction -> atomic teacher revision -> dimension readback; 390px has no horizontal overflow
+PASS CONTROLLED_FAULT_ONLY: cancel/late output, real-source correction during inference, provider failure, expired leases, atomic draft/tag rollback, immutable ACL drift and tenant RLS; no controlled output counted as real AI success
+PASS Current Identity teacher revocation during inference refuses accepted result; abandoned RUNNING job remains explicit for expiry by a currently authorized teacher

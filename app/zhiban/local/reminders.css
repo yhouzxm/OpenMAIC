@@ -1,0 +1,53 @@
+#reminders .notice:empty,
+#analytics > section.card .notice:empty {
+  display: none;
+}
+#reminders article.card,
+#analytics > section.card,
+#analytics > section.card article.card {
+  padding: 1.25rem;
+  margin: 1rem 0;
+  overflow-wrap: anywhere;
+}
+#analytics > section.card form {
+  display: grid;
+  gap: 1rem;
+  margin: 1.25rem 0;
+  max-width: 48rem;
+}
+#analytics > section.card label {
+  display: grid;
+  gap: 0.5rem;
+}
+#analytics > section.card input,
+#analytics > section.card textarea {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+  padding: 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.5rem;
+  font: inherit;
+}
+#analytics > section.card textarea {
+  min-height: 8rem;
+  resize: vertical;
+}
+#analytics > section.card button[type='submit'],
+#reminders article button {
+  background: #1764d0;
+  color: white;
+  border: 0;
+  border-radius: 0.5rem;
+  padding: 0.8rem 1.1rem;
+  cursor: pointer;
+}
+#analytics > section.card button:disabled,
+#reminders button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+#reminders article p,
+#analytics > section.card article p {
+  white-space: pre-wrap;
+}

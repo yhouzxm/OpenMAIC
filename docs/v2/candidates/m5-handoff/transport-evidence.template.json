@@ -1,0 +1,27 @@
+{
+  "formatVersion": 1,
+  "status": "UNISSUED",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "authorityKeySha256": null,
+  "purpose": "LOCAL_ORDINARY_TRANSPORT_EVIDENCE",
+  "releaseId": null,
+  "credentialGenerationId": null,
+  "deploymentId": null,
+  "target": null,
+  "sourceBindingsSha256": null,
+  "hbaSha256": null,
+  "postmasterStart": null,
+  "observedAt": null,
+  "expiresAt": null,
+  "credentialLineageSha256": null,
+  "hbaRules": [],
+  "oldCredentialDigests": {
+    "zhiban_auth_runtime": null,
+    "zhiban_runtime": null,
+    "zhiban_control_runtime": null,
+    "zhiban_academic_runtime": null,
+    "zhiban_bridge_runtime": null,
+    "zhiban_openmaic_runtime": null
+  }
+}

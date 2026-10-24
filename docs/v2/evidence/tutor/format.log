@@ -1,0 +1,10 @@
+lib/zhiban/domain/tutor/model.ts 155ms
+lib/zhiban/application/tutor/service.ts 152ms
+lib/zhiban/infrastructure/tutor/content.ts 54ms (unchanged)
+lib/zhiban/infrastructure/tutor/http.ts 81ms (unchanged)
+lib/zhiban/infrastructure/tutor/native.ts 124ms (unchanged)
+lib/zhiban/infrastructure/tutor/postgres/transaction.ts 186ms
+scripts/zhiban-local/verify-tutor.ts 287ms
+tests/zhiban/tutor/model.test.ts 16ms
+app/zhiban/local/tutor.js 198ms (unchanged)
+scripts/zhiban-local/verify-m6-catalog.mts 1079ms

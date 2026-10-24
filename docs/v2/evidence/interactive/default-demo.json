@@ -1,0 +1,17 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "UI_PUBLISHED_DEFAULT_READY",
+  "modelCalls": false,
+  "generationFixture": false,
+  "tenant": "01a159d1-2450-71a8-bc48-8dee81ebcf48",
+  "offering": "01a159d1-9a51-705e-80ae-9fed9c6e8b25",
+  "resource": "01a159d5-7287-7202-9d2c-41e5bec2925b",
+  "publication": "01a159d6-85c7-70a2-9780-fb59b96eb622",
+  "course": "01a159d1-9965-7508-9a06-05072c68e44e",
+  "unit": "01a159d6-ff80-71a9-a2a3-d9c30933c60b",
+  "session": "01a159d7-00a5-7707-8495-469ca9adb476",
+  "dispatch": "01a159d7-0125-7483-a1ab-9d6ae3abc1b5",
+  "studentClassroomUrl": "https://127.0.0.1:3461/zhiban/student/courses/01a159d1-9965-7508-9a06-05072c68e44e/coursework?space=01a159d1-2450-71a8-bc48-8dee81ebcf48&offering=01a159d1-9a51-705e-80ae-9fed9c6e8b25",
+  "playerUrl": "https://127.0.0.1:3461/api/zhiban/content/01a159d1-2450-71a8-bc48-8dee81ebcf48/offerings/01a159d1-9a51-705e-80ae-9fed9c6e8b25/resources/01a159d5-7287-7202-9d2c-41e5bec2925b/player?publication=01a159d6-85c7-70a2-9780-fb59b96eb622"
+}

@@ -1,0 +1,34 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "CURRENT_DEFAULT_INDEPENDENT_PLATFORM_NOMINATION_RECIPIENT_HTTPS_BINDING_ALIAS_LOGIN_AND_TENANT_DIRECTORY",
+  "root": "/tmp/zhiban-trial-content-VVpcc3",
+  "userId": "01a165fc-0db2-77a6-a3df-000df8f64712",
+  "alias": "@trial.chen01",
+  "sourceRef": "01a165fc-8df7-753b-80a7-905f2e62ddeb",
+  "syntheticAuthority": true,
+  "humanIdentityVerification": false,
+  "bindingTransport": "REAL_TRUSTED_HTTPS_SYNTHETIC_RECIPIENT",
+  "browserChangedCredential": false,
+  "aliasLoginStatus": 200,
+  "uuidEndpointAliasStatus": 401,
+  "credentialSlotUnchanged": true,
+  "tenantDirectoryRowCount": 1,
+  "outsideAliasMatches": 0,
+  "unknownAliasMatches": 0,
+  "identicalEmptyResponseShape": true,
+  "noMembershipRecipientSupported": true,
+  "secretIncluded": false,
+  "inAppBrowser": {
+    "aliasLoginExistingPassword": "PASS",
+    "ownActiveAliasPage": "PASS",
+    "adminExactCaseInsensitiveAliasSearch": "PASS",
+    "rowCount": 1,
+    "screenshots": [
+      "default-self.png",
+      "default-directory.png"
+    ],
+    "browserChangedCredential": false
+  }
+}

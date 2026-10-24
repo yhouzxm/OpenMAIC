@@ -1,0 +1,211 @@
+{
+  "status": "PASS",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "candidateInventorySha256": "fa51a67d9733fc6b436e89ec339306472ceb8566368cc3f9ce3c3122d873c13b",
+  "candidateMigrationSha256": "bbede0be2e773562730bb2b1c756d4aceba853143b298b768de7c0d70d624a8e",
+  "reviewedFilesSha256": {
+    "receipt-issuer.cjs": "532a7b3088eadf4858c275fb506443663e1916607fb3f10db0fb1250b195e2b6",
+    "receipt-completion.cjs": "2c816ebcdb9f158a69fb8fe75c30fdb58845ec7f089f28dab02a53a3613a0929",
+    "ordinary-launcher.cjs": "3168655ff02a006330464e9ba7f2852a0c73357d008780e01a09ba306a0ebe08",
+    "ordinary-shutdown.cjs": "1d92883e5a9863e1870fb6e7fa055db12dc52948f2423e557ecb7f0198c112cb"
+  },
+  "checks": [
+    {
+      "name": "issuance cut BEFORE_LEAF_1",
+      "status": "PASS",
+      "bothConsumersAccepted": false,
+      "issuerStatus": "ISSUANCE_NOT_COMMITTED",
+      "inspection": "NOT_COMMITTED_OBSERVED",
+      "scope": "Actual publisher/completion/inspection; generated authority and minimal signed leaves; approval/build/PG pipeline tested separately"
+    },
+    {
+      "name": "issuance cut AFTER_LEAF_1",
+      "status": "PASS",
+      "bothConsumersAccepted": false,
+      "issuerStatus": "ISSUANCE_NOT_COMMITTED",
+      "inspection": "NOT_COMMITTED_OBSERVED",
+      "scope": "Actual publisher/completion/inspection; generated authority and minimal signed leaves; approval/build/PG pipeline tested separately"
+    },
+    {
+      "name": "issuance cut BEFORE_LEAF_2",
+      "status": "PASS",
+      "bothConsumersAccepted": false,
+      "issuerStatus": "ISSUANCE_NOT_COMMITTED",
+      "inspection": "NOT_COMMITTED_OBSERVED",
+      "scope": "Actual publisher/completion/inspection; generated authority and minimal signed leaves; approval/build/PG pipeline tested separately"
+    },
+    {
+      "name": "issuance cut AFTER_LEAF_2",
+      "status": "PASS",
+      "bothConsumersAccepted": false,
+      "issuerStatus": "ISSUANCE_NOT_COMMITTED",
+      "inspection": "NOT_COMMITTED_OBSERVED",
+      "scope": "Actual publisher/completion/inspection; generated authority and minimal signed leaves; approval/build/PG pipeline tested separately"
+    },
+    {
+      "name": "issuance cut LEAF_FSYNC",
+      "status": "PASS",
+      "bothConsumersAccepted": false,
+      "issuerStatus": "ISSUANCE_NOT_COMMITTED",
+      "inspection": "NOT_COMMITTED_OBSERVED",
+      "scope": "Actual publisher/completion/inspection; generated authority and minimal signed leaves; approval/build/PG pipeline tested separately"
+    },
+    {
+      "name": "issuance cut BEFORE_STAGE",
+      "status": "PASS",
+      "bothConsumersAccepted": false,
+      "issuerStatus": "ISSUANCE_NOT_COMMITTED",
+      "inspection": "NOT_COMMITTED_OBSERVED",
+      "scope": "Actual publisher/completion/inspection; generated authority and minimal signed leaves; approval/build/PG pipeline tested separately"
+    },
+    {
+      "name": "issuance cut AFTER_STAGE",
+      "status": "PASS",
+      "bothConsumersAccepted": false,
+      "issuerStatus": "ISSUANCE_NOT_COMMITTED",
+      "inspection": "NOT_COMMITTED_OBSERVED",
+      "scope": "Actual publisher/completion/inspection; generated authority and minimal signed leaves; approval/build/PG pipeline tested separately"
+    },
+    {
+      "name": "issuance cut STAGE_FSYNC",
+      "status": "PASS",
+      "bothConsumersAccepted": false,
+      "issuerStatus": "ISSUANCE_NOT_COMMITTED",
+      "inspection": "NOT_COMMITTED_OBSERVED",
+      "scope": "Actual publisher/completion/inspection; generated authority and minimal signed leaves; approval/build/PG pipeline tested separately"
+    },
+    {
+      "name": "issuance cut BEFORE_RENAME",
+      "status": "PASS",
+      "bothConsumersAccepted": false,
+      "issuerStatus": "ISSUANCE_NOT_COMMITTED",
+      "inspection": "NOT_COMMITTED_OBSERVED",
+      "scope": "Actual publisher/completion/inspection; generated authority and minimal signed leaves; approval/build/PG pipeline tested separately"
+    },
+    {
+      "name": "issuance cut AFTER_RENAME",
+      "status": "PASS",
+      "bothConsumersAccepted": true,
+      "issuerStatus": "ISSUANCE_COMMITTED_ACK_UNKNOWN",
+      "inspection": "SIGNED_COMMIT_OBSERVED",
+      "scope": "Actual publisher/completion/inspection; generated authority and minimal signed leaves; approval/build/PG pipeline tested separately"
+    },
+    {
+      "name": "issuance cut FINAL_DIR_FSYNC",
+      "status": "PASS",
+      "bothConsumersAccepted": true,
+      "issuerStatus": "ISSUANCE_COMMITTED_ACK_UNKNOWN",
+      "inspection": "SIGNED_COMMIT_OBSERVED",
+      "scope": "Actual publisher/completion/inspection; generated authority and minimal signed leaves; approval/build/PG pipeline tested separately"
+    },
+    {
+      "name": "issuance cut RETURN_ACK_LOST",
+      "status": "PASS",
+      "bothConsumersAccepted": true,
+      "issuerStatus": "ISSUED_LOCAL",
+      "inspection": "SIGNED_COMMIT_OBSERVED",
+      "scope": "Actual publisher/completion/inspection; generated authority and minimal signed leaves; approval/build/PG pipeline tested separately"
+    },
+    {
+      "name": "issuance cut SUCCESS",
+      "status": "PASS",
+      "bothConsumersAccepted": true,
+      "issuerStatus": "ISSUED_LOCAL",
+      "inspection": "SIGNED_COMMIT_OBSERVED",
+      "scope": "Actual publisher/completion/inspection; generated authority and minimal signed leaves; approval/build/PG pipeline tested separately"
+    },
+    {
+      "name": "sidecar cannot replace master and sibling byte drift invalidates whole group",
+      "status": "PASS"
+    },
+    {
+      "name": "bounded shutdown HEALTHY",
+      "status": "PASS",
+      "elapsedMs": 23,
+      "actualPgClientVersion": "8.22.0",
+      "actualChildExited": true,
+      "localPgClosed": true,
+      "forcedPgConnections": 0,
+      "lockReleased": true,
+      "remoteBackendDrainConfirmed": false,
+      "scope": "Actual launcher/shutdown, real pg sockets/Node child/flock; auth/profile/TLS stubbed; real HTTPS and PG16 tested separately"
+    },
+    {
+      "name": "bounded shutdown IDLE_STALL",
+      "status": "PASS",
+      "elapsedMs": 764,
+      "actualPgClientVersion": "8.22.0",
+      "actualChildExited": true,
+      "localPgClosed": true,
+      "forcedPgConnections": 2,
+      "lockReleased": true,
+      "remoteBackendDrainConfirmed": false,
+      "scope": "Actual launcher/shutdown, real pg sockets/Node child/flock; auth/profile/TLS stubbed; real HTTPS and PG16 tested separately"
+    },
+    {
+      "name": "bounded shutdown ACTIVE_QUERY",
+      "status": "PASS",
+      "elapsedMs": 766,
+      "actualPgClientVersion": "8.22.0",
+      "actualChildExited": true,
+      "localPgClosed": true,
+      "forcedPgConnections": 1,
+      "lockReleased": true,
+      "remoteBackendDrainConfirmed": false,
+      "scope": "Actual launcher/shutdown, real pg sockets/Node child/flock; auth/profile/TLS stubbed; real HTTPS and PG16 tested separately"
+    },
+    {
+      "name": "bounded shutdown IGNORE_TERM",
+      "status": "PASS",
+      "elapsedMs": 2269,
+      "actualPgClientVersion": "8.22.0",
+      "actualChildExited": true,
+      "localPgClosed": true,
+      "forcedPgConnections": 2,
+      "lockReleased": true,
+      "remoteBackendDrainConfirmed": false,
+      "scope": "Actual launcher/shutdown, real pg sockets/Node child/flock; auth/profile/TLS stubbed; real HTTPS and PG16 tested separately"
+    },
+    {
+      "name": "shutdown spawn failure closes PG and releases fd",
+      "status": "PASS"
+    },
+    {
+      "name": "bounded shutdown IPC_DISCONNECT",
+      "status": "PASS",
+      "elapsedMs": 778,
+      "actualPgClientVersion": "8.22.0",
+      "actualChildExited": true,
+      "localPgClosed": true,
+      "forcedPgConnections": 2,
+      "lockReleased": true,
+      "remoteBackendDrainConfirmed": false,
+      "scope": "Actual launcher/shutdown, real pg sockets/Node child/flock; auth/profile/TLS stubbed; real HTTPS and PG16 tested separately"
+    },
+    {
+      "name": "bounded shutdown REPEATED_STOP",
+      "status": "PASS",
+      "elapsedMs": 778,
+      "actualPgClientVersion": "8.22.0",
+      "actualChildExited": true,
+      "localPgClosed": true,
+      "forcedPgConnections": 2,
+      "lockReleased": true,
+      "remoteBackendDrainConfirmed": false,
+      "scope": "Actual launcher/shutdown, real pg sockets/Node child/flock; auth/profile/TLS stubbed; real HTTPS and PG16 tested separately"
+    },
+    {
+      "name": "unconfirmed process exit returns incomplete facts rather than claiming stopped",
+      "status": "PASS",
+      "scope": "Synthetic process observation; no OS process killed",
+      "elapsedMs": 4002
+    }
+  ],
+  "sourceBound": true,
+  "existingClustersConnected": false,
+  "realCredentialsRead": false,
+  "realAuthorityIssued": false,
+  "realHttpsStarted": false,
+  "runtimeAccepted": false
+}

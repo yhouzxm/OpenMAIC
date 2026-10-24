@@ -1,0 +1,19 @@
+Reused @openmaic/dsl: matching LOCAL source/build hashes
+Reused @openmaic/storage: matching LOCAL source/build hashes
+Reused @openmaic/editor: matching LOCAL source/build hashes
+Reused @openmaic/renderer: matching LOCAL source/build hashes
+Reused @openmaic/generation: matching LOCAL source/build hashes
+PASS Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately
+{"timestamp":"2026-10-24T01:41:24.184Z","level":"INFO","tag":"GenerationRunner","message":"generation runner 51051:eb00ca2d-3b77-4307-b0ba-91c238a1df81 started (scan=1000ms, heartbeat=2000ms, leaseTtl=10000ms, maxConcurrent=1)"}
+PASS PG16 restricted roles + real Identity sessions + validated trusted HTTPS
+PASS trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands
+PASS real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft
+{"timestamp":"2026-10-24T01:41:28.339Z","level":"INFO","tag":"ServerProviderConfig","message":"[ServerProviderConfig] Loaded (environment variables): 1 LLM, 0 TTS, 0 ASR, 0 PDF, 0 Image, 0 Video, 0 WebSearch providers"}
+{"timestamp":"2026-10-24T01:41:28.344Z","level":"WARN","tag":"ModelConfig","message":"The model configuration comes from the legacy provider variables, server-providers.yml, DEFAULT_MODEL and MODEL_FALLBACK, which are deprecated; move it to openmaic.yml"}
+PASS REAL_NATIVE_MODEL: original submit atomic outbox -> dedicated SQL service -> real pinned model -> TEXT and mixed QUIZ formal publications; objective marks remain native; no fictitious human publisher
+PASS AI original publication immutable; teacher original CORRECT_GRADE and public reason work; own appeal resolves against latest actual correction, unauthorized appeal refused
+PASS Two real source offerings both have independent published totals; active certificate/target-course credit cannot be duplicated through another class
+PASS Published total digest/threshold/recipient guards; certificate replay and duplicate refusal; admin-only cross-class credit unique per target course, concurrent award once; own history/revoke retained; later correction marks stale
+PASS CONTROLLED_FAULT_ONLY: exact commit Identity table-lock barrier blocks concurrent authorization writer; concurrent service apply publishes once; raw business connection cannot forge SERVICE audit
+PASS CONTROLLED_FAULT_ONLY: null/wrong private token, out-of-bound marks, wrong model, delegation disable, authorizer version revocation, lease expiry, audit failure all prevent formal publication; dedicated worker raw SQL/internal-helper and business helper access refused; profile rejects ACL drift
+PASS Actual browser teacher fixed policies/jobs, student formal results/appeal boundaries and certificate print/download/revoked history, admin credit selector; no page script errors

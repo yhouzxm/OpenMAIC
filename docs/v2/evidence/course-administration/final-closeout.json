@@ -1,0 +1,109 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "LOCAL_SCOPE_PASS_WITH_KNOWN_WIDER_CHECK_FAILURES",
+  "at": "2026-10-23T11:33:06.079Z",
+  "branch": "refactor/zhiban-v2",
+  "head": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "oldReference": {
+    "ref": "origin/feature/zhiban-mechatronics",
+    "sha": "0fa0a15e8b12ae9e4f7a2d78e80338874599bbae",
+    "behavior": "TeacherCourseConsole mutation replaced by read-only current configuration and original teacher tool links; TeacherCourseTeachers replaced by current-offering assignment facts only"
+  },
+  "scope": "TEACHER_COURSE_SETTINGS_AND_MINIMAL_CURRENT_ASSIGNMENT_ROSTER",
+  "routes": [
+    "/zhiban/teacher/courses/:course/settings",
+    "/zhiban/teacher/courses/:course/teachers"
+  ],
+  "api": "/api/zhiban/workspace/:tenant/teachers",
+  "runtime": {
+    "root": "/tmp/zhiban-trial-content-e5zuw0",
+    "origin": "https://127.0.0.1:3461",
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "verifiedSourceCount": 2750
+  },
+  "sourceHashes": {
+    "lib/zhiban/application/workspace/service.ts": "3e69137179db30859e7ab96c3eee40135042d1b760fc46109d3129a78e414d34",
+    "lib/zhiban/infrastructure/workspace/http.ts": "90eee07523cf595db0a8f8e3777e097603bc11d2008c11826f6aa8c4836b5f53",
+    "lib/zhiban/infrastructure/workspace/postgres/transaction.ts": "50beff7f5c1ba060fc38b235528571c0e55f4b319ebbe9286af28892807cdc4d",
+    "tests/zhiban/workspace/query.test.ts": "09ddde364311b807372aef687033a6188a7494e1dd58fe2da6c937f205fe6f02",
+    "app/zhiban/local/course-administration.html": "6fd3f16e93634e7147cebf787981dd313d1ec83bd5a6c0d01bf838609ac15327",
+    "app/zhiban/local/course-administration.js": "629b376fd1ef144d696adb61c8aa3de9364ba74c6e1bfbf775c6ec593f7fecbc",
+    "app/zhiban/local/course-page.js": "0b625b474211893594fbd0646d13a4e8b7b4f3e3412d01cf5b390d2bfef34e40",
+    "app/zhiban/local/workspace.js": "8262433f31bb87da3ad65abae2cc7a3bdd00e2e674f83ad3fcc0942054bafc7f",
+    "scripts/zhiban-local/request-target.ts": "884f063a6047e6d5fb4efecf54f999b36240c1626576ca4ef5d61de7be7908a9",
+    "scripts/zhiban-local/server.ts": "688e5c2b6350f14d8bff33b04cb8959b4d8632c7ae38a41cd7b2bfc6a5276090",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "f7fb49e9a1b0b38def4530e238634863bffa0956be6e41f248d72f1d55c7af2e",
+    "scripts/zhiban-local/verify-course-administration.cjs": "b3d275fee9ed74e9aa19b4057bff44b4af350d1737c82f18a272e48825cd45e6"
+  },
+  "validation": {
+    "browserAndRealPg16Revocation": "PASS",
+    "directedQueryAndCursorTests": "4 PASS, 5 unrelated skipped",
+    "directedTypeClosure": "PASS; temporary tsconfig includes affected Workspace TS and request-target, with real transitive dependencies",
+    "eslint": "PASS",
+    "prettierCode": "PASS",
+    "javascriptSyntax": "PASS",
+    "scopedDiffCheck": "PASS",
+    "visual": "Teacher settings and assignment-list browser screenshots inspected",
+    "commands": [
+      "END_TEACHER",
+      "ASSIGN_TEACHER"
+    ],
+    "relationRestored": "ACTIVE; original command advances revision and valid_from",
+    "modelCalls": false,
+    "initialAttempt": "All page and revocation checks completed; final bare-link assertion incorrectly expected selected space; corrected to existing explicit space choice and rerun on final owned instance"
+  },
+  "knownWiderFailures": [
+    {
+      "command": "pnpm exec vitest run tests/zhiban/workspace/query.test.ts",
+      "result": "8 PASS / 1 FAIL",
+      "failure": "Existing localAdminPageAsset /zhiban/admin/import/registrations expectation /zhiban/roster is not mapped; unrelated assertion retained"
+    },
+    {
+      "command": "pnpm exec tsc --noEmit -p tsconfig.build.json",
+      "result": "FAIL TS2353",
+      "failure": "Existing verifyOnboarding call in verify-m6-catalog.mts passes store outside Input; call not changed by this package"
+    }
+  ],
+  "evidenceHashes": {
+    "browser-local.json": "071bd3fcc43f7bf2c23913dce851e9b7adb7d9671b49d43b4ad2dbf89e2e2a9d",
+    "private-backup.json": "96202d356296c9da2cd58fdd355092a4b273136905d3ca047bf9289f1e7b7e45",
+    "settings.png": "2a43fef735a90b8fce26e22fc80a59ad1d55cb6e78dbe9607db4920c6531c2b8",
+    "teachers.png": "8811cf5afb0c04e2077a9603b2ee3e561032ccecf67ade5f93d9dc8270b9f28e",
+    "unit-wider.log": "4f9e7133b06da40a95da0bc9886c8949ca135f92685e801ae329765c9adb372b",
+    "unit-directed.log": "65fd83158efb0233a384a10c55e663757fe21e60f29db84a9d26d2876b80642e",
+    "types-wider.log": "ec642d9024dbd7eb7f43464a1af85ea37a1d888350b22c0f32c76427840e88d6",
+    "types-directed.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "documentationHashes": {
+    "docs/v2/zhiban-v2-course-administration-local.md": "ca4c0d79c02af887fd08b513bc089c6879eb53354d3491b66319f6ebf6d36a29",
+    "docs/v2/zhiban-v2-ui-page-gap-matrix.md": "d10805e13f1f646d9ecdaf2468e0a7448576bf154b5b21b2ebaf13dd906f1388",
+    "docs/v2/zhiban-v2-migration-completion-plan.md": "2eaaf7a6d959051b53b03658eda9e10e53503a4ae5cc1a6b887f9d5a1f3e5bd5",
+    "docs/v2/zhiban-v2-feature-gap-matrix.md": "20443a6ba0281cb482dc21020a52b82e4bdff5cbbd4e84fa8b4be44edc6d9674",
+    "docs/v2/zhiban-v2-trial-guide.md": "d7186061270b605b2f803060a09a56c7b841b3f7be32df6f2f32f260292ec2ed"
+  },
+  "boundaries": [
+    "No new administrator configuration authority",
+    "Assignment facts are not colleagues effective Identity authorization",
+    "No contact/login/role directory exposed",
+    "Single teaching relation fixture, no real multi-page/multi-space journey",
+    "No new concurrency semantics; canonical access/assignment locks reused",
+    "No migration/ACL/model/full classroom/CI changes",
+    "No effective colleague Identity grant directory claim",
+    "Current relation restored ACTIVE with advanced revision/new valid_from, not historical rollback",
+    "No real 55432/55433 access",
+    "Prior three-database/control backup TOCs verified, no restore claim",
+    "Prior P7 archive not regenerated",
+    "Dimensions REVIEW and Native Runtime gates retained"
+  ],
+  "git": {
+    "commit": false,
+    "push": false,
+    "ciDispatch": false
+  },
+  "next": {
+    "package": "P7 unified handoff refresh including completed compatibility entries and separately listed check debts/deferred gates",
+    "suggestedModel": "GPT-6.1 Sol / medium"
+  }
+}

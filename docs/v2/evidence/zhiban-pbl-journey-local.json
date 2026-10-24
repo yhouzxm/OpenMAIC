@@ -1,0 +1,14 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-23T23:58:39.946Z",
+  "scope": "NATIVE_PBL_DESIGN_REUSE_COURSE_GROUP_DRAFT_UNANIMOUS_SUBMISSION_AND_TEACHER_EVALUATION",
+  "projectId": "01a16b33-93c2-70c3-9e99-4cac72f82861",
+  "groupId": "01a16b33-9844-71af-a5bf-beb996aaf50c",
+  "submissionId": "01a16b33-a7c4-7141-bc0e-945b8855c9f3",
+  "nativeDesignReused": true,
+  "nativeAutonomousRuntimeEnabled": false,
+  "individualGradesAutomaticallyCreated": false,
+  "browserErrors": []
+}

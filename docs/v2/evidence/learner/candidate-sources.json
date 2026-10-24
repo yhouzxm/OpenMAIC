@@ -1,0 +1,117 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "comparedAgainst": "../zhiban-concept-local.json",
+  "scope": "SOURCE_HASH_DELTA_NOT_GIT_DIFF; previous dirty candidates preserved",
+  "files": [
+    {
+      "path": "app/zhiban/local/course-page.js",
+      "sha256": "cdafec89c2b6d9a76c9a05fb3a11067628de85db8ea5b3c79becabcfc3a69df3",
+      "status": "CHANGED_SINCE_CONCEPT"
+    },
+    {
+      "path": "app/zhiban/local/learning-profile.css",
+      "sha256": "a5357225889d9c2406d72d53076936af93fe67e82fd5b9968e6b30d7af601a13",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "app/zhiban/local/workspace.js",
+      "sha256": "3e9df3e9df83408cfc3c89d5363cff6a265c1589545c97518b6156e43293ef90",
+      "status": "CHANGED_SINCE_CONCEPT"
+    },
+    {
+      "path": "app/zhiban/local/learning-profile.js",
+      "sha256": "2ef36b6ae97882964efd1ad6756992f4aaecd1c16e3ee916385f7be2b5efd7b6",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "app/zhiban/local/learning-profile.html",
+      "sha256": "abf6917231e316b9e0300ce65ebb25b192544901031e7d0b4c57e16419998f5e",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "scripts/zhiban-local/learner.ts",
+      "sha256": "c394ec1b364ac39b06c5921332baacd9f0e6da41a9674c980466f03b8cb5523e",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "scripts/zhiban-local/trial-content.ts",
+      "sha256": "55a13a55e5fead839cb6ea29c775f9ecf92fd62c77c3465cec80d20cf5db651a",
+      "status": "CHANGED_SINCE_CONCEPT"
+    },
+    {
+      "path": "scripts/zhiban-local/run-m6-catalog.ts",
+      "sha256": "1daa627177f021f3d9c2dbdf8b5fe880b494dfe1d049b1a5e40f8d56fe6fcb49",
+      "status": "CHANGED_SINCE_CONCEPT"
+    },
+    {
+      "path": "scripts/zhiban-local/verify-learner.ts",
+      "sha256": "7b35a59458b32bff67ff6efe7a0516369a8f89c2836414aace056b47ef192c26",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "scripts/zhiban-local/request-target.ts",
+      "sha256": "de5eda593ef82692d6e317e94262f4cedf827a61724c0d73f2f5c6c8482e2b40",
+      "status": "CHANGED_SINCE_CONCEPT"
+    },
+    {
+      "path": "scripts/zhiban-local/build-learner-reference.ts",
+      "sha256": "6503a33df7f52f9596e36703e312893b12ae499f807a6cf1fc91098df9c85347",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "scripts/zhiban-local/verify-m6-catalog.mts",
+      "sha256": "f82a3a297c76e9f8fe5278f5debcb0c397a856d1f30db2940730011f47641c37",
+      "status": "CHANGED_SINCE_CONCEPT"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/academic/postgres/store.ts",
+      "sha256": "9f313c5756d9ba8a17a81e44eb6cdcaff2186ff71b0fa4203c9448548e581274",
+      "status": "CHANGED_SINCE_CONCEPT"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/learner/postgres/migrations/0001_learner.sql",
+      "sha256": "17b894600710d9e2a9f7453f0f8efa1ddc41e5062cbcfe6c3a1f06f07b1914c6",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/learner/postgres/transaction.ts",
+      "sha256": "f459b34f06c6ef61364f69c8042563018915cb6c1814caa646756bcba08408a4",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/learner/postgres/sources.ts",
+      "sha256": "6215b63f3eb5d1e493cedccaf3fa11739101353c28397721544c4b9d5407e26b",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "lib/zhiban/infrastructure/learner/http.ts",
+      "sha256": "de80ae0f055c4b99ed026d80b9628800422ca4a0622ffeb63853575c9144ac19",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "lib/zhiban/domain/learner/model.ts",
+      "sha256": "63471ef6caaefbde9599dd67bff9cc17630c21b28d5be76e23fe389596fc913e",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "lib/zhiban/application/academic/service.ts",
+      "sha256": "fa35bd8ccb0d8f9fb48327e2d33da2e269fabcad6161ad4c624575620fafb788",
+      "status": "CHANGED_SINCE_CONCEPT"
+    },
+    {
+      "path": "lib/zhiban/application/learner/service.ts",
+      "sha256": "eb2ea1aa656a345d139c96d97f96d832af0b53b3fa3f461bf78c16c6145e7d15",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    },
+    {
+      "path": "package.json",
+      "sha256": "d2b2cdf26aa209d643219c44009810a253a8baf0b5c08cd6b5dae48a1f9b54e3",
+      "status": "CHANGED_SINCE_CONCEPT"
+    },
+    {
+      "path": "docs/v2/evidence/zhiban-learner-profile-reference-local.json",
+      "sha256": "82193cdd2e2d258caae97a9315800b253b6075116de4c0e475d9d2f0f3526ea6",
+      "status": "ADDED_TO_BOUND_SOURCES"
+    }
+  ]
+}

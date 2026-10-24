@@ -1,0 +1,24 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "BACKUP_ARCHIVES_LISTED",
+  "sourceRoot": "/tmp/zhiban-trial-content-QUoWtd",
+  "backupRoot": "/home/zxm/.local/state/zhiban-trial-backups/member-delivery-20261018-223824",
+  "postgres": 160015,
+  "hashes": {
+    "member-operator.pem": "4006766137e12842150c6c0ff70f33e420e484f87c99e7ec4a25382c0a96c528",
+    "member-control.json": "a7065e5cba926c1750e23f679d62a297ea97cb2d58cf56d7338413985eb1eb59",
+    "accounts.json": "9422339c600d71d4c2510fefef60e8ddc993d6afd6d12fed6a6e5b0dfb06806a",
+    "scope.json": "5056213c348f0d41a7aeb0e4993719ea725e80f93cef6a82147647cc913f5efc",
+    "zhiban_trial_content_disposable.dump": "b11ed058534d8b2a5c87e51e0487e3860c1fa89833e4b75c5fb2b87cc68f004d",
+    "zhiban_trial_content_native.dump": "b8c60e3c7fde309557115bbede65fc4f6b380e4cd43f41ac89f7fd35496f66dd",
+    "member-inputs.json": "9fa68c434b2472e67844436d63256c2d4d91e4726965101566b5d36daac05c8f",
+    "member-approver.pem": "c54a7037648883411d53c997f702db2829e7623ad6f9254cb5198045215bfd04",
+    "member-approvals/01a14f6f-a9e1-72a9-b641-f88d2c0e518c.json": "7103cf41eed5ef6ac0268844fb4fb3c570cb1820d121d85397c11d2aa415eebc",
+    "member-approvals/01a14f6f-8554-7221-a205-d515a2d3197e.json": "8db61a547c4fe36f75279d96e0539de9efa10aca202ea42eaab6b1b99a298a28",
+    "member-approvals/01a14f6f-a248-73f1-bdc1-ae4d3e71a632.json": "a65260348e57100f340d7bde89900078d7bfeaa0f4b6762f4fce84a7f366cdf0",
+    "member-approvals/01a14f70-b16e-7697-bd40-a60dd9c3ebde.json": "9200b96e866db1e4eb0c9a645b054cccd8307107e69d80609ed4eb1c4638fd31"
+  },
+  "restoreTested": false,
+  "privateAuthorityIncluded": true
+}

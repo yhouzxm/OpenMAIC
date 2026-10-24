@@ -1,0 +1,14 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-23T23:14:09.585Z",
+  "scope": "RESTORED_EXISTING_ACCOUNTS_FIXED_PLAN_AND_ROLE_PAGES_ONLY",
+  "accountHashUnchanged": true,
+  "flowEnabled": true,
+  "nativeRuntimeEnabled": false,
+  "scannerMode": "TRUSTED_SCANNER",
+  "sourceMatches": true,
+  "browserErrors": [],
+  "started": false
+}

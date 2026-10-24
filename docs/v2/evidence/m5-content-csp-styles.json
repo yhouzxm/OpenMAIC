@@ -1,0 +1,11 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "scope": "FIXED_TEXT_RENDERER_STYLES",
+  "styles": [
+    {
+      "text": "\n\n.slide-renderer-prose p {\n  margin-top: 0;\n  margin-bottom: var(--paragraphSpace, 0);\n}\n.slide-renderer-prose p:last-child {\n  margin-bottom: 0;\n}\n.slide-renderer-prose p:empty::before {\n  content: '\\00a0';\n}\n.slide-renderer-prose .katex-display {\n  margin: 0 !important;\n}\n.slide-renderer-prose ul {\n  list-style-position: outside !important;\n  padding-inline-start: 1.5rem !important;\n}\n.slide-renderer-prose ul:not([style*=\"list-style-type\"]) {\n  list-style-type: disc !important;\n}\n.slide-renderer-prose ol {\n  list-style-position: outside !important;\n  padding-inline-start: 1.5rem !important;\n}\n.slide-renderer-prose ol:not([style*=\"list-style-type\"]) {\n  list-style-type: decimal !important;\n}\n.slide-renderer-prose li {\n  display: list-item !important;\n}\n\n/* Table cell inner container — matches the classroom (Vue) .cell-text design:\n   tight base line-height, and a small spacing between adjacent <p> siblings\n   so multi-paragraph cells don't collapse into a single visual block. The\n   <p> margin reset above sets the baseline to 0; this rule re-adds spacing\n   only between adjacent siblings, leaving the first/last paragraph flush. */\n/* The editor adds a ProseMirror wrapper with its own paragraph reset. Keep\n   the same gap there with enough specificity to beat that reset. */\n.slide-renderer-cell-text p + p,\n.slide-renderer-cell-text .ProseMirror p + p {\n  margin-top: 0.4em;\n}\n@keyframes slide-renderer-pulse {\n  50% { opacity: 0.5; }\n}\n@keyframes slide-renderer-ping {\n  75%, 100% { transform: scale(2); opacity: 0; }\n}\n@keyframes slide-renderer-code-cursor-blink {\n  0%, 100% { opacity: 1; }\n  50% { opacity: 0; }\n}\n.slide-renderer-pulse {\n  animation: slide-renderer-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;\n}\n.slide-renderer-ping {\n  animation: slide-renderer-ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;\n}\n",
+      "attributes": [],
+      "hash": "'sha256-Q1Yt8jEbyayp8o4/jj8aSjUQikLnKbBsvD6cLRRvLH4='"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+scripts/zhiban-local/account-status.ts 315ms
+scripts/zhiban-local/control-account-status.ts 18ms
+scripts/zhiban-local/verify-account-status.ts 283ms
+lib/zhiban/application/profile/service.ts 135ms (unchanged)
+lib/zhiban/infrastructure/profile/global-status.ts 19ms
+app/zhiban/local/profile.js 239ms (unchanged)
+scripts/zhiban-local/verify-m6-catalog.mts 1109ms
+scripts/zhiban-local/run-m6-catalog.ts 86ms (unchanged)
+scripts/zhiban-local/trial-content.ts 120ms (unchanged)
+package.json 21ms (unchanged)

@@ -1,0 +1,29 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "date": "2026-10-12",
+  "kind": "M5_R1_R2_FIX_VERIFICATION",
+  "implementationBindingHash": "fd4920297e1abeb499fd7690a9182127871e6a430b8a24795da092a1eaaf84f4",
+  "candidateMigrationSha256": "e335f83bb48cc6c4ec754f8e3270dc0e6941e14f38306bd67aa29844c3713324",
+  "verifierSha256": "9e6cda2e2672743b6489a37abd597f755e4846dd9562c3527774e1aca6471390",
+  "passed": 9,
+  "cases": [
+    "Stalled query expires, destroys active connection once and blocks all later queries",
+    "Late connection is discarded after acquisition budget expires",
+    "Successful connection is released normally without later double release",
+    "Driver error closes all acquired peers and prevents post-error continuation",
+    "PG16 startup statement/lock/idle timeouts apply before loader BEGIN; live receipt validates",
+    "Compiled CLI pre-validation real ledger lock times out and exits without issuing a report",
+    "Final-validation real ledger lock destroys connection and prevents report phase or reacquisition",
+    "Compiled CLI succeeds after lock release with private KEEP-only report",
+    "All pre-existing content/Bridge resource, operation, publication and audit rows unchanged"
+  ],
+  "protectedStateSha256": "650c994c52981edb8ed428cab80775b085d83a455f43447fa78a19ac95ba895a",
+  "newBusinessFixtures": 0,
+  "fenceAction": "KEEP",
+  "terminalSettlementImplemented": false,
+  "scope": [
+    "Synthetic lifecycle deadline/driver-error tests",
+    "Actual PG16 ledger locks in pre-validation compiled CLI and post-validation staging",
+    "Existing scoped list success; no historical 20-case/host rerun"
+  ]
+}

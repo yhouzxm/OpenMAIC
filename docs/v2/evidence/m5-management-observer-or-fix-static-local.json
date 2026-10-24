@@ -1,0 +1,29 @@
+{
+  "status": "STATIC_PLAN_PASS",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "r6InventorySha256": "fa51a67d9733fc6b436e89ec339306472ceb8566368cc3f9ce3c3122d873c13b",
+  "planInventorySha256": "447a2b38dfc4692fea08fe75c3bc191234dbfecce8771fa8c82c8285a4ec0869",
+  "checks": [
+    "unissued-scope-and-pending-private-inputs",
+    "unchanged-r6-source-binding",
+    "fixed-management-endpoint-no-credential-fallback",
+    "socket-isolation-and-startup-overrides",
+    "exact-scram-management-only-hba",
+    "pg16-grammar-and-fixed-readonly-catalog-whitelist",
+    "negative-write-custom-call-and-table-rejection",
+    "unknown-result-no-replay-or-flag-clear",
+    "unissued-executor-approval-and-exact-denied-capabilities",
+    "executor-template-same-real-target",
+    "local-document-links",
+    "source-bound-local-custody-and-authentication-staging-design"
+  ],
+  "sqlStatements": 11,
+  "grammar": [
+    16,
+    1
+  ],
+  "realTargetExecuted": false,
+  "credentialsRead": false,
+  "runtimeAccepted": false
+}

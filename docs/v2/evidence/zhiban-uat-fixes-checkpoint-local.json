@@ -1,0 +1,87 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-15T22:39:57.441300+00:00",
+  "baseBranch": "refactor/zhiban-v2",
+  "baseHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "findings": {
+    "UAT-01": "LOCAL_FIXED",
+    "UAT-02": "LOCAL_FIXED"
+  },
+  "reports": {
+    "zhiban-uat-fixes-local.json": {
+      "status": "PASS",
+      "scope": "LOCAL_UAT_01_02_DIRECTED_FIXES",
+      "checks": 11,
+      "sha256": "1d7a07fbd05a1252d52ce0b56f93d91e68237c63b3e820a22ea244c0ab86032d",
+      "sourceMismatches": [],
+      "removedBundleCount": 1
+    },
+    "zhiban-trial-demo-local.json": {
+      "status": "RUNNING_DISPOSABLE",
+      "scope": "LOCAL_SYNTHETIC_TRIAL",
+      "checks": 5,
+      "sha256": "6fe48b2b7cb6958aec40adeebc93e8f96a8589b3a90881fdb187419a3cec32b1",
+      "sourceMismatches": [],
+      "removedBundleCount": 0
+    }
+  },
+  "validation": {
+    "targetedPg16HttpsBrowserGroups": 11,
+    "relatedUnitTests": 58,
+    "targetedTypeScript": "PASS",
+    "targetedEslint": "PASS",
+    "targetedPrettier": "PASS",
+    "priorMigrationsUnchanged": 16,
+    "runningTrialSourceDriftCount": 0,
+    "accountsFileMode": "0600",
+    "rootMode": "0700"
+  },
+  "candidateFiles": {
+    "app/zhiban/local/learning.js": "f783b79b9b49235b0e9cbcdb556c8e8daed5631cdcc8b3ed63061cc642b286a0",
+    "app/zhiban/local/management.js": "9b54221a19b32b5d0aa3f6474debfa47820d526088f316284559e0047f334d73",
+    "lib/zhiban/infrastructure/management/postgres/transaction.ts": "17ce72f726d57ae9b1d5634dc59753a5516a677c1581ea935758303edcfca554",
+    "scripts/zhiban-local/verify-uat-fixes.ts": "12d2c090baacf8aad5faa3cb4f776c22b8cc94144fc868a5486c2e3c3e733f5f",
+    "scripts/zhiban-local/verify-management-history.ts": "725e49433ece1871dcc43ff0b8c44045a143b44a92ba4feccb292bfaec1ed332",
+    "scripts/zhiban-local/verify-m3.ts": "815c8b4c56fb44184d80972cf2eb7f425bffe2e4a66929a87edd75f92c82a1ea",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "3b2d8dc9aa8599595eec14ea402140ecdeb6392129a265785b3414ff114c32fa",
+    "scripts/zhiban-local/run-m6-catalog.ts": "9607ac2055ea867844dba8f53df613ea7d443d92c54805878a9d754e85d2ea0c",
+    "package.json": "8f96b862f09bc8e4aa79477a4f1bca0e61966b2b380e1eba981edf76e8e0d913"
+  },
+  "documents": {
+    "docs/v2/zhiban-v2-trial-uat-fixes.md": "467bae2618a1e04be6817a1b8c884b0db52cd85ae32eda1ace89c38020ac02d2",
+    "docs/v2/zhiban-v2-m6-management-history.md": "9ee8ad1f793c0714483217782fd1290f9fe7264e86881339a1b8c7b61529c482",
+    "docs/v2/zhiban-v2-delivery-plan.md": "410a7b397d7e4118e55591a2576436ea51f1848471abd81f4de272d7b2e915d2",
+    "docs/v2/zhiban-v2-execution-plan.md": "fec8e3ebfad2b9d577cad72e0f2c9c921a8f6c1e19a823e37d09e4876e4bd046"
+  },
+  "inAppBrowser": {
+    "certificateBypass": false,
+    "origin": "https://127.0.0.1:3459",
+    "actions": [
+      "real admin login -> ENROLL history identifies Chen and Li",
+      "logout -> real student login -> expand initial-attempt confirmation; no START command"
+    ],
+    "screenshots": {
+      "zhiban-uat-fixes-attempt-iab-local.png": "bd421d85e76bd441e30c3ea022c0a0cd55ead7e5833d7009398e9c3d0831bb3b",
+      "zhiban-uat-fixes-history-iab-local.png": "7b825ff6169fc695a6cec2f93f11a30f4806b8bffe07e75fde304f24556a2847"
+    }
+  },
+  "evidenceBoundaries": [
+    "Current names from same-tenant directory; no historical name snapshot",
+    "Malformed/foreign historical refs use owned synthetic fixtures, not real audit remediation",
+    "Old UAT report and checkpoints remain historical and do not certify new sources",
+    "Running trial is fresh synthetic data; not cleaned while retained",
+    "No full build, load benchmark, production/CI signoff or M5 enabled composition"
+  ],
+  "gitActions": {
+    "commit": false,
+    "push": false,
+    "ciDispatch": false
+  },
+  "isolated": [
+    "real 55432/55433",
+    "Native and maintenance control/HBA/credential staging",
+    "applied migrations and frozen production semantics"
+  ]
+}

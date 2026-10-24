@@ -1,0 +1,17 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "FINAL_HOST_CHAPTER_UPLOAD_RETURN_OUTLINE_PUBLICATION_STUDENT_ORIGINAL_DOWNLOAD",
+  "teacherUrl": "https://127.0.0.1:3461/zhiban/teacher/courses/01a14efe-78de-71cd-83f3-47dba65e3573?space=01a14efd-f46d-7322-86ef-01835e724f35&offering=01a14efe-79f6-7640-97fe-fef5bf24faf9#chapter-0405d79b-091f-4aa2-9a61-1cbbafd65c96",
+  "studentUrl": "https://127.0.0.1:3461/zhiban/student/courses/01a14efe-78de-71cd-83f3-47dba65e3573/learning-center/5fa4ef20-bc48-4e85-8103-c82ff716ddb3?space=01a14efd-f46d-7322-86ef-01835e724f35&offering=01a14efe-79f6-7640-97fe-fef5bf24faf9",
+  "scriptSha256": "9f986ada46827d3c1b31064da0e6b405941a6a019520ba692e2cc6bfa2b496f5",
+  "checks": [
+    "Real teacher and student UI logins",
+    "Chapter upload link -> native parse -> explicit resource publication",
+    "No erroneous dirty-page confirmation on local upload",
+    "Return attaches MATERIAL to original chapter; explicit outline save and publish",
+    "Student exact unit text and real original download match"
+  ],
+  "at": "2026-10-18T12:37:20.879Z"
+}

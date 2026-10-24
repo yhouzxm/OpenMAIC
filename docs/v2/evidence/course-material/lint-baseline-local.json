@@ -1,0 +1,9 @@
+{
+  "scope": "app/zhiban/local/content-client.tsx",
+  "baselineMessageCount": 32,
+  "currentMessageCount": 32,
+  "newMessages": 0,
+  "rules": {
+    "@typescript-eslint/no-explicit-any": 32
+  }
+}

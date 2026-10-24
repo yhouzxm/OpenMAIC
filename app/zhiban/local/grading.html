@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>智伴 · 教师待评分</title>
+    <link rel="stylesheet" href="/zhiban/style.css" />
+    <link rel="stylesheet" href="/zhiban/workspace.css" />
+    <link rel="stylesheet" href="/zhiban/management.css" />
+    <script src="/zhiban/course-page.js" defer></script>
+    <script src="/zhiban/assessment.js" defer></script>
+    <script src="/zhiban/gradebook.js" defer></script>
+    <script src="/zhiban/grading.js" defer></script>
+    <link rel="stylesheet" href="/zhiban/quiz.css" />
+    <script src="/zhiban/quiz-client.js" defer></script>
+    <script src="/zhiban/final-grades.js" defer></script>
+  </head>
+  <body data-course-surface="grading">
+    <header class="topbar">
+      <a class="brand" href="/zhiban">智伴 · 工作台</a><span class="local">教师评分</span>
+    </header>
+    <main id="management" class="management-root">
+      <h1>待评分与成绩</h1>
+      <p class="muted">
+        每次尝试仅列最新正式提交；按活动和评分状态筛选。历史提交更正请从学习记录进入。
+      </p>
+      <p id="grading-message" class="management-message" role="status" aria-live="polite"></p>
+      <section id="grading-list"></section>
+      <section id="grading-editor" class="learning-panel"></section>
+    </main>
+    <section id="final-grades" class="learning-panel" aria-label="课程总评与成绩申诉"></section>
+  </body>
+</html>

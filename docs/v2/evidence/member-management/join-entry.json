@@ -1,0 +1,16 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "origin": "https://127.0.0.1:3461",
+  "stage": "INVITED_PENDING_TARGET_CONSENT",
+  "checks": [
+    "standalone CLI issued admission through real ControlCommands",
+    "ordinary admin UI login and invitation",
+    "fresh unauthenticated target join page login without active space",
+    "target consent remains an explicit unclicked action; admin activation remains separate"
+  ],
+  "admissionId": "01a14f7a-d5dd-7593-b219-b3ceb556a7f1",
+  "member": "01a14f7b-0331-769d-a657-669ac72d9ce9",
+  "at": "2026-10-18T14:47:05.222Z"
+}

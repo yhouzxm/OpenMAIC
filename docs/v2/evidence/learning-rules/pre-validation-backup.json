@@ -1,0 +1,21 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "status": "ARCHIVES_CREATED_AND_TABLE_OF_CONTENTS_VERIFIED",
+  "root": "/tmp/zhiban-trial-content-w8N4ha",
+  "backupDirectory": "/home/zxm/.local/state/zhiban-trial-backups/learning-rules-20261023-202324",
+  "databaseCount": 3,
+  "files": {
+    "zhiban_trial_content_disposable.dump": "adddfda1a217cc2a1db4283bf505675ab852eb0fd5ab7358f2e0811bd08992cd",
+    "zhiban_trial_content_native.dump": "24b1818531bf5f25ea42a03a2990e54743dca87d494e8bf3f509b8387c8e8c6f",
+    "zhiban_trial_lesson_native.dump": "b56e8e53b058b73967c40cdfcc75533e73a1a813fc1bb65c15e6a6d62dd59f5b",
+    "accounts.json": "8bec62381db31571ac3d9652290a02312ce0d31bba3a32c80c6c54cbf0c1de41",
+    "member-control.json": "deb42ba61c3cf1f6a194ebe32517458a44f345d3a79692b5a054c0792a004a99",
+    "member-inputs.json": "69759c459e41a013b424a4e6ad3af8dfce9fc3f07a95b962c7dd630f9500ceb6",
+    "member-operator.pem": "f255c68c8d0e62024adae633cd709e486482e2271809b80fee2f38f680a5ac31",
+    "member-approver.pem": "6a46d43382fbd65a4966ba018b53e0747c7693efaf1172ec5888544d098b610b",
+    "roster-example.csv": "3e692f85034e2295c40f5491bf8a49703dad1df01b573dfbb26cdb07edb6f97e",
+    "content-installation.json": "9e282ed1d68bbb07af0534e0f6528e50a4cc8e19886124caf8c5f1e07dd6c909"
+  },
+  "restoreTested": false,
+  "secretsPrinted": false
+}

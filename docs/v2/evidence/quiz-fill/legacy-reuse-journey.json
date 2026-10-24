@@ -1,0 +1,17 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "pg16": 160015,
+  "root": "/tmp/zhiban-trial-content-hmLuGX",
+  "ids": {
+    "source": "01a1690c-9ba7-770a-9eee-ea553c61e63e",
+    "copy": "01a1690c-ad2b-766d-9ad5-d2570a0aa6c2",
+    "submission": "01a1690c-c337-70f6-b73a-cd52eb32c4c2"
+  },
+  "checks": [
+    "Browser: judgment template, explicit key, question duplication, unsaved guard, save/publish, published quiz copy opens independent DRAFT, student submit, teacher publish and student result",
+    "PG16: source revision/version pins, reset rules, new IDs, immutable old version, independent content, same-key concurrent replay, student/admin and revoked teacher denial, rollback on missing source/version"
+  ],
+  "at": "2026-10-23T13:56:49.663Z"
+}

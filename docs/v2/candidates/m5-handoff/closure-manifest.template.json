@@ -1,0 +1,16 @@
+{
+  "formatVersion": 1,
+  "status": "UNISSUED",
+  "nodeAbi": null,
+  "platform": "linux",
+  "arch": "x64",
+  "libc": "glibc",
+  "nodeExecutableSha256": null,
+  "files": [],
+  "edges": [],
+  "nativeAddons": [],
+  "systemLibraries": [],
+  "dynamicImports": [],
+  "unresolved": [],
+  "evidenceOrigin": "LOCAL"
+}

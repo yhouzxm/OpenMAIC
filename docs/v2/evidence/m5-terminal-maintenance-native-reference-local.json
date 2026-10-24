@@ -1,0 +1,93 @@
+{
+  "formatVersion": 1,
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_WITH_DEFERRED_MAINTENANCE_GATES",
+  "candidateInventorySha256": "0774292a6013eee00e80da90b5c90e294d596c053bbb5f39101dcc537877c046",
+  "referenceDraftSha256": "fca1c9de40f387cebde246bb17d980f7364416217c19ffbc4ee970fac9efd022",
+  "sourceBindingsSha256": "972625e236cb72eb976ad90eb0caaa7cae692f8e26482cc9d1ad1ffdf8a23e2c",
+  "checks": [
+    {
+      "name": "actual provisionNative/public Storage ensure functions create fresh Native schema",
+      "status": "PASS"
+    },
+    {
+      "name": "TI-03: additive ACL removes PUBLIC-derived cross-DB access and preserves seven ordinary roles",
+      "status": "PASS"
+    },
+    {
+      "name": "TI-01: same-name Native index predicate drift is rejected by full and terminal profiles",
+      "status": "PASS"
+    },
+    {
+      "name": "TI-01: invalid Native index state is rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "TI-01: same-name unique index drift is rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "current blocked loader accepts signed disposable receipt over actual Native reference",
+      "status": "PASS"
+    },
+    {
+      "name": "TI-02: loader rejects late admission drift before returning",
+      "status": "PASS"
+    },
+    {
+      "name": "TI-02: loader rejects late ordinary writer LOGIN drift",
+      "status": "PASS"
+    },
+    {
+      "name": "prepared broker refuses overlapping inspections",
+      "status": "PASS"
+    },
+    {
+      "name": "prepared broker retains physical sessions and rechecks blocked receipt",
+      "status": "PASS"
+    },
+    {
+      "name": "prepared broker detects late admission drift and latches BLOCKED without reconnect",
+      "status": "PASS"
+    },
+    {
+      "name": "harness observes closed admission after failure cleanup; broker has no reopen/recovery API",
+      "status": "PASS"
+    },
+    {
+      "name": "source and distributed runtime byte bindings stable through reference build",
+      "status": "PASS"
+    }
+  ],
+  "observations": {
+    "nativeTableCount": 11,
+    "nativeIndexCount": 23,
+    "brokerEndState": {
+      "state": "BLOCKED",
+      "mode": "installed",
+      "observedInstallationStatus": null,
+      "checkedAt": "2026-10-12T22:42:52.157Z",
+      "receiptSha256": null,
+      "observationOnly": true,
+      "runtimeAccepted": false,
+      "terminalActionsAllowed": false,
+      "leaseIssued": false,
+      "evidenceOrigin": "LOCAL",
+      "githubActions": false
+    },
+    "reviewFindingsAddressed": [
+      "TI-01",
+      "TI-02",
+      "TI-03"
+    ],
+    "downstreamProbeOnlyAdjustment": null,
+    "referenceArtifactAdjustmentApplied": false
+  },
+  "disposableClusterOnly": true,
+  "tcpListening": false,
+  "existingClustersConnected": false,
+  "temporaryClusterStoppedAndRemoved": true,
+  "realReceiptIssued": false,
+  "runtimeAccepted": false
+}

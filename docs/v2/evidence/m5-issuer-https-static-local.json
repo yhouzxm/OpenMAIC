@@ -1,0 +1,32 @@
+{
+  "status": "STATIC_PASS",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "candidateInventorySha256": "f85d3c1801e07839388d28dd1a1cc36b9936159b431cb06977a081e0a795595b",
+  "candidateMigrationSha256": "bbede0be2e773562730bb2b1c756d4aceba853143b298b768de7c0d70d624a8e",
+  "checks": [
+    "source-bindings-and-deferred-authority",
+    "pg16-grammar-and-no-old-business-mutation",
+    "client-helper-only-acl-and-owner-rls",
+    "same-transaction-commit-and-current-window-barriers",
+    "unissued-templates",
+    "local-issuer-https-wired-real-authority-deferred",
+    "initial-state-and-atomic-owner-control-audit",
+    "complete-roles-and-latest-deployment-activation",
+    "candidate-executor-syntax-no-issuer-or-unlink",
+    "actual-builder-child-wired-real-acceptance-deferred",
+    "exclusive-offline-build-source-tool-native-closure",
+    "private-fd-challenge-readonly-child-and-runtime-guards",
+    "missing-evidence-blocks-and-ack-binds-compatible-receipts",
+    "independent-issuer-complete-group-and-lifetime-https-lock",
+    "local-document-links"
+  ],
+  "sqlStatements": 36,
+  "plpgsqlFunctions": 10,
+  "grammar": [
+    16,
+    1
+  ],
+  "runtimeAccepted": false,
+  "liveChecks": "NOT_RUN"
+}

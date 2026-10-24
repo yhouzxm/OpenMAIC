@@ -1,0 +1,64 @@
+{
+  "formatVersion": 1,
+  "status": "UNISSUED",
+  "profile": "ordinary-host-after-terminal-local-v1",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "runtimeAccepted": false,
+  "businessSchemas": [
+    "zhiban_identity",
+    "zhiban_bridge",
+    "zhiban_academic",
+    "zhiban_learning",
+    "zhiban_assessment",
+    "zhiban_content",
+    "zhiban_reconcile",
+    "zhiban_reconcile_catalog",
+    "zhiban_handoff"
+  ],
+  "nativeSchemas": ["public"],
+  "loginRoles": [
+    "zhiban_auth_runtime",
+    "zhiban_runtime",
+    "zhiban_control_runtime",
+    "zhiban_academic_runtime",
+    "zhiban_bridge_runtime",
+    "zhiban_openmaic_runtime"
+  ],
+  "ledger": {
+    "content": ["0001", "0002"],
+    "handoff": ["0001"]
+  },
+  "factsRead": {
+    "role": "zhiban_control_runtime",
+    "helper": "zhiban_handoff.inspect_host_installation(uuid,uuid,text)",
+    "authorization": "exact deployment/release/token digest; REGISTERED validation-only, ACTIVE gate checking; latest epoch",
+    "transaction": "READ COMMITTED READ WRITE for FOR SHARE; no helper DML"
+  },
+  "requiredState": "highest deployment clear_commits (not per-release maximum) matches signed gate digest/approval/fence, ACTIVE read scope, all six composition ledgers, empty claims and latest epoch",
+  "metadataQueries": [
+    "04-complete-catalog.sql",
+    "05-business-terminal-catalog.sql",
+    "06-native-terminal-catalog.sql"
+  ],
+  "expectedReference": {
+    "status": "UNISSUED",
+    "sourceKind": "INDEPENDENT_SHADOW_PG16",
+    "artifactSha256": null,
+    "approvalRef": null
+  },
+  "forbiddenCapabilities": [
+    "issue_grant",
+    "register_proof",
+    "finalize",
+    "Runtime",
+    "AI",
+    "PNG",
+    "DDL",
+    "migrator secrets"
+  ],
+  "oldProfile": "remains strict; no bypass/actual-as-expected conversion",
+  "newHelperRawTablesGranted": false,
+  "namespaceInventory": "all non-pg, non-information_schema namespaces compared exactly to reviewed shadow, including unexpected zhiban_*",
+  "roleInventory": "all non-pg roles compared exactly; six ordinary LOGIN plus postgres, no filtered-list blind spot"
+}

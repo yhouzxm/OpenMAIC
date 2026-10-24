@@ -1,0 +1,11 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "SYNTHETIC_CASE_READY_REAL_COMMANDS",
+  "root": "/tmp/zhiban-trial-content-S39pyV",
+  "teacherUrl": "https://127.0.0.1:3461/zhiban/teacher/courses/01a15ecc-2d0a-7528-8c9c-629707de2138/analytics?space=01a15ecb-b76a-7497-ad01-34026322bee2&offering=01a15ecc-2e15-7427-b95f-cbea0a1e0842#followups",
+  "caseId": "01a15ecc-ca06-7744-a16d-28015ba1e2f5",
+  "state": "CLOSED",
+  "learningPendingItems": 6,
+  "externalNotificationSent": false
+}

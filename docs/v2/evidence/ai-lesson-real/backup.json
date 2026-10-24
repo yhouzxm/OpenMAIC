@@ -1,0 +1,24 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "status": "ARCHIVES_CREATED_AND_TABLE_OF_CONTENTS_VERIFIED",
+  "root": "/tmp/zhiban-trial-content-aPJJhU",
+  "backupDirectory": "/home/zxm/.local/state/zhiban-trial-backups/ai-real-20261020-211350",
+  "databaseCount": 3,
+  "files": {
+    "zhiban_trial_content_disposable.dump": "e1332ce25ecbe4426733cab6cb699c19efc70c26db8de69dcd2ece1d069e1a96",
+    "zhiban_trial_content_native.dump": "6d9d3e3e66fe7a80f7440b84d378aad267acabf30e25a609edee0c2bbbe89c5e",
+    "zhiban_trial_lesson_native.dump": "adbed50b3176b45eb0a3382e9996ba7b4bccbf17c924447adbed606e7cbc3808",
+    "accounts.json": "b3723fee44b8af7c0edd7951fd873579a9d7f91eac8f8bbbca9da3c81886e414",
+    "member-control.json": "b7d4fcf19080e9bf4c83db904f1d22b66e1386108aaa22cf689c25f0b72b6ebb",
+    "member-inputs.json": "28845712202c89da18173faaf64b76351a05422a9fa5763166d9c5b3b43280e3",
+    "member-operator.pem": "1012085c24b9f14528ec4a58c638c66b4e6ee5cd6ea149a4f12740825673b46e",
+    "member-approver.pem": "e7bc86047fbe945cd999d809b8ecb574665ed1b1047eae9576b1f02bf49bb2c5",
+    "roster-example.csv": "2c6c66ae691357a52a43ed02e9f3124e836418b6c83a4abec9288c82b0d4ede0",
+    "content-installation.json": "b036a4b4ffc8b669f917e28e3ec14b877eca730f9cec8aae398a5d8b04213664",
+    "openmaic.yml": "87dc85d739eab9082087f5c8a2bab98556af69d661ba601dd0c142cfe80f84a9",
+    "openmaic-generation-baseline.yml": "270fe0034a424af19c7bf4d288ec0eaf705ef450d24e0ec16aebdd6be328ba9e",
+    "start.cjs": "9001c5aff91b07da344dc1c54ba7bf919e54887171dd83439c9683e755ed054b"
+  },
+  "restoreTested": false,
+  "secretsPrinted": false
+}

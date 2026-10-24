@@ -1,0 +1,31 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "root": "/tmp/zhiban-trial-content-rU1zAL",
+  "origin": "https://127.0.0.1:3461",
+  "roles": {
+    "TEACHER": {
+      "status": 200,
+      "rows": 2
+    },
+    "STUDENT": {
+      "status": 200,
+      "rows": 2
+    },
+    "ADMIN": {
+      "status": 200,
+      "rows": 1
+    }
+  },
+  "restoredPublicationAndServiceAudit": {
+    "published_by": null,
+    "service_job_id": "01a16b95-e3a5-77cd-8988-76c134ecbca2",
+    "state": "APPLIED",
+    "actor_kind": "SERVICE",
+    "actor_id": null,
+    "service_code": "formal_ai_grader"
+  },
+  "pending": 0,
+  "accountsSha256": "91d73979d2a3a17ba17c69549682aa4d944f875c004bb8427ad5ba35d262e122"
+}

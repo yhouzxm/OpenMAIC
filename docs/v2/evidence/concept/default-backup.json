@@ -1,0 +1,21 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "status": "ARCHIVES_CREATED_AND_TABLE_OF_CONTENTS_VERIFIED",
+  "root": "/tmp/zhiban-trial-content-9FD24n",
+  "backupDirectory": "/home/zxm/.local/state/zhiban-trial-backups/concept-current-20261022-185338",
+  "databaseCount": 3,
+  "files": {
+    "zhiban_trial_content_disposable.dump": "bfdb3f7aa026c71959984b6bb40973d7b6bb51403f6985d130ab5d8899baf5ae",
+    "zhiban_trial_content_native.dump": "fccb9d0012d95768db27c4678844881fe6e22f340897c8335017cbdf64c5c327",
+    "zhiban_trial_lesson_native.dump": "574ab08762a103057d0fbe9807262e5aec618ffb3a75ee26bd140055f87d9bc1",
+    "accounts.json": "cdec9e0ec0c31ff48962bbbe438440f4a3aa5ef54b9dbd3e0c364025faf60d96",
+    "member-control.json": "538b913aa5a357d9a8840dd0050434f882d7d35c667eefb9b10f4d3b3b4571e0",
+    "member-inputs.json": "4a9344ef97f726dd0e488bf73ce262b00f7534856921b67f8caf7c78fcd426c3",
+    "member-operator.pem": "0aadd43182cb0893dbd70c01292c8b8877bde3cc2fb0b1597e69eccc71a16f18",
+    "member-approver.pem": "fdba604ffd9a6e47e7f5d9fc1390de2fe653ebfc6b76695225bc7fc65733e2e3",
+    "roster-example.csv": "7170aea44affb7450354366f33b38026ab66b8c293a36471be06d47f9bc49e3d",
+    "content-installation.json": "b9a0893db03deb43614a610302c3de27ac5457c088b2befbe1b605e81e87a654"
+  },
+  "restoreTested": false,
+  "secretsPrinted": false
+}

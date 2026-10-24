@@ -1,0 +1,20 @@
+lib/zhiban/domain/remediation/model.ts 215ms
+lib/zhiban/application/remediation/service.ts 144ms
+lib/zhiban/infrastructure/remediation/http.ts 121ms
+lib/zhiban/infrastructure/remediation/postgres/transaction.ts 480ms
+lib/zhiban/application/academic/service.ts 35ms (unchanged)
+lib/zhiban/infrastructure/academic/postgres/store.ts 418ms (unchanged)
+app/zhiban/local/analytics.js 390ms
+app/zhiban/local/course-page.js 76ms
+app/zhiban/local/workspace.js 175ms (unchanged)
+app/zhiban/local/remediation.js 135ms
+app/zhiban/local/remediation.css 72ms
+app/zhiban/local/remediation.html 97ms
+scripts/zhiban-local/remediation.ts 31ms
+scripts/zhiban-local/build-remediation-reference.ts 41ms (unchanged)
+scripts/zhiban-local/verify-remediation.ts 288ms
+scripts/zhiban-local/verify-m6-catalog.mts 1163ms
+scripts/zhiban-local/run-m6-catalog.ts 118ms (unchanged)
+scripts/zhiban-local/trial-content.ts 145ms (unchanged)
+scripts/zhiban-local/request-target.ts 18ms (unchanged)
+tests/zhiban/remediation/model.test.ts 26ms

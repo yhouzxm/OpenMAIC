@@ -1,0 +1,93 @@
+{
+  "kind": "ZHIBAN_PORTABLE_STARTUP_DIAGNOSIS_LOCAL_V1",
+  "at": "2026-10-24T11:14:32.853480+00:00",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "DIAGNOSTIC_GAP_FIXED_REMOTE_ROOT_CAUSE_UNCONFIRMED",
+  "remoteFailure": {
+    "runId": 40087593933,
+    "stage": "RESTORE_START",
+    "resultUnchanged": "FAIL",
+    "originalPrivateLog": "PURGED_BY_AUTHORIZED_CLEANUP"
+  },
+  "frozenInput": {
+    "installManifestSha256": "103cea12346762c01794464d7b79c1a196818ba2f05806f596cdca810ff07af0",
+    "restoreManifestSha256": "c2ab07cd0e69586d13ba62d3b26d767d93bc9d031a2b7a8bee4e7342baa17e76",
+    "applicationSourceDigest": "a310b5758e14af73e614935f44dde97b933b4b2f9f15f6ddbd2a41548e47a18d"
+  },
+  "isolation": {
+    "method": "bubblewrap user/pid/network namespaces and tmpfs /tmp, read-only host filesystem except new owner-only probe directory",
+    "sourceHostDefaultInterrupted": false,
+    "networkOrPgNamespaceShared": false,
+    "uidMapping": "Second probe maps source uid 1000 to namespace uid 1001; same kernel/host, not a second machine."
+  },
+  "probes": {
+    "candidateSupervisorSourceUid": {
+      "evidenceOrigin": "LOCAL",
+      "githubActions": false,
+      "status": "PASS",
+      "modes": [
+        {
+          "mode": "start-rebind",
+          "ready": true,
+          "verifiedHttps": true
+        },
+        {
+          "mode": "start",
+          "ready": true,
+          "verifiedHttps": true
+        }
+      ],
+      "isolatedNetworkAndTmp": true
+    },
+    "originalSupervisorDifferentUid": {
+      "evidenceOrigin": "LOCAL",
+      "githubActions": false,
+      "status": "PASS",
+      "modes": [
+        {
+          "mode": "start-rebind",
+          "ready": true,
+          "verifiedHttps": true
+        },
+        {
+          "mode": "start",
+          "ready": true,
+          "verifiedHttps": true
+        }
+      ],
+      "isolatedNetworkAndTmp": true
+    },
+    "originalSpawnExperiment": {
+      "kind": "CONTROLLED_LOCAL_CHILD_PROCESS",
+      "attempts": 30,
+      "immediateIdentityFailures": 0,
+      "laterMatchingIdentities": 30
+    }
+  },
+  "changes": [
+    "Wait for actual child spawn before recording process identity; observe child exit code and signal.",
+    "Distinct failure codes for spawn, exit, identity loss, malformed metadata, readiness timeout and command failure.",
+    "Read at most 1MiB from owner-only no-follow host log; emit fixed reason enum only, no raw stderr/path/message.",
+    "Allowlisted per-phase millisecond timings survive cleanup and summary sanitization."
+  ],
+  "verification": {
+    "boundaryTestsPassed": 23,
+    "boundaryTestsFailed": 0,
+    "eslint": "PASS",
+    "format": "PASS",
+    "realLocalRestoreAndNormalRestart": "PASS both modes with verified HTTPS",
+    "remoteRunThisTurn": false,
+    "classroomOrModelOrParserRetest": false
+  },
+  "rootCause": "NOT_CONFIRMED: original supervisor and frozen application also pass local namespace probes. Spawn synchronization is a robustness fix, not proof of the historical remote failure cause.",
+  "sourceHashes": {
+    "scripts/zhiban-ci/portable-acceptance.cjs": "c99df7b066ecc537090fd2a3156ce93caa632a4a8b4a3ead0bc753be67d353a3",
+    "tests/zhiban/local/portable-ci.test.cjs": "42480623d8c5722ab8d6bdb4364f0bddf92d0c9c7534df24044fdd59751a7ec6"
+  },
+  "privateDiagnosticDisposition": "Private owner-only local directory, not included in repository evidence; only allowlisted local probe reports copied here.",
+  "commit": false,
+  "push": false,
+  "ciDispatch": false,
+  "next": "One explicitly authorized remote diagnostic acceptance if approved; no automatic repeat."
+}

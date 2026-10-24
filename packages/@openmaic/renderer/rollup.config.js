@@ -43,6 +43,7 @@ const plugins = [
 
 const entries = {
   index: 'src/index.ts',
+  'quiz/index': 'src/quiz/index.tsx',
   'elements/index': 'src/elements/index.ts',
   'types/index': 'src/types/index.ts',
   'snapshot/index': 'src/snapshot/index.ts',

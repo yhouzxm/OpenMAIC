@@ -1,0 +1,20 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-23T14:26:30.856Z",
+  "root": "/tmp/zhiban-trial-content-IS9eTC",
+  "pg16": 160015,
+  "ids": {
+    "quiz": "01a16927-cffa-72b8-9c83-6b0394139f34",
+    "question": "195d48d3-72e4-43e8-b5f8-2b0e3294a209",
+    "unit": "263db573-6230-48fe-b271-cfe32d07b9df",
+    "copy": "01a16927-dd50-7632-a51a-da778ec39ef3",
+    "attempt": "01a16927-e53a-743a-80d1-6a03e8bf6bda",
+    "submission": "01a16927-ed4b-719d-a407-90cc6d6c5b1d"
+  },
+  "checks": [
+    "Browser: matching items/keys/points, publish, student draft reload, fixed-version submit, partial score, teacher publish/correction and student sealed review",
+    "PG16: old/new algorithm identities, mixed legacy source, copied matching draft, public answer isolation, malformed arity/score forgery/manual score injection rejected, concurrent edit CAS, version-change isolation and required override reason"
+  ]
+}

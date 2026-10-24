@@ -3,21 +3,15 @@ import type { AssetStore } from '@openmaic/storage';
 import { Type, type Static } from 'typebox';
 
 import { generateImage, IMAGE_PROVIDERS } from '@/lib/media/image-providers';
-import { managedMediaProviderFetch } from '@/lib/server/media-provider-fetch';
+import { managedMediaProviderFetch, mediaProviderFetch } from '@/lib/server/media-provider-fetch';
+import { serverMediaConnection } from '@/lib/server/model-config/media';
 import type {
   ImageGenerationConfig,
   ImageGenerationOptions,
   ImageGenerationResult,
   ImageProviderId,
 } from '@/lib/media/types';
-import {
-  enabledProviderIds,
-  getServerImageProviders,
-  isServerProviderDisabled,
-  resolveImageApiKey,
-  resolveImageBaseUrl,
-  resolveImageModel,
-} from '@/lib/server/provider-config';
+import { enabledProviderIds, isServerProviderDisabled } from '@/lib/server/provider-config';
 import { createLogger } from '@/lib/logger';
 import { resolveImageSize } from '@/lib/server/image-sizing';
 import { recordGenerationUsage } from '@/lib/server/usage-storage';
@@ -70,13 +64,21 @@ interface PersistImageInput {
   result: ImageGenerationResult;
   stageId: string;
   signal: AbortSignal;
+  /** The run's owner; the bytes are allocated in its asset partition. */
+  ownerId?: string;
 }
 
 type PersistGeneratedImage = (input: PersistImageInput) => Promise<string>;
 
-export interface GenerateImageToolDeps extends Pick<CourseToolDeps, 'sessionId' | 'abortSignal'> {
-  getConfiguredProviders?: typeof getServerImageProviders;
-  resolveProviderConfig?: (providerId: ImageProviderId) => ImageGenerationConfig;
+export interface GenerateImageToolDeps extends Pick<
+  CourseToolDeps,
+  'sessionId' | 'abortSignal' | 'ownerId'
+> {
+  /** The providers to pick from; by default, the one the image slot resolves to. */
+  getConfiguredProviders?: () => ImageProviderListing | Promise<ImageProviderListing>;
+  resolveProviderConfig?: (
+    providerId: ImageProviderId,
+  ) => ImageGenerationConfig | Promise<ImageGenerationConfig>;
   generateConfiguredImage?: GenerateConfiguredImage;
   persistGeneratedImage?: PersistGeneratedImage;
   timeoutMs?: number;
@@ -145,12 +147,14 @@ async function imageBytes(
  * get this deployment's PostgreSQL store.
  */
 export async function defaultPersistGeneratedImage(
-  { result, stageId, signal }: PersistImageInput,
+  { result, stageId, signal, ownerId }: PersistImageInput,
   assetStore?: AssetStore,
 ): Promise<string> {
+  if (!ownerId) throw new Error('Generated media cannot be stored without the run owner');
   const { bytes, mime } = await imageBytes(result, signal);
   throwIfAborted(signal);
   const assetId = await storeGeneratedAssetOrThrow({
+    ownerId,
     stageId,
     bytes,
     mimeType: mime,
@@ -161,36 +165,57 @@ export async function defaultPersistGeneratedImage(
   return assetId;
 }
 
+type ImageProviderListing = Record<string, { models?: string[]; disabled?: boolean }>;
+
 /**
- * Pick the image provider for this call: the operator's `DEFAULT_IMAGE_PROVIDER`
- * when it names an enabled provider, otherwise the first enabled provider.
- * Resolution goes through {@link enabledProviderIds}, so a force-disabled
- * provider is never selected and `DEFAULT_IMAGE_PROVIDER` cannot bypass the
- * force-off switch (#665).
+ * Pick the image provider for this call: the first enabled one listed. The
+ * default listing is the image slot's single provider. Resolution goes through
+ * {@link enabledProviderIds}, so a force-disabled provider is never selected
+ * (#665).
  */
-function selectProvider(
-  configured: Record<string, { models?: string[]; disabled?: boolean }>,
-): ImageProviderId | null {
-  const ids = enabledProviderIds(configured);
-  const requested = process.env.DEFAULT_IMAGE_PROVIDER?.trim();
-  if (requested) return ids.includes(requested) ? (requested as ImageProviderId) : null;
-  return (ids[0] as ImageProviderId | undefined) ?? null;
+function selectProvider(configured: ImageProviderListing): ImageProviderId | null {
+  return (enabledProviderIds(configured)[0] as ImageProviderId | undefined) ?? null;
+}
+
+/**
+ * The image slot for the run's owner as a one-provider listing and its
+ * connection. Resolved once per call.
+ */
+function slotImageProvider(ownerId: string | undefined) {
+  let pending: ReturnType<typeof serverMediaConnection> | undefined;
+  const connection = () => (pending ??= serverMediaConnection('image', ownerId));
+  return {
+    listing: async (): Promise<ImageProviderListing> => {
+      const resolved = await connection();
+      return resolved && resolved !== 'off' ? { [resolved.providerId]: {} } : {};
+    },
+    config: async (providerId: ImageProviderId): Promise<ImageGenerationConfig> => {
+      const resolved = await connection();
+      if (!resolved || resolved === 'off' || resolved.providerId !== providerId) {
+        throw new Error('the image slot no longer resolves to this provider');
+      }
+      return {
+        providerId,
+        apiKey: resolved.apiKey ?? '',
+        ...(resolved.baseUrl ? { baseUrl: resolved.baseUrl } : {}),
+        // A slot without a model uses the provider's first catalogue model.
+        model: resolved.modelId ?? IMAGE_PROVIDERS[providerId]?.models?.[0]?.id,
+        fetchImpl: resolved.managed ? managedMediaProviderFetch : mediaProviderFetch,
+      };
+    },
+  };
 }
 
 export function buildGenerateImageTool(
   deps: GenerateImageToolDeps,
 ): AgentTool<typeof GenerateImageParams, unknown> {
-  const configuredProviders = deps.getConfiguredProviders ?? getServerImageProviders;
-  const resolveProviderConfig =
-    deps.resolveProviderConfig ??
-    ((providerId: ImageProviderId): ImageGenerationConfig => ({
-      providerId,
-      apiKey: resolveImageApiKey(providerId),
-      baseUrl: resolveImageBaseUrl(providerId),
-      model: resolveImageModel(providerId),
-      // Server-configured provider: its base URL is operator configuration.
-      fetchImpl: managedMediaProviderFetch,
-    }));
+  const providerSource = () => {
+    const slot = slotImageProvider(deps.ownerId);
+    return {
+      configuredProviders: deps.getConfiguredProviders ?? slot.listing,
+      resolveProviderConfig: deps.resolveProviderConfig ?? slot.config,
+    };
+  };
   const callProvider = deps.generateConfiguredImage ?? generateImage;
   const persist = deps.persistGeneratedImage ?? defaultPersistGeneratedImage;
 
@@ -210,23 +235,13 @@ export function buildGenerateImageTool(
       const stageId = params.stageId;
       throwIfAborted(callerSignal);
 
-      const providers = configuredProviders();
+      const { configuredProviders, resolveProviderConfig } = providerSource();
+      const providers = await configuredProviders();
       const providerId = selectProvider(providers);
-      const requestedDefault = process.env.DEFAULT_IMAGE_PROVIDER?.trim();
       if (!providerId) {
-        if (requestedDefault) {
-          log.warn(
-            `[${toolCallId}] Image generation unavailable: requested default provider ${requestedDefault} is not enabled`,
-          );
-        } else {
-          log.warn(
-            `[${toolCallId}] Image generation unavailable: no enabled server image provider`,
-          );
-        }
+        log.warn(`[${toolCallId}] Image generation unavailable: no image provider resolves`);
         return errorResult(
-          requestedDefault
-            ? 'Image generation is unavailable: the server default image provider is not available.'
-            : 'Image generation is unavailable: no server image provider is available.',
+          'Image generation is unavailable: no server image provider is available.',
           {
             stageId,
             sessionId: deps.sessionId,
@@ -261,7 +276,7 @@ export function buildGenerateImageTool(
           },
         );
       }
-      const providerConfig = resolveProviderConfig(providerId);
+      const providerConfig = await resolveProviderConfig(providerId);
       if (provider.requiresApiKey && !providerConfig.apiKey) {
         log.warn(
           `[${toolCallId}] Image generation unavailable: no API key configured for provider ${providerId}`,
@@ -307,7 +322,12 @@ export function buildGenerateImageTool(
         });
         throwIfAborted(ioSignal);
 
-        const src = await persist({ result, stageId, signal: ioSignal });
+        const src = await persist({
+          result,
+          stageId,
+          signal: ioSignal,
+          ...(deps.ownerId ? { ownerId: deps.ownerId } : {}),
+        });
         throwIfAborted(ioSignal);
         void recordGenerationUsage({
           kind: 'image',

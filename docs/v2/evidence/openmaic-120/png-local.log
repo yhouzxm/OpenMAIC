@@ -1,0 +1,47 @@
+PASS PG16 additive migration; unchanged prerequisites/text ledger; exact reference catalog
+PASS real Identity login/CSRF and restricted PG roles; HTTPS certificate validation
+PASS teacher PNG upload and registered resource selector
+DIAGNOSTIC {"phase":"SAVE_CONTENT","code":"42501","table":null,"constraint":null}
+DIAGNOSTIC {"phase":"SAVE_CONTENT","code":"42501","table":null,"constraint":null}
+DIAGNOSTIC {"phase":"SAVE_CONTENT","code":"42501","table":null,"constraint":null}
+PASS student/admin/unenrolled/foreign upload denied
+DIAGNOSTIC {"phase":"SAVE_CONTENT","code":"INVALID_INPUT","table":null,"constraint":null}
+DIAGNOSTIC {"phase":"SAVE_CONTENT","code":"INVALID_INPUT","table":null,"constraint":null}
+PASS CSRF, MIME spoof, truncated PNG and decoded pixel budget denied
+DIAGNOSTIC {"phase":"READ","code":"FORBIDDEN","table":null,"constraint":null}
+PASS unreferenced draft upload is not readable
+DIAGNOSTIC {"phase":"READ","code":"FORBIDDEN","table":null,"constraint":null}
+PASS image-only immutable publish; real DocumentStore/AssetStore read; closed DTO/private gateway
+PASS HEAD, single Range, invalid Range and no-store headers
+DIAGNOSTIC {"phase":"READ","code":"42501","table":null,"constraint":null}
+DIAGNOSTIC {"phase":"READ","code":"FORBIDDEN","table":null,"constraint":null}
+DIAGNOSTIC {"phase":"READ","code":"FORBIDDEN","table":null,"constraint":null}
+DIAGNOSTIC {"phase":"READ","code":"FORBIDDEN","table":null,"constraint":null}
+DIAGNOSTIC {"phase":"READ","code":"FORBIDDEN","table":null,"constraint":null}
+PASS cross tenant/offering/scene/unregistered asset and unauthenticated access denied
+PASS native asset refs and byte store are not public routes
+PASS actual HTTPS browser student PNG display, teacher selector, CSP and student read-only UI
+PASS browser upload -> selector -> add -> save -> immutable publish -> student display; text whitespace preserved
+DIAGNOSTIC {"phase":"READ","code":"FORBIDDEN","table":null,"constraint":null}
+DIAGNOSTIC {"phase":"READ","code":"FORBIDDEN","table":null,"constraint":null}
+PASS replacement rejects old publication and stale draft URLs
+PASS client disconnect cancels stream and releases capacity once
+DIAGNOSTIC {"phase":"READ","code":"BridgeError","table":null,"constraint":null}
+PASS Session logout stops the next byte chunk without revoking another Session
+DIAGNOSTIC {"phase":"READ","code":"FORBIDDEN","table":null,"constraint":null}
+PASS publication replacement stops an already opened old-version stream
+DIAGNOSTIC {"phase":"READ","code":"42501","table":null,"constraint":null}
+DIAGNOSTIC {"phase":"READ","code":"42501","table":null,"constraint":null}
+PASS Enrollment revocation blocks subsequent bytes and the next stream chunk
+DIAGNOSTIC {"phase":"READ","code":"FORBIDDEN","table":null,"constraint":null}
+PASS withdrawal denies published bytes; historical Native bytes retained
+PASS immutable generation asset provenance and retention
+PASS PNG runtime ACL denies UPDATE/DELETE/TRUNCATE
+DIAGNOSTIC {"phase":"SAVE_CONTENT","code":"FORBIDDEN","table":null,"constraint":null}
+PASS same offering foreign-resource upload cannot be attached
+DIAGNOSTIC {"phase":"PUBLISH_CONTENT","code":"Error","table":null,"constraint":null}
+DIAGNOSTIC {"phase":"PUBLISH_CONTENT","code":"OUTCOME_UNKNOWN","table":null,"constraint":null}
+DIAGNOSTIC {"phase":"SAVE_CONTENT","code":"23514","table":null,"constraint":null}
+DIAGNOSTIC {"phase":"READ","code":"INVALID_STATE","table":null,"constraint":null}
+PASS lost AssetStore commit ACK quarantines parent and child, no replay/edit/activation
+PASS original text policy retained; PNG not enabled without the PNG composition

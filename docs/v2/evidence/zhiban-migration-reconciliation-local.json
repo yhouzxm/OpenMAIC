@@ -1,0 +1,451 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "branch": "refactor/zhiban-v2",
+  "head": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "worktree": "DIRTY_EXISTING_CANDIDATES",
+  "sourceRef": "refs/remotes/origin/feature/zhiban-mechatronics",
+  "sourceSha": "0fa0a15e8b12ae9e4f7a2d78e80338874599bbae",
+  "remoteFetched": false,
+  "pageCount": 55,
+  "layoutCount": 6,
+  "capabilityCount": 36,
+  "pages": [
+    {
+      "route": "/zhiban/admin/academic",
+      "current": "统一后台教务分区、分页表格与返回",
+      "remaining": "旧应用同尺寸视觉对照；不扩张到完整账户或多类导入",
+      "status": "已接实际页面；P1视觉签收待验"
+    },
+    {
+      "route": "/zhiban/admin/import/classes",
+      "current": "仅已有学生教学班名册 CSV 闭环",
+      "remaining": "旧路由尚未接完整页面；多类目录导入、批次与原后台布局",
+      "status": "旧页未完成；部分可用；P1 / P3"
+    },
+    {
+      "route": "/zhiban/admin/import",
+      "current": "仅已有学生教学班名册 CSV 闭环",
+      "remaining": "旧路由尚未接完整页面；多类目录导入、批次与原后台布局",
+      "status": "旧页未完成；部分可用；P1 / P3"
+    },
+    {
+      "route": "/zhiban/admin/import/registrations",
+      "current": "受控教学班名册CSV预览／执行",
+      "remaining": "旧应用同尺寸视觉对照；不扩张到完整账户或多类导入",
+      "status": "已接实际页面；P1视觉签收待验"
+    },
+    {
+      "route": "/zhiban/admin/import/students",
+      "current": "仅已有学生教学班名册 CSV 闭环",
+      "remaining": "旧路由尚未接完整页面；多类目录导入、批次与原后台布局",
+      "status": "旧页未完成；部分可用；P1 / P3"
+    },
+    {
+      "route": "/zhiban/admin/import/users",
+      "current": "仅已有学生教学班名册 CSV 闭环",
+      "remaining": "旧路由尚未接完整页面；多类目录导入、批次与原后台布局",
+      "status": "旧页未完成；部分可用；P1 / P3"
+    },
+    {
+      "route": "/zhiban/admin",
+      "current": "已有教务入口／学生目录，非完整账号权限控制台",
+      "remaining": "旧路由尚未接完整页面；用户／学籍／权限业务补齐和原后台页面",
+      "status": "旧页未完成；部分可用；P1 / P3"
+    },
+    {
+      "route": "/zhiban/admin/students",
+      "current": "管理员学生目录搜索分页",
+      "remaining": "旧应用同尺寸视觉对照；不扩张到完整账户或多类导入",
+      "status": "已接实际页面；P1视觉签收待验"
+    },
+    {
+      "route": "/zhiban/admin/users",
+      "current": "已有教务入口／学生目录，非完整账号权限控制台",
+      "remaining": "旧路由尚未接完整页面；用户／学籍／权限业务补齐和原后台页面",
+      "status": "旧页未完成；部分可用；P1 / P3"
+    },
+    {
+      "route": "/zhiban/classroom",
+      "current": "教学班选择后进入现有基础课堂／学习活动",
+      "remaining": "完整旧课堂播放器与Runtime证据仍缺",
+      "status": "基础入口已接；完整P4未完成"
+    },
+    {
+      "route": "/zhiban/login",
+      "current": "正常身份／空间／退出已可用",
+      "remaining": "旧路由尚未接完整页面；旧登录视觉、身份对应入口；账号标识扩展另做",
+      "status": "旧页未完成；基础本地可用；P1 / P3"
+    },
+    {
+      "route": "/zhiban/mech-iframe-validation",
+      "current": "非通用产品页",
+      "remaining": "旧路由尚未接完整页面；保留验证需求，不迁机电专用页",
+      "status": "旧页未完成；排除／复核；范围决定"
+    },
+    {
+      "route": "/zhiban",
+      "current": "登录、三角色导航与课程列表",
+      "remaining": "旧应用同尺寸视觉对照；不扩张到完整账户或多类导入",
+      "status": "已接实际页面；P1视觉签收待验"
+    },
+    {
+      "route": "/zhiban/student/classroom/[bindingId]",
+      "current": "文字活动可用，真实课堂／Runtime 未开放",
+      "remaining": "旧路由尚未接完整页面；保留作者活动入口并补真实课堂和旧播放布局",
+      "status": "旧页未完成；部分可用；P1 / P2 / P4"
+    },
+    {
+      "route": "/zhiban/student/classrooms",
+      "current": "教学班选择后进入现有基础课堂／学习活动",
+      "remaining": "完整旧课堂播放器与Runtime证据仍缺",
+      "status": "基础入口已接；完整P4未完成"
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]/activities/[activityId]",
+      "current": "文字活动可用，真实课堂／Runtime 未开放",
+      "remaining": "旧路由尚未接完整页面；保留作者活动入口并补真实课堂和旧播放布局",
+      "status": "旧页未完成；部分可用；P1 / P2 / P4"
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]/analysis",
+      "current": "仅有基础统计／个人概览",
+      "remaining": "旧路由尚未接完整页面；画像维度、证据、纠错及旧视图",
+      "status": "旧页未完成；部分可用；P5"
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]/coursework",
+      "current": "文字作答、真实扫描附件、版本／历史及成绩关联",
+      "remaining": "旧应用同尺寸视觉对照；讨论／测验及其他文件类型未齐",
+      "status": "已有真实页面；剩余按P1/P2/P3/P4/P5对应范围"
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]/grades",
+      "current": "教师课程成绩簿／当前页CSV／评分；学生本人公开成绩",
+      "remaining": "旧应用同尺寸视觉对照；跨页导出／总评／申诉规则未齐",
+      "status": "已有真实页面；剩余按P1/P2/P3/P4/P5对应范围"
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]/introduction",
+      "current": "课程简介与课程／教学班上下文",
+      "remaining": "旧应用同尺寸视觉对照；更完整产品属性另按P3/P5交付",
+      "status": "已有真实页面；剩余按P1/P2/P3/P4/P5对应范围"
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]/learning-center/[stationId]",
+      "current": "文本／PNG 已可浏览，完整站点未交付",
+      "remaining": "旧路由尚未接完整页面；课程结构、通用站点、先修与导航；运行器另到 P4",
+      "status": "旧页未完成；部分可用；P2 / P4"
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]/learning-center",
+      "current": "文本／PNG 已可浏览，完整站点未交付",
+      "remaining": "旧路由尚未接完整页面；课程结构、通用站点、先修与导航；运行器另到 P4",
+      "status": "旧页未完成；部分可用；P2 / P4"
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]",
+      "current": "独立师生课程工作区、章节／单元目录与发布",
+      "remaining": "旧应用同尺寸视觉对照；通用学习中心／先修与完成规则未齐",
+      "status": "已有真实页面；剩余按P1/P2/P3/P4/P5对应范围"
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]/resources",
+      "current": "课程壳内文本／PNG编辑发布与学生查看",
+      "remaining": "旧应用同尺寸视觉对照；更多格式及资源管理到P3",
+      "status": "已有真实页面；剩余按P1/P2/P3/P4/P5对应范围"
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]/support",
+      "current": "未交付",
+      "remaining": "旧路由尚未接完整页面；风险依据、人工处置、支持及页面",
+      "status": "旧页未完成；待实现；P5"
+    },
+    {
+      "route": "/zhiban/student/courses/[courseId]/tools",
+      "current": "未向用户启用",
+      "remaining": "旧路由尚未接完整页面；教师起草、Tutor／Peer 与旧布局",
+      "status": "旧页未完成；待产品决定；P6"
+    },
+    {
+      "route": "/zhiban/student/grades",
+      "current": "单提交人工评分、发布／更正与本人读取可用",
+      "remaining": "旧路由尚未接完整页面；完整成绩簿、跨活动汇总及经规则确认的导出／总评",
+      "status": "旧页未完成；部分可用；P1 / P3"
+    },
+    {
+      "route": "/zhiban/student/pbl/[instanceId]",
+      "current": "未交付",
+      "remaining": "旧路由尚未接完整页面；项目／实例／协作／评价及页面",
+      "status": "旧页未完成；待产品决定；P6"
+    },
+    {
+      "route": "/zhiban/student/pbl",
+      "current": "未交付",
+      "remaining": "旧路由尚未接完整页面；项目／实例／协作／评价及页面",
+      "status": "旧页未完成；待产品决定；P6"
+    },
+    {
+      "route": "/zhiban/student/profile",
+      "current": "仅有基础统计／个人概览",
+      "remaining": "旧路由尚未接完整页面；画像维度、证据、纠错及旧视图",
+      "status": "旧页未完成；部分可用；P5"
+    },
+    {
+      "route": "/zhiban/student/risks",
+      "current": "未交付",
+      "remaining": "旧路由尚未接完整页面；风险依据、人工处置、支持及页面",
+      "status": "旧页未完成；待实现；P5"
+    },
+    {
+      "route": "/zhiban/student/settings",
+      "current": "未交付",
+      "remaining": "旧路由尚未接完整页面；个人资料与受控设置页面",
+      "status": "旧页未完成；待实现；P3"
+    },
+    {
+      "route": "/zhiban/teacher/agents",
+      "current": "未向用户启用",
+      "remaining": "旧路由尚未接完整页面；教师起草、Tutor／Peer 与旧布局",
+      "status": "旧页未完成；待产品决定；P6"
+    },
+    {
+      "route": "/zhiban/teacher/classrooms",
+      "current": "教学班选择后进入现有基础课堂／学习活动",
+      "remaining": "完整旧课堂播放器与Runtime证据仍缺",
+      "status": "基础入口已接；完整P4未完成"
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/agents",
+      "current": "未向用户启用",
+      "remaining": "旧路由尚未接完整页面；教师起草、Tutor／Peer 与旧布局",
+      "status": "旧页未完成；待产品决定；P6"
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/analytics",
+      "current": "课程壳内教师统计",
+      "remaining": "旧应用同尺寸视觉对照；更完整产品属性另按P3/P5交付",
+      "status": "已有真实页面；剩余按P1/P2/P3/P4/P5对应范围"
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/classrooms",
+      "current": "基础共享课堂、草稿／改期／派发／结束／历史",
+      "remaining": "旧应用同尺寸视觉对照；完整Scene／Runtime／实验另到P4",
+      "status": "已有真实页面；剩余按P1/P2/P3/P4/P5对应范围"
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/grades",
+      "current": "教师课程成绩簿／当前页CSV／评分；学生本人公开成绩",
+      "remaining": "旧应用同尺寸视觉对照；跨页导出／总评／申诉规则未齐",
+      "status": "已有真实页面；剩余按P1/P2/P3/P4/P5对应范围"
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/learning-center/[stationId]",
+      "current": "文本／PNG 已可浏览，完整站点未交付",
+      "remaining": "旧路由尚未接完整页面；课程结构、通用站点、先修与导航；运行器另到 P4",
+      "status": "旧页未完成；部分可用；P2 / P4"
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/learning-center/analytics",
+      "current": "未交付",
+      "remaining": "旧路由尚未接完整页面；执行、证据、实验评价和分析页",
+      "status": "旧页未完成；待实现；P4"
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/learning-center",
+      "current": "文本／PNG 已可浏览，完整站点未交付",
+      "remaining": "旧路由尚未接完整页面；课程结构、通用站点、先修与导航；运行器另到 P4",
+      "status": "旧页未完成；部分可用；P2 / P4"
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]",
+      "current": "独立师生课程工作区、章节／单元目录与发布",
+      "remaining": "旧应用同尺寸视觉对照；通用学习中心／先修与完成规则未齐",
+      "status": "已有真实页面；剩余按P1/P2/P3/P4/P5对应范围"
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/pbl",
+      "current": "未交付",
+      "remaining": "旧路由尚未接完整页面；项目／实例／协作／评价及页面",
+      "status": "旧页未完成；待产品决定；P6"
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/profiles",
+      "current": "仅有基础统计／个人概览",
+      "remaining": "旧路由尚未接完整页面；画像维度、证据、纠错及旧视图",
+      "status": "旧页未完成；部分可用；P5"
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/risks",
+      "current": "未交付",
+      "remaining": "旧路由尚未接完整页面；风险依据、人工处置、支持及页面",
+      "status": "旧页未完成；待实现；P5"
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/settings",
+      "current": "管理员掌握课程／教学班配置",
+      "remaining": "旧路由尚未接完整页面；旧教师设置页与 V2 管理职责的明确映射",
+      "status": "旧页未完成；部分可用；P1 / P3"
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/students",
+      "current": "课程内任教范围学生名单分页",
+      "remaining": "旧应用同尺寸视觉对照；更完整产品属性另按P3/P5交付",
+      "status": "已有真实页面；剩余按P1/P2/P3/P4/P5对应范围"
+    },
+    {
+      "route": "/zhiban/teacher/courses/[courseId]/teachers",
+      "current": "管理员任教管理已可用",
+      "remaining": "旧路由尚未接完整页面；教师课程内任教名单投影及旧布局",
+      "status": "旧页未完成；部分可用；P1 / P3"
+    },
+    {
+      "route": "/zhiban/teacher/courses",
+      "current": "师生课程分页已可用",
+      "remaining": "旧路由尚未接完整页面；旧顶栏／侧栏／课程列表与筛选；不伪造未有字段",
+      "status": "旧页未完成；基础本地可用；P1"
+    },
+    {
+      "route": "/zhiban/teacher/grades",
+      "current": "单提交人工评分、发布／更正与本人读取可用",
+      "remaining": "旧路由尚未接完整页面；完整成绩簿、跨活动汇总及经规则确认的导出／总评",
+      "status": "旧页未完成；部分可用；P1 / P3"
+    },
+    {
+      "route": "/zhiban/teacher/pbl",
+      "current": "未交付",
+      "remaining": "旧路由尚未接完整页面；项目／实例／协作／评价及页面",
+      "status": "旧页未完成；待产品决定；P6"
+    },
+    {
+      "route": "/zhiban/teacher/profile",
+      "current": "未交付",
+      "remaining": "旧路由尚未接完整页面；个人资料与受控设置页面",
+      "status": "旧页未完成；待实现；P3"
+    },
+    {
+      "route": "/zhiban/teacher/profiles",
+      "current": "仅有基础统计／个人概览",
+      "remaining": "旧路由尚未接完整页面；画像维度、证据、纠错及旧视图",
+      "status": "旧页未完成；部分可用；P5"
+    },
+    {
+      "route": "/zhiban/teacher/risks",
+      "current": "未交付",
+      "remaining": "旧路由尚未接完整页面；风险依据、人工处置、支持及页面",
+      "status": "旧页未完成；待实现；P5"
+    },
+    {
+      "route": "/zhiban/teacher/virtual-lab",
+      "current": "未交付",
+      "remaining": "旧路由尚未接完整页面；执行、证据、实验评价和分析页",
+      "status": "旧页未完成；待实现；P4"
+    }
+  ],
+  "canonicalPlan": "docs/v2/zhiban-v2-migration-completion-plan.md",
+  "nextOrder": [
+    "P1/P2 same-version teaching integration",
+    "P1/P2 general learning center and retained URL mapping/visual parity",
+    "P3 discussion, approved quiz types, profile/account/import",
+    "P4/P5/P6 original conditional ranges",
+    "P7 whole-delivery closeout"
+  ],
+  "actions": {
+    "commit": false,
+    "push": false,
+    "ciDispatch": false,
+    "changedAppliedMigrations": false
+  },
+  "checkedSources": {
+    "scripts/zhiban-local/request-target.ts": "8b6b3eb69d0fe8c6e0fb4b77096ae3d18b5cbfada381d034cf1b53914a664d7d",
+    "app/zhiban/local/workspace.js": "485c9d835d82f75c8d5a40546dbc405db1eea2a8fd74a8808e776357a4c15de3",
+    "app/zhiban/local/course-page.js": "fbe8cd777cc4ce7a456340ccbe248724b14d6b99739e41e8da2754edec9cd590",
+    "app/zhiban/local/curriculum.js": "db19bb9fae0ca33594169a6d27a0fe8d1bd7aa2b6d468fcddf152913b23a5b54",
+    "app/zhiban/local/classrooms.js": "cbb59f4b0ea217e61599547de047dadb6ee571dd0fc45b392935113c68e1ffad",
+    "app/zhiban/local/learning.js": "36959fc11cfc90af2376e9e71f0c4d70e0b1e64f9def6b53780c09fbdb88d365",
+    "app/zhiban/local/gradebook.js": "7672e624c402166ec4beae50c61f0cbe8139e8b418198b972322a5e4614d49f5",
+    "app/zhiban/local/assessment.js": "106c9a3f78c81d9896279dbc34f2795496922c4e3df9c71eedec3634e2271e97",
+    "lib/zhiban/domain/curriculum/model.ts": "45db24a49b2f24d4f8284eb5689d3694502834331ff0056f074c3b131dbe8ea5",
+    "lib/zhiban/infrastructure/curriculum/postgres/transaction.ts": "eece5f2d633e7a4b9dcbc237614113ca9b0c6dad303807f3a6dd2fd8c5d0c7f0",
+    "lib/zhiban/infrastructure/learning-files/scanner/clamav.ts": "b90d288db61437ee811d144d87c443215bf842361293ec3713ff311b7a100a10",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "5c58da218263ec107353452a6a1eaa1a7036f67e1d794dcc37727661b281e312",
+    "scripts/zhiban-local/verify-unified-trial.ts": "a687c0a7d18218f474959acc55f49a55f19b8ba76fa43bf2c951365ce8d9bddc",
+    "scripts/zhiban-local/run-m6-catalog.ts": "2fe6b305397e9870b4633dafb0f913d92774bee71f0539bb7f5ca8adc55bdb69",
+    "scripts/zhiban-local/trial-control.ts": "b8327308f39d59ed37db8351155efd83f53071e341ba5cd9163681f936c84169",
+    "tests/zhiban/local/trial-control.test.ts": "62cedd91f34bcac0fc831721ab929d2f4e44f2c83b17ced97194935c9323e6bf",
+    "package.json": "c4bed1e53dc0e70335091e7a4c553f0a29e3da0d15c8da187adc596eea2550ef"
+  },
+  "verification": {
+    "pageRows": 55,
+    "capabilityRows": 36,
+    "localDocumentLinks": "PASS",
+    "directedControllerTests": "26/26 PASS",
+    "typecheck": "PASS scripts/zhiban-local/tsconfig.classroom.json after package build complete",
+    "eslint": "PASS changed launcher/controller/journey/test",
+    "invalidTestSelection": "request-target.test.ts does not exist; invocation counted as NO TESTS, not PASS"
+  },
+  "integrationValidationCorrections": [
+    "chapter heading includes its ordinal prefix; locate actual heading",
+    "wait/select the exact activity review card rather than two pending grade buttons",
+    "student overview renders 92 / 100 without decimal padding",
+    "Content listing may return authorized empty rows; denial check uses exact unauthorized published resource preview"
+  ],
+  "continuedOriginalPlan": {
+    "batch": "P1/P2 same-version teaching exit condition",
+    "status": "LOCAL_VERIFIED_RUNNING",
+    "origin": "https://127.0.0.1:3461",
+    "receipt": "zhiban-trial-content-demo-local.json",
+    "journey": "zhiban-unified-journey-local.json",
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "checks": 10,
+    "capabilities": [
+      "ACADEMIC",
+      "CURRICULUM",
+      "TEXT_PNG_CONTENT",
+      "BASIC_CLASSROOM",
+      "TEXT_AND_SCANNED_ATTACHMENT",
+      "MANUAL_GRADING",
+      "GRADEBOOK_CSV",
+      "BASIC_ANALYTICS"
+    ],
+    "next": "P1/P2 full course learning entry: retained URLs + general learning center + unit navigation",
+    "codexBrowser": "3461 login rendered with trusted TLS; actual attachment and CSV download read-back verified in ordinary Chromium"
+  },
+  "upstreamFirst": {
+    "recordedAt": "2026-10-17T13:28:51.415924+00:00",
+    "userDecision": "Do not port legacy functions already satisfied or better served by updated OpenMAIC; reuse upstream and only implement remaining business gaps.",
+    "officialRepo": "https://github.com/THU-MAIC/OpenMAIC",
+    "currentReleasePin": {
+      "tag": "v1.1.2",
+      "sha": "1f05a70ac93e09c67fb4d3aafb9c2b068d14fcce"
+    },
+    "observedStable": {
+      "tag": "v1.2.0",
+      "sha": "a9da60b3b4adb429369c0da13d5637a904ead2b0",
+      "released": "2026-10-16",
+      "url": "https://github.com/THU-MAIC/OpenMAIC/releases/tag/v1.2.0"
+    },
+    "observedOfficialMain": "6760c2b7647c530b36939be944e027ecf827c1e7",
+    "observedForkMain": "5312c2b4b4bcb2e7db07cacabcdac8bfddc827fa",
+    "transport": "git -c http.version=HTTP/1.1 ls-remote; read-only official web release",
+    "dispositions": [
+      "REUSE",
+      "ADAPT",
+      "GAP_ONLY",
+      "PORT_ONLY_IF_MISSING",
+      "REPLACE_LEGACY"
+    ],
+    "versionOrDependenciesChanged": false,
+    "runtimeRestarted": false,
+    "databaseTouched": false,
+    "next": "1.1.2-to-stable-1.2.0 source/API compatibility and reuse gap assessment; then native learning/classroom integration with Zhiban course context",
+    "localExistingEvidence": {
+      "components/stage/scene-renderer.tsx": "64a21911780eff7c570f727dbc4c91687b322502c2554c5f38e9fe2de28e4820",
+      "components/scene-renderers/quiz-view.tsx": "51be53a8a55ab12332d54279528952614b18dc68eabe9f6e3eb764d4ec63524c",
+      "components/scene-renderers/interactive-renderer.tsx": "59a045241f80852703233f59dc104e2ad2507ad510311f9606b53ce9b7ccd0f0",
+      "components/scene-renderers/pbl-renderer.tsx": "f2afe0af00af4b302811c87fabea252993d7fb5dbc8141f7363f9ca0b1e68e7f",
+      "packages/@openmaic/generation/README.md": "20f5df32213c164cf748c3f7d01dc0d09df5c6827e2467ed8b100539f9772ebc"
+    }
+  }
+}

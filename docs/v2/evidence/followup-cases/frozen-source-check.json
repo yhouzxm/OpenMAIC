@@ -1,0 +1,7 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "comparedAgainst": "zhiban-teacher-followups-local.json",
+  "files": 154,
+  "drift": [],
+  "newMigration": "followup/postgres/migrations/0001_followup.sql"
+}

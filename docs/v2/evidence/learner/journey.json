@@ -1,0 +1,23 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "FORMAL_PROVENANCE_TEACHER_OBSERVATIONS_SELF_DISPUTES_AND_ATOMIC_REVIEW",
+  "dimensions": "REVIEW",
+  "automaticAbilityScores": false,
+  "automaticMastery": false,
+  "draftAndPrivateEvidenceExcluded": true,
+  "selfReportsNotFormalEvidence": true,
+  "originalCitationImmutable": true,
+  "changedEvidenceRejectsKeep": true,
+  "studentPrivateDraftIsolation": true,
+  "otherStudentDenied": true,
+  "commandReplayBound": true,
+  "publishAuditRollback": true,
+  "disputeRevisionAndCitationRollback": true,
+  "studentSupplementTeacherResolutionRace": true,
+  "reviseKeepWithdrawAndAlreadyWithdrawnAck": true,
+  "recipientRoleAndEnrollmentRechecked": true,
+  "teacherRevocationRechecked": true,
+  "tenantRlsAndImmutableAcl": true
+}

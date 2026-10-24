@@ -1,0 +1,12 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "comparedAgainst": "../zhiban-tutor-local.json",
+  "persistentSourceDrift": [],
+  "cleanedFixtureSources": [
+    "/home/zxm/openmaic/zhiban/.zhiban-catalog-run-kUUMKT/verify.mjs",
+    "/tmp/zhiban-trial-content-7Mx1Og/content-client.js",
+    "/tmp/zhiban-trial-content-7Mx1Og/member-control.json"
+  ],
+  "scope": "CURRENT_PERSISTENT_FILES_ONLY; owned fixture removed per lifecycle"
+}

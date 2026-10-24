@@ -1,0 +1,20 @@
+{
+  "playerUrl": "https://127.0.0.1:3461/api/zhiban/content/01a159b7-5c26-726f-94f6-da97381abf90/offerings/01a159b7-c3af-71b2-83f1-cbb0cd23049c/resources/01a159b7-f307-7417-8243-c07c5ce334c7/player?publication=01a159b7-f593-7654-ab15-d30a7e1f5e29",
+  "publicationId": "01a159b7-f593-7654-ab15-d30a7e1f5e29",
+  "unitId": "01a159b7-f6ab-7704-869f-cd9629846b97",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "kind": "NEW_SYNTHETIC_CLASSROOM_WITH_ARCHIVED_REAL_TEXT_COPY",
+  "modelCalls": false,
+  "originalRun": "run-75tKWXVzt21rTGuo",
+  "resourceId": "01a159b7-f307-7417-8243-c07c5ce334c7",
+  "sessionId": "01a159b7-f7d9-70a9-87b0-0a7cd153319a",
+  "dispatchId": "01a159b7-f852-70b6-9028-ddec6d2e1a48",
+  "pages": 3,
+  "tenant": "01a159b7-5c26-726f-94f6-da97381abf90",
+  "offering": "01a159b7-c3af-71b2-83f1-cbb0cd23049c",
+  "course": "01a159b7-c2df-73bc-b850-829c105787db",
+  "origin": "https://127.0.0.1:3461",
+  "teacherUrl": "https://127.0.0.1:3461/zhiban/teacher/courses/01a159b7-c2df-73bc-b850-829c105787db/classrooms?space=01a159b7-5c26-726f-94f6-da97381abf90&offering=01a159b7-c3af-71b2-83f1-cbb0cd23049c",
+  "studentUrl": "https://127.0.0.1:3461/zhiban/student/courses/01a159b7-c2df-73bc-b850-829c105787db/resources?space=01a159b7-5c26-726f-94f6-da97381abf90&offering=01a159b7-c3af-71b2-83f1-cbb0cd23049c#classroom-resource-01a159b7-f307-7417-8243-c07c5ce334c7-1-01a159b7-f7d9-70a9-87b0-0a7cd153319a"
+}

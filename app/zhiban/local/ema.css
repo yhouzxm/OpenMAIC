@@ -1,0 +1,56 @@
+#ema {
+  max-width: 1100px;
+  margin: auto;
+  padding: 24px;
+  overflow-wrap: anywhere;
+}
+#ema .dimension-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr));
+  gap: 16px;
+}
+#ema section {
+  border: 1px solid var(--border, #d9e1e8);
+  border-radius: 12px;
+  padding: 16px;
+  margin: 12px 0;
+}
+#ema textarea {
+  min-height: 110px;
+  width: 100%;
+  box-sizing: border-box;
+}
+#ema label {
+  display: block;
+  margin: 12px 0;
+}
+#ema input:not([type='checkbox']),
+#ema select {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+#ema .actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+#ema pre {
+  white-space: pre-wrap;
+  max-height: 240px;
+  overflow: auto;
+}
+#ema fieldset {
+  min-width: 0;
+}
+#ema .notice {
+  white-space: pre-wrap;
+}
+#ema button,
+#ema a {
+  max-width: 100%;
+}
+@media (max-width: 500px) {
+  #ema {
+    padding: 12px;
+  }
+}

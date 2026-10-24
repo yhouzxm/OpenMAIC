@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": { "incremental": false },
+  "include": [
+    "../../lib/zhiban/application/assessment/**/*.ts",
+    "../../lib/zhiban/infrastructure/assessment/**/*.ts",
+    "../../lib/zhiban/domain/academic/model.ts",
+    "../../tests/zhiban/assessment/gradebook*.test.ts",
+    "./request-target.ts",
+    "./verify-gradebook-export.ts",
+    "../../next-env.d.ts",
+    "../../types/**/*.d.ts"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "baselineArchive": "/home/zxm/.local/share/zhiban-handoff/zhiban-local-20261024-dd24af081acc/source.tar.gz",
+  "checked": 80,
+  "changes": [],
+  "scope": "PREEXISTING_APPLIED_MIGRATIONS_AND_CANDIDATE_SQL_SOURCE_ONLY"
+}
