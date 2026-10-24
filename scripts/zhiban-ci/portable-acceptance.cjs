@@ -17,6 +17,84 @@ const json = (p) => JSON.parse(fs.readFileSync(p, 'utf8'));
 const save = (p, v) => fs.writeFileSync(p, JSON.stringify(v, null, 2) + '\n', { mode: 0o600 });
 const delay = (ms) => new Promise((r) => setTimeout(r, ms));
 const bin = '/usr/lib/postgresql/16/bin';
+const failureCodes = new Set([
+  'COMMAND_FAILED',
+  'COMMAND_TIMEOUT',
+  'HOST_SPAWN_FAILED',
+  'HOST_EXITED',
+  'HOST_IDENTITY_REJECTED',
+  'HOST_METADATA_INVALID',
+  'HOST_READINESS_TIMEOUT',
+]);
+const startupReasons = new Set([
+  'NODE_HEAP_LIMIT',
+  'DEPENDENCY_MISSING',
+  'TYPESCRIPT_BUILD_FAILED',
+  'UPSTREAM_SOURCE_REFUSED',
+  'PRIVATE_PATH_REFUSED',
+  'NATIVE_SDK_BUILD_FAILED',
+  'PG_START_FAILED',
+  'STORAGE_EXHAUSTED',
+  'UNCLASSIFIED',
+]);
+function startupReason(base, mode) {
+  if (!['start', 'start-rebind'].includes(mode)) return 'UNCLASSIFIED';
+  const file = path.join(base, 'host-' + mode + '.log');
+  let fd;
+  try {
+    fd = fs.openSync(file, fs.constants.O_RDONLY | fs.constants.O_NOFOLLOW);
+    const info = fs.fstatSync(fd);
+    if (!info.isFile() || info.uid !== process.getuid() || info.mode & 0o077) return 'UNCLASSIFIED';
+    const bytes = Buffer.alloc(Math.min(info.size, 1024 * 1024));
+    fs.readSync(fd, bytes, 0, bytes.length, info.size - bytes.length);
+    const text = bytes.toString('utf8');
+    const rules = [
+      ['NODE_HEAP_LIMIT', /JavaScript heap out of memory|Reached heap limit/],
+      ['STORAGE_EXHAUSTED', /No space left on device|ENOSPC/],
+      ['DEPENDENCY_MISSING', /ERR_MODULE_NOT_FOUND|Cannot find (?:module|package)/],
+      ['TYPESCRIPT_BUILD_FAILED', /error TS[0-9]+:/],
+      [
+        'UPSTREAM_SOURCE_REFUSED',
+        /Upstream source pin mismatch|Quiz extension (?:pin rejected|source mismatch)/,
+      ],
+      [
+        'PRIVATE_PATH_REFUSED',
+        /Private owned (?:path|file\/directory) required|Local M1 files require owner-only/,
+      ],
+      [
+        'NATIVE_SDK_BUILD_FAILED',
+        /Command failed: pnpm --filter @openmaic\/(?:dsl|storage|editor|renderer|generation) build/,
+      ],
+      [
+        'PG_START_FAILED',
+        /pg_ctl: could not start server|FATAL:.*(?:database|shared memory|configuration)/,
+      ],
+    ];
+    return rules.find(([, pattern]) => pattern.test(text))?.[0] ?? 'UNCLASSIFIED';
+  } catch {
+    return 'UNCLASSIFIED';
+  } finally {
+    if (fd !== undefined) fs.closeSync(fd);
+  }
+}
+const signals = new Set(['SIGTERM', 'SIGKILL', 'SIGINT', 'SIGABRT', 'SIGSEGV', 'SIGBUS']);
+function safeFailure(value) {
+  if (!value || !failureCodes.has(value.code)) return undefined;
+  const out = { code: value.code };
+  if (Number.isInteger(value.exitCode) && value.exitCode >= 0 && value.exitCode <= 255)
+    out.exitCode = value.exitCode;
+  if (signals.has(value.signal)) out.signal = value.signal;
+  if (Number.isSafeInteger(value.elapsedMs) && value.elapsedMs >= 0 && value.elapsedMs <= 5400000)
+    out.elapsedMs = value.elapsedMs;
+  if (['start', 'start-rebind'].includes(value.mode)) out.mode = value.mode;
+  if (startupReasons.has(value.reason)) out.reason = value.reason;
+  return out;
+}
+function failure(code, details = {}) {
+  const error = new Error(code);
+  error.diagnostic = safeFailure({ ...details, code });
+  return error;
+}
 function ciContext(requireApproval = true) {
   check(
     process.env.GITHUB_ACTIONS === 'true' && process.env.GITHUB_EVENT_NAME === 'workflow_dispatch',
@@ -69,11 +147,18 @@ function safeEnv(state) {
 }
 function command(cmd, args, log, options = {}) {
   const fd = fs.openSync(log, 'a', 0o600);
+  const began = Date.now();
   try {
     return cp.execFileSync(cmd, args, {
       stdio: ['ignore', fd, fd],
       timeout: 25 * 60 * 1000,
       ...options,
+    });
+  } catch (error) {
+    throw failure(error.code === 'ETIMEDOUT' ? 'COMMAND_TIMEOUT' : 'COMMAND_FAILED', {
+      exitCode: error.status,
+      signal: error.signal,
+      elapsedMs: Date.now() - began,
     });
   } finally {
     fs.closeSync(fd);
@@ -103,7 +188,7 @@ function hostMatches(record, base) {
     return false;
   }
 }
-function startHost(base, mode) {
+async function startHost(base, mode) {
   const kit = path.join(base, 'cargo/install'),
     workspace = path.join(base, 'workspace'),
     state = path.join(base, 'state');
@@ -116,19 +201,51 @@ function startHost(base, mode) {
     stdio: ['ignore', fd, fd],
   });
   fs.closeSync(fd);
-  check(Number.isInteger(child.pid), 'Host spawn rejected');
-  const record = { pid: child.pid, start: processStart(child.pid), bootstrap };
-  save(path.join(base, 'host.json'), record);
-  child.on('error', () => {});
+  const record = { pid: child.pid, bootstrap, mode, began: Date.now(), exited: false };
+  child.on('exit', (code, signal) => {
+    record.exited = true;
+    record.exitCode = code;
+    record.signal = signal;
+  });
+  try {
+    await new Promise((resolve, reject) => {
+      child.once('spawn', resolve);
+      child.once('error', () => reject(failure('HOST_SPAWN_FAILED', record)));
+    });
+    record.start = processStart(child.pid);
+  } catch (error) {
+    if (error.diagnostic) throw error;
+    throw failure('HOST_EXITED', { ...record, elapsedMs: Date.now() - record.began });
+  }
+  save(path.join(base, 'host.json'), { pid: record.pid, start: record.start, bootstrap });
   child.unref();
   return record;
 }
-async function ready(base, host, previousPid) {
+async function ready(base, host, previousPid, options = {}) {
+  const began = Date.now();
+  const budget = options.timeoutMs ?? 180000;
+  const fail = (code) =>
+    failure(code, {
+      ...host,
+      reason: startupReason(base, host.mode),
+      elapsedMs: Date.now() - began,
+    });
   const file = path.join(base, 'workspace/docs/v2/evidence/zhiban-trial-content-demo-local.json');
-  for (let i = 0; i < 180; i++) {
-    if (!hostMatches(host, base)) throw Error('Host exited before readiness');
+  while (Date.now() - began < budget) {
+    if (host.exited) throw fail('HOST_EXITED');
+    if (!hostMatches(host, base)) {
+      // Give an already-exited child's exit event a turn before classifying identity loss.
+      await delay(0);
+      throw fail(host.exited ? 'HOST_EXITED' : 'HOST_IDENTITY_REJECTED');
+    }
     if (fs.existsSync(file)) {
-      const m = json(file);
+      let m;
+      try {
+        m = json(file);
+      } catch {
+        throw fail('HOST_METADATA_INVALID');
+      }
+      if (!m || typeof m !== 'object' || Array.isArray(m)) throw fail('HOST_METADATA_INVALID');
       if (
         m.status === 'RUNNING_LOCAL_PERSISTENT' &&
         m.pid !== previousPid &&
@@ -137,9 +254,9 @@ async function ready(base, host, previousPid) {
       )
         return m;
     }
-    await delay(1000);
+    await delay(Math.min(options.pollMs ?? 1000, Math.max(1, budget - (Date.now() - began))));
   }
-  throw Error('Host readiness timeout');
+  throw fail('HOST_READINESS_TIMEOUT');
 }
 function stopHost(base) {
   const workspace = path.join(base, 'workspace'),
@@ -205,10 +322,20 @@ async function httpsGet(ca) {
   });
 }
 let phase = 'CONTEXT';
+let phaseBegan = Date.now();
+const elapsed = {};
+function setPhase(next) {
+  elapsed[phase] = (elapsed[phase] ?? 0) + Date.now() - phaseBegan;
+  phase = next;
+  phaseBegan = Date.now();
+}
+function phaseTimings() {
+  return { ...elapsed, [phase]: (elapsed[phase] ?? 0) + Date.now() - phaseBegan };
+}
 async function run(base) {
   ciContext();
   basePath(base);
-  phase = 'DELIVERY';
+  setPhase('DELIVERY');
   const cargo = path.join(base, 'cargo'),
     m = delivery.validateDelivery(cargo);
   check(
@@ -223,14 +350,14 @@ async function run(base) {
     store === path.join(base, 'pnpm-store') && !fs.existsSync(store),
     'Fresh private pnpm store required',
   );
-  phase = 'PREREQUISITES';
+  setPhase('PREREQUISITES');
   const pg = cp
     .execFileSync(path.join(bin, 'postgres'), ['--version'], { encoding: 'utf8' })
     .trim();
   check(pg === m.host.pg, 'Exact PG physical profile required');
   check(!fs.existsSync(m.originalRoot), 'Internal restore root already exists');
 
-  phase = 'FROZEN_INSTALL';
+  setPhase('FROZEN_INSTALL');
   command(
     process.execPath,
     [
@@ -248,12 +375,12 @@ async function run(base) {
       !fs.existsSync(path.join(workspace, '.git/objects/info/alternates')),
     'Independent installation rejected',
   );
-  phase = 'BROWSER_PREREQUISITES';
+  setPhase('BROWSER_PREREQUISITES');
   command('pnpm', ['exec', 'playwright', 'install', '--with-deps', 'chromium'], log, {
     cwd: workspace,
     env: safeEnv(state),
   });
-  phase = 'PRIVATE_IMPORT';
+  setPhase('PRIVATE_IMPORT');
   check(!fs.existsSync(m.originalRoot), 'Restore root appeared before import');
   save(path.join(base, 'custody.json'), {
     root: m.originalRoot,
@@ -272,12 +399,12 @@ async function run(base) {
     log,
     { env: safeEnv(state) },
   );
-  phase = 'NSS_TRUST';
+  setPhase('NSS_TRUST');
   verifyBrowserTrust(base);
-  phase = 'RESTORE_START';
-  const host = startHost(base, 'start-rebind'),
+  setPhase('RESTORE_START');
+  const host = await startHost(base, 'start-rebind'),
     initial = await ready(base, host);
-  phase = 'DATA_ROLES_HTTPS';
+  setPhase('DATA_ROLES_HTTPS');
   const comparison = path.join(base, 'comparison-local-harness.json');
   command(
     'pnpm',
@@ -295,7 +422,7 @@ async function run(base) {
   const verified = json(comparison);
   check(verified.status === 'PASS', 'Role/data/browser verification refused');
   readInfo(base, 'initial');
-  phase = 'NORMAL_RESTART';
+  setPhase('NORMAL_RESTART');
   const receipt = sha(fs.readFileSync(path.join(m.originalRoot, 'content-installation.json')));
   stopHost(base);
   check(
@@ -304,7 +431,7 @@ async function run(base) {
   );
   const pointer = json(path.join(state, 'snapshots/latest.json'));
   portable.validateSnapshot(pointer.path, pointer.manifestHash);
-  const normal = startHost(base, 'start');
+  const normal = await startHost(base, 'start');
   const current = await ready(base, normal, initial.pid);
   check(
     !fs.readFileSync('/proc/' + current.pid + '/cmdline', 'utf8').includes('--upgrade-local'),
@@ -332,7 +459,7 @@ async function run(base) {
   );
   stopHost(base);
   check(!fs.existsSync(m.originalRoot), 'Final normal stop did not clean root');
-  phase = 'FINAL_SNAPSHOT';
+  setPhase('FINAL_SNAPSHOT');
   const finalPointer = json(path.join(state, 'snapshots/latest.json'));
   portable.validateSnapshot(finalPointer.path, finalPointer.manifestHash);
   return {
@@ -365,6 +492,7 @@ async function run(base) {
     ordinaryRestartDataPreserved: true,
     finalSnapshotVerified: true,
     scope: 'EPHEMERAL_GITHUB_UBUNTU_VM_INSTALL_RESTORE_SAME_INTERNAL_PG_ROOT',
+    phaseTimings: phaseTimings(),
     productionDeployment: false,
     originalSourceHostUntouched: true,
     modelCalls: false,
@@ -488,6 +616,20 @@ function publicReport(value) {
   };
   for (const [key, pattern] of Object.entries(patterns))
     if (typeof value[key] === 'string' && pattern.test(value[key])) out[key] = value[key];
+  const diagnostic = safeFailure(value.diagnostic);
+  if (diagnostic) out.diagnostic = diagnostic;
+  if (value.phaseTimings && typeof value.phaseTimings === 'object') {
+    const timings = {};
+    for (const [name, duration] of Object.entries(value.phaseTimings))
+      if (
+        patterns.failureStage.test(name) &&
+        Number.isSafeInteger(duration) &&
+        duration >= 0 &&
+        duration <= 5400000
+      )
+        timings[name] = duration;
+    out.phaseTimings = timings;
+  }
   const booleans = [
     'distinctMachine',
     'freshDependencyStore',
@@ -565,15 +707,20 @@ if (require.main === module) {
       try {
         save(report, publicReport(await run(base)));
         console.log('PASS remote install/restore; only allowlisted summary retained');
-      } catch {
-        save(report, {
-          kind: 'ZHIBAN_PORTABLE_REMOTE_ACCEPTANCE_V1',
-          executionOrigin: 'GITHUB_ACTIONS',
-          status: 'FAIL',
-          runId: process.env.GITHUB_RUN_ID,
-          workflowSha: process.env.GITHUB_SHA,
-          failureStage: phase,
-        });
+      } catch (error) {
+        save(
+          report,
+          publicReport({
+            kind: 'ZHIBAN_PORTABLE_REMOTE_ACCEPTANCE_V1',
+            executionOrigin: 'GITHUB_ACTIONS',
+            status: 'FAIL',
+            runId: process.env.GITHUB_RUN_ID,
+            workflowSha: process.env.GITHUB_SHA,
+            failureStage: phase,
+            diagnostic: error.diagnostic,
+            phaseTimings: phaseTimings(),
+          }),
+        );
         process.exitCode = 1;
         console.error('Portable acceptance failed; private diagnostic output withheld');
       }
@@ -583,4 +730,15 @@ if (require.main === module) {
     process.exitCode = 1;
   });
 }
-module.exports = { ciContext, hostMatches, safeEnv, publicReport, cleanup, loadPublicReport };
+module.exports = {
+  ciContext,
+  hostMatches,
+  safeEnv,
+  publicReport,
+  cleanup,
+  loadPublicReport,
+  startHost,
+  ready,
+  safeFailure,
+  startupReason,
+};

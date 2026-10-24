@@ -266,3 +266,122 @@ test('missing, partial and malformed public report stay FAIL and cannot prevent 
   fs.writeFileSync(p, 'null');
   assert.equal(loadPublicReport(p).status, 'FAIL');
 });
+
+function startupFixture(t, body) {
+  const f = fixture(t);
+  fs.mkdirSync(path.join(f.root, 'workspace/docs/v2/evidence'), { recursive: true });
+  fs.mkdirSync(path.join(f.root, 'cargo/install'), { recursive: true });
+  fs.writeFileSync(path.join(f.root, 'cargo/install/install.cjs'), body);
+  fs.writeFileSync(
+    path.join(f.root, 'cargo/DELIVERY.json'),
+    JSON.stringify({ originalRoot: '/tmp/controlled-startup-fixture' }),
+  );
+  return f.root;
+}
+async function stopFixture(host) {
+  if (host.exited) return;
+  process.kill(-host.pid, 'SIGTERM');
+  for (let i = 0; i < 100 && !host.exited; i++) await new Promise((r) => setTimeout(r, 5));
+  assert.equal(host.exited, true);
+}
+test('real child exit code survives private stderr suppression and report sanitization', async (t) => {
+  const { startHost, ready } = require('../../../scripts/zhiban-ci/portable-acceptance.cjs');
+  const base = startupFixture(
+    t,
+    "console.error('secret-token-and-private-path'); setTimeout(()=>process.exit(37),20);",
+  );
+  const host = await startHost(base, 'start-rebind');
+  t.after(() => stopFixture(host));
+  await assert.rejects(ready(base, host, undefined, { timeoutMs: 2000, pollMs: 10 }), (e) => {
+    const report = publicReport({
+      status: 'FAIL',
+      diagnostic: e.diagnostic,
+      message: 'secret-token-and-private-path',
+      phaseTimings: { RESTORE_START: 20, '/private/path': 45 },
+    });
+    assert.equal(report.diagnostic.code, 'HOST_EXITED');
+    assert.equal(report.diagnostic.exitCode, 37);
+    assert.equal(report.diagnostic.mode, 'start-rebind');
+    assert.deepEqual(report.phaseTimings, { RESTORE_START: 20 });
+    assert.ok(!JSON.stringify(report).includes('secret-token'));
+    assert.ok(!JSON.stringify(report).includes('/private/path'));
+    return true;
+  });
+});
+test('live child without readiness is timeout, changed identity is distinct and never signalled by ready', async (t) => {
+  const { startHost, ready } = require('../../../scripts/zhiban-ci/portable-acceptance.cjs');
+  const base = startupFixture(t, 'setInterval(()=>{},1000);');
+  const host = await startHost(base, 'start');
+  t.after(() => stopFixture(host));
+  await assert.rejects(
+    ready(base, host, undefined, { timeoutMs: 60, pollMs: 10 }),
+    (e) => e.diagnostic.code === 'HOST_READINESS_TIMEOUT',
+  );
+  await assert.rejects(
+    ready(base, { ...host, start: '0' }, undefined, { timeoutMs: 100, pollMs: 10 }),
+    (e) => e.diagnostic.code === 'HOST_IDENTITY_REJECTED',
+  );
+  assert.equal(hostMatches(host, base), true);
+});
+test('malformed startup metadata is a distinct failure and no raw bytes enter the summary', async (t) => {
+  const { startHost, ready } = require('../../../scripts/zhiban-ci/portable-acceptance.cjs');
+  const base = startupFixture(
+    t,
+    "require('fs').writeFileSync('docs/v2/evidence/zhiban-trial-content-demo-local.json','private-invalid-json');setInterval(()=>{},1000);",
+  );
+  const host = await startHost(base, 'start');
+  t.after(() => stopFixture(host));
+  await assert.rejects(
+    ready(base, host, undefined, { timeoutMs: 1000, pollMs: 10 }),
+    (e) =>
+      e.diagnostic.code === 'HOST_METADATA_INVALID' &&
+      !JSON.stringify(e.diagnostic).includes('private-invalid'),
+  );
+});
+test('diagnostic allowlist rejects attacker fields, unknown codes, arbitrary signal and duration', () => {
+  assert.equal(publicReport({ diagnostic: { code: '/private/secret' } }).diagnostic, undefined);
+  assert.deepEqual(
+    publicReport({
+      diagnostic: {
+        code: 'HOST_EXITED',
+        exitCode: -1,
+        signal: 'SECRET',
+        elapsedMs: -1,
+        mode: '/private',
+        stderr: 'secret',
+      },
+    }).diagnostic,
+    { code: 'HOST_EXITED' },
+  );
+});
+
+test('private log classifier emits only fixed reasons and refuses symlinks and public files', (t) => {
+  const { startupReason } = require('../../../scripts/zhiban-ci/portable-acceptance.cjs');
+  const f = fixture(t),
+    file = path.join(f.root, 'host-start.log');
+  const cases = [
+    ['FATAL ERROR: Reached heap limit secret-value', 'NODE_HEAP_LIMIT'],
+    ['Cannot find package secret-value from /private/secret', 'DEPENDENCY_MISSING'],
+    ['error TS2307: secret-value', 'TYPESCRIPT_BUILD_FAILED'],
+    [
+      'Command failed: pnpm --filter @openmaic/renderer build secret-value',
+      'NATIVE_SDK_BUILD_FAILED',
+    ],
+    ['Upstream source pin mismatch: /private/path', 'UPSTREAM_SOURCE_REFUSED'],
+    ['pg_ctl: could not start server: /private/path', 'PG_START_FAILED'],
+    ['opaque secret-value', 'UNCLASSIFIED'],
+  ];
+  for (const [text, expected] of cases) {
+    fs.writeFileSync(file, text, { mode: 0o600 });
+    assert.equal(startupReason(f.root, 'start'), expected);
+    const r = publicReport({ diagnostic: { code: 'HOST_EXITED', reason: expected, raw: text } });
+    assert.equal(r.diagnostic.reason, expected);
+    assert.ok(!JSON.stringify(r).includes('secret-value'));
+  }
+  fs.chmodSync(file, 0o644);
+  assert.equal(startupReason(f.root, 'start'), 'UNCLASSIFIED');
+  fs.unlinkSync(file);
+  fs.symlinkSync(f.input, file);
+  assert.equal(startupReason(f.root, 'start'), 'UNCLASSIFIED');
+  assert.equal(startupReason(f.root, '../../private'), 'UNCLASSIFIED');
+});
