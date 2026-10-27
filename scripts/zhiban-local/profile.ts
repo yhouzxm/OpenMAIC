@@ -1,3 +1,4 @@
+import { readProfileReference, referenceScope } from './pg-version';
 /** Readiness only. A web host never installs or derives its own trusted expected catalog. */
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
@@ -31,7 +32,7 @@ export async function loadProfile(pool: Pool): Promise<boolean> {
         .rows[0].name
     )
       return false;
-    const reference = JSON.parse(await readFile(profileReference, 'utf8'));
+    const reference = await readProfileReference(profileReference);
     const sourceHash = hash(await readFile(profileMigration));
     const avatarHash = hash(
       await readFile('lib/zhiban/infrastructure/profile/postgres/migrations/0002_avatar.sql'),
@@ -39,7 +40,7 @@ export async function loadProfile(pool: Pool): Promise<boolean> {
     if (
       reference.evidenceOrigin !== 'LOCAL' ||
       reference.githubActions !== false ||
-      reference.scope !== 'FRESH_OWNED_PG16_PROFILE_REFERENCE' ||
+      reference.scope !== referenceScope('FRESH_OWNED_PG16_PROFILE_REFERENCE') ||
       reference.migrationSha256 !== sourceHash ||
       reference.avatarMigrationSha256 !== avatarHash ||
       !/^[a-f0-9]{64}$/.test(reference.profileSha256)

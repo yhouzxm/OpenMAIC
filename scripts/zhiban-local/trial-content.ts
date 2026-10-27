@@ -1,3 +1,14 @@
+import {
+  localPgMajor,
+  pg18Lineage,
+  localPgBin,
+  pg18Origin,
+  pg18Reference,
+  executionEvidence,
+  validInstallationEvidence,
+  versionedContentPath,
+} from './pg-version';
+import { businessPg18Catalog } from '../zhiban-deploy/pg18-catalog';
 import { expectedAutoContent, autoContentReference } from './autograde-content-reference';
 import { jointSources, jointClassroomProfile } from './joint-classroom-receipt';
 import { attemptRuntimeSources } from './attempt-runtime-receipt';
@@ -15,7 +26,12 @@ import { provisionNative } from '../../lib/zhiban/infrastructure/openmaic/provis
 import { official } from '../../lib/zhiban/infrastructure/openmaic/catalog';
 import { ContentService } from '../../lib/zhiban/infrastructure/content/service';
 import { contentHttp } from '../../lib/zhiban/infrastructure/content/http';
-import { candidateSources, checkLedgers, validateContentDatabaseState } from './content-receipt';
+import {
+  candidateSources,
+  checkLedgers,
+  validateContentDatabaseState,
+  validateContentDatabaseStatePg18,
+} from './content-receipt';
 import { pngSources } from './png-receipt';
 import { contentProfile } from './content-profile';
 const hash = (v: string | Buffer) => createHash('sha256').update(v).digest('hex');
@@ -32,17 +48,20 @@ const database = classroomEdit
       ? 'zhiban_shared_classroom_native'
       : 'zhiban_trial_content_native';
 const origin =
-    process.argv.includes('--authoring-focus') ||
-    process.argv.includes('--resources-focus') ||
-    process.argv.includes('--pbl-focus') ||
-    process.argv.includes('--ema-focus') ||
-    process.argv.includes('--attainment-focus')
-      ? 'https://127.0.0.1:3468'
-      : classroomEdit
-        ? 'https://127.0.0.1:3463'
-        : sharedClassroom
-          ? 'https://127.0.0.1:3462'
-          : 'https://127.0.0.1:3461',
+    localPgMajor === 18
+      ? pg18Origin
+      : process.argv.includes('--authoring-focus') ||
+          process.argv.includes('--classroom-ai-focus') ||
+          process.argv.includes('--resources-focus') ||
+          process.argv.includes('--pbl-focus') ||
+          process.argv.includes('--ema-focus') ||
+          process.argv.includes('--attainment-focus')
+        ? 'https://127.0.0.1:3468'
+        : classroomEdit
+          ? 'https://127.0.0.1:3463'
+          : sharedClassroom
+            ? 'https://127.0.0.1:3462'
+            : 'https://127.0.0.1:3461',
   port = classroomEdit ? 56519 : sharedClassroom ? 56518 : 56517;
 type PoolFactory = (user?: string, database?: string) => Pool;
 type Target = { owned: string; socket: string; certificateHash: string };
@@ -67,8 +86,8 @@ async function target(t: Target) {
     if (!s.isDirectory() || s.isSymbolicLink() || s.uid !== process.getuid?.() || s.mode & 0o077)
       throw Error('Disposable path rejected');
   }
-  if ((await readFile(join(t.owned, 'data/PG_VERSION'), 'utf8')).trim() !== '16')
-    throw Error('PG16 required');
+  if ((await readFile(join(t.owned, 'data/PG_VERSION'), 'utf8')).trim() !== String(localPgMajor))
+    throw Error('Selected PG' + localPgMajor + ' required');
 }
 async function bindings() {
   const result: Record<string, string> = {};
@@ -328,6 +347,8 @@ export async function installTrialContent(
   },
 ) {
   await target(input);
+  if (localPgMajor === 18 && pg18Lineage !== 'PG18_FRESH_V1')
+    throw Error('Imported lineage cannot execute fresh DDL');
   const source = await candidateSources(),
     png = await pngSources(process.argv.includes('--unified-trial')),
     interactive = process.argv.includes('--unified-trial') ? await interactiveSources() : null,
@@ -392,9 +413,13 @@ export async function installTrialContent(
   )
     throw Error('Unified profile differs from fixed PNG reference');
   await input.master.query(`CREATE DATABASE ${nativeDatabase}`);
-  const boot = resolve('lib/zhiban/infrastructure/openmaic/bootstrap-native-roles.pg16.sql');
+  const boot = resolve(
+    localPgMajor === 18
+      ? 'docs/v2/candidates/pg18-provider-v1/bootstrap-native-roles.pg18.sql'
+      : 'lib/zhiban/infrastructure/openmaic/bootstrap-native-roles.pg16.sql',
+  );
   execFileSync(
-    '/usr/lib/postgresql/16/bin/psql',
+    join(localPgBin, 'psql'),
     [
       '-X',
       '-v',
@@ -456,13 +481,17 @@ export async function installTrialContent(
     const path = resolve('docs/v2/candidates/m5-content', name);
     input.sourceHashes[path] = hash(await readFile(path));
   }
-  input.sourceHashes[resolve('docs/v2/candidates/m5-png/0002-png.sql')] = png.hash;
+  input.sourceHashes[resolve(versionedContentPath('docs/v2/candidates/m5-png/0002-png.sql'))] =
+    png.hash;
   const bound = await bindings();
   Object.assign(input.sourceHashes, bound);
   const receipt = {
-    kind: 'LOCAL_UNIFIED_CONTENT_INSTALLATION',
-    evidenceOrigin: 'LOCAL',
-    githubActions: false,
+    kind:
+      localPgMajor === 18 ? 'LOCAL_UNIFIED_CONTENT_PG18_V1' : 'LOCAL_UNIFIED_CONTENT_INSTALLATION',
+    ...(localPgMajor === 18
+      ? { postgresMajor: 18, profileManifestSha256: (await pg18Reference()).manifestSha256 }
+      : {}),
+    ...executionEvidence(),
     status: 'VERIFIED',
     issuedAt: new Date().toISOString(),
     origin,
@@ -502,7 +531,7 @@ export async function installTrialContent(
   input.sourceHashes[bundlePath] = receipt.bundleHash;
   input.sourceHashes[boot] = hash(await readFile(boot));
   input.record(
-    'Content/Native fixed profile verified in owned PG16 dual databases; independent Classroom migrations are validated separately',
+    `Content/Native fixed profile verified in owned PG${localPgMajor} dual databases; independent Classroom migrations are validated separately`,
   );
   return receipt;
 }
@@ -525,9 +554,11 @@ export async function loadTrialContent(
       : null,
     joint = process.argv.includes('--unified-trial') ? await jointSources() : null;
   if (
-    receipt.kind !== 'LOCAL_UNIFIED_CONTENT_INSTALLATION' ||
-    receipt.evidenceOrigin !== 'LOCAL' ||
-    receipt.githubActions !== false ||
+    receipt.kind !==
+      (localPgMajor === 18
+        ? 'LOCAL_UNIFIED_CONTENT_PG18_V1'
+        : 'LOCAL_UNIFIED_CONTENT_INSTALLATION') ||
+    !validInstallationEvidence(receipt) ||
     receipt.status !== 'VERIFIED' ||
     receipt.origin !== origin ||
     receipt.port !== port ||
@@ -559,7 +590,27 @@ export async function loadTrialContent(
     throw Error('Disposable content receipt/source mismatch');
   const bridge = input.pool('zhiban_bridge_runtime'),
     native = input.pool('zhiban_openmaic_runtime', nativeDatabase);
-  await validateContentDatabaseState(bridge, native, receipt);
+  if (localPgMajor === 18) {
+    const expected = await pg18Reference();
+    if (
+      receipt.postgresMajor !== 18 ||
+      receipt.sourceLineage !== pg18Lineage ||
+      receipt.profileManifestSha256 !== expected.manifestSha256
+    )
+      throw Error('PG18 receipt dialect/profile binding rejected');
+    const c = await input.pool().connect();
+    try {
+      if ((await businessPg18Catalog(c)).fingerprint !== expected.businessFingerprint)
+        throw Error('PG18 complete business catalog/ACL drift');
+    } finally {
+      c.release();
+    }
+  }
+  await (localPgMajor === 18 ? validateContentDatabaseStatePg18 : validateContentDatabaseState)(
+    bridge,
+    native,
+    receipt,
+  );
   const service = new ContentService(
     bridge,
     native,
@@ -586,9 +637,11 @@ export async function upgradeRestoredContent(input: Target & { pool: PoolFactory
   const previousBytes = await readFile(path);
   const previous = JSON.parse(previousBytes.toString());
   if (
-    previous.kind !== 'LOCAL_UNIFIED_CONTENT_INSTALLATION' ||
-    previous.evidenceOrigin !== 'LOCAL' ||
-    previous.githubActions !== false ||
+    previous.kind !==
+      (localPgMajor === 18
+        ? 'LOCAL_UNIFIED_CONTENT_PG18_V1'
+        : 'LOCAL_UNIFIED_CONTENT_INSTALLATION') ||
+    !validInstallationEvidence(previous) ||
     previous.origin !== origin ||
     previous.socket !== input.socket ||
     previous.dataDirectory !== join(input.owned, 'data') ||
@@ -609,7 +662,7 @@ export async function upgradeRestoredContent(input: Target & { pool: PoolFactory
     previous.profile !== (await jointSources()).reference.enabledProfile.fingerprint
   )
     throw Error('Restored prior profile rejected');
-  await validateContentDatabaseState(
+  await (localPgMajor === 18 ? validateContentDatabaseStatePg18 : validateContentDatabaseState)(
     input.pool('zhiban_bridge_runtime'),
     input.pool('zhiban_openmaic_runtime', nativeDatabase),
     { ...previous, profile: expectedProfile },

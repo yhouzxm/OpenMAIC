@@ -146,7 +146,11 @@ export async function saveWorkspaceModelConfig(
   next: ModelConfigFile,
   expectedRevision: number | null,
   /** Providers whose stored key is removed even if it can no longer be opened. */
-  { clearKeys = [] }: { clearKeys?: readonly string[] } = {},
+  { clearKeys = [], afterWrite }: {
+    clearKeys?: readonly string[];
+    /** Embedded host audit, committed or rolled back with the configuration. */
+    afterWrite?: (tx: Queryable, revision: number) => Promise<void>;
+  } = {},
 ): Promise<number> {
   const { config, issues } = checkModelConfigShape(next);
   if (!config) throw new WorkspaceConfigInvalidError(issues);
@@ -218,6 +222,7 @@ export async function saveWorkspaceModelConfig(
           ],
         );
     if (written.rows.length !== 1) throw new WorkspaceConfigConflictError();
+    await afterWrite?.(tx, revision);
     return revision;
   });
 }

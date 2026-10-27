@@ -1,0 +1,104 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_EXISTING_PROVIDER_BUNDLE_REAL_LOCAL",
+  "at": "2026-10-26T14:03:13.415133+00:00",
+  "branch": "refactor/zhiban-v2",
+  "head": "093b4a69af96626010d9104c50d680d9b9dc1928",
+  "accepted": [
+    "DOUBAO_TTS_GENERATE_SCAN_ADOPT_PUBLISH_STUDENT_REAL_PLAYBACK",
+    "ALIDOCMIND_DOCX_PPTX_XLSX_REAL_EXTRACTION_AND_OWNER_READBACK",
+    "ALIDOCMIND_PNG_OCR_REAL_EXTRACTION_AND_OWNER_READBACK",
+    "SEEDANCE_GENERATE_SCAN_ADOPT_PUBLISH_STUDENT_REAL_VIDEO_PLAYBACK"
+  ],
+  "credentialAndConfiguration": {
+    "envUnchangedFromUserProvidedBytes": true,
+    "envSha256": "16f1ca07c97fa18fa94860e294c51dbb15665bd137b9b229cdacba6d3c623d54",
+    "yamlSha256": "fb83cf0ddd12c229a743abeb102f3064344ac65f34daaf3a689fea25b38e216a",
+    "originalProvidersAndUnaffectedSlotsPreserved": true,
+    "lockAllAndUserKeysDisabledPreserved": true,
+    "privateBackupOnly": true,
+    "noSecretsExported": true
+  },
+  "runtime": {
+    "origin": "https://127.0.0.1:3461",
+    "status": "RUNNING_LOCAL_PERSISTENT",
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "accountsUnchanged": true,
+    "historicalGrade92ProofAndCompletionPreserved": true
+  },
+  "providerErrorsResolved": [
+    "Wrong plan endpoints corrected after standard endpoint authentication probes",
+    "AliDocMind native ESM CommonJS constructor shape fixed before actual extraction",
+    "ModelNotOpen resolved after explicit user model activation",
+    "Published video src/mediaRef projection fixed on same source digest and publication without new generation"
+  ],
+  "remainingBoundaries": [
+    "Original library materials remain limited to1MiB",
+    "Office acceptance covers native DOCX/PPTX/XLSX, not legacy binary DOC/PPT/XLS",
+    "OCR sample is PNG; no claim of arbitrary layout fidelity or benchmark accuracy",
+    "Formal grade/completion and Native maintenance isolation unchanged",
+    "Current private snapshot verified as file/hash closure, not a new cross-machine restore test"
+  ],
+  "network": {
+    "exactDnsExclusionsAdded": [
+      "openspeech.bytedance.com",
+      "ark.cn-beijing.volces.com",
+      "docmind-api.cn-hangzhou.aliyuncs.com",
+      "ark-content-generation-cn-beijing.tos-cn-beijing.volces.com"
+    ],
+    "generalProxyTunUnchanged": true,
+    "projectSsrfTlsUnchanged": true,
+    "privateRollbackPreserved": true
+  },
+  "backup": {
+    "status": "PASS",
+    "evidenceOrigin": "LOCAL",
+    "snapshot": "/home/zxm/.local/share/zhiban-persistent/2026-10-26T14-00-13.778Z-9ad0a629",
+    "files": 3297,
+    "scope": "FILE_HASH_CLOSURE_ONLY",
+    "manifestHash": "e587d15e4c6de6159fa1980aaf401ea0e08ac7a46f39576dfcb0f20a5ad0d8fe",
+    "physicalPg16Backup": true,
+    "containsInstanceSecret": true,
+    "privateConfigSeparatelyPreserved": true
+  },
+  "sourceSha256": {
+    "lib/pdf/alidocmind-client.ts": "cdbaa531216e3e20603ef44aea941a1815d3b65deb112a0309a5003fab2afe90",
+    "lib/zhiban/infrastructure/authoring/http.ts": "ac27f11c30431259ced8ec960f518661d21ee380fd3a91dfeca01ad0397678d1",
+    "lib/zhiban/infrastructure/authoring/published-media.ts": "530511fa7c9870d7bf22ea01812f2aa1c034f9a46a532eec8dbfc188137f5379",
+    "tests/document/alidocmind-native-esm.test.ts": "f3a50114315c87061b59e304312812bd6e936d6beaef4c9801ace4b3e1ed3a62",
+    "tests/server/alidocmind-yaml-extraction.test.ts": "0e9c761dbf07917a47e9bae97d5e8686c2918d3d2411dba1a65504a95b30f07e",
+    "tests/zhiban/multimodal/published-video.test.ts": "de7c2e5f482e4a94a22ffe4c2c1b8568ab573d465a583accfde7deda2772ae63"
+  },
+  "docsSha256": {
+    "docs/v2/zhiban-v2-service-provider-final-local.md": "37e7731cd47eae9953cd86cab37f3ba8e5bf4158147a3f260dcb13ced7a688d5",
+    "docs/v2/zhiban-v2-migration-completion-plan.md": "711d4ae87505cdcac56e829b22a15281459535f3aa09848179c5a98d846fa1aa",
+    "docs/v2/zhiban-v2-feature-gap-matrix.md": "b4a0ff0e970975bcb30365cee0e3e2e7f43467df5ef839a90000b3b3776ff19a",
+    "docs/v2/zhiban-v2-native-teaching-reuse-audit.md": "b548339a8d7aa852fd61f4e92295cf212890c78b21ca0a313d135309a4b3cb2f",
+    "TRIAL.md": "8618e8d5357145721015b846da84e75fdc3cc789f7107f1c399b6a7d541b4e34"
+  },
+  "evidenceSha256": {
+    "docs/v2/evidence/service-provider-final/application.json": "7ee94cbc228ed947c9f3cfbcda6bde4b74931aecf057ee11973927a5a1d0446d",
+    "docs/v2/evidence/service-provider-final/approved-offline-config.json": "bd2d5aa2899ba407541408f92f5bb0d0415584730ebb6952d8aa68ab838f768f",
+    "docs/v2/evidence/service-provider-final/before-video-activation.json": "7f9c5e73704521aabf17b78e5cf55c73867e9e77dedc3b39ac7158d7e3c83889",
+    "docs/v2/evidence/service-provider-final/checks.json": "8bbc522beec92021d600fb7e289a85957a5acd72560be711b2ed5310478ff23a",
+    "docs/v2/evidence/service-provider-final/findings.json": "72579a7940cba43a26bebc113028b0a819d818d021119d94aafda95bce158bb7",
+    "docs/v2/evidence/service-provider-final/fixtures.json": "dfba08956d89d41ec3f614b8964486c42cbeb15370d8574adf0b8f79f715db1b",
+    "docs/v2/evidence/service-provider-final/initial-offline-config.json": "c062d2544bf3cb7bb6af0cd6d7ad8996afbd27a7894312e4fb9214f5f4248838",
+    "docs/v2/evidence/service-provider-final/readback.json": "e89bc61db894c5cc4face8cd7b0773163b47102a4a65a75b0bafea5761c82a52",
+    "docs/v2/evidence/service-provider-final/student-tts.png": "30d608d7eaab4329e3c597354ba0e01a722b9497ebcd22c60374b65bf12b7a49",
+    "docs/v2/evidence/service-provider-final/student-video.png": "1553a9ba90e6c0780610c1a3d4db3c34976fd3648e708b153ad1c5283746cf4f",
+    "docs/v2/evidence/service-provider-final/teacher-desktop.png": "9ef54b8405168ba732063e0e03d8d412830f1590f0e9911098a0db4ccde49633",
+    "docs/v2/evidence/service-provider-final/teacher-mobile.png": "e542b5888e134116c93c71a76e2f424fddd4c4bd0a244e768733e58d385cd282",
+    "docs/v2/evidence/service-provider-final/tts-published.json": "c529d7fab1a6ea3d20d636f94bf5e6945baa6e522ce43a3ef2606731eaa8469e",
+    "docs/v2/evidence/service-provider-final/video-published.json": "14ce44394aa73c4974cfeb71b623cc507e7c74e998ad352919f99bee71234135"
+  },
+  "frozenP7": "Existing8f09fd093eba source artifact retains original scope; no repack",
+  "gitActions": {
+    "commit": false,
+    "push": false,
+    "ci": false
+  },
+  "appliedMigrationsChanged": false
+}

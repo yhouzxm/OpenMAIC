@@ -1,0 +1,17 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "sdkInteropAndCredentialBoundary": "PASS 9 targeted tests",
+  "fixedPublicationVideoProjection": "PASS 3 targeted tests",
+  "types": "PASS scoped native authoring",
+  "lint": "PASS changed SDK/projection/test files",
+  "logsSha256": {
+    "sdkTests": "e2980d717ef30a120502510b81ecb9a51aac8dfbb8241bb6f9f4ee47464c832d",
+    "playerTests": "3cbf24d6d3df95f1374ef3281ab9ce4068f1969d4b6aa03ddadd4b525bb4fa7f",
+    "sdkTypes": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "playerTypes": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sdkLint": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "playerLint": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "scope": "No full classroom, unrelated PG regression or CI"
+}

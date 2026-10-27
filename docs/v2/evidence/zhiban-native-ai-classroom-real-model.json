@@ -1,0 +1,70 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-25T13:26:49.886Z",
+  "scope": "REAL_NATIVE_CLASSROOM_BROWSER_DIRECTOR_AGENTS_WHITEBOARD_PERSONAL_HISTORY",
+  "origin": "https://127.0.0.1:3461",
+  "tenant": "01a16958-5776-7381-a21c-e66fe3c2684b",
+  "offering": "01a16958-7375-7780-9453-f861b6aa2f51",
+  "resource": "01a16ea2-7546-73b7-b971-297127c754f2",
+  "publication": "01a16ea2-77aa-71bc-86a6-f2c5578bebca",
+  "sourceDigest": "f11c2b4eb8a771a4c74e37630292c2bb045bc97dafff17e4d9559e2d37e56d2b",
+  "model": "operator-configured native classroom slot",
+  "modelConfigurationDigest": "28c1abc8c9b44cc7a77d0e9b0b2cc446f03db0845c6f20b72a1f971fa4a22e5d",
+  "modelEvidenceMode": "REAL_CAPTURE_PLUS_AUTHORIZED_UI_RUNTIME_REPLAY_NO_MODEL_REPEAT",
+  "capturedAt": "2026-10-25T13:09:55.977Z",
+  "capturedDigest": "214e97d80156e76a7bdf7ceebb98c03afc0fa8473da09bc41075839d7f2f6e8f",
+  "participants": [
+    "default-1",
+    "default-2"
+  ],
+  "csrfRequests": 2,
+  "eventTypes": [
+    "agent_start",
+    "whiteboard",
+    "text_delta",
+    "agent_end",
+    "cue_user",
+    "done"
+  ],
+  "checks": [
+    "Actual browser -> native Pi Director -> multiple real GLM classroom agents -> done",
+    "Real native child whiteboard tool committed a personal runtime operation",
+    "Reloaded native chat panel displays persisted assistant answer",
+    "Reloaded native whiteboard displays persisted model tool output"
+  ],
+  "runtimeRecordCount": 37,
+  "runtimeDigest": "412108579e72df4e3a7649895adfd49ffa7b03e3053875b0986153a54fe54f18",
+  "errors": [],
+  "failed": [],
+  "excluded": [
+    "TTS/ASR services unconfigured",
+    "formal Attempt/grade/completion",
+    "autonomous PBL",
+    "frozen Native maintenance activation"
+  ],
+  "nativeChildRuns": [
+    {
+      "agentId": "default-1",
+      "status": "completed",
+      "providerTransportCount": 3,
+      "executionCount": 2,
+      "visibleOutputDigest": "b1e5a9fcc0cc96921ff07a098643cfdae2d12eca64bf2606574a8b65b8fcf2cb"
+    },
+    {
+      "agentId": "default-2",
+      "status": "completed",
+      "providerTransportCount": 1,
+      "executionCount": 0,
+      "visibleOutputDigest": "640920708f5113e17baa70cde5a91e3d93fc19ab9a72da156632f344b98e3223"
+    }
+  ],
+  "whiteboardProjections": [
+    {
+      "kind": "projection",
+      "stageId": "zhiban-class-3d1a40726fddcf8a8c17683484ed41a8f7e0ddb4e8e9cb3b",
+      "lastSeq": 1
+    }
+  ]
+}

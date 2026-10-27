@@ -88,6 +88,10 @@ export function useDiscussionTTS({ enabled, agents, onAudioStateChange }: Discus
   const currentProviderRef = useRef<TTSProviderId | null>(null);
   const segmentDoneCounterRef = useRef(0);
   const abortControllerRef = useRef<AbortController | null>(null);
+  const objectUrlsRef = useRef(new Set<string>());
+  const revokeAudioUrl = useCallback((url: string) => {
+    if (objectUrlsRef.current.delete(url)) URL.revokeObjectURL(url);
+  }, []);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   /**
    * Identifies the line that currently owns the reused element. Element identity
@@ -276,7 +280,11 @@ export function useDiscussionTTS({ enabled, agents, onAudioStateChange }: Discus
       if (!data.base64) throw new Error('No audio in response');
 
       controller.signal.throwIfAborted();
-      return `data:audio/${data.format || 'mp3'};base64,${data.base64}`;
+      const binary = atob(data.base64);
+      const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
+      const url = URL.createObjectURL(new Blob([bytes], { type: `audio/${data.format || 'mp3'}` }));
+      objectUrlsRef.current.add(url);
+      return url;
     },
     [agents, locale, ttsProvidersConfig, ttsSpeed],
   );
@@ -337,7 +345,10 @@ export function useDiscussionTTS({ enabled, agents, onAudioStateChange }: Discus
               (audioUrl) => ({ audioUrl }),
               (error: unknown) => ({ error }),
             );
-      if (controller.signal.aborted || currentItemRef.current !== item) return;
+      if (controller.signal.aborted || currentItemRef.current !== item) {
+        if ('audioUrl' in result) revokeAudioUrl(result.audioUrl);
+        return;
+      }
       if ('error' in result) throw result.error;
       abortControllerRef.current = null;
       const audioUrl = result.audioUrl;
@@ -359,6 +370,7 @@ export function useDiscussionTTS({ enabled, agents, onAudioStateChange }: Discus
         currentItemRef.current = null;
         currentProviderRef.current = null;
         releaseDiscussionAudioLine(audio);
+        revokeAudioUrl(audioUrl);
         isPlayingRef.current = false;
         segmentDoneCounterRef.current++;
         onAudioStateChangeRef.current?.(item.agentId, 'idle');
@@ -427,7 +439,7 @@ export function useDiscussionTTS({ enabled, agents, onAudioStateChange }: Discus
         queueMicrotask(() => processQueueRef.current());
       }
     }
-  }, [enabled, t, ttsMuted, generateAudio]);
+  }, [enabled, t, ttsMuted, generateAudio, revokeAudioUrl]);
 
   processQueueRef.current = processQueue;
 
@@ -503,12 +515,13 @@ export function useDiscussionTTS({ enabled, agents, onAudioStateChange }: Discus
       audioRef.current = null;
       releaseDiscussionAudioLine(audio);
     }
+    for (const url of objectUrlsRef.current) revokeAudioUrl(url);
     browserCancelRef.current();
     queueRef.current = [];
     isPlayingRef.current = false;
     segmentDoneCounterRef.current = 0;
     onAudioStateChangeRef.current?.(null, 'idle');
-  }, []);
+  }, [revokeAudioUrl]);
 
   /** Pause TTS audio (browser-native or server). Does NOT stop the SSE stream. */
   const pause = useCallback(() => {
@@ -561,14 +574,19 @@ export function useDiscussionTTS({ enabled, agents, onAudioStateChange }: Discus
   // that from turning TTS off. Only speculative work is cancelled on mute.
   useEffect(() => {
     if (ttsMuted) {
-      prefetchedRef.current?.controller.abort();
+      const pending = prefetchedRef.current;
+      pending?.controller.abort();
+      if (pending)
+        void pending.result.then((result) => {
+          if ('audioUrl' in result) revokeAudioUrl(result.audioUrl);
+        });
       prefetchedRef.current = null;
     } else if (!enabled) {
       cleanup();
     } else {
       prefetchNextRef.current();
     }
-  }, [enabled, ttsMuted, cleanup]);
+  }, [enabled, ttsMuted, cleanup, revokeAudioUrl]);
 
   useEffect(() => cleanup, [cleanup]);
 

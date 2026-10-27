@@ -55,7 +55,7 @@ const UNIT_LABEL_KEY: Record<UsageUnit, string> = {
 /** Display order of modality sections. */
 const KIND_ORDER: UsageKind[] = ['llm', 'image', 'video', 'tts', 'asr'];
 
-export function UsageDashboard() {
+export function UsageDashboard({ fetchUsage }: { fetchUsage?: () => Promise<Response> } = {}) {
   const { t } = useI18n();
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === 'dark';
@@ -67,7 +67,7 @@ export function UsageDashboard() {
   const load = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/usage');
+      const res = await (fetchUsage ? fetchUsage() : fetch('/api/usage'));
       const json = await res.json();
       if (json.success !== false) setData(json as UsageResponse);
     } catch {
@@ -75,7 +75,7 @@ export function UsageDashboard() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [fetchUsage]);
 
   useEffect(() => {
     void load();

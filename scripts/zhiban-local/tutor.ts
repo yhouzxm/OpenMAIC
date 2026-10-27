@@ -1,3 +1,4 @@
+import { readProfileReference, referenceScope } from './pg-version';
 /** Readiness only. A web host never installs or derives its own trusted expected catalog. */
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
@@ -34,13 +35,13 @@ export async function loadTutor(pool: Pool): Promise<boolean> {
         .name
     )
       return false;
-    const reference = JSON.parse(await readFile(tutorReference, 'utf8'));
+    const reference = await readProfileReference(tutorReference);
     const hashes = await Promise.all(tutorMigrations.map(async (p) => hash(await readFile(p))));
     const sourceHash = hashes[0];
     if (
       reference.evidenceOrigin !== 'LOCAL' ||
       reference.githubActions !== false ||
-      reference.scope !== 'FRESH_OWNED_PG16_TUTOR_REFERENCE' ||
+      reference.scope !== referenceScope('FRESH_OWNED_PG16_TUTOR_REFERENCE') ||
       reference.migrationSha256 !== sourceHash ||
       JSON.stringify(reference.migrationHashes) !== JSON.stringify(hashes) ||
       !/^[a-f0-9]{64}$/.test(reference.profileSha256)

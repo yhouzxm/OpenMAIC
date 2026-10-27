@@ -1,0 +1,14 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "affectedUnitAndUploadPolicy": "PASS 12 tests",
+  "scopedNativeAuthoringTypes": "PASS",
+  "affectedLint": "PASS",
+  "testLogsSha256": {
+    "tests": "a49235aa8a77a137cf207c743362b2a81d13ff392aa13d224fb05f454a80eb17",
+    "types": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "lint": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "correctedUiLint": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "scope": "Only affected formats/conversion/admission and teaching flow; no broad PG/classroom regression or CI"
+}

@@ -1,0 +1,16 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "status": "FAIL_TEST_VECTOR_AND_PREVIEW_FOUND",
+  "sourceProofSha256": "7330f011248eafe73997f35004da6ed0bd05571c9f109ae2f117844aa32de58a",
+  "validated": [
+    "real TXT extraction",
+    "real local image scan",
+    "UI new document",
+    "adopt/publish/student read",
+    "command replay/conflict/CSRF"
+  ],
+  "findings": [
+    "Preview used /bytes rather than native /content; corrected and image decode asserted.",
+    "Appending EICAR to PNG changes the standard EICAR test vector; replaced with exact EICAR text via materials upload, without changing scanner policy."
+  ]
+}

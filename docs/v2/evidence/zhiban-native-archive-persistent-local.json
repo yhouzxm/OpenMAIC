@@ -1,0 +1,51 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "DEFAULT_3461_NATIVE_ARCHIVE_UI_RESTORE_ORIGINAL_DATA",
+  "checkedAt": "2026-10-25T21:43:44.060Z",
+  "origin": "https://127.0.0.1:3461",
+  "accountsSha256": "91d73979d2a3a17ba17c69549682aa4d944f875c004bb8427ad5ba35d262e122",
+  "sourceResource": "01a17369-479b-77e9-a9db-226ae6ca92cd",
+  "sourcePublication": "01a17369-4bba-76c1-9eca-286a9896e439",
+  "restoredStageId": "archive-0fb83b17871cf04930d607e0f6a189ef51d8d17a3df9b600",
+  "archiveSha256": "bafed10cafa7df19ab21c3fe40955d50679c7823bb996474aaa9d228d216c52a",
+  "checks": [
+    "published teacher link",
+    "native archive download",
+    "UI inspect + actual trusted scan + fresh restore",
+    "fresh PBL design without learner submissions",
+    "chart player asset delivery"
+  ],
+  "modelCalls": 0,
+  "restoredHistoricalReports": [
+    {
+      "scene": "autonomous-1c2c5270-fa5a-468a-9130-26d0f037319c",
+      "status": "completed",
+      "revision": "19"
+    },
+    {
+      "scene": "autonomous-c1f1233d-a2fa-4f30-8ad6-0d1127ed8fd2",
+      "status": "completed",
+      "revision": "20"
+    }
+  ],
+  "afterRestart": {
+    "status": "PASS",
+    "checkedAt": "2026-10-25T21:45:48.508Z",
+    "sameStage": true,
+    "accountsSha256": "91d73979d2a3a17ba17c69549682aa4d944f875c004bb8427ad5ba35d262e122"
+  },
+  "offlinePptxRestore": {
+    "status": "PASS",
+    "checkedAt": "2026-10-25T21:50:13.923Z",
+    "archiveSha256": "4ef9dc2e878028480280fe20c08ddc13114555d2fb1760b5d86c24f2b62df2f0",
+    "stageId": "archive-cd29812be72bfdfea2413b6d57c35fd13153f166da622dfd",
+    "scenes": 2,
+    "networkMode": "PACKAGE_BYTES_ONLY",
+    "scanReference": "clamav-archive-sha256:4afd168e1c42aa169fdf2b5ad454384c28f07521a71b258f51e55c529b336271:a8ed645970e684d337bc12a6a158dbb0e2743fd2350083474f0d3656dc7c4b02:4ef9dc2e878028480280fe20c08ddc13114555d2fb1760b5d86c24f2b62df2f0:1792965012697"
+  },
+  "sourceMatches": true,
+  "sourceDriftCount": 0,
+  "gitHead": "093b4a69af96626010d9104c50d680d9b9dc1928"
+}

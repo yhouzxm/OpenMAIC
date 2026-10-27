@@ -1,0 +1,48 @@
+{
+  "sourceKit": {
+    "path": "/home/zxm/.local/share/zhiban-pg18-delivery-A4kkJa/install-kit",
+    "manifestSha256": "68555c247ff183257c6ea456f8743b77a89e11e6f83b6d1c9c6d52427182f97d",
+    "sourceDigest": "a4231ad1eb1d30a40a2532e172b127e2c469f7cda24fc9884496dc7268ff5cab",
+    "scope": "CURRENT_DIRTY_SOURCE_WITHOUT_PRIVATE_DATA_OR_DEPENDENCIES",
+    "frozenIndependentOfflineInstall": "PASS"
+  },
+  "installation": {
+    "kind": "LOCAL_INDEPENDENT_INSTALLATION_V1",
+    "evidenceOrigin": "LOCAL",
+    "githubActions": false,
+    "kitManifestSha256": "68555c247ff183257c6ea456f8743b77a89e11e6f83b6d1c9c6d52427182f97d",
+    "sourceDigest": "a4231ad1eb1d30a40a2532e172b127e2c469f7cda24fc9884496dc7268ff5cab",
+    "baselineHead": "093b4a69af96626010d9104c50d680d9b9dc1928",
+    "officialPin": "e19d0d4f45d81b8f7ab599b33ab03b0b8b68d5c0",
+    "workspace": "/home/zxm/.local/share/zhiban-pg18-delivery-A4kkJa/installed-source",
+    "host": {
+      "platform": "linux",
+      "arch": "x64",
+      "endian": "LE",
+      "pg": "postgres (PostgreSQL) 16.15 (Ubuntu 16.15-1.pgdg24.04+2)",
+      "nodeMajor": 22,
+      "pnpm": "10.28.0"
+    },
+    "dependencies": "FROZEN_LOCAL_INSTALL",
+    "scope": "NOT_PRODUCTION",
+    "installedAt": "2026-10-26T22:41:17.698Z"
+  },
+  "logical16to18": {
+    "path": "/home/zxm/.local/share/zhiban-pg18-delivery-A4kkJa/logical-16-to-18-final",
+    "pin": "ea40ac5600d1ff4aa3a13fe12849a8950b47f7d345e0140f2ca0c4bc21f4af4b",
+    "scope": "PRIVATE_QUARANTINE_NO_PROVIDER_ACTIVATION"
+  },
+  "pg18Recovery": {
+    "path": "/home/zxm/.local/share/zhiban-pg18-delivery-A4kkJa/pg18-recovery-final",
+    "pin": "2d4472886575600124832ee2d7df9980b4f98fb828b1cbf7439a46b961cab8e9",
+    "scope": "PRIVATE_QUARANTINE_NO_PROVIDER_ACTIVATION"
+  },
+  "pg16Fallback": {
+    "path": "/home/zxm/.local/share/zhiban-pg18-delivery-A4kkJa/pg16-private-fallback",
+    "manifestSha256": "e76adb859d13c404c818fb57847ed9ea7c71b0731c9b4eb053bf405d8f87b870",
+    "scope": "PRIVATE_SYNTHETIC_DATA_AND_DEVELOPMENT_TLS_SAME_INTERNAL_ROOT",
+    "independentWorkspace": "/home/zxm/.local/share/zhiban-pg18-delivery-A4kkJa/installed-source",
+    "isolatedState": "/home/zxm/.local/share/zhiban-pg18-delivery-A4kkJa/fallback-state"
+  },
+  "secretMaterialPolicy": "Private directory 0700, SQL/dumps/credentials/keys and manifests 0600. No private contents copied to evidence. Host model/scanner configuration not imported; no cloud or production authority."
+}

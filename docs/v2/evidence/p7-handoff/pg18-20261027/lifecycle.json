@@ -1,0 +1,21 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "allOwnedClustersStopped": true,
+  "fallbackHttpsStopped": true,
+  "fallbackStopSavedSnapshot": {
+    "path": "/home/zxm/.local/share/zhiban-pg18-delivery-A4kkJa/fallback-state/snapshots/2026-10-26T22-51-09.885Z-7f1f7598",
+    "manifestHash": "79cf0eded4432b5cd2f2975bbf61630bfa94e552d8959a4dec13b5c1e70863da"
+  },
+  "fallbackSnapshotFileClosure": {
+    "status": "PASS",
+    "evidenceOrigin": "LOCAL",
+    "snapshot": "/home/zxm/.local/share/zhiban-pg18-delivery-A4kkJa/fallback-state/snapshots/2026-10-26T22-51-09.885Z-7f1f7598",
+    "files": 3325,
+    "scope": "FILE_HASH_CLOSURE_ONLY"
+  },
+  "originalDefaultSnapshotPointerUnchanged": true,
+  "originalSnapshotManifestSha256": "f9b3cc5e3001fa9b33baecb949c609bf5fd10ac57fae595dc4a00632034999a5",
+  "systemPg16AndPorts55432And55433Untouched": true,
+  "privateFailedTargetsRetainedNotReplayed": true
+}

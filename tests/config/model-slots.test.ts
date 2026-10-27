@@ -32,7 +32,7 @@ const EXPECTED_STAGE_SLOTS: Record<LlmStage, SlotId> = {
   'pbl-v2-runtime:open-task': 'classroom',
   'pbl-v2-runtime:evaluate': 'classroom',
   'pbl-v2-runtime:simulator': 'classroom',
-  'chat-adapter': 'classroom',
+  'chat-adapter': 'classroom.chat',
   'web-search-query-rewrite': 'course.research',
   'maic-agent-driver': 'agent',
   'conversation-title': 'agent.title',
@@ -111,7 +111,7 @@ describe('capability slot tree', () => {
   it('keeps agent.title out of the settings UI', () => {
     expect(getSlot('agent.title').configOnly).toBe(true);
     const shown = MODEL_SLOTS.filter((slot) => 'configOnly' in slot && slot.configOnly);
-    expect(shown.map((slot) => slot.id)).toEqual(['agent.title']);
+    expect(shown.map((slot) => slot.id)).toEqual(['classroom.chat', 'agent.title']);
   });
 });
 
@@ -147,7 +147,10 @@ describe('stage → slot mapping', () => {
   it('keeps every stage of a settings station on one slot', () => {
     for (const [station, stages] of Object.entries(STATION_STAGE_KEYS)) {
       const slots = new Set(stages.map((stage) => slotForStage(stage as LlmStage)));
-      expect(slots.size, station).toBe(1);
+      if (stages.includes('chat-adapter')) {
+        expect([...slots].sort()).toEqual(['classroom', 'classroom.chat']);
+        expect(slotLineage('classroom.chat')).toEqual(['classroom.chat', 'classroom', 'llm']);
+      } else expect(slots.size, station).toBe(1);
     }
   });
 });

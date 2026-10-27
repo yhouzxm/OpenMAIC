@@ -1,0 +1,29 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "fixtures": [
+    {
+      "file": "lesson.docx",
+      "bytes": 7681,
+      "sha256": "2131a95b903dd3d034a772a1fea73872b14f333d71d8cb9d00dc07512b11eb02",
+      "source": "LOCAL_SYNTHETIC_NONPERSONAL_TEST_CONTENT"
+    },
+    {
+      "file": "lesson.pptx",
+      "bytes": 45429,
+      "sha256": "b4865b2925e690677a567d38bb9d5dee6e03a0d92d50259e14dc9a48f2b25d05",
+      "source": "LOCAL_SYNTHETIC_NONPERSONAL_TEST_CONTENT"
+    },
+    {
+      "file": "lesson.xlsx",
+      "bytes": 1413,
+      "sha256": "8a3e8ca69cf0c55342404050f3c846b973543508a2678275e6124b709d0cc014",
+      "source": "LOCAL_SYNTHETIC_NONPERSONAL_TEST_CONTENT"
+    },
+    {
+      "file": "lesson-ocr.png",
+      "bytes": 17779,
+      "sha256": "98f50f07c9bb6329e32f5615ed793168d22ae26bd698da7915a8a90a8be5b554",
+      "source": "LOCAL_SYNTHETIC_NONPERSONAL_TEST_CONTENT"
+    }
+  ]
+}

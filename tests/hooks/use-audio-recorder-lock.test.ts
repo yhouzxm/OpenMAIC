@@ -64,3 +64,42 @@ describe('useAudioRecorder lock', () => {
     await act(async () => root.unmount());
   });
 });
+
+it('releases a microphone permission result arriving after cancellation', async () => {
+  const handle: { current?: ReturnType<typeof useAudioRecorder> } = {};
+  function Probe() {
+    const recorder = useAudioRecorder();
+    useEffect(() => {
+      handle.current = recorder;
+    });
+    return null;
+  }
+  const stop = vi.fn();
+  let grant!: (stream: MediaStream) => void;
+  const getUserMedia = vi.fn(
+    () =>
+      new Promise<MediaStream>((resolve) => {
+        grant = resolve;
+      }),
+  );
+  vi.stubGlobal('navigator', { mediaDevices: { getUserMedia } });
+  modelSettingsClient.adopt(
+    modelSettingsViewFor({ asr: { registryId: 'openai-whisper', modelId: 'glm-asr-2512' } }),
+  );
+  const root = createRoot(document.createElement('div'));
+  await act(async () => root.render(createElement(Probe)));
+  let started!: Promise<void>;
+  await act(async () => {
+    started = handle.current!.startRecording();
+    await Promise.resolve();
+  });
+  expect(getUserMedia).toHaveBeenCalledOnce();
+  await act(async () => handle.current!.cancelRecording());
+  await act(async () => {
+    grant({ getTracks: () => [{ stop }] } as unknown as MediaStream);
+    await started;
+  });
+  expect(stop).toHaveBeenCalledOnce();
+  expect(handle.current!.isRecording).toBe(false);
+  await act(async () => root.unmount());
+});

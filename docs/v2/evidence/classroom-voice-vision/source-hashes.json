@@ -1,0 +1,22 @@
+{
+  "lib/audio/asr-input-policy.ts": "a24138b71ac21554d6e1b12d4d0c7e0fe251430d552ae09fec968faa31ce9071",
+  "lib/audio/wav-utils.ts": "52bd44b0fe72f32195766c1ca526eaeb0ee271ba4346470da0adea8953c73bd8",
+  "lib/hooks/use-audio-recorder.ts": "95a0b2e1736c8e7ef340e54b18d74e833b36ac020c2b931f80d649356b5b68ed",
+  "lib/hooks/use-discussion-tts.ts": "02f092122e79bcbbd92b4cb804d2c862edb509f675fb46542f845af51be17264",
+  "components/roundtable/index.tsx": "7346419c59ae7375758993ff169a21d9ac97de8f943a81713f64a03d412a0d83",
+  "components/audio/speech-button.tsx": "82a76e62bb41339bc972632cdad244a6c2625426e5161631d895cc62c7e7b866",
+  "lib/config/model-slots.ts": "510a93befa24f8fdb4705351bc9328f81eafd082d77f2ef45871100277b2a9cc",
+  "lib/zhiban/infrastructure/classroom-ai/bindings.ts": "ef417a1ddc8dc86d4040737ad5059cacb729298740163aa831b16d6af5c61662",
+  "lib/zhiban/infrastructure/classroom-ai/http.ts": "0b10dfab4257c8eb3ca62914f7980fefed0b7b58aadc045e5be574a381fcd0cc",
+  "lib/zhiban/infrastructure/classroom-ai/vision.ts": "5badeece98f2565971606413c9c24f0f0aadcd8f8e8122f34864e594e1721c69",
+  "app/api/chat/pi/route.ts": "eaa62d75bbed1eaf725f90d32edc245518759e77c8117557f7c8a7e82047e629",
+  "lib/chat/pi/director-loop.ts": "68e49cc38dc40e97c842971dff3b632d73c6abe2a52f439d94ce26588a579405",
+  "lib/chat/pi/tools/call-agent.ts": "734de61b218188c9622f5fd866a6be2f807f63f133291ee86135d120b4d70421",
+  "lib/chat/pi/prompts.ts": "597a3764ff061440a23b56b8b7a3d2e4cf10432c48b3ce1f5e098b1d82b17688",
+  "tests/audio/asr-input-policy.test.ts": "0c8b5611a14480e8e0c5b1bf6bdebd27c4045cc489b3ccd5c527008b29774f45",
+  "tests/hooks/use-audio-recorder-lock.test.ts": "6bc78c9841a9e099355b0b13adb0de0a284cf84204bb2e052c3173163a472e58",
+  "tests/hooks/use-discussion-tts.test.ts": "d39a58f9ed44812932d63b80a357fa5857a4d96bcfe214e1409345bd2533e86e",
+  "tests/config/model-slots.test.ts": "f464699fb2b69560011013750686eecdf752d6aa7811b56674682bf1deebd237",
+  "tests/zhiban/classroom-ai/vision.test.ts": "dee8a8f2bf886e2d4bf27be7b4286471243b8fc9049e3cb88eea700463aea2db",
+  "tests/lib/chat/pi/visible-speech.test.ts": "34258d41412515516675c255b2a9571f9e5f7f6edbddbad38cc3c4de636fc656"
+}

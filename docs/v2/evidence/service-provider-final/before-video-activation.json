@@ -1,0 +1,56 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "at": "2026-10-26T13:44:07.527Z",
+  "tts": {
+    "status": "PASS_REAL",
+    "provider": "doubao-tts",
+    "mime": "audio/mpeg",
+    "sha256": "b671ecdb57bc528f30c5e2e1a426b9bf397f2a679260428bddf146856f1f749c",
+    "assetId": "ast_9gyekwxk9kd6tadh372g7r1vjm",
+    "sameCommandReused": true,
+    "elapsedMs": 29382
+  },
+  "video": {
+    "status": "FAILED",
+    "httpStatus": 502,
+    "code": "MEDIA_PROVIDER_FAILED"
+  },
+  "materials": {
+    "lesson.docx": {
+      "id": "mat_gtqwjnxm77ccv78btqbkw8z21c",
+      "status": "ready",
+      "textMatched": true,
+      "textSha256": "e11d98c5cde964d3836384128e7ee9732c9671e74733fb6e644ab4d0cf8932f2",
+      "images": 0,
+      "studentDenied": true
+    },
+    "lesson.pptx": {
+      "id": "mat_2w2jb29nbx1hx9hs581ce2sf68",
+      "status": "ready",
+      "textMatched": true,
+      "textSha256": "f1c46cd62d1872e0f4168b54c80035c8444c51a714fd8d2d56c2299db3c6f3ec",
+      "images": 0,
+      "studentDenied": true
+    },
+    "lesson.xlsx": {
+      "id": "mat_18sawes4rc9jzsey4sfazwwysm",
+      "status": "ready",
+      "textMatched": true,
+      "textSha256": "1a7fbf98c7deccd97ce0063d078b50c82ae91845cf84dc9e6ad25367a1c8837e",
+      "images": 0,
+      "studentDenied": true
+    },
+    "lesson-ocr.png": {
+      "id": "mat_d5a0a3p36qbb3r8t0j7mwke948",
+      "status": "ready",
+      "textMatched": true,
+      "textSha256": "b196ce1d31dde44c4e2fa9d955f7413b554513f41f7e47db0467369ee33dd08f",
+      "images": 0,
+      "studentDenied": true
+    }
+  },
+  "originalLimitBytes": 1048576,
+  "formalScoreChanges": false,
+  "privateProviderResponsesExported": false
+}

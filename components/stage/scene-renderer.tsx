@@ -6,6 +6,10 @@ import { SlideEditor as SlideRenderer } from '../slide-renderer/Editor';
 import { QuizView } from '../scene-renderers/quiz-view';
 import { InteractiveRenderer } from '../scene-renderers/interactive-renderer';
 import { PBLRenderer } from '../scene-renderers/pbl-renderer';
+import { PublishedPblRenderer } from '../scene-renderers/published-pbl-renderer';
+import { isPublishedClassroomHost, isPublishedPblEnabled } from '@/lib/classroom/published-host';
+import { PblScene } from '@/lib/standalone-player/scenes/PblScene';
+import zh from '@/lib/i18n/locales/zh-CN.json';
 
 interface SceneRendererProps {
   readonly scene: Scene;
@@ -38,6 +42,16 @@ export function SceneRenderer({ scene, mode }: SceneRendererProps) {
         return <InteractiveRenderer content={scene.content} sceneId={scene.id} />;
       case 'pbl':
         if (scene.content.type !== 'pbl') return <div>Invalid PBL content</div>;
+        if (isPublishedClassroomHost() && isPublishedPblEnabled())
+          return <PublishedPblRenderer key={scene.id} sceneId={scene.id} />;
+        if (isPublishedClassroomHost())
+          return (
+            <PblScene
+              content={scene.content}
+              sceneTitle={scene.title}
+              strings={zh.export.htmlPlayer}
+            />
+          );
         return <PBLRenderer content={scene.content} mode={mode} sceneId={scene.id} />;
       default:
         return <div>Unknown scene type</div>;

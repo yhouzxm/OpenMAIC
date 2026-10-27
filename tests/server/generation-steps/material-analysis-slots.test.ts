@@ -197,6 +197,25 @@ describe('material analysis from the slots', () => {
     }
   });
 
+  it('preserves embedded keyframes for material storage and downstream generation', async () => {
+    const image = 'data:image/webp;base64,UklGRg==';
+    mocks.extractMedia.mockResolvedValue({
+      metadata: { providerId: 'local-ffmpeg' },
+      transcript: [{ startMs: 0, endMs: 1000, text: 'Current is measured in amperes.' }],
+      keyframes: [{ id: 'frame-1', assetId: 'frame-1', timeMs: 0 }],
+      assets: [
+        { id: 'frame-1', type: 'image', data: image, width: 160, height: 90 },
+        { id: 'remote', type: 'image', data: 'https://untrusted.example/image.png' },
+      ],
+    });
+    const result = await analyze(source('fixture', 'video/mp4', 'lesson.mp4'));
+    expect(result.images).toEqual([image]);
+    expect(result.metadata?.pdfImages).toEqual([
+      expect.objectContaining({ id: 'frame-1', src: image, width: 160, height: 90 }),
+    ]);
+    expect(result.text).toContain('Current is measured in amperes.');
+  });
+
   it('refuses media that produced no content', async () => {
     const failure = await refusal(source('x', 'audio/mpeg', 'talk.mp3'));
 

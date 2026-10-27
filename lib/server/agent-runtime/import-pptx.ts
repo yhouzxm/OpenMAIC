@@ -66,6 +66,8 @@ export interface ParsePptxWorker {
 }
 
 export interface ParsePptxOptions {
+  /** Archive hosts forbid implicit remote media and formula service requests. */
+  offline?: boolean;
   upload?: OssUpload;
   signal?: AbortSignal;
   /** Parse deadline; tests may inject a shorter value. */
@@ -273,7 +275,9 @@ export async function parsePptxIsolated(
   const slides = await new Promise<Slide[]>((resolve, reject) => {
     let worker: ParsePptxWorker;
     try {
-      worker = new WorkerImpl(workerFile, { workerData: { buffer: copy } });
+      worker = new WorkerImpl(workerFile, {
+        workerData: { buffer: copy, ...(options.offline ? { offline: true } : {}) },
+      });
     } catch (error) {
       reject(asError(error));
       return;

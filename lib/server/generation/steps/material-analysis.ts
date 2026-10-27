@@ -1,3 +1,4 @@
+import { legacyOfficeType, convertLegacyOffice } from '@/lib/document/legacy-office';
 /**
  * Material analysis: extract the text of one course material (a document, or
  * an audio/video file) for the generation pipeline, through the extractor the
@@ -195,6 +196,22 @@ export async function analyzeMaterial(
   ctx: StepContext,
 ): Promise<ParsedPdfContent> {
   const { services, source, redactCallerInput } = input;
+  if (legacyOfficeType(source.mimeType) && services.document?.providerId === 'alidocmind') {
+    const converted = await convertLegacyOffice(source, ctx.signal);
+    const parsed = await analyzeMaterial({ ...input, source: converted }, ctx);
+    return {
+      ...parsed,
+      metadata: {
+        ...parsed.metadata,
+        pageCount: parsed.metadata?.pageCount ?? 0,
+        fileName: source.fileName,
+        fileSize: source.fileSize,
+        mimeType: source.mimeType,
+        legacyConversion: converted.receipt,
+      },
+    };
+  }
+
   const trace = input.trace ?? {};
   const { fileName, fileSize, mimeType, buffer } = source;
   // A configured or turned-off document slot decides the service; the
@@ -314,15 +331,28 @@ export async function analyzeMaterial(
           : `No transcript, keyframes, or synopsis could be extracted from "${fileName}".`,
       );
     }
+    // Keep the extractor's embedded frames in the same image channel as
+    // documents. Transcript-only conversion used to discard these assets.
+    const frameImages = (mediaArtifact.assets ?? [])
+      .filter((asset) => asset.type === 'image' && asset.data?.startsWith('data:image/'))
+      .map((asset) => ({
+        id: asset.id,
+        src: asset.data as string,
+        pageNumber: 0,
+        description: asset.description,
+        width: asset.width,
+        height: asset.height,
+      }));
     const mediaResult: ParsedPdfContent = {
       text: mediaText,
-      images: [],
+      images: frameImages.map((image) => image.src),
       metadata: {
         pageCount: 0,
         fileName,
         fileSize,
         mimeType,
         parser: mediaArtifact.metadata.providerId ?? trace.resolvedProviderId,
+        pdfImages: frameImages,
       },
     };
     return mediaResult;

@@ -2,11 +2,11 @@
   "format": "ZHIBAN_P7_DELIVERY_INDEX_V1",
   "evidenceOrigin": "LOCAL",
   "githubActions": false,
-  "date": "2026-10-24",
-  "scope": "CONSOLIDATED_EXISTING_LOCAL_DELIVERIES_NOT_FULL_RETEST",
+  "date": "2026-10-26",
+  "scope": "P7_RECENT_NATIVE_PERSISTENT_DELIVERY_NOT_FULL_PRODUCT_RETEST",
   "entry": "https://127.0.0.1:3461/zhiban",
   "headIsNotFullCandidate": true,
-  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "baselineHead": "093b4a69af96626010d9104c50d680d9b9dc1928",
   "packages": [
     {
       "id": "resources",
@@ -25,7 +25,7 @@
     {
       "id": "persistence-peer",
       "document": "docs/v2/zhiban-v2-persistent-local.md",
-      "boundary": "Same host/path persistence and private native AI companion; historical sources retained; no cross-host acceptance.",
+      "boundary": "Same-host LOCAL persistence and private companion; original receipts retain original scope. Historical remote run 40096542805 signed off its older frozen package, not this candidate.",
       "receipts": [
         {
           "path": "docs/v2/evidence/zhiban-persistent-first-local.json",
@@ -85,7 +85,7 @@
     {
       "id": "pbl",
       "document": "docs/v2/zhiban-v2-pbl-collaboration-local.md",
-      "boundary": "Independent multi-student fixture; default demo has one student; no autonomous Native PBL agent.",
+      "boundary": "Course group collaboration retains its original multi-student fixture scope; autonomous Native PBL is separately indexed below.",
       "receipts": [
         {
           "path": "docs/v2/evidence/pbl/closeout.json",
@@ -169,13 +169,139 @@
           "interpretation": "Original receipt/source scope only; not retested by P7 packaging"
         }
       ]
+    },
+    {
+      "id": "native-authoring",
+      "document": "docs/v2/zhiban-v2-native-authoring-local.md",
+      "boundary": "Full native workbench/editor/assets/adopt/publish; original model generation required source recovery, not uninterrupted first-run success.",
+      "receipts": [
+        {
+          "path": "docs/v2/evidence/zhiban-native-authoring-closeout.json",
+          "sha256": "4f1bc1f5699be5a1ec310a43f62fe3f5de081fd1791d19a4b536b649c1feb8ec",
+          "recordedStatus": "PASS_WITH_MODEL_SOURCE_RECOVERY",
+          "scope": null,
+          "interpretation": "Original product/source/instance scope; current delivery verifies packaging and recovery only."
+        }
+      ]
+    },
+    {
+      "id": "server-simulation",
+      "document": "docs/v2/zhiban-v2-simulation-local.md",
+      "boundary": "SERVER_CALCULATED_SIMULATION DC/RC, not instrument measurements.",
+      "receipts": [
+        {
+          "path": "docs/v2/evidence/simulation/closeout.json",
+          "sha256": "91d7f02d8e2905f12bbaf8a56fd5f79effd0cd30d75805ac546d2f51f0e8720e",
+          "recordedStatus": "PASS_WITH_EXPLICIT_SIMULATION_SCOPE",
+          "scope": "FIXED_SERVER_CALCULATED_DC_RC_MODELS_TO_IMMUTABLE_REPORT_ORIGINAL_TEACHER_GRADE_AND_SAME_HOST_PERSISTENCE",
+          "interpretation": "Original product/source/instance scope; current delivery verifies packaging and recovery only."
+        }
+      ]
+    },
+    {
+      "id": "native-ai-classroom",
+      "document": "docs/v2/zhiban-v2-native-ai-classroom-local.md",
+      "boundary": "Fixed published classroom, real chat/whiteboard/roundtable and private history; no old Native maintenance activation.",
+      "receipts": [
+        {
+          "path": "docs/v2/evidence/zhiban-native-ai-classroom-closeout.json",
+          "sha256": "6849f00d603b37e395cbd29909e458688920539ddd891d175f81324fe7e1137d",
+          "recordedStatus": "PASS_LOCAL_CANDIDATE",
+          "scope": "P4_P6_NATIVE_PUBLISHED_AI_CLASSROOM_PERSONAL_PRACTICE",
+          "interpretation": "Original product/source/instance scope; current delivery verifies packaging and recovery only."
+        }
+      ]
+    },
+    {
+      "id": "native-autonomous-pbl",
+      "document": "docs/v2/zhiban-v2-native-autonomous-pbl-local.md",
+      "boundary": "Real Instructor/Simulator/Evaluator and individual state/report; group collaboration and formal grades remain distinct.",
+      "receipts": [
+        {
+          "path": "docs/v2/evidence/zhiban-native-pbl-closeout.json",
+          "sha256": "a1dad95be6e3b3b2ed1edcb22cb4654f8d182fe8e46e87d557f03ca824f19fc4",
+          "recordedStatus": "PASS",
+          "scope": "P6_NATIVE_AUTONOMOUS_PBL_PERSONAL_PRACTICE",
+          "interpretation": "Original product/source/instance scope; current delivery verifies packaging and recovery only."
+        }
+      ]
+    },
+    {
+      "id": "native-archive",
+      "document": "docs/v2/zhiban-v2-native-archive-local.md",
+      "boundary": "Six stable export formats; MAIC complete and PPTX static new-copy import. No student history transfer or experimental video export.",
+      "receipts": [
+        {
+          "path": "docs/v2/evidence/zhiban-native-archive-closeout.json",
+          "sha256": "bcc64e015701354231fc25f8251a7266026266c3d0995867b9b49be43b3216b3",
+          "recordedStatus": "PASS",
+          "scope": "NATIVE_STABLE_SIX_FORMAT_ARCHIVE_AND_OWNER_BOUND_RESTORE",
+          "interpretation": "Original product/source/instance scope; current delivery verifies packaging and recovery only."
+        }
+      ]
+    },
+    {
+      "id": "materials-multimodal",
+      "document": "docs/v2/zhiban-v2-materials-multimodal-local.md",
+      "boundary": "Available local materials/scanning/assets/publish verified; actual Office/OCR/media and generated image/video/TTS/ASR pending configuration.",
+      "receipts": [
+        {
+          "path": "docs/v2/evidence/zhiban-multimodal-closeout.json",
+          "sha256": "fcb837e50d4d7509cc771fe135bdce3d0f6f93d3974e5f5f5b6d2fdfc52cc7c1",
+          "recordedStatus": "PASS_AVAILABLE_LOCAL_SCOPE_PENDING_EXTERNAL_SERVICES",
+          "scope": null,
+          "interpretation": "Original product/source/instance scope; current delivery verifies packaging and recovery only."
+        }
+      ]
+    },
+    {
+      "id": "admin-service-center",
+      "document": "docs/v2/zhiban-v2-admin-service-center-local.md",
+      "boundary": "Tenant-admin native configuration/status/checks/usage/audit; deployed lock all retained, synthetic editable config verification was isolated.",
+      "receipts": [
+        {
+          "path": "docs/v2/evidence/zhiban-service-center-closeout.json",
+          "sha256": "d44e64cc6d5ae5d66e7d25995c7dc8a8868a712a917d4552dfad08a7a23c25e0",
+          "recordedStatus": "PASS_ADMIN_CENTER_AVAILABLE_SCOPE_PENDING_UNCONFIGURED_SERVICES",
+          "scope": null,
+          "interpretation": "Original product/source/instance scope; current delivery verifies packaging and recovery only."
+        }
+      ]
+    },
+    {
+      "id": "classroom-trusted-results",
+      "document": "docs/v2/zhiban-v2-classroom-trusted-results-local.md",
+      "boundary": "Fixed Quiz/PBL evidence -> explicit original formal submission -> teacher grade and approved completion; read-only Tutor tools. Old Native maintenance/instruments remain isolated.",
+      "receipts": [
+        {
+          "path": "docs/v2/evidence/zhiban-course-results-closeout.json",
+          "sha256": "c9e60aaa9332d1f90252a2ff1a2b13b1a3db467d17b476a2bf99347728b6ac6e",
+          "recordedStatus": "PASS_ORDINARY_COURSE_CLASSROOM_TO_TRUSTED_FORMAL_RESULTS",
+          "scope": [
+            "fixed published Native Quiz/PBL/reflection requirements and original Attempt binding",
+            "private immutable provenance -> explicit original formal submission -> original teacher grade and completion rules",
+            "teacher shared summary/own whiteboard text with retraction; no private student AI state sharing",
+            "bounded Native Agent source read/search and capability-gated images",
+            "existing manual/simulation lab provenance and grade readback"
+          ],
+          "interpretation": "Original product/source/instance scope; current delivery verifies packaging and recovery only."
+        }
+      ]
     }
   ],
   "deferred": [
-    "Trusted real Native runtime / automatic lab / UNKNOWN-RESERVED remain isolated",
-    "Actual Office/OCR/audio/video parser configuration",
-    "Cross-host installation and restore, real identity operations, production capacity / deployment",
-    "Unattended EMA and distributed formal grading",
-    "User-deferred native refresh / close verification"
-  ]
+    "Old signed Native CREATE/APPEND/COMPLETE and UNKNOWN/RESERVED remain isolated; real instruments lack inputs",
+    "Actual Office/OCR/media extraction, image/video generation, TTS/ASR and a vision-capable model require real configuration/acceptance",
+    "Current package is LOCAL; historical remote run 40096542805 PASS applies only to its older frozen source",
+    "PG18 logical migration/production Alibaba deployment, real identity operations/capacity and real data require dedicated authorization/acceptance",
+    "Unattended EMA, distributed formal grading, user-deferred native refresh/close verification; excluded PLC-specific site remains excluded"
+  ],
+  "closeout": "docs/v2/evidence/p7-handoff/recent-native-20261026/final-closeout.json",
+  "priorIndex": "docs/v2/evidence/p7-handoff/recent-native-20261026/prior-zhiban-v2-p7-delivery-index.json",
+  "latestLocalAcceptance": {
+    "receipt": "evidence/p7-handoff/pg18-20261027/closeout.json",
+    "scope": "CURRENT_SOURCE_WITH_PG18_QUARANTINE_MIGRATION_RECOVERY",
+    "applicationPg18": "BLOCKED_BY_FROZEN_PG16_CONTRACT",
+    "priorArtifactsRemainHistorical": true
+  }
 }

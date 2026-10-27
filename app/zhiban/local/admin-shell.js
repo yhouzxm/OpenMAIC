@@ -96,6 +96,9 @@
     const attainment = el('a', '校内证书与跨班学分', 'role-nav-item');
     attainment.href = '/zhiban/attainment?tenant=' + tenant + '&mode=ADMIN';
     nav.append(attainment);
+    const services = el('a', '服务与运行中心', 'role-nav-item');
+    services.href = '/zhiban/admin/services?tenant=' + tenant;
+    nav.append(services);
     const students = el('a', '学生目录', 'role-nav-item');
     students.href = `/zhiban/directory?tenant=${tenant}`;
     if (directory) students.setAttribute('aria-current', 'page');

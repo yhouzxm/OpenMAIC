@@ -1,0 +1,21 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_AVAILABLE_SCOPE",
+  "at": "2026-10-26T02:41:12.792Z",
+  "externalCalls": 0,
+  "checks": [
+    "current space admin only",
+    "encrypted write-only key and sanitized audit",
+    "exact retry/conflict",
+    "concurrent stale revision rejected",
+    "CSRF and arbitrary probe target denied",
+    "missing provider rejected before dispatch",
+    "current-space usage excludes unattributed records",
+    "native configuration/model-map/usage UI reused; desktop and mobile"
+  ],
+  "pending": [
+    "real external connectivity",
+    "real TTS/ASR minimal connection calls and teacher generation acceptance"
+  ]
+}

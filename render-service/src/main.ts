@@ -639,7 +639,7 @@ export async function startService(resourceExecutor?: RenderExecutor): Promise<v
   // makeProjectDir() would ENOENT. mktemp still creates a fresh subdir per job.
   await mkdir(config.tmpDir, { recursive: true }).catch(() => {});
 
-  serve({ fetch: app.fetch, port: config.port }, (info) => {
+  serve({ fetch: app.fetch, port: config.port, hostname: process.env.RENDER_BIND_HOST || '0.0.0.0' }, (info) => {
     console.log(
       `[render-service] listening on :${info.port} ` +
         `(resourceProfile=${config.resourceProfile.name}, ` +

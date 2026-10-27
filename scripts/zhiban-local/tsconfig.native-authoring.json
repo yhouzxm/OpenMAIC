@@ -5,11 +5,26 @@
     "../../next-env.d.ts",
     "../../types/**/*.d.ts",
     "../../lib/zhiban/infrastructure/authoring/**/*.ts",
+    "../../lib/zhiban/infrastructure/classroom-ai/**/*.ts",
     "../../lib/zhiban/infrastructure/lesson/service.ts",
     "../../app/zhiban/local/native-workbench.tsx",
+    "../../app/zhiban/local/native-archive.tsx",
+    "../../app/zhiban/local/native-services.tsx",
+    "../../app/zhiban/local/admin-services.tsx",
+    "../../app/zhiban/local/course-results.tsx",
+    "../../lib/zhiban/infrastructure/course-results/**/*.ts",
+    "../../lib/zhiban/infrastructure/service-center/**/*.ts",
+    "../../app/zhiban/local/native-classroom.tsx",
     "../../app/zhiban/local/native-review.tsx",
     "../../app/zhiban/local/native-published.tsx",
     "./build-native-authoring.ts",
-    "./verify-native-authoring.ts"
+    "./verify-native-authoring.ts",
+    "./verify-classroom-ai.ts",
+    "./verify-native-pbl.ts",
+    "./verify-native-pbl-real.ts",
+    "./verify-native-archive.ts",
+    "./verify-multimodal.ts",
+    "./verify-service-center.ts",
+    "./verify-course-results.ts"
   ]
 }

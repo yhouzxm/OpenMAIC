@@ -66,6 +66,7 @@ export const MODEL_SLOTS = [
   { id: 'course.content.pbl', capability: 'chat', parent: 'course.content' },
   { id: 'course.actions', capability: 'chat', parent: 'llm' },
   { id: 'classroom', capability: 'chat', parent: 'llm' },
+  { id: 'classroom.chat', capability: 'chat', parent: 'classroom', configOnly: true },
   {
     id: 'agent',
     capability: 'chat',
@@ -107,7 +108,7 @@ export const STAGE_SLOTS = {
   'pbl-v2-runtime:open-task': 'classroom',
   'pbl-v2-runtime:evaluate': 'classroom',
   'pbl-v2-runtime:simulator': 'classroom',
-  'chat-adapter': 'classroom',
+  'chat-adapter': 'classroom.chat',
   'web-search-query-rewrite': 'course.research',
   'maic-agent-driver': 'agent',
   'conversation-title': 'agent.title',

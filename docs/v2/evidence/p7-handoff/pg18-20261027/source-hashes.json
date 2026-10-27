@@ -1,0 +1,12 @@
+{
+  "scripts/zhiban-deploy/pg-transfer.cjs": "dc410b25d5f42eb44f437caba494b8ff5c4608d031da652fd06e13a252c798ad",
+  "scripts/zhiban-deploy/compatibility.cjs": "7dc917b68999c8d439c76d1e8000bcb5a31f1aa321aec624fd8181897e1e633c",
+  "scripts/zhiban-deploy/verify-pg18.ts": "987d2d1c8b3153d8443b5df172bc5803d83649152344404f285756eba45e0af1",
+  "tests/zhiban/deploy/pg-transfer.test.cjs": "d6603c203e6c6d392ac507aee488b7dcf22cf895da35d1eb05806bc87fcda2d9",
+  "docs/v2/zhiban-v2-ubuntu-pg18-local.md": "428dce8b4378e0b1c5a556de6bfc634373d1a95de6d5dfe742ed57c5431e7483",
+  "lib/zhiban/infrastructure/openmaic/root.ts": "c22b88b248d22f34eb311d575c5428abff8baae354097c62d7961ca36e9668f9",
+  "scripts/zhiban-local/content-receipt.ts": "ace55b1c8b61f779a8b9a33b11ba59674005bd0c9c88a1b9c51cbb52b9f8a4ae",
+  "scripts/zhiban-local/persistent-snapshot.ts": "08fb0e497b2aa64469088a754d9dc56d801b634bdfa78d92b88916b70e1c80b6",
+  "scripts/zhiban-local/trial-content.ts": "697ca1fee84ecb1d75ebe6ec363bb29db3841553c514898434596fe944aec861",
+  "scripts/zhiban-local/verify-m6-catalog.mts": "f68f9519cb9ccd998058c3bc5cbd167488d10df6c8be8f92deb6e2bf9b3cb3cc"
+}

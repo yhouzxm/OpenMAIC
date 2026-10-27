@@ -1,0 +1,106 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "P6_NATIVE_AUTONOMOUS_PBL_PERSONAL_PRACTICE",
+  "checkedAt": "2026-10-25T14:54:28.418Z",
+  "branch": "refactor/zhiban-v2",
+  "gitHead": "093b4a69af96626010d9104c50d680d9b9dc1928",
+  "dirtyCandidate": true,
+  "preservedEarlierDirtyCandidate": true,
+  "commit": false,
+  "push": false,
+  "ciDispatch": false,
+  "sourceDigest": "30b45e4d711bbd53a654d003a6d221fc95c13291e8ab68a449ddbfa6af9f4e31",
+  "sourceHashes": {
+    "TRIAL.md": "67e114338fc01f7d78716baab9548cd3e74b6dbc2d343e2acc9b32cc0836925b",
+    "app/zhiban/local/native-classroom.tsx": "00f4a18d096cc7611a79625a9cc791144c00bfff32cf2dbb9b115af507777b7e",
+    "components/scene-renderers/pbl-renderer.tsx": "3365febe29b93e2186404b787d439f9fdf15f2ca7bdbbef34e3dbe7956b4da49",
+    "components/scene-renderers/pbl/v2/submission.tsx": "a0443b24c8533957611d176cab689ae622677ef4dfe40414b5c7b1c8ad2a31ea",
+    "components/scene-renderers/published-pbl-renderer.tsx": "b1e62443aa3b8aa496effb200bf354b87fb09bc7836f4886194bb18f9020a206",
+    "components/stage/scene-renderer.tsx": "da8398996ee7bb1c498093d3daa8b51ad17ea53fb379f0f6c97f12f474ffdbcd",
+    "docs/v2/zhiban-v2-feature-gap-matrix.md": "27d01c87b37404f625527a2c9c697fde8fd6eedb4110516732e6cf1373ba4357",
+    "docs/v2/zhiban-v2-migration-completion-plan.md": "7e0698448d3aa12195dfd8c8f44f0c39db1d717e4a439458b32ba72c64790681",
+    "docs/v2/zhiban-v2-native-autonomous-pbl-local.md": "db2c36ed0d04b02b4f21ac45013766114a746df6dd8cf8f8f31063e9088e5e93",
+    "docs/v2/zhiban-v2-native-teaching-reuse-audit.md": "01aa2facb3964325af0b20abfb7ae1434611157524af21251ef1142aa7f4cd6a",
+    "lib/classroom/published-host.ts": "504c858241c3e555c5a7f4af7b98b81e9af71178fbab0ee35f22c4056d8339c6",
+    "lib/classroom/published-pbl-host.ts": "5125647c5ba70cee1c2717ced9ab7b901de5d62096d0e785fdada13737f24b78",
+    "lib/zhiban/infrastructure/classroom-ai/http.ts": "866236612179b41618ccac3448b986620f5cf3613ed624631f7b5a0572d93460",
+    "lib/zhiban/infrastructure/classroom-ai/pbl-schema.sql": "bd495670f7f184efca13af9ffa365196dc2ec7e74eb4fc18a91691a7033d9217",
+    "lib/zhiban/infrastructure/classroom-ai/pbl-state.ts": "72b54555cdc1525ca52a85032405cb471ded0a0fbe22069accd743f26b602663",
+    "lib/zhiban/infrastructure/classroom-ai/pbl.ts": "0a2e866eb4338bd5306ce1c049548807d95588d177e3ce007f8084e9d3ff7bb7",
+    "lib/zhiban/infrastructure/classroom-ai/service.ts": "694ea45a939598231a1b9a8941e3e68e34228d4948e18c44664a5127e78b0502",
+    "scripts/zhiban-local/run-m6-catalog.ts": "509db24cd56e006c7ff89249337fe6b83180c869a92b98018808aee1dfdd9f54",
+    "scripts/zhiban-local/tsconfig.native-authoring.json": "fd7dc1fedebfac419e358845c39385b7392800b6f2837e2688eccad411fa1306",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "379dac1e6d8032b0052518a4f7303e7e308ee23096c4d140f16f55b5b9031712",
+    "scripts/zhiban-local/verify-native-pbl-real.ts": "eb96cb30eec21991e0b5e7a9dc42bbbf912ff24bbe346bc2bd8c626aad3a969e",
+    "scripts/zhiban-local/verify-native-pbl.ts": "943435ccd53496daaf4879f040a2520b6758d886ce95e1b2986dc1f8c45f23e1",
+    "tests/zhiban/classroom-ai/pbl-fixtures.ts": "8cec2d558aa65556cf5207061fe3123d8367e91af6a30352cdd6cfac44f618fb",
+    "tests/zhiban/classroom-ai/pbl-state.test.ts": "5ab7891183f595277660f3aaaf4d56a891e80b1086c5a099f843bc06f38b60d2",
+    "tests/zhiban/classroom-ai/pbl-stream.test.ts": "12de5f14cda65dc788fc6609eae7b8e64b7d13e55ca13ac43aa72c3449c0c9a2"
+  },
+  "dependencyHashes": {
+    "lib/zhiban/infrastructure/classroom-ai/bindings.ts": "bfe608932562e5d10f6f145c6398dfceded91e2d0f6f7d9c008fb6f14cc34695",
+    "lib/zhiban/infrastructure/classroom-ai/schema.sql": "77ab207cbfa89142eb5c77d65a665bccc55692ae7483977f5884df7045b1bd14",
+    "lib/zhiban/infrastructure/content/service.ts": "7238c84c9c08f655ca0bd4de2b301022b55188b4c389953bae40da4cd3c04884",
+    "lib/zhiban/infrastructure/authoring/host.ts": "f3d7f322b15343910272d6df6bd1527246fb7998609f33c342fc7163c6387701",
+    "lib/pbl/v2/runtime/learner-state.ts": "aaf9601f31bfe17fecfea1503096953c6093cf155adf1ca57f2fed45d5161ac5",
+    "lib/pbl/v2/api/sse.ts": "ce4b7c5cefb5b9c18ffb8f88242f48d5d250149fdc7e0b94dde0f77ec25ad22d",
+    "components/scene-renderers/pbl/v2/apply-instructor-event.ts": "65674c514b7ea80ee4f2576dab9832b462e6a8bd0e039903f992d53907bc7333",
+    "app/api/pbl/v2/instructor/route.ts": "a676f3d45341b44dfa51fe93c981367c39f7d67d48e9657e4d72700b6a17c2ae",
+    "app/api/pbl/v2/simulator/route.ts": "070dffb2a14519601cf81698e54f03127c1ea77c26a754b591ad0b50da82f2d7",
+    "app/api/pbl/v2/evaluate/route.ts": "d1930f21d90aad309e98bb0fea7b2756f5ba9c1196b507538797460168babaa6",
+    "app/api/pbl/v2/open-task/route.ts": "7692c9cd47f0b21eb5e1aa7afe8e2c7c8c73e4e9340ccc7ac41f74a255e2323f",
+    "app/api/pbl/v2/task/update/route.ts": "399ee31b1181e013d53590e4d79ce5fd061e085fbf74430f5d69af673caa6346",
+    "public/openmaic-mark.png": "9ccdfbd888bbaa361d7a5081f3badac90e836aaaa0744cca5c1613d3f00ff753",
+    "public/avatars/instructor.png": "2e635ea66b5f29b79b6b22bcbcae898730fcd56d0478269ca4763998607363cb"
+  },
+  "evidenceHashes": {
+    "docs/v2/evidence/zhiban-native-pbl-local.json": "11fb4430b500fe63855a2741d85fefc1453a5123a69957fdad5caad2ea3ea0d2",
+    "docs/v2/evidence/zhiban-native-pbl-local.png": "4fd5906152a4635665592af685b86be57e7dc99250e0c94a31d808060e2d3e54",
+    "docs/v2/evidence/zhiban-native-pbl-real-model.json": "0852b45e4d70df150779daed07bf0c937060cfec4374240069f92f8ccf118ded",
+    "docs/v2/evidence/zhiban-native-pbl-real.png": "366e25a6323d4367776055351f2af6c5421ce9c86eeed38934da432b5681da2c",
+    "docs/v2/evidence/zhiban-native-pbl-scenario-real.png": "65a4c3fca828ec40e38811ae1023fa03faeb9ed5a3e1e841cca201dc1ed97c55",
+    "docs/v2/evidence/zhiban-native-pbl-restart-local.json": "615b24e5babf30e309e45cf6066d5691a6440a84ac63371247a3d8bfd87011ac"
+  },
+  "checks": {
+    "directedPg16": "PASS: current publication, separate teacher policy/audit, owner isolation, CAS/guard barrier, revoked enrollment/assignment, withdrawn publication, native UI 390/768/1440",
+    "injectedBoundaries": "PASS: 12 cases; producer/DB doubles do not claim real model or PG success",
+    "realNative": "PASS: ordinary Instructor, learner text work, AI task/milestone/final evaluations, learner completion/report; Simulator dialogue, act completion, automatic wrapup/final report; both report reloads",
+    "scopedTypes": "PASS",
+    "scopedLint": "PASS",
+    "diffWhitespace": "PASS",
+    "persistentRestart": "PASS: sourceMatches=true, sourceDriftCount=0, original accounts hash, two completed reports; 0 model invocations"
+  },
+  "realModelScope": {
+    "publication": "01a17369-4bba-76c1-9eca-286a9896e439",
+    "sourceDigest": "e62c77430d05e88281ce31785b840f39b184a0564b72f9ff53eb0411f2559f41",
+    "successfulNativeStreams": 10,
+    "providerCallCount": "not asserted",
+    "earlierUncommittedAttempts": [
+      {
+        "endpoint": "open-task",
+        "status": 200,
+        "eventCount": 0,
+        "terminal": "NO_COMMIT_REOPEN_REQUIRED"
+      },
+      {
+        "endpoint": "open-task",
+        "status": 200,
+        "eventCount": 2,
+        "terminal": "NO_COMMIT_REOPEN_REQUIRED"
+      }
+    ],
+    "currentModelConfigSha256": "27b86ca39721e67eef4abe1ca6351ca1ac6e4bda9b68761c366064ba7572af42",
+    "note": "First five real streams used the prior inherited thinking setting; subsequent scenario streams used explicit local classroom thinking=disabled. See per-stream scope and configuration evidence; no stream replay."
+  },
+  "boundaries": [
+    "Personal practice only; no formal Attempt, grade, progress, six-dimension score or trusted Native completion receipt",
+    "Existing group collaboration and teacher formal evaluation remain separate",
+    "Binary PBL files use the existing resource/attachment boundary; text files limited to 100KB",
+    "Voice/external parsers/maintenance inputs remain separate gates",
+    "Earlier P7/CI/source archives retain their original SHA and scope; this candidate has not been repackaged or remotely signed off"
+  ],
+  "nextPackage": "Native full-format courseware archive and restore; then consolidate persistent handoff",
+  "suggestedModel": "GPT-6.1 Sol / medium"
+}

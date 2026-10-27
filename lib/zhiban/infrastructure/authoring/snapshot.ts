@@ -80,7 +80,7 @@ export class AuthoringSnapshots {
     private pool: Pool,
     private content: ContentService,
   ) {}
-  private async source(x: ContentContext, stage: string) {
+  async source(x: ContentContext, stage: string) {
     const owner = authoringOwner(x);
     authoringBindings.set(owner, { ...x, deadline: undefined });
     const provider = await getServerPersistenceProvider(process.env.DATABASE_URL ?? '');

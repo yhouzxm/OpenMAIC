@@ -1,0 +1,52 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_RESTART_READBACK",
+  "at": "2026-10-26T04:55:21.625Z",
+  "origin": "https://127.0.0.1:3461",
+  "externalCalls": 0,
+  "accountsSha256": "91d73979d2a3a17ba17c69549682aa4d944f875c004bb8427ad5ba35d262e122",
+  "deploymentSha256": "27b86ca39721e67eef4abe1ca6351ca1ac6e4bda9b68761c366064ba7572af42",
+  "localEnvSha256": "4209ce94af6b65d12e8f1405b8266bd9c1ce1989b336acfe6c26a9e2371bb425",
+  "previousMaterialsAndDocumentPreserved": true,
+  "oldPbl": [
+    {
+      "scene_id": "autonomous-1c2c5270-fa5a-468a-9130-26d0f037319c",
+      "revision": "19",
+      "status": "completed"
+    },
+    {
+      "scene_id": "autonomous-c1f1233d-a2fa-4f30-8ad6-0d1127ed8fd2",
+      "revision": "20",
+      "status": "completed"
+    }
+  ],
+  "formalSubmission": "01a17679-8f2b-7073-a1fd-6f7ea0a5823b",
+  "publishedGrade": {
+    "score": 92,
+    "maxScore": 100
+  },
+  "completion": {
+    "activityId": "01a17679-4483-7639-8a51-a44294f7ac70",
+    "complete": true,
+    "stale": false,
+    "blockedBy": [],
+    "required": false,
+    "submissionId": "01a17679-8f2b-7073-a1fd-6f7ea0a5823b",
+    "gradePublicationId": "01a17679-8f89-70b7-b84a-93ee65bca637"
+  },
+  "tutor": {
+    "state": "COMPLETED",
+    "toolExecutions": 1,
+    "providerTransports": 2
+  },
+  "browser": {
+    "trustedHttps": true,
+    "ignoreHttpsErrors": false,
+    "desktop": 1440,
+    "mobile": 390,
+    "horizontalOverflow": false,
+    "pageErrors": 0,
+    "teacherConfigurationAndGradingLink": true
+  }
+}

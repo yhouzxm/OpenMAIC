@@ -437,13 +437,31 @@ export function sanitizeVisibleSpeech(text: string): string {
     .replace(/[*`#]/g, '');
 }
 
-export function createVisibleSpeechDeltaSanitizer(): (delta: string) => string {
+export function createVisibleSpeechDeltaSanitizer(
+  toolNames: readonly string[] = [],
+): (delta: string) => string {
   let rawText = '';
   let emittedLength = 0;
 
   return (delta: string) => {
     rawText += delta;
-    const sanitizedText = sanitizeVisibleSpeech(rawText);
+    let end = rawText.length;
+    // Some compatible models emit tool markup as text. It must never be
+    // spoken or mistaken for an executed tool, even across delta boundaries.
+    const markers = ['<tool_call', '<arg_key', '<arg_value', '</tool_call'];
+    for (const marker of markers) {
+      const at = rawText.indexOf(marker);
+      if (at >= 0) end = Math.min(end, at);
+    }
+    const lastTag = rawText.lastIndexOf('<');
+    if (lastTag >= 0 && markers.some((m) => m.startsWith(rawText.slice(lastTag))))
+      end = Math.min(end, lastTag);
+    for (let at = rawText.indexOf('\n'); at >= 0; at = rawText.indexOf('\n', at + 1)) {
+      const tail = rawText.slice(at + 1).trimStart();
+      if (toolNames.some((name) => name.startsWith(tail) || tail.startsWith(name + '\n')))
+        end = Math.min(end, at);
+    }
+    const sanitizedText = sanitizeVisibleSpeech(rawText.slice(0, end));
     if (sanitizedText.length <= emittedLength) return '';
 
     const visibleDelta = sanitizedText.slice(emittedLength);

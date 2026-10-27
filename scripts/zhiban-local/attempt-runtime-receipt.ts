@@ -1,3 +1,4 @@
+import { readProfileReference, referenceScope, versionedContentPath } from './pg-version';
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { official } from '../../lib/zhiban/infrastructure/openmaic/catalog';
@@ -6,17 +7,21 @@ export const attemptRuntimeMigration =
 export const attemptRuntimeReference =
   'docs/v2/evidence/p4-attempt-runtime-profile-reference-local.json';
 export async function attemptRuntimeSources() {
-  const sql = await readFile(attemptRuntimeMigration, 'utf8'),
+  const sql = await readFile(versionedContentPath(attemptRuntimeMigration), 'utf8'),
     hash = createHash('sha256').update(sql).digest('hex');
-  const reference = JSON.parse(await readFile(attemptRuntimeReference, 'utf8'));
+  const reference = await readProfileReference(attemptRuntimeReference);
   if (
     reference.evidenceOrigin !== 'LOCAL' ||
     reference.githubActions !== false ||
     reference.interactiveMigrationSha256 !==
       createHash('sha256')
-        .update(await readFile('docs/v2/candidates/p4-interactive/0003-interactive.sql'))
+        .update(
+          await readFile(
+            versionedContentPath('docs/v2/candidates/p4-interactive/0003-interactive.sql'),
+          ),
+        )
         .digest('hex') ||
-    reference.scope !== 'ISOLATED_PG16_ATTEMPT_RUNTIME_REFERENCE' ||
+    reference.scope !== referenceScope('ISOLATED_PG16_ATTEMPT_RUNTIME_REFERENCE') ||
     reference.attemptRuntimeMigrationSha256 !== hash ||
     Object.entries(official).some(([k, v]) => reference.provider[k] !== v)
   )

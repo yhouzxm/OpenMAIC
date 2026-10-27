@@ -1,0 +1,6 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "status": "FAIL_TEST_HELPER_COMMAND_FORMAT",
+  "sourceProofSha256": "7d44d043fa2f99c719f78192a6da2e6ac7cb2e2acb72410cbe6f580a7805977c",
+  "scope": "TXT extraction and local media UI adoption passed; subsequent extra API request used a 32-hex Academic command, not UUIDv7 required by media adoption. Corrected verifier, did not relax HTTP contract."
+}

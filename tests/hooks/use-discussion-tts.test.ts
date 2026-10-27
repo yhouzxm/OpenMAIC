@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 
+import { Blob as NodeBlob } from 'node:buffer';
 import { act, createElement, useEffect } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -178,7 +179,22 @@ async function respond(index: number, body = { base64: btoa(`audio-${index}`), f
   await act(async () => requests[index].response.resolve(Response.json(body)));
 }
 
+const audioBlobs = new Map<string, Blob>();
 beforeEach(() => {
+  audioBlobs.clear();
+  vi.stubGlobal('Blob', NodeBlob);
+  let urlNumber = 0;
+  vi.stubGlobal(
+    'URL',
+    class extends URL {
+      static createObjectURL = vi.fn((blob: Blob) => {
+        const url = `blob:test/${++urlNumber}`;
+        audioBlobs.set(url, blob);
+        return url;
+      });
+      static revokeObjectURL = vi.fn();
+    },
+  );
   vi.clearAllMocks();
   clearUnavailableVoiceBindingsForTests();
   resetDiscussionAudioElementForTests();
@@ -230,7 +246,7 @@ describe('discussion TTS synthesis lookahead', () => {
     expect(requests).toHaveLength(2);
     // One element is reused: the second line shows up as a new src on it.
     expect(FakeAudio.instances).toHaveLength(1);
-    expect(FakeAudio.instances[0].src).toContain(btoa('audio-1'));
+    expect(await audioBlobs.get(FakeAudio.instances[0].src)?.text()).toBe('audio-1');
     expect(FakeAudio.instances[0].play).toHaveBeenCalledTimes(2);
     expect(hook.shouldHold()).toEqual({ holding: true, segmentDone: 1 });
     await act(async () => FakeAudio.instances[0].end());
@@ -262,7 +278,7 @@ describe('discussion TTS synthesis lookahead', () => {
     expect(hook.shouldHold()).toEqual({ holding: true, segmentDone: 0 });
     await respond(1);
     expect(FakeAudio.instances).toHaveLength(1);
-    expect(FakeAudio.instances[0].src).toContain(btoa('audio-1'));
+    expect(await audioBlobs.get(FakeAudio.instances[0].src)?.text()).toBe('audio-1');
   });
 
   it('waits for an unfinished prefetch without duplicate requests or concurrent playback', async () => {
@@ -347,7 +363,7 @@ describe('discussion TTS synthesis lookahead', () => {
     await seal('C');
     await respond(2);
     expect(FakeAudio.instances).toHaveLength(1);
-    expect(audio.src).toContain(btoa('audio-2'));
+    expect(await audioBlobs.get(audio.src)?.text()).toBe('audio-2');
     await act(async () => {
       rejectResume(new Error('play rejected'));
     });
@@ -376,7 +392,7 @@ describe('discussion TTS synthesis lookahead', () => {
     expect(oldAudio.load).toHaveBeenCalled();
     await seal('new');
     await respond(2);
-    expect(FakeAudio.instances[0].src).toContain(btoa('audio-2'));
+    expect(await audioBlobs.get(FakeAudio.instances[0].src)?.text()).toBe('audio-2');
     await act(async () => {
       // A late failure from the aborted lookahead and the previous line's own
       // events: none of them may finish the line that owns the element now.
@@ -386,7 +402,7 @@ describe('discussion TTS synthesis lookahead', () => {
     });
     expect(FakeAudio.instances).toHaveLength(1);
     expect(FakeAudio.instances[0].paused).toBe(false);
-    expect(FakeAudio.instances[0].src).toContain(btoa('audio-2'));
+    expect(await audioBlobs.get(FakeAudio.instances[0].src)?.text()).toBe('audio-2');
     expect(hook.shouldHold()).toEqual({ holding: true, segmentDone: 0 });
   });
 
@@ -430,7 +446,7 @@ describe('discussion TTS synthesis lookahead', () => {
     await respond(2);
     await act(async () => audio.end());
     expect(FakeAudio.instances).toHaveLength(1);
-    expect(audio.src).toContain(btoa('audio-2'));
+    expect(await audioBlobs.get(audio.src)?.text()).toBe('audio-2');
     expect(audio.play).toHaveBeenCalledTimes(2);
   });
 
@@ -474,7 +490,7 @@ describe('discussion TTS synthesis lookahead', () => {
     expect(requests.map((r) => r.body.audioId)).toEqual(['A', 'B', 'C']);
     await respond(2);
     expect(FakeAudio.instances).toHaveLength(1);
-    expect(FakeAudio.instances[0].src).toContain(btoa('audio-2'));
+    expect(await audioBlobs.get(FakeAudio.instances[0].src)?.text()).toBe('audio-2');
     expect(hook.shouldHold()).toEqual({ holding: true, segmentDone: 2 });
   });
 
@@ -557,7 +573,7 @@ describe('discussion TTS synthesis lookahead', () => {
     await act(async () => FakeAudio.instances[0].end());
     // Same element for the second line: settings are re-applied per line.
     expect(FakeAudio.instances).toHaveLength(1);
-    expect(FakeAudio.instances[0].src).toContain(btoa('audio-1'));
+    expect(await audioBlobs.get(FakeAudio.instances[0].src)?.text()).toBe('audio-1');
     expect(FakeAudio.instances[0].playbackRate).toBe(1.5);
     expect(FakeAudio.instances[0].volume).toBe(0.3);
   });
@@ -651,7 +667,7 @@ describe('discussion TTS under a mobile autoplay policy', () => {
     expect(audio.play).toHaveBeenCalledOnce();
     await act(async () => audio.end());
     expect(FakeAudio.instances).toHaveLength(1);
-    expect(audio.src).toContain(btoa('audio-1'));
+    expect(await audioBlobs.get(audio.src)?.text()).toBe('audio-1');
     expect(audio.play).toHaveBeenCalledTimes(2);
     expect(hook.shouldHold()).toEqual({ holding: true, segmentDone: 1 });
     await act(async () => audio.end());
@@ -669,7 +685,20 @@ describe('discussion TTS under a mobile autoplay policy', () => {
     await act(async () => hook.resume());
     expect(audio.play).toHaveBeenCalledTimes(2);
     await act(async () => audio.end());
-    expect(audio.src).toContain(btoa('audio-1'));
+    expect(await audioBlobs.get(audio.src)?.text()).toBe('audio-1');
     expect(audio.play).toHaveBeenCalledTimes(3);
   });
+});
+
+it('uses CSP-compatible blobs and revokes playing and prepared clips on cleanup', async () => {
+  await seal('A');
+  await seal('B');
+  await respond(0);
+  await respond(1);
+  expect(FakeAudio.instances[0].src).toMatch(/^blob:/);
+  const urls = [...audioBlobs.keys()];
+  expect(urls).toHaveLength(2);
+  act(() => hook.cleanup());
+  for (const url of urls) expect(URL.revokeObjectURL).toHaveBeenCalledWith(url);
+  expect(FakeAudio.instances[0].src).toBe('');
 });

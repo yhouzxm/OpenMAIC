@@ -340,8 +340,14 @@ function exportPrivate(snapshot, tls, output, pin) {
     originalRoot: m.originalRoot,
     origin: 'https://127.0.0.1:3461',
     scope: 'SENSITIVE_SYNTHETIC_LOCAL_DATA_SAME_PHYSICAL_ROOT_NO_NEW_AUTHORITY',
+    sensitiveContents: [
+      'database rows and synthetic accounts/authorization material',
+      'saved encrypted workspace provider credentials, if present',
+      'native instance-secret key; keep private together with the database',
+      'localhost development TLS private key',
+    ],
     excluded: [
-      'model API keys',
+      'host model configuration files (.env.local/openmaic.yml)',
       'external scanner authority',
       'Native maintenance authorization',
       'production approval',

@@ -1,0 +1,274 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "at": "2026-10-26T04:57:27.798877+00:00",
+  "status": "PASS_ORDINARY_COURSE_CLASSROOM_TO_TRUSTED_FORMAL_RESULTS",
+  "base": {
+    "branch": "refactor/zhiban-v2",
+    "head": "093b4a69af96626010d9104c50d680d9b9dc1928",
+    "workingTree": "DIRTY_CANDIDATE_PRIOR_CHANGES_PRESERVED"
+  },
+  "scope": [
+    "fixed published Native Quiz/PBL/reflection requirements and original Attempt binding",
+    "private immutable provenance -> explicit original formal submission -> original teacher grade and completion rules",
+    "teacher shared summary/own whiteboard text with retraction; no private student AI state sharing",
+    "bounded Native Agent source read/search and capability-gated images",
+    "existing manual/simulation lab provenance and grade readback"
+  ],
+  "sourceHashes": {
+    ".gitignore": "4247b7c940633e3cc0bb3ba01f47d3df7878c0cb27977c3877533bfa4a23a810",
+    "app/zhiban/local/course-page.js": "16214f0aef9ee5101d2d8d03c061d3e57dedcbdffea9da62aa6144a9669d3571",
+    "app/zhiban/local/course-results.css": "9ad0d24f9ea7470afd30156697de6506b9123d0d456807c385b8e2d10571fd30",
+    "app/zhiban/local/course-results.html": "a34edc54684f0116e45e80469bc4fe4dbb26d27104552a94aa6a1d4e6db56491",
+    "app/zhiban/local/course-results.tsx": "c3fa0aaabdf4d5601a2c9fee6afcb313aeb8089d59d0aa0df32962769a5bfaad",
+    "app/zhiban/local/learning.js": "0caaa16908f0b97cb7fb9239081c2d65598d06ac9c5a4768e76f5a5268199582",
+    "app/zhiban/local/native-classroom.tsx": "18ac4b0ec0a447a182cc88fe4408754e800fc8cb78fad518f5f02c9babe73297",
+    "app/zhiban/local/tutor.js": "b784b7546f712b1912d0ec19427864a9fced58ffab458df78eef4240ad3d97b7",
+    "lib/zhiban/application/tutor/service.ts": "e31d083cf23ddc170fb4d4078a1de02df6e312eb0f52151bb975c7e4f6c2a8ad",
+    "lib/zhiban/domain/academic/model.ts": "62843d70eaa227f175616bfae667a96a7bfc9618741387fdd76bc7fa161fca5f",
+    "lib/zhiban/domain/tutor/model.ts": "c9bc7f8fb522c3a3234a335a313e134989813c25fe3c2aeda24863ccba347664",
+    "lib/zhiban/infrastructure/course-results/http.ts": "605cbe615b99d1fa103f7378a5e10205ff8048d8adc2a4e66520eb4cd63b56a1",
+    "lib/zhiban/infrastructure/course-results/learning-gate.ts": "3865b245b24aeedacbc45f51fca2bab0f3534b66d55e0653fb715844b455fb6a",
+    "lib/zhiban/infrastructure/course-results/model.ts": "7b0ee60098973caf1c0e00064125f5f3387565221f3170bd9d88e88387f98436",
+    "lib/zhiban/infrastructure/course-results/schema.sql": "a63cae704aebd79c81bcef5b54c67a2fa94830c65245132553d37f6db0d76436",
+    "lib/zhiban/infrastructure/course-results/service.ts": "dfeb1005aadfa2e722336a3fd02ee409a0a64268792b50775481dff43d2eb9e7",
+    "lib/zhiban/infrastructure/learning/postgres/transaction.ts": "d19a90a3fcf18bb8c5ccda1edcb89691acc425385d557076c9b0e21053933fb2",
+    "lib/zhiban/infrastructure/lesson/service.ts": "6586a9948af85a1705579fd9b536cc6a5eedf0b9e1def5b397fa66d8dfb38420",
+    "lib/zhiban/infrastructure/tutor/content.ts": "4e1adb1183790aee1368573fd50b55fb21f061c8a17f7e064cfc9750c86c7474",
+    "lib/zhiban/infrastructure/tutor/course-tools.ts": "d3b70bf8eaa4b2adee4fa208bcf08dc935e0cd32456e48f918b4f6feac102515",
+    "lib/zhiban/infrastructure/tutor/native.ts": "2121f80ff606ffdcc76afd8eaea3a02d7888790eef834097b2eadebf9a26799c",
+    "scripts/zhiban-local/build-native-authoring.ts": "f1161bb7f23de72b6725f4f6343baccd4db4712e8ec79768793682b7720a26b7",
+    "scripts/zhiban-local/run-m6-catalog.ts": "fca3697b9950f54ce03aa4cd8067305857092495196bba1d7f55be4aa12c48af",
+    "scripts/zhiban-local/tsconfig.native-authoring.json": "c9bdeadf124d9dd2044ca7e2e1e93b2f0a3ab703f32e1661c8ad5467ac36a6ab",
+    "scripts/zhiban-local/verify-course-results.ts": "b08c67a773a1d893eaff7149edfdfc40ca6513dc5ed5f261d47b4fc59793a076",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "f68f9519cb9ccd998058c3bc5cbd167488d10df6c8be8f92deb6e2bf9b3cb3cc",
+    "tests/zhiban/course-results/model.test.ts": "5721634c19f83ceba3910b5ffac0cb9a317c5e841f288d9ed62ec5db1a7b4532",
+    "tests/zhiban/course-results/tools.test.ts": "b9518784b2ba2340f4f6284201a8140ae76f59043b6d9a42535fc9faf8422b38"
+  },
+  "pgSourceComparison": {
+    "compared": 25,
+    "matches": true,
+    "fullHarness": "zhiban-course-results-harness-local.json",
+    "pg16": 160015,
+    "scope": "LOCAL_TRUSTED_COURSE_RESULTS_TO_FORMAL_SUBMISSION"
+  },
+  "validation": {
+    "types": {
+      "status": "PASS",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "lint": {
+      "status": "PASS",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "uiLint": {
+      "status": "PASS",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "verifierLint": {
+      "status": "PASS",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "unit": {
+      "status": "PASS",
+      "files": 3,
+      "tests": 15,
+      "includes": "course-results provenance/tools and existing tutor model",
+      "logSha256": "8cf62677c8c7d0f5f36abca54a28014909f44d28e16e571ea1cbdf6a2563f499"
+    },
+    "pg16": {
+      "status": "PASS",
+      "logSha256": "2a85e9d4a417900920929b50b89b2a650a0b1a6cacf760018d405cefb130ee22",
+      "externalCalls": 0,
+      "checks": [
+        "original attempts, fixed native Quiz UI and server regrading",
+        "new-task bypass refused, pre-existing attempt unchanged",
+        "private proofs hidden from teacher until formal submission",
+        "submit/retry/resubmit provenance atomic with original Learning facts",
+        "concurrent task CAS has one winner; concurrent same-command submit creates one fact",
+        "injected event failure rolls back formal submission",
+        "original manual grade publication and student result",
+        "shared classroom note publish/retract",
+        "immutable proof and source withdrawal history",
+        "responsive desktop/mobile"
+      ],
+      "negativeScope": [
+        "cross-tenant/outside-course/admin denial",
+        "direct submit bypass and forged completion/score refusal",
+        "current Enrollment and teaching-assignment withdrawal",
+        "unsubmitted private proofs hidden from teacher",
+        "source withdrawal/history and immutable proofs",
+        "event insert failure atomic rollback",
+        "task revision CAS conflict and same-command concurrent submit deduplication"
+      ]
+    },
+    "real": {
+      "status": "PASS_REAL_PBL_FORMAL_REPORT_GRADE_AND_NATIVE_TUTOR_TOOL",
+      "pbl": {
+        "state": "completed",
+        "revision": "6",
+        "evaluationKinds": [
+          "task",
+          "milestone",
+          "final"
+        ],
+        "externalEvaluations": 3,
+        "source": "REAL_NATIVE_PROVIDER_CALLS_CHECKED_BEFORE_PERSISTENCE"
+      },
+      "teacherGrade": {
+        "score": 92,
+        "maxScore": 100,
+        "source": "ORIGINAL_MANUAL_TEACHER_PUBLICATION"
+      },
+      "completion": {
+        "verified": true,
+        "rule": "PUBLISHED_GRADE",
+        "thresholdBps": 9000,
+        "required": false,
+        "originalDecision": {
+          "activityId": "01a17679-4483-7639-8a51-a44294f7ac70",
+          "complete": true,
+          "stale": false,
+          "blockedBy": [],
+          "required": false,
+          "submissionId": "01a17679-8f2b-7073-a1fd-6f7ea0a5823b",
+          "gradePublicationId": "01a17679-8f89-70b7-b84a-93ee65bca637"
+        }
+      },
+      "tutor": {
+        "session": "01a17679-9116-774d-8315-f82d144cdbae",
+        "state": "COMPLETED",
+        "toolsAdvertised": true,
+        "visionAdvertised": false,
+        "toolExecutions": 1,
+        "providerTransports": 2,
+        "allowedTools": [
+          "read_course_source",
+          "search_course_source"
+        ],
+        "priorTeacherPolicyUnchanged": true
+      }
+    },
+    "defaultReadback": {
+      "evidenceOrigin": "LOCAL",
+      "githubActions": false,
+      "status": "PASS_RESTART_READBACK",
+      "at": "2026-10-26T04:55:21.625Z",
+      "origin": "https://127.0.0.1:3461",
+      "externalCalls": 0,
+      "accountsSha256": "91d73979d2a3a17ba17c69549682aa4d944f875c004bb8427ad5ba35d262e122",
+      "deploymentSha256": "27b86ca39721e67eef4abe1ca6351ca1ac6e4bda9b68761c366064ba7572af42",
+      "localEnvSha256": "4209ce94af6b65d12e8f1405b8266bd9c1ce1989b336acfe6c26a9e2371bb425",
+      "previousMaterialsAndDocumentPreserved": true,
+      "oldPbl": [
+        {
+          "scene_id": "autonomous-1c2c5270-fa5a-468a-9130-26d0f037319c",
+          "revision": "19",
+          "status": "completed"
+        },
+        {
+          "scene_id": "autonomous-c1f1233d-a2fa-4f30-8ad6-0d1127ed8fd2",
+          "revision": "20",
+          "status": "completed"
+        }
+      ],
+      "formalSubmission": "01a17679-8f2b-7073-a1fd-6f7ea0a5823b",
+      "publishedGrade": {
+        "score": 92,
+        "maxScore": 100
+      },
+      "completion": {
+        "activityId": "01a17679-4483-7639-8a51-a44294f7ac70",
+        "complete": true,
+        "stale": false,
+        "blockedBy": [],
+        "required": false,
+        "submissionId": "01a17679-8f2b-7073-a1fd-6f7ea0a5823b",
+        "gradePublicationId": "01a17679-8f89-70b7-b84a-93ee65bca637"
+      },
+      "tutor": {
+        "state": "COMPLETED",
+        "toolExecutions": 1,
+        "providerTransports": 2
+      },
+      "browser": {
+        "trustedHttps": true,
+        "ignoreHttpsErrors": false,
+        "desktop": 1440,
+        "mobile": 390,
+        "horizontalOverflow": false,
+        "pageErrors": 0,
+        "teacherConfigurationAndGradingLink": true
+      }
+    },
+    "postFinalPgCodeChanges": []
+  },
+  "storage": {
+    "hostMigration": "zhiban-course-results v1; five private tables; four immutable triggers",
+    "businessMigrationsModified": false,
+    "identityOrBridgeContractChanged": false,
+    "snapshotPath": "/home/zxm/.local/share/zhiban-persistent/2026-10-26T04-56-00.802Z-3ee8cd22",
+    "physicalPg16Backup": true,
+    "manifestSha256": "6508b8302f987350fa6860f8d6a86da3e291f11aa0b3163bf5e325c7b0b3151c",
+    "instanceKeyIncluded": true,
+    "instanceKeyMode": "0600",
+    "instanceKeyHashMatchesManifest": true,
+    "verification": {
+      "status": "PASS",
+      "evidenceOrigin": "LOCAL",
+      "snapshot": "/home/zxm/.local/share/zhiban-persistent/2026-10-26T04-56-00.802Z-3ee8cd22",
+      "files": 3266,
+      "scope": "FILE_HASH_CLOSURE_ONLY"
+    },
+    "scope": "Owned PG16 three databases plus native documents/assets/materials/usage and instance key; startup restore/source/profile checks passed"
+  },
+  "retainedFindings": [
+    "Verifier accepted 2xx stage creation (Native returns 201) and corrected original grade API fields",
+    "Original real-model verifier incorrectly read turns; persisted rows verified COMPLETED without repeated calls",
+    "Final readonly config check initially used YAML pin for .env.local; corrected separate file pins, neither file changed"
+  ],
+  "evidenceHashes": {
+    "docs/v2/evidence/zhiban-course-results-default-desktop.png": "f28c1a8fa14ab3dfe10e792cdb65cd665963ab4166627cae9a7e64ade6d95758",
+    "docs/v2/evidence/zhiban-course-results-default-local.json": "bac5f60d0d05b00891a4a8d8dde3e3b45a565201acb7992de9c9f6b312bfb6b2",
+    "docs/v2/evidence/zhiban-course-results-default-mobile.png": "d3c73a8cc4690e16cbf04abad6c4729fa8ebf4aa3ab320c23a753d994e655074",
+    "docs/v2/evidence/zhiban-course-results-desktop.png": "5a48756245956336ed26c1ab906a9edf62b916ab4a399255d1b6bcda351bd10f",
+    "docs/v2/evidence/zhiban-course-results-harness-local.json": "be1b4f437f220e1320fbbd607deb19a6a0e7b74b13f5713b0d3702a7f70fc67b",
+    "docs/v2/evidence/zhiban-course-results-local.json": "626641f018b269842839e9ffccc77d4f1874cd12318c6c6b8388349b9719a887",
+    "docs/v2/evidence/zhiban-course-results-mobile.png": "e3745377bbe24234f0c378083f8f0c43d378bdf4d33801ba427030183388a730",
+    "docs/v2/evidence/zhiban-course-results-real-local.json": "3766c20e5f63efafefa7eb387f0e8cf2157d72fed234245452424cb6cfc0e9e5"
+  },
+  "documentationHashes": {
+    "docs/v2/zhiban-v2-classroom-trusted-results-local.md": "9047bc145337fb39e81aff21a944882e1610c7e0db766ea15bd7df8baba5c9f6",
+    "docs/v2/zhiban-v2-migration-completion-plan.md": "85fa36bb993e2746975a037694e6b7f51cea98f765f7e4f7247b165ef5ddb8e9",
+    "docs/v2/zhiban-v2-feature-gap-matrix.md": "b8743242d092bf9b450fdee8c09edcee25645f7078f2dec4cad413f1bad4b35f",
+    "docs/v2/zhiban-v2-native-teaching-reuse-audit.md": "a7d502817e6b083a82b4417fc4d84092a1850f7bdd7e2e4e82b45d97d6294d6a",
+    "TRIAL.md": "916e3a9c711606998e052ca709ad9903d6c3b3994fb0bc175a63a5f26fbbbd5b"
+  },
+  "boundaries": {
+    "legacyNativeCreateAppendComplete": "DENIED / NOT_ACTIVATED",
+    "unknownReserved": "ISOLATION_RETAINED",
+    "instrumentMeasurements": "NO_INPUT_NO_CLAIM",
+    "formalGrades": "Original teacher publication; private practice AI scores remain nonformal",
+    "completion": "Original approved published SUBMITTED/PUBLISHED_GRADE rules only; optional demo rule does not add mandatory course requirements",
+    "vision": "Current real GLM has tools=true/vision=false; no image interpretation claim",
+    "externalServices": "Office/OCR/media extraction, image/video generation, TTS/ASR remain unconfigured/unverified",
+    "deploymentPolicyUnchanged": {
+      "lock": "all",
+      "allowUserKeys": false,
+      "yamlSha256": "27b86ca39721e67eef4abe1ca6351ca1ac6e4bda9b68761c366064ba7572af42",
+      "localEnvSha256": "4209ce94af6b65d12e8f1405b8266bd9c1ce1989b336acfe6c26a9e2371bb425"
+    },
+    "historicalCi": "Run 40096542805 PASS retains its original frozen source scope; no new CI signoff"
+  },
+  "operations": {
+    "default": "RUNNING_LOCAL_PERSISTENT_3461",
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "commit": false,
+    "push": false,
+    "ciDispatch": false,
+    "productionDeployment": false,
+    "real55432or55433Touched": false
+  },
+  "next": "P7 one combined persistent delivery including recent Native, multimodal, service-center and trusted-results increments; GPT-6.1 Sol / medium (high for new cross-host authorization/concurrency)"
+}

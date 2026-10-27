@@ -1,0 +1,34 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_REAL_TTS_SCAN_ADOPT_PUBLISH_STUDENT_PLAYBACK",
+  "resource": "01a17876-047e-7767-87a8-0727a8829849",
+  "publication": "01a17876-06d4-7410-aa36-1793f0c74c48",
+  "sourceDigest": "1bbe7f57aa0dd9575ff38545d27242c778c0a3dc966a024a9d25eb400c354fbf",
+  "assetSha256": "b671ecdb57bc528f30c5e2e1a426b9bf397f2a679260428bddf146856f1f749c",
+  "playback": [
+    {
+      "duration": 1.872,
+      "readyState": 1,
+      "played": false
+    },
+    {
+      "duration": 1.872,
+      "readyState": 4,
+      "played": true
+    }
+  ],
+  "mediaResponses": [
+    {
+      "status": 206,
+      "mime": "audio/mpeg"
+    },
+    {
+      "status": 206,
+      "mime": "audio/mpeg"
+    }
+  ],
+  "pageErrors": 0,
+  "certificateVerified": true,
+  "noNewProviderCalls": true
+}

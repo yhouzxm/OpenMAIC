@@ -1,0 +1,45 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "originalPublishedGrade92ProofAndCompletionPreserved": true,
+  "accountsSha256": "91d73979d2a3a17ba17c69549682aa4d944f875c004bb8427ad5ba35d262e122",
+  "classroomEnabled": true,
+  "slots": [
+    {
+      "slot": "llm",
+      "status": "assigned",
+      "registryId": "glm",
+      "modelId": "glm-5.3"
+    },
+    {
+      "slot": "classroom",
+      "status": "assigned",
+      "registryId": "glm",
+      "modelId": "glm-5.3"
+    },
+    {
+      "slot": "classroom.chat",
+      "status": "assigned",
+      "registryId": "glm",
+      "modelId": "glm-4.6v"
+    },
+    {
+      "slot": "agent",
+      "status": "assigned",
+      "registryId": "glm",
+      "modelId": "glm-5.3"
+    },
+    {
+      "slot": "tts",
+      "status": "assigned",
+      "registryId": "doubao-tts"
+    },
+    {
+      "slot": "asr",
+      "status": "assigned",
+      "registryId": "openai-whisper",
+      "modelId": "glm-asr-2512"
+    }
+  ],
+  "certificateVerified": true
+}

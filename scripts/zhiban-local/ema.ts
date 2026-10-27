@@ -1,3 +1,4 @@
+import { readProfileReference, referenceScope } from './pg-version';
 /** Readiness only. A web host never installs or derives its own trusted expected catalog. */
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
@@ -30,12 +31,12 @@ export async function loadEma(pool: Pool): Promise<boolean> {
         .name
     )
       return false;
-    const reference = JSON.parse(await readFile(emaReference, 'utf8'));
+    const reference = await readProfileReference(emaReference);
     const sourceHash = hash(await readFile(emaMigration));
     if (
       reference.evidenceOrigin !== 'LOCAL' ||
       reference.githubActions !== false ||
-      reference.scope !== 'FRESH_OWNED_PG16_EMA_REFERENCE' ||
+      reference.scope !== referenceScope('FRESH_OWNED_PG16_EMA_REFERENCE') ||
       reference.migrationSha256 !== sourceHash ||
       !/^[a-f0-9]{64}$/.test(reference.profileSha256)
     )

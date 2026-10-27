@@ -45,6 +45,7 @@ export async function runPiDirectorLoop(opts: {
   childRuntimeMode?: ChildRuntimeMode;
   enableNativeChildSpotlight?: boolean;
   nativeWebSearchConfig?: NativeWebSearchConfig;
+  nativeImageTool?: AgentTool;
   nativeWhiteboardService?: WhiteboardRuntimeService;
   nativeWhiteboardStageId?: string;
   nativeWhiteboardLearnerKey?: string;
@@ -127,6 +128,7 @@ export async function runPiDirectorLoop(opts: {
     maxOutputTokens: opts.maxOutputTokens,
     thinkingConfig: opts.thinkingConfig,
     source: 'pi-chat-director',
+    supportsToolImages: !!opts.nativeImageTool,
     abortSignal: opts.abortSignal,
   });
   const compactionRuntime = createDirectorCompactionRuntime({
@@ -136,6 +138,7 @@ export async function runPiDirectorLoop(opts: {
   });
 
   const tools: AgentTool[] = [
+    ...(opts.nativeImageTool ? [opts.nativeImageTool] : []),
     buildReadSceneTool({
       body: opts.body,
       onEvidence: (evidence) => {
@@ -173,6 +176,7 @@ export async function runPiDirectorLoop(opts: {
       childRuntimeMode: opts.childRuntimeMode ?? 'legacy',
       enableNativeChildSpotlight: opts.enableNativeChildSpotlight === true,
       nativeWebSearchConfig: opts.nativeWebSearchConfig,
+      nativeImageTool: opts.nativeImageTool,
       nativeWhiteboardService: opts.nativeWhiteboardService,
       nativeWhiteboardStageId: opts.nativeWhiteboardStageId,
       nativeWhiteboardLearnerKey: opts.nativeWhiteboardLearnerKey,

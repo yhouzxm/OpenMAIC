@@ -1,0 +1,16 @@
+{
+  "source": "LOCAL_TOOL_CREATED_TEST_MEDIA_NOT_AI_VIDEO_GENERATION",
+  "videoBytes": 145696,
+  "videoDurationSeconds": 36.0,
+  "audioSha256": "1f413e930b5b04eb035b5a2306b8b3758ae97dd23c5fd3dd06b90383717a9223",
+  "videoSha256": "9b0e337cfb44e754b7d581f3455cdf0032aa509dd5daac7ad53c009aa5ba5a61",
+  "ffmpeg": "ffmpeg version 6.1.1-3ubuntu5+esm15 Copyright (c) 2000-2023 the FFmpeg developers",
+  "ffprobe": "ffprobe version 6.1.1-3ubuntu5+esm15 Copyright (c) 2007-2023 the FFmpeg developers",
+  "binaryHashes": {
+    "ffmpeg": "63b15ad5c416b50ccaa80aeda2ba34e4745429d941aefdf6532871ef1fad0ec2",
+    "ffprobe": "6d759e5e347e3fe036957a58b08d85a3200a70e48da66f6f167ca281148f4752"
+  },
+  "installedByUser": true,
+  "fixedVideoSha256": "a345185efd6a102f9b259778b097a4175d275a5be1143efd2652f528db7a57e3",
+  "fixedVideoChange": "Container comment only; same non-personal local synthetic media, new source identity to verify repaired Native storage conversion"
+}

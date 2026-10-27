@@ -38,6 +38,7 @@ const fileMime = (name) => attachmentMimeByExtension[name.split('.').pop().toLow
     CONFLICT: '记录已变更，请刷新后重新操作。',
     PROGRESS_BLOCKED:
       '先修条件未满足或规则绑定的活动已换版。请查看课程目录中的学习进度；已有作答可继续。',
+    COURSE_RESULT_REQUIRED: '此活动须从课程“课堂成果与共享结果”入口核验并提交；当前草稿保留。',
     INVALID_STATE: '该活动或尝试当前不允许此操作。',
     DEADLINE_PASSED: '已超过截止时间，不能再开始或提交。',
     ATTEMPT_LIMIT: '已达到此活动的尝试次数上限。',

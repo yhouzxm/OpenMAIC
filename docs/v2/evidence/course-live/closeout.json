@@ -1,0 +1,56 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "at": "2026-10-27T07:33:26.563520+08:00",
+  "status": "PASS_LOCAL_NATIVE_COURSE_MP4_AND_TEACHER_SHARED_PRESENTATION",
+  "repositoryHead": "093b4a69af96626010d9104c50d680d9b9dc1928",
+  "branch": "refactor/zhiban-v2",
+  "dirtyCandidatePreserved": true,
+  "implemented": [
+    "Native browser compiler and isolated real MP4 render/owner-bound course task/status/cancel/download integration",
+    "Teacher START/UPDATE/STOP public cursor/playback/board-text/summary, revision CAS, explicit controller takeover and append-only audit",
+    "Student opt-in follow, cross-scene playback bridge, mobile view and reconnect, teacher stop/TTL/authorization refusal",
+    "Pinned browser/dependency preparation and combined persistent local launcher"
+  ],
+  "accepted": [
+    "Real PG16 Identity/course authorization/CSRF/private-field/CAS/controller/TTL/immutable-audit refusals",
+    "Teacher/student browser publish shared text, follow page changes, mobile/reload/rejoin and stop clearing",
+    "Real fixed two-scene course + stored PCM cue compiled and rendered to H264/AAC, actual MP4 download, distinct decoded frames and non-silent audio",
+    "Ended assignment denies cached job/shared write, AI policy disable denies shared read, withdrawal denies cached video job",
+    "Original persistent account checksum and 92-point grade/proof preserved; actual combined entry renderer capability enabled; sourceMatches=true"
+  ],
+  "firstFailuresResolved": [
+    {
+      "observed": "Student follow control hidden in collapsed details",
+      "resolution": "Auto-expand the shared panel when a teacher starts sharing; browser journey passed"
+    },
+    {
+      "observed": "First real render rejected Chromium 145; expected 151",
+      "resolution": "Install official Chrome for Testing 151.0.7922.138 under private cache, pin archive SHA256 and check version before listener startup; actual render passed"
+    }
+  ],
+  "scope": [
+    "Public presentation state only; no student private AI/chat/answers/PBL or hidden reasoning broadcast",
+    "Two-second snapshots/heartbeat and 15-second TTL; no frame-exact audio/video synchrony claim",
+    "Native render jobs/artifacts expire after 30 minutes or service restart; permanent library/distributed HA not accepted",
+    "Fixed course asset/narration video, not a recording of live private conversations",
+    "Local PG16 only; PG18 whole host/Alibaba production/old Native authority remain outside this signoff",
+    "No Git commit/push/CI dispatch, P7 repack or machine shutdown"
+  ],
+  "entry": "https://127.0.0.1:3461/zhiban",
+  "start": "pnpm trial:zhiban:live",
+  "prepare": "pnpm trial:zhiban:render:prepare",
+  "guide": "../../zhiban-v2-course-video-sharing-local.md",
+  "receipts": [
+    "local.json",
+    "render.json",
+    "checks.json",
+    "default-entry.json",
+    "default-runtime.json",
+    "browser-dependency.json",
+    "source-hashes.json",
+    "../zhiban-course-live-local.json"
+  ],
+  "nextWholePackage": "Versioned PG18 application profile/installer/receipt/loader and full host restore acceptance",
+  "recommendedModel": "GPT-6.1 Sol / high"
+}

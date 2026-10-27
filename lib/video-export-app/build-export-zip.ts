@@ -77,18 +77,19 @@ async function compileStageIr(options: {
   labels: ReturnType<typeof getVideoExportCoverLabels>;
   skipGeometry?: boolean;
   skipInteractiveHtml?: boolean;
+  document?: Pick<ReturnType<typeof useStageStore.getState>, 'stage' | 'scenes'>;
 }): Promise<{
   ir: ReturnType<typeof compileVideoTimeline>;
   stageName: string;
   scenes: ReturnType<typeof useStageStore.getState>['scenes'];
   deps: Awaited<ReturnType<typeof createVideoTimelineDeps>>;
 }> {
-  const { stage, scenes } = useStageStore.getState();
+  const { stage, scenes } = options.document ?? useStageStore.getState();
   if (!stage?.id || scenes.length === 0) {
     throw new NoScenesError('No scenes to export');
   }
 
-  const stageName = await resolveExportStageName(stage);
+  const stageName = options.document ? stage.name || 'classroom' : await resolveExportStageName(stage);
   const { width, height } = VIDEO_RESOLUTIONS[options.resolution];
 
   const [deps, quizLayout] = await Promise.all([
@@ -97,6 +98,7 @@ async function compileStageIr(options: {
       scenes,
       skipGeometry: options.skipGeometry,
       skipInteractiveHtml: options.skipInteractiveHtml,
+      portable: !!options.document,
     }),
     createQuizLayoutProbe({
       scenes,
@@ -127,6 +129,8 @@ export interface BuildExportZipOptions {
   burnInSubtitles?: boolean;
   /** Locale the card chrome and the emitted document are written in. */
   locale: Locale;
+  /** Fixed course snapshot; never read an unrelated tab's stage store. */
+  document?: Pick<ReturnType<typeof useStageStore.getState>, 'stage' | 'scenes'>;
 }
 
 /**
@@ -151,6 +155,7 @@ export async function buildExportZip(
     resolution,
     locale,
     labels,
+    document: options.document,
   });
 
   // 3. emit the Hyperframes project text.

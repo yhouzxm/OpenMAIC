@@ -1,0 +1,32 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "checks": [
+    {
+      "name": "fake-WAV",
+      "status": 400,
+      "code": "INVALID_INPUT"
+    },
+    {
+      "name": "31-second-WAV",
+      "status": 400,
+      "code": "INVALID_INPUT"
+    },
+    {
+      "name": "WebM-container",
+      "status": 400,
+      "code": "INVALID_INPUT"
+    },
+    {
+      "name": "revoked-classroom-ASR",
+      "status": 403
+    },
+    {
+      "name": "revoked-classroom-model-settings",
+      "status": 403
+    }
+  ],
+  "studentPolicyDenied": true,
+  "policyRestoredEnabled": true,
+  "noProviderCallInRejectedCases": true
+}

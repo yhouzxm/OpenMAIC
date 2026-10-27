@@ -1,0 +1,171 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_ADMIN_CENTER_AVAILABLE_SCOPE_PENDING_UNCONFIGURED_SERVICES",
+  "createdAt": "2026-10-26T02:51:41.878207+00:00",
+  "branch": "refactor/zhiban-v2",
+  "head": "093b4a69af96626010d9104c50d680d9b9dc1928",
+  "workingTree": "DIRTY_CANDIDATE_PREEXISTING_WORK_PRESERVED",
+  "sourceHashes": {
+    "lib/zhiban/infrastructure/service-center/config.ts": "23247d6eba25e3489826c222012c3501054dd1c9a588b1fe09b2f2071c329389",
+    "lib/zhiban/infrastructure/service-center/http.ts": "01b275b1270d0cd53fe72cbf5ea3ceb66adbe3f12a654ff561fce21edf361d45",
+    "lib/zhiban/infrastructure/service-center/schema.sql": "78243b4b26cd70d742355128fe382008b8858787e4dddd3c7a500b287f4e2ee2",
+    "lib/zhiban/infrastructure/service-center/policy.ts": "a35a33c22f828b5ca40b1210ea9bf4e128fefb54cd507c50fcb1d79a29aacc1c",
+    "lib/zhiban/infrastructure/service-center/service.ts": "93201b46409e362768c9a3bd1cf4fc7d558bbd4ba749eff8a839c2651bef1345",
+    "tests/zhiban/service-center/policy.test.ts": "ea9e7860b940e82057bd484353f475382cbf4b4826a8d5c7e81228805db4a301",
+    "lib/server/service-scope.ts": "dc7dc9e8c1ad25fb015acc901bd3503272d34ced9a184de4cc2c978abb6d127f",
+    "lib/server/model-config/runtime.ts": "4f454e5561efb8c2661809a3fae121e9729d1a918eafd2ad207fa27198c51230",
+    "lib/server/secret-box.ts": "e79a973a3566cecaf5101f4f197d0932a09bdb853b5bffb238ad6ffa8a509041",
+    "lib/server/usage-storage.ts": "293fe37c9fecbe73a43d3a96d9719cb67104d4b2d63c3331ed747d298525053b",
+    "lib/usage/aggregate.ts": "f04b4e897298a38855ce02272d1a75001aa7387876c13fce321a8998a6579788",
+    "app/api/usage/route.ts": "570d616a906f955d6558893f3bb47c4d7c8e2108e3896df46f12f32c8d4773f0",
+    "lib/persistence/workspace-model-config.ts": "e2fae770ab549a59101a1ff1130d038ac4aeed7017e6e15ac2d57a69210dedac",
+    "lib/zhiban/infrastructure/authoring/host.ts": "45e6a35f04811163cac80a9d9e8dde470e54ce2dfa338cbd2b34ce3d6ad38f18",
+    "lib/zhiban/infrastructure/authoring/media/service.ts": "6c9834b52f266de4c952034da59656280d755ea28810afbf5c62f494699cfbf0",
+    "lib/zhiban/infrastructure/classroom-ai/bindings.ts": "c481101a1d27d771d358f2bb3579ba49076d259d45761a3b1999fd3bbc8fa838",
+    "lib/zhiban/infrastructure/classroom-ai/service.ts": "a27485167f5f09b2064a556a4fac880cc2e1da467d2e2b20eab576d7f7749ec6",
+    "lib/zhiban/application/tutor/service.ts": "038596e2738536a511887aba556b1247b2be00720cb206152d11945c750b0afd",
+    "lib/zhiban/infrastructure/lesson/service.ts": "d5bc66cda2989c2478abbcb48b59331ba0dcf4939fbc3ee45ba18126d3ff0d23",
+    "app/zhiban/local/admin-services.tsx": "e94931e5cf421a7c317b1dbe5e42d2609b7eb41a4572b1a3c4ec19afe2bbe444",
+    "app/zhiban/local/admin-services.html": "9d68e05f6eb7ca50a90169665da6957b5fcebcaba0a8e9820ab36b521afca687",
+    "app/zhiban/local/admin-services.css": "78a16d9d4e68e312c90ec29186b7e5f41387027886fa8dd67b042773da25400a",
+    "app/zhiban/local/admin-shell.js": "4293619d362153a7e4928f70ab710d0ada2f3c977e4d6efba998aa15c480779c",
+    "scripts/zhiban-local/build-native-authoring.ts": "ee0c51586c25d75f1c73ae1c4c496b86836e6dca21e1113d1591ed13b0ceca25",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "8e22c949ed631dddddb62fb37710835a487def5dd5a083b2f09e686467ba3ada",
+    "scripts/zhiban-local/run-m6-catalog.ts": "80a4bef0fa88d52e2ebdd9ad0c89a2113f6d853eb6a24fe671ec1821e8f8f39e",
+    "scripts/zhiban-local/verify-service-center.ts": "86ae33334b88ac7787475257c55df91597059a2e1a529991740ba662d816dc73",
+    "scripts/zhiban-local/tsconfig.native-authoring.json": "6c5e6bc4d37243a4987ab7f7ec606cbeaa45e15018ea6405a043a6d53efd4a54",
+    ".gitignore": "a2af181bd72429d5cb12ceaff62ae14bd832f9c8e7aab392244abf887dea5bcc"
+  },
+  "documentationHashes": {
+    "docs/v2/zhiban-v2-admin-service-center-local.md": "9df0f4cab8af00944d525feb0279ab364bba7a3de07f5cce6271beab7f7c75db",
+    "docs/v2/zhiban-v2-migration-completion-plan.md": "2487eedb9e3486db87790a9d8ee8d4995def8150c7e77f2b50c0b9b0a36fb305",
+    "docs/v2/zhiban-v2-feature-gap-matrix.md": "3b2a4b7a75afde312e62f396890a55efdf2f4e1a33dc804cc00269498621fc83",
+    "TRIAL.md": "d70c37bb50c6b012e60c80a7b695db15726cbdd4012ddadded8585a073395110"
+  },
+  "evidenceHashes": {
+    "docs/v2/evidence/zhiban-service-center-desktop.png": "343696abe475c05140c256fcdb316f8d0e4bd32a7b4ef157c89e0f4481b01d32",
+    "docs/v2/evidence/zhiban-service-center-final-mobile.png": "4330de1a8a84245461f699a080aece34568ca7f1f248bcfc1d612679d25da221",
+    "docs/v2/evidence/zhiban-service-center-local.json": "e488e9c8bcf09e806111b86f9a2137300b9c89d79b569d57cdf62c45b2d43dbe",
+    "docs/v2/evidence/zhiban-service-center-retained-findings.json": "cd3cbe08512e785a52633b93738438c76fdde4b07fc971a04be7c3d8921787d2",
+    "docs/v2/evidence/zhiban-service-center-final-desktop.png": "7779ba635a801ae45b84a4d3765749b7500435a2d2a5d8949b7dcbe1f37809b7",
+    "docs/v2/evidence/zhiban-service-center-default-local.json": "b480fe15821c3ea5af1808327dfbda156535ee0b2422386ec7f6cca4992224ff",
+    "docs/v2/evidence/zhiban-service-center-harness-local.json": "5400225b9bea44d0c14de5676373e391ca88e796e534262a5c1c1951ca69f68f",
+    "docs/v2/evidence/zhiban-service-center-mobile.png": "1afa2580ff636350f53341e19988905081be3b26d14bdaf118c0cf01d3facd67"
+  },
+  "buildReceiptSha256": "91c659e2bc16727c3b9b1407b0f672431098a49f0364583090f30ce8f2897a23",
+  "verification": {
+    "types": "PASS native-authoring configuration",
+    "lint": "PASS affected files",
+    "unit": "5 new policy/scope checks; combined 11 with existing media lifecycle PASS",
+    "disposablePg16": "PASS real Identity/HTTPS, current-space admin, encrypted keys, idempotency/conflict, concurrent CAS, audit fault rollback, CSRF/target refusal, shared configuration inheritance, revoked admin and browser UI",
+    "defaultLockedPolicy": {
+      "evidenceOrigin": "LOCAL",
+      "githubActions": false,
+      "status": "PASS_DEFAULT_LOCKED_POLICY_AND_RESPONSIVE_UI",
+      "at": "2026-10-26T02:49:21.497Z",
+      "origin": "https://127.0.0.1:3461",
+      "accountsSha256": "91d73979d2a3a17ba17c69549682aa4d944f875c004bb8427ad5ba35d262e122",
+      "deploymentSha256": "27b86ca39721e67eef4abe1ca6351ca1ac6e4bda9b68761c366064ba7572af42",
+      "deploymentPolicyUnchanged": {
+        "lock": "all",
+        "allowUserKeys": false
+      },
+      "lockedWriteRejected": true,
+      "connection": {
+        "kind": "llm",
+        "state": "PASS",
+        "externalDispatchesRequested": 1,
+        "replayDispatches": 0,
+        "scope": "CONNECTION_ONLY_NOT_CLASSROOM_ACCEPTANCE"
+      },
+      "usage": {
+        "scope": "CURRENT_SPACE_ONLY",
+        "before": {
+          "requests": 0,
+          "llmTokens": 0
+        },
+        "after": {
+          "requests": 1,
+          "llmTokens": 25
+        }
+      },
+      "journalCount": 1,
+      "layout": {
+        "mobileWidth": 390,
+        "noDocumentOverflow": true,
+        "historyTableMinWidth": 760,
+        "internalHorizontalScroll": true
+      },
+      "originalTeachingData": "preserved; separately checked with owned database read"
+    },
+    "retainedPblReports": [
+      {
+        "scene_id": "autonomous-1c2c5270-fa5a-468a-9130-26d0f037319c",
+        "revision": 19,
+        "status": "completed"
+      },
+      {
+        "scene_id": "autonomous-c1f1233d-a2fa-4f30-8ad6-0d1127ed8fd2",
+        "revision": 20,
+        "status": "completed"
+      }
+    ],
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "postDisposableChanges": [
+      "History CSS min-width/internal horizontal scroll verified in default browser",
+      "Known native lock refusal translated before AcademicStore sanitization; default locked write verifies 409",
+      "Private instance-key directory enforced; original key retained through default restart"
+    ]
+  },
+  "evidenceBoundaries": {
+    "disposableExternalCalls": 0,
+    "defaultExternalCalls": 1,
+    "defaultExternalScope": "Existing configured LLM, one minimal connection check, 25 tokens; same-command replay zero dispatch",
+    "notClaimed": [
+      "real Office/OCR/media extraction",
+      "real image/video generation or connectivity",
+      "real TTS/ASR connectivity or quality",
+      "formal Runtime completion or grading",
+      "deployment configuration unlock",
+      "distributed usage-log consolidation"
+    ],
+    "editableConfiguration": "Verified only with fresh owned disposable configuration, allowUserKeys true and synthetic never-dispatched keys",
+    "currentDeploymentPolicy": {
+      "lock": "all",
+      "allowUserKeys": false,
+      "changed": false,
+      "configSha256": "27b86ca39721e67eef4abe1ca6351ca1ac6e4bda9b68761c366064ba7572af42"
+    },
+    "olderEvidence": "Historical P7/Native/PBL/multimodal evidence retains its recorded source scope; no re-signing"
+  },
+  "storage": {
+    "newHostMigration": "service-center v1 additive only, audit and immutable owner-to-space association",
+    "existingMigrationsModified": false,
+    "identityOrBridgeAclChanged": false,
+    "snapshotPath": "/home/zxm/.local/share/zhiban-persistent/2026-10-26T02-49-54.475Z-cbf01b0c",
+    "snapshotManifestSha256": "19ccc177714b1c57a09faa7bf27fa82f4916f255981077aad44e61ce68473047",
+    "keyIncluded": true,
+    "keyMode": "0600",
+    "keyHashMatchesManifest": true,
+    "scope": "Owned PG16 three databases, documents/assets/materials, usage, service audit and instance key",
+    "fileHashClosure": {
+      "status": "PASS",
+      "evidenceOrigin": "LOCAL",
+      "snapshot": "/home/zxm/.local/share/zhiban-persistent/2026-10-26T02-49-54.475Z-cbf01b0c",
+      "files": 3237,
+      "scope": "FILE_HASH_CLOSURE_ONLY"
+    }
+  },
+  "operations": {
+    "default": "RUNNING_LOCAL_PERSISTENT_3461",
+    "commit": false,
+    "push": false,
+    "ciDispatch": false,
+    "productionDeployment": false,
+    "finalSourceMatches": true,
+    "finalSourceDriftCount": 0
+  },
+  "next": "Course-side trusted execution and formal completion bridge; GPT-6.1 Sol / high"
+}

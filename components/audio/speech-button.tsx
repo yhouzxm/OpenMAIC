@@ -49,12 +49,19 @@ export function SpeechButton({
     toast.error(error);
   }, []);
 
-  const { isRecording, isProcessing, startRecording, stopRecording, cancelRecording } =
-    useAudioRecorder({
-      onTranscription: stableOnTranscription,
-      onError: handleError,
-      continuous,
-    });
+  const {
+    isRecording,
+    isProcessing,
+    recordingTime,
+    maxRecordingSeconds,
+    startRecording,
+    stopRecording,
+    cancelRecording,
+  } = useAudioRecorder({
+    onTranscription: stableOnTranscription,
+    onError: handleError,
+    continuous,
+  });
 
   useEffect(() => {
     if (shouldCancelRecordingOnDisable({ continuous, disabled, isRecording })) {
@@ -67,7 +74,7 @@ export function SpeechButton({
   // Gate on ASR availability (toggle + provider configured + browser support)
   // so every call site is disabled uniformly when ASR is off/unusable — but
   // never while actively recording/processing, so the user can always click to
-  // stop (the recorder has no auto-stop and would otherwise leave the mic open).
+  // stop recording at any point.
   const asrAvailable = useASRAvailable();
   const isDisabled = (disabled || !asrAvailable) && !active;
 
@@ -89,6 +96,11 @@ export function SpeechButton({
       <TooltipTrigger asChild>
         <button
           type="button"
+          title={
+            isRecording && maxRecordingSeconds
+              ? `${recordingTime}/${maxRecordingSeconds}s`
+              : undefined
+          }
           disabled={isDisabled || isProcessing}
           onClick={handleClick}
           className={cn(

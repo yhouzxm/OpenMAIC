@@ -473,6 +473,8 @@ export async function buildPptxBlob(
   deck: readonly PptxDeckEntry[] = slidesOnlyDeck(slides.length),
   dataOnly = true,
   media?: {
+    /** Tenant archive hosts stop rather than silently omit unavailable media. */
+    strict?: boolean;
     resolve: (
       ref: string | undefined,
       task: MediaTaskState | undefined,
@@ -651,7 +653,10 @@ export async function buildPptxBlob(
         // Resolve the src through the shared stored-bytes resolver (opaque
         // refs embed as data URLs; concrete addresses keep the fetch below).
         let resolvedSrc = await resolveManifestMedia(el.src, undefined);
-        if (!resolvedSrc) continue;
+        if (!resolvedSrc) {
+          if (media?.strict) throw new Error('Archive media could not be resolved');
+          continue;
+        }
 
         // Fetch and convert to base64 for embedding in PPTX
         // (blob: URLs and remote URLs won't work in offline PPTX)
@@ -659,13 +664,15 @@ export async function buildPptxBlob(
           try {
             const resp = await fetch(resolvedSrc);
             if (!resp.ok) {
+              if (media?.strict) throw new Error('Archive image fetch failed');
               log.warn(
                 `Failed to fetch image (HTTP ${resp.status}), skipping element: ${resolvedSrc}`,
               );
               continue;
             }
             resolvedSrc = await blobToDataUrl(await resp.blob());
-          } catch {
+          } catch (error) {
+            if (media?.strict) throw error;
             log.warn('Failed to convert image to base64, skipping element');
             continue;
           }
@@ -1136,7 +1143,10 @@ export async function buildPptxBlob(
         const sourceRef = videoBinding?.sourceRef ?? el.src;
         const resolvedSrc = await resolveManifestMedia(sourceRef, videoBinding?.task);
 
-        if (!resolvedSrc) continue;
+        if (!resolvedSrc) {
+          if (media?.strict) throw new Error('Archive media could not be resolved');
+          continue;
+        }
 
         // Fetch blob and convert to base64 for embedding in PPTX
         // (blob: URLs and remote URLs won't work in offline PPTX)
@@ -1236,6 +1246,7 @@ export async function buildPptxBlob(
 
           pptxSlide.addMedia(mediaOptions);
         } catch (err) {
+          if (media?.strict) throw err;
           log.warn(`Failed to embed ${el.type} element:`, err);
         }
       }

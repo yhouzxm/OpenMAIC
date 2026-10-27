@@ -1,0 +1,18 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "clusters": [
+    {
+      "root": "/home/zxm/.local/share/zhiban-pg18-delivery-A4kkJa/source16",
+      "postmasterPidAbsent": true
+    },
+    {
+      "root": "/home/zxm/.local/share/zhiban-pg18-delivery-A4kkJa/target18-final",
+      "postmasterPidAbsent": true
+    },
+    {
+      "root": "/home/zxm/.local/share/zhiban-pg18-delivery-A4kkJa/recovered18-final",
+      "postmasterPidAbsent": true
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+import { readProfileReference, referenceScope } from './pg-version';
 import { referenceSourceHash, referenceSourceEntries } from './reference-source';
 /** Readiness only. A web host never installs or derives its own trusted expected catalog. */
 import { readFile } from 'node:fs/promises';
@@ -42,12 +43,12 @@ export async function loadLoginIdentifiers(pool: Pool): Promise<boolean> {
       ).rows[0].name
     )
       return false;
-    const reference = JSON.parse(await readFile(loginIdentifiersReference, 'utf8'));
+    const reference = await readProfileReference(loginIdentifiersReference);
     const sourceHash = hash(await readFile(loginIdentifiersMigration));
     if (
       reference.evidenceOrigin !== 'LOCAL' ||
       reference.githubActions !== false ||
-      reference.scope !== 'FRESH_OWNED_PG16_LOGIN_IDENTIFIERS_REFERENCE' ||
+      reference.scope !== referenceScope('FRESH_OWNED_PG16_LOGIN_IDENTIFIERS_REFERENCE') ||
       reference.migrationSha256 !== sourceHash ||
       !/^[a-f0-9]{64}$/.test(reference.profileSha256)
     )

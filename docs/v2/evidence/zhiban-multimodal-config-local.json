@@ -1,0 +1,32 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "scope": "OFFLINE_CONFIGURATION_ONLY_NO_PROVIDER_CALLS",
+  "configSha256": "27b86ca39721e67eef4abe1ca6351ca1ac6e4bda9b68761c366064ba7572af42",
+  "services": {
+    "image": {
+      "state": "DISABLED",
+      "realCallVerified": false
+    },
+    "video": {
+      "state": "DISABLED",
+      "realCallVerified": false
+    },
+    "tts": {
+      "state": "DISABLED",
+      "realCallVerified": false
+    },
+    "asr": {
+      "state": "DISABLED",
+      "realCallVerified": false
+    },
+    "document": {
+      "state": "DISABLED",
+      "realCallVerified": false
+    }
+  },
+  "localExtractors": [
+    "plain-text",
+    "unpdf"
+  ],
+  "realExternalServicesVerified": false
+}

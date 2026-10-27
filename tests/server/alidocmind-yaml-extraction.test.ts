@@ -2,7 +2,13 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { DocumentExtractorInput, DocumentExtractorProvider } from '@/lib/document';
 
-// Only server-providers.yml is faked; every other file read is real.
+// Legacy-only fixture: the operator's private deployment file is outside this test.
+vi.mock('@/lib/server/model-config/openmaic-yml', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@/lib/server/model-config/openmaic-yml')>()),
+  loadModelConfigFile: () => null,
+}));
+
+// Only server-providers.yml is faked; other file reads stay real.
 const yaml = vi.hoisted(() => ({ content: null as string | null }));
 vi.mock('fs', async (importOriginal) => {
   const actual = await importOriginal<typeof import('fs')>();
@@ -17,13 +23,18 @@ vi.mock('fs', async (importOriginal) => {
 const DOCX = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
 
 describe('YAML-only AliDocMind for classroom materials', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     vi.resetModules();
     for (const key of ['ALIDOCMIND_ACCESS_KEY_ID', 'ALIDOCMIND_ACCESS_KEY_SECRET']) {
       vi.stubEnv(key, '');
     }
     yaml.content = 'pdf:\n  alidocmind:\n    accessKeyId: yaml-ak\n    accessKeySecret: yaml-sk\n';
-  });
+    // Cold module loading is fixture work, separate from extraction assertions.
+    await Promise.all([
+      import('@/lib/server/material-extraction/availability'),
+      import('@/lib/server/material-extraction/extract'),
+    ]);
+  }, 30000);
 
   it('is advertised as extractable and extraction receives the managed key pair', async () => {
     const { resolveExtractableMimeTypes } =

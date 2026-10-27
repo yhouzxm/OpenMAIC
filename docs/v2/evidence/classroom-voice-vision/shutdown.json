@@ -1,0 +1,11 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "SCHEDULED_AND_CONFIRMED",
+  "at": "2026-10-26T16:21:07.309Z",
+  "confirmation": "Shutdown scheduled for Tue 2026-10-27 00:21:57 CST, use 'shutdown -c' to cancel.",
+  "requestedByUser": true,
+  "ownedRuntimeStopped": true,
+  "backupsVerified": true,
+  "notPhysicalPowerOffObservation": true
+}

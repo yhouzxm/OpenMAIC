@@ -1,3 +1,13 @@
+> 旧DOC／PPT／XLS已接本地隔离转换与现有解析；可在资料与多模态服务核对正文、新建课件并沿原流程采用发布。详见[旧Office交付](docs/v2/zhiban-v2-legacy-office-local.md)。
+
+> 服务更新：豆包TTS、现代Office及OCR已完成本地真实验收；模型开通后的Seedance视频生成／发布／播放也已通过。配置和证据见[服务收口说明](docs/v2/zhiban-v2-service-provider-final-local.md)。
+
+> 2026-10-26 音视频解析补验完成：FFmpeg／ffprobe已安装，短音频和36秒视频的真实转写、关键帧入库及教师正文展示通过；现有1MiB原始资料限额保持。详见[已有服务验收](docs/v2/zhiban-v2-service-provider-acceptance-local.md)。
+
+> **2026-10-26 服务增量：**默认主机已启用智谱图像生成与ASR；TTS因真实429保持关闭。服务配置、实际验收与剩余解析／视频依赖见[集中接入记录](docs/v2/zhiban-v2-service-provider-acceptance-local.md)。本轮源增量独立记录，P7归档8f09fd093eba保持旧冻结范围。
+
+> **2026-10-26 P7统一版：**近期原生课堂／PBL／归档、多模态、服务中心及可信结果已一次纳入[统一持久化交付](docs/v2/zhiban-v2-p7-handoff.md)，仍用原账号和3461。独立源码／安装包与私有恢复分开；实际版本和集中边界认本轮closeout。
+
 > **2026-10-24 默认入口更新：**`pnpm trial:zhiban` 已支持持久化恢复，停止会保存三库及账号；旧的“停止即删除、重启换账号”只适用于显式 disposable 入口。见 [当前交接](docs/v2/zhiban-v2-p7-handoff.md) 与 [恢复说明](docs/v2/zhiban-v2-persistent-local.md)。
 
 # 智伴 V2 统一试用
@@ -54,3 +64,19 @@ node scripts/zhiban-handoff.cjs status # 版本、运行／外部依赖边界；
 **自动实验：服务端模拟**：新增独立演示课程，教师在“教案与实验”按固定教案开课；学生修改参数→运行→比较已保存结果→填写结论→提交，教师沿原评分发布。首包为直流欧姆定律和RC充电，来源明确为服务端计算模拟，非设备实测。原账号与旧课程保留，演示不预填作答或成绩；入口和证据见[完整包](docs/v2/zhiban-v2-simulation-local.md)。
 
 独立安装／换机恢复工具：`node scripts/zhiban-portable.cjs doctor`，完整命令和私有交付边界见 [安装恢复指南](docs/v2/zhiban-v2-portable-install-local.md)。本机隔离验收不等于第二台机器已验。
+
+**原生 AI 课堂：**教师／学生进入课程「讲义与图片」，打开已发布的完整原生课件，点击「进入原生 AI 课堂」。任教教师须先启用该发布版本；新发布版本默认关闭。复用原生播放、问答、白板、多角色圆桌与个人自测／历史，原账号和数据保留。真实双角色模型与白板／刷新恢复已完成 LOCAL 验证；语音服务未配置，个人练习不自动计正式完成或成绩。见[本包与证据](docs/v2/zhiban-v2-native-ai-classroom-local.md)。
+
+**原生自主 PBL：**在含 PBL 场景的已发布完整课件内进入原生 AI 课堂；教师单独开启「自主 PBL」，学生可完成导师交流、文字成果、任务评价、本人完成确认与报告，也可进入情境角色扮演。本人进度按发布版本保存，沿用原账号；小组共同提交仍走课程 PBL，AI 练习评价不直接记正式成绩。当前入口、真实模型及故障证据见[自主 PBL 产品包](docs/v2/zhiban-v2-native-autonomous-pbl-local.md)。
+
+**原生全格式归档／恢复：**教师从原生备课工作台或固定已发布课件进入「课件归档与恢复」，可下载 MAIC、PPTX、互动资源 ZIP、离线 HTML、Markdown／DOCX 讲稿。MAIC／PPTX 经可信扫描恢复为本人新的编辑副本，另行采用发布；不携带学生历史，PPTX 恢复为静态页。格式范围、限额与证据见[产品包](docs/v2/zhiban-v2-native-archive-local.md)，实验 MP4 未启用。
+
+**资料与多模态服务：**原生备课工作台点击「资料与多模态服务」，可扫描上传、查看抽取正文、重试／删除资料，或导入已有图片／音视频创建新课件并采用发布。图像／视频生成、TTS／ASR入口按主机配置开放，最近请求可查证；本机服务仍关闭，不能冒称真实生成成功。配置检查、限额与LOCAL验证范围见[整包说明](docs/v2/zhiban-v2-materials-multimodal-local.md)。
+
+管理员教务侧栏新增「服务与运行中心」：服务状态／配置、教学模型分配、已保存提供者连接检查、本空间 AI 用量及分页变更记录。部署锁定项只读；真实未配置服务不显示为已验收。详见 docs/v2/zhiban-v2-admin-service-center-local.md。
+
+**完整课堂与可信结果：**课程侧栏「课堂成果与共享结果」已接教师固定场景要求、学生原生 Quiz／自主 PBL → 核验／明确提交 → 原人工评分／成绩及完成规则回看；另可发布／撤回教师课堂小结与本人板书文字，课程 Tutor 可受限读取／检索固定资料。默认原课程保留真实 PBL、92/100 及 90% 原规则达标示例，原账号不变。详见[本包与证据边界](docs/v2/zhiban-v2-classroom-trusted-results-local.md)。旧 Native 维护／真实仪器仍隔离，当前模型不支持视觉、外部语音等服务仍待配置。
+
+## 可选：整课视频与教师课堂共享
+
+首次准备 `pnpm trial:zhiban:render:prepare`，然后用 `pnpm trial:zhiban:live --upgrade-local` 接续当前 LOCAL 快照；后续源码一致可省略升级参数。原默认启动不自动跑渲染或专项验收。教师在「归档与恢复」生成／下载 MP4，在已启用的「原生 AI 课堂」开启公开状态共享，学生主动选择跟随。正常停止仍用 `pnpm trial:zhiban:stop`。完整范围及临时文件／私有状态边界见 [本包说明](docs/v2/zhiban-v2-course-video-sharing-local.md)。

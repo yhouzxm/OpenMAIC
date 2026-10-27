@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "postgresMajor": 18,
+  "cut": "POSTMASTER_READY_BEFORE_HTTPS_READY",
+  "failedGenerationReplay": "REJECTED",
+  "boundHostExited": true,
+  "boundPostmasterStopped": true,
+  "ownedRootRemoved": true,
+  "snapshotIssued": false
+}

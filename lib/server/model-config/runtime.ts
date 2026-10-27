@@ -86,6 +86,12 @@ export function requestMayChoose(
 
 type WorkspaceLayerLoader = (ownerId: string) => Promise<ModelConfigLayer | null>;
 let loadWorkspace: WorkspaceLayerLoader | undefined;
+let hostWorkspace: ((owner: string) => Promise<ModelConfigLayer | null | undefined>) | undefined;
+/** Host-provided, request-scoped workspace defaults. Undefined delegates to native persistence. */
+export function configureHostWorkspaceLayer(loader: NonNullable<typeof hostWorkspace>) {
+  if (hostWorkspace) throw Error('Host workspace layer already configured');
+  hostWorkspace = loader;
+}
 
 /** Replace how workspace settings are read; undefined restores the database. */
 export function setWorkspaceLayerLoaderForTests(loader?: WorkspaceLayerLoader): void {
@@ -100,6 +106,7 @@ export function setWorkspaceLayerLoaderForTests(loader?: WorkspaceLayerLoader): 
  * (canonicalizeStoredOwner) instead.
  */
 export async function workspaceLayer(ownerId: string): Promise<ModelConfigLayer | null> {
+  if (hostWorkspace) { const layer = await hostWorkspace(ownerId); if (layer !== undefined) return layer; }
   const databaseUrl = process.env.DATABASE_URL?.trim();
   if (!databaseUrl) return null;
   const [{ getServerPersistenceProvider }, { readWorkspaceModelConfig }] = await Promise.all([

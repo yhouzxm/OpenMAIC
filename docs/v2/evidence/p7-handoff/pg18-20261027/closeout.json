@@ -1,0 +1,55 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "recordedAt": "2026-10-26T22:53:01.312024+00:00",
+  "status": "LOCAL_INSTALL_AND_DATA_RECOVERY_PASS_PG18_APPLICATION_BLOCKED",
+  "branch": "refactor/zhiban-v2",
+  "baselineHead": "093b4a69af96626010d9104c50d680d9b9dc1928",
+  "dirtyCandidatePreserved": true,
+  "sourceDigest": "a4231ad1eb1d30a40a2532e172b127e2c469f7cda24fc9884496dc7268ff5cab",
+  "completed": [
+    "Current source kit independently installed offline with frozen pnpm dependencies and SDK postinstall build",
+    "Real PG16 to PG18 logical migration of three databases; data/catalog/role/grantor/ACL/RLS/sequence comparison",
+    "Fresh PG18 backup and independent PG18 restore/restart; 270 table inventories and 96 private host files compared",
+    "Real PG18 Identity login/spaces/CSRF/logout checks for ADMIN/TEACHER/STUDENT through original composition and HTTP facade",
+    "Fresh installed PG16 fallback: real HTTPS certificate validation, three-role workspaces and existing grade/proof/completion/image readback",
+    "Real restore failure cuts and interrupted-target refusal; all owned processes stopped and fallback snapshot verified"
+  ],
+  "applicationPg18": {
+    "status": "BLOCKED_BY_FROZEN_PG16_PROVIDER_CONTRACT",
+    "activated": false,
+    "networkPagesOrFullClassroomAccepted": false,
+    "reason": "Existing host/content loader and provider receipt/catalog fingerprints require PG16. PG18 NOT NULL catalog entries, owner MAINTAIN and CHECK renderings differ. Recovery comparator is not a provider verifier.",
+    "gates": [
+      "lib/zhiban/infrastructure/openmaic/root.ts",
+      "scripts/zhiban-local/content-receipt.ts",
+      "scripts/zhiban-local/trial-content.ts",
+      "scripts/zhiban-local/persistent-snapshot.ts",
+      "scripts/zhiban-local/verify-m6-catalog.mts"
+    ]
+  },
+  "excludedClaims": [
+    "No Alibaba host, SSH, public domain TLS, systemd application service or production release cutover accepted",
+    "PG16 fallback browser evidence does not prove PG18 whole application compatibility",
+    "Original receipts not reissued for PG18; no frozen identity/auth semantics or applied migrations changed",
+    "No new Native authority or UNKNOWN/RESERVED activation",
+    "No Git commit, push, CI dispatch, repeated model/multimodal acceptance or shutdown"
+  ],
+  "nextWholePackage": "Versioned PG18 catalog/ACL reference, installer/receipt/loader and host lifecycle; real full host start, three-role teaching/readback and revoke/restore checks; keep frozen PG16 entry intact",
+  "recommendedModel": "GPT-6.1 Sol / high",
+  "guide": "../../../zhiban-v2-ubuntu-pg18-local.md",
+  "receipts": [
+    "artifacts.json",
+    "environment.json",
+    "source-current-verify.json",
+    "application-probe.json",
+    "durability.json",
+    "negative.json",
+    "fallback-readback.json",
+    "lifecycle.json",
+    "checks.json",
+    "source-hashes.json",
+    "unit.tap"
+  ],
+  "priorEvidenceBoundary": "Historical remote run 40096542805 applies only to its original frozen source. This current source and all new acceptance are LOCAL."
+}

@@ -7,6 +7,8 @@ export interface FileClearanceEvidence {
 export interface SubmissionFileClearance {
   readonly mode: 'LOCAL_SYNTHETIC_PINNED' | 'TRUSTED_SCANNER';
   check(attachment: SubmissionAttachment): Promise<FileClearanceEvidence | null>;
+  /** Separate teacher archive profile; does not enlarge formal submission limits. */
+  checkArchive?(attachment: SubmissionAttachment): Promise<FileClearanceEvidence | null>;
 }
 export interface SubmissionFileAssetPort {
   read(tenant: string, submission: string, file?: string): Promise<Record<string, unknown>[]>;

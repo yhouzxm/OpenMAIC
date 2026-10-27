@@ -84,6 +84,7 @@ export async function buildNativeAuthoring() {
       'process.env.NEXT_PUBLIC_MAIC_EDITOR_ENABLED': '"true"',
       'process.env.NEXT_PUBLIC_MAIC_EDITOR_RENDERER_ENABLED': '"true"',
       'process.env.NEXT_PUBLIC_MAIC_PLAYBACK_RENDERER_ENABLED': '"true"',
+      'process.env.NEXT_PUBLIC_COURSEWARE_REFERENCE_ENABLED': '"true"',
     },
     loader: { '.woff': 'file', '.woff2': 'file', '.ttf': 'file', '.png': 'file', '.svg': 'file' },
     assetNames: 'native-assets/[name]-[hash]',
@@ -95,6 +96,29 @@ export async function buildNativeAuthoring() {
     outfile: 'app/zhiban/local/native-workbench.bundle.js',
   });
   const results = [workspace];
+  results.push(await build({...common,entryPoints:['app/zhiban/local/course-results.tsx'],outfile:'app/zhiban/local/course-results.bundle.js'}));
+  results.push(await build({...common, entryPoints:['app/zhiban/local/admin-services.tsx'],outfile:'app/zhiban/local/admin-services.bundle.js'}));
+  results.push(
+    await build({
+      ...common,
+      entryPoints: ['app/zhiban/local/native-services.tsx'],
+      outfile: 'app/zhiban/local/native-services.bundle.js',
+    }),
+  );
+  results.push(
+    await build({
+      ...common,
+      entryPoints: ['app/zhiban/local/native-archive.tsx'],
+      outfile: 'app/zhiban/local/native-archive.bundle.js',
+    }),
+  );
+  results.push(
+    await build({
+      ...common,
+      entryPoints: ['app/zhiban/local/native-classroom.tsx'],
+      outfile: 'app/zhiban/local/native-classroom.bundle.js',
+    }),
+  );
   for (const name of ['native-review', 'native-published'])
     results.push(
       await build({

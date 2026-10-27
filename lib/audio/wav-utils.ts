@@ -1,5 +1,7 @@
 'use client';
 
+import { isGlmAsr, validateClassroomWav } from './asr-input-policy';
+
 function writeAscii(view: DataView, offset: number, value: string): void {
   for (let i = 0; i < value.length; i++) {
     view.setUint8(offset + i, value.charCodeAt(i));
@@ -76,7 +78,13 @@ export async function audioBlobToWav(blob: Blob): Promise<Blob> {
 export async function normalizeASRUploadAudio(
   providerId: string,
   audioBlob: Blob,
+  modelId?: string,
 ): Promise<{ blob: Blob; fileName: string }> {
+  if (isGlmAsr(providerId, modelId)) {
+    const blob = await audioBlobToWav(audioBlob);
+    validateClassroomWav(new Uint8Array(await blob.arrayBuffer()));
+    return { blob, fileName: 'recording.wav' };
+  }
   if (providerId !== 'lemonade-asr' && providerId !== 'funasr-asr') {
     return { blob: audioBlob, fileName: 'recording.webm' };
   }

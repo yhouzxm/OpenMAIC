@@ -1,4 +1,20 @@
+import { verifyPg18Boundaries } from '../zhiban-deploy/verify-pg18-boundaries';
+import {
+  localPgMajor,
+  localPgBin,
+  pg18Origin,
+  pg18Reference,
+  executionEvidence,
+} from './pg-version';
+import { verifyCourseResults } from './verify-course-results';
+import { CourseResultsService } from '../../lib/zhiban/infrastructure/course-results/service';
+import { courseResultsHttp } from '../../lib/zhiban/infrastructure/course-results/http';
+import { verifyServiceCenter } from './verify-service-center';
+import { initializeServiceCenter } from '../../lib/zhiban/infrastructure/service-center/config';
+import { ServiceCenter } from '../../lib/zhiban/infrastructure/service-center/service';
+import { serviceCenterHttp } from '../../lib/zhiban/infrastructure/service-center/http';
 import { authoringHttp } from '../../lib/zhiban/infrastructure/authoring/http';
+import { classroomAiHttp } from '../../lib/zhiban/infrastructure/classroom-ai/http';
 import { createStartupDiagnostics } from '../zhiban-ci/startup-diagnostics.cjs';
 const startup = createStartupDiagnostics('HOST');
 process.on('uncaughtExceptionMonitor', (error) => startup.fail(error));
@@ -114,13 +130,28 @@ const interactiveFocus = process.argv.includes('--interactive-focus');
 import { verifyNativePlayer } from './verify-native-player';
 import { verifyNativeClassroom } from './verify-native-classroom';
 import { verifyNativeAuthoring } from './verify-native-authoring';
+import { verifyClassroomAi } from './verify-classroom-ai';
+import { verifyCourseLive } from './verify-course-live';
+const pg18Acceptance = process.argv.includes('--pg18-acceptance');
+const courseLiveFocus = process.argv.includes('--course-live-focus');
+import { verifyNativePbl } from './verify-native-pbl';
+import { verifyMultimodal } from './verify-multimodal';
+const courseResultsFocus = process.argv.includes('--course-results-focus');
+const serviceCenterFocus = process.argv.includes('--service-center-focus');
+const multimodalFocus = process.argv.includes('--multimodal-focus');
+import { verifyNativeArchive } from './verify-native-archive';
+const nativeArchiveFocus = process.argv.includes('--native-archive-focus');
+const nativePblFocus = process.argv.includes('--native-pbl-focus');
 const authoringFocus = process.argv.includes('--authoring-focus');
+const classroomAiFocus = process.argv.includes('--classroom-ai-focus');
 const nativeClassroomFocus = process.argv.includes('--native-classroom-focus');
 const playerFocus = process.argv.includes('--native-player-focus') || nativeClassroomFocus;
 import { verifyLesson } from './verify-lesson';
 const productFocus = process.argv.includes('--lesson-product-focus');
 const lessonFocus = productFocus || process.argv.includes('--lesson-focus');
 const directedFocus =
+  pg18Acceptance ||
+  classroomAiFocus ||
   authoringFocus ||
   attainmentFocus ||
   emaFocus ||
@@ -216,7 +247,7 @@ import { mkdtemp, mkdir, readFile, readdir, writeFile, rm } from 'node:fs/promis
 import { tmpdir } from 'node:os';
 import { resolve, join } from 'node:path';
 import { execFileSync } from 'node:child_process';
-import { createHash, randomBytes } from 'node:crypto';
+import { X509Certificate, createHash, randomBytes } from 'node:crypto';
 import { createServer, request as httpsRequest } from 'node:https';
 import { Pool } from 'pg';
 import { v7 } from 'uuid';
@@ -290,137 +321,157 @@ const serve = process.argv.includes('--serve'),
     rosterTrial ||
     uatFixes ||
     process.argv.includes('--trial'),
-  evidenceName = authoringFocus
-    ? 'zhiban-native-authoring'
-    : attainmentFocus
-      ? 'zhiban-attainment'
-      : emaFocus
-        ? 'zhiban-ema'
-        : pblFocus
-          ? 'zhiban-pbl'
-          : flowFocus
-            ? simulationFocus
-              ? 'zhiban-simulation'
-              : 'zhiban-flow'
-            : resourcesFocus
-              ? process.argv.includes('--resources-browser-continuation')
-                ? 'zhiban-resources-bundle-continuation'
-                : 'zhiban-resources-bundle'
-              : avatarFocus
-                ? 'zhiban-avatar'
-                : gradebookExportFocus
-                  ? 'zhiban-gradebook-export'
-                  : importsFocus
-                    ? 'zhiban-imports'
-                    : loginIdentifiersFocus
-                      ? 'zhiban-login-identifiers'
-                      : accountStatusFocus
-                        ? 'zhiban-account-status'
-                        : onboardingFocus
-                          ? 'zhiban-onboarding'
-                          : tutorFocus
-                            ? 'zhiban-tutor'
-                            : learnerFocus
-                              ? 'zhiban-learner'
-                              : conceptFocus
-                                ? 'zhiban-concept'
-                                : riskFocus
-                                  ? 'zhiban-risk'
-                                  : remediationFocus
-                                    ? 'zhiban-remediation'
-                                    : remindersFocus
-                                      ? 'zhiban-reminders'
-                                      : casesFocus
-                                        ? 'zhiban-followup-cases'
-                                        : followupsFocus
-                                          ? 'zhiban-teacher-followups'
-                                          : resultsFocus
-                                            ? 'zhiban-classroom-results'
-                                            : jointFocus
-                                              ? 'zhiban-joint-classroom'
-                                              : attemptRuntimeFocus
-                                                ? 'zhiban-attempt-runtime'
-                                                : interactiveFocus
-                                                  ? 'zhiban-interactive'
-                                                  : playerFocus
-                                                    ? nativeClassroomFocus
-                                                      ? 'zhiban-native-classroom'
-                                                      : 'zhiban-native-player'
-                                                    : productFocus
-                                                      ? 'zhiban-lesson-product'
-                                                      : lessonFocus
-                                                        ? 'zhiban-ai-lesson'
-                                                        : unifiedTrial
-                                                          ? 'zhiban-trial-content'
-                                                          : trustedFiles
-                                                            ? 'zhiban-trusted-files'
-                                                            : attachments
-                                                              ? 'zhiban-submission-files'
-                                                              : gradebookCsv
-                                                                ? 'zhiban-gradebook-csv'
-                                                                : gradebook
-                                                                  ? 'zhiban-gradebook'
-                                                                  : classroomEdit
-                                                                    ? 'zhiban-classroom-edit'
-                                                                    : sharedClassroom
-                                                                      ? 'zhiban-shared-classroom'
-                                                                      : trialContent
-                                                                        ? 'zhiban-trial-content'
-                                                                        : classroomFixes
-                                                                          ? 'zhiban-classroom-fixes'
-                                                                          : rosterTrial
-                                                                            ? 'zhiban-trial-roster-fixes'
-                                                                            : uatRound2
-                                                                              ? 'zhiban-trial-uat2-fixes'
-                                                                              : uatFixes
-                                                                                ? 'zhiban-uat-fixes'
-                                                                                : trial
-                                                                                  ? 'zhiban-trial'
-                                                                                  : history
-                                                                                    ? 'm6-management-history'
-                                                                                    : courseOwner
-                                                                                      ? 'm6-course-owner'
-                                                                                      : adminWorkspace
-                                                                                        ? 'm6-admin-workspace'
-                                                                                        : 'm6-catalog',
+  evidenceName =
+    localPgMajor === 18
+      ? 'zhiban-pg18'
+      : courseLiveFocus
+        ? 'zhiban-course-live'
+        : courseResultsFocus
+          ? 'zhiban-course-results-harness'
+          : serviceCenterFocus
+            ? 'zhiban-service-center-harness'
+            : multimodalFocus
+              ? 'zhiban-multimodal'
+              : nativeArchiveFocus
+                ? 'zhiban-native-archive'
+                : nativePblFocus
+                  ? 'zhiban-native-pbl'
+                  : classroomAiFocus
+                    ? 'zhiban-classroom-ai'
+                    : authoringFocus
+                      ? 'zhiban-native-authoring'
+                      : attainmentFocus
+                        ? 'zhiban-attainment'
+                        : emaFocus
+                          ? 'zhiban-ema'
+                          : pblFocus
+                            ? 'zhiban-pbl'
+                            : flowFocus
+                              ? simulationFocus
+                                ? 'zhiban-simulation'
+                                : 'zhiban-flow'
+                              : resourcesFocus
+                                ? process.argv.includes('--resources-browser-continuation')
+                                  ? 'zhiban-resources-bundle-continuation'
+                                  : 'zhiban-resources-bundle'
+                                : avatarFocus
+                                  ? 'zhiban-avatar'
+                                  : gradebookExportFocus
+                                    ? 'zhiban-gradebook-export'
+                                    : importsFocus
+                                      ? 'zhiban-imports'
+                                      : loginIdentifiersFocus
+                                        ? 'zhiban-login-identifiers'
+                                        : accountStatusFocus
+                                          ? 'zhiban-account-status'
+                                          : onboardingFocus
+                                            ? 'zhiban-onboarding'
+                                            : tutorFocus
+                                              ? 'zhiban-tutor'
+                                              : learnerFocus
+                                                ? 'zhiban-learner'
+                                                : conceptFocus
+                                                  ? 'zhiban-concept'
+                                                  : riskFocus
+                                                    ? 'zhiban-risk'
+                                                    : remediationFocus
+                                                      ? 'zhiban-remediation'
+                                                      : remindersFocus
+                                                        ? 'zhiban-reminders'
+                                                        : casesFocus
+                                                          ? 'zhiban-followup-cases'
+                                                          : followupsFocus
+                                                            ? 'zhiban-teacher-followups'
+                                                            : resultsFocus
+                                                              ? 'zhiban-classroom-results'
+                                                              : jointFocus
+                                                                ? 'zhiban-joint-classroom'
+                                                                : attemptRuntimeFocus
+                                                                  ? 'zhiban-attempt-runtime'
+                                                                  : interactiveFocus
+                                                                    ? 'zhiban-interactive'
+                                                                    : playerFocus
+                                                                      ? nativeClassroomFocus
+                                                                        ? 'zhiban-native-classroom'
+                                                                        : 'zhiban-native-player'
+                                                                      : productFocus
+                                                                        ? 'zhiban-lesson-product'
+                                                                        : lessonFocus
+                                                                          ? 'zhiban-ai-lesson'
+                                                                          : unifiedTrial
+                                                                            ? 'zhiban-trial-content'
+                                                                            : trustedFiles
+                                                                              ? 'zhiban-trusted-files'
+                                                                              : attachments
+                                                                                ? 'zhiban-submission-files'
+                                                                                : gradebookCsv
+                                                                                  ? 'zhiban-gradebook-csv'
+                                                                                  : gradebook
+                                                                                    ? 'zhiban-gradebook'
+                                                                                    : classroomEdit
+                                                                                      ? 'zhiban-classroom-edit'
+                                                                                      : sharedClassroom
+                                                                                        ? 'zhiban-shared-classroom'
+                                                                                        : trialContent
+                                                                                          ? 'zhiban-trial-content'
+                                                                                          : classroomFixes
+                                                                                            ? 'zhiban-classroom-fixes'
+                                                                                            : rosterTrial
+                                                                                              ? 'zhiban-trial-roster-fixes'
+                                                                                              : uatRound2
+                                                                                                ? 'zhiban-trial-uat2-fixes'
+                                                                                                : uatFixes
+                                                                                                  ? 'zhiban-uat-fixes'
+                                                                                                  : trial
+                                                                                                    ? 'zhiban-trial'
+                                                                                                    : history
+                                                                                                      ? 'm6-management-history'
+                                                                                                      : courseOwner
+                                                                                                        ? 'm6-course-owner'
+                                                                                                        : adminWorkspace
+                                                                                                          ? 'm6-admin-workspace'
+                                                                                                          : 'm6-catalog',
   httpsPort =
-    authoringFocus ||
-    attainmentFocus ||
-    emaFocus ||
-    pblFocus ||
-    resourcesFocus ||
-    nativeClassroomFocus ||
-    simulationFocus
-      ? 3468
-      : unifiedTrial
-        ? 3461
-        : trustedFiles
-          ? 3467
-          : attachments
-            ? 3466
-            : gradebookCsv
-              ? 3465
-              : gradebook
-                ? 3464
-                : classroomEdit
-                  ? 3463
-                  : sharedClassroom
-                    ? 3462
-                    : trialContent
-                      ? 3461
-                      : uatFixes || rosterTrial || classroomFixes
-                        ? 3460
-                        : trial
-                          ? 3459
-                          : history
-                            ? 3458
-                            : courseOwner
-                              ? 3457
-                              : adminWorkspace
-                                ? 3453
-                                : 3450;
+    localPgMajor === 18
+      ? 3478
+      : classroomAiFocus ||
+          authoringFocus ||
+          attainmentFocus ||
+          emaFocus ||
+          pblFocus ||
+          resourcesFocus ||
+          nativeClassroomFocus ||
+          simulationFocus
+        ? 3468
+        : unifiedTrial
+          ? 3461
+          : trustedFiles
+            ? 3467
+            : attachments
+              ? 3466
+              : gradebookCsv
+                ? 3465
+                : gradebook
+                  ? 3464
+                  : classroomEdit
+                    ? 3463
+                    : sharedClassroom
+                      ? 3462
+                      : trialContent
+                        ? 3461
+                        : uatFixes || rosterTrial || classroomFixes
+                          ? 3460
+                          : trial
+                            ? 3459
+                            : history
+                              ? 3458
+                              : courseOwner
+                                ? 3457
+                                : adminWorkspace
+                                  ? 3453
+                                  : 3450;
 const root = process.cwd(),
-  bin = '/usr/lib/postgresql/16/bin',
+  bin = localPgBin,
   port = unifiedTrial
     ? 56517
     : trustedFiles
@@ -487,6 +538,42 @@ const owned =
     (await mkdtemp(join(tmpdir(), (unifiedTrial ? 'zhiban-trial-content' : evidenceName) + '-'))),
   data = join(owned, 'data'),
   socket = join(owned, 'socket');
+if (serviceCenterFocus) {
+  if (restored || persistent)
+    throw Error('Service-center verification requires a fresh disposable environment');
+  const fixture = join(owned, 'service-center-fixture.json');
+  await writeFile(
+    fixture,
+    JSON.stringify({
+      providers: {},
+      slots: { llm: null, image: null, video: null, tts: null, asr: null, document: null },
+      allowUserKeys: true,
+    }),
+    { mode: 0o600 },
+  );
+  process.env.OPENMAIC_CONFIG = fixture;
+}
+if (localPgMajor === 18 && process.env.ZHIBAN_LOCAL_STATE) {
+  await privateEntry(process.env.ZHIBAN_LOCAL_STATE, true);
+  await writeFile(
+    join(process.env.ZHIBAN_LOCAL_STATE, 'RUNTIME.json'),
+    JSON.stringify({
+      kind: 'PG18_OWNED_RUNTIME_V1',
+      root: owned,
+      socket,
+      port,
+      major: 18,
+      pid: process.pid,
+      processStart: (await readFile(`/proc/${process.pid}/stat`, 'utf8'))
+        .split(') ')[1]
+        .trim()
+        .split(/\s+/)[19],
+      build: process.argv[1],
+      buildSha256: hash(await readFile(process.argv[1])),
+    }),
+    { mode: 0o600 },
+  );
+}
 const all: Pool[] = [],
   checks: string[] = [],
   sourceHashes: Record<string, string> = {};
@@ -504,8 +591,9 @@ const pool = (user = 'postgres', db = database) => {
   return p;
 };
 const record = (s: string) => {
-  checks.push(s);
-  console.log('PASS', s);
+  const label = localPgMajor === 18 ? s.replaceAll('PG16', 'PG18') : s;
+  checks.push(label);
+  console.log('PASS', label);
 };
 const lessonCleanups: (() => Promise<void>)[] = [];
 let lessonHost: Awaited<ReturnType<typeof installLesson>> | null = null;
@@ -532,7 +620,7 @@ async function main() {
         if (
           c.kind !== 'LOCAL_SYNTHETIC_MEMBER_CONTROL' ||
           c.authority.root !== owned ||
-          c.composition.origin !== 'https://127.0.0.1:3461'
+          c.composition.origin !== (localPgMajor === 18 ? pg18Origin : 'https://127.0.0.1:3461')
         )
           throw Error('Restored control binding rejected');
         return c;
@@ -575,7 +663,11 @@ async function main() {
   if (!restored) {
     await master.query(`CREATE DATABASE ${database}`);
     for (const f of ['bootstrap-roles.pg16.sql', 'bootstrap-bridge-roles.pg16.sql']) {
-      const file = resolve('lib/zhiban/infrastructure/identity/postgres', f);
+      const file = resolve(
+        localPgMajor === 18
+          ? 'docs/v2/candidates/pg18-provider-v1/' + f.replace('pg16', 'pg18')
+          : 'lib/zhiban/infrastructure/identity/postgres/' + f,
+      );
       sourceHashes[file] = hash(await readFile(file));
       execFileSync(
         join(bin, 'psql'),
@@ -601,7 +693,8 @@ async function main() {
   startup.enter('DB_VERSION');
   const admin = pool();
   pg = Number((await admin.query("SELECT current_setting('server_version_num') AS v")).rows[0].v);
-  assert.ok(pg >= 160000 && pg < 170000);
+  assert.ok(pg >= localPgMajor * 10000 && pg < (localPgMajor + 1) * 10000);
+  if (localPgMajor === 18) await pg18Reference();
   if (unifiedTrial && (!restored || process.argv.includes('--upgrade-local'))) {
     startup.enter('LOCAL_DB_BOOTSTRAP');
     const bootstrap = resolve('scripts/zhiban-local/autograde-bootstrap.sql');
@@ -1139,21 +1232,24 @@ async function main() {
   if (unifiedTrial) assert.equal(discussionEnabled, true);
   const materialEnabled = unifiedTrial && (await loadMaterial(businessPool));
   if (unifiedTrial) assert.equal(materialEnabled, true);
-  const scanner = trustedFiles
-    ? await loadClamAv(
-        process.env.ZHIBAN_SCANNER_PROFILE ?? '',
-        process.env.ZHIBAN_SCANNER_PROFILE_SHA256 ?? '',
-      ).catch((error) => {
-        if ((!serve && !loginIdentifiersFocus && !importsFocus && !avatarFocus) || !unifiedTrial)
-          throw error;
-        console.log(
-          'LOCAL scanner unavailable: new attachment/material uploads remain closed; account and ordinary teaching pages continue. Existing scanner pins were not changed.',
-        );
-        return null;
-      })
-    : attachments
-      ? syntheticSubmissionFileClearance
-      : null;
+  const scanner =
+    trustedFiles && (localPgMajor === 16 || Boolean(process.env.ZHIBAN_SCANNER_PROFILE))
+      ? await loadClamAv(
+          process.env.ZHIBAN_SCANNER_PROFILE ?? '',
+          process.env.ZHIBAN_SCANNER_PROFILE_SHA256 ?? '',
+        ).catch((error) => {
+          if ((!serve && !loginIdentifiersFocus && !importsFocus && !avatarFocus) || !unifiedTrial)
+            throw error;
+          console.log(
+            'LOCAL scanner unavailable: new attachment/material uploads remain closed; account and ordinary teaching pages continue. Existing scanner pins were not changed.',
+          );
+          return null;
+        })
+      : localPgMajor === 18 && trustedFiles
+        ? null
+        : attachments
+          ? syntheticSubmissionFileClearance
+          : null;
   const httpMaterial = createMaterialHttp(
     new MaterialService(store, scanner, await loadMaterialParserProfile()),
     composition.security,
@@ -1362,6 +1458,28 @@ async function main() {
         socket,
       })
     : null;
+  if (localPgMajor === 18 && pg18Acceptance && contentInstallation) {
+    const bounded = (user: string, db = database) => {
+      const p = new Pool({
+        host: socket,
+        port,
+        user,
+        database: db,
+        max: 2,
+        connectionTimeoutMillis: 1000,
+      });
+      all.push(p);
+      return p;
+    };
+    await verifyPg18Boundaries({
+      admin,
+      bridge: bounded('zhiban_bridge_runtime'),
+      native: bounded('zhiban_openmaic_runtime', contentInstallation.nativeDatabase),
+      composition,
+      receipt: contentInstallation,
+      record,
+    });
+  }
   if (unifiedTrial && contentHost) {
     lessonHost = await installLesson({
       master,
@@ -1394,8 +1512,48 @@ async function main() {
           scanner,
         )
       : null;
+  if (lessonHost) await initializeServiceCenter(lessonHost.authoringPool);
+  const httpServices = lessonHost
+    ? serviceCenterHttp(
+        new ServiceCenter(store, lessonHost.authoringPool),
+        composition.security,
+        origin,
+      )
+    : null;
+  const httpCourseResults =
+    lessonHost && contentHost
+      ? courseResultsHttp(
+          new CourseResultsService(store, lessonHost.authoringPool, contentHost.service),
+          composition.security,
+          origin,
+        )
+      : null;
+  const httpClassroomAi =
+    lessonHost && contentHost
+      ? classroomAiHttp(contentHost.service, lessonHost.authoringPool, composition.security, origin)
+      : null;
   startup.enter('SERVICE_COMPOSITION');
+  let archiveUploads = 0;
   server = createServer({ key, cert: tls, maxHeaderSize: 8192 }, async (incoming, outgoing) => {
+    if (
+      incoming.method === 'POST' &&
+      (incoming.url?.includes('/archive/') || incoming.url?.includes('/media/upload'))
+    ) {
+      if (archiveUploads >= 2) {
+        outgoing.writeHead(503, { 'Cache-Control': 'no-store' });
+        outgoing.end();
+        incoming.resume();
+        return;
+      }
+      archiveUploads++;
+      let released = false;
+      outgoing.once('close', () => {
+        if (!released) {
+          released = true;
+          archiveUploads--;
+        }
+      });
+    }
     const abort = new AbortController();
     outgoing.once('close', () => abort.abort());
     const deadline = setTimeout(
@@ -1403,7 +1561,15 @@ async function main() {
         abort.abort();
         outgoing.destroy();
       },
-      trustedFiles ? 75000 : 10000,
+      incoming.url?.includes('/api/zhiban/service-center/') ||
+        incoming.url?.includes('/api/zhiban/classroom-ai/') ||
+        /\/native\/api\/(generate|transcription)/.test(incoming.url ?? '')
+        ? 360000
+        : incoming.url?.includes('/archive/')
+          ? 180000
+          : trustedFiles
+            ? 75000
+            : 10000,
     );
     outgoing.once('finish', () => clearTimeout(deadline));
     outgoing.once('close', () => clearTimeout(deadline));
@@ -1444,7 +1610,9 @@ async function main() {
         return;
       }
       if (
-        ['/logo-horizontal.png', '/logo.png', '/logo-vertical.png'].includes(url.pathname) ||
+        ['/logo-horizontal.png', '/logo.png', '/logo-vertical.png', '/openmaic-mark.png'].includes(
+          url.pathname,
+        ) ||
         /^\/(logos|avatars|agents|fonts)\/[a-zA-Z0-9_./-]+\.(png|jpg|jpeg|webp|gif|svg|woff2?|ttf)$/.test(
           url.pathname,
         )
@@ -1485,6 +1653,22 @@ async function main() {
         return;
       }
       const assets: Record<string, [string, string]> = {
+        '/zhiban/course-results': ['course-results.html', 'text/html'],
+        '/zhiban/course-results.js': ['course-results.bundle.js', 'text/javascript'],
+        '/zhiban/course-results.css': ['course-results.css', 'text/css'],
+        '/zhiban/admin/services': ['admin-services.html', 'text/html'],
+        '/zhiban/admin-services.js': ['admin-services.bundle.js', 'text/javascript'],
+        '/zhiban/admin-services.css': ['admin-services.css', 'text/css'],
+        '/zhiban/native-services': ['native-services.html', 'text/html'],
+        '/zhiban/native-services.js': ['native-services.bundle.js', 'text/javascript'],
+        '/zhiban/native-services.css': ['native-services.css', 'text/css'],
+        '/zhiban/native-archive': ['native-archive.html', 'text/html'],
+        '/zhiban/native-archive.js': ['native-archive.bundle.js', 'text/javascript'],
+        '/zhiban/native-archive.css': ['native-archive.css', 'text/css'],
+        '/zhiban/native-classroom': ['native-classroom.html', 'text/html'],
+        '/zhiban/native-classroom.css': ['native-classroom.css', 'text/css'],
+        '/zhiban/native-classroom.bundle.js': ['native-classroom.bundle.js', 'text/javascript'],
+        '/zhiban/native-classroom.bundle.css': ['native-classroom.bundle.css', 'text/css'],
         '/zhiban/native-workbench': ['native-workbench.html', 'text/html'],
         '/zhiban/native-workbench.bundle.js': ['native-workbench.bundle.js', 'text/javascript'],
         '/zhiban/native-workbench.bundle.css': ['native-workbench.bundle.css', 'text/css'],
@@ -1533,6 +1717,10 @@ async function main() {
         ...(unifiedTrial
           ? {
               '/zhiban/export-player/player.min.js': ['@export/player.min.js', 'text/javascript'],
+              '/zhiban/export-player/player-charts.min.js': [
+                '@export/player-charts.min.js',
+                'text/javascript',
+              ],
               '/zhiban/export-player/katex-fonts.min.css': [
                 '@export/katex-fonts.min.css',
                 'text/css',
@@ -1647,7 +1835,16 @@ async function main() {
         localCoursePageAsset(url.pathname) ??
         localAdminPageAsset(url.pathname) ??
         url.pathname;
-      const pageAsset = assets[assetKey];
+      const videoVendor =
+        /^\/vendor\/(?:gsap\.min\.js|video-export\/fonts\/[a-zA-Z0-9_.-]+\.woff2)$/.test(assetKey);
+      const pageAsset =
+        assets[assetKey] ??
+        (videoVendor
+          ? [
+              '@video-vendor/' + assetKey.slice(8),
+              assetKey.endsWith('.js') ? 'text/javascript' : 'font/woff2',
+            ]
+          : undefined);
       if (pageAsset) {
         const [file, type] = pageAsset;
         if (incoming.method !== 'GET') {
@@ -1659,28 +1856,44 @@ async function main() {
           'Content-Type': type + '; charset=utf-8',
           'Cache-Control': 'no-store',
           'X-Content-Type-Options': 'nosniff',
-          'Content-Security-Policy': [
+          'Content-Security-Policy':
+            assetKey === '/zhiban/native-archive'
+              ? "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; font-src 'self' data:; media-src 'self' blob: data:; connect-src 'self' data:; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+              : [
+                    '/zhiban/course-results',
+                    '/zhiban/admin/services',
+                    '/zhiban/native-services',
+                    '/zhiban/native-workbench',
+                    '/zhiban/native-archive',
+                    '/zhiban/native-classroom',
+                    '/zhiban/native-published',
+                  ].includes(assetKey)
+                ? "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; font-src 'self' data:; media-src 'self' blob:; connect-src 'self'; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+                : assetKey === '/zhiban/content' && contentHost
+                  ? contentHost.csp
+                  : file === 'profile.html'
+                    ? "default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' data:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"
+                    : "default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'",
+          'Referrer-Policy': [
+            '/zhiban/course-results',
+            '/zhiban/admin/services',
+            '/zhiban/native-services',
             '/zhiban/native-workbench',
+            '/zhiban/native-archive',
             '/zhiban/native-published',
+            '/zhiban/native-classroom',
           ].includes(assetKey)
-            ? "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; font-src 'self' data:; media-src 'self' blob:; connect-src 'self'; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
-            : assetKey === '/zhiban/content' && contentHost
-              ? contentHost.csp
-              : file === 'profile.html'
-                ? "default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' data:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"
-                : "default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'",
-          'Referrer-Policy': ['/zhiban/native-workbench', '/zhiban/native-published'].includes(
-            assetKey,
-          )
             ? 'same-origin'
             : 'no-referrer',
         });
         let bytes = await readFile(
           file === '@content-bundle'
             ? contentHost!.bundlePath
-            : file.startsWith('@export/')
-              ? join(root, 'public/vendor/standalone-player', file.slice(8))
-              : join(root, 'app/zhiban/local', file),
+            : file.startsWith('@video-vendor/')
+              ? join(root, 'public/vendor', file.slice(14))
+              : file.startsWith('@export/')
+                ? join(root, 'public/vendor/standalone-player', file.slice(8))
+                : join(root, 'app/zhiban/local', file),
         );
         if (sharedClassroom && type === 'text/html')
           bytes = Buffer.from(
@@ -1702,23 +1915,27 @@ async function main() {
         size += part.length;
         if (
           size >
-          (url.pathname.startsWith('/api/zhiban/authoring/')
-            ? 33554432
-            : contentHost && /\/assets$/.test(url.pathname) && incoming.method === 'POST'
-              ? 4194304
-              : contentHost && url.pathname.startsWith('/api/zhiban/content/')
-                ? 262144
-                : url.pathname.startsWith('/api/zhiban/flow/') ||
-                    url.pathname.startsWith('/api/zhiban/pbl/')
-                  ? 65536
-                  : url.pathname.startsWith('/api/zhiban/imports/')
-                    ? 131072
-                    : attachments &&
-                        /^\/api\/zhiban\/learning\/[0-9a-f-]{36}\/offerings\/[0-9a-f-]{36}$/.test(
-                          url.pathname,
-                        )
-                      ? 1750000
-                      : 32768)
+          (url.pathname.startsWith('/api/zhiban/classroom-ai/')
+            ? 5242880
+            : url.pathname.startsWith('/api/zhiban/authoring/')
+              ? url.pathname.includes('/archive/')
+                ? 67108864
+                : 33554432
+              : contentHost && /\/assets$/.test(url.pathname) && incoming.method === 'POST'
+                ? 4194304
+                : contentHost && url.pathname.startsWith('/api/zhiban/content/')
+                  ? 262144
+                  : url.pathname.startsWith('/api/zhiban/flow/') ||
+                      url.pathname.startsWith('/api/zhiban/pbl/')
+                    ? 65536
+                    : url.pathname.startsWith('/api/zhiban/imports/')
+                      ? 131072
+                      : attachments &&
+                          /^\/api\/zhiban\/learning\/[0-9a-f-]{36}\/offerings\/[0-9a-f-]{36}$/.test(
+                            url.pathname,
+                          )
+                        ? 1750000
+                        : 32768)
         ) {
           outgoing.writeHead(413);
           outgoing.end();
@@ -1738,90 +1955,104 @@ async function main() {
         ...(!['GET', 'HEAD'].includes(incoming.method ?? '') ? { body: Buffer.concat(parts) } : {}),
       });
       const r =
-        httpNativeAuthoring && url.pathname.startsWith('/api/zhiban/authoring/')
-          ? await httpNativeAuthoring(request)
-          : url.pathname.startsWith('/api/zhiban/attainment/')
-            ? await httpAttainment(request)
-            : httpAutograde && url.pathname.startsWith('/api/zhiban/autograde/')
-              ? await httpAutograde(request)
-              : url.pathname.startsWith('/api/zhiban/ema/')
-                ? await httpEma(request)
-                : url.pathname.startsWith('/api/zhiban/pbl/')
-                  ? await httpPbl(request)
-                  : url.pathname.startsWith('/api/zhiban/flow/')
-                    ? await httpFlow(request)
-                    : contentHost && url.pathname.startsWith('/api/zhiban/content/')
-                      ? await contentHost.http(request)
-                      : url.pathname.startsWith('/api/zhiban/imports/')
-                        ? await httpImports(request)
-                        : url.pathname.startsWith('/api/zhiban/login-identifiers/')
-                          ? await httpLoginIdentifiers(
-                              request,
-                              incoming.socket.remoteAddress ?? 'UNKNOWN',
-                            )
-                          : url.pathname.startsWith('/api/zhiban/materials/')
-                            ? await httpMaterial(request)
-                            : url.pathname.startsWith('/api/zhiban/profile/')
-                              ? await httpProfile(request)
-                              : url.pathname.startsWith('/api/zhiban/workspace/')
-                                ? await httpWorkspace(request)
-                                : url.pathname.startsWith('/api/zhiban/management/')
-                                  ? await httpManagement(request)
-                                  : url.pathname.startsWith('/api/zhiban/directory/')
-                                    ? await httpDirectory(request)
-                                    : url.pathname.startsWith('/api/zhiban/roster/')
-                                      ? await httpRoster(request)
-                                      : url.pathname === '/api/zhiban/onboarding/claim'
-                                        ? await httpAccountSetup(
-                                            request,
-                                            incoming.socket.remoteAddress ?? 'UNKNOWN',
-                                          )
-                                        : url.pathname.startsWith('/api/zhiban/onboarding/')
-                                          ? await httpAccountRequests(request)
-                                          : url.pathname.startsWith('/api/zhiban/tutor/') &&
-                                              httpTutor
-                                            ? await httpTutor(request)
-                                            : url.pathname.startsWith('/api/zhiban/learner/')
-                                              ? await httpLearner(request)
-                                              : url.pathname.startsWith('/api/zhiban/concept/')
-                                                ? await httpConcept(request)
-                                                : url.pathname.startsWith('/api/zhiban/risk/')
-                                                  ? await httpRisk(request)
-                                                  : url.pathname.startsWith(
-                                                        '/api/zhiban/remediation/',
-                                                      )
-                                                    ? await httpRemediation(request)
+        httpClassroomAi && url.pathname.startsWith('/api/zhiban/classroom-ai/')
+          ? await httpClassroomAi(request)
+          : httpNativeAuthoring && url.pathname.startsWith('/api/zhiban/authoring/')
+            ? await httpNativeAuthoring(request)
+            : url.pathname.startsWith('/api/zhiban/attainment/')
+              ? await httpAttainment(request)
+              : httpAutograde && url.pathname.startsWith('/api/zhiban/autograde/')
+                ? await httpAutograde(request)
+                : url.pathname.startsWith('/api/zhiban/ema/')
+                  ? await httpEma(request)
+                  : url.pathname.startsWith('/api/zhiban/pbl/')
+                    ? await httpPbl(request)
+                    : url.pathname.startsWith('/api/zhiban/flow/')
+                      ? await httpFlow(request)
+                      : contentHost && url.pathname.startsWith('/api/zhiban/content/')
+                        ? await contentHost.http(request)
+                        : url.pathname.startsWith('/api/zhiban/imports/')
+                          ? await httpImports(request)
+                          : url.pathname.startsWith('/api/zhiban/login-identifiers/')
+                            ? await httpLoginIdentifiers(
+                                request,
+                                incoming.socket.remoteAddress ?? 'UNKNOWN',
+                              )
+                            : url.pathname.startsWith('/api/zhiban/materials/')
+                              ? await httpMaterial(request)
+                              : url.pathname.startsWith('/api/zhiban/profile/')
+                                ? await httpProfile(request)
+                                : url.pathname.startsWith('/api/zhiban/workspace/')
+                                  ? await httpWorkspace(request)
+                                  : url.pathname.startsWith('/api/zhiban/course-results/') &&
+                                      httpCourseResults
+                                    ? await httpCourseResults(request)
+                                    : url.pathname.startsWith('/api/zhiban/service-center/') &&
+                                        httpServices
+                                      ? await httpServices(request)
+                                      : url.pathname.startsWith('/api/zhiban/management/')
+                                        ? await httpManagement(request)
+                                        : url.pathname.startsWith('/api/zhiban/directory/')
+                                          ? await httpDirectory(request)
+                                          : url.pathname.startsWith('/api/zhiban/roster/')
+                                            ? await httpRoster(request)
+                                            : url.pathname === '/api/zhiban/onboarding/claim'
+                                              ? await httpAccountSetup(
+                                                  request,
+                                                  incoming.socket.remoteAddress ?? 'UNKNOWN',
+                                                )
+                                              : url.pathname.startsWith('/api/zhiban/onboarding/')
+                                                ? await httpAccountRequests(request)
+                                                : url.pathname.startsWith('/api/zhiban/tutor/') &&
+                                                    httpTutor
+                                                  ? await httpTutor(request)
+                                                  : url.pathname.startsWith('/api/zhiban/learner/')
+                                                    ? await httpLearner(request)
                                                     : url.pathname.startsWith(
-                                                          '/api/zhiban/reminders/',
+                                                          '/api/zhiban/concept/',
                                                         )
-                                                      ? await httpReminders(request)
-                                                      : url.pathname.startsWith(
-                                                            '/api/zhiban/progress/',
-                                                          )
-                                                        ? await httpProgress(request)
+                                                      ? await httpConcept(request)
+                                                      : url.pathname.startsWith('/api/zhiban/risk/')
+                                                        ? await httpRisk(request)
                                                         : url.pathname.startsWith(
-                                                              '/api/zhiban/analytics/',
+                                                              '/api/zhiban/remediation/',
                                                             )
-                                                          ? await httpAnalytics(request)
+                                                          ? await httpRemediation(request)
                                                           : url.pathname.startsWith(
-                                                                '/api/zhiban/academic/',
+                                                                '/api/zhiban/reminders/',
                                                               )
-                                                            ? await httpAcademic(request)
+                                                            ? await httpReminders(request)
                                                             : url.pathname.startsWith(
-                                                                  '/api/zhiban/learning/',
+                                                                  '/api/zhiban/progress/',
                                                                 )
-                                                              ? await httpLearning(request)
+                                                              ? await httpProgress(request)
                                                               : url.pathname.startsWith(
-                                                                    '/api/zhiban/assessment/',
+                                                                    '/api/zhiban/analytics/',
                                                                   )
-                                                                ? await httpAssessment(request)
+                                                                ? await httpAnalytics(request)
                                                                 : url.pathname.startsWith(
-                                                                      '/api/zhiban/identity/',
+                                                                      '/api/zhiban/academic/',
                                                                     )
-                                                                  ? await facade.handle(request)
-                                                                  : new Response(null, {
-                                                                      status: 404,
-                                                                    });
+                                                                  ? await httpAcademic(request)
+                                                                  : url.pathname.startsWith(
+                                                                        '/api/zhiban/learning/',
+                                                                      )
+                                                                    ? await httpLearning(request)
+                                                                    : url.pathname.startsWith(
+                                                                          '/api/zhiban/assessment/',
+                                                                        )
+                                                                      ? await httpAssessment(
+                                                                          request,
+                                                                        )
+                                                                      : url.pathname.startsWith(
+                                                                            '/api/zhiban/identity/',
+                                                                          )
+                                                                        ? await facade.handle(
+                                                                            request,
+                                                                          )
+                                                                        : new Response(null, {
+                                                                            status: 404,
+                                                                          });
       outgoing.writeHead(r.status, Object.fromEntries(r.headers));
       if (r.body) {
         const reader = r.body.getReader();
@@ -1863,6 +2094,7 @@ async function main() {
   if (restored) {
     persistentMetadata = {
       ...restored.metadata,
+      ...executionEvidence(),
       status: 'RUNNING_LOCAL_PERSISTENT',
       pid: process.pid,
       processStart: (await readFile(`/proc/${process.pid}/stat`, 'utf8'))
@@ -1870,6 +2102,7 @@ async function main() {
         .trim()
         .split(/\s+/)[19],
       sourceHashes,
+      ...(localPgMajor === 18 ? { stateRoot: process.env.ZHIBAN_LOCAL_STATE } : {}),
       contentInstallation,
       scanner: {
         mode: scanner ? 'TRUSTED_SCANNER' : 'UNAVAILABLE',
@@ -1879,22 +2112,31 @@ async function main() {
       attainment: { enabled: attainmentEnabled, evidenceOrigin: 'LOCAL', schoolOnly: true },
       autograde: {
         enabled: autogradeEnabled,
-        evidenceOrigin: 'LOCAL',
+        ...executionEvidence(),
         serviceActor: 'zhiban_autograde_worker',
         explicitPolicyRequired: true,
       },
       ema: {
         enabled: emaEnabled,
-        evidenceOrigin: 'LOCAL',
+        ...executionEvidence(),
         numericAbilityScores: false,
         unattendedDispatch: false,
       },
       pbl: { enabled: pblEnabled, evidenceOrigin: 'LOCAL', nativeAutonomousRuntimeEnabled: false },
       flow: { enabled: flowEnabled, evidenceOrigin: 'LOCAL', nativeRuntimeEnabled: false },
+      nativeAiClassroom: {
+        enabled: Boolean(lessonHost),
+        fixedPublication: true,
+        teacherOptIn: true,
+        personalRuntime: true,
+        formalResults: false,
+      },
       restoredFrom: restored.snapshot,
     };
     await writeFile(
-      'docs/v2/evidence/zhiban-trial-content-demo-local.json',
+      localPgMajor === 18
+        ? 'docs/v2/evidence/zhiban-pg18-demo-local.json'
+        : 'docs/v2/evidence/zhiban-trial-content-demo-local.json',
       JSON.stringify(persistentMetadata, null, 2) + '\n',
     );
     startup.ready();
@@ -1994,7 +2236,22 @@ async function main() {
 
   let trialData: Awaited<ReturnType<typeof prepareTrial>> | null = null;
   if (trial) {
-    browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
+    browser = await chromium.launch({
+      headless: true,
+      args: [
+        '--no-sandbox',
+        ...(localPgMajor === 18
+          ? [
+              '--ignore-certificate-errors-spki-list=' +
+                createHash('sha256')
+                  .update(
+                    new X509Certificate(tls).publicKey.export({ type: 'spki', format: 'der' }),
+                  )
+                  .digest('base64'),
+            ]
+          : []),
+      ],
+    });
     trialData = await prepareTrial({
       admin,
       browser,
@@ -2467,6 +2724,34 @@ async function main() {
         trial: trialData,
         nativeAdmin: pool('postgres', 'zhiban_trial_content_native'),
       });
+    if (unifiedTrial && (classroomAiFocus || pg18Acceptance))
+      await (
+        pg18Acceptance
+          ? verifyClassroomAi
+          : courseLiveFocus
+            ? verifyCourseLive
+            : courseResultsFocus
+              ? verifyCourseResults
+              : serviceCenterFocus
+                ? verifyServiceCenter
+                : multimodalFocus
+                  ? verifyMultimodal
+                  : nativeArchiveFocus
+                    ? verifyNativeArchive
+                    : nativePblFocus
+                      ? verifyNativePbl
+                      : verifyClassroomAi
+      )({
+        admin,
+        browser,
+        actors,
+        http,
+        tenant: t,
+        origin,
+        record,
+        trial: trialData,
+        native: pool('postgres', 'zhiban_trial_lesson_native'),
+      });
     if (unifiedTrial && authoringFocus)
       await verifyNativeAuthoring({
         admin,
@@ -2566,7 +2851,22 @@ async function main() {
         trial: trialData,
       });
   } else if (history) {
-    browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
+    browser = await chromium.launch({
+      headless: true,
+      args: [
+        '--no-sandbox',
+        ...(localPgMajor === 18
+          ? [
+              '--ignore-certificate-errors-spki-list=' +
+                createHash('sha256')
+                  .update(
+                    new X509Certificate(tls).publicKey.export({ type: 'spki', format: 'der' }),
+                  )
+                  .digest('base64'),
+            ]
+          : []),
+      ],
+    });
     await verifyManagementHistory({
       members,
       browser,
@@ -2579,7 +2879,22 @@ async function main() {
       record,
     });
   } else if (courseOwner) {
-    browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
+    browser = await chromium.launch({
+      headless: true,
+      args: [
+        '--no-sandbox',
+        ...(localPgMajor === 18
+          ? [
+              '--ignore-certificate-errors-spki-list=' +
+                createHash('sha256')
+                  .update(
+                    new X509Certificate(tls).publicKey.export({ type: 'spki', format: 'der' }),
+                  )
+                  .digest('base64'),
+            ]
+          : []),
+      ],
+    });
     await verifyCourseOwner({
       browser,
       admin,
@@ -3068,7 +3383,22 @@ async function main() {
       'master creation remains within original command validation, including reversed-date refusal and existing course owner assignment',
     );
 
-    browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
+    browser = await chromium.launch({
+      headless: true,
+      args: [
+        '--no-sandbox',
+        ...(localPgMajor === 18
+          ? [
+              '--ignore-certificate-errors-spki-list=' +
+                createHash('sha256')
+                  .update(
+                    new X509Certificate(tls).publicKey.export({ type: 'spki', format: 'der' }),
+                  )
+                  .digest('base64'),
+            ]
+          : []),
+      ],
+    });
     const context = await browser.newContext();
     const page = await context.newPage();
     const errors: string[] = [];
@@ -3606,8 +3936,7 @@ async function main() {
         join(owned, 'member-inputs.json'),
         JSON.stringify(
           {
-            evidenceOrigin: 'LOCAL',
-            githubActions: false,
+            ...executionEvidence(),
             syntheticAuthority: true,
             tenant: t,
             stage: 'REGISTERED_USER_ADMISSION_NOT_ISSUED',
@@ -3650,9 +3979,9 @@ async function main() {
       `docs/v2/evidence/${evidenceName}-demo-local.json`,
       JSON.stringify(
         {
-          evidenceOrigin: 'LOCAL',
-          githubActions: false,
-          status: 'RUNNING_DISPOSABLE',
+          ...executionEvidence(),
+          status:
+            localPgMajor === 18 && persistent ? 'RUNNING_LOCAL_PERSISTENT' : 'RUNNING_DISPOSABLE',
           ...(unifiedTrial
             ? {
                 deliveryScope: 'LOCAL_UNIFIED_TEACHING',
@@ -3710,11 +4039,19 @@ async function main() {
           rosterUrl,
           accountsPath,
           root: owned,
+          ...(localPgMajor === 18 ? { stateRoot: process.env.ZHIBAN_LOCAL_STATE } : {}),
           port,
           database,
           ...(contentInstallation ? { contentInstallation } : {}),
           ...(lessonHost
             ? {
+                nativeAiClassroom: {
+                  enabled: true,
+                  fixedPublication: true,
+                  teacherOptIn: true,
+                  personalRuntime: true,
+                  formalResults: false,
+                },
                 aiLesson: {
                   database: 'zhiban_trial_lesson_native',
                   modelReadiness: 'CHECKED_PER_AUTHORIZED_REQUEST',
@@ -3726,80 +4063,97 @@ async function main() {
           attainment: { enabled: attainmentEnabled, evidenceOrigin: 'LOCAL', schoolOnly: true },
           autograde: {
             enabled: autogradeEnabled,
-            evidenceOrigin: 'LOCAL',
+            ...executionEvidence(),
             serviceActor: 'zhiban_autograde_worker',
             explicitPolicyRequired: true,
           },
           ema: {
             enabled: emaEnabled,
-            evidenceOrigin: 'LOCAL',
+            ...executionEvidence(),
             numericAbilityScores: false,
             unattendedDispatch: false,
           },
           sourceHashes,
           validation: {
             status: 'PASS',
-            scope: authoringFocus
-              ? 'LOCAL_NATIVE_WORKSPACE_FULL_DOCUMENT_ASSET_ADOPTION_PUBLICATION'
-              : simulationFocus
-                ? 'LOCAL_SERVER_CALCULATED_SIMULATION_AND_ORIGINAL_REPORT_GRADING'
-                : attainmentFocus
-                  ? 'LOCAL_SCHOOL_CERTIFICATE_CROSS_CLASS_CREDIT_RESTRICTED_SERVICE_GRADING'
-                  : emaFocus
-                    ? 'LOCAL_EMA_SIX_DIMENSION_JOURNEY'
-                    : pblFocus
-                      ? 'LOCAL_P6_NATIVE_DESIGN_GROUP_COLLABORATION_JOINT_SUBMISSION_TEACHER_EVALUATION'
-                      : avatarFocus
-                        ? 'LOCAL_SELF_AVATAR_AND_RESTRICTED_DIRECTORY'
-                        : gradebookExportFocus
-                          ? 'LOCAL_BOUNDED_FILTERED_GRADEBOOK_CSV_ONLY'
-                          : importsFocus
-                            ? 'ACADEMIC_MULTI_IMPORT_AND_DURABLE_BATCH_RESULTS_ONLY'
-                            : loginIdentifiersFocus
-                              ? 'CONTROLLED_LOGIN_IDENTIFIER_NOMINATION_RECIPIENT_BINDING_LOGIN_AND_DIRECTORY_ONLY'
-                              : accountStatusFocus
-                                ? 'CONTROLLED_GLOBAL_ACCOUNT_DISABLE_RESTORE_AND_TENANT_DIRECTORY_ONLY'
-                                : onboardingFocus
-                                  ? 'ORDINARY_ACCOUNT_CONTROL_CREATE_RECIPIENT_FIRST_PASSWORD_AND_LOGIN_ONLY'
-                                  : tutorFocus
-                                    ? 'COURSE_TUTOR_NATIVE_AGENT_AUTHORIZATION_AND_GOVERNANCE_ONLY'
-                                    : learnerFocus
-                                      ? 'LOCAL_P5_EVIDENCE_BACKED_LEARNER_OBSERVATIONS_AND_SELF_DISPUTES_DIMENSIONS_REVIEW'
-                                      : conceptFocus
-                                        ? 'LOCAL_P5_CONCEPT_EVIDENCE_TEACHER_CORRECTION_AND_STUDENT_RESPONSE'
-                                        : riskFocus
-                                          ? 'LOCAL_P5_EXPLAINABLE_RULES_PRIVATE_TEACHER_REVIEW_AND_EXPLICIT_SUPPORT'
-                                          : remediationFocus
-                                            ? 'LOCAL_P5_REMEDIATION_PLANS_STUDENT_TASKS_AND_EFFECT_REVIEW'
-                                            : remindersFocus
-                                              ? 'LOCAL_P5_IN_APP_REMINDERS_AND_EXPLICIT_CONFIRMATIONS'
-                                              : casesFocus
-                                                ? 'LOCAL_P5_MANUAL_FOLLOWUP_CASES_AND_RESOLUTION'
-                                                : followupsFocus
-                                                  ? 'LOCAL_P5_TEACHER_FACT_BASED_FOLLOWUPS'
-                                                  : resultsFocus
-                                                    ? 'LOCAL_CLASSROOM_RESULTS_AND_OWN_HISTORY'
-                                                    : jointFocus
-                                                      ? 'LOCAL_TEACHER_JOINT_CLASSROOM_ATOMIC_ATTEMPT_BINDING'
-                                                      : attemptRuntimeFocus
-                                                        ? 'LOCAL_ATTEMPT_RUNTIME_SERVER_PROVENANCE_NOT_NATIVE_RUNTIME'
-                                                        : interactiveFocus
-                                                          ? 'LOCAL_OFFLINE_INTERACTIVE_NATIVE_HOST_BRIDGE_PUBLICATION'
-                                                          : playerFocus
-                                                            ? nativeClassroomFocus
-                                                              ? 'NATIVE_PLAYER_EXISTING_CLASSROOM_PRESENTATION_ONLY'
-                                                              : 'FIXED_PUBLICATION_NATIVE_READONLY_PPT_PLAYER'
-                                                            : lessonFocus
-                                                              ? productFocus
-                                                                ? 'LESSON_FORMULA_ADOPT_AND_CLASSROOM_PRESENTATION'
-                                                                : 'AI_LESSON_DIRECTED_FIXTURE_NOT_MODEL'
-                                                              : teacherScope
-                                                                ? 'TEACHER_SCOPE_DIRECTED'
-                                                                : serve && unifiedTrial
-                                                                  ? 'STARTUP_AND_SYNTHETIC_SEED_ONLY'
-                                                                  : 'EXPLICIT_VERIFICATION',
+            scope: pg18Acceptance
+              ? 'PG18_FULL_HOST_NATIVE_PUBLICATION_RUNTIME_AND_NEGATIVE_GATES'
+              : courseLiveFocus
+                ? 'LOCAL_NATIVE_MP4_AND_TEACHER_SHARED_PRESENTATION'
+                : courseResultsFocus
+                  ? 'LOCAL_TRUSTED_COURSE_RESULTS_TO_FORMAL_SUBMISSION'
+                  : serviceCenterFocus
+                    ? 'LOCAL_ADMIN_SERVICE_CENTER_NO_EXTERNAL_PROVIDER_CALLS'
+                    : multimodalFocus
+                      ? 'LOCAL_MATERIALS_AND_MEDIA_AVAILABLE_SCOPE_NO_EXTERNAL_PROVIDER'
+                      : nativeArchiveFocus
+                        ? 'LOCAL_NATIVE_ARCHIVE_EXPORT_AND_OWNER_BOUND_RESTORE'
+                        : nativePblFocus
+                          ? 'LOCAL_NATIVE_AUTONOMOUS_PBL_FIXED_PUBLICATION_AND_PERSONAL_STATE'
+                          : classroomAiFocus
+                            ? 'LOCAL_NATIVE_AI_CLASSROOM_FIXED_PUBLICATION_AND_PERSONAL_RUNTIME'
+                            : authoringFocus
+                              ? 'LOCAL_NATIVE_WORKSPACE_FULL_DOCUMENT_ASSET_ADOPTION_PUBLICATION'
+                              : simulationFocus
+                                ? 'LOCAL_SERVER_CALCULATED_SIMULATION_AND_ORIGINAL_REPORT_GRADING'
+                                : attainmentFocus
+                                  ? 'LOCAL_SCHOOL_CERTIFICATE_CROSS_CLASS_CREDIT_RESTRICTED_SERVICE_GRADING'
+                                  : emaFocus
+                                    ? 'LOCAL_EMA_SIX_DIMENSION_JOURNEY'
+                                    : pblFocus
+                                      ? 'LOCAL_P6_NATIVE_DESIGN_GROUP_COLLABORATION_JOINT_SUBMISSION_TEACHER_EVALUATION'
+                                      : avatarFocus
+                                        ? 'LOCAL_SELF_AVATAR_AND_RESTRICTED_DIRECTORY'
+                                        : gradebookExportFocus
+                                          ? 'LOCAL_BOUNDED_FILTERED_GRADEBOOK_CSV_ONLY'
+                                          : importsFocus
+                                            ? 'ACADEMIC_MULTI_IMPORT_AND_DURABLE_BATCH_RESULTS_ONLY'
+                                            : loginIdentifiersFocus
+                                              ? 'CONTROLLED_LOGIN_IDENTIFIER_NOMINATION_RECIPIENT_BINDING_LOGIN_AND_DIRECTORY_ONLY'
+                                              : accountStatusFocus
+                                                ? 'CONTROLLED_GLOBAL_ACCOUNT_DISABLE_RESTORE_AND_TENANT_DIRECTORY_ONLY'
+                                                : onboardingFocus
+                                                  ? 'ORDINARY_ACCOUNT_CONTROL_CREATE_RECIPIENT_FIRST_PASSWORD_AND_LOGIN_ONLY'
+                                                  : tutorFocus
+                                                    ? 'COURSE_TUTOR_NATIVE_AGENT_AUTHORIZATION_AND_GOVERNANCE_ONLY'
+                                                    : learnerFocus
+                                                      ? 'LOCAL_P5_EVIDENCE_BACKED_LEARNER_OBSERVATIONS_AND_SELF_DISPUTES_DIMENSIONS_REVIEW'
+                                                      : conceptFocus
+                                                        ? 'LOCAL_P5_CONCEPT_EVIDENCE_TEACHER_CORRECTION_AND_STUDENT_RESPONSE'
+                                                        : riskFocus
+                                                          ? 'LOCAL_P5_EXPLAINABLE_RULES_PRIVATE_TEACHER_REVIEW_AND_EXPLICIT_SUPPORT'
+                                                          : remediationFocus
+                                                            ? 'LOCAL_P5_REMEDIATION_PLANS_STUDENT_TASKS_AND_EFFECT_REVIEW'
+                                                            : remindersFocus
+                                                              ? 'LOCAL_P5_IN_APP_REMINDERS_AND_EXPLICIT_CONFIRMATIONS'
+                                                              : casesFocus
+                                                                ? 'LOCAL_P5_MANUAL_FOLLOWUP_CASES_AND_RESOLUTION'
+                                                                : followupsFocus
+                                                                  ? 'LOCAL_P5_TEACHER_FACT_BASED_FOLLOWUPS'
+                                                                  : resultsFocus
+                                                                    ? 'LOCAL_CLASSROOM_RESULTS_AND_OWN_HISTORY'
+                                                                    : jointFocus
+                                                                      ? 'LOCAL_TEACHER_JOINT_CLASSROOM_ATOMIC_ATTEMPT_BINDING'
+                                                                      : attemptRuntimeFocus
+                                                                        ? 'LOCAL_ATTEMPT_RUNTIME_SERVER_PROVENANCE_NOT_NATIVE_RUNTIME'
+                                                                        : interactiveFocus
+                                                                          ? 'LOCAL_OFFLINE_INTERACTIVE_NATIVE_HOST_BRIDGE_PUBLICATION'
+                                                                          : playerFocus
+                                                                            ? nativeClassroomFocus
+                                                                              ? 'NATIVE_PLAYER_EXISTING_CLASSROOM_PRESENTATION_ONLY'
+                                                                              : 'FIXED_PUBLICATION_NATIVE_READONLY_PPT_PLAYER'
+                                                                            : lessonFocus
+                                                                              ? productFocus
+                                                                                ? 'LESSON_FORMULA_ADOPT_AND_CLASSROOM_PRESENTATION'
+                                                                                : 'AI_LESSON_DIRECTED_FIXTURE_NOT_MODEL'
+                                                                              : teacherScope
+                                                                                ? 'TEACHER_SCOPE_DIRECTED'
+                                                                                : serve &&
+                                                                                    unifiedTrial
+                                                                                  ? 'STARTUP_AND_SYNTHETIC_SEED_ONLY'
+                                                                                  : 'EXPLICIT_VERIFICATION',
             checks,
-            pg16: pg,
+            ...(localPgMajor === 16 ? { pg16: pg } : { pg18: pg }),
             node: process.version,
           },
           tlsCertificateSha256: hash(tls),
@@ -3893,89 +4247,105 @@ try {
       : `docs/v2/evidence/${evidenceName}-local.json`,
     JSON.stringify(
       {
-        evidenceOrigin: 'LOCAL',
-        githubActions: false,
+        ...executionEvidence(),
         status: failure ? 'FAIL' : 'PASS',
         at: new Date().toISOString(),
         node: process.version,
-        pg16: pg,
-        scope: authoringFocus
-          ? 'LOCAL_NATIVE_WORKSPACE_FULL_DOCUMENT_ASSET_ADOPTION_PUBLICATION'
-          : simulationFocus
-            ? 'LOCAL_SERVER_CALCULATED_SIMULATION_AND_ORIGINAL_REPORT_GRADING'
-            : attainmentFocus
-              ? 'LOCAL_SCHOOL_CERTIFICATE_CROSS_CLASS_CREDIT_RESTRICTED_SERVICE_GRADING'
-              : emaFocus
-                ? 'LOCAL_EMA_SIX_DIMENSION_JOURNEY'
-                : pblFocus
-                  ? 'LOCAL_P6_NATIVE_DESIGN_GROUP_COLLABORATION_JOINT_SUBMISSION_TEACHER_EVALUATION'
-                  : avatarFocus
-                    ? 'LOCAL_SELF_AVATAR_AND_RESTRICTED_DIRECTORY'
-                    : gradebookExportFocus
-                      ? 'LOCAL_BOUNDED_FILTERED_GRADEBOOK_CSV_ONLY'
-                      : importsFocus
-                        ? 'ACADEMIC_MULTI_IMPORT_AND_DURABLE_BATCH_RESULTS_ONLY'
-                        : loginIdentifiersFocus
-                          ? 'CONTROLLED_LOGIN_IDENTIFIER_NOMINATION_RECIPIENT_BINDING_LOGIN_AND_DIRECTORY_ONLY'
-                          : accountStatusFocus
-                            ? 'CONTROLLED_GLOBAL_ACCOUNT_DISABLE_RESTORE_AND_TENANT_DIRECTORY_ONLY'
-                            : onboardingFocus
-                              ? 'ORDINARY_ACCOUNT_CONTROL_CREATE_RECIPIENT_FIRST_PASSWORD_AND_LOGIN_ONLY'
-                              : tutorFocus
-                                ? 'COURSE_TUTOR_NATIVE_AGENT_AUTHORIZATION_AND_GOVERNANCE_ONLY'
-                                : learnerFocus
-                                  ? 'LOCAL_P5_EVIDENCE_BACKED_LEARNER_OBSERVATIONS_AND_SELF_DISPUTES_DIMENSIONS_REVIEW'
-                                  : conceptFocus
-                                    ? 'LOCAL_P5_CONCEPT_EVIDENCE_TEACHER_CORRECTION_AND_STUDENT_RESPONSE'
-                                    : riskFocus
-                                      ? 'LOCAL_P5_EXPLAINABLE_RULES_PRIVATE_TEACHER_REVIEW_AND_EXPLICIT_SUPPORT'
-                                      : remediationFocus
-                                        ? 'LOCAL_P5_REMEDIATION_PLANS_STUDENT_TASKS_AND_EFFECT_REVIEW'
-                                        : remindersFocus
-                                          ? 'LOCAL_P5_IN_APP_REMINDERS_AND_EXPLICIT_CONFIRMATIONS'
-                                          : casesFocus
-                                            ? 'LOCAL_P5_MANUAL_FOLLOWUP_CASES_AND_RESOLUTION'
-                                            : followupsFocus
-                                              ? 'LOCAL_P5_TEACHER_FACT_BASED_FOLLOWUPS'
-                                              : resultsFocus
-                                                ? 'LOCAL_CLASSROOM_RESULTS_AND_OWN_HISTORY'
-                                                : jointFocus
-                                                  ? 'LOCAL_TEACHER_JOINT_CLASSROOM_ATOMIC_ATTEMPT_BINDING'
-                                                  : attemptRuntimeFocus
-                                                    ? 'LOCAL_ATTEMPT_RUNTIME_SERVER_PROVENANCE_NOT_NATIVE_RUNTIME'
-                                                    : interactiveFocus
-                                                      ? 'LOCAL_OFFLINE_INTERACTIVE_NATIVE_HOST_BRIDGE_PUBLICATION'
-                                                      : playerFocus
-                                                        ? nativeClassroomFocus
-                                                          ? 'LOCAL_NATIVE_CLASSROOM_PRESENTATION_NO_MAINTENANCE'
-                                                          : 'LOCAL_FIXED_PUBLICATION_NATIVE_READONLY_PPT_PLAYER'
-                                                        : productFocus
-                                                          ? 'LOCAL_LESSON_FORMULA_ADOPT_CLASSROOM_PRESENTATION_NOT_MODEL'
-                                                          : lessonFocus
-                                                            ? 'LOCAL_AI_LESSON_DIRECTED_FIXTURE_NOT_MODEL'
-                                                            : trialContent
-                                                              ? 'LOCAL_UNIFIED_TEXT_PNG_DISPOSABLE'
-                                                              : classroomFixes
-                                                                ? 'LOCAL_CL_01_CL_02_DIRECTED_FIXES'
-                                                                : rosterTrial
-                                                                  ? 'LOCAL_UAT_04_ADMIN_CONTROL_STATE_REGRESSION'
-                                                                  : uatRound2
-                                                                    ? 'LOCAL_UAT_03_AND_01_02_REGRESSION'
-                                                                    : uatFixes
-                                                                      ? 'LOCAL_UAT_01_02_DIRECTED_FIXES'
-                                                                      : trial
-                                                                        ? 'LOCAL_SYNTHETIC_THREE_ROLE_TEACHING_TRIAL'
-                                                                        : history
-                                                                          ? 'M6_ADMIN_MANAGEMENT_HISTORY_DISPOSABLE_PG16_HTTPS_UI'
-                                                                          : courseOwner
-                                                                            ? 'M6_COURSE_OWNER_SELECTOR_DISPOSABLE_PG16_HTTPS_UI'
-                                                                            : adminWorkspace
-                                                                              ? 'M6_ADMIN_WORKSPACE_DIRECT_PAGING_DISPOSABLE_PG16_HTTPS_UI'
-                                                                              : 'M6_MASTER_DATA_PAGING_OFFERING_SELECTORS_DISPOSABLE_PG16_HTTPS_UI',
+        ...(localPgMajor === 16 ? { pg16: pg } : { pg18: pg }),
+        scope: pg18Acceptance
+          ? 'PG18_FULL_HOST_NATIVE_PUBLICATION_RUNTIME_AND_NEGATIVE_GATES'
+          : courseLiveFocus
+            ? 'LOCAL_NATIVE_MP4_AND_TEACHER_SHARED_PRESENTATION'
+            : courseResultsFocus
+              ? 'LOCAL_TRUSTED_COURSE_RESULTS_TO_FORMAL_SUBMISSION'
+              : serviceCenterFocus
+                ? 'LOCAL_ADMIN_SERVICE_CENTER_NO_EXTERNAL_PROVIDER_CALLS'
+                : multimodalFocus
+                  ? 'LOCAL_MATERIALS_AND_MEDIA_AVAILABLE_SCOPE_NO_EXTERNAL_PROVIDER'
+                  : nativeArchiveFocus
+                    ? 'LOCAL_NATIVE_ARCHIVE_EXPORT_AND_OWNER_BOUND_RESTORE'
+                    : nativePblFocus
+                      ? 'LOCAL_NATIVE_AUTONOMOUS_PBL_FIXED_PUBLICATION_AND_PERSONAL_STATE'
+                      : classroomAiFocus
+                        ? 'LOCAL_NATIVE_AI_CLASSROOM_FIXED_PUBLICATION_AND_PERSONAL_RUNTIME'
+                        : authoringFocus
+                          ? 'LOCAL_NATIVE_WORKSPACE_FULL_DOCUMENT_ASSET_ADOPTION_PUBLICATION'
+                          : simulationFocus
+                            ? 'LOCAL_SERVER_CALCULATED_SIMULATION_AND_ORIGINAL_REPORT_GRADING'
+                            : attainmentFocus
+                              ? 'LOCAL_SCHOOL_CERTIFICATE_CROSS_CLASS_CREDIT_RESTRICTED_SERVICE_GRADING'
+                              : emaFocus
+                                ? 'LOCAL_EMA_SIX_DIMENSION_JOURNEY'
+                                : pblFocus
+                                  ? 'LOCAL_P6_NATIVE_DESIGN_GROUP_COLLABORATION_JOINT_SUBMISSION_TEACHER_EVALUATION'
+                                  : avatarFocus
+                                    ? 'LOCAL_SELF_AVATAR_AND_RESTRICTED_DIRECTORY'
+                                    : gradebookExportFocus
+                                      ? 'LOCAL_BOUNDED_FILTERED_GRADEBOOK_CSV_ONLY'
+                                      : importsFocus
+                                        ? 'ACADEMIC_MULTI_IMPORT_AND_DURABLE_BATCH_RESULTS_ONLY'
+                                        : loginIdentifiersFocus
+                                          ? 'CONTROLLED_LOGIN_IDENTIFIER_NOMINATION_RECIPIENT_BINDING_LOGIN_AND_DIRECTORY_ONLY'
+                                          : accountStatusFocus
+                                            ? 'CONTROLLED_GLOBAL_ACCOUNT_DISABLE_RESTORE_AND_TENANT_DIRECTORY_ONLY'
+                                            : onboardingFocus
+                                              ? 'ORDINARY_ACCOUNT_CONTROL_CREATE_RECIPIENT_FIRST_PASSWORD_AND_LOGIN_ONLY'
+                                              : tutorFocus
+                                                ? 'COURSE_TUTOR_NATIVE_AGENT_AUTHORIZATION_AND_GOVERNANCE_ONLY'
+                                                : learnerFocus
+                                                  ? 'LOCAL_P5_EVIDENCE_BACKED_LEARNER_OBSERVATIONS_AND_SELF_DISPUTES_DIMENSIONS_REVIEW'
+                                                  : conceptFocus
+                                                    ? 'LOCAL_P5_CONCEPT_EVIDENCE_TEACHER_CORRECTION_AND_STUDENT_RESPONSE'
+                                                    : riskFocus
+                                                      ? 'LOCAL_P5_EXPLAINABLE_RULES_PRIVATE_TEACHER_REVIEW_AND_EXPLICIT_SUPPORT'
+                                                      : remediationFocus
+                                                        ? 'LOCAL_P5_REMEDIATION_PLANS_STUDENT_TASKS_AND_EFFECT_REVIEW'
+                                                        : remindersFocus
+                                                          ? 'LOCAL_P5_IN_APP_REMINDERS_AND_EXPLICIT_CONFIRMATIONS'
+                                                          : casesFocus
+                                                            ? 'LOCAL_P5_MANUAL_FOLLOWUP_CASES_AND_RESOLUTION'
+                                                            : followupsFocus
+                                                              ? 'LOCAL_P5_TEACHER_FACT_BASED_FOLLOWUPS'
+                                                              : resultsFocus
+                                                                ? 'LOCAL_CLASSROOM_RESULTS_AND_OWN_HISTORY'
+                                                                : jointFocus
+                                                                  ? 'LOCAL_TEACHER_JOINT_CLASSROOM_ATOMIC_ATTEMPT_BINDING'
+                                                                  : attemptRuntimeFocus
+                                                                    ? 'LOCAL_ATTEMPT_RUNTIME_SERVER_PROVENANCE_NOT_NATIVE_RUNTIME'
+                                                                    : interactiveFocus
+                                                                      ? 'LOCAL_OFFLINE_INTERACTIVE_NATIVE_HOST_BRIDGE_PUBLICATION'
+                                                                      : playerFocus
+                                                                        ? nativeClassroomFocus
+                                                                          ? 'LOCAL_NATIVE_CLASSROOM_PRESENTATION_NO_MAINTENANCE'
+                                                                          : 'LOCAL_FIXED_PUBLICATION_NATIVE_READONLY_PPT_PLAYER'
+                                                                        : productFocus
+                                                                          ? 'LOCAL_LESSON_FORMULA_ADOPT_CLASSROOM_PRESENTATION_NOT_MODEL'
+                                                                          : lessonFocus
+                                                                            ? 'LOCAL_AI_LESSON_DIRECTED_FIXTURE_NOT_MODEL'
+                                                                            : trialContent
+                                                                              ? 'LOCAL_UNIFIED_TEXT_PNG_DISPOSABLE'
+                                                                              : classroomFixes
+                                                                                ? 'LOCAL_CL_01_CL_02_DIRECTED_FIXES'
+                                                                                : rosterTrial
+                                                                                  ? 'LOCAL_UAT_04_ADMIN_CONTROL_STATE_REGRESSION'
+                                                                                  : uatRound2
+                                                                                    ? 'LOCAL_UAT_03_AND_01_02_REGRESSION'
+                                                                                    : uatFixes
+                                                                                      ? 'LOCAL_UAT_01_02_DIRECTED_FIXES'
+                                                                                      : trial
+                                                                                        ? 'LOCAL_SYNTHETIC_THREE_ROLE_TEACHING_TRIAL'
+                                                                                        : history
+                                                                                          ? 'M6_ADMIN_MANAGEMENT_HISTORY_DISPOSABLE_PG16_HTTPS_UI'
+                                                                                          : courseOwner
+                                                                                            ? 'M6_COURSE_OWNER_SELECTOR_DISPOSABLE_PG16_HTTPS_UI'
+                                                                                            : adminWorkspace
+                                                                                              ? 'M6_ADMIN_WORKSPACE_DIRECT_PAGING_DISPOSABLE_PG16_HTTPS_UI'
+                                                                                              : 'M6_MASTER_DATA_PAGING_OFFERING_SELECTORS_DISPOSABLE_PG16_HTTPS_UI',
         checks,
         sourceHashes,
         lifecycle: {
           root: owned,
+          ...(localPgMajor === 18 ? { stateRoot: process.env.ZHIBAN_LOCAL_STATE } : {}),
           port,
           database,
           stopped: !started,

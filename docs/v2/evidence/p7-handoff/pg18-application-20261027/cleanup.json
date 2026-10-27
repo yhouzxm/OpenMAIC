@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "ownedApplicationPgStopped": true,
+  "importedReadonlyProbePgStopped": true,
+  "https3478Stopped": true,
+  "normalRunRootsRemoved": true,
+  "startupPostmasterFaultRootRemoved": true,
+  "incompleteInitdbDiagnostics": "RETAINED_PRIVATE_NO_LIVE_PG_NOT_AUTOMATICALLY_DELETED",
+  "bindingsInspected": 12
+}

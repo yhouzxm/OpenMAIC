@@ -1,0 +1,103 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_LEGACY_OFFICE_PRODUCT_BUNDLE_LOCAL",
+  "at": "2026-10-26T15:01:41.133993+00:00",
+  "branch": "refactor/zhiban-v2",
+  "head": "093b4a69af96626010d9104c50d680d9b9dc1928",
+  "accepted": [
+    "DOC_PPT_XLS_REAL_ISOLATED_OOXML_CONVERSION",
+    "ORIGINAL_AND_DERIVED_BYTES_TRUSTED_SCANNED",
+    "REAL_ALIDOCMIND_EXTRACTION_WITH_ORIGINAL_HASH_RECEIPT",
+    "TEACHER_TEXT_REVIEW_EDIT_NEW_NATIVE_DOCUMENT",
+    "NATIVE_PREVIEW_ADOPTION_EXPLICIT_PUBLICATION",
+    "STUDENT_FIXED_PUBLICATION_DESKTOP_MOBILE"
+  ],
+  "converter": {
+    "version": "LibreOffice 24.2.7.2 420(Build:2)",
+    "binarySha256": "61a27030687542dd8811e514312e4881760521c1d798b3f8a5df85e12318c14d",
+    "source": "Official Ubuntu private download-only extraction; system packages unchanged",
+    "packageProfileSha256": "cc58579548e6f8aad015dd69c641837176d598813463294d9e87cda102e64043",
+    "networkAndUserHomeIsolated": true,
+    "hostOsReadOnlyDependenciesRequired": true,
+    "developmentBuildCalcNotAccepted": true
+  },
+  "boundaries": [
+    "Original uploads remain1MiB",
+    "Converted OOXML limited16MiB and still scanner bounded",
+    "Reviewed text lesson is not lossless original Office layout",
+    "Reviewed copy limit40000 characters; original stored extraction not overwritten",
+    "Private converter tree/config are separate from PG snapshot and frozen source packages",
+    "No formal completion/grade/Identity/Bridge semantic changes"
+  ],
+  "configuration": {
+    "existingEnvPrefixPreserved": true,
+    "onlyNonSecretConverterPathAndRootAppended": true,
+    "envSha256": "ee558d751cce72376817e8b979cafc4debac79dcfacadab30629c717d32ca2c9",
+    "yamlSha256": "fb83cf0ddd12c229a743abeb102f3064344ac65f34daaf3a689fea25b38e216a",
+    "providerYamlUnchanged": true,
+    "secretsExported": false
+  },
+  "runtime": {
+    "origin": "https://127.0.0.1:3461",
+    "status": "RUNNING_LOCAL_PERSISTENT",
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "originalAccountsGradesProofsAndServicesPreserved": true
+  },
+  "backup": {
+    "status": "PASS",
+    "evidenceOrigin": "LOCAL",
+    "snapshot": "/home/zxm/.local/share/zhiban-persistent/2026-10-26T14-57-00.133Z-7b90db62",
+    "files": 3309,
+    "scope": "FILE_HASH_CLOSURE_ONLY",
+    "manifestHash": "9a7e1ee9b249d6ab1dcd50e6df762217dd1bfbf8821ece7e0f5595eba5b9cafb",
+    "physicalPg16Backup": true,
+    "containsInstanceSecret": true,
+    "latestSnapshotScope": "File/hash closure verified; no new cross-machine restore claim"
+  },
+  "retainedFindings": [
+    "Bundled development-build Calc was not reliable; selected stable Ubuntu build after three actual conversions passed",
+    "Legacy fixed upload whitelist was extended; actual parser capability remains separately gated",
+    "POST document save correctly refused by original authorization; corrected to native PUT, then full UI journey passed",
+    "Verifier initially matched two same-target links; resolved selector without changing page behavior"
+  ],
+  "sourceSha256": {
+    "lib/document/legacy-office.ts": "4bc1cd55f73ff4cb6c6b4a56d84d9233709a1506ad9013dfa6755d1bebd5006c",
+    "lib/workbench/material-upload-policy.ts": "bb9f3d883fbaefdb1db919f5bff2b82d25be5c011c2104ffe8fefacf7c6b54f3",
+    "lib/server/generation/steps/material-analysis.ts": "a9dc35d06333abf6ea9a30eef1be484ddb2cb2bd411bbc99378a1b8aa012d530",
+    "lib/server/material-extraction/extract.ts": "a3d88842665854abd2d098d6793db5b466ac91510e441ad8384a6379f5c3e004",
+    "lib/server/material-extraction/availability.ts": "430c64d3891320fd2b6a07a191d1b05aab0403b93cefd992c1c20a051747d351",
+    "lib/server/materials/extraction.ts": "28abf2f93eb2d42360bc0a3c2b6ad3bc31d3638019bb327587215fca8306fb8a",
+    "lib/zhiban/infrastructure/authoring/http.ts": "e0f7a60b30b6378ffb1df026ed3ce978820d4c32e60b14de9bd4fb731802b9c3",
+    "lib/zhiban/infrastructure/authoring/media/service.ts": "c2b242383f07c205cede749116f9e19174d30521c2f1686ef2006acaa32b964a",
+    "lib/zhiban/infrastructure/authoring/media/environment.ts": "45ab277b621566c5ae02f1c6c58bb7249fb9a0ae5dc536392eb49af981ee0143",
+    "app/zhiban/local/native-services.tsx": "377fd7e9072fa92c22f968d47bdaa7bfe9575d6bbcb2667b690658655b9e05d6",
+    "tests/zhiban/multimodal/legacy-office.test.ts": "563cd4e57e3d7c25e6bae409cabcb420d8c13d9bd33ac84bc6b3e0e45045569d"
+  },
+  "docsSha256": {
+    "docs/v2/zhiban-v2-legacy-office-local.md": "a19851c314b8c90733f18a2cee669f90ce407d16fc46c86f7e74ccf899c49b9c",
+    "docs/v2/zhiban-v2-migration-completion-plan.md": "d10af36f25c76a2d1df5f3f5f0f66bda400db5ed3350dab682f1e70b42de17cc",
+    "docs/v2/zhiban-v2-feature-gap-matrix.md": "1ec9466494974ec971db17b38a581f1c389ad041f42ff90985bea5386eab3b77",
+    "docs/v2/zhiban-v2-native-teaching-reuse-audit.md": "08ac5735146744581ea381cdc570e58b3ab1552b262961b76626c6acadbb84e1",
+    "TRIAL.md": "7a82c8feed7117f2267875415d9c2999447bb6962e96d9d2d3f9f0a53b631a36"
+  },
+  "evidenceSha256": {
+    "docs/v2/evidence/legacy-office/checks.json": "4f0066234ba9e9a9e2abed9ed0f95f72de408e49f59db9a435000ae623bff9b2",
+    "docs/v2/evidence/legacy-office/negative.json": "f3e7255b651c4455740eca548df6fb4151eadda489a5570e49992a325f71a7c6",
+    "docs/v2/evidence/legacy-office/parsing.json": "c8b4b33ca3b991f3325fb7fce88209b0b16998d5ef379797f4c2db5bf4efdc43",
+    "docs/v2/evidence/legacy-office/readback.json": "9a11f7d630331a93b0769b360a09fac9418b6d4a877a5b2a9a41f797b42b8641",
+    "docs/v2/evidence/legacy-office/student-mobile.png": "64506c481c503274b7bfdd78a216d438662e31c8473f2346e12a24aeb5143db1",
+    "docs/v2/evidence/legacy-office/student-published.png": "076da623d5ab853541921719a86605c5bd92e46c63b38e3724f0e30de0afde6b",
+    "docs/v2/evidence/legacy-office/teacher-published.png": "dcb98170b24bf47b0a2b9e0b6369a20bede6d341822b491f0745e3d2b03f2551",
+    "docs/v2/evidence/legacy-office/teacher-review.png": "f244143086539d9f22fb16374a3267018d0a4b5ac2480b9c08d0672fc9bd7d73",
+    "docs/v2/evidence/legacy-office/teaching-journey.json": "98b4bda2ad45fdb29b7dc1cdf4033a063e1aa2338fafa9423bfe249e6803518f"
+  },
+  "frozenP7Artifact": "Existing artifact retains its source scope; no P7 repack",
+  "gitActions": {
+    "commit": false,
+    "push": false,
+    "ci": false
+  },
+  "appliedMigrationsChanged": false
+}

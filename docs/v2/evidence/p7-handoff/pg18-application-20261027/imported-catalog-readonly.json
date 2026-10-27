@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "sourceLineage": "PG16_IMPORTED_V1",
+  "referenceSha256": "ac7971c762672f80f3a6303a1121cc859da9e6f99712b418e61340175d72e46e",
+  "businessFingerprint": "ad9933e24e35ec95f5e42f65afb67de14cb377f84a1f3e2060c78163ed4503cc",
+  "nativeFingerprint": "2533882ddf1eb55121bedcdcbebee7f4dc13029b3c88dbbae3b1c5d751b5cf43",
+  "readOnly": true,
+  "receiptReissued": false,
+  "applicationActivated": false
+}

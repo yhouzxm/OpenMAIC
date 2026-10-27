@@ -325,17 +325,25 @@ export interface MediaChunkWindow {
   endMs: number;
 }
 
-export function mediaChunkWindows(durationSec: number): MediaChunkWindow[] {
-  const count = Math.max(1, Math.ceil(durationSec / MEDIA_ASR_CHUNK_SEC));
+/** Keep GLM-ASR below its 30-second upload limit, including segment boundary padding. */
+export function mediaAsrChunkSeconds(config: Pick<ASRModelConfig, 'modelId'>): number {
+  return config.modelId === 'glm-asr-2512' ? 25 : MEDIA_ASR_CHUNK_SEC;
+}
+
+export function mediaChunkWindows(
+  durationSec: number,
+  chunkSeconds = MEDIA_ASR_CHUNK_SEC,
+): MediaChunkWindow[] {
+  const count = Math.max(1, Math.ceil(durationSec / chunkSeconds));
   return Array.from({ length: count }, (_, index) => ({
     index,
-    startMs: index * MEDIA_ASR_CHUNK_SEC * 1000,
-    endMs: Math.min(durationSec * 1000, (index + 1) * MEDIA_ASR_CHUNK_SEC * 1000),
+    startMs: index * chunkSeconds * 1000,
+    endMs: Math.min(durationSec * 1000, (index + 1) * chunkSeconds * 1000),
   }));
 }
 
-export function maxMediaChunkCheckpoints(): number {
-  return Math.max(1, Math.ceil(MEDIA_MAX_DURATION_SEC / MEDIA_ASR_CHUNK_SEC));
+export function maxMediaChunkCheckpoints(chunkSeconds = MEDIA_ASR_CHUNK_SEC): number {
+  return Math.max(1, Math.ceil(MEDIA_MAX_DURATION_SEC / chunkSeconds));
 }
 
 export function uniformKeyframeTimes(
@@ -664,6 +672,8 @@ export async function extractMediaMaterial(
         audioInputPath = sourcePath;
       }
 
+      const asr = dependencies.resolveASRConfig?.() ?? configuredASR(input.config);
+      const chunkSeconds = mediaAsrChunkSeconds(asr);
       const chunkPattern = join(sessionDir, 'chunk-%03d.wav');
       try {
         await runMediaCommand(
@@ -686,7 +696,7 @@ export async function extractMediaMaterial(
             '-f',
             'segment',
             '-segment_time',
-            String(MEDIA_ASR_CHUNK_SEC),
+            String(chunkSeconds),
             '-reset_timestamps',
             '1',
             chunkPattern,
@@ -704,7 +714,7 @@ export async function extractMediaMaterial(
       if (chunkPaths.length === 0) {
         throw new MaterialExtractionError('ffmpeg produced no ASR audio chunks', false);
       }
-      const windows = mediaChunkWindows(transcriptDurationSec);
+      const windows = mediaChunkWindows(transcriptDurationSec, chunkSeconds);
       if (chunkPaths.length !== windows.length) {
         throw new MaterialExtractionError(
           `ffmpeg produced ${chunkPaths.length} ASR chunks; expected ${windows.length} for ${transcriptDurationSec} seconds`,
@@ -712,7 +722,6 @@ export async function extractMediaMaterial(
         );
       }
       asrChunks = chunkPaths.length;
-      const asr = dependencies.resolveASRConfig?.() ?? configuredASR(input.config);
       segments = await deadline.beforeAwait(() =>
         transcribeChunks(chunkPaths, windows, asr, transcribe, deadline),
       );

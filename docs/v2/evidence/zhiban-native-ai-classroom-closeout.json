@@ -1,0 +1,110 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_LOCAL_CANDIDATE",
+  "at": "2026-10-25T13:30:18.097Z",
+  "branch": "refactor/zhiban-v2",
+  "gitBase": "093b4a69af96626010d9104c50d680d9b9dc1928",
+  "uncommitted": true,
+  "scope": "P4_P6_NATIVE_PUBLISHED_AI_CLASSROOM_PERSONAL_PRACTICE",
+  "sourceHashes": {
+    ".gitignore": "330a52859df4df5269e43019c7dc9bfc491bb40c0ebe5215fb804739814df598",
+    "app/api/chat/pi/route.ts": "e08a250303d357b967bae42080ec64351b7f35f69e0890d8b56687bdb75878ce",
+    "app/zhiban/local/native-classroom.css": "090f6fc16060f669f0b96c53fe6348f24f98eb36abdb14dc3dd934816740f48e",
+    "app/zhiban/local/native-classroom.html": "0d38efd7e453c0d387f5fe20cc68fd35877f6ba2683f64b647af5e5410193ad3",
+    "app/zhiban/local/native-classroom.tsx": "6b02e5c17ee0740e111e21c453ab4fb9a07f32cd140fc69f8ade3df824a34c14",
+    "app/zhiban/local/native-published.html": "f5612b039a769f5e4065bea297102164941f497c2ac6e305b989abcfc084d329",
+    "app/zhiban/local/native-published.tsx": "674e9669a848fbf6dbbd8dde850fed4fb10e42fa43885d3db39962a67219e546",
+    "components/stage.tsx": "abba7db7edc38e2acfec5251a54a33f3948728f15880b47fb69e55accd5d1bd7",
+    "components/stage/scene-renderer.tsx": "73cffdd7e7968a34c70be03da796d12a2a82d36fb71577c6021962a9928fc81c",
+    "lib/classroom/published-host.ts": "0024c65b33665764ad4c9c280fa1f9bc01d0b2f405879555345b9e605cc7a144",
+    "lib/persistence/runtime-tombstone-guard.ts": "1d1cdb6af0bb793ad77169fca0901dfbb25d0dc52a3b1f9d576b6484d9c371f1",
+    "lib/server/owner-host-policy.ts": "162bdf09c2f924aa2488a63d363c79f5b0577f6f5e35abd2bac165e32dedc83f",
+    "lib/zhiban/infrastructure/authoring/host.ts": "f3d7f322b15343910272d6df6bd1527246fb7998609f33c342fc7163c6387701",
+    "lib/zhiban/infrastructure/classroom-ai/bindings.ts": "bfe608932562e5d10f6f145c6398dfceded91e2d0f6f7d9c008fb6f14cc34695",
+    "lib/zhiban/infrastructure/classroom-ai/http.ts": "aa4afc15728c7e3d700a18aba15bd71cf07f86c116339a69ea9b7e9a81e66423",
+    "lib/zhiban/infrastructure/classroom-ai/schema.sql": "77ab207cbfa89142eb5c77d65a665bccc55692ae7483977f5884df7045b1bd14",
+    "lib/zhiban/infrastructure/classroom-ai/service.ts": "81a46845c21fc833d3ee70e3b95579e554fe6b5477a007efaf1d3f2159ed22f8",
+    "lib/zhiban/infrastructure/content/service.ts": "7238c84c9c08f655ca0bd4de2b301022b55188b4c389953bae40da4cd3c04884",
+    "lib/zhiban/infrastructure/lesson/service.ts": "4145d350043460a5f8614071c4713f398826a95825bbb0655252e7d879961bc4",
+    "scripts/zhiban-local/build-native-authoring.ts": "799e96ee52baf61925ef4b1602b2a3e45acbbbbcfe96a6a93dcf28928d50fcd1",
+    "scripts/zhiban-local/request-target.ts": "6541260b7d92a0d51098c1ae01a7650767f47d1984990f67e39d6fecb9ade536",
+    "scripts/zhiban-local/run-m6-catalog.ts": "36dfe3b50c1ca0b82125253c647de6601f3bef46d5b204424d8ba7f7066a7f5e",
+    "scripts/zhiban-local/trial-content.ts": "697ca1fee84ecb1d75ebe6ec363bb29db3841553c514898434596fe944aec861",
+    "scripts/zhiban-local/tsconfig.native-authoring.json": "9375b95dce7a4780e5cfabc0b6a8c0b0f762702343ba47908630057048df0069",
+    "scripts/zhiban-local/verify-classroom-ai-real.cjs": "69efd62dcadc155cf92ce9b1193c705902667c0446b36c3cc9bcddb55e1c18ce",
+    "scripts/zhiban-local/verify-classroom-ai.ts": "6d73777709b5562070d23932db6f277120fcdd326c78d05cae6ec4876e337a9d",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "99900507b29f629c92194a87776d370cf4038446d0c16d2d75bc5b3e1cdae34d",
+    "tests/zhiban/classroom-ai/bindings.test.ts": "15211565a34c1c96c8632e3533e3d2786315e60c945e588faea8d345784db75b"
+  },
+  "artifactHashes": {
+    "zhiban-classroom-ai-local.json": "28f42331292c6c2ab74223e22156f8c008f3887a5d45b50dbdf2024b3317cbef",
+    "zhiban-native-ai-classroom-real-model.json": "f928cb708cbee3389e88c752853630a1280b164c3c5c31fd42a37ccee1346b9e",
+    "zhiban-native-ai-classroom-desktop.png": "c4b5e520286257dd5bb001ca60f3dff6979f315f5a0ec2cc2446ed6ef746e257",
+    "zhiban-native-ai-classroom-real-model.png": "bbc912286a823ddaba023a68fd33cd40287b74da0a3c9adb81b127c2d76b6bad"
+  },
+  "validation": {
+    "pg16": {
+      "status": "PASS",
+      "version": 160015,
+      "scope": "LOCAL_NATIVE_AI_CLASSROOM_FIXED_PUBLICATION_AND_PERSONAL_RUNTIME",
+      "cleanup": true
+    },
+    "realProvider": {
+      "status": "PASS",
+      "mode": "REAL_CAPTURE_PLUS_AUTHORIZED_UI_RUNTIME_REPLAY_NO_MODEL_REPEAT",
+      "participants": [
+        "default-1",
+        "default-2"
+      ],
+      "sourceDigest": "f11c2b4eb8a771a4c74e37630292c2bb045bc97dafff17e4d9559e2d37e56d2b",
+      "rawCaptureDigest": "214e97d80156e76a7bdf7ceebb98c03afc0fa8473da09bc41075839d7f2f6e8f",
+      "nativeWhiteboardSeq": 1
+    },
+    "types": {
+      "status": "PASS",
+      "command": "pnpm exec tsc -p scripts/zhiban-local/tsconfig.native-authoring.json --noEmit"
+    },
+    "eslint": {
+      "status": "PASS",
+      "scope": "new classroom host/browser/verifiers and changed owner/runtime seams"
+    },
+    "requestScopeTests": {
+      "status": "PASS",
+      "cases": 2
+    },
+    "nativePersistence": {
+      "status": "PASS_TARGETED",
+      "initialPass": 37,
+      "initialColdImportTimeouts": 2,
+      "retry": {
+        "pass": 2,
+        "timeoutMs": 20000
+      },
+      "note": "Only the two timed-out cold imports were retried; no test expectations were relaxed."
+    }
+  },
+  "persistent": {
+    "status": "RUNNING_LOCAL_PERSISTENT",
+    "origin": "https://127.0.0.1:3461",
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "accountsHash": "91d73979d2a3a17ba17c69549682aa4d944f875c004bb8427ad5ba35d262e122",
+    "accountsUnchanged": true,
+    "restoredFrom": "/home/zxm/.local/share/zhiban-persistent/2026-10-25T13-19-05.354Z-99840ac6",
+    "personalModelHistoryRestored": true,
+    "metadataBaselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+    "metadataBaselineMeaning": "historical synthetic dataset origin; not current candidate Git SHA"
+  },
+  "boundaries": [
+    "teacher opt-in for each fixed publication; personal runtime per member",
+    "no formal Attempt/completion/grade writes from playback/chat/whiteboard/self-test",
+    "TTS/ASR not configured: interfaces only, no voice signoff",
+    "PBL briefing only here; existing collaborative PBL remains available",
+    "frozen Native CREATE/APPEND/COMPLETE and maintenance/UNKNOWN/RESERVED quarantine unchanged",
+    "no existing applied migration changes; additive private native-lesson policy schema",
+    "no commit/push/CI or production/PG18 signoff"
+  ],
+  "nextPackage": "Native autonomous PBL Instructor/roleplay/task execution with current course governance",
+  "visualVerification": "Latest genuine teacher/assistant answer plus model whiteboard, using native pan to view content outside the initial viewport, after final persistent restart"
+}

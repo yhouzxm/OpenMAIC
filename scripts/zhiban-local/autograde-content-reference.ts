@@ -1,3 +1,4 @@
+import { localPgMajor, readProfileReference } from './pg-version';
 /** Combined expected profile: unchanged trusted Content/Identity/Bridge profile plus separately source-built grading DDL. */
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
@@ -8,6 +9,7 @@ export const autoContentReference =
 export const autoContentBase = 'docs/v2/evidence/p4-joint-classroom-profile-reference-local.json';
 const hash = (v: string | Buffer) => createHash('sha256').update(v).digest('hex');
 export async function expectedAutoContent() {
+  if (localPgMajor === 18) return (await readProfileReference(autoContentReference)).fingerprint;
   const baseBytes = await readFile(autoContentBase),
     r = JSON.parse(await readFile(autoContentReference, 'utf8'));
   if (

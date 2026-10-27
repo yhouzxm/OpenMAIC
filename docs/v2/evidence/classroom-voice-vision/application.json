@@ -1,0 +1,93 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_REAL_CLASSROOM_MICROPHONE_VISION_AND_TTS",
+  "at": "2026-10-26T16:16:26.275Z",
+  "head": "093b4a69af96626010d9104c50d680d9b9dc1928",
+  "dirtyCandidate": true,
+  "origin": "https://127.0.0.1:3461",
+  "publication": {
+    "resource": "01a178d6-eeae-75fa-b21a-81e1156a82a6",
+    "publication": "01a178d6-f19c-7606-980d-73aa521c8729",
+    "sourceDigest": "e021f11dea5ea8504c83ec7174612e6f56e32da3aa4287a0aea5f40c3618f566",
+    "imageSha256": "c9884772616501cedcb28475589e6a25d97776d268bf575268bdbfeba64f7520"
+  },
+  "input": {
+    "source": "NONPERSONAL_SYNTHETIC_DOUBAO_QUESTION_VIA_CHROMIUM_FAKE_MIC_DEVICE",
+    "realGetUserMediaAndMediaRecorder": true,
+    "providerResponsesNotMocked": true,
+    "questionTts": {
+      "real": true,
+      "format": "mp3",
+      "audioSha256": "8cb4b03673a52eadf4a9915ff3a278fde027791163734bfdeefcfeb852364ab9"
+    }
+  },
+  "asr": {
+    "model": "glm-asr-2512",
+    "browserConversion": "WEBM_TO_PCM_WAV",
+    "autoStop": {
+      "limitSeconds": 25,
+      "asr": [
+        {
+          "mime": "audio/wav",
+          "name": "recording.wav",
+          "bytes": 2396204,
+          "magic": "RIFF",
+          "status": 200,
+          "text": "请查看当前课件图片，告诉我两个图形的颜色、形状和四位数字，请用两句话回答。"
+        }
+      ],
+      "elapsed": 31106,
+      "audioHookSha256": "95a0b2e1736c8e7ef340e54b18d74e833b36ac020c2b931f80d649356b5b68ed",
+      "scope": "Browser recording/normalization + real ASR; prior to final discussion Blob URL fix"
+    },
+    "manualStop": {
+      "buttonClicked": true,
+      "elapsedIncludingASRMs": 22589,
+      "uploads": [
+        {
+          "mime": "audio/wav",
+          "name": "recording.wav",
+          "bytes": 1198124,
+          "magic": "RIFF",
+          "status": 200,
+          "text": "请查看当前课件图片，告诉我两个图形的颜色、形状和四位数字，请用两句话回答。"
+        }
+      ]
+    }
+  },
+  "vision": {
+    "model": "glm-4.6v",
+    "slot": "classroom.chat",
+    "answer": "我将查看课件图片并回答你的问题。\n左边是蓝色正方形，右边是红色圆形，下方数字是7284。",
+    "expectedDigitsOnlyInImage": "7284",
+    "toolReads": [
+      {
+        "tool": "inspect_classroom_image",
+        "isError": false,
+        "sourceDigest": "e021f11dea5ea8504c83ec7174612e6f56e32da3aa4287a0aea5f40c3618f566",
+        "assetDigest": "c9884772616501cedcb28475589e6a25d97776d268bf575268bdbfeba64f7520"
+      }
+    ],
+    "noRawToolMarkupInVisibleAnswer": true
+  },
+  "tts": {
+    "provider": "doubao-tts",
+    "urlKind": "blob",
+    "tts": [
+      {
+        "status": 200,
+        "success": true
+      }
+    ],
+    "played": [
+      {
+        "played": true,
+        "duration": 9.864
+      }
+    ]
+  },
+  "certificateVerified": true,
+  "pageErrors": 0,
+  "noFormalResultFromThisAIAnswer": true
+}

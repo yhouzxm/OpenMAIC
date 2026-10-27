@@ -1,0 +1,40 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_DEFAULT_LOCKED_POLICY_AND_RESPONSIVE_UI",
+  "at": "2026-10-26T02:49:21.497Z",
+  "origin": "https://127.0.0.1:3461",
+  "accountsSha256": "91d73979d2a3a17ba17c69549682aa4d944f875c004bb8427ad5ba35d262e122",
+  "deploymentSha256": "27b86ca39721e67eef4abe1ca6351ca1ac6e4bda9b68761c366064ba7572af42",
+  "deploymentPolicyUnchanged": {
+    "lock": "all",
+    "allowUserKeys": false
+  },
+  "lockedWriteRejected": true,
+  "connection": {
+    "kind": "llm",
+    "state": "PASS",
+    "externalDispatchesRequested": 1,
+    "replayDispatches": 0,
+    "scope": "CONNECTION_ONLY_NOT_CLASSROOM_ACCEPTANCE"
+  },
+  "usage": {
+    "scope": "CURRENT_SPACE_ONLY",
+    "before": {
+      "requests": 0,
+      "llmTokens": 0
+    },
+    "after": {
+      "requests": 1,
+      "llmTokens": 25
+    }
+  },
+  "journalCount": 1,
+  "layout": {
+    "mobileWidth": 390,
+    "noDocumentOverflow": true,
+    "historyTableMinWidth": 760,
+    "internalHorizontalScroll": true
+  },
+  "originalTeachingData": "preserved; separately checked with owned database read"
+}

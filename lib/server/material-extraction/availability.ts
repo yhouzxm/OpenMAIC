@@ -1,3 +1,4 @@
+import { LEGACY_OFFICE, legacyOfficeAvailable } from '@/lib/document/legacy-office';
 import {
   getDocumentExtractorProviders,
   getMediaExtractorProviders,
@@ -47,6 +48,9 @@ export async function resolveExtractableMimeTypes(
       (services.document ? [services.document.providerId] : []),
   );
   const mimes = new Set<string>();
+  if (services.document?.providerId === 'alidocmind' && (await legacyOfficeAvailable()))
+    for (const mime of Object.keys(LEGACY_OFFICE)) mimes.add(mime);
+
   const add = (supported: readonly string[]) => {
     for (const mime of supported) mimes.add(mime.toLowerCase());
   };

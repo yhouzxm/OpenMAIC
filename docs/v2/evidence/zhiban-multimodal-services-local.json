@@ -1,0 +1,41 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_LOCAL_AVAILABLE_SCOPE",
+  "checkedAt": "2026-10-25T22:32:37.781Z",
+  "externalServicesVerified": false,
+  "externalCalls": 0,
+  "services": {
+    "image": {
+      "state": "DISABLED",
+      "available": false,
+      "verified": false
+    },
+    "video": {
+      "state": "DISABLED",
+      "available": false,
+      "verified": false
+    },
+    "tts": {
+      "state": "DISABLED",
+      "available": false,
+      "verified": false
+    },
+    "asr": {
+      "state": "DISABLED",
+      "available": false,
+      "verified": false
+    }
+  },
+  "materialId": "mat_40wb2rhheg02f4gt29jezhps3m",
+  "localUploadStageId": "media-08c9573669a01acde30ad512ab74b8a9c99b1403fba4cd81",
+  "publishedResource": "01a17531-64f8-7564-8a42-a5fe0dd9f165",
+  "sha256": "5b8f0b6abf636e8de606f862a04a003e9d02f1b191781d398d3acce7f54a127b",
+  "formalFactsChanged": false,
+  "remaining": [
+    "Office/OCR/media external extraction",
+    "Image/video generation",
+    "TTS/ASR actual service calls"
+  ],
+  "source": "LOCAL_UPLOAD_NOT_GENERATED"
+}

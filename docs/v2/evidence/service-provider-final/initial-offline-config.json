@@ -1,0 +1,37 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "scope": "OFFLINE_CONFIGURATION_ONLY_NO_PROVIDER_CALLS",
+  "configSha256": "c6d5e3f5393bd859822d030f8beaf0165c54217d4925663081659586b4b3aa8d",
+  "services": {
+    "image": {
+      "state": "CONFIGURED_NOT_VERIFIED",
+      "provider": "glm-image",
+      "realCallVerified": false
+    },
+    "video": {
+      "state": "CONFIGURED_NOT_VERIFIED",
+      "provider": "seedance",
+      "realCallVerified": false
+    },
+    "tts": {
+      "state": "CONFIGURED_NOT_VERIFIED",
+      "provider": "doubao-tts",
+      "realCallVerified": false
+    },
+    "asr": {
+      "state": "CONFIGURED_NOT_VERIFIED",
+      "provider": "openai-whisper",
+      "realCallVerified": false
+    },
+    "document": {
+      "state": "CONFIGURED_NOT_VERIFIED",
+      "provider": "alidocmind",
+      "realCallVerified": false
+    }
+  },
+  "localExtractors": [
+    "plain-text",
+    "unpdf"
+  ],
+  "realExternalServicesVerified": false
+}

@@ -1,0 +1,16 @@
+{
+  "browser-dependency.json": "79d9de5428cd7a9d00a00ff97e016dad0ba831a332c049a9565c428f0b2398a5",
+  "checks.json": "5fc589445857f690cfdac71926057408122961c43935b8605e6046902a8bffb8",
+  "classroom.mp4": "56584e8dd873922dcf1c92d87066f142a488536bc9496711b636e6c8bb4b15dc",
+  "closeout.json": "7a693d7f0f9bdf077a70afa1b2ab75e3a5ea6bd96ecbf99f128600638e7863fc",
+  "default-entry.json": "b7b9b0b8a374f95fef660b422c768d3cda6d52f4b0eaa94ea548f8adabe05250",
+  "default-runtime.json": "f93f5459d1502c0a554d1447a223fbf77df47167becfd3c6d46ab8ef387ff1db",
+  "frame-first.png": "bd58cce3b40f65c519d8e68cc45a5837b204d68857cc3453694757a5b085c648",
+  "frame-second.png": "deb5be9fcd909c32267e309361734ac791f84dd3e70a4486556e83aa3f66fdb0",
+  "local.json": "3bb5b6993792f907a0060b37abb8ab16ce43c51a0f85d9405eafc25f000ad366",
+  "mp4-ready.png": "22d979b9b8178b8b57a49fd60e8c8cb02af50c96817a9693853321a94fcceeee",
+  "render.json": "7ee1f0dc9a7ddbce3d91186509686cc41a456cffc4132567df6333f79cfd398b",
+  "source-hashes.json": "7e552f517011bcdda3314c076e9a95a0a6998efd530e42a19c8f79152b114436",
+  "student-sharing-mobile.png": "d8529fa8ad4a671d4aba1573948b285181207afdc41fd280e678eb1687283468",
+  "teacher-sharing.png": "526380706f7b870d7100749ca3f8abb1025266e17d80522cfaec95e746de2802"
+}

@@ -1,0 +1,68 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PARTIAL_REAL_SERVICES_ACCEPTED",
+  "credentialInventory": {
+    "onlyExistingProjectCredential": "GLM_API_KEY",
+    "otherDedicatedCredentials": "EMPTY",
+    "userConfirmedNoAdditionalConfiguration": true
+  },
+  "providerImage": {
+    "model": "cogview-3-flash",
+    "generationSucceeded": true,
+    "initialAssetFetch": "REFUSED_BY_FAKE_IP_SSRF_CHECK",
+    "declaredMime": "image/png",
+    "actualContainer": "image/jpeg",
+    "canonicalization": {
+      "evidenceOrigin": "LOCAL",
+      "status": "REAL_PROVIDER_IMAGE_DECODE_REENCODE_VERIFIED",
+      "source": "ACTUAL_PREVIOUS_GLM_GENERATION_NOT_NEW_MODEL_CALL",
+      "mime": "image/png",
+      "bytes": 477598,
+      "sha256": "c28c7a1d789910129cccc8b15c4d9ed911d1381eb7cac0c1e84402fadf224ebc",
+      "normalization": {
+        "kind": "GLM_JPEG_TO_CANONICAL_PNG",
+        "originalSha256": "0bb39dbfb028cc7224757b2e37f6bf9203a3f2a798a02e77c47dcfc96ea35b95",
+        "originalDeclaredMime": "image/png",
+        "decodedMime": "image/jpeg",
+        "width": 1024,
+        "height": 1024
+      }
+    },
+    "duplicateGenerationDuringDownloadDiagnosis": false
+  },
+  "providerTts": {
+    "model": "glm-tts",
+    "initialAttempt": "REFUSED_LOCALLY_BEFORE_TRANSPORT_BY_FAKE_IP",
+    "actualProviderHttpStatus": 429,
+    "keptDisabled": true,
+    "automaticPaidRetries": false
+  },
+  "providerAsr": {
+    "status": "REAL_NATIVE_COMPATIBLE_ASR_PASS",
+    "model": "glm-asr-2512",
+    "transport": "openai-whisper",
+    "fixtureSource": "LOCAL_ESPEAK_SYNTHETIC_SPEECH_NOT_GLM_TTS",
+    "textSha256": "1f488925ded5829a85928251a2da285b62ce155b8e285720a568434f69a53734",
+    "durationMs": 2391
+  },
+  "networkFix": {
+    "status": "APPLIED",
+    "domains": [
+      "open.bigmodel.cn",
+      "maas-watermark-prod-new.cn-wlcb.ufileos.com"
+    ],
+    "generalSettingsUnchanged": true,
+    "projectSsrfChanged": false,
+    "mergePath": "/home/zxm/.local/share/io.github.clash-verge-rev.clash-verge-rev/profiles/Merge.yaml",
+    "beforeFilterCount": 71,
+    "afterFilterCount": 73,
+    "backupInPrivateDirectory": true
+  },
+  "testFixture": "ASR sample synthesized locally by existing libespeak-ng; not a GLM TTS success",
+  "initialVerifierIssues": [
+    "Node CJS/ESM loader errors occurred before provider calls; used same ESM aliases as local host",
+    "Initial verifier used container signature without production MIME handler; actual upstream PNG/JPEG mismatch then confirmed from saved bytes"
+  ],
+  "privateRawResponsesAndErrorsExported": false
+}

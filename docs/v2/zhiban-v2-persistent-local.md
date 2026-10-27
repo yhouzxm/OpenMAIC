@@ -51,3 +51,5 @@ pnpm trial:zhiban
 2026-10-24模拟实验接续：显式本地升级白名单追加flow/0002_simulation.sql，保存不可改写的计算运行与提交绑定；原0001及手填报告保持。默认运行／快照与证据范围见[服务端模拟实验包](zhiban-v2-simulation-local.md)。
 
 2026-10-24独立交付接续：[安装／恢复包](zhiban-v2-portable-install-local.md)补充全新源码目录、shallow来源对象和独立状态交付，保留原内部PG根路径；旧持久化证据继续只适用于其原范围，跨机验收仍待。
+
+2026-10-26 P7：原生课堂／自主PBL状态、归档资产、多模态资料／用量、服务中心配置／审计和课堂成果锚点／不可变凭据均随三库及owned私有文件恢复。`native-secret/instance-secret.key`须同数据库保存（外部OPENMAIC_SECRET_KEY另行保管）。新源码安装包、私有恢复pin、隔离读回及原默认实例恢复认[统一交接](zhiban-v2-p7-handoff.md)及其closeout；历史快照证据不扩大。

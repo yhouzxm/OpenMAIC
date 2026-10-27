@@ -1,0 +1,34 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "scope": "OFFLINE_CONFIGURATION_ONLY_NO_PROVIDER_CALLS",
+  "configSha256": "108d4918d6a957a767589f8eb7ccfe0c8bfc3cd85b644ce4e5f1da42621e6837",
+  "services": {
+    "image": {
+      "state": "CONFIGURED_NOT_VERIFIED",
+      "provider": "glm-image",
+      "realCallVerified": false
+    },
+    "video": {
+      "state": "DISABLED",
+      "realCallVerified": false
+    },
+    "tts": {
+      "state": "DISABLED",
+      "realCallVerified": false
+    },
+    "asr": {
+      "state": "CONFIGURED_NOT_VERIFIED",
+      "provider": "openai-whisper",
+      "realCallVerified": false
+    },
+    "document": {
+      "state": "DISABLED",
+      "realCallVerified": false
+    }
+  },
+  "localExtractors": [
+    "plain-text",
+    "unpdf"
+  ],
+  "realExternalServicesVerified": false
+}

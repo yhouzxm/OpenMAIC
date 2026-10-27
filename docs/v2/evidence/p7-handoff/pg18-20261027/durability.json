@@ -1,0 +1,13 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_PG18_BACKUP_RESTORE_RESTART",
+  "databases": 3,
+  "tables": 270,
+  "inventorySha256": "0329e2e30713f07cfa145ae2858b1bfe33b37bb73204387977ec8b3e2ec8f29f",
+  "privateFiles": 96,
+  "privateClosureSha256": "33ff3cbaba8a3bdab8c2b40b8ad302c93996e49fc4d57ec9a8091434ef7dfcf4",
+  "instanceKeyPreserved": true,
+  "sourceSnapshotPointerUnchanged": true,
+  "providerActivated": false
+}

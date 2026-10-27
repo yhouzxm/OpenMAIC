@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "postgresMajor": 18,
+  "profileFormat": "PG18_V1",
+  "sourceLineage": "PG18_FRESH_V1",
+  "scope": "PG18_FULL_HOST_NATIVE_PUBLICATION_RUNTIME_AND_NEGATIVE_GATES",
+  "pg18": 180006,
+  "node": "v22.23.3",
+  "checks": [
+    "Content/Native fixed profile verified in owned PG18 dual databases; independent Classroom migrations are validated separately",
+    "PG18 reference/version substitution and runtime MAINTAIN reject; frozen version-16 root rejects PG18; versioned closed root preserves Native DENIED",
+    "PG18 restricted roles + real Identity sessions + validated trusted HTTPS",
+    "trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands",
+    "real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft",
+    "Fixed publication, teacher-only CAS policy/audit, CSRF, member/private runtime and document/provider forgery boundaries PASS",
+    "Concurrent policy disable waits for runtime transaction lease; subsequent runtime access refused PASS",
+    "Native opaque HTML interaction and personal Quiz submission/review survive reload without formal grades PASS",
+    "Native ClassroomSurface load/reload, desktop/tablet/mobile and live disable/re-enable PASS",
+    "Enrollment withdrawal and ended teaching assignment refuse cached classroom/history/policy; restored authorization restores only own history PASS",
+    "Withdrawn publication rejects boot/history; personal native practice creates no formal Attempt PASS"
+  ]
+}

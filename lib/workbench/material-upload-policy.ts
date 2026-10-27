@@ -16,6 +16,9 @@ import {
 /** Registry format ids the workbench accepts. */
 const WORKBENCH_MATERIAL_FORMAT_IDS = [
   'pdf',
+  'doc',
+  'ppt',
+  'xls',
   'pptx',
   'docx',
   'xlsx',

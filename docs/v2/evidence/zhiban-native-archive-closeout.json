@@ -1,0 +1,112 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "checkedAt": "2026-10-25T21:51:11.008206+00:00",
+  "gitHead": "093b4a69af96626010d9104c50d680d9b9dc1928",
+  "branch": "refactor/zhiban-v2",
+  "dirtyCandidate": true,
+  "scope": "NATIVE_STABLE_SIX_FORMAT_ARCHIVE_AND_OWNER_BOUND_RESTORE",
+  "sourceHashes": {
+    "app/zhiban/local/native-archive.css": "27c863bb36560d69f4bab8b9c7e0a69a24fd01a376e5316f49d1f1cfe6024a15",
+    "app/zhiban/local/native-archive.html": "57590ab59005c8e104702f5ea5695ff4a5394ae981c8d07f64a92bde9b0629e8",
+    "app/zhiban/local/native-archive.tsx": "76a80930d7d009221757a42c2ae152a3ac6192816bee47078c3608bc778f3699",
+    "app/zhiban/local/native-published.html": "b455e99cc550e8cac4007cf54af612218f5d3b071509bee131dd37a9837e3a56",
+    "app/zhiban/local/native-published.tsx": "34a600386c3c84e3f6e9094f661bbdc84e5a2abade98d513ae8daa1207d355d2",
+    "app/zhiban/local/native-workbench.tsx": "ab52df0bad756550370fd37462711c1470f59f0cc6786a3d011dd8815b34d0e0",
+    "lib/document-store/persistence-types.ts": "b7b90f70c3ecb672add7712a22cf339204721523b34a40eab01eddb984c7f7fc",
+    "lib/export/pptx-builder.ts": "66b64d0ffb1bb859fdf41054afc723df855e1affcafb16cb1e6872921c13dc82",
+    "lib/export/standalone-html/build-standalone-html.ts": "ecd5150b4f0436acb140492407e1fed6e0fc91818ac169681fb0cebe145c8ca5",
+    "lib/server/agent-runtime/import-pptx-worker.mjs": "f685dfb8ca443194bddfb383f075abe6be294cdd23babc2aa1d689d185b5a8e1",
+    "lib/server/agent-runtime/import-pptx.ts": "c10abf397783accdc10bf2820ec2d0863b053cff0d0085eb00758cc3f87c1f31",
+    "lib/server/agent-runtime/pptx-offline-fetch.mjs": "a51367eda92921c9985c391014a803763aacb7deb4817d27244e214186741067",
+    "lib/zhiban/application/learning/attachment-assets.ts": "52e3545d676b7a846e3cf9540929f9a2cb5e1647411adbb7eb08d29687af7f8b",
+    "lib/zhiban/infrastructure/authoring/archive/design.ts": "3356726c7c64df6abb79e4410e1fa78291f66715f836895ebc3cf01e6fce9e8c",
+    "lib/zhiban/infrastructure/authoring/archive/service.ts": "5cd36a00304914587401fcac1b02c6f9225aeb3afde2289f4263a7744e7cb5ff",
+    "lib/zhiban/infrastructure/authoring/archive/zip.ts": "1f91d3f6d713d7dd8190335cc313399ef8bdfab12d2c6b7a85fec0a576f0af1b",
+    "lib/zhiban/infrastructure/authoring/http.ts": "23a519921bfbe9df20e720974b448f926e7ac9d32c1cf946b4eaa512c1395efc",
+    "lib/zhiban/infrastructure/authoring/snapshot.ts": "036d41802008a87cbd7d6a6b42a5b63dea92996f23c70a4a1896e28912838a4a",
+    "lib/zhiban/infrastructure/learning-files/scanner/clamav.ts": "494a7fe61554c0af37e2e9961cafbd91f815868c05ccec1ce4b35115c3aa06fc",
+    "scripts/zhiban-local/build-native-authoring.ts": "8bb54350793468910c800a1c996495600effee14cdd525c8edc0f51136b9b6fc",
+    "scripts/zhiban-local/run-m6-catalog.ts": "a4dda3230ae507f1bbabb768066d97913a2a7063bfaf2297d2aa1173ab3ddc5c",
+    "scripts/zhiban-local/tsconfig.native-authoring.json": "a27640d0a0059bcbdf63842222e04708227c47fd45fefe4db2b79bb5193cb31c",
+    "scripts/zhiban-local/verify-m6-catalog.mts": "d2bb1e0b891ca7cff1315dae3dfe85efa67f7baebba11b5ca14ca08951780231",
+    "scripts/zhiban-local/verify-native-archive.ts": "63e465d014403f273774cb027c5531e28e7b387179b2e298deacd64fffbd0826",
+    "tests/zhiban/native-archive/codec.test.ts": "616875cf9451f045c4519e78accdd56f655b3329415bbdbda981519319d53f74",
+    "tests/zhiban/native-archive/offline.test.ts": "61d5cf508c9b77fbf1bd83369ce2e9cc42d38773e9b2c40155ea08b83b367f9a",
+    "tests/zhiban/native-archive/restore-boundary.test.ts": "b54d48e095e1cdb4a526f97fd3ccb65bba0736fe0689fa3446ce6362471f1fa4"
+  },
+  "evidenceHashes": {
+    "docs/v2/evidence/zhiban-native-archive-downloads.json": "caa642df694f9cea7c9823f2d17cd814f3d9c9de5b4764d85844ff2583a61dee",
+    "docs/v2/evidence/zhiban-native-archive-local.json": "0eae761979caaab1b0b65cbd7f327536f03f6859a59ef4d79ba3c2a6796770ad",
+    "docs/v2/evidence/zhiban-native-archive-mobile.png": "1c7543bb3ed87208337e492f85f7aaa95b219897dd6dda1602db1a59a752de32",
+    "docs/v2/evidence/zhiban-native-archive-offline.png": "3495ef3a1a84c94f1c7a4a163a26f06e33713eaa9011c3be4bd05503df8c80a0",
+    "docs/v2/evidence/zhiban-native-archive-persistent-local.json": "d34f58d753c4c0ae1758c7a2c48d6f78ca7294a1d7fd0e420b1928c6efac1eee",
+    "docs/v2/evidence/zhiban-native-archive-persistent.png": "5527a09f8212f28063c6d52fff9ab6efb86571fbebef1bd60aa56966fffa0d8d"
+  },
+  "checks": {
+    "scopedTypecheck": "PASS",
+    "affectedLint": "PASS",
+    "codecRestoreScannerAndNativeExportRegression": "PASS_21",
+    "offlineNetworkBoundary": "PASS_1",
+    "nativePptxImportRegression": "PASS_31",
+    "disposablePg16RealScannerSixDownloadsAndAdoptPublish": "PASS",
+    "realEicarDenied": "PASS",
+    "default3461UiRestoreAndMaicRestart": "PASS",
+    "finalOfflinePptxUiRestore": "PASS",
+    "originalAccountsAndTwoCompletedPblReports": "PRESERVED",
+    "sourceMatches": true,
+    "sourceDriftCount": 0
+  },
+  "modelCalls": 0,
+  "postDisposableJourneyDelta": [
+    "Export rejects entries/expanded total beyond its own restore limits; covered by boundary unit and current default MAIC UI.",
+    "Optional package-bytes-only PPTX worker; covered by boundary unit, native regression and final current default real PPTX restore."
+  ],
+  "failuresRetained": [
+    {
+      "scope": "LOCAL_INITIAL_DOWNLOAD",
+      "result": "FAIL_OFFLINE_HTML_ASSET_PATH_AND_CSP_MEDIA",
+      "resolution": "Normalized same-origin player path; archive-only data fetch/media CSP; strict media errors and exact embedded media hashes."
+    },
+    {
+      "scope": "LOCAL_BUILD_DURING_EDIT",
+      "result": "SOURCE_RECEIPT_MISMATCH_REFUSED",
+      "resolution": "Finished source edits, then relaunched against stable closure."
+    }
+  ],
+  "limits": {
+    "compressedMiB": 64,
+    "expandedMiB": 128,
+    "entryMiB": 32,
+    "entries": 512,
+    "pptxMiB": 8,
+    "pptxSlides": 80
+  },
+  "boundaries": [
+    "MAIC preserves design/assets; learner state, grades, enrollment and authority never travel.",
+    "PPTX restores static slides only; native formula/media/layout warnings retained.",
+    "Experimental MP4/renderer, real multimodal/voice services, old Native maintenance and formal completion remain separate.",
+    "Previously downloaded offline files cannot be revoked.",
+    "Original P7/CI run 40096542805 evidence keeps its frozen source scope; current code is not repackaged or CI signed."
+  ],
+  "gitMutations": {
+    "commit": false,
+    "push": false,
+    "ciDispatch": false
+  },
+  "nextPackage": "UNIFIED_PERSISTENT_DELIVERY",
+  "recommendedModel": "GPT-6.1 Sol / medium",
+  "documentHashes": {
+    "TRIAL.md": "9e1dee621a9f8e1c4d3756a138d801f65fd5720084958475a303a0867e4dbf7a",
+    "docs/v2/zhiban-v2-native-archive-local.md": "3a20ed6f5d0b869d4483be2900ef613c2a2be3baf8e417796ea0894ffca3bca2",
+    "docs/v2/zhiban-v2-native-teaching-reuse-audit.md": "5d1a1cac3f93f1055fcce7ca554c6af550e918274ce145fcf48f52c246bde8f4",
+    "docs/v2/zhiban-v2-migration-completion-plan.md": "dcb31baf60fb1932e3a00449d0a4d0514efee304418d3ad15f175a8b45bf3b7d",
+    "docs/v2/zhiban-v2-feature-gap-matrix.md": "30edb8b990da52a8ac6332913dd9d9c7bd5f5f0525d59c5d6b35ce9ea7d81e09"
+  },
+  "finalHotSnapshot": {
+    "scope": "OWNED_PG16_THREE_DATABASES_AND_NATIVE_ASSETS",
+    "manifestSha256": "105c058859d5e314d12e7b3195248c72afadbf377bf46c6dbe337044d255d2d4",
+    "afterFinalPptxRestore": true
+  }
+}

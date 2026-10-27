@@ -1,3 +1,4 @@
+import { currentServiceTenant } from './service-scope';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { createLogger } from '@/lib/logger';
@@ -46,6 +47,8 @@ export interface UsageRecordInput {
 
 /** A persisted usage row — pure usage, no cost. */
 export interface UsageRecord {
+  /** Server-owned attribution. Historical unscoped rows stay unscoped. */
+  tenantId?: string;
   id: string;
   createdAt: number;
   kind: UsageKind;
@@ -117,6 +120,7 @@ export async function recordUsage(
 
     const now = opts.now ?? new Date();
     const record: UsageRecord = {
+      ...(currentServiceTenant() ? { tenantId: currentServiceTenant() } : {}),
       id: makeId(now),
       createdAt: now.getTime(),
       kind,

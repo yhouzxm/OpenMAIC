@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "bootstrapContracts": "8/8",
+  "targetedTypecheck": "scripts/zhiban-deploy/tsconfig.pg18.json",
+  "targetedEslint": "PASS",
+  "workflowYaml": "MANUAL_ONLY_ENVIRONMENT_REFERENCE_READONLY_CONTENTS",
+  "prerequisiteShellSyntax": "PASS",
+  "official121TagHttp11": "e19d0d4f45d81b8f7ab599b33ab03b0b8b68d5c0",
+  "sourceWitnessDrift": 0,
+  "frozenPg16InputsUnchanged": 95,
+  "fullPg16SuiteRerun": false,
+  "externalProvidersCalled": false,
+  "githubDispatched": false
+}

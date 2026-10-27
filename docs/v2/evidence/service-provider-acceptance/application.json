@@ -1,0 +1,51 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_REAL_IMAGE_AND_ASR_APPLICATION_JOURNEY",
+  "at": "2026-10-26T11:18:04.309Z",
+  "origin": "https://127.0.0.1:3461",
+  "image": {
+    "model": "cogview-3-flash",
+    "assetId": "ast_6rb2mr2a60vfdggh130c36txxr",
+    "mime": "image/png",
+    "sha256": "2bf12a594a3f1fc96df7f571c34cbe7c977bc0a4eb55149772752c05cb648473",
+    "normalization": {
+      "kind": "GLM_JPEG_TO_CANONICAL_PNG",
+      "originalSha256": "f84c20304893bfc62d722d7f76ac5986baa339368555ebd527b053eef0cc0df5",
+      "originalDeclaredMime": "image/png",
+      "decodedMime": "image/jpeg",
+      "width": 1024,
+      "height": 1024
+    },
+    "realScanner": true,
+    "sameCommandReused": true
+  },
+  "asr": {
+    "model": "glm-asr-2512",
+    "transport": "openai-whisper",
+    "textSha256": "1f488925ded5829a85928251a2da285b62ce155b8e285720a568434f69a53734",
+    "expectedPhraseMatched": true,
+    "source": "REAL_GLM_ASR_WITH_LOCAL_NONPERSONAL_SPEECH",
+    "realScanner": true
+  },
+  "publication": {
+    "resource": "01a177ee-7b09-743f-ac7d-9d5fae06dae9",
+    "publication": "01a177ee-7d87-7016-b5f0-7b048ab255a9",
+    "sourceDigest": "a62e5593f153471c1f0eebcf9593b2d9dc3aba6afa2ff390da0b5e1a8296abf5",
+    "stage": "media-67ed653429fa71e79e705142025c579b346fd636f04d8467"
+  },
+  "student": {
+    "fixedPublicationRead": true,
+    "generatedImageRendered": true,
+    "cannotGenerate": true,
+    "certificateVerified": true,
+    "pageErrors": 0
+  },
+  "accountsSha256": "91d73979d2a3a17ba17c69549682aa4d944f875c004bb8427ad5ba35d262e122",
+  "boundaries": [
+    "No formal score/completion changes",
+    "TTS remains disabled after actual HTTP429",
+    "Office/OCR/video provider integration not claimed",
+    "Audio/video material extraction still needs ffmpeg/ffprobe"
+  ]
+}

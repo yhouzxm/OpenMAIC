@@ -1,0 +1,378 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "scope": "HISTORICAL_PRODUCT_SOURCE_DELTAS_NOT_RETEST",
+  "packages": [
+    {
+      "id": "native-authoring",
+      "receipt": "docs/v2/evidence/zhiban-native-authoring-closeout.json",
+      "receiptSha256": "4f1bc1f5699be5a1ec310a43f62fe3f5de081fd1791d19a4b536b649c1feb8ec",
+      "matchedSourceFiles": 25,
+      "changedSourceFiles": [
+        {
+          "path": "app/zhiban/local/native-published.html",
+          "recordedSha256": "4544ba6282c65adba302352c2de55c6ef14e579834ac8c02f398659c485abbf0",
+          "currentSha256": "b455e99cc550e8cac4007cf54af612218f5d3b071509bee131dd37a9837e3a56"
+        },
+        {
+          "path": "app/zhiban/local/native-published.tsx",
+          "recordedSha256": "e3e69d166b7d33386666f9a2c3a557dc20f3030bba134e678a4f1e5d3ab66313",
+          "currentSha256": "34a600386c3c84e3f6e9094f661bbdc84e5a2abade98d513ae8daa1207d355d2"
+        },
+        {
+          "path": "app/zhiban/local/native-workbench.tsx",
+          "recordedSha256": "9ec0ab6865af7062ef48f4d78d30182dbe6b2e5ef10dfed83c45fe80c9a232ec",
+          "currentSha256": "22360b6dd1aba7b6ef40d34f2085b4e161a2e678f73347db05f85b575fb59681"
+        },
+        {
+          "path": "lib/server/owner-host-policy.ts",
+          "recordedSha256": "48a5e103bb43183232e3a1841c64a35148d6454664fed3b73de4a4beca39e7ac",
+          "currentSha256": "162bdf09c2f924aa2488a63d363c79f5b0577f6f5e35abd2bac165e32dedc83f"
+        },
+        {
+          "path": "lib/server/usage-storage.ts",
+          "recordedSha256": "2d6e5621bf922cf6bb9ca4c1319e2750e5d10fa4dc81761c9fe85356bcb02fb4",
+          "currentSha256": "293fe37c9fecbe73a43d3a96d9719cb67104d4b2d63c3331ed747d298525053b"
+        },
+        {
+          "path": "lib/zhiban/infrastructure/authoring/host.ts",
+          "recordedSha256": "cae29d0433f357ca7748f18ed2376b99e1ece160445e19f554396b57f860c2ef",
+          "currentSha256": "45e6a35f04811163cac80a9d9e8dde470e54ce2dfa338cbd2b34ce3d6ad38f18"
+        },
+        {
+          "path": "lib/zhiban/infrastructure/authoring/http.ts",
+          "recordedSha256": "768e8b0e4a09e183a0a4961b09f81b24bfe7d17fea814278bee758d786e0f4e7",
+          "currentSha256": "eada21d7ab1dbd6a0f2a02e55695e0ab21edfd8acbd8760a7b5d7e0fdc0735f7"
+        },
+        {
+          "path": "lib/zhiban/infrastructure/authoring/snapshot.ts",
+          "recordedSha256": "bdedf86ffb7a838cbd60e20f61cfb37ef7e36c84e0b2fea6127aea9a3b676897",
+          "currentSha256": "036d41802008a87cbd7d6a6b42a5b63dea92996f23c70a4a1896e28912838a4a"
+        },
+        {
+          "path": "lib/zhiban/infrastructure/lesson/service.ts",
+          "recordedSha256": "3c0836c97197fabf31b4cb6c59ec86020ad7c568012bf1f23e0b7559cace9211",
+          "currentSha256": "6586a9948af85a1705579fd9b536cc6a5eedf0b9e1def5b397fa66d8dfb38420"
+        },
+        {
+          "path": "scripts/zhiban-local/build-native-authoring.ts",
+          "recordedSha256": "3f6ac40845fc24b74286aad5ca944e9348e715f172f1de3d6620bf684c1946d5",
+          "currentSha256": "f1161bb7f23de72b6725f4f6343baccd4db4712e8ec79768793682b7720a26b7"
+        },
+        {
+          "path": "scripts/zhiban-local/run-m6-catalog.ts",
+          "recordedSha256": "f6ca26dd6b9b78eb5b7a262363ab6aea165b817d658ceb0c2e342d410c2e41a6",
+          "currentSha256": "fca3697b9950f54ce03aa4cd8067305857092495196bba1d7f55be4aa12c48af"
+        },
+        {
+          "path": "scripts/zhiban-local/tsconfig.native-authoring.json",
+          "recordedSha256": "56f2c661eb808fa88a7ed4bea8b4867cd776afb7b0116eba902ab41f9f8ff79a",
+          "currentSha256": "c9bdeadf124d9dd2044ca7e2e1e93b2f0a3ab703f32e1661c8ad5467ac36a6ab"
+        },
+        {
+          "path": "scripts/zhiban-local/verify-m6-catalog.mts",
+          "recordedSha256": "ae82f7e4edbebbb7c0fd0cd0c7d98286195b168e7235b5621aadac5ae8bbb5dd",
+          "currentSha256": "f68f9519cb9ccd998058c3bc5cbd167488d10df6c8be8f92deb6e2bf9b3cb3cc"
+        }
+      ],
+      "unresolvedSourceFiles": [],
+      "externalAbsoluteDependencyFiles": 0,
+      "interpretation": "Original product/source evidence only; later shared-file and documentation changes listed, not silently re-signed as full retest."
+    },
+    {
+      "id": "server-simulation",
+      "receipt": "docs/v2/evidence/simulation/closeout.json",
+      "receiptSha256": "91d7f02d8e2905f12bbaf8a56fd5f79effd0cd30d75805ac546d2f51f0e8720e",
+      "matchedSourceFiles": 0,
+      "changedSourceFiles": [],
+      "unresolvedSourceFiles": [],
+      "externalAbsoluteDependencyFiles": 0,
+      "interpretation": "Original product/source evidence only; later shared-file and documentation changes listed, not silently re-signed as full retest."
+    },
+    {
+      "id": "native-ai-classroom",
+      "receipt": "docs/v2/evidence/zhiban-native-ai-classroom-closeout.json",
+      "receiptSha256": "6849f00d603b37e395cbd29909e458688920539ddd891d175f81324fe7e1137d",
+      "matchedSourceFiles": 13,
+      "changedSourceFiles": [
+        {
+          "path": ".gitignore",
+          "recordedSha256": "330a52859df4df5269e43019c7dc9bfc491bb40c0ebe5215fb804739814df598",
+          "currentSha256": "4247b7c940633e3cc0bb3ba01f47d3df7878c0cb27977c3877533bfa4a23a810"
+        },
+        {
+          "path": "app/zhiban/local/native-classroom.tsx",
+          "recordedSha256": "6b02e5c17ee0740e111e21c453ab4fb9a07f32cd140fc69f8ade3df824a34c14",
+          "currentSha256": "18ac4b0ec0a447a182cc88fe4408754e800fc8cb78fad518f5f02c9babe73297"
+        },
+        {
+          "path": "app/zhiban/local/native-published.html",
+          "recordedSha256": "f5612b039a769f5e4065bea297102164941f497c2ac6e305b989abcfc084d329",
+          "currentSha256": "b455e99cc550e8cac4007cf54af612218f5d3b071509bee131dd37a9837e3a56"
+        },
+        {
+          "path": "app/zhiban/local/native-published.tsx",
+          "recordedSha256": "674e9669a848fbf6dbbd8dde850fed4fb10e42fa43885d3db39962a67219e546",
+          "currentSha256": "34a600386c3c84e3f6e9094f661bbdc84e5a2abade98d513ae8daa1207d355d2"
+        },
+        {
+          "path": "components/stage/scene-renderer.tsx",
+          "recordedSha256": "73cffdd7e7968a34c70be03da796d12a2a82d36fb71577c6021962a9928fc81c",
+          "currentSha256": "da8398996ee7bb1c498093d3daa8b51ad17ea53fb379f0f6c97f12f474ffdbcd"
+        },
+        {
+          "path": "lib/classroom/published-host.ts",
+          "recordedSha256": "0024c65b33665764ad4c9c280fa1f9bc01d0b2f405879555345b9e605cc7a144",
+          "currentSha256": "504c858241c3e555c5a7f4af7b98b81e9af71178fbab0ee35f22c4056d8339c6"
+        },
+        {
+          "path": "lib/zhiban/infrastructure/authoring/host.ts",
+          "recordedSha256": "f3d7f322b15343910272d6df6bd1527246fb7998609f33c342fc7163c6387701",
+          "currentSha256": "45e6a35f04811163cac80a9d9e8dde470e54ce2dfa338cbd2b34ce3d6ad38f18"
+        },
+        {
+          "path": "lib/zhiban/infrastructure/classroom-ai/bindings.ts",
+          "recordedSha256": "bfe608932562e5d10f6f145c6398dfceded91e2d0f6f7d9c008fb6f14cc34695",
+          "currentSha256": "c481101a1d27d771d358f2bb3579ba49076d259d45761a3b1999fd3bbc8fa838"
+        },
+        {
+          "path": "lib/zhiban/infrastructure/classroom-ai/http.ts",
+          "recordedSha256": "aa4afc15728c7e3d700a18aba15bd71cf07f86c116339a69ea9b7e9a81e66423",
+          "currentSha256": "866236612179b41618ccac3448b986620f5cf3613ed624631f7b5a0572d93460"
+        },
+        {
+          "path": "lib/zhiban/infrastructure/classroom-ai/service.ts",
+          "recordedSha256": "81a46845c21fc833d3ee70e3b95579e554fe6b5477a007efaf1d3f2159ed22f8",
+          "currentSha256": "a27485167f5f09b2064a556a4fac880cc2e1da467d2e2b20eab576d7f7749ec6"
+        },
+        {
+          "path": "lib/zhiban/infrastructure/lesson/service.ts",
+          "recordedSha256": "4145d350043460a5f8614071c4713f398826a95825bbb0655252e7d879961bc4",
+          "currentSha256": "6586a9948af85a1705579fd9b536cc6a5eedf0b9e1def5b397fa66d8dfb38420"
+        },
+        {
+          "path": "scripts/zhiban-local/build-native-authoring.ts",
+          "recordedSha256": "799e96ee52baf61925ef4b1602b2a3e45acbbbbcfe96a6a93dcf28928d50fcd1",
+          "currentSha256": "f1161bb7f23de72b6725f4f6343baccd4db4712e8ec79768793682b7720a26b7"
+        },
+        {
+          "path": "scripts/zhiban-local/run-m6-catalog.ts",
+          "recordedSha256": "36dfe3b50c1ca0b82125253c647de6601f3bef46d5b204424d8ba7f7066a7f5e",
+          "currentSha256": "fca3697b9950f54ce03aa4cd8067305857092495196bba1d7f55be4aa12c48af"
+        },
+        {
+          "path": "scripts/zhiban-local/tsconfig.native-authoring.json",
+          "recordedSha256": "9375b95dce7a4780e5cfabc0b6a8c0b0f762702343ba47908630057048df0069",
+          "currentSha256": "c9bdeadf124d9dd2044ca7e2e1e93b2f0a3ab703f32e1661c8ad5467ac36a6ab"
+        },
+        {
+          "path": "scripts/zhiban-local/verify-m6-catalog.mts",
+          "recordedSha256": "99900507b29f629c92194a87776d370cf4038446d0c16d2d75bc5b3e1cdae34d",
+          "currentSha256": "f68f9519cb9ccd998058c3bc5cbd167488d10df6c8be8f92deb6e2bf9b3cb3cc"
+        }
+      ],
+      "unresolvedSourceFiles": [],
+      "externalAbsoluteDependencyFiles": 0,
+      "interpretation": "Original product/source evidence only; later shared-file and documentation changes listed, not silently re-signed as full retest."
+    },
+    {
+      "id": "native-autonomous-pbl",
+      "receipt": "docs/v2/evidence/zhiban-native-pbl-closeout.json",
+      "receiptSha256": "a1dad95be6e3b3b2ed1edcb22cb4654f8d182fe8e46e87d557f03ca824f19fc4",
+      "matchedSourceFiles": 16,
+      "changedSourceFiles": [
+        {
+          "path": "TRIAL.md",
+          "recordedSha256": "67e114338fc01f7d78716baab9548cd3e74b6dbc2d343e2acc9b32cc0836925b",
+          "currentSha256": "916e3a9c711606998e052ca709ad9903d6c3b3994fb0bc175a63a5f26fbbbd5b"
+        },
+        {
+          "path": "app/zhiban/local/native-classroom.tsx",
+          "recordedSha256": "00f4a18d096cc7611a79625a9cc791144c00bfff32cf2dbb9b115af507777b7e",
+          "currentSha256": "18ac4b0ec0a447a182cc88fe4408754e800fc8cb78fad518f5f02c9babe73297"
+        },
+        {
+          "path": "docs/v2/zhiban-v2-feature-gap-matrix.md",
+          "recordedSha256": "27d01c87b37404f625527a2c9c697fde8fd6eedb4110516732e6cf1373ba4357",
+          "currentSha256": "b8743242d092bf9b450fdee8c09edcee25645f7078f2dec4cad413f1bad4b35f"
+        },
+        {
+          "path": "docs/v2/zhiban-v2-migration-completion-plan.md",
+          "recordedSha256": "7e0698448d3aa12195dfd8c8f44f0c39db1d717e4a439458b32ba72c64790681",
+          "currentSha256": "85fa36bb993e2746975a037694e6b7f51cea98f765f7e4f7247b165ef5ddb8e9"
+        },
+        {
+          "path": "docs/v2/zhiban-v2-native-teaching-reuse-audit.md",
+          "recordedSha256": "01aa2facb3964325af0b20abfb7ae1434611157524af21251ef1142aa7f4cd6a",
+          "currentSha256": "a7d502817e6b083a82b4417fc4d84092a1850f7bdd7e2e4e82b45d97d6294d6a"
+        },
+        {
+          "path": "lib/zhiban/infrastructure/classroom-ai/service.ts",
+          "recordedSha256": "694ea45a939598231a1b9a8941e3e68e34228d4948e18c44664a5127e78b0502",
+          "currentSha256": "a27485167f5f09b2064a556a4fac880cc2e1da467d2e2b20eab576d7f7749ec6"
+        },
+        {
+          "path": "scripts/zhiban-local/run-m6-catalog.ts",
+          "recordedSha256": "509db24cd56e006c7ff89249337fe6b83180c869a92b98018808aee1dfdd9f54",
+          "currentSha256": "fca3697b9950f54ce03aa4cd8067305857092495196bba1d7f55be4aa12c48af"
+        },
+        {
+          "path": "scripts/zhiban-local/tsconfig.native-authoring.json",
+          "recordedSha256": "fd7dc1fedebfac419e358845c39385b7392800b6f2837e2688eccad411fa1306",
+          "currentSha256": "c9bdeadf124d9dd2044ca7e2e1e93b2f0a3ab703f32e1661c8ad5467ac36a6ab"
+        },
+        {
+          "path": "scripts/zhiban-local/verify-m6-catalog.mts",
+          "recordedSha256": "379dac1e6d8032b0052518a4f7303e7e308ee23096c4d140f16f55b5b9031712",
+          "currentSha256": "f68f9519cb9ccd998058c3bc5cbd167488d10df6c8be8f92deb6e2bf9b3cb3cc"
+        }
+      ],
+      "unresolvedSourceFiles": [],
+      "externalAbsoluteDependencyFiles": 0,
+      "interpretation": "Original product/source evidence only; later shared-file and documentation changes listed, not silently re-signed as full retest."
+    },
+    {
+      "id": "native-archive",
+      "receipt": "docs/v2/evidence/zhiban-native-archive-closeout.json",
+      "receiptSha256": "bcc64e015701354231fc25f8251a7266026266c3d0995867b9b49be43b3216b3",
+      "matchedSourceFiles": 20,
+      "changedSourceFiles": [
+        {
+          "path": "app/zhiban/local/native-workbench.tsx",
+          "recordedSha256": "ab52df0bad756550370fd37462711c1470f59f0cc6786a3d011dd8815b34d0e0",
+          "currentSha256": "22360b6dd1aba7b6ef40d34f2085b4e161a2e678f73347db05f85b575fb59681"
+        },
+        {
+          "path": "lib/document-store/persistence-types.ts",
+          "recordedSha256": "b7b90f70c3ecb672add7712a22cf339204721523b34a40eab01eddb984c7f7fc",
+          "currentSha256": "3db51034912bfe442b5e226bb90d6e6be9c0390d7c416f2b4c7e7e6288bd9528"
+        },
+        {
+          "path": "lib/zhiban/infrastructure/authoring/http.ts",
+          "recordedSha256": "23a519921bfbe9df20e720974b448f926e7ac9d32c1cf946b4eaa512c1395efc",
+          "currentSha256": "eada21d7ab1dbd6a0f2a02e55695e0ab21edfd8acbd8760a7b5d7e0fdc0735f7"
+        },
+        {
+          "path": "scripts/zhiban-local/build-native-authoring.ts",
+          "recordedSha256": "8bb54350793468910c800a1c996495600effee14cdd525c8edc0f51136b9b6fc",
+          "currentSha256": "f1161bb7f23de72b6725f4f6343baccd4db4712e8ec79768793682b7720a26b7"
+        },
+        {
+          "path": "scripts/zhiban-local/run-m6-catalog.ts",
+          "recordedSha256": "a4dda3230ae507f1bbabb768066d97913a2a7063bfaf2297d2aa1173ab3ddc5c",
+          "currentSha256": "fca3697b9950f54ce03aa4cd8067305857092495196bba1d7f55be4aa12c48af"
+        },
+        {
+          "path": "scripts/zhiban-local/tsconfig.native-authoring.json",
+          "recordedSha256": "a27640d0a0059bcbdf63842222e04708227c47fd45fefe4db2b79bb5193cb31c",
+          "currentSha256": "c9bdeadf124d9dd2044ca7e2e1e93b2f0a3ab703f32e1661c8ad5467ac36a6ab"
+        },
+        {
+          "path": "scripts/zhiban-local/verify-m6-catalog.mts",
+          "recordedSha256": "d2bb1e0b891ca7cff1315dae3dfe85efa67f7baebba11b5ca14ca08951780231",
+          "currentSha256": "f68f9519cb9ccd998058c3bc5cbd167488d10df6c8be8f92deb6e2bf9b3cb3cc"
+        }
+      ],
+      "unresolvedSourceFiles": [],
+      "externalAbsoluteDependencyFiles": 0,
+      "interpretation": "Original product/source evidence only; later shared-file and documentation changes listed, not silently re-signed as full retest."
+    },
+    {
+      "id": "materials-multimodal",
+      "receipt": "docs/v2/evidence/zhiban-multimodal-closeout.json",
+      "receiptSha256": "fcb837e50d4d7509cc771fe135bdce3d0f6f93d3974e5f5f5b6d2fdfc52cc7c1",
+      "matchedSourceFiles": 16,
+      "changedSourceFiles": [
+        {
+          "path": "lib/zhiban/infrastructure/authoring/media/service.ts",
+          "recordedSha256": "11ef2b0e2e3070b6b9ed52d6f8bce6fd7c60010b654b6cb8aa3ab93ce2ac4e6e",
+          "currentSha256": "6c9834b52f266de4c952034da59656280d755ea28810afbf5c62f494699cfbf0"
+        },
+        {
+          "path": "lib/zhiban/infrastructure/authoring/host.ts",
+          "recordedSha256": "aa8fbfc3449dedd1b400440c5c5428a4ef0a9cec2f8730e32e967949bb2d5c58",
+          "currentSha256": "45e6a35f04811163cac80a9d9e8dde470e54ce2dfa338cbd2b34ce3d6ad38f18"
+        },
+        {
+          "path": "scripts/zhiban-local/build-native-authoring.ts",
+          "recordedSha256": "93a21b7e828261b69990b8f37023216de83290c667762e2da1ccc0b4526e7138",
+          "currentSha256": "f1161bb7f23de72b6725f4f6343baccd4db4712e8ec79768793682b7720a26b7"
+        },
+        {
+          "path": "scripts/zhiban-local/run-m6-catalog.ts",
+          "recordedSha256": "2fbe3b8a55f0f02f58fce2beae6d5ded054120fa3e9e835060b934f36438ae07",
+          "currentSha256": "fca3697b9950f54ce03aa4cd8067305857092495196bba1d7f55be4aa12c48af"
+        },
+        {
+          "path": "scripts/zhiban-local/tsconfig.native-authoring.json",
+          "recordedSha256": "c3e30e3c98649219dcd1210dfb00b12d85a1e51a501037a942d4c80b38c0a368",
+          "currentSha256": "c9bdeadf124d9dd2044ca7e2e1e93b2f0a3ab703f32e1661c8ad5467ac36a6ab"
+        },
+        {
+          "path": ".gitignore",
+          "recordedSha256": "47ce1cc0e2b3dafd3dfc84fe732f0fa98fa2af27f0c4fb99be3e5cc2dc62d21c",
+          "currentSha256": "4247b7c940633e3cc0bb3ba01f47d3df7878c0cb27977c3877533bfa4a23a810"
+        }
+      ],
+      "unresolvedSourceFiles": [],
+      "externalAbsoluteDependencyFiles": 0,
+      "interpretation": "Original product/source evidence only; later shared-file and documentation changes listed, not silently re-signed as full retest."
+    },
+    {
+      "id": "admin-service-center",
+      "receipt": "docs/v2/evidence/zhiban-service-center-closeout.json",
+      "receiptSha256": "d44e64cc6d5ae5d66e7d25995c7dc8a8868a712a917d4552dfad08a7a23c25e0",
+      "matchedSourceFiles": 22,
+      "changedSourceFiles": [
+        {
+          "path": "lib/zhiban/application/tutor/service.ts",
+          "recordedSha256": "038596e2738536a511887aba556b1247b2be00720cb206152d11945c750b0afd",
+          "currentSha256": "e31d083cf23ddc170fb4d4078a1de02df6e312eb0f52151bb975c7e4f6c2a8ad"
+        },
+        {
+          "path": "lib/zhiban/infrastructure/lesson/service.ts",
+          "recordedSha256": "d5bc66cda2989c2478abbcb48b59331ba0dcf4939fbc3ee45ba18126d3ff0d23",
+          "currentSha256": "6586a9948af85a1705579fd9b536cc6a5eedf0b9e1def5b397fa66d8dfb38420"
+        },
+        {
+          "path": "scripts/zhiban-local/build-native-authoring.ts",
+          "recordedSha256": "ee0c51586c25d75f1c73ae1c4c496b86836e6dca21e1113d1591ed13b0ceca25",
+          "currentSha256": "f1161bb7f23de72b6725f4f6343baccd4db4712e8ec79768793682b7720a26b7"
+        },
+        {
+          "path": "scripts/zhiban-local/verify-m6-catalog.mts",
+          "recordedSha256": "8e22c949ed631dddddb62fb37710835a487def5dd5a083b2f09e686467ba3ada",
+          "currentSha256": "f68f9519cb9ccd998058c3bc5cbd167488d10df6c8be8f92deb6e2bf9b3cb3cc"
+        },
+        {
+          "path": "scripts/zhiban-local/run-m6-catalog.ts",
+          "recordedSha256": "80a4bef0fa88d52e2ebdd9ad0c89a2113f6d853eb6a24fe671ec1821e8f8f39e",
+          "currentSha256": "fca3697b9950f54ce03aa4cd8067305857092495196bba1d7f55be4aa12c48af"
+        },
+        {
+          "path": "scripts/zhiban-local/tsconfig.native-authoring.json",
+          "recordedSha256": "6c5e6bc4d37243a4987ab7f7ec606cbeaa45e15018ea6405a043a6d53efd4a54",
+          "currentSha256": "c9bdeadf124d9dd2044ca7e2e1e93b2f0a3ab703f32e1661c8ad5467ac36a6ab"
+        },
+        {
+          "path": ".gitignore",
+          "recordedSha256": "a2af181bd72429d5cb12ceaff62ae14bd832f9c8e7aab392244abf887dea5bcc",
+          "currentSha256": "4247b7c940633e3cc0bb3ba01f47d3df7878c0cb27977c3877533bfa4a23a810"
+        }
+      ],
+      "unresolvedSourceFiles": [],
+      "externalAbsoluteDependencyFiles": 0,
+      "interpretation": "Original product/source evidence only; later shared-file and documentation changes listed, not silently re-signed as full retest."
+    },
+    {
+      "id": "classroom-trusted-results",
+      "receipt": "docs/v2/evidence/zhiban-course-results-closeout.json",
+      "receiptSha256": "c9e60aaa9332d1f90252a2ff1a2b13b1a3db467d17b476a2bf99347728b6ac6e",
+      "matchedSourceFiles": 28,
+      "changedSourceFiles": [],
+      "unresolvedSourceFiles": [],
+      "externalAbsoluteDependencyFiles": 0,
+      "interpretation": "Original product/source evidence only; later shared-file and documentation changes listed, not silently re-signed as full retest."
+    }
+  ]
+}

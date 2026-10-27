@@ -1,0 +1,10 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "targetedNodeTests": "PASS",
+  "targetedEslint": "PASS",
+  "diffCheck": "PASS",
+  "fullProjectTestsRun": false,
+  "githubCiRun": false,
+  "modelCallsRepeated": false
+}

@@ -1,3 +1,24 @@
+> 2026-10-27 P7：PG18 版本化全量 host、三角色、原生课堂及同主版本停机／在线备份恢复已 LOCAL 通过；[远端验收准备](zhiban-v2-pg18-readiness.md)已成包。尚未提交／推送／dispatch；PG16 导入数据的应用 receipt 重签／激活、旧 Native 维护链与真实云部署不在本次通过范围。
+
+> 2026-10-27：[课堂语音与视觉收口](zhiban-v2-classroom-voice-vision-local.md)已 LOCAL 通过；下一整包转近期增量持久化／Ubuntu＋PG18 交付，维护输入隔离继续保留。
+
+> 当前剩余任务统一认[2026-10-26核对单](zhiban-v2-remaining-work-audit-20261026.md)：已完成能力与历史待办已分开；课堂实时多模态已在 10-27 LOCAL 收口；重点剩余旧可信执行／实测、最新部署交付和运营自动化，不将36行部分状态累计为未完功能数。
+
+> 旧 Office 整包已完成 LOCAL：DOC／PPT／XLS隔离转现代格式、双向扫描、AliDocMind真实解析、教师正文核对编辑／新建原生课件／采用发布及学生固定版本查看通过。原件保留，仍限1MiB，不承诺无损版式。见[旧 Office 收口](zhiban-v2-legacy-office-local.md)。
+
+> 本轮服务收口：豆包TTS已通过真实生成／扫描／采用发布及学生播放；DOCX／PPTX／XLSX／PNG OCR已通过AliDocMind真实解析。用户开通模型后，Seedance真实生成／扫描／采用发布及学生播放已通过，视频已启用。见[最新服务收口与配置](zhiban-v2-service-provider-final-local.md)。旧证据和P7归档保持各自来源范围。
+
+> 首轮历史记录（后续收口见上）：现有智谱凭据已接通图像生成及ASR，并完成教师扫描／采用发布与学生查看。TTS真实请求429保持关闭；音视频资料解析已在FFmpeg安装后通过真实分段转写、关键帧及正文验收；文档／OCR和视频生成仍待配置／适配。见[服务接入与验收](zhiban-v2-service-provider-acceptance-local.md)；P7旧归档保持原冻结范围，不重打交接。
+
+> 2026-10-26 P7 当前收口：近期原生备课／课堂／自主PBL／归档、多模态、管理员服务中心及可信结果已一次纳入[统一持久化交付](zhiban-v2-p7-handoff.md)。源码、安装包与私有恢复分离，实际验证与版本认该页 closeout；历史模型／PG／远端证明保持原范围，不重复全课堂或CI。
+
+> 2026-10-26 当前：完整课堂与可信结果已完成普通课程 LOCAL 整包，包含固定 Quiz／PBL 成果→原 Attempt／正式提交→原评分与完成规则、教师显式共享小结及受限 Tutor 来源工具。实际范围与集中边界见[产品包](zhiban-v2-classroom-trusted-results-local.md)；旧 Native 维护链、仪器实测及缺少服务的能力继续隔离。下一整包为统一持久化交付，历史“下一步”不再作为待办。
+
+> 2026-10-26 原 P3／P6：[资料与多模态服务整包](zhiban-v2-materials-multimodal-local.md)已补课程服务状态、原生图像／视频／TTS／ASR接线、请求查证与已有素材采用发布；真实扫描、文本抽取和本地素材发布旅程已 LOCAL 通过。用户确认外部服务未配置，Office／OCR／音视频解析及各类生成／语音真实调用仍待服务，不能标为全部可用。
+
+2026-10-26 增量：管理员「服务与运行中心」复用原生配置／模型分配／用量，补空间授权、连接检查及审计。实际本地范围与待外部服务验收见 [整包说明](zhiban-v2-admin-service-center-local.md)；历史证据保持原适用范围。
+> 2026-10-26 原 P3／P6：[原生全格式课件归档与恢复](zhiban-v2-native-archive-local.md)已接稳定六格式导出、完整 MAIC 设计／资产及静态 PPTX 新副本恢复；实际 LOCAL 扫描、发布旅程与默认入口以本包 closeout 为准。学生历史不携带，实验视频服务与旧 Native 可信维护边界保留。下一整包为统一持久化交付，不逐格式重复 P7／CI。
+
 > 2026-10-24 原 P3/P6：[原生备课工作台、完整课件与采用发布](zhiban-v2-native-authoring-local.md)已接课程授权、原生编辑／资料／Agent、不可变文档资产和固定版本学生播放。实际模型、默认持久入口及证据范围以该包 closeout 为准；完整 AI 课堂、自主 PBL、全格式交付与多模态服务仍待，不重复移植已完成业务。原生差额总表见[复用核查](zhiban-v2-native-teaching-reuse-audit.md)。旧远端 run 40096542805 PASS 保留原冻结包范围。
 
 > 2026-10-24 P7：[结构化启动定位](zhiban-v2-portable-ci-acceptance.md)在隐藏来源HOME的LOCAL环境复现CONTENT_REBIND／ENOENT：自动评分内容profile校验误读历史绝对源码路径。已改当前目录解析及原hash验证，恢复／重启通过；启动阶段诊断接线完成。源码已变化，下一步重建交付包与pin；本轮无提交／推送／CI，原远端FAIL不改写。
@@ -164,7 +185,7 @@
 | P3 常规教学与管理 | 文字作业版本／规则、[原生Quiz生成采用发布](zhiban-v2-ai-quiz-local.md)、原生三题型、判断模板、填空／匹配／排序测验及受控复制／练习与正式成绩发布更正；教师成绩簿、当前页及受限跨页CSV；真实ClamAV扫描PDF/TXT≤1MiB；名册导入与分页教务、主题／师生回复／关闭／隐藏恢复讨论；本人资料与PNG头像、受限全成员目录／正式档案、本人改密与退出全部会话；已有User的空间邀请／同意／激活、启停、允许角色与管理员交接；教师课程／教学班授权与撤权；普通global开户／本人首密、独立平台全局启停／目录及受控@标识LOCAL闭环；七类教务导入及持久批次结果；TXT／MD／PDF课程资源解析／发布／下载已有 | [简答AI建议首包](zhiban-v2-quiz-ai-advice-local.md)已交付，自动／更正等另定范围的AI评价、更多教学资源格式；真实开户身份核验／交付渠道、全局运营审批／部署、外部目录同步；[教学班权重总评／申诉](zhiban-v2-final-grades-local.md)已按确认规则LOCAL交付；跨班学分／仲裁另计 | **部分完成**；已交付能力不再列待办 |
 | P4 完整课堂／Runtime／实验 | [固定教案编排、生命周期／先修、人工实验记录与原成绩闭环](zhiban-v2-classroom-flow-lab-local.md)已LOCAL交付；基础课堂会话、讲义／活动派发、改期／结束／历史；教师讲义翻页、学生跟随／自主浏览／重连；[固定发布版本的原生PPT只读播放](zhiban-v2-native-player-local.md)；[离线HTML互动发布／学生操作](zhiban-v2-interactive-local.md)；[课堂结果汇总／本人历史](zhiban-v2-classroom-results-local.md)；foundation及隔离边界保留 | 实际Native CREATE／APPEND／COMPLETE组合、可信自动测量／完成、真实维护输入及实验执行合同仍待；学生填写实验不得冒称自动事实 | **固定教学编排与人工实验闭环LOCAL完成**；完整Native能力仍未完成 |
 | P5 分析与干预 | 教师统计、学生个人概览、[事实名单](zhiban-v2-teacher-followups-local.md)、[人工跟进／结案](zhiban-v2-followup-cases-local.md)、[站内提醒与本人确认](zhiban-v2-reminders-local.md)、[补救计划与效果回看](zhiban-v2-remediation-local.md)、[可解释规则与私有审阅](zhiban-v2-risk-local.md)、[概念证据与教师纠错](zhiban-v2-concept-local.md)、[证据型画像与本人纠错](zhiban-v2-learner-local.md) | [六维描述型画像与EMA教师审阅](zhiban-v2-six-dimension-ema-local.md)已LOCAL接通；跨课程／无人值守分析另计 | 六维定义、固定公开来源、缺证据状态、采用草稿／发布及本人纠错可用；不生成能力分 |
-| P6 高级教学 | 教师AI文字备课原生run／采用发布已接，真实三页旅程通过；[原生Quiz生成采用发布](zhiban-v2-ai-quiz-local.md)已接真实模型与正式成绩旅程；[课程Tutor](zhiban-v2-course-tutor-local.md)原生Agent文字辅导、课程授权、教师开关、本人历史与真实两轮对话已LOCAL接通；[PBL小组协作／共同提交／教师公开评价](zhiban-v2-pbl-collaboration-local.md)已补LOCAL课程差额 | [公式保留／采用自动打开已完成](zhiban-v2-lesson-product-p4-local.md)；[私人AI学习伙伴](zhiban-v2-ai-peer-local.md)已交付；[EMA固定证据模型分析及教师审阅](zhiban-v2-six-dimension-ema-local.md)已LOCAL接通；原生自主PBL运行仍待；工具型Agent／其他高级模式按明确用途和各自门禁另计 | **文字备课、课程辅导及PBL小组协作LOCAL可用**；不代表所有高级模式完成 |
+| P6 高级教学 | 教师AI文字备课原生run／采用发布已接，真实三页旅程通过；[原生Quiz生成采用发布](zhiban-v2-ai-quiz-local.md)已接真实模型与正式成绩旅程；[课程Tutor](zhiban-v2-course-tutor-local.md)原生Agent文字辅导、课程授权、教师开关、本人历史与真实两轮对话已LOCAL接通；[PBL小组协作／共同提交／教师公开评价](zhiban-v2-pbl-collaboration-local.md)已补LOCAL课程差额 | [公式保留／采用自动打开已完成](zhiban-v2-lesson-product-p4-local.md)；[私人AI学习伙伴](zhiban-v2-ai-peer-local.md)已交付；[EMA固定证据模型分析及教师审阅](zhiban-v2-six-dimension-ema-local.md)已LOCAL接通；[原生自主PBL、任务评价与情境角色扮演](zhiban-v2-native-autonomous-pbl-local.md)已补课程宿主，实际验证认其 closeout；工具型Agent／其他高级模式按明确用途和各自门禁另计 | **文字备课、课程辅导及自主／协作PBL LOCAL可用**；不代表所有高级模式完成 |
 | P7 整体交付收口 | [当前LOCAL统一交接包](zhiban-v2-p7-handoff.md)：单一指南、dirty源快照／hash、原实例三角色讲义→作答→评分→回看 | [本机三库持久化／正常及异常恢复](zhiban-v2-persistent-local.md)已LOCAL验证；真实账户／运营交付、跨主机安装恢复、真实数据／部署和高级能力门禁仍待；普通旧URL已批量收尾 | **本次LOCAL交接范围完成**；不宣称全项目／生产或全部旧路由完成 |
 
 证据索引：[55路由](zhiban-v2-ui-page-gap-matrix.md)、[36能力](zhiban-v2-feature-gap-matrix.md)、[P1章节](zhiban-v2-p1-curriculum-local.md)、[备课串联](zhiban-v2-p1-author-flow-local.md)、[基础课堂](zhiban-v2-basic-classroom-local.md)、[成绩簿](zhiban-v2-gradebook-local.md)、[CSV](zhiban-v2-gradebook-csv-local.md)、[真实扫描附件](zhiban-v2-submission-scanner-local.md)。这些证明各自范围；整合后的入口以其新receipt为准，历史CI不重复签发。
@@ -236,13 +257,13 @@ V2 课程元数据管理职责、真实身份、内容版本、Attempt、评分�
 
 2026-10-23集中对账：以下沿原P1–P7合并交付，不另起迁移主线。36项能力表中的多个“部分可用”共用同一个Runtime或真实运营缺口，不能累计成36项未完功能；原人日估算不作为当前剩余工期。
 
-**已交付，不再重做：** 三角色工作区及普通旧入口；教务／名册与七类导入；章节编排、讲义、学习与讨论；已批准题型及复制、人工评分／更正、成绩簿跨页导出、总评／申诉；正式依据的进度／先修；账户LOCAL流程和资料；跟进／提醒／补救／风险审阅／证据画像；教师AI文字／Quiz备课、课程文字Tutor、简答AI建议与人工决定；固定教案／人工实验报告、私人AI伙伴及PBL小组共同提交／教师评价；当前LOCAL源码交接。各项证明仍按其原source／实例范围，不等于生产签收。
+**已交付，不再重做：** [原生备课／完整编辑](zhiban-v2-native-authoring-local.md)、[AI课堂](zhiban-v2-native-ai-classroom-local.md)、[自主PBL](zhiban-v2-native-autonomous-pbl-local.md)及[稳定六格式归档／新副本恢复](zhiban-v2-native-archive-local.md)均已有各自LOCAL证明；三角色工作区及普通旧入口；教务／名册与七类导入；章节编排、讲义、学习与讨论；已批准题型及复制、人工评分／更正、成绩簿跨页导出、总评／申诉；正式依据的进度／先修；账户LOCAL流程和资料；跟进／提醒／补救／风险审阅／证据画像；教师AI文字／Quiz备课、课程文字Tutor、简答AI建议与人工决定；固定教案／人工实验报告、私人AI伙伴及PBL小组共同提交／教师评价；当前LOCAL源码交接。各项证明仍按其原source／实例范围，不等于生产签收。
 
 | 执行顺序／原批次 | 一次交付的完整包 | 尚缺什么与退出标准 |
 | --- | --- | --- |
-| 1 · P3 资源与附件完整包 | 集中接原生支持的Office、OCR、音视频解析，以及相应教学资源／学生附件；统一扫描、配置、错误反馈和课程归属 | [本包代码](zhiban-v2-resource-attachment-bundle-local.md)已补CSV、更多下载型附件与原生解析provider主机配置；Office／OCR／媒体真实解析因用户未配置服务继续待验，1MiB限额保持。PDF预览不保留完整版式。一次核对全部原生格式和服务输入，贯通上传→真实扫描／解析→教师审核发布→学生查看／下载→附件提交／评分。格式是否可用按真实服务决定，不逐格式拆交付，也不要求无合同的格式。当前扫描状态以实际进程选择的profile及loader为准，恢复前旧元数据不代替当前可用性 |
-| 2 · P4 完整课堂与实验包 | 原生场景宿主、课堂生命周期／重连／取消、互动与Attempt、可信事件和师生结果；VirtualLab实际实验差额及相关页面一起交付 | [固定版本教案、先修、暂停恢复／推进／结束及人工实验报告](zhiban-v2-classroom-flow-lab-local.md)已贯通数据／API／页面、原评分与学生历史并接默认3461。测量标记LEARNER_REPORTED。剩余实际Native运行组合与可信自动测量／完成，真实维护control／pgpass／公钥pin未齐；UNKNOWN／RESERVED隔离保持，不以iframe自报计完成或成绩 |
-| 3 · P3/P7 持久化可交付版本 | 长期保留课程／账号／成绩的启动安装、配置交付、真实账户运营接入、备份恢复和统一交接 | [本机持久化／三库备份恢复](zhiban-v2-persistent-local.md)已交付；默认停止保存快照，下次保持同批ID、账号及历史。剩余跨主机独立安装、真实运营交付及服务配置；真实身份核验／首密渠道／运营审批及外部目录按实际输入接入。真实数据迁移／生产部署需用户具体授权。最终统一收口一次，不再每个入口或小增量重打P7 |
+| 1 · P3 资源与附件完整包 | 集中接原生支持的Office、OCR、音视频解析，以及相应教学资源／学生附件；统一扫描、配置、错误反馈和课程归属 | [本包代码](zhiban-v2-resource-attachment-bundle-local.md)已补CSV、更多下载型附件与原生解析provider主机配置；原生工作台／完整课件采用发布及六种稳定格式导出、MAIC／静态PPTX恢复已交付LOCAL；[资料与多模态整包](zhiban-v2-materials-multimodal-local.md)已补统一状态、主机配置交付、图像／视频／TTS／ASR接线及本地素材发布，图像生成与ASR已通过[真实服务验收](zhiban-v2-service-provider-acceptance-local.md)，豆包TTS、Seedance及AliDocMind现代Office／OCR已通过[真实服务收口](zhiban-v2-service-provider-final-local.md)；音视频资料解析已完成真实验收，1MiB限额保持。PDF预览不保留完整版式。一次核对全部原生格式和服务输入，贯通上传→真实扫描／解析→教师审核发布→学生查看／下载→附件提交／评分。格式是否可用按真实服务决定，不逐格式拆交付，也不要求无合同的格式。当前扫描状态以实际进程选择的profile及loader为准，恢复前旧元数据不代替当前可用性 |
+| 2 · P4 完整课堂与实验包 | 原生场景宿主、课堂生命周期／重连／取消、互动与Attempt、可信事件和师生结果；VirtualLab实际实验差额及相关页面一起交付 | [固定版本教案、先修、暂停恢复／推进／结束及人工实验报告](zhiban-v2-classroom-flow-lab-local.md)已贯通数据／API／页面、原评分与学生历史并接默认3461。测量标记LEARNER_REPORTED。普通课程原生AI课堂、自主PBL本人运行／报告和服务端明确来源的DC／RC模拟均已有独立LOCAL证明；[完整课堂与可信结果](zhiban-v2-classroom-trusted-results-local.md)已将固定Quiz／PBL成果绑定原Attempt、正式提交、原评分与原完成规则；教师共享小结及课程Tutor只读工具已接。剩余旧真实Native运行组合、仪器实测的可信输入未齐；UNKNOWN／RESERVED隔离保持，不以iframe自报计完成或成绩 |
+| 3 · P3/P7 持久化可交付版本 | 长期保留课程／账号／成绩的启动安装、配置交付、真实账户运营接入、备份恢复和统一交接 | [本机持久化／三库备份恢复](zhiban-v2-persistent-local.md)已交付；默认停止保存快照，下次保持同批ID、账号及历史。独立安装／合成数据三库恢复已按原冻结包在真实GitHub Ubuntu VM run 40096542805 PASS。近期原生能力、服务中心和可信结果已一次纳入本轮P7；当前剩余为真实长期主机／PG18及服务配置验收；真实身份核验／首密渠道／运营审批及外部目录按实际输入接入。真实数据迁移／生产部署需用户具体授权。最终统一收口一次，不再每个入口或小增量重打P7 |
 
 **已获纳入的集中范围及当前状态：** 原REVIEW已由用户2026-10-24授权，不再等待保留决定。固定教学场景编排和私人AI学习伙伴已交付LOCAL；PBL小组协作已交付课程差额；[六维证据画像／EMA固定来源分析与教师审阅](zhiban-v2-six-dimension-ema-local.md)已LOCAL交付。[校内证书、跨班学分及受限自动正式AI评分](zhiban-v2-attainment-autograde-local.md)已LOCAL交付，实际Native与外部运维输入继续集中待补。六维缺证据不编分，EMA不作为心理健康诊断，自动正式AI评分须受限服务身份与当前版本授权，不能把现有人工采用建议改名。
 
@@ -261,3 +282,7 @@ V2 课程元数据管理职责、真实身份、内容版本、Attempt、评分�
 上游优先决定已生效：新版满足或更好即取消旧实现移植；此前原“下一包通用学习中心”改为先核验1.2.0并接原生学习／课堂能力。不是将已完成业务清零，也不要求另开逐项评审回合。
 
 历史课程学习入口接续（2026-10-17，后续已完成升级，以下保留当时范围）：[源码核对与交付边界](zhiban-v2-openmaic-120-compatibility.md)记录六包版本／exports差异和官方storage构造探针。当前pin未改变；P2增量复用正式SlideCanvas、已发布目录与原Learning组件，覆盖单元URL、前后导航、师生预览和作答；完整原生运行能力及1.2升级未冒签。后续按storage兼容升级包推进，不重造上游引擎。
+
+2026-10-25 原 P4／P6 接续：[原生 AI 课堂普通课程宿主](zhiban-v2-native-ai-classroom-local.md)复用固定发布文档、ClassroomSurface／Stage、问答／多角色圆桌、白板、自测及本人历史。教师按发布版本启停，当前课程资格／撤权与短写并发屏障独立验证；真实模型证据与无模型 PG16 负向旅程分开。个人练习不自动写正式完成或成绩；TTS／ASR、原生自主 PBL、全格式归档与旧 Native 可信运行仍按原三个大包集中保留，不重打 P7 或 GitHub 回归。
+
+2026-10-25 原 P6：[原生自主 PBL](zhiban-v2-native-autonomous-pbl-local.md)复用上游工作台／导师／Simulator／Evaluator，补独立发布版本开关、本人持久状态、服务端来源与评价权限、CAS及撤权／流终态屏障。既有小组共同提交与教师评价保留；练习不自动写正式成绩。下一完整包为原生全格式课件归档／恢复，再集中合并交接；不重新打 P7 或 GitHub 回归。

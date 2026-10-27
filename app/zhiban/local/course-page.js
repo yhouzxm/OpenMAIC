@@ -333,6 +333,7 @@
               ['attainment', '校内证书'],
               ['auto-grading', 'AI 正式评分'],
               ['classroom-plan', '教案与实验'],
+              ['course-results', '课堂成果与共享结果'],
               ['pbl', 'PBL 小组项目'],
               ['tutor', 'AI 学习辅导'],
             ]
@@ -352,12 +353,13 @@
               ['attainment', '校内证书'],
               ['auto-grading', 'AI 正式评分'],
               ['classroom-plan', '教案与实验'],
+              ['course-results', '课堂成果与共享结果'],
               ['pbl', 'PBL 小组项目'],
               ['tools', 'AI 学习辅导'],
             ];
       for (const [part, label] of items) {
         const a = el('a', label);
-        a.href = href(part);
+        a.href = part==='course-results'?`/zhiban/course-results?tenant=${tenant}&offering=${offering}`:href(part);
         if (part === section || (role === 'student' && part === 'tools' && section === 'tutor'))
           a.setAttribute('aria-current', 'page');
         nav.append(a);

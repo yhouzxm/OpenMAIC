@@ -1,0 +1,23 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_PERSISTENT_ENTRY_AND_RENDERER_CONNECTION",
+  "origin": "https://127.0.0.1:3461",
+  "checks": [
+    {
+      "role": "TEACHER",
+      "login": 200,
+      "renderEnabled": true,
+      "courseVideoTaskRead": 200
+    },
+    {
+      "role": "STUDENT",
+      "login": 200,
+      "teacherExportDenied": 403,
+      "existingGrade92ProofPreserved": true
+    }
+  ],
+  "accountsSha256": "91d73979d2a3a17ba17c69549682aa4d944f875c004bb8427ad5ba35d262e122",
+  "noRenderOrModelCallRepeated": true,
+  "syntheticPersistentDataRetained": true
+}

@@ -1171,6 +1171,44 @@ export class ContentService {
   async authoring<T>(x: ContentContext, work: () => Promise<T>): Promise<T> {
     return this.tx(x, null, 'CREATE_CONTENT', work);
   }
+  /** Short host operation: hold current Identity/Enrollment and fixed publication through its commit. */
+  async withPublishedAccess<T>(
+    x: ContentContext,
+    resource: string,
+    publication: string,
+    work: () => Promise<T>,
+  ) {
+    return this.tx({ ...x, deadline: undefined }, resource, 'READ', async (c, repo) => {
+      const r = (
+        await c.query(
+          'SELECT * FROM zhiban_content.resources WHERE tenant_id=$1 AND id=$2 AND offering_id=$3 FOR SHARE',
+          [x.tenant, resource, x.offering],
+        )
+      ).rows[0];
+      requireContent(
+        r?.state === 'PUBLISHED' && r.active_publication_id === publication,
+        'INVALID_STATE',
+        409,
+      );
+      const p = (
+        await c.query(
+          'SELECT bridge_slot_id,bridge_generation_id FROM zhiban_content.publications WHERE tenant_id=$1 AND id=$2',
+          [x.tenant, publication],
+        )
+      ).rows[0];
+      requireContent(p, 'UNAVAILABLE', 503);
+      const slot = await repo.loadSlot(p.bridge_slot_id, 'SHARE'),
+        generation = await repo.loadGeneration(p.bridge_generation_id);
+      requireContent(
+        slot.state === 'ENABLED' &&
+          slot.active_generation_id === generation.generation_id &&
+          generation.state === 'ACTIVE',
+        'UNAVAILABLE',
+        503,
+      );
+      return work();
+    });
+  }
   /** Server-produced projection only; not accepted by the ordinary content command endpoint. */
   async adoptGenerated(x: ContentContext, runId: string, value: unknown) {
     const content = draft(value);

@@ -1,3 +1,4 @@
+import { legacyOfficeType, convertLegacyOffice } from '@/lib/document/legacy-office';
 import {
   createMaterialId,
   type ClaimedMaterialExtraction,
@@ -133,6 +134,23 @@ export async function extractMaterialSource(
   > & { ownerId?: string } = {},
 ): Promise<MaterialSourceExtraction> {
   const services = dependencies.services ?? (await resolveExtractionServices(dependencies.ownerId));
+  if (legacyOfficeType(raw.mime) && services.document?.providerId === 'alidocmind') {
+    const converted = await convertLegacyOffice({
+      buffer: raw.bytes,
+      mimeType: raw.mime,
+      fileName: raw.fileName,
+    });
+    const result = await extractMaterialSource(
+      { bytes: converted.buffer, mime: converted.mimeType, fileName: converted.fileName },
+      { ...dependencies, services },
+    );
+    if (result.kind === 'document')
+      result.artifact.metadata = {
+        ...result.artifact.metadata,
+        legacyConversion: converted.receipt,
+      };
+    return result;
+  }
   const mediaProviders = dependencies.mediaProviders?.() ?? getMediaExtractorProviders();
   const isMedia = mediaProviders.some((provider) =>
     provider.supportedMimeTypes.includes(raw.mime.toLowerCase()),

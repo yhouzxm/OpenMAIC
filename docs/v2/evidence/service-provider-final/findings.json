@@ -1,0 +1,15 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "initialFindings": [
+    "Key shape incorrectly suggested plan endpoints; plan TTS/video returned401",
+    "Standard video read-only missing-task probe returned404 and model catalog returned200",
+    "Standard TTS empty-text authentication probe returned parameter error without audio",
+    "AliDocMind ESM constructor failed before provider request; fixed actual SDK interop",
+    "Standard Seedance submission returned ModelNotOpen; user subsequently confirmed model activation"
+  ],
+  "userConfirmedVideoModelActivation": true,
+  "automaticGenerationRetries": false,
+  "knownFailedMediaJobsRetainedAsUnknown": true,
+  "privateUpstreamBodiesExported": false
+}

@@ -1,0 +1,19 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "scope": "ARCHIVE_ENTRY_SET_AND_FILE_HASHES_ONLY",
+  "versionId": "zhiban-local-20261026-8f09fd093eba",
+  "sourceDigest": "8f09fd093ebac2135ec70f2fcbd889eed845d8607d8eefdd8e4d2a89d5dd966c",
+  "files": 6076,
+  "bytes": 233259014,
+  "credentialAudit": "NOT_ASSERTED_BY_HASH_VERIFICATION",
+  "dependenciesIncluded": false,
+  "gitHistoryIncluded": false,
+  "productionSignoff": false,
+  "output": "/home/zxm/.local/share/zhiban-handoff/zhiban-local-20261026-8f09fd093eba",
+  "archive": "/home/zxm/.local/share/zhiban-handoff/zhiban-local-20261026-8f09fd093eba/source.tar.gz",
+  "archiveSha256": "ee9981273c8eebd89891541bc48955162c55db4bf3e4fa006c601aece8d688f1",
+  "privateInputExclusionEnforced": true,
+  "restoreExecuted": false
+}

@@ -1,0 +1,25 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "sourceDigest": "8f09fd093ebac2135ec70f2fcbd889eed845d8607d8eefdd8e4d2a89d5dd966c",
+  "files": 6076,
+  "currentWorkspaceMatchesManifest": true,
+  "recentDirectoriesIncluded": [
+    "lib/zhiban/infrastructure/classroom-ai/",
+    "lib/zhiban/infrastructure/course-results/",
+    "lib/zhiban/infrastructure/service-center/",
+    "lib/zhiban/infrastructure/authoring/archive/",
+    "lib/zhiban/infrastructure/authoring/media/"
+  ],
+  "privateRuntimeMaterialIncluded": false,
+  "gitBaseline": "093b4a69af96626010d9104c50d680d9b9dc1928",
+  "scope": "SOURCE_CLOSURE_NOT_FULL_PRODUCT_RETEST",
+  "finalCacheNormalization": {
+    "path": "docs/v2/evidence/zhiban-local-sdk-build-cache.json",
+    "parsedContentIdentical": true,
+    "change": "JSON_KEY_ORDER_ONLY_NORMALIZED_TO_FROZEN_ARCHIVE",
+    "applicationCodeChanged": false
+  },
+  "finalClosureCheckedAt": "2026-10-26T06:12:12.950801+00:00"
+}

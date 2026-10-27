@@ -1,0 +1,11 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_CURRENT_VERSION_READBACK",
+  "legacyPublicationPreserved": true,
+  "allThreeParsedTextHashesPreserved": true,
+  "originalGrade92ProofAndCompletionPreserved": true,
+  "imageTtsVideoAsrAssignmentsPreserved": true,
+  "accountsSha256": "91d73979d2a3a17ba17c69549682aa4d944f875c004bb8427ad5ba35d262e122",
+  "providerCalls": 0
+}

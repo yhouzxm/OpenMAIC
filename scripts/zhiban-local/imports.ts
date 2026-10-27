@@ -1,3 +1,4 @@
+import { readProfileReference, referenceScope } from './pg-version';
 import { referenceSourceHash, referenceSourceEntries } from './reference-source';
 /** Readiness only. A web host never installs or derives its own trusted expected catalog. */
 import { readFile } from 'node:fs/promises';
@@ -35,14 +36,14 @@ export async function loadImports(pool: Pool): Promise<boolean> {
         .rows[0].name
     )
       return false;
-    const reference = JSON.parse(await readFile(importsReference, 'utf8'));
+    const reference = await readProfileReference(importsReference);
     const sourceHash = hash(await readFile(importsMigration));
     for (const [path, digest] of referenceSourceEntries(reference.sourceHashes, importsMigration))
       if (hash(await readFile(path)) !== digest) throw Error('Imports dependency source rejected');
     if (
       reference.evidenceOrigin !== 'LOCAL' ||
       reference.githubActions !== false ||
-      reference.scope !== 'FRESH_OWNED_PG16_IMPORTS_REFERENCE' ||
+      reference.scope !== referenceScope('FRESH_OWNED_PG16_IMPORTS_REFERENCE') ||
       reference.migrationSha256 !== sourceHash ||
       !/^[a-f0-9]{64}$/.test(reference.profileSha256)
     )

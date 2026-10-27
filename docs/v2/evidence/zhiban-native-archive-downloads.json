@@ -1,0 +1,43 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "checkedAt": "2026-10-25T21:39:55.220Z",
+  "downloads": {
+    "原生归档 .maic.zip": {
+      "sha256": "5d337976089e3b693de0f7ee13c448e33916ed8dc9d6f98fd49d2fc1bdeed987",
+      "size": 6694,
+      "name": "归档完整保真演示.maic.zip"
+    },
+    "PowerPoint": {
+      "sha256": "47e50202767eea1dc55f7024b3eb92a6f62224a124626141c52489a0f537be8a",
+      "size": 274203,
+      "name": "归档完整保真演示.pptx"
+    },
+    "PPTX＋互动资源包": {
+      "sha256": "a735fc8c82066553720b8ae0c568a8e91020b031306532176766296412b848f4",
+      "size": 277267,
+      "name": "归档完整保真演示-resources.zip"
+    },
+    "完整离线 HTML": {
+      "sha256": "588f21bc1b73074792664d1bf9f677becfd230a47c8e065a83c3d360ecf875c9",
+      "size": 802935,
+      "name": "归档完整保真演示.html"
+    },
+    "Markdown 讲稿": {
+      "sha256": "320b71900c4c8fb6e9810f14c61f70b2b83a734272d35d25a4d00994fcf5c1fb",
+      "size": 111,
+      "name": "归档完整保真演示-script.md"
+    },
+    "Word 讲稿": {
+      "sha256": "064d1b8d867684dc24ab9ffdfb833666f73385f9e74101853a2ac5acdf548462",
+      "size": 7772,
+      "name": "归档完整保真演示-script.docx"
+    }
+  },
+  "sourceDigest": "1e13efaf9fb79c381f005e0622c51db575e37c7f16d4f3d0b607c4d527e696e5",
+  "archiveSha256": "e348986f4eb0a87cf2d01e0f4e2ae2e51728744e10b9f04c9d810a65e9d1a5c3",
+  "restoredStageId": "archive-a9b911bb4e20c04e396a8433bf0a145cae9e511daed5b428",
+  "pptxStageId": "archive-1786cd8e01c8df1fa89cccdc99584468aa674d3913cadc12",
+  "modelCalls": 0
+}

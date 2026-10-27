@@ -1,0 +1,57 @@
+{
+  "status": "APPROVED_FOR_SOURCE_CHECKPOINT_AND_ONE_PG18_MANUAL_RUN",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "reviewedAt": "2026-10-27T14:35:02.123312+00:00",
+  "authorization": "User requested review of complete source checkpoint followed by one GitHub PG18 acceptance; commit/push/default-branch manual workflow registration/environment setup and one dispatch are within this execution scope",
+  "baselineHead": "093b4a69af96626010d9104c50d680d9b9dc1928",
+  "sourceDigest": "306edeaf32825e7547ebf4c5387040a0d79a422913f7542ef6baea15bed522fe",
+  "findings": [
+    {
+      "priority": "P1",
+      "status": "RESOLVED_IN_SCOPE",
+      "finding": "Prior checkpoint omitted 46 changed native UI/server dependencies and the changed portable helper imported by the PG18 CLI",
+      "resolution": "Union measured PG18 runtime witness, unchanged native authoring build input/import witness, complete related dirty source/tests and deployment helper dependencies; validate every tracked input against the index before commit"
+    }
+  ],
+  "frozenInputs": "95 frozen PG16/applied SQL/reference inputs retain original bytes; original preservation receipt remains unchanged",
+  "materialDelivery": "No .env.local/openmaic.yml/pgpass/passwords/private keys/database backups/roles SQL/accounts files or live credentials. Only source, tests, static SQL, docs and reviewed public evidence. No private delivery secret required. Generated live metadata/build-cache records remain local.",
+  "credentialReview": {
+    "configuredSecretValuesChecked": 6,
+    "exactMatches": 0,
+    "credentialShapedJsonFindings": 0
+  },
+  "verification": "Prior PG18/native witnesses unchanged before review; one EOF blank line removed for clean index validation, with identical non-whitespace bytes. Focused bootstrap/type checks retained; final remote run tests actual committed SHA.",
+  "environmentPlan": {
+    "name": "zhiban-pg18-acceptance",
+    "reviewer": "yhouzxm",
+    "preventSelfReview": false,
+    "reason": "Single-owner repository; user explicitly authorized this one run. No independent human review is claimed. Required reviewer and exact source SHA gates remain enabled.",
+    "adminBypass": false,
+    "branch": "refactor/zhiban-v2",
+    "approvedShaVariable": "ZHIBAN_PG18_APPROVED_SHA"
+  },
+  "registrationPlan": "Only the manual workflow file is added to main; product source is not merged to main. Checkpoint and registration use [skip ci] to avoid unrelated automatic push/PR CI. No force push or branch rewrite.",
+  "acceptanceCriteria": [
+    "Workflow overall conclusion SUCCESS",
+    "Acceptance, cleanup and upload steps SUCCESS",
+    "Single allowlisted public summary status PASS, matching actual run/attempt/SHA and expected PG18 reference pin"
+  ],
+  "exclusions": [
+    "No old Native/UNKNOWN/RESERVED authority activation",
+    "No PG16-import application receipt reissue/activation",
+    "No cloud production deployment",
+    "No automatic rerun after this authorized dispatch"
+  ],
+  "sourceFiles": 2518,
+  "checkpointSourceTestsDocsFiles": 381,
+  "reviewedSourceAdjustments": [
+    {
+      "path": "lib/usage/aggregate.ts",
+      "beforeSha256": "f04b4e897298a38855ce02272d1a75001aa7387876c13fce321a8998a6579788",
+      "afterSha256": "2a3041a9ed016ce4ad6270ec071fef791146171ae1dc3a0c5f95fba3fa17ee29",
+      "scope": "TRAILING_EMPTY_LINE_ONLY_NO_TOKEN_OR_BEHAVIOR_CHANGE"
+    }
+  ],
+  "generatedMediaExcluded": true
+}

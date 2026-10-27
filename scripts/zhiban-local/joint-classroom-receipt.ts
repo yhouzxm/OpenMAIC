@@ -1,3 +1,4 @@
+import { readProfileReference, referenceScope, versionedContentPath } from './pg-version';
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { catalogFingerprint, official } from '../../lib/zhiban/infrastructure/openmaic/catalog';
@@ -19,16 +20,20 @@ export async function jointClassroomProfile(
   return hash(JSON.stringify({ catalog, extra }));
 }
 export async function jointSources() {
-  const sql = await readFile(jointMigration, 'utf8'),
+  const sql = await readFile(versionedContentPath(jointMigration), 'utf8'),
     digest = hash(sql),
-    reference = JSON.parse(await readFile(jointReference, 'utf8'));
+    reference = await readProfileReference(jointReference);
   if (
     reference.evidenceOrigin !== 'LOCAL' ||
     reference.githubActions !== false ||
-    reference.scope !== 'ISOLATED_PG16_JOINT_CLASSROOM_REFERENCE' ||
+    reference.scope !== referenceScope('ISOLATED_PG16_JOINT_CLASSROOM_REFERENCE') ||
     reference.jointMigrationSha256 !== digest ||
     reference.attemptRuntimeMigrationSha256 !==
-      hash(await readFile('docs/v2/candidates/p4-attempt-runtime/0004-attempt-runtime.sql')) ||
+      hash(
+        await readFile(
+          versionedContentPath('docs/v2/candidates/p4-attempt-runtime/0004-attempt-runtime.sql'),
+        ),
+      ) ||
     Object.entries(official).some(([k, v]) => reference.provider[k] !== v)
   )
     throw Error('Joint classroom reference/source rejected');

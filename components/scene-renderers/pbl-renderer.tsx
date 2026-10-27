@@ -73,11 +73,13 @@ export function PBLRenderer({ content, mode: _mode, sceneId }: PBLRendererProps)
   );
 }
 
-function PBLV2Container({
+export function PBLV2Container({
   sceneId,
   projectV2,
   onProjectV2Change,
+  getLiveProject,
 }: {
+  readonly getLiveProject?: () => PBLProjectV2 | null;
   readonly sceneId: string;
   readonly projectV2: PBLProjectV2;
   readonly onProjectV2Change: (next: PBLProjectV2) => void;
@@ -199,13 +201,14 @@ function PBLV2Container({
       const liveContent = useStageStore.getState().scenes.find((s) => s.id === sceneId)?.content as
         | PBLContent
         | undefined;
-      if (liveContent?.projectV2?.uiPhase === 'hero' && next.uiPhase !== 'hero') {
+      const liveProject = getLiveProject ? getLiveProject() : liveContent?.projectV2;
+      if (liveProject?.uiPhase === 'hero' && next.uiPhase !== 'hero') {
         onProjectV2Change({ ...next, uiPhase: 'hero' });
         return;
       }
       onProjectV2Change(next);
     },
-    [sceneId, onProjectV2Change],
+    [sceneId, onProjectV2Change, getLiveProject],
   );
 
   const content = (() => {

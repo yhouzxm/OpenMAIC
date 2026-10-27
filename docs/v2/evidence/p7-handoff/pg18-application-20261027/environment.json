@@ -1,0 +1,16 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "os": {
+    "VERSION_ID": "24.04",
+    "VERSION_CODENAME": "noble",
+    "ID": "ubuntu"
+  },
+  "node": "v22.23.3",
+  "pnpm": "10.28.0",
+  "postgres18": "postgres (PostgreSQL) 18.6 (Ubuntu 18.6-1.pgdg24.04+2)",
+  "referenceSource16": "postgres (PostgreSQL) 16.15 (Ubuntu 16.15-1.pgdg24.04+2)",
+  "binaries": "PRIVATE_PGDG_EXTRACTION_NOT_SYSTEM_INSTALL",
+  "applicationOrigin": "https://127.0.0.1:3478",
+  "tcpDatabaseListening": false
+}

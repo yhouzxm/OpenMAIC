@@ -3,7 +3,7 @@ export function localRequestTarget(raw: string): boolean {
   const path = raw.split('?')[0];
   // Scoped native storage encodes the derived owner colon in learner paths.
   // Keep the exception inside this host; encoded separators/traversal remain rejected.
-  if (/^\/api\/zhiban\/authoring\/[0-9a-f-]{36}\/offerings\/[0-9a-f-]{36}(?:\/|$)/.test(path))
+  if (/^\/api\/zhiban\/(?:authoring|classroom-ai)\/[0-9a-f-]{36}\/offerings\/[0-9a-f-]{36}(?:\/|$)/.test(path))
     return (
       raw.length <= 16384 &&
       !/[\\\x00-\x20]/.test(raw) &&

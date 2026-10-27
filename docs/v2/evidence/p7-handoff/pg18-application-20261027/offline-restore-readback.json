@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "postgresMajor": 18,
+  "profileFormat": "PG18_V1",
+  "sourceLineage": "PG18_FRESH_V1",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "referenceSha256": "ac7971c762672f80f3a6303a1121cc859da9e6f99712b418e61340175d72e46e",
+  "scope": "PG18_PHYSICAL_RESTORE_SAME_BUSINESS_NATIVE_ROWS_AND_ACCOUNTS",
+  "roles": [
+    "ADMIN",
+    "TEACHER",
+    "STUDENT"
+  ],
+  "verifiedPrivateCa": true,
+  "providerCalls": false,
+  "identityEphemeraCompared": false
+}

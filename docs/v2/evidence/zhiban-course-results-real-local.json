@@ -1,0 +1,71 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_REAL_PBL_FORMAL_REPORT_GRADE_AND_NATIVE_TUTOR_TOOL",
+  "at": "2026-10-26T04:37:30.468Z",
+  "sample": {
+    "tenant": "01a16958-5776-7381-a21c-e66fe3c2684b",
+    "offering": "01a16958-7375-7780-9453-f861b6aa2f51",
+    "resource": "01a17679-3f82-7193-9200-422b9cdab778",
+    "publication": "01a17679-41f8-7527-901b-7169bd3e0b11",
+    "activity": "01a17679-4483-7639-8a51-a44294f7ac70",
+    "attempt": "01a17679-4757-7743-b6ed-4caabcd21791",
+    "scene": "result-energy-pbl",
+    "sourceDigest": "e35be0924e58ee785bbcfdc18c8feccf02988ef3eabe442308227f7cded3b9f1"
+  },
+  "proofId": "01a17679-8ed9-74fc-a13b-67ff0273bbb7",
+  "proofDigest": "c4d77bdeab83b7142a237993487b72a3a85421ab8632d28b9748e807d03c4bca",
+  "submissionId": "01a17679-8f2b-7073-a1fd-6f7ea0a5823b",
+  "pbl": {
+    "state": "completed",
+    "revision": "6",
+    "evaluationKinds": [
+      "task",
+      "milestone",
+      "final"
+    ],
+    "externalEvaluations": 3,
+    "source": "REAL_NATIVE_PROVIDER_CALLS_CHECKED_BEFORE_PERSISTENCE"
+  },
+  "publishedGrade": {
+    "score": 92,
+    "maxScore": 100,
+    "source": "ORIGINAL_MANUAL_TEACHER_PUBLICATION"
+  },
+  "completion": {
+    "verified": true,
+    "rule": "PUBLISHED_GRADE",
+    "thresholdBps": 9000,
+    "required": false,
+    "originalDecision": {
+      "activityId": "01a17679-4483-7639-8a51-a44294f7ac70",
+      "complete": true,
+      "stale": false,
+      "blockedBy": [],
+      "required": false,
+      "submissionId": "01a17679-8f2b-7073-a1fd-6f7ea0a5823b",
+      "gradePublicationId": "01a17679-8f89-70b7-b84a-93ee65bca637"
+    }
+  },
+  "sharedResult": "01a17679-901c-7412-8e44-a092379c6228",
+  "tutor": {
+    "session": "01a17679-9116-774d-8315-f82d144cdbae",
+    "state": "COMPLETED",
+    "toolsAdvertised": true,
+    "visionAdvertised": false,
+    "toolExecutions": 1,
+    "providerTransports": 2,
+    "allowedTools": [
+      "read_course_source",
+      "search_course_source"
+    ],
+    "priorTeacherPolicyUnchanged": true
+  },
+  "accountsSha256": "91d73979d2a3a17ba17c69549682aa4d944f875c004bb8427ad5ba35d262e122",
+  "observation": "Original runner used turns instead of rows in its final readback; fixed via readonly persisted-record verification, no repeated model calls.",
+  "boundaries": [
+    "AI practice evaluation is not an automatic formal grade",
+    "No instrument or legacy Native activation",
+    "No vision model configured; image interpretation remains pending"
+  ]
+}

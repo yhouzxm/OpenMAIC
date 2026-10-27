@@ -1,0 +1,45 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_LOCAL_PRODUCT_CLOSURE",
+  "at": "2026-10-26T16:16:26.290Z",
+  "head": "093b4a69af96626010d9104c50d680d9b9dc1928",
+  "dirtyCandidate": true,
+  "scope": "Turn-based classroom microphone ASR, published-slide raster vision, native agent answer and real TTS decoded playback",
+  "evidence": [
+    "application.json",
+    "negative.json",
+    "cancel.json",
+    "readback.json",
+    "image-check.json",
+    "source-hashes.json",
+    "native-build.json",
+    "runtime.json"
+  ],
+  "validation": {
+    "affectedUnitGroups": "PASS",
+    "nativeScopedTypes": "PASS_6G_HEAP",
+    "lintErrors": 0,
+    "existingLintWarnings": 1,
+    "fullProjectDefaultHeapTypecheck": "OOM_NO_RESULT_NOT_A_PASS"
+  },
+  "fixedObservedBlockers": [
+    "GLM ASR WebM/WAV and duration mismatch",
+    "Unnamed non-presentation controls and stop-event bubbling",
+    "Nested publication/generation lock self-wait while reading image",
+    "Discussion data: audio blocked by classroom CSP; replaced with released Blob URLs",
+    "Compatible-model tool markup in visible speech"
+  ],
+  "retainedBoundaries": [
+    "No continuous full-duplex call or camera/screen monitoring claim",
+    "No formal score/completion from AI chat",
+    "Frozen Native maintenance and UNKNOWN/RESERVED remain isolated",
+    "No applied migration change, commit, push or CI",
+    "Private configuration is not in source/transport receipts"
+  ],
+  "next": "One consolidated persistent delivery / Ubuntu PG18 migration package; do not rebuild P7 per small increment",
+  "suggestedModel": "GPT-6.1 Sol / high for migration and authorization concurrency",
+  "persistence": "persistence.json",
+  "shutdown": "shutdown.json",
+  "worktreeBackup": "worktree-backup.json"
+}

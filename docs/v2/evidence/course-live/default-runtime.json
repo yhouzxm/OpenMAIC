@@ -1,0 +1,13 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "RUNNING_LOCAL_PERSISTENT",
+  "sourceMatches": true,
+  "sourceDriftCount": 0,
+  "workspace": "https://127.0.0.1:3461/zhiban?space=01a16958-5776-7381-a21c-e66fe3c2684b",
+  "instanceOriginalBaselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "repositoryHead": "093b4a69af96626010d9104c50d680d9b9dc1928",
+  "baselineInterpretation": "Original persisted instance baseline is preserved; current source hashes accepted by LOCAL upgrade, not a Git checkpoint or new provider authority",
+  "rendererBoundToLoopback": true,
+  "sourceKitRegenerated": false
+}

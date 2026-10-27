@@ -1,0 +1,21 @@
+{
+  "kind": "PG18_APPLICATION_LOCAL_EVIDENCE_CLOSURE_V1",
+  "filesSha256": {
+    "acceptance.json": "d73e1f550527dff85f3c82206eadc949a27454321812f8fe40763d15bce6c275",
+    "checkpoint-files.json": "67f91ff71ab8bd8490077ea88da8c03e2144f07de04b1c13c9e1749ade1060bf",
+    "checks.json": "9b6c1be57ce2d2324875a22989338db5f70157690aab337040a5d633128ae615",
+    "cleanup.json": "6ea5eed5c95ee1fe858786e82aaf3bea82155b3dd315fa6ebcae896dc494a3f8",
+    "closeout.json": "01dedb34631a9062fca8e48bc78f37e2b1b832a5a80c601299d30533773fe56f",
+    "directed-product.json": "05d4261252bb64f40c52dff6433eefb0892f8449d0dbb7c83bd976c34cba29b5",
+    "environment.json": "dc6d2956f936dbc8c82c39e833f23dbb5d204bedaf7927df1994fe203b335b42",
+    "fresh-readback.json": "e18d8137385b6ae0413e66ce2dd0dccb3ecf69d278a266c5704fc2de7684d94a",
+    "frozen-pg16-preservation.json": "8dcad2ce73592c672e03fa193a4700f61ca50c620b8211f405d57e2c913ef56c",
+    "imported-catalog-readonly.json": "55cdaf65b6fc68726ae65b2657b7b0ef59f8a89451d0cf5dc5bcb947a6edabc9",
+    "offline-restore-readback.json": "3723183749866aad243344cb3a27dea73a28e0c015118fe24f3c0cd606b2cf02",
+    "online-backup-restore-readback.json": "3723183749866aad243344cb3a27dea73a28e0c015118fe24f3c0cd606b2cf02",
+    "reference-rebuild.json": "5225895ff6517aa13e8cf197660141a4b55150c70d2f05cf38838424f2acccdc",
+    "source-closure.json": "bdc5d7861040baa13586a949e98ea462b9334d92e15303ac7fd2ca7f369016e9",
+    "startup-fault.json": "66eed1bc52952032c75ed2fe9d614408fb96f02542802346a2d660f78af61906",
+    "unit.tap": "c2f848caf8ebf463ad337873b7aad0bdfb26cc3eb9b64202dba4712766b6cbee"
+  }
+}

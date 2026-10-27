@@ -547,6 +547,7 @@ export function buildCallAgentTool(opts: {
   childRuntimeMode?: ChildRuntimeMode;
   enableNativeChildSpotlight?: boolean;
   nativeWebSearchConfig?: NativeWebSearchConfig;
+  nativeImageTool?: AgentTool;
   nativeWhiteboardService?: WhiteboardRuntimeService;
   nativeWhiteboardStageId?: string;
   nativeWhiteboardLearnerKey?: string;
@@ -745,6 +746,7 @@ export function buildCallAgentTool(opts: {
           spotlightTargets.size > 0,
         );
         const nativeTools: AgentTool[] = [
+          ...(opts.nativeImageTool ? [opts.nativeImageTool] : []),
           ...(spotlightEnabled
             ? [
                 buildNativeSpotlightTool({
@@ -772,13 +774,14 @@ export function buildCallAgentTool(opts: {
           buildNativeWebSearchTool({ config: opts.nativeWebSearchConfig }),
         ];
         const availableToolNames = nativeTools.map((tool) => tool.name);
-        const sanitizeNativeDelta = createVisibleSpeechDeltaSanitizer();
+        const sanitizeNativeDelta = createVisibleSpeechDeltaSanitizer(availableToolNames);
         let nativeResult: Awaited<ReturnType<typeof runNativeChild>>;
         try {
           nativeResult = await runNativeChild({
             streamFn: createCallLlmStreamFn({
               languageModel: opts.languageModel,
               source: 'pi-chat-native-child',
+              supportsToolImages: !!opts.nativeImageTool,
               thinkingConfig: opts.thinkingConfig,
               maxOutputTokens: opts.maxOutputTokens,
               abortSignal: childAbort.signal,

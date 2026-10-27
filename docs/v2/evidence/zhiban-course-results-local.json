@@ -1,0 +1,23 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_REAL_NATIVE_QUIZ_TO_FORMAL_SUBMISSION_AND_MANUAL_GRADE",
+  "at": "2026-10-26T04:55:53.318Z",
+  "externalModelCalls": 0,
+  "checks": [
+    "original attempts, fixed native Quiz UI and server regrading",
+    "new-task bypass refused, pre-existing attempt unchanged",
+    "private proofs hidden from teacher until formal submission",
+    "submit/retry/resubmit provenance atomic with original Learning facts",
+    "concurrent task CAS has one winner; concurrent same-command submit creates one fact",
+    "injected event failure rolls back formal submission",
+    "original manual grade publication and student result",
+    "shared classroom note publish/retract",
+    "immutable proof and source withdrawal history",
+    "responsive desktop/mobile"
+  ],
+  "boundaries": [
+    "PBL terminal filter tested without claiming synthetic model success",
+    "real instrument and legacy Native maintenance remain isolated"
+  ]
+}

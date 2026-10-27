@@ -1,0 +1,103 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "url": "https://127.0.0.1:3461/zhiban/native-classroom?tenant=01a16958-5776-7381-a21c-e66fe3c2684b&offering=01a16958-7375-7780-9453-f861b6aa2f51&resource=01a17369-479b-77e9-a9db-226ae6ca92cd&publication=01a17369-4bba-76c1-9eca-286a9896e439",
+  "tenant": "01a16958-5776-7381-a21c-e66fe3c2684b",
+  "offering": "01a16958-7375-7780-9453-f861b6aa2f51",
+  "resource": "01a17369-479b-77e9-a9db-226ae6ca92cd",
+  "publication": "01a17369-4bba-76c1-9eca-286a9896e439",
+  "sourceDigest": "e62c77430d05e88281ce31785b840f39b184a0564b72f9ff53eb0411f2559f41",
+  "scenes": [
+    "autonomous-1c2c5270-fa5a-468a-9130-26d0f037319c",
+    "autonomous-c1f1233d-a2fa-4f30-8ad6-0d1127ed8fd2"
+  ],
+  "status": "PASS",
+  "checkedAt": "2026-10-25T14:48:00.182Z",
+  "gitHead": "093b4a69af96626010d9104c50d680d9b9dc1928",
+  "dirtyCandidate": true,
+  "mode": "REAL_MODEL_NATIVE_UI_RESUMED_NO_REPLAY",
+  "captureSha256": "cc441c61ffa3cf6ed1d16ef8a0c05a56a028878bf1f5538f34153768f8f50cfe",
+  "accountsPreserved": "91d73979d2a3a17ba17c69549682aa4d944f875c004bb8427ad5ba35d262e122",
+  "checks": [
+    "Native Instructor greeting and learner turn",
+    "Native text submission and real task evaluation",
+    "Learner completion confirmation, real milestone/final evaluations",
+    "Own persistent project/evaluation reload; no formal grade claim",
+    "Native Simulator greeting, learner turn, act completion, automatic wrapup/final report and reload"
+  ],
+  "failedAttempts": [
+    {
+      "endpoint": "open-task",
+      "status": 200,
+      "eventCount": 0,
+      "terminal": "NO_COMMIT_REOPEN_REQUIRED"
+    },
+    {
+      "endpoint": "open-task",
+      "status": 200,
+      "eventCount": 2,
+      "terminal": "NO_COMMIT_REOPEN_REQUIRED"
+    }
+  ],
+  "localModelConfigSha256": "27b86ca39721e67eef4abe1ca6351ca1ac6e4bda9b68761c366064ba7572af42",
+  "classroomThinking": "currently disabled; first five successful historical streams used the prior inherited default",
+  "streamConfiguration": [
+    {
+      "endpoint": "open-task",
+      "configSha256": "28c1abc8c9b44cc7a77d0e9b0b2cc446f03db0845c6f20b72a1f971fa4a22e5d"
+    },
+    {
+      "endpoint": "instructor",
+      "configSha256": "28c1abc8c9b44cc7a77d0e9b0b2cc446f03db0845c6f20b72a1f971fa4a22e5d"
+    },
+    {
+      "endpoint": "evaluate",
+      "configSha256": "28c1abc8c9b44cc7a77d0e9b0b2cc446f03db0845c6f20b72a1f971fa4a22e5d"
+    },
+    {
+      "endpoint": "evaluate",
+      "configSha256": "28c1abc8c9b44cc7a77d0e9b0b2cc446f03db0845c6f20b72a1f971fa4a22e5d"
+    },
+    {
+      "endpoint": "evaluate",
+      "configSha256": "28c1abc8c9b44cc7a77d0e9b0b2cc446f03db0845c6f20b72a1f971fa4a22e5d"
+    },
+    {
+      "endpoint": "open-task",
+      "configSha256": "27b86ca39721e67eef4abe1ca6351ca1ac6e4bda9b68761c366064ba7572af42"
+    },
+    {
+      "endpoint": "simulator",
+      "configSha256": "27b86ca39721e67eef4abe1ca6351ca1ac6e4bda9b68761c366064ba7572af42"
+    },
+    {
+      "endpoint": "simulator",
+      "configSha256": "27b86ca39721e67eef4abe1ca6351ca1ac6e4bda9b68761c366064ba7572af42"
+    },
+    {
+      "endpoint": "open-task",
+      "configSha256": "27b86ca39721e67eef4abe1ca6351ca1ac6e4bda9b68761c366064ba7572af42"
+    },
+    {
+      "endpoint": "evaluate",
+      "configSha256": "27b86ca39721e67eef4abe1ca6351ca1ac6e4bda9b68761c366064ba7572af42"
+    }
+  ],
+  "nativeRuntimeStreams": 10,
+  "providerCallCount": "not asserted (native agents may make multiple provider calls)",
+  "evaluations": [
+    {
+      "kind": "task",
+      "score": 90
+    },
+    {
+      "kind": "milestone",
+      "score": null
+    },
+    {
+      "kind": "final",
+      "score": null
+    }
+  ],
+  "pageErrors": []
+}

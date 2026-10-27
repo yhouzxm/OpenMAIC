@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "scope": "INDEPENDENT_PG18_FRESH_AND_SOURCE16_IMPORT_REFERENCES",
+  "version": 180006,
+  "verified": true,
+  "manifestSha256": "ac7971c762672f80f3a6303a1121cc859da9e6f99712b418e61340175d72e46e",
+  "targetRead": false
+}

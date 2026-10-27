@@ -1,3 +1,4 @@
+import { localPgMajor, pg18Origin, validInstallationEvidence } from './pg-version';
 const unifiedTrial = process.argv.includes('--unified-trial');
 /** Local trial status/stop only. Never prints passwords or signals an unbound process. */
 import { readFile, lstat } from 'node:fs/promises';
@@ -28,9 +29,12 @@ const prefix = unifiedTrial
               : content
                 ? 'trial:zhiban:content'
                 : 'trial:zhiban:legacy';
-const metadata = resolve(
-  `docs/v2/evidence/${trustedFiles ? 'zhiban-trusted-files' : attachments ? 'zhiban-submission-files' : gradebookCsv ? 'zhiban-gradebook-csv' : gradebook ? 'zhiban-gradebook' : classroomEdit ? 'zhiban-classroom-edit' : classroom ? 'zhiban-shared-classroom' : content ? 'zhiban-trial-content' : 'zhiban-trial'}-demo-local.json`,
-);
+const metadata =
+  localPgMajor === 18
+    ? resolve('docs/v2/evidence/zhiban-pg18-demo-local.json')
+    : resolve(
+        `docs/v2/evidence/${trustedFiles ? 'zhiban-trusted-files' : attachments ? 'zhiban-submission-files' : gradebookCsv ? 'zhiban-gradebook-csv' : gradebook ? 'zhiban-gradebook' : classroomEdit ? 'zhiban-classroom-edit' : classroom ? 'zhiban-shared-classroom' : content ? 'zhiban-trial-content' : 'zhiban-trial'}-demo-local.json`,
+      );
 function check(ok: unknown, message: string): asserts ok {
   if (!ok) throw new Error(message);
 }
@@ -78,24 +82,25 @@ async function main() {
     trial: { urls: Record<string, string> };
   };
   check(
-    m.evidenceOrigin === 'LOCAL' &&
-      m.githubActions === false &&
+    validInstallationEvidence(m) &&
       m.origin ===
-        (trustedFiles
-          ? 'https://127.0.0.1:3467'
-          : attachments
-            ? 'https://127.0.0.1:3466'
-            : gradebookCsv
-              ? 'https://127.0.0.1:3465'
-              : gradebook
-                ? 'https://127.0.0.1:3464'
-                : classroomEdit
-                  ? 'https://127.0.0.1:3463'
-                  : classroom
-                    ? 'https://127.0.0.1:3462'
-                    : content
-                      ? 'https://127.0.0.1:3461'
-                      : 'https://127.0.0.1:3459') &&
+        (localPgMajor === 18
+          ? pg18Origin
+          : trustedFiles
+            ? 'https://127.0.0.1:3467'
+            : attachments
+              ? 'https://127.0.0.1:3466'
+              : gradebookCsv
+                ? 'https://127.0.0.1:3465'
+                : gradebook
+                  ? 'https://127.0.0.1:3464'
+                  : classroomEdit
+                    ? 'https://127.0.0.1:3463'
+                    : classroom
+                      ? 'https://127.0.0.1:3462'
+                      : content
+                        ? 'https://127.0.0.1:3461'
+                        : 'https://127.0.0.1:3459') &&
       m.port ===
         (trustedFiles
           ? 56523

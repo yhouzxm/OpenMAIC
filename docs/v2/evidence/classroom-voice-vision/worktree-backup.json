@@ -1,0 +1,9 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_PRIVATE_WORKTREE_ARCHIVE_READABLE",
+  "path": "/home/zxm/.local/share/zhiban-classroom-live-58uXXJ/worktree-before-shutdown.tar.gz",
+  "sha256": "ae226c267a159a6c2636d894f220fd35429dacd0ac069fecae8aa4a667ebd951",
+  "fileCount": 295,
+  "scope": "Modified tracked and nonignored untracked files before final shutdown receipts; private local recovery copy, not a new P7 distribution"
+}

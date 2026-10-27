@@ -1,0 +1,181 @@
+{
+  "format": "ZHIBAN_P7_DELIVERY_INDEX_V1",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "date": "2026-10-24",
+  "scope": "CONSOLIDATED_EXISTING_LOCAL_DELIVERIES_NOT_FULL_RETEST",
+  "entry": "https://127.0.0.1:3461/zhiban",
+  "headIsNotFullCandidate": true,
+  "baselineHead": "daf63afa83470d24a9ed41d171c6a17f8a80adb6",
+  "packages": [
+    {
+      "id": "resources",
+      "document": "docs/v2/zhiban-v2-resource-attachment-bundle-local.md",
+      "boundary": "Configured local formats/scanner only; actual Office/OCR/media services pending.",
+      "receipts": [
+        {
+          "path": "docs/v2/evidence/zhiban-resources-bundle-final-local.json",
+          "sha256": "996a730fde68d8be21a1fb402bb54b1f90e0f049cca14c96366de18c5d3a3310",
+          "recordedStatus": "PASS_CONFIGURED_LOCAL_SCOPE_EXTERNAL_PARSING_PENDING",
+          "scope": "RESOURCE_ATTACHMENT_LOCAL_TARGETED",
+          "interpretation": "Original receipt/source scope only; not retested by P7 packaging"
+        }
+      ]
+    },
+    {
+      "id": "persistence-peer",
+      "document": "docs/v2/zhiban-v2-persistent-local.md",
+      "boundary": "Same host/path persistence and private native AI companion; historical sources retained; no cross-host acceptance.",
+      "receipts": [
+        {
+          "path": "docs/v2/evidence/zhiban-persistent-first-local.json",
+          "sha256": "7b30c2409f8181acc152eb6a6d69dadbe12da5c2fa6193cff331da669729f32a",
+          "recordedStatus": "PASS",
+          "scope": "PERSISTENT_THREE_DATABASE_RESTORE_LOGIN_AND_WORKSPACE_NOT_FULL_CLASSROOM",
+          "interpretation": "Original receipt/source scope only; not retested by P7 packaging"
+        },
+        {
+          "path": "docs/v2/evidence/zhiban-persistent-second-local.json",
+          "sha256": "ab5ba4973ddf8be24e86fbc4f4d0a6a9d6ba9cb9b5ca98d6898c7d23198afff4",
+          "recordedStatus": "PASS",
+          "scope": "PERSISTENT_THREE_DATABASE_RESTORE_LOGIN_AND_WORKSPACE_NOT_FULL_CLASSROOM",
+          "interpretation": "Original receipt/source scope only; not retested by P7 packaging"
+        },
+        {
+          "path": "docs/v2/evidence/zhiban-persistent-recovered-local.json",
+          "sha256": "315a63d31214e8a31d2447374dcd61336ac0a2e8e4f731797f60ce1013cdfdef",
+          "recordedStatus": "PASS",
+          "scope": "PERSISTENT_THREE_DATABASE_RESTORE_LOGIN_AND_WORKSPACE_NOT_FULL_CLASSROOM",
+          "interpretation": "Original receipt/source scope only; not retested by P7 packaging"
+        },
+        {
+          "path": "docs/v2/evidence/zhiban-peer-local.json",
+          "sha256": "06409b52d874800ac8be7d32003a3b2243758ecf3eb8ec8a3ea0fe063c409f9e",
+          "recordedStatus": "PASS",
+          "scope": "PRIVATE_COURSE_AI_LEARNING_COMPANION_NOT_CLINICAL_OR_HUMAN_PEER",
+          "interpretation": "Original receipt/source scope only; not retested by P7 packaging"
+        }
+      ]
+    },
+    {
+      "id": "classroom-lab",
+      "document": "docs/v2/zhiban-v2-classroom-flow-lab-local.md",
+      "boundary": "Fixed classroom sequence and LEARNER_REPORTED lab; no trusted automatic Native measurement.",
+      "receipts": [
+        {
+          "path": "docs/v2/evidence/flow/closeout.json",
+          "sha256": "0c0e19015e6c6015e4cf37d0d17f3edea4b2350f5d954909110cfa0a6aa7b04e",
+          "recordedStatus": "PASS",
+          "scope": "FIXED_CLASSROOM_FLOW_AND_LEARNER_REPORTED_LAB_WITH_ORIGINAL_GRADING_AND_SAME_HOST_PERSISTENCE",
+          "interpretation": "Original receipt/source scope only; not retested by P7 packaging"
+        },
+        {
+          "path": "docs/v2/evidence/flow/default-entry.json",
+          "sha256": "76e72b572193dd288b3db6934af79ffaa365a12cc1c710d0f5a763a44b0c82e6",
+          "recordedStatus": "PASS",
+          "scope": "ADDITIVE_LOCAL_SYNTHETIC_DEMO_COURSE_WITH_PREEXISTING_TEACHING_ROWS_AND_ACCOUNTS_PRESERVED",
+          "interpretation": "Original receipt/source scope only; not retested by P7 packaging",
+          "demoUrls": {
+            "teacher": "https://127.0.0.1:3461/zhiban/teacher/courses/01a16b05-5a10-75bc-99f2-3a6e1f3b5def/classroom-plan?space=01a16958-5776-7381-a21c-e66fe3c2684b&offering=01a16b05-5aa6-72ec-9390-6fd0ea860203#classroom-01a16b05-6170-743f-aa49-b9586ed741d5",
+            "student": "https://127.0.0.1:3461/zhiban/student/courses/01a16b05-5a10-75bc-99f2-3a6e1f3b5def/classroom-plan?space=01a16958-5776-7381-a21c-e66fe3c2684b&offering=01a16b05-5aa6-72ec-9390-6fd0ea860203#classroom-01a16b05-6170-743f-aa49-b9586ed741d5"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pbl",
+      "document": "docs/v2/zhiban-v2-pbl-collaboration-local.md",
+      "boundary": "Independent multi-student fixture; default demo has one student; no autonomous Native PBL agent.",
+      "receipts": [
+        {
+          "path": "docs/v2/evidence/pbl/closeout.json",
+          "sha256": "be1afb24569bb979b277d61fd152967d2bfeb82b6af3cfbc436ee459ad7696b6",
+          "recordedStatus": "PASS",
+          "scope": "NATIVE_PBL_V2_DESIGN_REUSE_COURSE_GROUP_COLLABORATION_UNANIMOUS_JOINT_SUBMISSION_AND_TEACHER_EVALUATION_LOCAL",
+          "interpretation": "Original receipt/source scope only; not retested by P7 packaging"
+        },
+        {
+          "path": "docs/v2/evidence/pbl/default-entry.json",
+          "sha256": "aacc8735e25a81cfcc9759df236d5c15c0ece36a009b8b0e481c7e33e0e6da01",
+          "recordedStatus": "PASS",
+          "scope": "ADDITIVE_PBL_PROJECT_AND_SINGLE_LEARNER_DEMO_ORIGINAL_TEACHING_DATA_AND_ACCOUNTS_PRESERVED",
+          "interpretation": "Original receipt/source scope only; not retested by P7 packaging",
+          "demoUrls": {
+            "teacher": "https://127.0.0.1:3461/zhiban/teacher/courses/01a16b05-5a10-75bc-99f2-3a6e1f3b5def/pbl?space=01a16958-5776-7381-a21c-e66fe3c2684b&offering=01a16b05-5aa6-72ec-9390-6fd0ea860203#group-01a16b3b-4848-7025-8ab1-bb5672608ba5",
+            "student": "https://127.0.0.1:3461/zhiban/student/courses/01a16b05-5a10-75bc-99f2-3a6e1f3b5def/pbl?space=01a16958-5776-7381-a21c-e66fe3c2684b&offering=01a16b05-5aa6-72ec-9390-6fd0ea860203#group-01a16b3b-4848-7025-8ab1-bb5672608ba5"
+          }
+        }
+      ]
+    },
+    {
+      "id": "six-dimension-ema",
+      "document": "docs/v2/zhiban-v2-six-dimension-ema-local.md",
+      "boundary": "Descriptive public evidence, real model and teacher review; explicit teacher run; no clinical claim or unattended scheduler.",
+      "receipts": [
+        {
+          "path": "docs/v2/evidence/ema/closeout.json",
+          "sha256": "65f7ca83b22b51e967802551e3fad65140f18d123c5447f7a0139faf0d8b8951",
+          "recordedStatus": "PASS",
+          "scope": "P5_SIX_DESCRIPTIVE_EVIDENCE_DIMENSIONS_AND_TEACHER_REVIEWED_EMA_LOCAL_SYNTHETIC_ONLY",
+          "interpretation": "Original receipt/source scope only; not retested by P7 packaging"
+        },
+        {
+          "path": "docs/v2/evidence/ema/default-entry.json",
+          "sha256": "2be7311821d6d7be474200dc36223fee54a1d53d3df56f06fb0565c1e5bc2324",
+          "recordedStatus": "PASS",
+          "scope": "DEFAULT_PERSISTENT_SYNTHETIC_3461_ACTUAL_UI_NATIVE_MODEL_REVIEW_PUBLICATION_AND_STUDENT_READBACK",
+          "interpretation": "Original receipt/source scope only; not retested by P7 packaging",
+          "demoUrls": {
+            "teacher": "https://127.0.0.1:3461/zhiban/teacher/courses/01a16958-724c-758d-899e-4afcda859615/evidence-profile?space=01a16958-5776-7381-a21c-e66fe3c2684b&offering=01a16958-7375-7780-9453-f861b6aa2f51#student-01a16958-73be-724e-b295-31e867e26ae9",
+            "student": "https://127.0.0.1:3461/zhiban/student/courses/01a16958-724c-758d-899e-4afcda859615/evidence-profile?space=01a16958-5776-7381-a21c-e66fe3c2684b&offering=01a16958-7375-7780-9453-f861b6aa2f51"
+          }
+        }
+      ]
+    },
+    {
+      "id": "attainment-autograde",
+      "document": "docs/v2/zhiban-v2-attainment-autograde-local.md",
+      "boundary": "School-only certificates; controlled course-equivalence ledger; restricted first formal service grading; original PG/presentation source delta retained.",
+      "receipts": [
+        {
+          "path": "docs/v2/evidence/attainment/closeout.json",
+          "sha256": "9cea2e6176e4667f23aa2a6661867b33afb28ed5f7de42f33eb15a8cdc390267",
+          "recordedStatus": "PASS",
+          "scope": "P3_SCHOOL_ATTAINMENT_CONTROLLED_CROSS_CLASS_CREDITS_RESTRICTED_FORMAL_AI_GRADING_LOCAL",
+          "interpretation": "Original receipt/source scope only; not retested by P7 packaging",
+          "demoUrls": {
+            "teacher": "https://127.0.0.1:3461/zhiban/teacher/courses/01a16b95-df2e-72a7-916d-0ebfa7b685bd/auto-grading?space=01a16958-5776-7381-a21c-e66fe3c2684b&offering=01a16b95-dfef-7067-b5c1-f30cbd595d2c",
+            "student": "https://127.0.0.1:3461/zhiban/attainment?tenant=01a16958-5776-7381-a21c-e66fe3c2684b&mode=STUDENT",
+            "admin": "https://127.0.0.1:3461/zhiban/attainment?tenant=01a16958-5776-7381-a21c-e66fe3c2684b&mode=ADMIN"
+          }
+        },
+        {
+          "path": "docs/v2/evidence/attainment/default-demo.json",
+          "sha256": "a91399e90e6bc23e9d8a39f7f90a3488dd2b470d569b47464f14c31c3e6414b9",
+          "recordedStatus": "PASS",
+          "scope": null,
+          "interpretation": "Original receipt/source scope only; not retested by P7 packaging",
+          "demoUrls": {
+            "teacher": "https://127.0.0.1:3461/zhiban/teacher/courses/01a16b95-df2e-72a7-916d-0ebfa7b685bd/auto-grading?space=01a16958-5776-7381-a21c-e66fe3c2684b&offering=01a16b95-dfef-7067-b5c1-f30cbd595d2c",
+            "student": "https://127.0.0.1:3461/zhiban/attainment?tenant=01a16958-5776-7381-a21c-e66fe3c2684b&mode=STUDENT",
+            "admin": "https://127.0.0.1:3461/zhiban/attainment?tenant=01a16958-5776-7381-a21c-e66fe3c2684b&mode=ADMIN"
+          }
+        },
+        {
+          "path": "docs/v2/evidence/attainment/final-readonly.json",
+          "sha256": "c88c5812a7b9015fe8e84c111c93b82b20243d447f7726625ccbe9c8bc503431",
+          "recordedStatus": "PASS",
+          "scope": null,
+          "interpretation": "Original receipt/source scope only; not retested by P7 packaging"
+        }
+      ]
+    }
+  ],
+  "deferred": [
+    "Trusted real Native runtime / automatic lab / UNKNOWN-RESERVED remain isolated",
+    "Actual Office/OCR/audio/video parser configuration",
+    "Cross-host installation and restore, real identity operations, production capacity / deployment",
+    "Unattended EMA and distributed formal grading",
+    "User-deferred native refresh / close verification"
+  ]
+}

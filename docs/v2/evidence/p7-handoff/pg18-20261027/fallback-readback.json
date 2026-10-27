@@ -1,0 +1,33 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_LATEST_INSTALLED_PG16_FALLBACK",
+  "checks": [
+    {
+      "role": "ADMIN",
+      "login": 200,
+      "workspaceRendered": true,
+      "pageErrors": 0
+    },
+    {
+      "role": "TEACHER",
+      "login": 200,
+      "workspaceRendered": true,
+      "pageErrors": 0
+    },
+    {
+      "role": "STUDENT",
+      "login": 200,
+      "workspaceRendered": true,
+      "pageErrors": 0
+    }
+  ],
+  "accountsSha256": "91d73979d2a3a17ba17c69549682aa4d944f875c004bb8427ad5ba35d262e122",
+  "originalGrade92ProofAndCompletionPreserved": true,
+  "publishedImageSha256": "c9884772616501cedcb28475589e6a25d97776d268bf575268bdbfeba64f7520",
+  "certificateVerified": true,
+  "providerCalls": 0,
+  "scope": "NEW_SOURCE_DIRECTORY_AND_PRIVATE_STATE_SAME_HOST_PG16_SAME_INTERNAL_ROOT",
+  "notPg18HostEvidence": true,
+  "scannerAndModelHostConfigurationNotImported": true
+}

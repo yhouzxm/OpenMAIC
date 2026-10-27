@@ -22,6 +22,16 @@ import { createLogger } from '@/lib/logger';
 const log = createLogger('SecretBox');
 
 export const INSTANCE_SECRET_FILE = 'instance-secret.key';
+let hostSecretDirectory: string | undefined;
+/** Embedded host keeps the instance key with its private recoverable data, never in source. */
+export function configureSecretStorageDirectory(directory:string) {
+  if(hostSecretDirectory || !path.isAbsolute(directory)) throw Error('Secret directory rejected');
+  fs.mkdirSync(directory,{recursive:true,mode:0o700});
+  const stat=fs.lstatSync(directory);
+  if(!stat.isDirectory()||stat.isSymbolicLink()||stat.uid!==process.getuid?.()) throw Error('Private secret directory required');
+  fs.chmodSync(directory,0o700);
+  hostSecretDirectory=directory;
+}
 const ALGORITHM = 'aes-256-gcm';
 const IV_BYTES = 12;
 const TAG_BYTES = 16;
@@ -148,7 +158,7 @@ function writable(dir: string): boolean {
  */
 export function inspectInstanceSecret(
   env: Readonly<Record<string, string | undefined>> = process.env,
-  dataDir: string = path.join(process.cwd(), 'data'),
+  dataDir: string = hostSecretDirectory ?? path.join(process.cwd(), 'data'),
 ): InstanceSecretState {
   const configured = env.OPENMAIC_SECRET_KEY?.trim();
   const file = path.join(dataDir, INSTANCE_SECRET_FILE);
@@ -179,7 +189,7 @@ let cached: { source: string; key: InstanceKey } | undefined;
  */
 export function instanceKey(
   env: Readonly<Record<string, string | undefined>> = process.env,
-  dataDir: string = path.join(process.cwd(), 'data'),
+  dataDir: string = hostSecretDirectory ?? path.join(process.cwd(), 'data'),
 ): InstanceKey {
   const configured = env.OPENMAIC_SECRET_KEY?.trim();
   const source = configured ? `env:${configured}` : `file:${dataDir}`;

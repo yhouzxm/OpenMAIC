@@ -59,6 +59,8 @@ import type {
   PBLProjectV2,
   PBLSubmission,
 } from '@/lib/pbl/v2/types';
+import { isPublishedClassroomHost } from '@/lib/classroom/published-host';
+import { TEXT_FILE_ACCEPT } from '@/lib/pbl/v2/operations/runtime/file-validation';
 import { trimmedPBLText } from '@/lib/pbl/v2/readers';
 import type { PBLSSEEvent } from '@/lib/pbl/v2/api/sse';
 import { applyInstructorEvent } from './apply-instructor-event';
@@ -997,6 +999,14 @@ function SubmissionModal({
   const handleFile = async (file: File) => {
     setError(null);
     resetAttachment();
+    if (isPublishedClassroomHost() && (isPdfFile(file) || isImageFile(file))) {
+      setError('此课程自主 PBL 支持文本文件；图片／PDF 请通过课程资源与附件入口提交。');
+      return;
+    }
+    if (isPublishedClassroomHost() && file.size > 100000) {
+      setError('自主 PBL 文本文件最大 100 KB，请精简后提交。');
+      return;
+    }
     if (file.size > FILE_BYTES_CAP) {
       setError(t('pbl.v2.submission.fileTooLarge'));
       return;
@@ -1226,7 +1236,7 @@ function SubmissionModal({
             <label className="block cursor-pointer rounded-xl border border-dashed border-cyan-100/[0.14] bg-slate-700/[0.24] px-4 py-4 text-center text-xs text-muted-foreground transition-colors hover:bg-slate-700/[0.34]">
               <input
                 type="file"
-                accept={TEXT_PDF_IMAGE_ACCEPT}
+                accept={isPublishedClassroomHost() ? TEXT_FILE_ACCEPT : TEXT_PDF_IMAGE_ACCEPT}
                 className="hidden"
                 disabled={parsing || uploading}
                 onChange={(e) => {
@@ -1250,7 +1260,11 @@ function SubmissionModal({
                   })}
                 </span>
               ) : (
-                <span>{t('pbl.v2.submission.selectFileHint')}</span>
+                <span>
+                  {isPublishedClassroomHost()
+                    ? '点击选择文本文件 · 最大 100 KB'
+                    : t('pbl.v2.submission.selectFileHint')}
+                </span>
               )}
             </label>
           )}

@@ -1,3 +1,5 @@
+import { localPgMajor } from './pg-version';
+import { providerEnvironment } from '../../lib/zhiban/infrastructure/authoring/media/environment';
 import { buildNativeAuthoring } from './build-native-authoring';
 import { createStartupDiagnostics } from '../zhiban-ci/startup-diagnostics.cjs';
 import { parseEnv } from 'node:util';
@@ -14,6 +16,7 @@ const startup = createStartupDiagnostics('CATALOG');
 async function main() {
   if (
     process.argv.includes('--authoring-focus') ||
+    process.argv.includes('--classroom-ai-focus') ||
     process.argv.includes('--ema-focus') ||
     process.argv.includes('--attainment-focus')
   ) {
@@ -21,7 +24,7 @@ async function main() {
     if (await lstat(envFile).catch(() => null)) {
       await privateEntry(envFile);
       const config = parseEnv(await readFile(envFile, 'utf8'));
-      for (const key of ['GLM_API_KEY', 'GLM_BASE_URL', 'GLM_MODELS', 'DEFAULT_MODEL'])
+      for (const key of Object.keys(providerEnvironment(config)))
         if (!process.env[key] && config[key]) process.env[key] = config[key];
     }
   }
@@ -32,6 +35,7 @@ async function main() {
 
   if (
     (process.argv.includes('--trusted-files') || process.argv.includes('--unified-trial')) &&
+    localPgMajor === 16 &&
     !process.env.ZHIBAN_LOCAL_STATE &&
     !process.env.ZHIBAN_SCANNER_PROFILE &&
     !process.env.ZHIBAN_SCANNER_PROFILE_SHA256
@@ -225,7 +229,11 @@ async function main() {
       platform: 'node',
       format: 'esm',
       packages: 'external',
+      // The native Pi route reaches the document migrator, whose lodash CJS subpath
+      // is extensionless. Node ESM requires the real filename when kept external.
       alias: {
+        lodash: createRequire(require.resolve('tsx')).resolve('lodash'),
+        'lodash/isEqual': createRequire(require.resolve('tsx')).resolve('lodash/isEqual.js'),
         'next/server': 'next/server.js',
         'next/headers': 'next/headers.js',
         '@openmaic/dsl/schema/scene.schema.json': resolve(
@@ -265,6 +273,14 @@ async function main() {
               '--lesson-focus',
               '--lesson-product-focus',
               '--authoring-focus',
+              '--classroom-ai-focus',
+              '--native-pbl-focus',
+              '--native-archive-focus',
+              '--multimodal-focus',
+              '--service-center-focus',
+              '--course-results-focus',
+              '--course-live-focus',
+              '--pg18-acceptance',
               '--native-player-focus',
               '--native-classroom-focus',
               '--interactive-focus',

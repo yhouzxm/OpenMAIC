@@ -39,3 +39,22 @@ describe('createVisibleSpeechDeltaSanitizer', () => {
     expect(runStream(['你好', '，', '世界'])).toBe('你好，世界');
   });
 });
+
+it('holds split tool markup and compatible-model tool names out of visible speech', () => {
+  const sanitize = createVisibleSpeechDeltaSanitizer(['inspect_classroom_image']);
+  const result = [
+    '蓝色方形。',
+    '\nins',
+    'pect_classroom_image',
+    '\n<arg_',
+    'key>index</arg_key>',
+    '\n<arg_value>0</arg_value></tool_call>',
+  ]
+    .map(sanitize)
+    .join('');
+  expect(result).toBe('蓝色方形。');
+  const tags = createVisibleSpeechDeltaSanitizer();
+  expect(['已查看。', '<tool_', 'call>unexecuted</tool_call>'].map(tags).join('')).toBe('已查看。');
+  const plain = createVisibleSpeechDeltaSanitizer(['inspect_classroom_image']);
+  expect(['第一行', '\n', '第二行'].map(plain).join('')).toBe('第一行\n第二行');
+});

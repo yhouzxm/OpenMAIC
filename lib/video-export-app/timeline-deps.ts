@@ -202,6 +202,8 @@ export async function createVideoTimelineDeps(input: {
   skipGeometry?: boolean;
   /** Skip HTML inlining for subtitle-only compilation. */
   skipInteractiveHtml?: boolean;
+  /** Portable fixed snapshot: do not read another browser document's media rows. */
+  portable?: boolean;
 }): Promise<VideoTimelineDeps> {
   const { stage, scenes, skipGeometry = false, skipInteractiveHtml = false } = input;
 
@@ -251,8 +253,10 @@ export async function createVideoTimelineDeps(input: {
       // superseded narration) still exports what the classroom plays; the row's
       // own blob is the resolver's legacy fallback. The row read here supplies
       // duration/format/ossKey metadata for the compiler's sync lookups.
-      const record = await db.audioFiles.get(audioId);
-      const blob = await resolveAudioBlob(audioId);
+      const record = input.portable ? undefined : await db.audioFiles.get(audioId);
+      const blob = input.portable
+        ? (audioId.startsWith('data:') ? await (await fetchMediaUrl(audioId,15000)).blob() : null)
+        : await resolveAudioBlob(audioId);
       return { audioId, blob, record };
     },
   );
@@ -317,9 +321,9 @@ export async function createVideoTimelineDeps(input: {
   const mediaByElementId = new Map<string, MediaFileRecord>();
   for (const entry of assetManifest.entries) {
     if (entry.kind === 'audio') continue;
-    const record = await db.mediaFiles
-      .get(mediaFileKey(stage.id, entry.ref))
-      .catch(() => undefined);
+    const record = input.portable
+      ? (entry.ref.startsWith('data:') ? await fetchMediaUrl(entry.ref,15000).then(async r=>{const blob=await r.blob();return {id:entry.ref,stageId:stage.id,elementId:entry.ref,type:entry.ref.startsWith('data:video/')?'video':'image',blob,mimeType:blob.type,createdAt:0,size:blob.size,prompt:'',params:'{}'} as MediaFileRecord;}) : undefined)
+      : await db.mediaFiles.get(mediaFileKey(stage.id, entry.ref)).catch(() => undefined);
     if (record) mediaByElementId.set(entry.ref, record);
   }
 

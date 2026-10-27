@@ -1,0 +1,146 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_AVAILABLE_LOCAL_SCOPE_PENDING_EXTERNAL_SERVICES",
+  "createdAt": "2026-10-25T23:02:20.887424+00:00",
+  "branch": "refactor/zhiban-v2",
+  "head": "093b4a69af96626010d9104c50d680d9b9dc1928",
+  "workingTree": "DIRTY_CANDIDATE_PRESERVES_PREEXISTING_WORK",
+  "sourceHashes": {
+    "lib/zhiban/infrastructure/authoring/media/transport.ts": "31d48f9cc9fc5521855d3c3047c3595bb231ecb20033faf2adf7795de8f99551",
+    "lib/zhiban/infrastructure/authoring/media/policy.ts": "310da9e470c9e055bf6aec0fb4a8a9e826e3ddb069de171cfdc6d00f227df97d",
+    "lib/zhiban/infrastructure/authoring/media/environment.ts": "6f56a8d7414e423d50add7d50375ca2f20167be61f02d4df051a892993d9e314",
+    "lib/zhiban/infrastructure/authoring/media/service.ts": "11ef2b0e2e3070b6b9ed52d6f8bce6fd7c60010b654b6cb8aa3ab93ce2ac4e6e",
+    "tests/zhiban/multimodal/policy.test.ts": "1a705d2ccc3cb6efd7b36304ee1cba6a72aef849b64a56ede1b7205adbad2d9e",
+    "tests/zhiban/multimodal/lifecycle.test.ts": "f5655fa38b4645b308b598b4fc10de96d6bfa8188ae5e8bc08e035fe6df6cdf8",
+    "app/zhiban/local/native-services.tsx": "d7cd53534aa70d130820c464c7c7fa2534f890842df6de43202c71d187df693f",
+    "app/zhiban/local/native-services.html": "98ca0becfc94967c384c421693804e9898cc8ae454a1a488734e9866b027c0c9",
+    "app/zhiban/local/native-services.css": "f4d664c114aa93f98cda162368f8cd998ddcfbd462110be3bac0c9fffb4303db",
+    "app/zhiban/local/native-workbench.tsx": "22360b6dd1aba7b6ef40d34f2085b4e161a2e678f73347db05f85b575fb59681",
+    "lib/zhiban/infrastructure/authoring/host.ts": "aa8fbfc3449dedd1b400440c5c5428a4ef0a9cec2f8730e32e967949bb2d5c58",
+    "lib/zhiban/infrastructure/authoring/http.ts": "eada21d7ab1dbd6a0f2a02e55695e0ab21edfd8acbd8760a7b5d7e0fdc0735f7",
+    "lib/zhiban/infrastructure/material/config.ts": "3776ea89df141e73d0630367d5cb4309b767cf767561d8b9d4a27ba7e4a2a103",
+    "lib/document-store/persistence-types.ts": "3db51034912bfe442b5e226bb90d6e6be9c0390d7c416f2b4c7e7e6288bd9528",
+    "scripts/zhiban-local/build-native-authoring.ts": "93a21b7e828261b69990b8f37023216de83290c667762e2da1ccc0b4526e7138",
+    "scripts/zhiban-local/start-persistent.ts": "646690f22fb64f05f42528ec077bf7537ad0d4aff1192bd840452b40adbe5d84",
+    "scripts/zhiban-local/run-m6-catalog.ts": "2fbe3b8a55f0f02f58fce2beae6d5ded054120fa3e9e835060b934f36438ae07",
+    "scripts/zhiban-local/verify-m6.mts": "61b060ffd0cd6d52c9da22ed2278198ab090757d5d5049de6387577cb5bdf64a",
+    "scripts/zhiban-local/check-multimodal-config.ts": "b973a9f5b57ad27a8c089d04d1c1ef82d4c157a3e8c77a6d37a6f338b3ee36e6",
+    "scripts/zhiban-local/verify-multimodal.ts": "836d13eaa4666a1d7d3289ad2df032c8406593a28ff7512713fec7db6d2088c7",
+    "scripts/zhiban-local/tsconfig.native-authoring.json": "c3e30e3c98649219dcd1210dfb00b12d85a1e51a501037a942d4c80b38c0a368",
+    ".gitignore": "47ce1cc0e2b3dafd3dfc84fe732f0fa98fa2af27f0c4fb99be3e5cc2dc62d21c"
+  },
+  "documentationHashes": {
+    "TRIAL.md": "27fd7893c7173efae9c09d59aece1477bb91c84789ebf2cfb67659b2c63c6bc6",
+    "docs/v2/zhiban-v2-materials-multimodal-local.md": "8d06b4950073e59e0f3bdbdf2c750f85bc19c68205f88eddf47d9cc6228a3b9e",
+    "docs/v2/zhiban-v2-migration-completion-plan.md": "6bf472b7f6fe6665f1a1672409c387622a7e7819225e61b42a3139050bae4c3f",
+    "docs/v2/zhiban-v2-feature-gap-matrix.md": "836af1a178ecffe762038218f4d17fd1ba7228b21b4b240dedb6f66c38eced81",
+    "docs/v2/zhiban-v2-native-teaching-reuse-audit.md": "8f57db38c0392bd2beb56aaae3bc7ecd33e723fe93472ff2562a4324a9d88fdd",
+    "docs/v2/zhiban-v2-resource-attachment-bundle-local.md": "36caff134e0d17e2cdddf44c2c00ecda1ed73bd673b923a19c275067e47cf3bf"
+  },
+  "evidenceHashes": {
+    "docs/v2/evidence/zhiban-multimodal-persistent.png": "083a8b9cfe630956b8fdebf0acea51c5c5d32fe489a52b257a3ef37acd24ef1a",
+    "docs/v2/evidence/zhiban-multimodal-initial-failure.json": "f8a03ff0de77770bacc0902a327bb9176372f58678e4b916edbdae6e6a5ad85a",
+    "docs/v2/evidence/zhiban-multimodal-persistent-local.json": "54fde97f3f0f534323d87a91fd3a7dba92b667d9a464d00c9ffc399fe9295f6c",
+    "docs/v2/evidence/zhiban-multimodal-mobile.png": "fb20e201e6f4e9845c4b639a6f1a7bb95d625469a2e5b7880d6e0f167888cc3a",
+    "docs/v2/evidence/zhiban-multimodal-local.json": "2c0215e54621797e960d63d115a7983b6f25d164d6d857002993f7240b395fd1",
+    "docs/v2/evidence/zhiban-multimodal-desktop.png": "e873fc127ca218cc9eccb95559fc4ca71d78c754b3a6e399da4109b157b2174d",
+    "docs/v2/evidence/zhiban-multimodal-r2-findings.json": "1c144f76f85e34807505f52b888ad6336d1541ec6aba0d7e84d86f9f53823249",
+    "docs/v2/evidence/zhiban-multimodal-services-local.json": "c127efcebfa8b39865de128f0c004044a7a10cea0065677fcd6b1e5a09db409e",
+    "docs/v2/evidence/zhiban-multimodal-config-local.json": "e92d915b5f9a3af5672dd4740326c244cd93d3583faa7c3b0b19defc87163fe9"
+  },
+  "checks": {
+    "nativeAuthoringTypes": "PASS",
+    "affectedLint": "PASS",
+    "diffWhitespace": "PASS",
+    "multimodalUnit": "11 PASS; injected providers are not real external service evidence",
+    "existingMaterialFormats": "5 PASS separately; earlier concurrent-load 5-second timeout retained as timing finding",
+    "disposablePg16": "PASS local material extraction, real scan, local image preview, adopt/publication/student read, replay/conflict/CSRF, EICAR denial and ended-teacher barrier",
+    "defaultPersistent": "PASS original accounts and two completed PBL reports preserved, new material/document restored after restart",
+    "sourceMatches": true,
+    "sourceDriftCount": 0
+  },
+  "postDisposableChanges": {
+    "changes": [
+      "precise running job identity and timestamps",
+      "TTS original speech text binding",
+      "explicit local media source label",
+      "container MIME inference for native bare base64 and ASR header checks"
+    ],
+    "coverage": "Final unit/types/lint and restored default read; external provider positive calls remain unverified"
+  },
+  "configuration": {
+    "evidenceOrigin": "LOCAL",
+    "scope": "OFFLINE_CONFIGURATION_ONLY_NO_PROVIDER_CALLS",
+    "configSha256": "27b86ca39721e67eef4abe1ca6351ca1ac6e4bda9b68761c366064ba7572af42",
+    "services": {
+      "image": {
+        "state": "DISABLED",
+        "realCallVerified": false
+      },
+      "video": {
+        "state": "DISABLED",
+        "realCallVerified": false
+      },
+      "tts": {
+        "state": "DISABLED",
+        "realCallVerified": false
+      },
+      "asr": {
+        "state": "DISABLED",
+        "realCallVerified": false
+      },
+      "document": {
+        "state": "DISABLED",
+        "realCallVerified": false
+      }
+    },
+    "localExtractors": [
+      "plain-text",
+      "unpdf"
+    ],
+    "realExternalServicesVerified": false
+  },
+  "externalCallsThisPackage": 0,
+  "pendingExternalServices": [
+    "Office/OCR parsing",
+    "audio/video parsing",
+    "image generation",
+    "video generation",
+    "TTS",
+    "ASR"
+  ],
+  "persistent": {
+    "origin": "https://127.0.0.1:3461",
+    "accountsSha256": "91d73979d2a3a17ba17c69549682aa4d944f875c004bb8427ad5ba35d262e122",
+    "afterRestart": {
+      "status": "PASS",
+      "checkedAt": "2026-10-25T22:58:17.385Z",
+      "sameDocumentAndMaterial": true
+    },
+    "originalPblReports": [
+      {
+        "scene": "autonomous-1c2c5270-fa5a-468a-9130-26d0f037319c",
+        "status": "completed",
+        "revision": "19"
+      },
+      {
+        "scene": "autonomous-c1f1233d-a2fa-4f30-8ad6-0d1127ed8fd2",
+        "status": "completed",
+        "revision": "20"
+      }
+    ],
+    "snapshotPath": "/home/zxm/.local/share/zhiban-persistent/2026-10-25T22-58-18.142Z-cd23958d",
+    "snapshotManifestSha256": "7c51049e0d2a521d198380fa547db8bde1a36e520bb4766f48f2a89bdc70586a",
+    "scope": "Owned local PG16 three databases plus assets/materials; existing independent maintenance chain remains isolated"
+  },
+  "boundaries": [
+    "No applied migration changes",
+    "No commit, push, CI dispatch or production deployment",
+    "Single-host/shared-private-byte-root job persistence; distributed execution not verified",
+    "Status CONFIGURED_NOT_VERIFIED never implies a successful provider call",
+    "Prior P7, Native archive/PBL and GitHub evidence retain historical source scope",
+    "Initial command-format and preview/EICAR-fixture findings retained in separate local evidence"
+  ],
+  "next": "Course-side trusted execution and formal completion bridge; GPT-6.1 Sol / high"
+}

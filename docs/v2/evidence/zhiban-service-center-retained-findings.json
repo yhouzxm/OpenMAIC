@@ -1,0 +1,32 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "findings": [
+    {
+      "attempt": "initial",
+      "result": "TEST_FIXTURE_EXPECTATION_INCORRECT",
+      "detail": "The third actor is another genuine TENANT_ADMIN in the same space and is correctly allowed. Negative scope checks now use teacher, student and other-space administrator."
+    },
+    {
+      "attempt": "second",
+      "result": "RECEIPT_SOURCE_MISMATCH_REJECTED",
+      "detail": "Source changed while disposable installer was building. No bypass applied; generate the fixture after freezing source."
+    },
+    {
+      "attempt": "desktop/mobile screenshot review",
+      "result": "MOBILE_HISTORY_TABLE_COMPRESSED",
+      "detail": "Corrected to min-width table with internal horizontal scrolling; final default-browser evidence covers the CSS change."
+    },
+    {
+      "attempt": "default locked policy",
+      "result": "EXPECTED_NATIVE_REFUSAL_WAS_SANITIZED_TO_503",
+      "detail": "AcademicStore deliberately sanitizes non-domain errors. Known native slot-lock refusal is now translated to domain conflict before crossing that boundary; final default check verifies 409."
+    }
+  ],
+  "deploymentPolicy": {
+    "lock": "all",
+    "allowUserKeys": false,
+    "changed": false
+  },
+  "editableFixture": "Owned disposable file only, empty providers, all media slots disabled, allowUserKeys true, synthetic never-dispatched credentials."
+}

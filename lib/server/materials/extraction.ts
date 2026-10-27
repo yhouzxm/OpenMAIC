@@ -1,3 +1,8 @@
+import {
+  legacyOfficeType,
+  legacyOfficeIdentity,
+  type LegacyOfficeReceipt,
+} from '@/lib/document/legacy-office';
 /**
  * Extraction at upload: an owner material's text and images are extracted in
  * the background as soon as it is uploaded (`POST /api/materials`), so a run
@@ -83,6 +88,7 @@ const log = createLogger('MaterialExtraction');
 export interface MaterialExtractionResult {
   version: 1;
   text: string;
+  legacyConversion?: LegacyOfficeReceipt;
   pageCount?: number;
   /** The images as the extraction found them, each with its bytes as a data URL. */
   images: Array<Omit<ParsedDocumentImage, 'sourceDocumentId'>>;
@@ -93,6 +99,9 @@ function resultOf(parsed: ParsedPdfContent): MaterialExtractionResult {
   return {
     version: 1,
     text: parsed.text,
+    ...(parsed.metadata?.legacyConversion
+      ? { legacyConversion: parsed.metadata.legacyConversion as LegacyOfficeReceipt }
+      : {}),
     ...(parsed.metadata?.pageCount !== undefined ? { pageCount: parsed.metadata.pageCount } : {}),
     // The extractor's own list, else its bare data URLs.
     images: parsed.metadata?.pdfImages
@@ -161,6 +170,7 @@ export function extractionIdentityKey(mimeType: string, services: ExtractionServ
   const document = services.document;
   return JSON.stringify([
     mimeType.toLowerCase(),
+    ...(legacyOfficeType(mimeType) ? ['local-legacy-office-ooxml-v1'] : []),
     services.documentStatus ?? null,
     document
       ? [
@@ -259,7 +269,11 @@ export async function extractOwnerMaterial(
   const fileName = material.originalName ?? material.id;
   const mimeType = normalizeDocumentMimeType({ mimeType: material.mime, fileName });
   const services = await (dependencies.services ?? ownerExtractionServices)(material.ownerId);
-  const identityKey = extractionIdentityKey(mimeType, services);
+  const identityKey =
+    extractionIdentityKey(mimeType, services) +
+    (legacyOfficeType(mimeType) && services.document?.providerId === 'alidocmind'
+      ? ':' + (await legacyOfficeIdentity())
+      : '');
   const resultKey = materialExtractionResultKey(material.ossKey, attempt);
   const store = async (bytes: Buffer) => {
     const maxBytes = maxExtractionResultBytes();

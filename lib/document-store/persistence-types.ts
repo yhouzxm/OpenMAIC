@@ -26,6 +26,14 @@ export type DocumentProducer = 'client' | 'server-job';
 
 /** Generation intent stored opaquely with the document aggregate. */
 export interface AppDocumentOutline {
+  /** Server-recorded import provenance; never a publication or learner-result capability. */
+  mediaSource?: { assetId: string; sha256: string; createdAt: number; commandDigest: string };
+  restoredFrom?: {
+    kind: 'maic' | 'pptx';
+    archiveSha256: string;
+    restoredAt: number;
+    clearanceReference: string;
+  };
   outlines: SceneOutline[];
   /**
    * The requirement text the plan was generated from (agent runtime only).

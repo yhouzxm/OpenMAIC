@@ -30,6 +30,7 @@ import { useWorkbenchStore } from '@/lib/workbench/session-store';
 import { useWorkbenchPanelState } from '@/lib/workbench/panel-context';
 import { workspaceHref } from '@/lib/workbench/workspace-panes';
 import { exitProPlaybackToStandalone } from '@/lib/workbench/pro-playback-exit';
+import { isPublishedClassroomHost } from '@/lib/classroom/published-host';
 
 /**
  * Stage — top-level classroom container. Standalone classrooms dispatch
@@ -371,8 +372,12 @@ export function Stage({
             }
             hideHeaderBackControl={classroomBackControl === 'hidden'}
             hideHeader={!classroomHeaderControls.showHeader}
-            hideHeaderGlobalControls={!classroomHeaderControls.showGlobalControls}
-            hideHeaderCourseActions={!classroomHeaderControls.showCourseActions}
+            hideHeaderGlobalControls={
+              !classroomHeaderControls.showGlobalControls || isPublishedClassroomHost()
+            }
+            hideHeaderCourseActions={
+              !classroomHeaderControls.showCourseActions || isPublishedClassroomHost()
+            }
           />
         </motion.div>
       ) : (

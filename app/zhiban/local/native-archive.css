@@ -1,0 +1,105 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: #f1f5fb;
+  color: #142945;
+  font:
+    15px/1.65 system-ui,
+    'Microsoft YaHei',
+    sans-serif;
+}
+header {
+  background: #176ddd;
+  color: #fff;
+  padding: 16px 28px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+header a {
+  color: #fff;
+}
+header h1 {
+  font-size: 21px;
+  margin: 0;
+}
+main {
+  max-width: 1160px;
+  margin: 28px auto;
+  padding: 0 20px;
+}
+.card {
+  border: 1px solid #dce3ed;
+  border-radius: 14px;
+  background: #fff;
+  padding: 26px;
+  margin-bottom: 22px;
+}
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+button,
+.link {
+  border: 1px solid #cdd9e8;
+  background: #fff;
+  border-radius: 7px;
+  padding: 10px 17px;
+  color: #176ddd;
+  cursor: pointer;
+  font: inherit;
+  text-decoration: none;
+  display: inline-block;
+}
+button.primary {
+  background: #176ddd;
+  color: #fff;
+  border-color: #176ddd;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+h2 {
+  font-size: 19px;
+  margin-top: 0;
+}
+.muted {
+  color: #657b98;
+  font-size: 14px;
+}
+.status {
+  padding: 14px;
+  background: #edf5ff;
+  border-radius: 7px;
+  overflow-wrap: anywhere;
+}
+ul {
+  padding-left: 22px;
+}
+input[type='file'] {
+  max-width: 100%;
+  padding: 10px 0;
+}
+strong {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 600px) {
+  header {
+    padding: 14px 16px;
+  }
+  main {
+    margin: 16px auto;
+    padding: 0 12px;
+  }
+  .card {
+    padding: 18px;
+  }
+  .actions button {
+    width: 100%;
+  }
+}

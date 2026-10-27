@@ -1,15 +1,16 @@
+import { readProfileReference, referenceScope, versionedContentPath } from './pg-version';
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { official } from '../../lib/zhiban/infrastructure/openmaic/catalog';
 export const interactiveMigration = 'docs/v2/candidates/p4-interactive/0003-interactive.sql';
 export const interactiveReference = 'docs/v2/evidence/p4-interactive-profile-reference-local.json';
 export async function interactiveSources() {
-  const sql = await readFile(interactiveMigration, 'utf8'),
+  const sql = await readFile(versionedContentPath(interactiveMigration), 'utf8'),
     hash = createHash('sha256').update(sql).digest('hex');
-  const reference = JSON.parse(await readFile(interactiveReference, 'utf8'));
+  const reference = await readProfileReference(interactiveReference);
   if (
     reference.evidenceOrigin !== 'LOCAL' ||
-    reference.scope !== 'ISOLATED_PG16_INTERACTIVE_REFERENCE' ||
+    reference.scope !== referenceScope('ISOLATED_PG16_INTERACTIVE_REFERENCE') ||
     reference.interactiveMigrationSha256 !== hash ||
     Object.entries(official).some(([k, v]) => reference.provider[k] !== v)
   )

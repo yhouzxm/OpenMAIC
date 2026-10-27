@@ -113,7 +113,17 @@ render-service/.owner-bound-parent-*/
 /app/zhiban/local/native-published.js
 /app/zhiban/local/native-theme.css
 /app/zhiban/local/native-assets/
+/app/zhiban/local/native-classroom.bundle.js
+/app/zhiban/local/native-classroom.bundle.css
 
 # Local verification process directories and generated portal bundle
 /.zhiban-*-run-*/
 /app/zhiban/local/content-client.js
+
+# Local native archive/media browser build outputs
+/app/zhiban/local/native-archive.bundle.js
+/app/zhiban/local/native-services.bundle.js
+
+/app/zhiban/local/admin-services.bundle.js
+
+/app/zhiban/local/course-results.bundle.js

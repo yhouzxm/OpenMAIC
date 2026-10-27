@@ -1,0 +1,85 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "AVAILABLE_SERVICES_ACCEPTED_DEPENDENCIES_OPEN",
+  "at": "2026-10-26T11:55:39.039313+00:00",
+  "branch": "refactor/zhiban-v2",
+  "head": "093b4a69af96626010d9104c50d680d9b9dc1928",
+  "accepted": [
+    "GLM_IMAGE_GENERATE_SCAN_ADOPT_PUBLISH_STUDENT_VIEW",
+    "GLM_ASR_REAL_UPLOAD_TRANSCRIPTION",
+    "FFMPEG_AUDIO_AND_36S_VIDEO_REAL_ASR_KEYFRAMES_STORAGE_TEACHER_READBACK"
+  ],
+  "pending": {
+    "tts": "Actual GLM HTTP429; slot remains disabled",
+    "officeOcr": "No supported provider configured; GLM document adapter not implemented",
+    "videoGeneration": "No supported provider configured; GLM video adapter not implemented"
+  },
+  "knownLimitations": [
+    "1MiB original material upload cap retained",
+    "ASR repeated synthetic speech produced verbose repetition; transcript accuracy requires teacher review",
+    "Local FFmpeg test video is not AI video generation"
+  ],
+  "runtime": {
+    "origin": "https://127.0.0.1:3461",
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "existingAccountsAndHistoryPreserved": true
+  },
+  "privateConfiguration": {
+    "envLocalUnchanged": true,
+    "envSha256": "4209ce94af6b65d12e8f1405b8266bd9c1ce1989b336acfe6c26a9e2371bb425",
+    "yamlSha256": "108d4918d6a957a767589f8eb7ccfe0c8bfc3cd85b644ce4e5f1da42621e6837",
+    "secretsExported": false,
+    "clashExactDnsExclusions": [
+      "open.bigmodel.cn",
+      "maas-watermark-prod-new.cn-wlcb.ufileos.com"
+    ],
+    "projectSsrfAndTlsChecksPreserved": true
+  },
+  "backup": {
+    "status": "PASS",
+    "evidenceOrigin": "LOCAL",
+    "snapshot": "/home/zxm/.local/share/zhiban-persistent/2026-10-26T11-54-43.211Z-302df431",
+    "files": 3279,
+    "scope": "Latest snapshot file/hash closure verified; latest snapshot not separately restored in this increment. Earlier restart/readback verified prior snapshot.",
+    "manifestHash": "84f6d5cb8c9b7e8aa1d42f6e3122661f3024632089908bbebd7b9bab5768e050",
+    "physicalPg16Backup": true,
+    "containsInstanceSecret": true
+  },
+  "retainedFindings": [
+    "Initial Native material conversion discarded keyframe assets; fixed images/pdfImages propagation",
+    "Normal restore correctly refused stale source receipt; explicit local upgrade then succeeded",
+    "Failed ordinary restore root preserved privately after confirming PG stopped; snapshot verified before fresh restore"
+  ],
+  "sourceSha256": {
+    "lib/document/extractors/local-media.ts": "76096287f6a75db38a49afc81a45bc9b68d8919cf7e9c9fa43fc11399ce2ec4e",
+    "lib/server/generation/steps/material-analysis.ts": "f83e44398b7e956ef0e4fcc042c3afef3d65cab3df09fc6e7f09c8783e6e7b90",
+    "lib/zhiban/infrastructure/authoring/media/glm-image-normalization.ts": "0e69dafe04c13e64be5058134bcc38d94b4b9128949820c38104db1437cd9e23",
+    "lib/zhiban/infrastructure/authoring/media/service.ts": "d7a785cbc7db1983dfb05cfeb9ca9024ef72c4a73506efca7bdd8a573373fa11",
+    "app/zhiban/local/native-services.tsx": "68fe2f98b40eff3616d90145c777db61bc9f95c0aff16440e7472cb9ae7aa9a3",
+    "tests/zhiban/multimodal/glm-image-normalization.test.ts": "a90a101c65e5a0273282167b5d864c2c4b2837c18028a2b624bde7f75c61e260",
+    "tests/zhiban/multimodal/glm-asr-chunks.test.ts": "1079af2c69850c761b1787c974fd5db87df555019239234007bf5d6ba327b56a",
+    "tests/server/generation-steps/material-analysis-slots.test.ts": "442fd4f879f11b1997f2f11451486efba71649c3adf5779cd5ebe33377beccce"
+  },
+  "evidenceSha256": {
+    "docs/v2/evidence/service-provider-acceptance/application.json": "25ef1efdecf7f4cc9c72fe6db17ea6b076fb1eccd71ccadab5b3f636a348e081",
+    "docs/v2/evidence/service-provider-acceptance/config-check.json": "4806f0fa5474fdfa6b6053558c7282acecf78d1c9ecbd05d6f36842b3755735f",
+    "docs/v2/evidence/service-provider-acceptance/final-readback.json": "fdedca96023231b6d0992d985da6e87ed533b61fd0ffe248b0d08f941d0d2647",
+    "docs/v2/evidence/service-provider-acceptance/media-extraction.json": "b7f33c78deeeda91d8ff9e21afd7fa99c2279d8cc3230ba55be1bf3c9e6f9a05",
+    "docs/v2/evidence/service-provider-acceptance/media-fixtures.json": "19a91c936b4eee3976f2211588a3b022393bf8c77d5f18f706f1ba19eca964a9",
+    "docs/v2/evidence/service-provider-acceptance/media-ready.png": "705cccb3c7f8d0e0711f1e225b7a954e8e9288a49e78ddbb27bc4eade9191da1",
+    "docs/v2/evidence/service-provider-acceptance/qualification.json": "b43d0cb677a18b3c6ee5c8acace0ae0eb37e078c48ee564bf9ef5b4d386127b7",
+    "docs/v2/evidence/service-provider-acceptance/student-generated-image.png": "8f9a4067bb36ebec4e6a6f7fc4bb63372299f5f8b365e36dac4f5ee24ee186a9",
+    "docs/v2/evidence/service-provider-acceptance/targeted-checks.json": "4f04897283f3ae51153261215db2070ff140617a0113a2c1bf96fb96240bbec4",
+    "docs/v2/evidence/service-provider-acceptance/teacher-final-desktop.png": "dc7aca935e9e143c3423a579f6e9e838831f295b32ad4d066418e2940c8dcd11",
+    "docs/v2/evidence/service-provider-acceptance/teacher-final-mobile.png": "194c07f6acd8c71732f2a7cbfa3bf1b58c57cf9fc7a75d582f730542ae08f364"
+  },
+  "frozenP7": "8f09fd093eba artifact remains original source scope; no new P7 package",
+  "gitActions": {
+    "commit": false,
+    "push": false,
+    "ci": false
+  },
+  "appliedMigrationsChanged": false
+}

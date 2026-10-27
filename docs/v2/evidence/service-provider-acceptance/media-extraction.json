@@ -1,0 +1,49 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_REAL_AUDIO_AND_LONG_VIDEO_MATERIAL_EXTRACTION",
+  "at": "2026-10-26T11:54:11.184Z",
+  "rows": [
+    {
+      "kind": "audio",
+      "materialId": "mat_vnaqz3qmpzwwkj4tx3j1mf0eg0",
+      "status": "READY_REAL_ASR",
+      "textSha256": "4b4213cf6606994d91d8e8259fe6e72f0eba5e2d5e3989820a8bcc6b204e0459",
+      "images": 0,
+      "second25SecondWindow": false,
+      "extraction": {
+        "status": "ready",
+        "extractor": "local-ffmpeg",
+        "pageCount": 0,
+        "textChars": 61,
+        "updatedAt": 1793014859616,
+        "imageCount": 0,
+        "resultBytes": 112
+      }
+    },
+    {
+      "kind": "video",
+      "materialId": "mat_f08watacvb5xzt65hnj6v8zd4w",
+      "status": "READY_REAL_ASR",
+      "textSha256": "e556539250c6194bfa62901262475da44f6c2dfcafddc5d491f457d3e91510d8",
+      "images": 2,
+      "second25SecondWindow": true,
+      "extraction": {
+        "status": "ready",
+        "extractor": "local-ffmpeg",
+        "pageCount": 0,
+        "textChars": 10309,
+        "updatedAt": 1793015648839,
+        "imageCount": 2,
+        "resultBytes": 15339
+      }
+    }
+  ],
+  "provider": "GLM_ASR_2512_VIA_NATIVE_COMPATIBLE_TRANSPORT",
+  "localVideoFixtureNotVideoGenerationService": true,
+  "realTrustedScanner": true,
+  "studentPrivateMaterialDenied": true,
+  "originalUploadLimitBytes": 1048576,
+  "glmChunkSeconds": 25,
+  "scope": "Native material upload/ffmpeg/real ASR/keyframes and teacher readback, not AI video generation or Office/OCR"
+}

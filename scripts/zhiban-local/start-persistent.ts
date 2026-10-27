@@ -1,3 +1,4 @@
+import { providerEnvironment } from '../../lib/zhiban/infrastructure/authoring/media/environment';
 import { createStartupDiagnostics } from '../zhiban-ci/startup-diagnostics.cjs';
 /** Default LOCAL launcher. An existing snapshot is resumed; absence means explicit first initialization. */
 import { lstat, readFile } from 'node:fs/promises';
@@ -14,7 +15,7 @@ async function main() {
   if (await lstat(envFile).catch(() => null)) {
     await privateEntry(envFile);
     const config = parseEnv(await readFile(envFile, 'utf8'));
-    for (const key of ['GLM_API_KEY', 'GLM_BASE_URL', 'GLM_MODELS', 'DEFAULT_MODEL'])
+    for (const key of Object.keys(providerEnvironment(config)))
       if (!process.env[key] && config[key]) process.env[key] = config[key];
   }
   startup.enter('RESTORE_POINTER');

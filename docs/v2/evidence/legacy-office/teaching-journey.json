@@ -1,0 +1,19 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_REAL_TEACHER_REVIEW_EDIT_CREATE_ADOPT_PUBLISH_STUDENT_VIEW",
+  "sourceMaterial": "mat_n3qacxcvvjyc1mk1q4e9bckghc",
+  "stage": "stage-HrRKf6HQR1mQ",
+  "resource": "01a178b0-c329-7084-b727-282042989012",
+  "publication": "01a178b0-c8ab-7681-bac1-bdff1e20a5f6",
+  "sourceDigest": "8c2f6ee4d703fb1c48385d003387820a42e14df27ce98da05db34e59d768be95",
+  "teacherEditedTextConfirmed": true,
+  "allActionsViaExistingUi": true,
+  "studentFixedPublicationContainsReviewedText": true,
+  "trustedHttps": true,
+  "ignoreHttpsErrors": false,
+  "mobileHorizontalOverflow": false,
+  "pageErrors": 0,
+  "noAiGenerationCalls": true,
+  "noFormalScoreChanges": true
+}

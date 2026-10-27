@@ -1,0 +1,34 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "postgres": 180006,
+  "identity": "PASS_REAL_PG18_COMPOSITION_AND_HTTP_FACADE",
+  "checks": [
+    {
+      "role": "ADMIN",
+      "login": 200,
+      "spaces": 200,
+      "csrf": 200,
+      "logout": 204
+    },
+    {
+      "role": "TEACHER",
+      "login": 200,
+      "spaces": 200,
+      "csrf": 200,
+      "logout": 204
+    },
+    {
+      "role": "STUDENT",
+      "login": 200,
+      "spaces": 200,
+      "csrf": 200,
+      "logout": 204
+    }
+  ],
+  "csrfEnforced": true,
+  "loggedOutSessionDenied": true,
+  "fullHost": "BLOCKED_BY_FROZEN_PG16_PROVIDER_CONTRACT",
+  "providerActivated": false,
+  "noNetworkPageOrFullClassroomClaim": true
+}

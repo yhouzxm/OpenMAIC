@@ -1,0 +1,8 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "localLinks": 14,
+  "receiptHashes": "Prior product receipt hashes verified before consolidation",
+  "externalCloseout": "Generated beside archive after final verification to avoid self reference"
+}

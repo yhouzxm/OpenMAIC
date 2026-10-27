@@ -1,0 +1,40 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_REAL_VIDEO_SCAN_ADOPT_PUBLISH_STUDENT_PLAYBACK",
+  "resource": "01a1787c-840f-7510-832c-f22badb58c7d",
+  "publication": "01a1787c-87a5-71b4-b0b8-c8260bd9e1b8",
+  "sourceDigest": "8a08a3f7a6b584932eb9269b0f47184ee2a6068c0c51351a7a4f90bf65fdffdb",
+  "assetSha256": "b535865cf4b75515b34fb2eab6c5d23a25e875098ad70f3e1770888a2c14585f",
+  "videoFrame": {
+    "width": 864,
+    "height": 480,
+    "currentTime": 0.109738,
+    "readyState": 4
+  },
+  "playback": [
+    {
+      "duration": null,
+      "readyState": 0,
+      "played": false
+    },
+    {
+      "duration": 5.041667,
+      "readyState": 4,
+      "played": true
+    }
+  ],
+  "mediaResponses": [
+    {
+      "status": 206,
+      "mime": "video/mp4"
+    },
+    {
+      "status": 206,
+      "mime": "video/mp4"
+    }
+  ],
+  "pageErrors": 0,
+  "certificateVerified": true,
+  "noNewProviderCalls": true
+}

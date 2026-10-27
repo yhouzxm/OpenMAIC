@@ -1,0 +1,17 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "engine": "UPSTREAM_HYPERFRAMES_PRODUCER_0.7.107",
+  "chromium": "151.0.7922.138",
+  "ffmpeg": "6.1.1",
+  "ownerBound": true,
+  "bindAddress": "127.0.0.1:9016",
+  "profile": "low-memory",
+  "workers": 1,
+  "outcome": "succeeded",
+  "renderMs": 11747,
+  "frames": 72,
+  "sampleVideo": "classroom.mp4",
+  "sampleVideoSha256": "56584e8dd873922dcf1c92d87066f142a488536bc9496711b636e6c8bb4b15dc",
+  "sampleScope": "COMPLETE_TWO_SCENE_SYNTHETIC_COURSE_WITH_LOCAL_PCM_CUE_NOT_A_LONG_LECTURE_CAPACITY_TEST"
+}

@@ -9,12 +9,16 @@
  */
 
 import { Readable } from 'stream';
-import Client, * as $Docmind from '@alicloud/docmind-api20220711';
+import DocMindClient, * as $Docmind from '@alicloud/docmind-api20220711';
 import { Config } from '@alicloud/openapi-client';
 import { RuntimeOptions } from '@alicloud/tea-util';
 import { createLogger } from '@/lib/logger';
 import { ALIDOCMIND_DEFAULT_BASE } from '@/lib/pdf/constants';
 
+// The SDK is CommonJS: native ESM externalization adds one default wrapper,
+// whereas Next/Vitest may already unwrap it. Accept both emitted shapes.
+const Client =
+  (DocMindClient as unknown as { default?: typeof DocMindClient }).default ?? DocMindClient;
 const log = createLogger('AliDocMind');
 
 const POLL_INTERVAL_MS = 3_000;
@@ -100,7 +104,7 @@ function resolveCredentials(creds: Partial<AliDocMindCredentials>): AliDocMindCr
   return { accessKeyId, accessKeySecret, endpoint };
 }
 
-function createClient(creds: AliDocMindCredentials): Client {
+function createClient(creds: AliDocMindCredentials): DocMindClient {
   const config = new Config({
     accessKeyId: creds.accessKeyId,
     accessKeySecret: creds.accessKeySecret,
@@ -215,7 +219,7 @@ export async function parseWithAliDocMindClient(
  * request in flight runs to its own timeout; `signal` stops the next one.
  */
 async function fetchResult(
-  client: Client,
+  client: DocMindClient,
   jobId: string,
   signal?: AbortSignal,
 ): Promise<Record<string, unknown>> {

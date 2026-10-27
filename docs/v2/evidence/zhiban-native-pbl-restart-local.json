@@ -1,0 +1,30 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "checkedAt": "2026-10-25T14:53:11.731Z",
+  "origin": "https://127.0.0.1:3461",
+  "sourceMatches": true,
+  "sourceDriftCount": 0,
+  "accountsSha256": "91d73979d2a3a17ba17c69549682aa4d944f875c004bb8427ad5ba35d262e122",
+  "restored": [
+    {
+      "scene_id": "autonomous-1c2c5270-fa5a-468a-9130-26d0f037319c",
+      "revision": "19",
+      "status": "completed",
+      "phase": "completed",
+      "evaluations": 3
+    },
+    {
+      "scene_id": "autonomous-c1f1233d-a2fa-4f30-8ad6-0d1127ed8fd2",
+      "revision": "20",
+      "status": "completed",
+      "phase": "completed",
+      "evaluations": 1
+    }
+  ],
+  "missingCsrfRejected": true,
+  "unauthenticatedReadRejected": true,
+  "pblSchemaDigest": "bd495670f7f184efca13af9ffa365196dc2ec7e74eb4fc18a91691a7033d9217",
+  "modelInvocations": 0
+}

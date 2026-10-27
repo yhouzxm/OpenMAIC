@@ -10,6 +10,11 @@ const q = new URLSearchParams(location.search),
   publication = q.get('publication');
 const isDraft = q.get('source') === 'draft',
   revision = q.get('revision');
+if (!isDraft) {
+  const entry = document.getElementById('native-ai') as HTMLAnchorElement;
+  entry.hidden = false;
+  entry.href = `/zhiban/native-classroom?tenant=${tenant}&offering=${offering}&resource=${resource}&publication=${publication}`;
+}
 const url = isDraft
   ? `/api/zhiban/authoring/${tenant}/offerings/${offering}/draft/${resource}/document?revision=${revision}`
   : `/api/zhiban/authoring/${tenant}/offerings/${offering}/published/${resource}?publication=${publication}`;
@@ -28,6 +33,16 @@ async function read() {
     if (!r.ok) throw Error('当前发布或课程资格不可用');
     const data = await r.json();
     if (!live) return;
+    if (!isDraft) {
+      const permission = await fetch(`/api/zhiban/authoring/${tenant}/offerings/${offering}`, {
+        headers: { 'x-zhiban-request': 'identity-v1' },
+        cache: 'no-store',
+      });
+      const link = document.getElementById('native-archive') as HTMLAnchorElement;
+      link.hidden = !permission.ok;
+      if (permission.ok)
+        link.href = `/zhiban/native-archive?tenant=${tenant}&offering=${offering}&resource=${resource}&publication=${publication}`;
+    }
     if (!shown) {
       let table = document.getElementById(STANDALONE_MEDIA_TABLE_ELEMENT_ID);
       if (!table) {

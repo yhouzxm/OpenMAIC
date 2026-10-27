@@ -1,0 +1,13 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "unit": "PASS 14 tests across GLM normalization, chunk windows and Native material slot/keyframe conversion",
+  "types": "PASS scoped native authoring types",
+  "lint": "PASS affected implementation/test files",
+  "logsSha256": {
+    "unit": "97f0d08ff64300e7e439337787806728b897b96526e6483adcf0b239027d74ca",
+    "types": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "lint": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "scope": "Only affected provider/media pipeline and its authorization readbacks; no full classroom/PG/CI rerun"
+}

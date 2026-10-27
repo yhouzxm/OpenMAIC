@@ -1,3 +1,4 @@
+import { currentClassroomBinding } from '@/lib/zhiban/infrastructure/classroom-ai/bindings';
 /**
  * Pi Director Chat API Endpoint
  *
@@ -5,6 +6,7 @@
  * server-side Pi agent loop.
  */
 import { attachInteractiveState } from '@/lib/chat/pi/interactive-state-evidence';
+import { assertOwnerExecution } from '@/lib/server/owner-host-policy';
 import { ModelAuthorizationError } from '@/lib/server/model-config/model-authorization';
 import { PiGeminiNativeRequiredError } from '@/lib/server/model-config/pi-gemini-route';
 import { SlotRequirementError } from '@/lib/server/model-config/llm';
@@ -60,6 +62,7 @@ export async function POST(req: NextRequest) {
   if (!owner.ok) {
     return invalidOwnerCredentialResponse();
   }
+  await assertOwnerExecution(owner.principal.ownerId);
   // Every answer carries the resolution's cookies (the anonymous owner's
   // renewal), errors included; the stream gets them on its headers before
   // its body starts.
@@ -205,6 +208,7 @@ async function chat(req: NextRequest, principal: OwnerPrincipal): Promise<Respon
     const writer = writable.getWriter();
 
     const send: SendEvent = async (event) => {
+      await assertOwnerExecution(principal.ownerId);
       await writer.write(encoder.encode(`data: ${JSON.stringify(event)}\n\n`));
     };
 
@@ -311,6 +315,10 @@ async function chat(req: NextRequest, principal: OwnerPrincipal): Promise<Respon
           childRuntimeMode,
           enableNativeChildSpotlight,
           nativeWebSearchConfig,
+          nativeImageTool:
+            modelInfo?.capabilities?.vision === true
+              ? currentClassroomBinding(principal.ownerId)?.imageTool
+              : undefined,
           nativeWhiteboardService,
           nativeWhiteboardStageId: nativeWhiteboardService ? validRequestStartStageId : undefined,
           nativeWhiteboardLearnerKey,

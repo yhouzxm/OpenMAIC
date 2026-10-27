@@ -192,6 +192,40 @@ function AdoptionControls() {
         ← 返回课程
       </a>
       <strong>原生备课工作台</strong>
+      <a
+        href={`/zhiban/native-services?tenant=${tenant}&offering=${offering}`}
+        onClick={async (e) => {
+          e.preventDefault();
+          const href = e.currentTarget.href;
+          try {
+            await flushStageSave();
+            if (stage && hasPendingStageDocumentChanges(stage.id))
+              throw Error('尚有未保存修改，请稍后重试。');
+            location.assign(href);
+          } catch (error) {
+            setNotice((error as Error).message);
+          }
+        }}
+      >
+        资料与多模态服务
+      </a>
+      <a
+        href={`/zhiban/native-archive?tenant=${tenant}&offering=${offering}${stage ? '&stage=' + encodeURIComponent(stage.id) : ''}`}
+        onClick={async (e) => {
+          e.preventDefault();
+          const href = e.currentTarget.href;
+          try {
+            await flushStageSave();
+            if (stage && hasPendingStageDocumentChanges(stage.id))
+              throw Error('尚有未保存修改，请稍后重试。');
+            location.assign(href);
+          } catch (error) {
+            setNotice((error as Error).message);
+          }
+        }}
+      >
+        课件归档与恢复
+      </a>
       <span>编辑／生成不会自动发布</span>
       <button disabled={!stage || busy} onClick={() => run()}>
         核对完整课件

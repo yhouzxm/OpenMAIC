@@ -12,7 +12,32 @@ export type MaterialParserProfile = {
 export async function loadMaterialParserProfile(): Promise<MaterialParserProfile> {
   const path = process.env.ZHIBAN_MATERIAL_PARSER_CONFIG;
   const pin = process.env.ZHIBAN_MATERIAL_PARSER_SHA256;
-  if (!path && !pin) return {};
+  if (!path && !pin) {
+    const { resolveExtractionServices, extractorConfigFor } =
+      await import('@/lib/server/material-extraction/services');
+    const services = await resolveExtractionServices(undefined, { forward: false });
+    const profile: MaterialParserProfile = {};
+    if (services.document) {
+      const config = extractorConfigFor(services.document.providerId, services);
+      if (getDocumentExtractorProvider(config.providerId)) profile.document = config;
+      if (getMediaExtractorProvider(config.providerId)) profile.media = config;
+    }
+    if (!profile.media && services.asr) {
+      const { localMediaExtractorProvider } = await import('@/lib/document/extractors/local-media');
+      const config: DocumentExtractorConfig = { providerId: 'local-ffmpeg', asr: services.asr };
+      if (
+        (
+          await localMediaExtractorProvider.availability!({
+            buffer: Buffer.alloc(0),
+            mimeType: 'audio/wav',
+            config,
+          })
+        ).available
+      )
+        profile.media = config;
+    }
+    return profile;
+  }
   if (!path || !pin || !isAbsolute(path) || !/^[a-f0-9]{64}$/.test(pin))
     throw Error('Parser configuration and pin required');
   const stat = await lstat(path);

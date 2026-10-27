@@ -389,36 +389,43 @@ export function Roundtable({
   const userAvatar = userParticipant?.avatar || DEFAULT_USER_AVATAR;
 
   // Audio recording
-  const { isRecording, isProcessing, startRecording, stopRecording, cancelRecording } =
-    useAudioRecorder({
-      onTranscription: (text) => {
-        if (!text.trim()) {
-          toast.info(t('roundtable.noSpeechDetected'));
-          setIsVoiceOpen(false);
-          return;
-        }
-        // Block if in send cooldown (e.g. text was sent while voice was processing)
-        if (isSendCooldownRef.current) {
-          setIsVoiceOpen(false);
-          return;
-        }
-        if (canSendMessage?.() === false) {
-          setInputValue(text);
-          setIsInputOpen(true);
-          setIsVoiceOpen(false);
-          return;
-        }
-        showLocalUserMessage(text);
-        onMessageSend?.(text);
-        setIsSendCooldown(true);
-        isSendCooldownRef.current = true;
+  const {
+    isRecording,
+    isProcessing,
+    recordingTime,
+    maxRecordingSeconds,
+    startRecording,
+    stopRecording,
+    cancelRecording,
+  } = useAudioRecorder({
+    onTranscription: (text) => {
+      if (!text.trim()) {
+        toast.info(t('roundtable.noSpeechDetected'));
         setIsVoiceOpen(false);
-      },
-      onError: (error) => {
-        toast.error(error);
+        return;
+      }
+      // Block if in send cooldown (e.g. text was sent while voice was processing)
+      if (isSendCooldownRef.current) {
         setIsVoiceOpen(false);
-      },
-    });
+        return;
+      }
+      if (canSendMessage?.() === false) {
+        setInputValue(text);
+        setIsInputOpen(true);
+        setIsVoiceOpen(false);
+        return;
+      }
+      showLocalUserMessage(text);
+      onMessageSend?.(text);
+      setIsSendCooldown(true);
+      isSendCooldownRef.current = true;
+      setIsVoiceOpen(false);
+    },
+    onError: (error) => {
+      toast.error(error);
+      setIsVoiceOpen(false);
+    },
+  });
 
   const handleSendMessage = () => {
     if (!inputValue.trim() || isSendCooldown || canSendMessage?.() === false) return;
@@ -957,6 +964,9 @@ export function Roundtable({
                   </div>
                   <span className="text-[11px] font-semibold tracking-wider text-purple-600 dark:text-purple-300 uppercase">
                     {isProcessing ? t('roundtable.processing') : t('roundtable.listening')}
+                    {isRecording && maxRecordingSeconds
+                      ? ` ${recordingTime}/${maxRecordingSeconds}s`
+                      : ''}
                   </span>
                   {/* Mic button */}
                   <button
@@ -1516,12 +1526,22 @@ export function Roundtable({
                       className="text-[10px] font-bold tracking-widest text-purple-600 dark:text-purple-400 uppercase bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm px-2 py-0.5 rounded-full shadow-sm border border-purple-100/50 dark:border-purple-800/50 mr-1"
                     >
                       {isProcessing ? t('roundtable.processing') : t('roundtable.listening')}
+                      {isRecording && maxRecordingSeconds
+                        ? ` ${recordingTime}/${maxRecordingSeconds}s`
+                        : ''}
                     </motion.div>
                   </div>
 
-                  <div
-                    className="pointer-events-auto relative group cursor-pointer"
-                    onClick={handleToggleVoice}
+                  <button
+                    type="button"
+                    aria-label={
+                      isRecording ? t('roundtable.stopRecording') : t('roundtable.startRecording')
+                    }
+                    className="pointer-events-auto relative group cursor-pointer bg-transparent border-none p-0"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      handleToggleVoice();
+                    }}
                   >
                     <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-purple-600 to-indigo-700 dark:from-purple-500 dark:to-indigo-600 shadow-[0_4px_20px_rgba(147,51,234,0.3)] flex items-center justify-center z-20 group-hover:scale-105 transition-transform duration-300 border border-white/20 dark:border-white/10">
                       <Mic className="w-6 h-6 text-white" />
@@ -1529,7 +1549,7 @@ export function Roundtable({
                     <div className="absolute inset-0 rounded-full border-2 border-purple-500 dark:border-purple-400 opacity-40 animate-[ping_2s_ease-in-out_infinite] z-10" />
                     <div className="absolute inset-0 rounded-full border border-indigo-400 dark:border-indigo-300 opacity-20 animate-[ping_3s_ease-in-out_infinite_0.5s] z-10" />
                     <div className="absolute inset-0 bg-purple-600 dark:bg-purple-500 blur-2xl opacity-20 group-hover:opacity-40 transition-opacity z-0" />
-                  </div>
+                  </button>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -2227,6 +2247,9 @@ export function Roundtable({
               ) : (
                 <>
                   <button
+                    aria-label={
+                      asrEnabled ? t('roundtable.voiceInput') : t('roundtable.voiceInputDisabled')
+                    }
                     onClick={(e) => {
                       e.stopPropagation();
                       if (asrEnabled) handleToggleVoice();
@@ -2248,6 +2271,7 @@ export function Roundtable({
                     )}
                   </button>
                   <button
+                    aria-label={t('roundtable.textInput')}
                     onClick={(e) => {
                       e.stopPropagation();
                       handleToggleInput();

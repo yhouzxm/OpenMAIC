@@ -1,0 +1,71 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_REAL_DOC_PPT_XLS_CONVERSION_AND_PARSING",
+  "materials": {
+    "doc": {
+      "name": "legacy-office-01a178a0-fd01-77a7-ad3c-27e2add45e5d.doc",
+      "id": "mat_n3qacxcvvjyc1mk1q4e9bckghc",
+      "receipt": {
+        "kind": "LOCAL_LEGACY_OFFICE_TO_OOXML",
+        "sourceSha256": "84673a5bc26df9d900c507e7edb3e4f689d47ead7269cfd6aa62b9339d33ab54",
+        "outputSha256": "ea76593f1daf6a717fdf360afc68a775e88a4a6f60b80cad162e85cfb5d63f02",
+        "sourceMime": "application/msword",
+        "outputMime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "sourceBytes": 10752,
+        "outputBytes": 6087,
+        "converterVersion": "LibreOffice 24.2.7.2 420(Build:2)",
+        "converterBinarySha256": "61a27030687542dd8811e514312e4881760521c1d798b3f8a5df85e12318c14d",
+        "networkIsolated": true,
+        "outputScanned": true,
+        "sourceScanned": true,
+        "originalPreserved": true
+      },
+      "textSha256": "e325b7556043129bd92ad164fc30667e73b5185f9d3d65981667850903f0e90e"
+    },
+    "ppt": {
+      "name": "legacy-office-01a178a6-b04e-7302-bff3-6f60a855a391.ppt",
+      "id": "mat_2w9kyzarkqzhw2n65vc564tav4",
+      "receipt": {
+        "kind": "LOCAL_LEGACY_OFFICE_TO_OOXML",
+        "sourceSha256": "e6f0baa812e203785a8dab920007cf575c3fe5fe4b332bfdc3ba649e3ab052a2",
+        "outputSha256": "f23feebf9aab2140cbac6401ea688952ce5a19ba24f22c266749fe30f05e1932",
+        "sourceMime": "application/vnd.ms-powerpoint",
+        "outputMime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+        "sourceBytes": 456704,
+        "outputBytes": 11436,
+        "converterVersion": "LibreOffice 24.2.7.2 420(Build:2)",
+        "converterBinarySha256": "61a27030687542dd8811e514312e4881760521c1d798b3f8a5df85e12318c14d",
+        "networkIsolated": true,
+        "outputScanned": true,
+        "sourceScanned": true,
+        "originalPreserved": true
+      },
+      "textSha256": "f1c46cd62d1872e0f4168b54c80035c8444c51a714fd8d2d56c2299db3c6f3ec"
+    },
+    "xls": {
+      "name": "legacy-office-01a178a7-fa7d-729e-979c-7a280d1b89ed.xls",
+      "id": "mat_ns34g7dfxs9npzza9x2r4x0kzw",
+      "receipt": {
+        "kind": "LOCAL_LEGACY_OFFICE_TO_OOXML",
+        "sourceSha256": "fc20d45d6e918fc17bd733a99b003a9f13612a751c5c176cab8a32f5788d4748",
+        "outputSha256": "38ffb3cf0dfed1b9088b06dfe30349a7c22184aafa4f014432e50f0441f01b32",
+        "sourceMime": "application/vnd.ms-excel",
+        "outputMime": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "sourceBytes": 5632,
+        "outputBytes": 5454,
+        "converterVersion": "LibreOffice 24.2.7.2 420(Build:2)",
+        "converterBinarySha256": "61a27030687542dd8811e514312e4881760521c1d798b3f8a5df85e12318c14d",
+        "networkIsolated": true,
+        "outputScanned": true,
+        "sourceScanned": true,
+        "originalPreserved": true
+      },
+      "textSha256": "1a7fbf98c7deccd97ce0063d078b50c82ae91845cf84dc9e6ad25367a1c8837e"
+    }
+  },
+  "originalCapBytes": 1048576,
+  "studentPrivateMaterialDenied": true,
+  "originalPreserved": true,
+  "notLosslessLayoutClaim": true
+}

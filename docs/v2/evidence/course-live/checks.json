@@ -1,0 +1,17 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "targetedTypeScript": "PASS",
+  "targetedEslint": "PASS_NO_WARNINGS",
+  "targetedTests": "PASS_SHARED_STATE_AND_NATIVE_MEDIA_DEPS",
+  "realPg16AndBrowserJourney": "PASS",
+  "sourceDrift": [],
+  "sampleFramesDistinct": true,
+  "sampleAudioMeasured": {
+    "meanDb": -32.1,
+    "maxDb": -24.0
+  },
+  "compilerAndRenderNotMocked": true,
+  "noExtraModelOrMultimodalCall": true,
+  "noFullClassroomOrGithubCiRun": true
+}

@@ -171,32 +171,51 @@ export async function loadClamAv(
     throw Error('Scanner selftest rejected');
   let busy = false;
   const cache = new Map<string, { reference: string; time: number }>();
+  const checked = async (
+    file: Parameters<SubmissionFileClearance['check']>[0],
+    archive = false,
+  ): ReturnType<SubmissionFileClearance['check']> => {
+    if (busy) return null; // bounded CPU/memory; caller can retry without a partial submission
+    busy = true;
+    try {
+      await verify();
+      const bytes = Buffer.from(file.base64, 'base64');
+      const digest = createHash('sha256').update(bytes).digest('hex');
+      const cacheKey = (archive ? 'archive:' : '') + digest;
+      const prior = cache.get(cacheKey);
+      if (prior && Date.now() - prior.time < 300000)
+        return { mode: 'TRUSTED_SCANNER', digest, reference: prior.reference };
+      const args = archive
+        ? clamAvArgs(p).map((a) =>
+            a === '--max-filesize=2M'
+              ? '--max-filesize=64M'
+              : a === '--max-scansize=16M'
+                ? '--max-scansize=256M'
+                : a === '--max-files=100'
+                  ? '--max-files=512'
+                  : a,
+          )
+        : clamAvArgs(p);
+      const output = await run(p, args, bytes);
+      if (!/Scanned files:\s+[1-9][0-9]*\b/.test(output) || !/Infected files:\s+0\b/.test(output))
+        return null;
+      await verify();
+      const time = Date.now();
+      const reference = archive
+        ? `clamav-archive-sha256:${expectedHash}:${createHash('sha256').update(JSON.stringify(args)).digest('hex')}:${digest}:${time}`
+        : `clamav-sha256:${expectedHash}:${digest}:${time}`;
+      if (cache.size >= 64) cache.delete(cache.keys().next().value!);
+      cache.set(cacheKey, { reference, time });
+      return { mode: 'TRUSTED_SCANNER', digest, reference };
+    } catch {
+      return null;
+    } finally {
+      busy = false;
+    }
+  };
   return {
     mode: 'TRUSTED_SCANNER',
-    async check(file) {
-      if (busy) return null; // bounded CPU/memory; caller can retry without a partial submission
-      busy = true;
-      try {
-        await verify();
-        const bytes = Buffer.from(file.base64, 'base64');
-        const digest = createHash('sha256').update(bytes).digest('hex');
-        const prior = cache.get(digest);
-        if (prior && Date.now() - prior.time < 300000)
-          return { mode: 'TRUSTED_SCANNER', digest, reference: prior.reference };
-        const output = await run(p, clamAvArgs(p), bytes);
-        if (!/Scanned files:\s+[1-9][0-9]*\b/.test(output) || !/Infected files:\s+0\b/.test(output))
-          return null;
-        await verify();
-        const time = Date.now();
-        const reference = `clamav-sha256:${expectedHash}:${digest}:${time}`;
-        if (cache.size >= 64) cache.delete(cache.keys().next().value!);
-        cache.set(digest, { reference, time });
-        return { mode: 'TRUSTED_SCANNER', digest, reference };
-      } catch {
-        return null;
-      } finally {
-        busy = false;
-      }
-    },
+    check: (file) => checked(file),
+    checkArchive: (file) => checked(file, true),
   };
 }

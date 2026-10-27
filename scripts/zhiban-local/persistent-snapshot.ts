@@ -1,3 +1,10 @@
+import {
+  localPgMajor,
+  localPgBin,
+  pg18Origin,
+  executionEvidence,
+  validInstallationEvidence,
+} from './pg-version';
 /** Owner-only LOCAL snapshots. A physical PG16 backup keeps all three databases at one WAL point. */
 import { createHash, randomUUID } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
@@ -5,14 +12,19 @@ import { cp, lstat, mkdir, readFile, readdir, rename, rm, writeFile } from 'node
 import { dirname, join, resolve } from 'node:path';
 import { homedir } from 'node:os';
 
-const bin = '/usr/lib/postgresql/16/bin';
+const bin = localPgBin;
 // A portable LOCAL instance owns its snapshot namespace; never redirect HOME.
 const stateHome = process.env.ZHIBAN_LOCAL_STATE;
 if (stateHome && (resolve(stateHome) !== stateHome || stateHome === '/'))
   throw Error('Absolute isolated LOCAL state path required');
 export const snapshotHome = stateHome
   ? join(stateHome, 'snapshots')
-  : join(homedir(), '.local/share/zhiban-persistent');
+  : join(
+      homedir(),
+      localPgMajor === 18
+        ? '.local/share/zhiban-pg18-persistent'
+        : '.local/share/zhiban-persistent',
+    );
 const hash = (b: Buffer) => createHash('sha256').update(b).digest('hex');
 export async function privateEntry(path: string, directory = false) {
   const s = await lstat(path);
@@ -42,8 +54,8 @@ async function treeHashes(root: string, base = ''): Promise<Record<string, strin
 async function saveSnapshotUnlocked(root: string, live: boolean, metadata: unknown) {
   localRoot(root);
   await privateEntry(root, true);
-  if ((await readFile(join(root, 'data/PG_VERSION'), 'utf8')).trim() !== '16')
-    throw Error('PG16 required');
+  if ((await readFile(join(root, 'data/PG_VERSION'), 'utf8')).trim() !== String(localPgMajor))
+    throw Error('Selected PG' + localPgMajor + ' required');
   await mkdir(snapshotHome, { recursive: true, mode: 0o700 });
   await privateEntry(snapshotHome, true);
   const id = new Date().toISOString().replaceAll(':', '-') + '-' + randomUUID().slice(0, 8);
@@ -71,7 +83,7 @@ async function saveSnapshotUnlocked(root: string, live: boolean, metadata: unkno
         ],
         { encoding: 'utf8' },
       ).trim();
-      if (!new RegExp('^' + root + '/data\\|\\|16[0-9]{4}$').test(actual))
+      if (!new RegExp('^' + root + '/data\\|\\|' + localPgMajor + '[0-9]{4}$').test(actual))
         throw Error('Snapshot target mismatch');
       execFileSync(
         join(bin, 'pg_basebackup'),
@@ -113,9 +125,11 @@ async function saveSnapshotUnlocked(root: string, live: boolean, metadata: unkno
       });
     }
     const manifest = {
-      kind: 'LOCAL_PG16_PERSISTENT_SNAPSHOT_V1',
-      evidenceOrigin: 'LOCAL',
-      githubActions: false,
+      kind:
+        localPgMajor === 18
+          ? 'SYNTHETIC_PG18_PERSISTENT_SNAPSHOT_V1'
+          : 'LOCAL_PG16_PERSISTENT_SNAPSHOT_V1',
+      ...executionEvidence(),
       createdAt: new Date().toISOString(),
       originalRoot: root,
       physicalBackup: live,
@@ -155,9 +169,11 @@ export async function inspectSnapshot(path: string, expectedHash?: string) {
   if (expectedHash && hash(bytes) !== expectedHash) throw Error('Snapshot manifest hash mismatch');
   const m = JSON.parse(bytes.toString());
   if (
-    m.kind !== 'LOCAL_PG16_PERSISTENT_SNAPSHOT_V1' ||
-    m.evidenceOrigin !== 'LOCAL' ||
-    m.githubActions !== false
+    m.kind !==
+      (localPgMajor === 18
+        ? 'SYNTHETIC_PG18_PERSISTENT_SNAPSHOT_V1'
+        : 'LOCAL_PG16_PERSISTENT_SNAPSHOT_V1') ||
+    !validInstallationEvidence(m)
   )
     throw Error('Snapshot kind rejected');
   localRoot(m.originalRoot);
@@ -206,25 +222,35 @@ if (process.argv[1]?.endsWith('/persistent-snapshot.ts')) {
   void (async () => {
     if (action === 'backup') {
       const metadata = JSON.parse(
-        await readFile('docs/v2/evidence/zhiban-trial-content-demo-local.json', 'utf8'),
+        await readFile(
+          localPgMajor === 18
+            ? 'docs/v2/evidence/zhiban-pg18-demo-local.json'
+            : 'docs/v2/evidence/zhiban-trial-content-demo-local.json',
+          'utf8',
+        ),
       );
       if (
-        metadata.evidenceOrigin !== 'LOCAL' ||
-        metadata.githubActions !== false ||
+        !validInstallationEvidence(metadata) ||
+        (localPgMajor === 18 && metadata.stateRoot !== process.env.ZHIBAN_LOCAL_STATE) ||
         metadata.port !== 56517 ||
-        metadata.origin !== 'https://127.0.0.1:3461'
+        metadata.origin !== (localPgMajor === 18 ? pg18Origin : 'https://127.0.0.1:3461')
       )
         throw Error('Trial identity mismatch');
       console.log(await saveSnapshot(metadata.root, true, metadata));
     } else if (action === 'recover') {
       const metadata = JSON.parse(
-        await readFile('docs/v2/evidence/zhiban-trial-content-demo-local.json', 'utf8'),
+        await readFile(
+          localPgMajor === 18
+            ? 'docs/v2/evidence/zhiban-pg18-demo-local.json'
+            : 'docs/v2/evidence/zhiban-trial-content-demo-local.json',
+          'utf8',
+        ),
       );
       if (
-        metadata.evidenceOrigin !== 'LOCAL' ||
-        metadata.githubActions !== false ||
+        !validInstallationEvidence(metadata) ||
+        (localPgMajor === 18 && metadata.stateRoot !== process.env.ZHIBAN_LOCAL_STATE) ||
         metadata.port !== 56517 ||
-        metadata.origin !== 'https://127.0.0.1:3461'
+        metadata.origin !== (localPgMajor === 18 ? pg18Origin : 'https://127.0.0.1:3461')
       )
         throw Error('Trial identity mismatch');
       localRoot(metadata.root);
@@ -293,7 +319,7 @@ if (process.argv[1]?.endsWith('/persistent-snapshot.ts')) {
       console.log(
         JSON.stringify({
           status: 'PASS',
-          evidenceOrigin: 'LOCAL',
+          ...executionEvidence(),
           snapshot: p.path,
           files: Object.keys(m.files).length,
           scope: 'FILE_HASH_CLOSURE_ONLY',

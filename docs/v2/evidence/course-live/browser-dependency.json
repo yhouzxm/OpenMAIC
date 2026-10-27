@@ -1,0 +1,8 @@
+{
+  "version": "151.0.7922.138",
+  "url": "https://storage.googleapis.com/chrome-for-testing-public/151.0.7922.138/linux64/chrome-headless-shell-linux64.zip",
+  "sha256": "2eb973561a10d11ba3296eeb798775db86c57731dd71a7b650763c4ed64a9646",
+  "binarySha256": "84020842bdae58bfcbf4e14b93d34152ccefed06e0e1a64a6a960553cf2bbeec",
+  "scope": "DEPENDENCY_DOWNLOAD_NOT_PROVIDER_AUTHORITY",
+  "evidenceOrigin": "LOCAL"
+}

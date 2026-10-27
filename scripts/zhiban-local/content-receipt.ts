@@ -1,4 +1,5 @@
 import { checkJointLedger, jointClassroomProfile } from './joint-classroom-receipt';
+import { pg18Reference } from './pg-version';
 import { checkAttemptRuntimeLedger } from './attempt-runtime-receipt';
 import { checkInteractiveLedger } from './interactive-receipt';
 import { verifyNativeSchemaState } from '../../lib/zhiban/infrastructure/openmaic/schema-state';
@@ -175,6 +176,27 @@ export async function validateContentDatabaseState(
     nativeFingerprint: string;
   },
 ) {
+  return validateContentStateVersion(bridge, native, expected, 16);
+}
+export async function validateContentDatabaseStatePg18(
+  bridge: Pool,
+  native: Pool,
+  expected: Parameters<typeof validateContentDatabaseState>[2],
+) {
+  const reference = await pg18Reference();
+  if (
+    expected.profile !== reference.contentFingerprint ||
+    expected.nativeFingerprint !== reference.nativeFingerprint
+  )
+    throw Error('PG18 approved expected profile mismatch');
+  return validateContentStateVersion(bridge, native, expected, 18);
+}
+async function validateContentStateVersion(
+  bridge: Pool,
+  native: Pool,
+  expected: Parameters<typeof validateContentDatabaseState>[2],
+  major: 16 | 18,
+) {
   const { database, nativeDatabase } = expected;
   const client = await bridge.connect();
   try {
@@ -187,8 +209,8 @@ export async function validateContentDatabaseState(
     if (
       identity.session_user !== 'zhiban_bridge_runtime' ||
       identity.db !== database ||
-      identity.pg < 160000 ||
-      identity.pg > 169999 ||
+      identity.pg < major * 10000 ||
+      identity.pg >= (major + 1) * 10000 ||
       identity.extra
     )
       throw new Error('Bridge endpoint rejected');
@@ -235,6 +257,10 @@ export async function validateContentDatabaseState(
   const n = await native.connect();
   try {
     await n.query('BEGIN READ ONLY');
+    if (major === 18) {
+      const v = Number((await n.query('SHOW server_version_num')).rows[0].server_version_num);
+      if (v < 180000 || v >= 190000) throw Error('PG18 Native endpoint rejected');
+    }
     const row = (
       await n.query(
         `SELECT session_user,current_database() AS db,r.rolsuper OR r.rolinherit OR r.rolbypassrls OR r.rolcreaterole OR r.rolcreatedb OR r.rolreplication OR has_schema_privilege(current_user,'public','CREATE') OR has_database_privilege(current_user,current_database(),'CREATE') OR has_database_privilege(current_user,current_database(),'TEMP') OR EXISTS(SELECT 1 FROM pg_auth_members WHERE member=r.oid OR roleid=r.oid) OR EXISTS(SELECT 1 FROM pg_class WHERE relowner=r.oid) AS extra FROM pg_roles r WHERE rolname=session_user`,

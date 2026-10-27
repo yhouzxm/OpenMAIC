@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: PG16 default reads the original profile with no PG18 reference requirement
+ok 1 - PG16 default reads the original profile with no PG18 reference requirement
+  ---
+  duration_ms: 112.081723
+  type: 'test'
+  ...
+# Subtest: PG18 source-built reference and explicit imported lineage remain separate
+ok 2 - PG18 source-built reference and explicit imported lineage remain separate
+  ---
+  duration_ms: 172.901688
+  type: 'test'
+  ...
+# Subtest: bad expected pin, changed SQL and unrecognized major or lineage fail closed
+ok 3 - bad expected pin, changed SQL and unrecognized major or lineage fail closed
+  ---
+  duration_ms: 378.249319
+  type: 'test'
+  ...
+# Subtest: LOCAL cannot silently become GitHub evidence without real-shaped run identity
+ok 4 - LOCAL cannot silently become GitHub evidence without real-shaped run identity
+  ---
+  duration_ms: 174.754673
+  type: 'test'
+  ...
+# Subtest: acceptance child environment excludes credentials and foreign state
+ok 5 - acceptance child environment excludes credentials and foreign state
+  ---
+  duration_ms: 1.792569
+  type: 'test'
+  ...
+# Subtest: PG18 snapshot loader rejects PG16 kind, manifest pin drift and added files
+ok 6 - PG18 snapshot loader rejects PG16 kind, manifest pin drift and added files
+  ---
+  duration_ms: 284.771913
+  type: 'test'
+  ...
+# Subtest: state binds exact major, reference, origin and supported installation lineage
+ok 7 - state binds exact major, reference, origin and supported installation lineage
+  ---
+  duration_ms: 8.891184
+  type: 'test'
+  ...
+# Subtest: cleanup refuses an incomplete standalone postmaster identity and retains its root
+ok 8 - cleanup refuses an incomplete standalone postmaster identity and retains its root
+  ---
+  duration_ms: 6.21504
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1418.850194

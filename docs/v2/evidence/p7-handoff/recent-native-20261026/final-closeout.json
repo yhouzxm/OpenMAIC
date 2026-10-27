@@ -1,0 +1,191 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_LOCAL_CONSOLIDATED_PERSISTENT_DELIVERY",
+  "at": "2026-10-26T06:14:41.512244+00:00",
+  "scope": "P7_RECENT_NATIVE_SOURCE_INSTALL_AND_RESTORE_NOT_FULL_PRODUCT_RETEST",
+  "versionId": "zhiban-local-20261026-8f09fd093eba",
+  "sourceDigest": "8f09fd093ebac2135ec70f2fcbd889eed845d8607d8eefdd8e4d2a89d5dd966c",
+  "sourceFiles": 6076,
+  "baselineHead": "093b4a69af96626010d9104c50d680d9b9dc1928",
+  "branch": "refactor/zhiban-v2",
+  "dirtyCandidatePreserved": true,
+  "sourceArchive": {
+    "path": "/home/zxm/.local/share/zhiban-handoff/zhiban-local-20261026-8f09fd093eba/source.tar.gz",
+    "sha256": "ee9981273c8eebd89891541bc48955162c55db4bf3e4fa006c601aece8d688f1",
+    "manifest": "/home/zxm/.local/share/zhiban-handoff/zhiban-local-20261026-8f09fd093eba/HANDOFF.json",
+    "manifestSha256": "71df83f3536c564cf95b4ba65881a7d9aacf6fe94700712416ce85020755c42e",
+    "scope": "Frozen eligible dirty-source files, no dependencies/private state; existing-checkout source snapshot"
+  },
+  "independentInstall": {
+    "path": "/home/zxm/.local/share/zhiban-p7-20261026-pek_tp6y/install-kit",
+    "manifestSha256": "be14f02a4960b8c1d745f01f8da47cbb0d466306a9689baaa30bf3cef724a2bc",
+    "sourceArchiveSha256": "aa82b33c5b2d20db1255f8daa8356e501458c0fc5e1765c769807b0293fee23d",
+    "sourceDigest": "8f09fd093ebac2135ec70f2fcbd889eed845d8607d8eefdd8e4d2a89d5dd966c",
+    "gitAnchors": [
+      "093b4a69af96626010d9104c50d680d9b9dc1928",
+      "e19d0d4f45d81b8f7ab599b33ab03b0b8b68d5c0"
+    ],
+    "workspace": "/home/zxm/.local/share/zhiban-p7-20261026-pek_tp6y/workspace",
+    "freshDirectory": true,
+    "frozenOfflineInstall": true,
+    "nativeSdkRebuilt": true,
+    "scope": "LOCAL_FRESH_DIRECTORY_WITH_EXISTING_PNPM_STORE_NOT_NEW_REMOTE_SIGNOFF"
+  },
+  "privateRestore": {
+    "path": "/home/zxm/.local/share/zhiban-p7-20261026-pek_tp6y/restore-kit",
+    "manifestSha256": "552de313530b62c968a9c9e61e40d8347d92434980ab771cd1618eea0cfe627b",
+    "sensitive": true,
+    "transferredExternally": false,
+    "privateHostConfigurationCopied": false,
+    "instanceKeyIncludedAndPreserved": true,
+    "warning": "Encrypted provider credentials, if saved in DB, and the instance secret are inside the private snapshot; keep as sensitive as plaintext credentials."
+  },
+  "integration": {
+    "packages": [
+      "resources",
+      "persistence-peer",
+      "classroom-lab",
+      "pbl",
+      "six-dimension-ema",
+      "attainment-autograde",
+      "native-authoring",
+      "server-simulation",
+      "native-ai-classroom",
+      "native-autonomous-pbl",
+      "native-archive",
+      "materials-multimodal",
+      "admin-service-center",
+      "classroom-trusted-results"
+    ],
+    "deliveryIndexSha256": "52b4f8df72229c3bac0d9bdfa74c99caa1c93998d7b0c06c2d91fa40c8a6d067",
+    "historicalEvidence": "Original receipt bytes/status/source scopes preserved. Shared-source/document deltas listed in evidence-applicability.json; not re-signed as a current full regression."
+  },
+  "verification": {
+    "tools": "15 delivery-tool checks PASS; no product/PG/AI full suite",
+    "archiveExactFilesAndHashes": "PASS",
+    "recentSourceClosure": {
+      "evidenceOrigin": "LOCAL",
+      "githubActions": false,
+      "status": "PASS",
+      "sourceDigest": "8f09fd093ebac2135ec70f2fcbd889eed845d8607d8eefdd8e4d2a89d5dd966c",
+      "files": 6076,
+      "currentWorkspaceMatchesManifest": true,
+      "recentDirectoriesIncluded": [
+        "lib/zhiban/infrastructure/classroom-ai/",
+        "lib/zhiban/infrastructure/course-results/",
+        "lib/zhiban/infrastructure/service-center/",
+        "lib/zhiban/infrastructure/authoring/archive/",
+        "lib/zhiban/infrastructure/authoring/media/"
+      ],
+      "privateRuntimeMaterialIncluded": false,
+      "gitBaseline": "093b4a69af96626010d9104c50d680d9b9dc1928",
+      "scope": "SOURCE_CLOSURE_NOT_FULL_PRODUCT_RETEST",
+      "finalCacheNormalization": {
+        "path": "docs/v2/evidence/zhiban-local-sdk-build-cache.json",
+        "parsedContentIdentical": true,
+        "change": "JSON_KEY_ORDER_ONLY_NORMALIZED_TO_FROZEN_ARCHIVE",
+        "applicationCodeChanged": false
+      },
+      "finalClosureCheckedAt": "2026-10-26T06:12:12.950801+00:00"
+    },
+    "restoredTables": 237,
+    "restoredRows": 852,
+    "rowComparison": "All non-Identity table rows across all three databases normalized and hashed exactly; original account file identical. Identity sessions naturally differ.",
+    "sameHostDifferentWorkspaceAndState": true,
+    "normalRestart": {
+      "evidenceOrigin": "LOCAL",
+      "githubActions": false,
+      "status": "PASS",
+      "at": "2026-10-26T06:05:20.523474+00:00",
+      "checks": [
+        "New PID with no upgrade flag",
+        "Original content receipt bytes unchanged",
+        "Native instance key bytes unchanged",
+        "All non-Identity business/Native rows and account file identical across three databases",
+        "Source match and zero drift"
+      ],
+      "receiptHash": "f82e25f4ca41720f4ac2e00d97bdf79f302876f6cea72246cd985c61fdf56068",
+      "sourceMatches": true,
+      "sourceDriftCount": 0,
+      "externalCalls": 0,
+      "scope": "SAME_HOST_NEW_WORKSPACE_AND_STATE_NORMAL_RESTART"
+    },
+    "recentReadback": [
+      "Original 3-role logins; trusted HTTPS with verification enabled",
+      "Immutable proof digest, formal 92/100 and original completion preserved",
+      "Native completed PBL revision 6, Tutor completed real tool history preserved",
+      "Original materials/document preserved",
+      "Admin configuration/usage/audit and five recent HTML routes readable",
+      "Mobile student results/admin service-center render without page errors/overflow"
+    ],
+    "defaultStatus": "RUNNING_LOCAL_PERSISTENT",
+    "sourceMatches": true,
+    "sourceDriftCount": 0,
+    "privateHostConfigurationPreserved": true,
+    "isolatedStopped": true,
+    "originalRestoredAndRunning": true,
+    "externalCallsThisPackage": 0,
+    "productJourneysRepeated": false,
+    "originalPointerChangedByIsolation": false,
+    "finalSnapshot": {
+      "path": "/home/zxm/.local/share/zhiban-persistent/2026-10-26T06-09-09.012Z-ed51ec51",
+      "manifestSha256": "fa6d6045caefa216f843c11a9b0973d105476fc1ee31426de285abd6de7ddaf2",
+      "physicalPg16Backup": true,
+      "pgVerifybackupExecuted": true,
+      "fileClosureVerification": {
+        "status": "PASS",
+        "evidenceOrigin": "LOCAL",
+        "snapshot": "/home/zxm/.local/share/zhiban-persistent/2026-10-26T06-09-09.012Z-ed51ec51",
+        "files": 3266,
+        "scope": "FILE_HASH_CLOSURE_ONLY"
+      },
+      "scope": "Final owned local backup; latest generation not claimed newly restored on another host"
+    },
+    "evidenceHashes": {
+      "pack.json": "34a3c5738495cda102e4226a8bf473df6ebbe2b794f42ad921ab2e8a7cce6328",
+      "independent-verify.json": "c416e59a236512086de6677109ad38182fefac59fe08eead2cf255980c6cbbbd",
+      "install-verify.txt": "8d49c4cc230d68aabe2f165e14ae8b3ee6db87101411d39570a40676e7adace3",
+      "install-result.json": "154df29fc73e6ddd8f154052b2da0112198736f034a48d03f3ce25a17a199574",
+      "private-import.json": "6f60eed4460b15d1920bcf08417afb3ad406ef1184d6ec1d967cb913efeb18f8",
+      "isolated-restore.json": "d635c802ea050e311d73f97cd4a943cbb54252cd168dae9057c94e4942ff1f79",
+      "isolated-recent-readonly.json": "06fcc970a62ac9abba5011e6768271df6029e45fa21b7c354f39bdf5c9ca0813",
+      "isolated-info.json": "8723f81e2374dbf4e8b24900891c2ca94bb6349cff48a18d99422b5427bf3768",
+      "normal-restart.json": "a76a1ccd76baa7736e1379ec8a1a4b13f67db81e883f04f46b9cb58d54549a18",
+      "normal-info.json": "8723f81e2374dbf4e8b24900891c2ca94bb6349cff48a18d99422b5427bf3768",
+      "isolated-backup-verify.json": "66665662fe55b959f28d53781672d5e07774e6bc3d339225210ad1f8d470af56",
+      "original-final-readonly.json": "62c7763bebfb8a60136da9f5f904b12fa36a3129cc22342d7b32291b726d3e45",
+      "status-before.json": "5a9a5fbc27762cf19fc977d6d387d951cf85c0197cc05cb8aaa698bf0b8eba33",
+      "status-after.json": "ba28975f0b4c62bd6a94a6e790e8e4cf8413a6c0cdd27f26b154916e64475c53",
+      "document-check.json": "8c5ba763c31bf3926eb7cba27407bc37e0e1bcd9028b3fc515ab16b52030a5b4",
+      "delivery-tools.tap": "a3fd88d805cced5cb04695f0f8bb69e1832f5c33e6370d448842d5fdfd44aea4",
+      "source-coverage.json": "758b54e505b3a4be55df6f03be4f69b4b9aaf8186994fd3b6c473b6d1c6976d5",
+      "evidence-applicability.json": "7a208cd43aabef76ebfed9492adc748183d2f82b1635445552ebc687db3d2330"
+    }
+  },
+  "boundaries": {
+    "environment": "Node22.23.3, pnpm10.28.0, Linux x64 LE, PG16.15 private socket 56517, HTTPS3461",
+    "physicalRestore": "Same internal /tmp PG root and PG version string; no simultaneous instances; no PG18 physical data-directory migration",
+    "optionalServicesInIsolatedInstance": "Host model/scanner/parser configuration intentionally not handed off. New uploads closed when scanner missing; existing data readable.",
+    "historicalRemote": "GitHub Ubuntu VM run 40096542805 PASS applies only to its original frozen source. This version was not dispatched remotely.",
+    "legacyNative": "CREATE/APPEND/COMPLETE and UNKNOWN/RESERVED remain isolated; instruments/maintenance trusted inputs pending",
+    "externalServices": "Office/OCR/media extraction, image/video generation, TTS/ASR and vision model actual calls still pending real configuration",
+    "operational": "Real accounts, production/Alibaba PG18 migration, capacity, unattended EMA/distributed grading and deferred native refresh/close acceptance remain outside this LOCAL signoff"
+  },
+  "changesThisPackage": [
+    "Unified P7/index/guide/plan documentation and historical source applicability",
+    "Portable private manifest now accurately declares saved encrypted workspace credentials and instance key sensitivity",
+    "Regenerated SDK cache JSON key order normalized to archive; parsed values identical; no application-code modification"
+  ],
+  "operations": {
+    "commit": false,
+    "push": false,
+    "ciDispatch": false,
+    "productionDeployment": false,
+    "real55432or55433Touched": false,
+    "appliedMigrationsModified": false,
+    "identityOrBridgeSemanticsChanged": false,
+    "privateMaterialsUploaded": false
+  },
+  "nextWholePackage": "Target-host deployment/service acceptance after concrete inputs; Alibaba Ubuntu/PG18 compatibility is a separate logical migration and approval scope. GPT-6.1 Sol / high for PG18/auth/concurrency, medium for ordinary service configuration."
+}

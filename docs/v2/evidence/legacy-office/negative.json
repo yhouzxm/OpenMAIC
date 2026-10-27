@@ -1,0 +1,12 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_AFFECTED_ADMISSION_AND_SCANNER_NEGATIVES",
+  "studentUploadDenied": true,
+  "antivirusTestRejectedBeforeConversion": true,
+  "renamedOoxmlAsDocRejectedBeforeConverterAndCloud": true,
+  "renamedMaterial": "mat_n3zpmyv9ayv6yy2baez8d3vbt8",
+  "nonRetryable": true,
+  "noConversionTempDirectoriesRemain": true,
+  "cloudParserSubmissionsInThisRestart": 0
+}

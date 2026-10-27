@@ -1,4 +1,10 @@
+import { initializeCourseResults } from '../course-results/service';
+import { initializeClassroomLive } from '../classroom-live/service';
+import { configureSecretStorageDirectory } from '@/lib/server/secret-box';
+import { withServiceTenant } from '@/lib/server/service-scope';
+import { registerServiceOwner } from '../service-center/config';
 import { configureUsageStorageDirectory } from '@/lib/server/usage-storage';
+import { initializeClassroomAi } from '../classroom-ai/service';
 import { join, dirname } from 'node:path';
 import { configureMaterialByteStore, LocalMaterialByteStore } from '@/lib/server/materials/bytes';
 import { startOwnerMaterialExtractor } from '@/lib/server/materials/extraction';
@@ -69,10 +75,12 @@ export class LessonService {
     if (materialRoot) {
       configureMaterialByteStore(new LocalMaterialByteStore(materialRoot));
       configureUsageStorageDirectory(join(dirname(materialRoot), 'native-usage'));
+      configureSecretStorageDirectory(join(dirname(materialRoot), 'native-secret'));
     }
     configureAuthoringHost(this.content);
     this.native = (await getServerPersistenceProvider(databaseUrl)).pool;
     await ensureGenerationRunSchema(this.native);
+    await initializeCourseResults(this.native);
     if (resume) {
       const columns = (
         await this.native.query(
@@ -97,7 +105,7 @@ export class LessonService {
       );
       const constraints = (
         await this.native.query(
-          `SELECT pg_get_constraintdef(oid) AS def FROM pg_constraint WHERE conrelid='public.zhiban_lesson_runs'::regclass ORDER BY contype`,
+          `SELECT pg_get_constraintdef(oid) AS def FROM pg_constraint WHERE conrelid='public.zhiban_lesson_runs'::regclass AND contype<>'n' ORDER BY contype`,
         )
       ).rows
         .map((r) => r.def)
@@ -110,6 +118,8 @@ export class LessonService {
       );
     } else await this.native.query(lessonSchema);
     await initializeAuthoringStorage(this.native);
+    await initializeClassroomAi(this.native);
+    await initializeClassroomLive(this.native);
     configureGenerationRunHooks({
       name: 'zhiban-course-lesson',
       authorizeStart: async (c) => {
@@ -145,7 +155,7 @@ export class LessonService {
           403,
         );
         await this.content.authoring(this.live(x), async () => {});
-        return this.execution.run(this.live(x), execute);
+        return withServiceTenant(x.tenant, () => this.execution.run(this.live(x), execute));
       },
       classifyFailure: (e) =>
         e instanceof ContentError
@@ -198,6 +208,14 @@ export class LessonService {
     }
   }
   async handle(x: ContentContext, request: Request, value?: unknown) {
+    return withServiceTenant(x.tenant, async () => {
+      await this.content.authoring(x, async () => {});
+      const quiz = new URL(request.url).searchParams.get('kind') === 'quiz';
+      await registerServiceOwner(this.owner(x, quiz), x.tenant);
+      return this.handleScoped(x, request, value);
+    });
+  }
+  private async handleScoped(x: ContentContext, request: Request, value?: unknown) {
     const url = new URL(request.url);
     const quiz = url.searchParams.get('kind') === 'quiz';
     requireContent(!url.search || url.search === '?kind=quiz');

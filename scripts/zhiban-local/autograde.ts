@@ -1,3 +1,4 @@
+import { readProfileReference, referenceScope } from './pg-version';
 /** Trusted expected profile is built in a separate new owned PG16 cluster, never from the live host. */
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
@@ -40,11 +41,11 @@ export async function loadAutograde(pool: Pool) {
         .name
     )
       return false;
-    const r = JSON.parse(await readFile(autogradeReference, 'utf8'));
+    const r = await readProfileReference(autogradeReference);
     if (
       r.evidenceOrigin !== 'LOCAL' ||
       r.githubActions !== false ||
-      r.scope !== 'FRESH_OWNED_PG16_AUTOGRADE_REFERENCE'
+      r.scope !== referenceScope('FRESH_OWNED_PG16_AUTOGRADE_REFERENCE')
     )
       throw Error('Auto grade expected origin rejected');
     const ledger = (

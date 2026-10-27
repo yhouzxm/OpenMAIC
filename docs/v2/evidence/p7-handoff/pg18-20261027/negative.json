@@ -1,0 +1,18 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_REAL_DISPOSABLE_BOUNDARIES",
+  "checks": [
+    "Wrong manifest pin rejects before DB mutation",
+    "Existing or partial target cannot be replayed",
+    "PG16 binary cannot initialize PG18 target",
+    "Writable source backup has no completed manifest",
+    "SQL failure leaves partial marker, no completed restore receipt",
+    "Interrupted restore cannot replay SQL in place",
+    "Role creation/password/grant transaction rolls back atomically",
+    "Changed package rejects before opening target"
+  ],
+  "recoveredInventoryUnchanged": true,
+  "originalSnapshotPointerUnchanged": true,
+  "noProductionConnection": true
+}

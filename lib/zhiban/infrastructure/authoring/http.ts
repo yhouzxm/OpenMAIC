@@ -1,5 +1,9 @@
+import { configureLegacyOfficeScanner } from '@/lib/document/legacy-office';
+import { AuthoringMediaService } from './media/service';
+import { NativeArchiveService } from './archive/service';
+import { CourseVideoService } from './video';
 import { createHash } from 'node:crypto';
-import { slideMediaReferenceSlots } from '@/lib/media/slide-media-slots';
+import { rewritePublishedSlideMedia } from './published-media';
 import { isSlideContent } from '@openmaic/dsl';
 import { actionsToManifest } from '@/lib/export/manifest-actions';
 import { manifestAgentFromConfig } from '@/lib/export/classroom-zip-types';
@@ -30,7 +34,24 @@ export function authoringHttp(
   clearance?: SubmissionFileClearance | null,
 ) {
   const authenticate = academicSessionAuthentication((t) => security.authenticate(t));
+  if (clearance?.mode === 'TRUSTED_SCANNER')
+    configureLegacyOfficeScanner(async (bytes, mime) => {
+      const result = await (clearance.checkArchive ?? clearance.check)({
+        name: 'converted-office',
+        mime,
+        base64: bytes.toString('base64'),
+      });
+      requireContent(
+        result?.mode === 'TRUSTED_SCANNER' &&
+          result.digest === createHash('sha256').update(bytes).digest('hex'),
+        'FILE_NOT_CLEARED',
+        503,
+      );
+    });
   const snapshots = new AuthoringSnapshots(pool, content);
+  const archives = new NativeArchiveService(content, pool, clearance);
+  const video = new CourseVideoService(content, pool);
+  const media = new AuthoringMediaService(content, pool, clearance);
   let active = 0,
     streams = 0;
   const streamsByOwner = new Map<string, number>();
@@ -65,7 +86,11 @@ export function authoringHttp(
       }
       const unsafe = !['GET', 'HEAD'].includes(request.method);
       const protocol = new Headers(h);
-      if (unsafe && tail.startsWith('native/')) protocol.set('content-type', 'application/json'); // native upload bodies are checked by their original handlers
+      if (
+        unsafe &&
+        (tail.startsWith('native/') || tail.startsWith('archive/') || tail.startsWith('video/') || tail === 'media/upload')
+      )
+        protocol.set('content-type', 'application/json'); // native upload bodies are checked by their original handlers
       headers(new Request(request.url, { headers: protocol }), origin, unsafe);
       requireContent(!request.headers.has('content-encoding'));
       const token = cookie(request),
@@ -85,6 +110,104 @@ export function authoringHttp(
         await security.assertUnsafe(handle, origin, csrf);
       }
       const x: ContentContext = { handle, tenant, offering, member: space.membershipId };
+      if(tail==='video/capability'&&request.method==='GET')
+        return response(trace,200,await video.capability(x,url.searchParams));
+      if(tail==='video/jobs'&&request.method==='GET')
+        return response(trace,200,await video.list(x,url.searchParams));
+      if(tail==='video/jobs'&&request.method==='POST')
+        return response(trace,202,await video.submit(x,url.searchParams,request));
+      const videoJob=/^video\/jobs\/([^/]+)(?:\/(download))?$/.exec(tail);
+      if(videoJob&&['GET','POST'].includes(request.method)){
+        requireContent(!videoJob[2]||request.method==='GET');
+        const result=await video.job(x,videoJob[1],videoJob[2]?'download':request.method==='POST'?'cancel':'status');
+        return result instanceof Response?result:response(trace,200,result);
+      }
+      if (tail === 'media/upload' && request.method === 'POST')
+        return response(trace, 200, await media.upload(x, request));
+      if (tail === 'media/jobs' && request.method === 'GET') {
+        requireContent(url.searchParams.size === 0);
+        return response(trace, 200, await media.jobs(x));
+      }
+      if (tail === 'media/job' && request.method === 'GET') {
+        requireContent(url.searchParams.size === 1 && url.searchParams.has('id'));
+        return response(trace, 200, await media.jobs(x, url.searchParams.get('id')!));
+      }
+      if (tail === 'media/status' && request.method === 'GET')
+        return response(trace, 200, await media.status(x));
+      if (tail === 'media/material-result' && request.method === 'GET') {
+        requireContent(url.searchParams.size === 1 && url.searchParams.has('id'));
+        return response(trace, 200, await media.materialResult(x, url.searchParams.get('id')!));
+      }
+      if (tail === 'media/adopt' && request.method === 'POST')
+        return response(
+          trace,
+          200,
+          await media.adopt(
+            x,
+            (await body(request, 16384, 3000)) as Record<string, unknown>,
+            id(request.headers.get('x-zhiban-command')),
+          ),
+        );
+      const mediaKind = /^native\/api\/(?:generate\/(image|video|tts)|(transcription))$/.exec(tail);
+      if (mediaKind && request.method === 'POST')
+        return response(
+          trace,
+          200,
+          await media.execute(
+            x,
+            (mediaKind[1] ?? 'asr') as 'image' | 'video' | 'tts' | 'asr',
+            request,
+          ),
+        );
+      if (tail === 'archive/access' && request.method === 'GET') {
+        await archives.access(x, url.searchParams);
+        return response(trace, 200, { allowed: true });
+      }
+      if (tail === 'archive/export' && request.method === 'GET') {
+        const data = await archives.export(x, url.searchParams);
+        return new Response(new Uint8Array(data.bytes), {
+          headers: {
+            'Content-Type': 'application/zip',
+            'Content-Disposition': 'attachment; filename=course.maic.zip',
+            'Cache-Control': 'private, no-store',
+            'X-Content-Type-Options': 'nosniff',
+            'X-Zhiban-Source-Digest': data.digest,
+          },
+        });
+      }
+      if (['archive/inspect', 'archive/restore'].includes(tail) && request.method === 'POST') {
+        requireContent(
+          request.headers.get('content-type') === 'application/zip' &&
+            url.searchParams.size === 1 &&
+            ['maic', 'pptx'].includes(url.searchParams.get('kind') ?? ''),
+        );
+        const bytes = Buffer.from(await request.arrayBuffer());
+        requireContent(
+          bytes.length > 0 && bytes.length <= 64 * 1024 * 1024,
+          'ARCHIVE_TOO_LARGE',
+          413,
+        );
+        if (tail === 'archive/inspect')
+          return response(
+            trace,
+            200,
+            await archives.inspect(x, bytes, url.searchParams.get('kind')!),
+          );
+        const digest = request.headers.get('x-zhiban-archive-digest');
+        requireContent(digest && /^[a-f0-9]{64}$/.test(digest));
+        return response(
+          trace,
+          200,
+          await archives.restore(
+            x,
+            bytes,
+            url.searchParams.get('kind')!,
+            digest,
+            id(request.headers.get('x-zhiban-command')),
+            request.signal,
+          ),
+        );
+      }
       if (tail === 'review' && request.method === 'POST') {
         const v = (await body(request, 4096, 3000)) as {
           type: string;
@@ -136,6 +259,14 @@ export function authoringHttp(
         const upstream = tail.slice(7);
         if (upstream === 'api/materials' && request.method === 'POST') {
           await content.authoring(x, async () => {});
+          const available = await media.status(x);
+          requireContent(
+            available.materials.mimes.includes(
+              request.headers.get('content-type')?.split(';')[0] ?? '',
+            ),
+            'MATERIAL_SERVICE_UNAVAILABLE',
+            503,
+          );
           requireContent(clearance?.mode === 'TRUSTED_SCANNER', 'SCANNER_REQUIRED', 503);
           const bytes = Buffer.from(await request.clone().arrayBuffer());
           requireContent(bytes.length > 0 && bytes.length <= 1048576, 'TOO_LARGE', 413);
@@ -152,6 +283,20 @@ export function authoringHttp(
           );
         }
 
+        const retry = /^api\/materials\/([^/]+)\/extraction$/.exec(upstream);
+        if (retry && request.method === 'POST') {
+          const { getOwnerMaterial } = await import('@/lib/persistence/owner-materials');
+          const material = await content.authoring(x, () =>
+            getOwnerMaterial(pool, authoringOwner(x), retry[1]),
+          );
+          requireContent(material, 'NOT_FOUND', 404);
+          const available = await media.status(x);
+          requireContent(
+            typeof material.mime === 'string' && available.materials.mimes.includes(material.mime),
+            'MATERIAL_SERVICE_UNAVAILABLE',
+            503,
+          );
+        }
         // Core assets are capability-by-id too; private authoring refuses foreign entries.
         const assetId = /^api\/persistence\/assets\/([^/]+)/.exec(upstream)?.[1];
         if (assetId) {
@@ -312,12 +457,11 @@ export function authoringHttp(
           ]),
         );
         const doc = structuredClone(p.document);
-        const rewriteSlide = (slide: Parameters<typeof slideMediaReferenceSlots>[0]) => {
-          for (const slot of slideMediaReferenceSlots(slide)) {
-            const ref = slot.read();
-            if (ref && refs.has(ref)) slot.write(refs.get(ref));
-          }
-        };
+        const videoRefs = new Set(
+          p.assets.filter((a) => a.mime.startsWith('video/')).map((a) => a.ref),
+        );
+        const rewriteSlide = (slide: Parameters<typeof rewritePublishedSlideMedia>[0]) =>
+          rewritePublishedSlideMedia(slide, refs, videoRefs);
         for (const slide of doc.stage.whiteboard ?? []) rewriteSlide(slide);
         for (const scene of doc.scenes) {
           if (isSlideContent(scene.content)) rewriteSlide(scene.content.canvas);

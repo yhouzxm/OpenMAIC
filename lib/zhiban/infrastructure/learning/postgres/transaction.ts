@@ -1,4 +1,5 @@
-import { progressBarrier, requireProgress } from '../../curriculum/postgres/progress';
+import { courseEvidenceBarrier } from '../../course-results/learning-gate';
+import { progressBarrier, requireProgress, progressSnapshot } from '../../curriculum/postgres/progress';
 import type { FileClearanceEvidence } from '../../../application/learning/attachment-assets';
 import { PostgresSubmissionFileAssets } from '../../learning-files/postgres/assets';
 import type { RecordPage, RecordQuery } from '@/lib/zhiban/application/learning/pages';
@@ -19,7 +20,7 @@ import {
 import { writableAttempt, type LearningCommand } from '@/lib/zhiban/domain/learning/model';
 type Row = Record<string, unknown>;
 export interface QuizWriteExtension {
-  kind: 'QUIZ';
+  kind: 'QUIZ' | 'TEXT_RESPONSE';
   command: unknown;
   eventType: string;
   before?: (activity: Row, now: number) => Promise<void>;
@@ -27,6 +28,7 @@ export interface QuizWriteExtension {
 }
 export class LearningPgTransaction implements LearningTransaction {
   constructor(private readonly client: PoolClient) {}
+  async progress(actor:AcademicActor,offeringId:string){return progressSnapshot(this.client,actor,offeringId);}
   async rows(sql: string, args: unknown[] = []): Promise<Row[]> {
     return (await this.client.query(sql, args)).rows;
   }
@@ -442,6 +444,7 @@ export class LearningPgTransaction implements LearningTransaction {
             ).rows[0];
             requireAcademic(!notebook || trustedLabNotebook === notebook.id, 'INVALID_STATE');
           }
+          if (command.type === 'SUBMIT') await courseEvidenceBarrier(actor, offeringId, activity, attempt);
           if (command.type === 'SAVE_DRAFT')
             result = await update('attempts', attempt, { draft: command.answer, updated_at: now });
           else {

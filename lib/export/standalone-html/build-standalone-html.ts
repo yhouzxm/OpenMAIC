@@ -534,6 +534,8 @@ async function fetchPlayerAsset(path: string): Promise<string> {
 
 export interface StandaloneHtmlExportOptions extends StandaloneMediaDeps {
   strings: StandalonePlayerStrings;
+  /** Tenant hosts can supply an already authorized, immutable archive snapshot. */
+  snapshot?: ClassroomExportSnapshot;
   /**
    * Embed narration audio (stored and legacy URL narration) and video clips
    * so the file plays like the classroom. Without it the file stays small:
@@ -642,7 +644,7 @@ export async function buildStandaloneHtmlExport(
   // Slide audio elements are never played offline, so their bytes are not
   // collected (or counted as missing) either; without narration, interactive
   // pages do not fetch their clips.
-  const snapshot = await buildClassroomExportSnapshot(stage, scenes, options.documentDeps, {
+  const snapshot = options.snapshot ?? await buildClassroomExportSnapshot(stage, scenes, options.documentDeps, {
     audio: includeNarration,
     videoBytes: includeNarration,
     audioElements: false,

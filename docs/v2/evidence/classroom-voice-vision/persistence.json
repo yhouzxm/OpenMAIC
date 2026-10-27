@@ -1,0 +1,11 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_SAVED_STOPPED_AND_FILE_HASH_VERIFIED",
+  "snapshot": "/home/zxm/.local/share/zhiban-persistent/2026-10-26T16-17-55.652Z-e4a56d36",
+  "manifestHash": "f9b3cc5e3001fa9b33baecb949c609bf5fd10ac57fae595dc4a00632034999a5",
+  "files": 3326,
+  "verificationScope": "FILE_HASH_CLOSURE_ONLY",
+  "shutdownOwnedRuntimeOnly": true,
+  "notNewCrossMachineOrPG18RestoreEvidence": true
+}

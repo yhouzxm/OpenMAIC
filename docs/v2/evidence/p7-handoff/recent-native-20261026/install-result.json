@@ -1,0 +1,26 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS_FRESH_OFFLINE_INSTALL",
+  "workspace": "/home/zxm/.local/share/zhiban-p7-20261026-pek_tp6y/workspace",
+  "sourceDigest": "8f09fd093ebac2135ec70f2fcbd889eed845d8607d8eefdd8e4d2a89d5dd966c",
+  "kitManifestSha256": "be14f02a4960b8c1d745f01f8da47cbb0d466306a9689baaa30bf3cef724a2bc",
+  "baselineHead": "093b4a69af96626010d9104c50d680d9b9dc1928",
+  "officialPin": "e19d0d4f45d81b8f7ab599b33ab03b0b8b68d5c0",
+  "dependencies": "FROZEN_LOCAL_INSTALL",
+  "sameSourceAsHandoff": true,
+  "privateRestore": {
+    "path": "/home/zxm/.local/share/zhiban-p7-20261026-pek_tp6y/restore-kit",
+    "manifestSha256": "552de313530b62c968a9c9e61e40d8347d92434980ab771cd1618eea0cfe627b",
+    "snapshotManifestSha256": "c67cd45932412be4ddfcfbeb8a34e88a68bd3b50155824f113fc8dff7a9d3e45",
+    "instanceKeyIncludedAndHashMatches": true,
+    "instanceKeyMode": "0600",
+    "hostModelConfigIncluded": false,
+    "sensitiveContents": [
+      "database rows and synthetic accounts/authorization material",
+      "saved encrypted workspace provider credentials, if present",
+      "native instance-secret key; keep private together with the database",
+      "localhost development TLS private key"
+    ]
+  }
+}

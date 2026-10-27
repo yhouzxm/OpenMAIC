@@ -22,6 +22,7 @@ import type { RuntimeSession } from '@openmaic/dsl';
 import { RuntimeStageNotFoundError, type RuntimeStore } from '@openmaic/storage';
 
 import { readStageMeta } from './stage-meta';
+import { withOwnerExecution } from '@/lib/server/owner-host-policy';
 
 export type StageTombstoneReader = (stageId: string) => Promise<boolean>;
 
@@ -62,27 +63,40 @@ export function createTombstoneGuardedRuntimeStore(
 ): RuntimeStore {
   const tombstoned = (stageId: string) =>
     isQueryableStageId(stageId) ? isTombstoned(stageId) : Promise.resolve(false);
+  const sessionWork = async <T>(sessionId: string, work: () => Promise<T>) => {
+    const session = await inner.getSession(sessionId);
+    return session ? withOwnerExecution(session.learnerKey, work) : work();
+  };
   return {
     async createSession(init) {
-      if (await tombstoned(init.stageId)) throw new RuntimeStageNotFoundError(init.stageId);
-      return inner.createSession(init);
+      return withOwnerExecution(init.learnerKey, async () => {
+        if (await tombstoned(init.stageId)) throw new RuntimeStageNotFoundError(init.stageId);
+        return inner.createSession(init);
+      });
     },
     async getSession(sessionId: string): Promise<RuntimeSession | undefined> {
       const session = await inner.getSession(sessionId);
       if (session === undefined) return undefined;
-      return (await tombstoned(session.stageId)) ? undefined : session;
+      return withOwnerExecution(session.learnerKey, async () =>
+        (await tombstoned(session.stageId)) ? undefined : session,
+      );
     },
     async listSessions(stageId, learnerKey) {
-      if (await tombstoned(stageId)) return [];
-      return inner.listSessions(stageId, learnerKey);
+      return withOwnerExecution(learnerKey, async () => {
+        if (await tombstoned(stageId)) return [];
+        return inner.listSessions(stageId, learnerKey);
+      });
     },
     setSessionStatus: (sessionId, status, updatedAt, options) =>
-      inner.setSessionStatus(sessionId, status, updatedAt, options),
-    deleteSession: (sessionId) => inner.deleteSession(sessionId),
-    appendRecord: (init, options) => inner.appendRecord(init, options),
-    listRecords: (sessionId, opts) => inner.listRecords(sessionId, opts),
+      sessionWork(sessionId, () => inner.setSessionStatus(sessionId, status, updatedAt, options)),
+    deleteSession: (sessionId) => sessionWork(sessionId, () => inner.deleteSession(sessionId)),
+    appendRecord: (init, options) =>
+      sessionWork(init.sessionId, () => inner.appendRecord(init, options)),
+    listRecords: (sessionId, opts) =>
+      sessionWork(sessionId, () => inner.listRecords(sessionId, opts)),
     mergeLearner: (from, to) => inner.mergeLearner(from, to),
-    deleteLearnerRuntime: (stageId, learnerKey) => inner.deleteLearnerRuntime(stageId, learnerKey),
+    deleteLearnerRuntime: (stageId, learnerKey) =>
+      withOwnerExecution(learnerKey, () => inner.deleteLearnerRuntime(stageId, learnerKey)),
     deleteStageRuntime: (stageId) => inner.deleteStageRuntime(stageId),
     deleteAllRuntime: () => inner.deleteAllRuntime(),
   };

@@ -1,3 +1,4 @@
+import { readProfileReference, referenceScope } from './pg-version';
 import { referenceSourceHash } from './reference-source';
 /** Readiness only. A web host never installs or derives its own trusted expected catalog. */
 import { readFile } from 'node:fs/promises';
@@ -39,12 +40,12 @@ export async function loadOnboarding(pool: Pool): Promise<boolean> {
         .rows[0].name
     )
       return false;
-    const reference = JSON.parse(await readFile(onboardingReference, 'utf8'));
+    const reference = await readProfileReference(onboardingReference);
     const sourceHash = hash(await readFile(onboardingMigration));
     if (
       reference.evidenceOrigin !== 'LOCAL' ||
       reference.githubActions !== false ||
-      reference.scope !== 'FRESH_OWNED_PG16_ONBOARDING_REFERENCE' ||
+      reference.scope !== referenceScope('FRESH_OWNED_PG16_ONBOARDING_REFERENCE') ||
       reference.migrationSha256 !== sourceHash ||
       !/^[a-f0-9]{64}$/.test(reference.profileSha256)
     )

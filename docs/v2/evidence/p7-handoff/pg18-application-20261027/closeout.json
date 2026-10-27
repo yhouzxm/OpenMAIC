@@ -1,0 +1,57 @@
+{
+  "status": "PG18_FRESH_APPLICATION_AND_RESTORE_LOCAL_PASS_REMOTE_PREPARED",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "recordedAt": "2026-10-27T13:55:43.119508+00:00",
+  "branch": "refactor/zhiban-v2",
+  "baselineHead": "093b4a69af96626010d9104c50d680d9b9dc1928",
+  "dirtyCandidatePreserved": true,
+  "sourceDigest": "139296ae3b38c3ce8fcd5162f2fa85de74037e20026f24dd9f28ea850035f09b",
+  "referenceSha256": "ac7971c762672f80f3a6303a1121cc859da9e6f99712b418e61340175d72e46e",
+  "postgresVersion": 180006,
+  "applicationOrigin": "https://127.0.0.1:3478",
+  "completed": [
+    "Independent fresh PG18 and source16-logical-import PG18 expected catalog/ACL references, source and pin verification",
+    "Versioned PG18 bootstrap/content SQL, installer, receipt issuer/loader and closed Bridge composition; unchanged frozen PG16 root and applied migrations",
+    "Real full host, guarded Academic commands, submission and teacher published grade",
+    "Native published ClassroomSurface, personal HTML/Quiz, reload, responsive layouts, policy-disable concurrency, Enrollment/teacher/publication revocation",
+    "Fresh installation and original ADMIN/TEACHER/STUDENT logins with CA-verified HTTPS",
+    "Normal-stop physical snapshot and online basebackup independently restored; identical three-database business/native rows and account file, original logins revalidated",
+    "Real postmaster-ready/pre-HTTPS forced host exit: failed-generation replay refused, bound postmaster stopped and owned root removed",
+    "Read-only imported PG16-to18 business/native catalogs exactly match independently constructed imported expected profile; old receipt remains unissued",
+    "Manual-only GitHub Ubuntu/PG18 acceptance workflow, reviewed-SHA gates, pinned source/dependencies and synthetic-only private material plan prepared"
+  ],
+  "evidenceBoundary": {
+    "application": "FRESH_PG18_V1_AND_SAME_MAJOR_RESTORE_ONLY",
+    "comparisonExcludes": "Identity ephemeral sessions/tokens/audit bytes; original account login/spaces and all startup loaders revalidated",
+    "pg16ImportedActivation": "NOT_IMPLEMENTED_OR_ACTIVATED; original imported receipt/registry/signatures untouched",
+    "oldNativeMaintenance": "ISOLATED_UNKNOWN_RESERVED_UNCHANGED",
+    "externalProviderRetest": false,
+    "cloudProduction": "NOT_TESTED_OR_DEPLOYED",
+    "crossMachine": "NEW_PG18_WORKFLOW_PREPARED_NOT_RUN",
+    "incompleteInitdbCleanup": "REFUSES_AMBIGUOUS_PID_AND_RETAINS_PRIVATE_DIAGNOSTICS; no false cleanup success"
+  },
+  "remote": {
+    "workflow": ".github/workflows/zhiban-pg18-acceptance.yml",
+    "status": "PREPARED_NOT_COMMITTED_PUSHED_REGISTERED_OR_DISPATCHED",
+    "environment": "zhiban-pg18-acceptance",
+    "approvedShaVariable": "ZHIBAN_PG18_APPROVED_SHA",
+    "privateMaterialDelivery": "NONE; fresh synthetic accounts/keys/TLS/DBs created only on runner",
+    "artifact": "ALLOWLISTED_SUMMARY_ONLY_7_DAYS",
+    "pending": [
+      "Review complete changed source dependency scope, including prior uncommitted product code",
+      "Authorize/perform checkpoint and default-branch workflow registration",
+      "Configure/verify environment reviewers, ref restrictions and approved SHA",
+      "Authorize one manual run, record actual run/attempt/SHA; no automatic redispatch"
+    ]
+  },
+  "git": {
+    "commit": false,
+    "push": false,
+    "ciDispatch": false
+  },
+  "priorEvidence": "Original PG18 data-quarantine and remote run 40096542805 retain only their original source/scope. No old run is relabeled as this candidate.",
+  "guide": "../../../zhiban-v2-pg18-readiness.md",
+  "nextWholePackage": "Reviewed source checkpoint and single protected GitHub PG18 application/restore acceptance; production/cloud and imported-data activation remain separate explicit scopes",
+  "recommendedModel": "GPT-6.1 Sol / high"
+}

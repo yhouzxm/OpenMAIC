@@ -1,3 +1,5 @@
+import { registerServiceOwner } from '../service-center/config';
+import { currentServiceTenant, withServiceTenant } from '@/lib/server/service-scope';
 /** Course-bound host over the existing OpenMAIC workspace APIs, stores and workers. */
 import { configureConversationTitleScheduler } from '@/lib/server/agent-runtime/conversation-title-task';
 import { AsyncLocalStorage } from 'node:async_hooks';
@@ -12,11 +14,40 @@ import { startAgentRunner } from '@/lib/server/agent-runtime/runner';
 import type { ContentContext, ContentService } from '../content/service';
 import { hash, requireContent } from '../content/model';
 import { nativeRoutes } from './routes';
+import {
+  currentClassroomBinding,
+  withClassroomBinding,
+  isClassroomOwner,
+  type ClassroomBinding,
+} from '../classroom-ai/bindings';
 export const authoringBindings = new Map<string, ContentContext>();
 export const authoringOwner = (x: ContentContext) =>
   `course-author:${hash(`${x.tenant}:${x.offering}:${x.member}`)}`;
 export const isAuthoringOwner = (owner: string) => owner.startsWith('course-author:');
 const scope = new AsyncLocalStorage<string>();
+const serviceOperator = new AsyncLocalStorage<{owner:string; guard:()=>Promise<void>}>();
+export const withServiceOperator = <T>(owner:string, guard:()=>Promise<void>, work:()=>Promise<T>) =>
+  serviceOperator.run({owner,guard},()=>withNativeOwner(owner,work));
+
+const authoringRequestScope = new AsyncLocalStorage<ContentContext>();
+export const withAuthoringRequest = <T>(x: ContentContext, work: () => Promise<T>) =>
+  authoringRequestScope.run(x, () => withNativeOwner(authoringOwner(x), work));
+function requestContext(owner: string) {
+  const x = authoringRequestScope.getStore();
+  return x && authoringOwner(x) === owner ? x : authoringBindings.get(owner);
+}
+export const withNativeOwner = <T>(
+  owner: string,
+  work: () => Promise<T>,
+  binding?: ClassroomBinding,
+) => scope.run(owner, () => withServiceTenant(
+  binding?.tenant ?? requestContext(owner)?.tenant ?? currentServiceTenant(),
+  async () => {
+    const tenant=currentServiceTenant();
+    if(tenant) await registerServiceOwner(owner,tenant);
+    return withClassroomBinding(binding, work);
+  },
+));
 const titleTasks = new Set<Promise<void>>();
 let worker: ReturnType<typeof startAgentRunner> | undefined;
 export function configureAuthoringHost(content: ContentService) {
@@ -32,7 +63,7 @@ export function configureAuthoringHost(content: ContentService) {
         name: 'zhiban-current-course-teacher',
         async authenticate() {
           const owner = scope.getStore();
-          return owner && authoringBindings.has(owner)
+          return owner && (requestContext(owner) || currentClassroomBinding(owner) || serviceOperator.getStore()?.owner === owner)
             ? {
                 status: 'authenticated',
                 principal: {
@@ -45,21 +76,50 @@ export function configureAuthoringHost(content: ContentService) {
             : { status: 'invalid' };
         },
         describeStoredOwner(owner) {
-          return isAuthoringOwner(owner) ? { kind: 'user' } : undefined;
+          return isAuthoringOwner(owner) || isClassroomOwner(owner) ? { kind: 'user' } : undefined;
         },
       },
     ],
   });
   configureOwnerHostPolicy({
     async execution(owner) {
+      if (owner.startsWith('zhiban-services:')) {
+        const op=serviceOperator.getStore(); requireContent(op?.owner===owner,'FORBIDDEN',403);
+        await op!.guard(); return;
+      }
+      if (isClassroomOwner(owner)) {
+        const binding = currentClassroomBinding(owner);
+        requireContent(binding, 'CLASSROOM_ACCESS_REQUIRED', 403);
+        await binding.guard(async () => {});
+        return;
+      }
       if (!isAuthoringOwner(owner)) return;
-      const x = authoringBindings.get(owner);
+      const x = requestContext(owner);
       requireContent(x, 'TEACHER_AUTHORIZATION_REQUIRED', 403);
       await content.authoring({ ...x, deadline: undefined }, async () => {});
     },
+    async withExecution(owner, work) {
+      if (owner.startsWith('zhiban-services:')) {
+        const op=serviceOperator.getStore(); requireContent(op?.owner===owner,'FORBIDDEN',403);
+        await op!.guard(); const result=await work(); await op!.guard(); return result;
+      }
+      if (isClassroomOwner(owner)) {
+        const binding = currentClassroomBinding(owner);
+        requireContent(binding, 'CLASSROOM_ACCESS_REQUIRED', 403);
+        return binding.guard(work);
+      }
+      if (isAuthoringOwner(owner)) {
+        const x = requestContext(owner);
+        requireContent(x, 'TEACHER_AUTHORIZATION_REQUIRED', 403);
+        return content.authoring({ ...x, deadline: undefined }, work);
+      }
+      return work();
+    },
     async document(owner, stage, mode, q) {
+      if (owner.startsWith('zhiban-services:')) throw new StageAccessError(stage, owner, 'foreign');
+      if (isClassroomOwner(owner)) throw new StageAccessError(stage, owner, 'foreign');
       if (!isAuthoringOwner(owner)) return;
-      const x = authoringBindings.get(owner);
+      const x = requestContext(owner);
       requireContent(x, 'TEACHER_AUTHORIZATION_REQUIRED', 403);
       // The host deliberately disables upstream capability-by-id foreign reads.
       if (mode !== 'create') {

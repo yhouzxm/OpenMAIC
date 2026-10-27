@@ -1,48 +1,53 @@
-# P7 合并交接包
+> 2026-10-27 更新：[Ubuntu／PG18 本机交付与恢复验收](zhiban-v2-ubuntu-pg18-local.md)及[本轮制品／pin／结论](evidence/p7-handoff/pg18-20261027/closeout.json)为最新候选。数据迁移／恢复与 Identity 探针通过；PG18 全量应用仍被冻结 PG16 契约阻断，不能称为生产可部署。下文 10-26 包保留历史范围。
 
-2026-10-24，LOCAL 未提交候选，一次合并原 P1–P7 已交付范围。上游 OpenMAIC 1.2.1，固定 pin `e19d0d4f45d81b8f7ab599b33ab03b0b8b68d5c0`。Git HEAD 只是基线，不能代替包含 dirty 候选的逐文件源码 manifest。
+# P7 统一持久化交付
 
-## 统一入口与使用
+2026-10-26，沿原 P1–P7 一次合并近期原生备课、完整文档／资产、AI 课堂、自主 PBL、归档恢复、多模态服务、管理员运行中心及可信结果。OpenMAIC 1.2.1，官方 pin `e19d0d4f45d81b8f7ab599b33ab03b0b8b68d5c0`，Git 基线 `093b4a69af96626010d9104c50d680d9b9dc1928`；既有 dirty 候选全部保留，HEAD 不能代替源码 manifest。
 
-[3461 工作台](https://127.0.0.1:3461/zhiban)。三角色继续使用原合成账号；密码只从 `info` 指向的本机0600账户文件读取，不进入源码交接包。没有新的关机安排。
+## 入口、账号与保存
+
+[3461 工作台](https://127.0.0.1:3461/zhiban)，沿用王管理员／周老师／陈同学三角色合成账号。完整 ID／密码只读取 `info` 指向的本机 0600 `accounts.json`。不在源码包、聊天或公共文件交付账户、数据库、TLS 私钥或实例密钥。
 
 ```sh
 pnpm trial:zhiban:info
-pnpm trial:zhiban                 # 未运行时启动；恢复同一批账号及历史
-pnpm trial:zhiban:backup          # 私有三库一致快照
+pnpm trial:zhiban                 # 未运行时恢复原三库与账号；正常启动不重跑验收
+pnpm trial:zhiban:backup
 pnpm trial:zhiban:backup:verify
-pnpm trial:zhiban:stop            # 保存成功后才清理运行root
+pnpm trial:zhiban:stop             # 正常保存成功后才清理 owned root
 ```
 
-详见[操作指南](zhiban-v2-trial-guide.md)和[持久化与恢复](zhiban-v2-persistent-local.md)。默认持久化与显式 disposable 验证分开；不在运行实例旁启动占用相同端口的完整验证。
+[操作指南](zhiban-v2-trial-guide.md)、[本机恢复](zhiban-v2-persistent-local.md)、[独立安装／恢复命令](zhiban-v2-portable-install-local.md)。不与当前实例并行启动同端口 disposable／恢复实例。
 
-## 合并范围与证据
+## 本次一次纳入的范围
 
-| 原批次／完整包 | 本地交付内容 | 证据边界 |
-| --- | --- | --- |
-| P1–P3／P5–P6 原教学业务 | 三角色、教务与七类导入、目录／学习、测验、成绩／总评申诉、进度先修、讨论、跟进、Tutor、AI备课、旧入口兼容 | 原页面／能力矩阵和各产品receipt，不新增全量签收 |
-| P3 资源与附件 | 本地文本／CSV／文本PDF解析、真实扫描附件、课程归属与发布／查看／提交 | Office／OCR／媒体真实服务未配置；每文件仍1MiB |
-| P4 课堂与实验 | 固定版本教案、生命周期与先修、人工实验报告、原评分与历史 | 实验测量为 LEARNER_REPORTED；真实Native自动执行未启用 |
-| P6 PBL／AI Peer | 小组共享修订、全员确认共同提交、教师评价；私人AI学习伙伴 | 默认PBL是单学生演示，多人证明来自独立fixture；伙伴不是同学或正式成绩依据 |
-| P5 六维／EMA | 描述型证据维度、固定来源真实模型分析、教师采用／拒绝、本人纠错 | 缺证据不编分；EMA由教师显式执行，不作心理诊断或无人值守干预 |
-| P3 校内成果／服务评分 | 可撤销校内证书、课程等价与跨班去重学分、固定规则受限服务正式AI评分 | 不含外部资质／跨校；首次TEXT／适用测验评分，保留人工更正与申诉，不覆盖已有成绩 |
-| P7 持久化与归档 | 同机三库备份／恢复、账号及历史保留、源码manifest／独立归档校验 | 同机同路径；源码归档不含数据库、密钥、依赖及Git历史，不替代换机部署 |
+| 完整能力 | 当前交付与证据边界 |
+| --- | --- |
+| 原 P1–P7 教学业务 | 既有教务、三角色、导入、课程、测验、成绩／总评申诉、进度先修、讨论、分析支持、六维／EMA、校内成果和受限服务评分保留原各包证据 |
+| 原生备课／编辑／资产 | 原生 Workspace／SDK／Agent、完整课件与固定资产采用发布；真实生成首轮异常及来源恢复如实保留 |
+| 原生 AI 课堂／自主 PBL | 固定发布播放、问答／白板／圆桌、Instructor／Simulator／Evaluator、本人历史与报告；私人状态不等于全班共享或正式分数 |
+| 六格式归档／恢复 | MAIC、PPTX、互动 ZIP、离线 HTML、Markdown／DOCX；MAIC 完整／PPTX 静态副本恢复，学生历史不导入；实验视频未启用 |
+| 资料与多模态服务 | 已接课程服务状态、解析／生成／语音适配、素材采用发布；无外部配置的实际调用继续待验 |
+| 管理员服务与运行中心 | 原生配置、状态、连接检查、空间用量、审计；默认部署 lock=all／allowUserKeys=false 未解锁 |
+| 完整课堂与可信结果 | 固定 Quiz／PBL／反思 → 原 Attempt／显式正式提交 → 原教师评分／原完成规则；教师显式共享／撤回小结，Tutor 受限读取／检索；AI 练习分不自动变正式分 |
+| 实验与持久化 | 既有 LEARNER_REPORTED 报告和 DC／RC SERVER_CALCULATED_SIMULATION 保留来源；新 Native 任务／凭据、归档资产、服务配置／审计及实例密钥均纳入三库与私有文件恢复 |
 
-机器可读的[交付证据索引](zhiban-v2-p7-delivery-index.json)固定每项receipt的SHA256、默认演示入口和适用范围。既有PG16、真实模型、浏览器及恢复证据沿用其原source范围；后续展示差异仍按各closeout记录。本轮只执行交接相关检查，没有重跑课堂、模型、PG整套或GitHub CI。来源统一 LOCAL，不伪造 GITHUB_ACTIONS。
+[证据索引](zhiban-v2-p7-delivery-index.json)固定各原 receipt 的 hash、原适用范围和集中待办。当前源码与各历史 receipt 的共享文件差额见包外 `evidence/p7-handoff/recent-native-20261026/evidence-applicability.json`。本轮只做交付、隔离恢复及相关只读入口核对，不重跑课堂／模型／解析／整套 PG 或 GitHub CI。
 
-## 制品、配置与复现
+## 两类制品，分开交付
 
-生成：`node scripts/zhiban-handoff.cjs pack`；独立校验：`node scripts/zhiban-handoff.cjs verify /绝对路径/source.tar.gz`。制品含 `source.tar.gz`、`HANDOFF.json`、`SHA256SUMS`、`VERIFY.json`。最终版本号、实际目录及归档hash见包外 `evidence/p7-handoff/consolidated-20261024/final-closeout.json`，避免归档自引用。
+源码包：`node scripts/zhiban-handoff.cjs pack`；独立校验 `node scripts/zhiban-handoff.cjs verify /绝对路径/source.tar.gz`。包含 `HANDOFF.json`、逐文件 SHA256、源码 archive 和校验结果，适用已有可信 checkout。独立安装包：`node scripts/zhiban-portable.cjs pack /新的私有目录/install-kit`，额外携带两棵 shallow Git anchors 和 bootstrap，可在全新源码目录 frozen install。两者不含 node_modules、运行数据库或主机模型配置。
 
-适用已有可信Git checkout的同路径源码恢复；需 Node22、pnpm10.28.0、Ubuntu PG16、可重建依赖与本机受信TLS。先核对归档，再由操作者在保留现有dirty内容的副本中恢复；不要直接覆盖运行中的工作区。源码包不能单独创建Git历史、重建可信receipt或恢复私有数据库。
+实际 versionId／sourceDigest、安装 pin、私有恢复包 pin、目录、隔离恢复和最终状态统一在包外 [本轮 closeout](evidence/p7-handoff/recent-native-20261026/final-closeout.json)，不把归档 hash 写回归档内部制造自引用。结果以 closeout 为准，旧包不覆盖。
 
-模型0600配置、扫描profile与pin、TLS密钥、账户、PG快照独立私有交付；包内示例只含占位值。真实扫描／模型每次使用仍按当前授权及配置验证，历史成功不自动启用新操作。未修改已应用迁移，不提交／推送／CI或生产部署。
+私有恢复包含合成数据库／账户／授权材料、开发 TLS 私钥、Native 文档／资产／资料／用量、管理员审计与实例密钥。**数据库内如保存了加密服务提供者凭据，它们也在快照中；实例密钥与数据库一起交付即具有解密能力，必须同等私密保管。** 源码包不含这些。主机 `.env.local`／`openmaic.yml`、扫描／解析 profile 与 pin 仍独立受控配置，不自动复制。使用外部 `OPENMAIC_SECRET_KEY` 的主机必须另行保管并在目标提供同一密钥，不能指望文件快照替代环境密钥。
 
-## 集中剩余边界
+物理恢复仍限定 Linux x64 LE／PG16 同版本字符串、相同内部 `/tmp/zhiban-trial-content-*` 根与私有 socket 56517、HTTPS 3461。允许源码／状态安装目录不同；拒绝覆盖、链接、错 pin 和部分成功 receipt。当前不是 PG18 迁移工具，阿里云 PG18 需另做逻辑迁移／适配验收，不能直接导入 PG16 数据目录。
 
-1. 真实 Native 课堂／自动实验／可信事件：维护control、独立pgpass、可信公钥pin及同代receipt尚缺；UNKNOWN／RESERVED隔离保持。
-2. Office／OCR／音视频真实解析：缺实际服务配置；无依赖内容及下载不受此阻塞。
-3. 换机独立安装、真实身份／首密交付及目录运营、容量／生产部署、物理断电恢复未签收；最新物理备份完整性不代表该代已跨机恢复。
-4. 无人值守EMA、分布式正式评分及生产吞吐不在本地首包签收内。服务评分提交期短暂Identity共享表锁有保守写入阻塞，不能据本地结果宣称生产容量。
+## 集中剩余与后续
 
-用户延期的原生刷新／关闭复验继续作为明确验收缺项；PLC专用模拟器仍排除。下一完整功能是满足可信输入后的Native课堂／自动实验包，建议 GPT-6.1 Sol / high；配置交付与普通整合建议 medium。
+- 旧 Native 维护 control／独立 pgpass／公钥 pin／同代签名未齐，CREATE／APPEND／COMPLETE 与 UNKNOWN／RESERVED 保持隔离；真实仪器未配置，不称实测。
+- Office／OCR／音视频解析、图像／视频生成、TTS／ASR 和视觉模型的真实服务验收待输入；不阻塞已交付无依赖能力。
+- 历史真实 GitHub Ubuntu VM run **40096542805 PASS** 保留其旧冻结包范围；本轮 LOCAL 包不冒充同 SHA／同 source 远端签收，也没有新运输授权或 CI。
+- 长期主机、PG18／生产部署、真实账户／首密渠道与数据、无人值守 EMA／分布式评分容量、物理断电及延期的原生关闭／刷新验收集中保留。PLC 专用站点仍排除。
+
+本轮不提交、不推送、不运行 CI、不部署生产。下一阶段按目标主机与真实服务输入做部署／依赖验收，不再重做已完成移植或逐入口 P7；常规配置交付建议 GPT-6.1 Sol / medium，PG18／跨 Identity 授权及新恢复并发用 high。

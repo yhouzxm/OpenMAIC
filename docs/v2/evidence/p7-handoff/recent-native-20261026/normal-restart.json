@@ -1,0 +1,18 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "PASS",
+  "at": "2026-10-26T06:05:20.523474+00:00",
+  "checks": [
+    "New PID with no upgrade flag",
+    "Original content receipt bytes unchanged",
+    "Native instance key bytes unchanged",
+    "All non-Identity business/Native rows and account file identical across three databases",
+    "Source match and zero drift"
+  ],
+  "receiptHash": "f82e25f4ca41720f4ac2e00d97bdf79f302876f6cea72246cd985c61fdf56068",
+  "sourceMatches": true,
+  "sourceDriftCount": 0,
+  "externalCalls": 0,
+  "scope": "SAME_HOST_NEW_WORKSPACE_AND_STATE_NORMAL_RESTART"
+}

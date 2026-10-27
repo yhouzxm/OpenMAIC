@@ -332,6 +332,8 @@
     capability = data.capability;
     status.textContent =
       (policy.enabled ? '教师已启用本班 AI 辅导。' : '教师尚未启用本班 AI 辅导。') +
+      (capability.tools ? ' 可只读检索所选固定讲义。' : ' 当前模型未声明工具能力，使用文字辅导。') +
+      (capability.vision ? ' 支持受限已发布图片解读。' : ' 当前模型未声明视觉能力，不解读图片。') +
       (capability.ready ? ' 模型已配置。' : ' 模型尚不可用，请联系教师或管理员配置。') +
       (policy.guidance ? ' 教师提示：' + policy.guidance : '');
     policyConflict.textContent =

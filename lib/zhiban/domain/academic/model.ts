@@ -15,6 +15,7 @@ export class AcademicError extends Error {
       | 'ATTACHMENT_NOT_CLEARED'
       | 'INACTIVE_MEMBER'
       | 'PROGRESS_BLOCKED'
+      | 'COURSE_RESULT_REQUIRED'
       | 'INVALID_STATE'
       | 'UNAVAILABLE',
   ) {
