@@ -162,6 +162,36 @@ input:focus {
   outline: 2px solid #91af95;
   outline-offset: 2px;
 }
+.login-card .password-field {
+  position: relative;
+  min-width: 0;
+}
+.login-card .password-field input {
+  padding-inline-end: 52px;
+}
+.login-card .password-toggle {
+  position: absolute;
+  inset-block-start: 1px;
+  inset-inline-end: 1px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+}
+.login-card .password-toggle:hover {
+  background: #edf4ff;
+  color: #176fda;
+}
+.login-card .password-toggle:focus-visible {
+  outline: 2px solid #176fda;
+  outline-offset: -3px;
+}
 .button {
   border: 0;
   border-radius: 9px;

@@ -118,6 +118,44 @@
     password.required = true;
     password.autocomplete = 'current-password';
     passwordLabel.htmlFor = password.id;
+    const passwordField = node('div', undefined, 'password-field');
+    const visibility = button(
+      '',
+      () => setPasswordVisible(password.type === 'password'),
+      'password-toggle',
+    );
+    visibility.setAttribute('aria-controls', password.id);
+    function setPasswordVisible(visible) {
+      password.type = visible ? 'text' : 'password';
+      const label = visible ? '隐藏密码' : '显示密码';
+      visibility.setAttribute('aria-label', label);
+      visibility.setAttribute('aria-pressed', String(visible));
+      visibility.title = label;
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      for (const [key, value] of Object.entries({
+        viewBox: '0 0 24 24',
+        width: '20',
+        height: '20',
+        fill: 'none',
+        stroke: 'currentColor',
+        'stroke-width': '1.8',
+        'stroke-linecap': 'round',
+        'stroke-linejoin': 'round',
+        'aria-hidden': 'true',
+        focusable: 'false',
+      }))
+        svg.setAttribute(key, value);
+      const path = document.createElementNS(svg.namespaceURI, 'path');
+      path.setAttribute(
+        'd',
+        'M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0' +
+          (visible ? ' M3 3l18 18' : ''),
+      );
+      svg.append(path);
+      visibility.replaceChildren(svg);
+    }
+    setPasswordVisible(false);
+    passwordField.append(password, visibility);
     const submit = node('button', '登录并进入');
     submit.type = 'submit';
     submit.className = 'button primary';
@@ -125,13 +163,15 @@
     const firstSetup = node('a', '新账户首次设密');
     firstSetup.href = '/zhiban/activate-account';
     help.append(document.createElement('br'), firstSetup);
-    form.append(idLabel, id, passwordLabel, password, submit, help);
+    form.append(idLabel, id, passwordLabel, passwordField, submit, help);
     card.append(form);
     form.onsubmit = async (event) => {
       event.preventDefault();
       if (pending) return;
       pending = true;
       submit.disabled = true;
+      visibility.disabled = true;
+      setPasswordVisible(false);
       submit.textContent = '正在登录…';
       card.querySelectorAll('.notice').forEach((element) => element.remove());
       try {
@@ -152,6 +192,7 @@
       } finally {
         pending = false;
         submit.disabled = false;
+        visibility.disabled = false;
         submit.textContent = '登录并进入';
       }
     };
