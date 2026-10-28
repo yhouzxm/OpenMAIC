@@ -1,0 +1,15 @@
+.zhiban-environment-notice {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 4px 12px;
+  color: #78521b;
+  background: #fff8e6;
+  border-bottom: 1px solid #f0dfb9;
+  font:
+    12px/1.5 'PingFang SC',
+    'Microsoft YaHei',
+    system-ui,
+    sans-serif;
+  text-align: center;
+  overflow-wrap: anywhere;
+}

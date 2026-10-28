@@ -257,6 +257,8 @@ async function bindings() {
     'scripts/zhiban-local/verify-members.ts',
     'app/zhiban/local/profile.html',
     'app/zhiban/local/client.js',
+    'app/zhiban/local/ui-environment.css',
+    'scripts/zhiban-local/ui-presentation.ts',
     'app/zhiban/local/admin-shell.js',
     'scripts/zhiban-local/profile.ts',
     'scripts/zhiban-local/verify-profile.ts',

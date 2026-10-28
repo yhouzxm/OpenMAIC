@@ -6,6 +6,7 @@ import { join } from 'node:path';
 import { parseEnv } from 'node:util';
 import { spawn } from 'node:child_process';
 import { snapshotHome, privateEntry } from './persistent-snapshot';
+import { uiEnvironment } from './ui-presentation';
 const startup = createStartupDiagnostics('PERSISTENT');
 async function main() {
   startup.enter('PERSISTENT_CONFIG');
@@ -15,9 +16,15 @@ async function main() {
   if (await lstat(envFile).catch(() => null)) {
     await privateEntry(envFile);
     const config = parseEnv(await readFile(envFile, 'utf8'));
+    if (
+      process.env.ZHIBAN_UI_ENVIRONMENT === undefined &&
+      config.ZHIBAN_UI_ENVIRONMENT !== undefined
+    )
+      process.env.ZHIBAN_UI_ENVIRONMENT = uiEnvironment(config.ZHIBAN_UI_ENVIRONMENT);
     for (const key of Object.keys(providerEnvironment(config)))
       if (!process.env[key] && config[key]) process.env[key] = config[key];
   }
+  uiEnvironment(process.env.ZHIBAN_UI_ENVIRONMENT, 'local');
   startup.enter('RESTORE_POINTER');
   const pointer = join(snapshotHome, 'latest.json');
   const exists = await lstat(pointer).catch((e) => {

@@ -20,7 +20,7 @@
   let context = null,
     busy = false;
   root.append(
-    el('h1', '新账户首次设密'),
+    el('h1', '首次登录，设置密码'),
     el(
       'p',
       '仅使用平台独立交付给你的一次性凭证，由你自己设置密码。不要把凭证或密码发给管理员、聊天或他人；此入口不能重置已有密码。',
@@ -33,8 +33,8 @@
   const ticket = el('input');
   ticket.autocomplete = 'off';
   ticket.type = 'password';
-  ticket.setAttribute('aria-label', '一次性首密凭证');
-  const inspect = button('核验本人首密凭证', async () =>
+  ticket.setAttribute('aria-label', '一次性密码设置凭证');
+  const inspect = button('核验密码设置凭证', async () =>
     act(async () => {
       context = await request({ type: 'INSPECT', ticket: ticket.value.trim() });
       render();
@@ -106,7 +106,7 @@
     if (!r.ok)
       throw Error(
         r.status === 403
-          ? '凭证已失效、过期或相关批准／账户状态已变化，请联系独立平台操作人。'
+          ? '凭证已失效、过期或相关批准／账户状态已变化，请联系平台账户管理员。'
           : r.status === 409
             ? '凭证状态已变化，请重新核验，不能覆盖已有密码。'
             : r.status === 400
@@ -165,7 +165,7 @@
       inspect.disabled = true;
       ticket.disabled = true;
       const note = el('section', undefined, 'account-notice'),
-        logout = button('退出当前账户后首次设密', async () => {
+        logout = button('退出当前账号后设置密码', async () => {
           try {
             const c = await fetch('/api/zhiban/identity/csrf', { headers: h, cache: 'no-store' });
             if (!c.ok) throw Error('无法确认当前登录状态。');
@@ -184,7 +184,7 @@
           }
         });
       note.append(
-        el('p', '此浏览器已登录账户。请先退出，再为新账户设置首密；退出不会更改现有密码。'),
+        el('p', '此浏览器已登录账户。请先退出，再为新账号设置密码；退出不会更改现有密码。'),
         logout,
       );
       root.prepend(note);

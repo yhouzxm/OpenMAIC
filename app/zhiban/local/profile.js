@@ -175,7 +175,7 @@
         e.message +
         (pending
           ? ' 结果未知，请按原命令重试；输入已保留。'
-          : ' 输入已保留；读取最新资料不会覆盖本地输入。');
+          : ' 输入已保留；读取最新资料不会覆盖当前输入。');
     } finally {
       busy = false;
       lock();
@@ -548,7 +548,7 @@
       }
       if (!page.rows.length)
         list.append(
-          el('p', page.nextCursor ? '本段候选无匹配，请继续下一页。' : '没有匹配的成员。'),
+          el('p', page.nextCursor ? '当前页没有匹配成员，请继续查看下一页。' : '没有匹配的成员。'),
         );
       const nav = el('nav', undefined, 'course-pagination');
       nav.setAttribute('aria-label', '成员账户分页');

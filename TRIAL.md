@@ -12,6 +12,8 @@
 
 # 智伴 V2 统一试用
 
+界面提示由 `ZHIBAN_UI_ENVIRONMENT=local|test|production` 控制；本地启动默认 `local`。正式文案、配置优先级及验证范围见[界面环境与文案](docs/v2/zhiban-v2-ui-copy-environments.md)。此配置只改变界面，不改变 LOCAL 数据或授权边界。
+
 2026-10-24，LOCAL 合并交接未提交候选，集成 OpenMAIC **1.2.1**。当前源版本必须同时认交接 manifest 的文件 hash；只检出 Git HEAD 无法重现 dirty 候选。
 
 **入口：[3461 工作台](https://127.0.0.1:3461/zhiban)**。

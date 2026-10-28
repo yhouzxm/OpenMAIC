@@ -679,7 +679,7 @@
         el('h1', '人工跟进记录与结案'),
         el(
           'p',
-          '包含已结案、旧发布版本和历史 Enrollment。结案不替代真实提交或成绩发布；当前任教教师可协作处理。',
+          '包含已结案、旧发布版本和历史选课记录。结案不替代真实提交或成绩发布；当前任教教师可协作处理。',
           'analytics-note',
         ),
       );
@@ -774,7 +774,7 @@
           'p',
           `创建人：${r.creator_name} · ${new Date(Number(r.created_at)).toLocaleString('zh-CN')}`,
         ),
-        el('p', '固定 Enrollment：' + r.enrollment_id, 'muted'),
+        el('p', '关联选课记录：' + r.enrollment_id, 'muted'),
       );
       const evidence = el('details');
       evidence.append(

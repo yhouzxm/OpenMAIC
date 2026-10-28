@@ -34,7 +34,7 @@
     el('h1', '普通账户开通'),
     el(
       'p',
-      '提交申请后，由独立平台操作人核验并批准全局开户，再向本人交付一次性首密设置凭证。本页不创建密码、不代本人同意，也不自动赋予空间角色或课程权限。',
+      '提交申请后，由独立平台操作人核验并批准全局开户，再向本人交付一次性密码设置凭证。本页不创建密码、不代本人同意，也不自动赋予空间角色或课程权限。',
       'account-notice',
     ),
   );
@@ -156,10 +156,10 @@
       REQUESTED: '等待平台独立核验',
       WITHDRAWN: '申请已撤回',
       APPROVED: '平台已批准，开户／交付准备中',
-      READY: '首密凭证已交付，等待本人设置',
+      READY: '密码设置凭证已交付，等待本人设置',
       CLAIMED: '本人已设置密码，可使用原登录入口',
-      REVOKED: '未使用的首密凭证已撤销',
-      EXPIRED: '首密凭证已过期，需平台重新授权交付',
+      REVOKED: '未使用的密码设置凭证已撤销',
+      EXPIRED: '密码设置凭证已过期，需平台重新授权交付',
     };
     for (const r of data.rows) {
       const item = el('article', undefined, 'account-card');
@@ -177,7 +177,7 @@
         item.append(
           el(
             'p',
-            '首密凭证期限：' + new Date(Number(r.expires_at)).toLocaleString('zh-CN'),
+            '密码设置凭证期限：' + new Date(Number(r.expires_at)).toLocaleString('zh-CN'),
             'account-meta',
           ),
         );
@@ -197,7 +197,7 @@
           a,
           el(
             'p',
-            '本人仍需有效入驻引用、明确同意及管理员激活；学生另需 Enrollment，教师另需相应作用域及任教关系。',
+            '加入空间仍需核对入驻信息、本人同意及管理员激活；学生还需选课记录，教师还需相应权限及任教安排。',
             'account-meta',
           ),
         );

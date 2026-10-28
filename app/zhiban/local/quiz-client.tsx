@@ -363,11 +363,11 @@ function Product({
                 );
                 setData(value);
                 setConflict(value);
-                setNotice('已读取服务器版本；本地输入仍保留，请比较后再保存。');
+                setNotice('已读取服务器版本；当前输入仍保留，请比较后再保存。');
               })().catch((e) => setNotice(e.message))
             }
           >
-            读取服务器版本并保留本地输入
+            读取服务器版本并保留当前输入
           </button>
           <details>
             <summary>服务器草稿或答案</summary>

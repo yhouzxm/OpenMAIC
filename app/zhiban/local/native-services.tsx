@@ -123,7 +123,7 @@ function Root() {
       ).json();
       setResult(r);
       setCommand(v7());
-      setNotice('本地素材已扫描保存，未调用AI。可创建新课件并审核发布。');
+      setNotice('上传素材已扫描保存，未调用AI。可创建新课件并审核发布。');
     });
   const generate = (kind: string) =>
     act(async () => {
@@ -232,7 +232,7 @@ function Root() {
                 ))}
               </div>
               <p>
-                资料本地可解析：TXT／MD／CSV、文本 PDF。Office／图片
+                可直接解析的资料格式：TXT／MD／CSV、文本 PDF。Office／图片
                 OCR／音视频解析依据主机文档服务；当前文档服务：
                 {status.materials.documentProvider ?? '未配置'}。扫描器：
                 {status.scanner ? '已配置' : '不可用'}。
@@ -253,7 +253,7 @@ function Root() {
               {status.materials.mimes.includes('application/msword') && (
                 <p>
                   旧 DOC／PPT／XLS
-                  将先在本地隔离转换，再交给当前解析服务；原件保留，发布前请核对正文与版式。
+                  将先在服务器隔离转换，再交给当前解析服务；原件保留，发布前请核对正文与版式。
                 </p>
               )}
               <p>
@@ -388,7 +388,7 @@ function Root() {
                 <>
                   <p>
                     {result.source === 'LOCAL_UPLOAD'
-                      ? '来源：本地上传，未调用AI'
+                      ? '来源：上传素材，未调用 AI'
                       : '来源：主机生成服务'}
                   </p>
                   {result.speechText && (
@@ -464,7 +464,7 @@ function Root() {
                   <>
                     <p>
                       旧 Office
-                      已在本地隔离转换，原件保留。请核对表格、公式与段落；这里创建的是可编辑正文讲义，不承诺还原原版式。
+                      已在服务器隔离转换，原件保留。请核对表格、公式与段落；这里创建的是可编辑正文讲义，不承诺还原原版式。
                     </p>
                     <details>
                       <summary>转换来源与校验信息</summary>

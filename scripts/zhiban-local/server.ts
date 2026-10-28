@@ -12,6 +12,7 @@ import {
   localRequestTarget,
 } from './request-target';
 import { createServer } from 'node:https';
+import { presentUiHtml, uiEnvironment } from './ui-presentation';
 import { readFile, appendFile } from 'node:fs/promises';
 import { resolve, join } from 'node:path';
 import { Pool } from 'pg';
@@ -22,6 +23,7 @@ import { loadContent } from './content';
 import { directory, database, pgPort, origin, digest, loadRuntime, privateFile } from './config';
 
 async function main() {
+  const presentationEnvironment = uiEnvironment(process.env.ZHIBAN_UI_ENVIRONMENT, 'local');
   const runtime = await loadRuntime();
   const certificate = await privateFile('localhost.crt');
   const receipt = JSON.parse((await privateFile('receipt.json')).toString());
@@ -112,6 +114,7 @@ async function main() {
   if (ready.status !== 401) throw new Error('Identity composition preflight rejected.');
   const assets = new Map<string, { type: string; content: Buffer }>();
   for (const [path, name, type] of [
+    ['/zhiban/ui-environment.css', 'ui-environment.css', 'text/css; charset=utf-8'],
     ['/zhiban/workspace.css', 'workspace.css', 'text/css; charset=utf-8'],
     ['/zhiban/admin-shell.js', 'admin-shell.js', 'text/javascript; charset=utf-8'],
     ['/zhiban/course-page.js', 'course-page.js', 'text/javascript; charset=utf-8'],
@@ -267,7 +270,13 @@ async function main() {
                     .replace('</head>', '<script src="/zhiban/classrooms.js"></script></head>'),
                 )
               : asset.content;
-          return outgoing.end(incoming.method === 'HEAD' ? undefined : content);
+          return outgoing.end(
+            incoming.method === 'HEAD'
+              ? undefined
+              : asset.type.startsWith('text/html')
+                ? Buffer.from(presentUiHtml(content.toString(), presentationEnvironment))
+                : content,
+          );
         }
         const contentRoute =
           /^\/api\/zhiban\/content\/[^/]+\/offerings\/[^/]+(?:\/resources\/[^/]+\/(?:preview|assets(?:\/[^/]+)?))?$/.test(

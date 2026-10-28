@@ -330,7 +330,7 @@ export function CourseMaterials({ tenant, offering }: { tenant: string; offering
     <section ref={root} className="content-card" aria-label="课程上传资源">
       <h2>上传与发布教学资源</h2>
       <p>
-        每文件≤1MiB。TXT／Markdown／CSV及文本PDF可本地解析；Office／图片OCR／音视频需主机解析服务。只展示提取正文并提供原件下载，阅读不计完成率或成绩。
+        每文件≤1MiB。TXT／Markdown／CSV及文本PDF可直接解析；Office／图片OCR／音视频需配置相应解析服务。只展示提取正文并提供原件下载，阅读不计完成率或成绩。
       </p>
       {list?.upload && (
         <p role="status">

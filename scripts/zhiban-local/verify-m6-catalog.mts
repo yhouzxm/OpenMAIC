@@ -1,4 +1,5 @@
 import { verifyPg18Boundaries } from '../zhiban-deploy/verify-pg18-boundaries';
+import { presentUiHtml, uiEnvironment } from './ui-presentation';
 import {
   localPgMajor,
   localPgBin,
@@ -612,6 +613,7 @@ type Actor = {
   csrf?: string;
 };
 async function main() {
+  const presentationEnvironment = uiEnvironment(process.env.ZHIBAN_UI_ENVIRONMENT, 'local');
   startup.enter('RESTORED_CONTROL');
   const restoredControl: MemberControlConfig | null = restored
     ? await (async () => {
@@ -1653,6 +1655,7 @@ async function main() {
         return;
       }
       const assets: Record<string, [string, string]> = {
+        '/zhiban/ui-environment.css': ['ui-environment.css', 'text/css'],
         '/zhiban/course-results': ['course-results.html', 'text/html'],
         '/zhiban/course-results.js': ['course-results.bundle.js', 'text/javascript'],
         '/zhiban/course-results.css': ['course-results.css', 'text/css'],
@@ -1901,6 +1904,8 @@ async function main() {
               .toString()
               .replace('</head>', '<script src="/zhiban/classrooms.js"></script></head>'),
           );
+        if (type === 'text/html')
+          bytes = Buffer.from(presentUiHtml(bytes.toString(), presentationEnvironment));
         outgoing.end(bytes);
         return;
       }

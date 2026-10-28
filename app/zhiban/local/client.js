@@ -97,7 +97,7 @@
     card.append(
       node('div', '学', 'login-emblem'),
       node('h1', '智伴·创学'),
-      node('p', '登录账号与权限管理平台', 'muted'),
+      node('p', '登录后进入教学与学习工作台', 'muted'),
     );
     if (notice) message(card, notice);
     const form = node('form');
@@ -108,7 +108,7 @@
     id.type = 'text';
     id.required = true;
     id.autocomplete = 'username';
-    id.placeholder = 'UserId 或已由本人确认的 @标识';
+    id.placeholder = '请输入账号 ID 或已确认的 @登录标识';
     idLabel.htmlFor = id.id;
     const passwordLabel = node('label', '密码');
     const password = node('input');
@@ -159,10 +159,19 @@
     const submit = node('button', '登录并进入');
     submit.type = 'submit';
     submit.className = 'button primary';
-    const help = node('p', '这是本地体验环境，请使用准备好的账号登录。', 'form-help');
-    const firstSetup = node('a', '新账户首次设密');
+    const help = node('p', undefined, 'form-help');
+    const environment = document.documentElement.dataset.zhibanEnvironment;
+    if (environment === 'local' || environment === 'test') {
+      help.append(
+        document.createTextNode(
+          environment === 'local' ? '请使用本地体验账号登录。' : '请使用分配的测试账号登录。',
+        ),
+        document.createElement('br'),
+      );
+    }
+    const firstSetup = node('a', '首次登录，设置密码');
     firstSetup.href = '/zhiban/activate-account';
-    help.append(document.createElement('br'), firstSetup);
+    help.append(firstSetup);
     form.append(idLabel, id, passwordLabel, passwordField, submit, help);
     card.append(form);
     form.onsubmit = async (event) => {
@@ -187,7 +196,7 @@
             ? '账号或密码不正确，请重试。'
             : error instanceof ApiError && error.status === 429
               ? '登录尝试较多，请稍后重试。'
-              : '暂时无法登录，请检查本地服务后重试。',
+              : '暂时无法登录，请稍后重试；如仍无法登录，请联系管理员。',
         );
       } finally {
         pending = false;
@@ -402,9 +411,11 @@
             '测评与成绩',
             '学习档案',
             '学籍管理',
+            '虚拟实训',
+            'PBL项目',
           ].includes(label)
             ? '从课程内进入'
-            : '待移植';
+            : '暂未开放';
           item.setAttribute('aria-disabled', 'true');
           item.append(node('small', hint));
         }
@@ -478,7 +489,11 @@
       if (error instanceof ApiError && error.status === 401) login();
       else {
         root.replaceChildren(
-          node('section', '暂时无法连接工作台。请确认本地服务正在运行。', 'card empty'),
+          node(
+            'section',
+            '暂时无法连接工作台，请稍后重试；如仍无法访问，请联系管理员。',
+            'card empty',
+          ),
           button('重试', refresh, 'button primary'),
         );
       }

@@ -80,7 +80,7 @@ async function main() {
               .click();
           }
           await expect(p).toHaveURL(url);
-          await expect(p.getByText(/维度继续 REVIEW/)).toBeVisible();
+          await expect(p.getByText(/画像维度仍在审阅中/)).toBeVisible();
           const search = p.getByLabel('搜索课程或教学班', { exact: true });
           await search.fill('试用');
           await p.getByLabel('画像与支持入口每页条数', { exact: true }).selectOption('10');
@@ -102,7 +102,7 @@ async function main() {
               exact: true,
             }),
           ).toBeVisible();
-          await expect(p.getByText(/画像维度继续 REVIEW/)).toBeVisible();
+          await expect(p.getByText(/画像维度仍在审阅中/)).toBeVisible();
           const featureNames =
             kind === 'profile'
               ? [

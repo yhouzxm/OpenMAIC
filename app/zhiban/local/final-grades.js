@@ -177,7 +177,7 @@
   }
   async function navigate(nextMember, nextView, nextAfter = null) {
     if (pending) return;
-    if (dirty && !confirm('权重草稿未保存，放弃本地修改并切换？')) return;
+    if (dirty && !confirm('权重草稿未保存，放弃未保存的修改并切换？')) return;
     dirty = false;
     window.zhibanCoursePage?.setDirty('finalgrade', false);
     member = nextMember;
