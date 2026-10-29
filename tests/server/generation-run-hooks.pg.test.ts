@@ -667,7 +667,7 @@ describe.skipIf(!contractUrl)('generation run hooks on PostgreSQL', () => {
           ? { errorCode: 'QUOTA_EXHAUSTED', retryable: false }
           : undefined,
     });
-    const { POST } = await import('@/app/api/materials/route');
+    const { POST } = await import('@/app/api/materials/handler');
     const upload = async (text: string) => {
       const response = await POST(
         new NextRequest('http://localhost/api/materials', {

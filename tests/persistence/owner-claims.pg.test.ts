@@ -36,6 +36,12 @@ import {
   courseNaming,
   forwardingScenario,
   fullClaimScenario,
+  materialFolderClaimScenario,
+  unfiledOnlyMaterialClaimScenario,
+  emptyFoldersOnlyMaterialClaimScenario,
+  selfReassignMaterialFoldersScenario,
+  materialFolderAtomicityScenario,
+  rootedMaterialClaimScenario,
   rowsUnder,
   seedAnonymousWork,
   type ClaimHarness,
@@ -174,10 +180,34 @@ describe.skipIf(!contractUrl)('claiming anonymous work on PostgreSQL', () => {
     await forwardingScenario(harness);
   });
 
+  it('moves material folders by the course-folder rules, filed and Unfiled materials alike', async () => {
+    await materialFolderClaimScenario(harness);
+  });
+
+  it('moves an owner that has Unfiled materials only', async () => {
+    await unfiledOnlyMaterialClaimScenario(harness);
+  });
+
+  it('moves an owner that has empty material folders only', async () => {
+    await emptyFoldersOnlyMaterialClaimScenario(harness);
+  });
+
+  it('leaves a library reassigned onto its own owner unchanged', async () => {
+    await selfReassignMaterialFoldersScenario(harness);
+  });
+
+  it('keeps both material libraries as they were when the claim fails', async () => {
+    await materialFolderAtomicityScenario(harness);
+  });
+
+  it('keeps a material s reference root and re-keys its asset', async () => {
+    await rootedMaterialClaimScenario(harness);
+  });
+
   it('a stale request to the persistence route is refused once its owner is claimed', async () => {
     await seedAnonymousWork(harness);
     await claimOwner(ANON, ACCOUNT, { provider: harness.provider });
-    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/handler');
     const response = await handlePersistenceRequest(
       new Request('http://localhost/api/persistence/runtime/sessions', {
         method: 'POST',
@@ -297,7 +327,7 @@ describe.skipIf(!contractUrl)('claiming anonymous work on PostgreSQL', () => {
       const parked = parkClaimsAt(650);
       const claim = claimOwner(ANON, ACCOUNT, { provider: harness.provider });
       await parked.reached;
-      const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+      const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/handler');
       const create = handlePersistenceRequest(
         new Request('http://localhost/api/persistence/runtime/sessions', {
           method: 'POST',
@@ -378,7 +408,7 @@ describe.skipIf(!contractUrl)('claiming anonymous work on PostgreSQL', () => {
         await claimant.query('SELECT pg_advisory_xact_lock($1::bigint)', [
           ownerIdentityLockKey(ANON).toString(),
         ]);
-        const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+        const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/handler');
         const headers = {
           cookie: `anonymous_id=${ANON.slice('anon:'.length)}`,
           'content-type': 'application/json',

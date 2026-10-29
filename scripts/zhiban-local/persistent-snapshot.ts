@@ -52,6 +52,9 @@ async function treeHashes(root: string, base = ''): Promise<Record<string, strin
   return out;
 }
 async function saveSnapshotUnlocked(root: string, live: boolean, metadata: unknown) {
+  const current = metadata as { contentInstallation?: { provider?: { sha?: string } } };
+  if (current?.contentInstallation?.provider?.sha !== 'c0f296aa36096ec3d1e1e2b94a7a48e20075e0a1')
+    throw Error('Current v1.3.0 installation receipt required before saving a new snapshot');
   localRoot(root);
   await privateEntry(root, true);
   if ((await readFile(join(root, 'data/PG_VERSION'), 'utf8')).trim() !== String(localPgMajor))
@@ -125,6 +128,7 @@ async function saveSnapshotUnlocked(root: string, live: boolean, metadata: unkno
       });
     }
     const manifest = {
+      applicationVersion: '1.3.0',
       kind:
         localPgMajor === 18
           ? 'SYNTHETIC_PG18_PERSISTENT_SNAPSHOT_V1'
@@ -184,10 +188,20 @@ export async function inspectSnapshot(path: string, expectedHash?: string) {
   return m;
 }
 async function restoreLatestUnlocked() {
+  for (const name of ['UPGRADING.json', 'FAILED.json'])
+    if (await lstat(join(dirname(snapshotHome), name)).catch(() => null))
+      throw Error('Incomplete offline upgrade is quarantined; refusing restore');
   await privateEntry(snapshotHome, true);
   await privateEntry(join(snapshotHome, 'latest.json'));
   const pointer = JSON.parse(await readFile(join(snapshotHome, 'latest.json'), 'utf8'));
   const m = await inspectSnapshot(pointer.path, pointer.manifestHash);
+  if (
+    m.applicationVersion !== '1.3.0' ||
+    m.metadata?.contentInstallation?.provider?.sha !== 'c0f296aa36096ec3d1e1e2b94a7a48e20075e0a1'
+  )
+    throw Error(
+      'Pre-v1.3.0 snapshot: run the explicit offline copy upgrader; source remains untouched',
+    );
   if (await lstat(m.originalRoot).catch(() => null))
     throw Error('Restore target exists; refusing overwrite');
   // Copy only after complete validation; no database is started here.

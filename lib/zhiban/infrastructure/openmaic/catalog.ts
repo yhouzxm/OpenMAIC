@@ -1,10 +1,10 @@
 import type { BridgePgClient } from './transactions';
 import { check, hash } from './validation';
 export const official = Object.freeze({
-  sha: 'a9da60b3b4adb429369c0da13d5637a904ead2b0',
-  storage: '0.37.3',
-  dsl: '0.11.3',
-  renderer: '0.1.14',
+  sha: 'c0f296aa36096ec3d1e1e2b94a7a48e20075e0a1',
+  storage: '0.38.1',
+  dsl: '0.12.0',
+  renderer: '0.2.0',
 });
 export async function catalogFingerprint(
   client: BridgePgClient,

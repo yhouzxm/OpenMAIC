@@ -54,7 +54,7 @@ describe('embedded persistence route', () => {
 
   it('returns a clear 404 when DATABASE_URL is unset', async () => {
     vi.stubEnv('DATABASE_URL', '');
-    const { GET } = await import('@/app/api/persistence/[...path]/route');
+    const { GET } = await import('@/app/api/persistence/[...path]/handler');
 
     const response = await GET(new Request('http://localhost/api/persistence/runtime/sessions'));
 
@@ -72,7 +72,7 @@ describe('embedded persistence route', () => {
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined);
 
     try {
-      const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+      const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/handler');
       const response = await handlePersistenceRequest(
         new Request('http://localhost/api/persistence/runtime/sessions/session-1/status', {
           method: 'PATCH',
@@ -102,7 +102,7 @@ describe('embedded persistence route', () => {
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined);
 
     try {
-      const { GET } = await import('@/app/api/persistence/[...path]/route');
+      const { GET } = await import('@/app/api/persistence/[...path]/handler');
       const response = await GET(
         new Request('http://localhost/api/persistence/runtime/sessions', {
           headers: { 'x-request-id': 'invalid request id' },
@@ -173,7 +173,7 @@ describe('embedded persistence route', () => {
       ),
     }));
     vi.stubEnv('DATABASE_URL', 'postgres://retry-test');
-    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/handler');
     const request = () => new Request('http://localhost/api/persistence/runtime/sessions', {});
 
     const first = await handlePersistenceRequest(request(), {
@@ -192,7 +192,7 @@ describe('embedded persistence route', () => {
     // Next dev HMR reloads module code but retains globalThis. The initialized
     // handler must be reused rather than opening another pool.
     vi.resetModules();
-    const reloaded = await import('@/app/api/persistence/[...path]/route');
+    const reloaded = await import('@/app/api/persistence/[...path]/handler');
     const hmrPoolFactory = vi.fn();
     const afterReload = await reloaded.handlePersistenceRequest(request(), {
       poolFactory: hmrPoolFactory,
@@ -246,7 +246,7 @@ describe('embedded persistence route', () => {
     }));
     vi.stubEnv('NODE_ENV', 'production');
     vi.stubEnv('DATABASE_URL', 'postgres://asset-auth-test');
-    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/handler');
     const pool = {
       end: vi.fn().mockResolvedValue(undefined),
       query: vi.fn().mockResolvedValue({ rows: [] }),
@@ -334,7 +334,7 @@ describe('embedded persistence route', () => {
     vi.stubEnv('NODE_ENV', 'production');
     vi.stubEnv('DATABASE_URL', 'postgres://asset-quota-test');
     vi.stubEnv('ASSET_QUOTA_BYTES', '200000');
-    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/handler');
 
     const form = new FormData();
     form.append('meta', new Blob([JSON.stringify({})], { type: 'application/json' }), 'meta');
@@ -399,7 +399,7 @@ describe('embedded persistence route', () => {
     vi.doUnmock('@openmaic/storage/server');
     vi.stubEnv('NODE_ENV', 'production');
     vi.stubEnv('DATABASE_URL', 'postgres://asset-quota-foreign-test');
-    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/handler');
 
     const form = new FormData();
     form.append('meta', new Blob([JSON.stringify({})], { type: 'application/json' }), 'meta');
@@ -501,7 +501,7 @@ describe('embedded persistence route', () => {
       throw new Error('the optional SDK must not resolve without a bucket');
     });
     vi.stubEnv('DATABASE_URL', 'postgres://asset-wiring-test');
-    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/handler');
     const pool = {
       end: vi.fn().mockResolvedValue(undefined),
       query: vi.fn().mockResolvedValue({ rows: [] }),
@@ -647,7 +647,7 @@ describe('embedded persistence route', () => {
     });
     vi.stubEnv('DATABASE_URL', 'postgres://asset-s3-test');
     vi.stubEnv('ASSET_S3_BUCKET', '  asset-bucket  ');
-    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/handler');
 
     const response = await handlePersistenceRequest(
       new Request('http://localhost/api/persistence/assets', {
@@ -734,7 +734,7 @@ describe('embedded persistence route', () => {
     });
     vi.stubEnv('DATABASE_URL', 'postgres://invalid-s3-bucket-test');
     vi.stubEnv('ASSET_S3_BUCKET', 'Invalid_Bucket');
-    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/handler');
     const poolFactory = vi.fn(() => ({
       end: vi.fn().mockResolvedValue(undefined),
       query: vi.fn().mockResolvedValue({ rows: [] }),
@@ -813,7 +813,7 @@ describe('embedded persistence route', () => {
     vi.doMock('@openmaic/storage/asset/s3-bytes', () => ({ loadS3AssetByteStore }));
     vi.stubEnv('DATABASE_URL', 'postgres://asset-s3-retry-test');
     vi.stubEnv('ASSET_S3_BUCKET', 'asset-bucket');
-    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/handler');
 
     const response = await handlePersistenceRequest(
       new Request('http://localhost/api/persistence/runtime/sessions', {}),
@@ -888,7 +888,7 @@ describe('embedded persistence route', () => {
     }));
     vi.stubEnv('DATABASE_URL', 'postgres://validator-wiring-test');
     const [{ handlePersistenceRequest }, { APP_RUNTIME_PAYLOAD_VALIDATORS }] = await Promise.all([
-      import('@/app/api/persistence/[...path]/route'),
+      import('@/app/api/persistence/[...path]/handler'),
       import('@/lib/runtime/payload-validators'),
     ]);
     const response = await handlePersistenceRequest(
@@ -971,7 +971,7 @@ describe('embedded persistence route', () => {
       ),
     }));
     vi.stubEnv('DATABASE_URL', 'postgres://adapter-test');
-    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/handler');
     const pool = {
       end: vi.fn().mockResolvedValue(undefined),
       query: vi.fn().mockResolvedValue({ rows: [] }),
@@ -1036,7 +1036,7 @@ describe('embedded persistence route', () => {
   };
 
   const readAdapterBody = async (path: string) => {
-    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/handler');
     const pool = {
       end: vi.fn().mockResolvedValue(undefined),
       query: vi.fn().mockResolvedValue({ rows: [] }),
@@ -1186,7 +1186,7 @@ describe('embedded persistence route', () => {
       });
       response.end('content');
     }, 'postgres://head-test');
-    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/handler');
     const response = await handlePersistenceRequest(
       new Request('http://localhost/api/persistence/documents/head', {
         method: 'HEAD',
@@ -1249,7 +1249,7 @@ describe('embedded persistence route', () => {
   };
 
   const requestThroughRoute = async () => {
-    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/handler');
     return handlePersistenceRequest(
       new Request('http://localhost/api/persistence/runtime/sessions', {}),
       {
@@ -1616,7 +1616,7 @@ describe('embedded persistence route -- real handler boundary', () => {
       put(principal: { key: string }, data: Blob, meta?: { contentType?: string }): Promise<string>;
     }> = [];
     wireRealHandler(stores);
-    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/handler');
     const deps = {
       poolFactory: () =>
         ({
@@ -1658,7 +1658,7 @@ describe('embedded persistence route -- real handler boundary', () => {
     wireRealHandler(stores, signed, `postgres://boundary-${name}`);
     vi.stubEnv('ASSET_BYTE_EGRESS', 'redirect');
     vi.stubEnv('ASSET_COLLECTION_GRACE_MS', graceMs);
-    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/handler');
     const deps = {
       poolFactory: () =>
         ({

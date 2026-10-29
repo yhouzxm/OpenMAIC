@@ -154,7 +154,7 @@ describe('slide HTML on the persistence document path', () => {
     path: string,
     body?: unknown,
   ): Promise<Response> {
-    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/handler');
     return handlePersistenceRequest(
       new Request(`http://localhost/api/persistence${path}`, {
         method,

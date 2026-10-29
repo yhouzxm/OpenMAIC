@@ -78,6 +78,7 @@ next-env.d.ts
 !/docs/v2/
 !/docs/v2/**
 # Eval results
+eval/whiteboard-shapes/results/
 eval/whiteboard-layout/results/
 eval/outline-language/results/
 eval/orchestration/results/
@@ -127,3 +128,9 @@ render-service/.owner-bound-parent-*/
 /app/zhiban/local/admin-services.bundle.js
 
 /app/zhiban/local/course-results.bundle.js
+
+# Generated interactive libraries
+/public/vendor/interactive
+
+# Ephemeral ESM import validators
+/.zhiban-import-tools-*/

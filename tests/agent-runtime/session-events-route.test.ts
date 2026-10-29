@@ -35,7 +35,7 @@ import {
   GET,
   POLL_INTERVAL_MS,
   TERMINAL_POLL_INTERVAL_MS,
-} from '@/app/api/agent/sessions/[id]/events/route';
+} from '@/app/api/agent/sessions/[id]/events/handler';
 
 const terminalEvent = {
   id: 4,

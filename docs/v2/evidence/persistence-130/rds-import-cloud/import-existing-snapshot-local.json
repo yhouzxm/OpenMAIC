@@ -1,0 +1,25 @@
+{
+  "kind": "ZHIBAN_130_PG16_TO_PG18_IMPORT_V1",
+  "status": "PASS",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "sourceSnapshotPin": "19d435d6a5d675b1640789e1ee6ee5d113560e376c5396872af7463055c53486",
+  "logicalBundlePin": "e1662dae29ea2a8b3e039ea50dcb9d5be87868ad90cf0bb6c8b6469aa1dbb5a1",
+  "referenceSha256": "2c7e371b86134f440e17b25953f42b511bfdecd1466807a392b4b5c9a2e5084d",
+  "databases": 3,
+  "dataAclRoleDifferences": 0,
+  "identityRoles": [
+    "ADMIN",
+    "TEACHER",
+    "STUDENT"
+  ],
+  "providerActivated": false,
+  "sourceMutated": false,
+  "scope": "LOGICAL_IMPORT_AND_IDENTITY_IN_QUARANTINE",
+  "excluded": [
+    "FORMAL_RUNTIME_ACTIVATION",
+    "ALIBABA_RDS",
+    "EXTERNAL_PROVIDERS",
+    "OLD_NATIVE_MAINTENANCE"
+  ]
+}

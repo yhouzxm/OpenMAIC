@@ -6,15 +6,23 @@ import { lecturePng } from './verify-trial-content';
 import assert from 'node:assert/strict';
 import { expect } from '@playwright/test';
 import type { Pool } from 'pg';
-import { writeFile } from 'node:fs/promises';
+import { writeFile, readFile } from 'node:fs/promises';
+import { authoringEvidenceDirectory } from './evidence-directory';
+import { join } from 'node:path';
+import { localPgMajor } from './pg-version';
 import type { prepareTrial } from './prepare-trial';
 import { makeDocument, makeSlideScene } from '../../tests/agent-runtime/_stage-fixtures';
-type Input = Parameters<typeof prepareTrial>[0] & {
+type Input = Omit<Parameters<typeof prepareTrial>[0], 'http'> & {
   trial: Awaited<ReturnType<typeof prepareTrial>>;
   native: Pool;
+  http: (
+    ...args: Parameters<Parameters<typeof prepareTrial>[0]['http']>
+  ) => Promise<{ status: number; json: unknown; bytes: Buffer }>;
 };
 export async function verifyNativeAuthoring(input: Input) {
   const { actors, http, tenant, trial, browser, origin, record, native } = input;
+  const evidence = await authoringEvidenceDirectory(localPgMajor);
+  record(`Native authoring artifacts use isolated run directory: ${evidence}`);
   const [teacher, student, outsider, , manager] = actors;
   const base = `/api/zhiban/authoring/${tenant}/offerings/${trial.offeringId}`,
     n = base + '/native/api';
@@ -30,6 +38,18 @@ export async function verifyNativeAuthoring(input: Input) {
   assert.equal((await http(base, manager)).status, 403);
   assert.equal((await http(base)).status, 401);
   await ok(base);
+  await input.admin.query('BEGIN');
+  try {
+    await assert.rejects(
+      input.admin.query(
+        "UPDATE zhiban_bridge.deployment_registry SET storage_version='0.37.3' WHERE official_sha='c0f296aa36096ec3d1e1e2b94a7a48e20075e0a1'",
+      ),
+      (error: any) => error.code === '23514',
+    );
+  } finally {
+    await input.admin.query('ROLLBACK');
+  }
+  record('v1.3.0 provider tuple rejects mixed old/new versions in real PostgreSQL PASS');
   const created = await ok(n + '/stages', { name: '完整原生备课：电路' }),
     stage = created.stage.id;
   const scene = makeSlideScene('full-slide', stage, 0, '完整课件第一页');
@@ -409,6 +429,7 @@ export async function verifyNativeAuthoring(input: Input) {
     await expect(page.getByText('完整富文本', { exact: false }).first()).toBeVisible({
       timeout: 30000,
     });
+    await page.getByTestId('workbench-mode-editing').click();
     await expect(page.getByRole('button', { name: '文本框', exact: true })).toBeVisible();
     await page.locator('[data-select-element-id="text-1"]').click();
     const editable = page.locator('[contenteditable="true"]').last();
@@ -421,7 +442,7 @@ export async function verifyNativeAuthoring(input: Input) {
       JSON.stringify((await ok(n + '/stages/' + stage)).scenes).includes('原生编辑器实际新增文字'),
     );
     await page.screenshot({
-      path: 'docs/v2/evidence/zhiban-native-authoring-workspace.png',
+      path: join(evidence, 'native-authoring-workspace.png'),
       fullPage: true,
     });
     await page.getByRole('button', { name: '采用为课程草稿', exact: true }).click();
@@ -464,7 +485,7 @@ export async function verifyNativeAuthoring(input: Input) {
     await next.click();
     await expect(sp.getByText('电路测量项目')).toBeVisible();
     await sp.screenshot({
-      path: 'docs/v2/evidence/zhiban-native-authoring-published.png',
+      path: join(evidence, 'native-authoring-published.png'),
       fullPage: true,
     });
     for (const width of [390, 768, 1440]) {
@@ -485,7 +506,7 @@ export async function verifyNativeAuthoring(input: Input) {
     assert.ok((await http(imageUrl, student)).status >= 400);
     await expect(sp.locator('#player-status')).toContainText('不可用', { timeout: 10000 });
     await writeFile(
-      'docs/v2/evidence/zhiban-native-authoring-browser.json',
+      join(evidence, 'native-authoring-browser.json'),
       JSON.stringify({ evidenceOrigin: 'LOCAL', githubActions: false, errors, failed }, null, 2) +
         '\n',
     );
@@ -552,16 +573,108 @@ export async function verifyNativeAuthoring(input: Input) {
         { timeout: 30000, intervals: [1000] },
       )
       .toBe('ready');
-    const bad = await postBytes(
-      n + '/materials',
-      Buffer.from('X5O!P%@AP[4\\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*'),
+    const pooled = await postBytes(
+      n + '/materials?scope=library',
+      nativeMaterialBytes,
       'text/plain',
-      { 'x-material-filename': 'blocked.txt' },
+      { 'x-material-filename': 'pooled.txt' },
     );
-    assert.equal(bad.status, 503);
+    assert.equal(pooled.status, 201, JSON.stringify(pooled.json));
+    await expect
+      .poll(
+        async () =>
+          (await ok(n + '/materials/' + pooled.json.materialId)).material?.extraction?.status,
+        { timeout: 30000, intervals: [1000] },
+      )
+      .toBe('done');
+    const roots = await native.query(
+      'SELECT count(*)::int AS n,count(DISTINCT a.principal)::int AS owners FROM asset_root_refs r JOIN asset_entries a ON a.id=r.asset_id WHERE r.root_id=$1',
+      [pooled.json.materialId],
+    );
+    assert.ok(roots.rows[0].n >= 2);
+    assert.equal(roots.rows[0].owners, 1);
+    assert.deepEqual(
+      (await http(n + '/materials/' + pooled.json.materialId + '/original', teacher)).bytes,
+      nativeMaterialBytes,
+    );
+    assert.equal(
+      (await http(other + '/native/api/materials/' + pooled.json.materialId + '/original', teacher))
+        .status,
+      404,
+    );
+    record(
+      'Real library pool upload → course-authorized owner extraction → rooted original/text → restricted read PASS',
+    );
+    const materialId = material.json.materialId;
+    const folder = (await ok(n + '/materials/folders', { name: 'v1.3.0 知识库' })).folder;
+    await ok(n + '/materials/move', { materialIds: [materialId], folderId: folder.id });
+    await ok(n + '/materials/' + materialId, { name: '可复用欧姆定律' }, 'PATCH');
+    const library = await ok(n + '/materials/library?limits=1&folderId=' + folder.id);
+    assert.equal(library.limits.documentMaxBytes, 1048576);
+    assert.equal(library.limits.mediaMaxBytes, 1048576);
+    assert.ok(JSON.stringify(library).includes(materialId));
+    assert.equal(
+      (await http(n + '/materials/' + materialId + '/original', teacher)).bytes.toString(),
+      nativeMaterialBytes.toString(),
+    );
+    assert.equal((await http(n + '/materials/library', student)).status, 403);
+    assert.equal(
+      (await http(other + '/native/api/materials/' + materialId + '/original', teacher)).status,
+      404,
+    );
+    assert.equal(
+      (
+        await http(
+          other + '/native/api/materials/folders/' + folder.id,
+          teacher,
+          { name: 'foreign' },
+          'PATCH',
+        )
+      ).status,
+      404,
+    );
+    await ok(n + '/materials/folders/' + folder.id, { name: '正式备课资料' }, 'PATCH');
+    assert.equal(
+      (await http(n + '/materials/folders/' + folder.id, teacher, {}, 'DELETE')).status,
+      204,
+    );
+    assert.equal((await http(n + '/materials/' + materialId + '/original', teacher)).status, 200);
+    record(
+      'v1.3.0 knowledge library upload/extract/rename/move/folder removal/original; cross-course and student isolation PASS',
+    );
+    await page.goto(
+      origin +
+        `/zhiban/native-workbench?tenant=${tenant}&offering=${trial.offeringId}&view=library`,
+    );
+    await expect(page.getByText('可复用欧姆定律', { exact: true }).first()).toBeVisible();
+    await page.getByTestId('kb-material-menu-' + materialId).click();
+    const downloaded = page.waitForEvent('download');
+    await page.getByTestId('kb-material-menu-' + materialId + '-open').click();
+    const file = await downloaded;
+    assert.deepEqual(await readFile((await file.path())!), nativeMaterialBytes);
+    await page.screenshot({
+      path: join(evidence, 'library-desktop.png'),
+      fullPage: true,
+    });
+    await page.setViewportSize({ width: 390, height: 844 });
+    await expect(page.getByText('可复用欧姆定律', { exact: true }).first()).toBeVisible();
+    await page.screenshot({
+      path: join(evidence, 'library-mobile.png'),
+      fullPage: true,
+    });
+    record('Actual v1.3.0 library page and scoped original download, desktop/mobile PASS');
+    if (!process.argv.includes('--upstream130-focus')) {
+      const bad = await postBytes(
+        n + '/materials',
+        Buffer.from('X5O!P%@AP[4\\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*'),
+        'text/plain',
+        { 'x-material-filename': 'blocked.txt' },
+      );
+      assert.equal(bad.status, 503);
+    }
     assert.equal((await http(n + '/usage', teacher)).status, 403);
     record(
-      'Trusted scanner admits owner-scoped native material, native extraction ready; unsafe material rejected; deployment usage remains private PASS',
+      'Trusted scanner admits owner-scoped native material, native extraction ready; deployment usage remains private PASS',
     );
     if (process.argv.includes('--authoring-real-model')) {
       const ai = await ok(n + '/agent/sessions', {
@@ -623,7 +736,7 @@ export async function verifyNativeAuthoring(input: Input) {
         200,
       );
       await writeFile(
-        'docs/v2/evidence/zhiban-native-authoring-real-model.json',
+        join(evidence, 'native-authoring-real-model.json'),
         JSON.stringify(
           {
             evidenceOrigin: 'LOCAL',
@@ -654,6 +767,12 @@ export async function verifyNativeAuthoring(input: Input) {
       [tenant, trial.offeringId, teacher.member],
     );
     assert.equal((await http(base, teacher)).status, 403);
+    assert.equal((await http(n + '/materials/library', teacher)).status, 403);
+    assert.equal(
+      (await http(n + '/materials/' + pooled.json.materialId + '/original', teacher)).status,
+      403,
+    );
+    assert.equal((await http(n + '/materials/' + materialId + '/original', teacher)).status, 403);
     assert.equal(
       (await http(base + '/snapshot', teacher, { type: 'PREVIEW', stageId: stage })).status,
       403,
@@ -671,11 +790,11 @@ export async function verifyNativeAuthoring(input: Input) {
     record('Current assignment revocation blocks workspace, adoption and publication PASS');
   } catch (e) {
     await page.screenshot({
-      path: 'docs/v2/evidence/zhiban-native-authoring-failure.png',
+      path: join(evidence, 'native-authoring-failure.png'),
       fullPage: true,
     });
     await writeFile(
-      'docs/v2/evidence/zhiban-native-authoring-browser.json',
+      join(evidence, 'native-authoring-browser.json'),
       JSON.stringify(
         {
           evidenceOrigin: 'LOCAL',

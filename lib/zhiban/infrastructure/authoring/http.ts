@@ -26,6 +26,7 @@ import { nativeAuthoringRequest, authoringOwner } from './host';
 import { AuthoringSnapshots } from './snapshot';
 import { getAgentSessionStore } from '@/lib/server/agent-runtime/store';
 import { assetPrincipalForOwner } from '@/lib/persistence/owner-assets';
+const nativeMaterialMaxBytes = 1048576;
 export function authoringHttp(
   content: ContentService,
   pool: Pool,
@@ -88,7 +89,10 @@ export function authoringHttp(
       const protocol = new Headers(h);
       if (
         unsafe &&
-        (tail.startsWith('native/') || tail.startsWith('archive/') || tail.startsWith('video/') || tail === 'media/upload')
+        (tail.startsWith('native/') ||
+          tail.startsWith('archive/') ||
+          tail.startsWith('video/') ||
+          tail === 'media/upload')
       )
         protocol.set('content-type', 'application/json'); // native upload bodies are checked by their original handlers
       headers(new Request(request.url, { headers: protocol }), origin, unsafe);
@@ -110,17 +114,21 @@ export function authoringHttp(
         await security.assertUnsafe(handle, origin, csrf);
       }
       const x: ContentContext = { handle, tenant, offering, member: space.membershipId };
-      if(tail==='video/capability'&&request.method==='GET')
-        return response(trace,200,await video.capability(x,url.searchParams));
-      if(tail==='video/jobs'&&request.method==='GET')
-        return response(trace,200,await video.list(x,url.searchParams));
-      if(tail==='video/jobs'&&request.method==='POST')
-        return response(trace,202,await video.submit(x,url.searchParams,request));
-      const videoJob=/^video\/jobs\/([^/]+)(?:\/(download))?$/.exec(tail);
-      if(videoJob&&['GET','POST'].includes(request.method)){
-        requireContent(!videoJob[2]||request.method==='GET');
-        const result=await video.job(x,videoJob[1],videoJob[2]?'download':request.method==='POST'?'cancel':'status');
-        return result instanceof Response?result:response(trace,200,result);
+      if (tail === 'video/capability' && request.method === 'GET')
+        return response(trace, 200, await video.capability(x, url.searchParams));
+      if (tail === 'video/jobs' && request.method === 'GET')
+        return response(trace, 200, await video.list(x, url.searchParams));
+      if (tail === 'video/jobs' && request.method === 'POST')
+        return response(trace, 202, await video.submit(x, url.searchParams, request));
+      const videoJob = /^video\/jobs\/([^/]+)(?:\/(download))?$/.exec(tail);
+      if (videoJob && ['GET', 'POST'].includes(request.method)) {
+        requireContent(!videoJob[2] || request.method === 'GET');
+        const result = await video.job(
+          x,
+          videoJob[1],
+          videoJob[2] ? 'download' : request.method === 'POST' ? 'cancel' : 'status',
+        );
+        return result instanceof Response ? result : response(trace, 200, result);
       }
       if (tail === 'media/upload' && request.method === 'POST')
         return response(trace, 200, await media.upload(x, request));
@@ -269,7 +277,11 @@ export function authoringHttp(
           );
           requireContent(clearance?.mode === 'TRUSTED_SCANNER', 'SCANNER_REQUIRED', 503);
           const bytes = Buffer.from(await request.clone().arrayBuffer());
-          requireContent(bytes.length > 0 && bytes.length <= 1048576, 'TOO_LARGE', 413);
+          requireContent(
+            bytes.length > 0 && bytes.length <= nativeMaterialMaxBytes,
+            'TOO_LARGE',
+            413,
+          );
           const checked = await clearance.check({
             name: 'native-material',
             mime: request.headers.get('content-type')?.split(';')[0] ?? 'application/octet-stream',
@@ -306,7 +318,22 @@ export function authoringHttp(
           );
           requireContent(entry.rowCount, 'NOT_FOUND', 404);
         }
-        const r = await nativeAuthoringRequest(content, x, request, '/' + upstream);
+        let r = await nativeAuthoringRequest(content, x, request, '/' + upstream);
+        if (upstream === 'api/materials/library' && request.method === 'GET' && r.ok) {
+          const value = await r.json();
+          if (value.limits) {
+            value.limits.documentMaxBytes = Math.min(
+              value.limits.documentMaxBytes,
+              nativeMaterialMaxBytes,
+            );
+            value.limits.mediaMaxBytes = Math.min(
+              value.limits.mediaMaxBytes,
+              nativeMaterialMaxBytes,
+            );
+          }
+          r.headers.delete('content-length');
+          r = Response.json(value, { status: r.status, headers: r.headers });
+        }
         r.headers.set(
           'Content-Security-Policy',
           "default-src 'none'; frame-ancestors 'none'; sandbox",

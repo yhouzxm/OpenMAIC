@@ -32,13 +32,14 @@ function privateState(root, create) {
   }
   privatePath(root, true);
   const p = path.join(root, 'STATE.json'),
-    pin = JSON.parse(fs.readFileSync('docs/v2/candidates/pg18-provider-v1/pin.json'));
+    pin = JSON.parse(fs.readFileSync('docs/v2/candidates/openmaic-130/pin-pg18.json'));
   if (!fs.existsSync(p)) {
     check(create, 'PG18 state marker missing');
     fs.writeFileSync(
       p,
       JSON.stringify({
         kind: 'PG18_LOCAL_STATE_V1',
+        applicationVersion: '1.3.0',
         root,
         major: 18,
         origin: 'https://127.0.0.1:3478',
@@ -52,6 +53,7 @@ function privateState(root, create) {
   const m = JSON.parse(fs.readFileSync(p));
   check(
     m.kind === 'PG18_LOCAL_STATE_V1' &&
+      m.applicationVersion === '1.3.0' &&
       m.root === root &&
       m.major === 18 &&
       m.origin === 'https://127.0.0.1:3478' &&
@@ -64,6 +66,7 @@ function privateState(root, create) {
     ZHIBAN_LOCAL_STATE: root,
     ZHIBAN_PG18_LINEAGE: m.lineage || 'PG18_FRESH_V1',
     ZHIBAN_LOCAL_TLS_DIRECTORY: path.join(root, 'tls'),
+    ZHIBAN_LOCAL_STARTUP_TRACE: path.join(root, 'startup-start.jsonl'),
   };
 }
 function tls(root) {
@@ -165,7 +168,7 @@ async function main() {
     fs.chmodSync(dir, 0o700);
     try {
       require('esbuild').buildSync({
-        entryPoints: ['scripts/zhiban-deploy/pg18-tool.ts'],
+        entryPoints: ['scripts/zhiban-deploy/build-openmaic-130-reference.ts'],
         outfile: path.join(dir, 'tool.mjs'),
         bundle: true,
         platform: 'node',
@@ -261,7 +264,14 @@ async function main() {
     env,
   );
 }
-module.exports = { privateState, binary };
+module.exports = {
+  privateState,
+  binary,
+  prepareSyntheticTls: (root) => {
+    privatePath(root, true);
+    tls(root);
+  },
+};
 if (require.main === module)
   main().catch((e) => {
     console.error(e.message);

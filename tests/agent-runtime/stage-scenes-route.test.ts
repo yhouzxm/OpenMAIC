@@ -22,7 +22,7 @@ vi.mock('@/lib/server/agent-runtime/owner-scoped-documents', () => ({
   getOwnerScopedDocumentStore: async () => mocks.fakeStore!.store,
 }));
 
-import { GET, MAX_BATCH_SCENE_IDS } from '@/app/api/stages/[id]/scenes/route';
+import { GET, MAX_BATCH_SCENE_IDS } from '@/app/api/stages/[id]/scenes/handler';
 
 const STAGE_ID = 'stage-1';
 

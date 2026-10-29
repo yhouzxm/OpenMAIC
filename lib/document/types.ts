@@ -181,6 +181,8 @@ export interface DocumentArtifact {
     pageCount?: number;
     providerId?: string;
     processingTime?: number;
+    /** Audit trail retained when a legacy Office original was converted before extraction. */
+    legacyConversion?: import('./legacy-office').LegacyOfficeReceipt;
   };
   blocks: DocumentBlock[];
   assets: DocumentAsset[];

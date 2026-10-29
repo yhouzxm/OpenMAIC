@@ -67,7 +67,10 @@ import { StepRefusal } from '@/lib/server/generation/steps/context';
 import { generateOutlines } from '@/lib/server/generation/steps/outline';
 import { generateSceneContent } from '@/lib/server/generation/steps/scene-content';
 import { generateSceneActions } from '@/lib/server/generation/steps/scene-actions';
-import type { ConnectableQueryable } from '@openmaic/storage/server/reference';
+import {
+  nodePostgresTransaction,
+  type ConnectableQueryable,
+} from '@openmaic/storage/server/reference';
 import type { SceneOutline } from '@/lib/types/generation';
 import type { Scene } from '@/lib/types/stage';
 
@@ -271,6 +274,23 @@ function runInput(overrides: Partial<GenerationRunInput> = {}): GenerationRunInp
 
 async function claim(runId: string, workerId = 'worker-a', leaseTtlMs = 60_000) {
   return claimNextGenerationRun(workerId, { leaseTtlMs, maxTakeovers: 3, runId });
+}
+
+/**
+ * Take a run over once its lease is stale (`leaseTtlMs` 1). The claim skips a
+ * row another transaction has locked at that instant (`FOR UPDATE SKIP
+ * LOCKED`), and the dead worker can still hold it: a step call it abandoned
+ * when it stopped (a narration clip, an image) keeps running and writes
+ * through the lease fence, which locks the run row. Its lease stays stale, so
+ * a later claim takes the run over, as the runner's next scan would.
+ */
+async function takeOver(runId: string, workerId = 'worker-b') {
+  for (let attempt = 0; attempt < 200; attempt += 1) {
+    const claimed = await claim(runId, workerId, 1);
+    if (claimed) return claimed;
+    await new Promise((resolve) => setTimeout(resolve, 10));
+  }
+  return null;
 }
 
 async function drive(runId: string, services: RunStepServices, workerId = 'worker-a') {
@@ -805,7 +825,7 @@ describe.skipIf(!contractUrl)('generation runs on PostgreSQL', () => {
       ).rows[0]?.deleted_at ?? null;
     const { services } = fakeServices({ research: async () => null });
 
-    // Completed: its own uploads go; another owner's material it named stays.
+    // Even persisted releaseMaterials=true cannot delete any successful upload.
     const mine = [await material(OWNER), await material(OWNER)];
     const theirs = await material(OTHER);
     const unrelated = await material(OWNER);
@@ -817,11 +837,11 @@ describe.skipIf(!contractUrl)('generation runs on PostgreSQL', () => {
       }),
     );
     expect(await drive(completed.id, services)).toBe('completed');
-    for (const id of mine) expect(await deletedAt(id)).not.toBeNull();
+    for (const id of mine) expect(await deletedAt(id)).toBeNull();
     expect(await deletedAt(theirs)).toBeNull();
     expect(await deletedAt(unrelated)).toBeNull();
 
-    // Waiting for its outline (Retry and confirmation need them): kept; discarded: released.
+    // Waiting and discarded runs both retain their uploaded sources.
     const waitingMaterial = await material(OWNER);
     const waiting = await start(
       runInput({ materialIds: [waitingMaterial], releaseMaterials: true }),
@@ -829,7 +849,7 @@ describe.skipIf(!contractUrl)('generation runs on PostgreSQL', () => {
     expect(await drive(waiting.id, services)).toBe('waiting');
     expect(await deletedAt(waitingMaterial)).toBeNull();
     await discardGenerationRun(waiting.id, OWNER);
-    expect(await deletedAt(waitingMaterial)).not.toBeNull();
+    expect(await deletedAt(waitingMaterial)).toBeNull();
 
     // A material another run still works from is kept until that run is over.
     const shared = await material(OWNER);
@@ -1042,7 +1062,7 @@ describe.skipIf(!contractUrl)('generation runs on PostgreSQL', () => {
 
     // Worker A stops heartbeating; once its lease is stale, B takes over.
     await new Promise((resolve) => setTimeout(resolve, 10));
-    const takeover = await claim(run.id, 'worker-b', 1);
+    const takeover = await takeOver(run.id);
     expect(takeover).toMatchObject({ takeover: true });
     expect(takeover!.lease.generation).toBe(claimA.lease.generation + 1);
     expect(takeover!.run.takeovers).toBe(1);
@@ -1163,7 +1183,7 @@ describe.skipIf(!contractUrl)('generation runs on PostgreSQL', () => {
     const streamCookie = '2d3e4f5a-6b7c-4d8e-9f0a-1b2c3d4e5f6a';
     const streamOwner = `anon:${streamCookie}`;
     const waiting = await start(runInput(), streamOwner);
-    const { GET } = await import('@/app/api/generation-runs/events/route');
+    const { GET } = await import('@/app/api/generation-runs/events/handler');
     const response = await GET(
       new NextRequest('http://localhost/api/generation-runs/events', {
         headers: cookie(streamCookie),
@@ -1208,7 +1228,7 @@ describe.skipIf(!contractUrl)('generation runs on PostgreSQL', () => {
       all.slice(5).map((event) => event.seq),
     );
 
-    const { GET } = await import('@/app/api/generation-runs/[id]/events/route');
+    const { GET } = await import('@/app/api/generation-runs/[id]/events/handler');
     const response = await GET(
       new NextRequest(`http://localhost/api/generation-runs/${run.id}/events?after=5`, {
         headers: cookie(OWNER_COOKIE),
@@ -1242,7 +1262,7 @@ describe.skipIf(!contractUrl)('generation runs on PostgreSQL', () => {
   it('answers another owner the same 404 as an unknown run', async () => {
     const run = await start();
     const snapshot = await import('@/app/api/generation-runs/[id]/route');
-    const events = await import('@/app/api/generation-runs/[id]/events/route');
+    const events = await import('@/app/api/generation-runs/[id]/events/handler');
     const confirm = await import('@/app/api/generation-runs/[id]/confirm-outline/route');
     const retry = await import('@/app/api/generation-runs/[id]/retry/route');
     const unknown = 'run-AAAAAAAAAAAAAAAA';
@@ -1580,8 +1600,8 @@ describe.skipIf(!contractUrl)('generation runs on PostgreSQL', () => {
     process.env.OPENMAIC_GENERATION_RUN_STREAMS_PER_OWNER = '1';
     try {
       const run = await start();
-      const events = await import('@/app/api/generation-runs/[id]/events/route');
-      const owner = await import('@/app/api/generation-runs/events/route');
+      const events = await import('@/app/api/generation-runs/[id]/events/handler');
+      const owner = await import('@/app/api/generation-runs/events/handler');
       const open = () =>
         events.GET(
           new NextRequest(`http://localhost/api/generation-runs/${run.id}/events`, {
@@ -1717,7 +1737,7 @@ describe.skipIf(!contractUrl)('generation runs on PostgreSQL', () => {
     expect((await readGenerationRunSteps(run.id)).size).toBe(0);
     const kept = await readGenerationRunEvents(run.id, 0);
     expect(kept.map((event) => event.type)).toEqual(['completed', 'state']);
-    const { GET } = await import('@/app/api/generation-runs/[id]/events/route');
+    const { GET } = await import('@/app/api/generation-runs/[id]/events/handler');
     const read = async (after: number) => {
       const response = await GET(
         new NextRequest(`http://localhost/api/generation-runs/${run.id}/events?after=${after}`, {
@@ -2568,7 +2588,7 @@ describe.skipIf(!contractUrl)('generation runs on PostgreSQL', () => {
       abortA.abort();
       expect(await executionA).toBe('interrupted');
       await new Promise((resolve) => setTimeout(resolve, 10));
-      const takeover = (await claim(run.id, 'worker-b', 1))!;
+      const takeover = (await takeOver(run.id))!;
       expect(takeover).toMatchObject({ takeover: true });
 
       const resumed = mediaServices();
@@ -2636,7 +2656,7 @@ describe.skipIf(!contractUrl)('generation runs on PostgreSQL', () => {
         },
       });
       await new Promise((resolve) => setTimeout(resolve, 10));
-      const takeover = (await claim(run.id, 'worker-b', 1))!;
+      const takeover = (await takeOver(run.id))!;
       const resumed = mediaServices({
         mediaConnections: async () => ({ image: ready('seedream'), video: OFF }),
       });
@@ -2894,7 +2914,7 @@ describe.skipIf(!contractUrl)('generation runs on PostgreSQL', () => {
       return built;
     }
 
-    it('generates from materials extracted at upload without an analysis, and a released material leaves the course image', async () => {
+    it('generates from materials extracted at upload without an analysis, and retains both the source and the course image', async () => {
       const materials = await uploadedMaterials();
       try {
         const material = await materials.upload('notes.txt');
@@ -2923,14 +2943,18 @@ describe.skipIf(!contractUrl)('generation runs on PostgreSQL', () => {
           elementsOf(document.scenes[0]).find((element) => element.id === 'el-material')!.src,
         ).toBe(assetId);
 
-        // The run released its material; its objects go with the next reclaim,
-        // and the course keeps the image it copied.
-        await materials.owner.reclaimStaleOwnerMaterialUploads(pool, OWNER, (key) =>
-          materials.bytesModule.deleteMaterialObjects(materials.byteStore, key),
+        // The run retains its source; cleanup also keeps it and the course image.
+        await materials.owner.reclaimStaleOwnerMaterialUploads(
+          {
+            pool,
+            withTransaction: nodePostgresTransaction(pool as unknown as ConnectableQueryable),
+          },
+          OWNER,
+          (key) => materials.bytesModule.deleteMaterialObjects(materials.byteStore, key),
         );
-        expect([...materials.objects.keys()].filter((key) => key.includes(material.id))).toEqual(
-          [],
-        );
+        expect(
+          [...materials.objects.keys()].filter((key) => key.includes(material.id)).length,
+        ).toBeGreaterThan(0);
         expect(await committedAt(assetId)).not.toBeNull();
       } finally {
         materials.bytesModule.setMaterialByteStoreForTests(null);

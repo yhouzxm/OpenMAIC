@@ -91,7 +91,7 @@ describe('host document creation hooks', () => {
   }
 
   async function putDocument(stageId: string, name?: string): Promise<Response> {
-    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/handler');
     return handlePersistenceRequest(
       new Request(`http://localhost/api/persistence/documents/${stageId}`, {
         method: 'PUT',
@@ -174,7 +174,7 @@ describe('host document creation hooks', () => {
     onCreate.mockClear();
 
     expect((await putDocument('stage-existing', 'Renamed')).status).toBe(204);
-    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/handler');
     const stagePut = await handlePersistenceRequest(
       new Request('http://localhost/api/persistence/documents/stage-existing/stage', {
         method: 'PUT',

@@ -125,7 +125,33 @@ async function stop(base, c) {
 }
 async function cleanup(base) {
   checkedBase(base);
-  for (const name of ['directed', 'instance']) {
+  // A timeout can interrupt a synchronous dump/restore supervisor. Bind and stop
+  // its own clusters before the workflow is allowed to remove private material.
+  for (const [name, major, port] of [
+    ['source', 16, 56545],
+    ['target', 18, 56546],
+  ]) {
+    const root = path.join(base, 'import', name);
+    if (!fs.existsSync(path.join(root, 'INSTANCE.json'))) continue;
+    const transfer = require('./pg-transfer.cjs'),
+      m = transfer.marker(root);
+    check(
+      m.root === root &&
+        m.major === major &&
+        m.port === port &&
+        m.bin ===
+          (major === 16
+            ? '/usr/lib/postgresql/16/bin'
+            : process.env.ZHIBAN_PG18_BIN || '/usr/lib/postgresql/18/bin'),
+      'Transfer cleanup binding rejected',
+    );
+    if (fs.existsSync(path.join(root, 'data/postmaster.pid'))) transfer.stop(root);
+    check(
+      !fs.existsSync(path.join(root, 'data/postmaster.pid')),
+      'Transfer cluster still active; material retained',
+    );
+  }
+  for (const name of ['directed', 'instance', 'source16']) {
     const state = path.join(base, name),
       marker = path.join(state, 'RUNTIME.json');
     if (!fs.existsSync(marker)) continue;
@@ -133,8 +159,8 @@ async function cleanup(base) {
     privatePath(marker);
     const r = json(marker);
     check(
-      r.kind === 'PG18_OWNED_RUNTIME_V1' &&
-        r.major === 18 &&
+      ((r.kind === 'PG18_OWNED_RUNTIME_V1' && r.major === 18) ||
+        (name === 'source16' && r.kind === 'PG16_OWNED_RUNTIME_V1' && r.major === 16)) &&
         /^\/tmp\/zhiban-trial-content-[a-zA-Z0-9]+$/.test(r.root) &&
         r.socket === r.root + '/socket' &&
         r.port === 56517,
@@ -174,12 +200,21 @@ async function cleanup(base) {
       const args = fs.readFileSync('/proc/' + pid + '/cmdline', 'utf8').split('\0');
       check(
         args[0] ===
-          path.join(process.env.ZHIBAN_PG18_BIN || '/usr/lib/postgresql/18/bin', 'postgres') &&
-          args.includes(path.join(r.root, 'data')),
+          path.join(
+            r.major === 16
+              ? '/usr/lib/postgresql/16/bin'
+              : process.env.ZHIBAN_PG18_BIN || '/usr/lib/postgresql/18/bin',
+            'postgres',
+          ) && args.includes(path.join(r.root, 'data')),
         'Postmaster binding rejected',
       );
       cp.execFileSync(
-        path.join(process.env.ZHIBAN_PG18_BIN || '/usr/lib/postgresql/18/bin', 'pg_ctl'),
+        path.join(
+          r.major === 16
+            ? '/usr/lib/postgresql/16/bin'
+            : process.env.ZHIBAN_PG18_BIN || '/usr/lib/postgresql/18/bin',
+          'pg_ctl',
+        ),
         ['-D', path.join(r.root, 'data'), '-m', 'fast', '-w', 'stop'],
         { stdio: 'pipe', timeout: 60000 },
       );
@@ -220,6 +255,50 @@ async function main() {
       'reference',
     );
     phases.push('INDEPENDENT_REFERENCE_REBUILD');
+    current = 'import-reference';
+    await runCommand(
+      base,
+      ['--import', 'tsx', 'scripts/zhiban-local/run-upstream-reference.ts', '--verify'],
+      'import-reference',
+      { ZHIBAN_PG18_LINEAGE: 'PG16_IMPORTED_V1' },
+    );
+    phases.push('INDEPENDENT_PG16_TO_PG18_IMPORTED_REFERENCE_REBUILD');
+    current = 'rds-readonly-boundaries';
+    await runCommand(
+      base,
+      ['--test', 'tests/zhiban/deploy/rds.test.cjs', 'tests/zhiban/deploy/pg-transfer.test.cjs'],
+      'rds-boundaries',
+    );
+    phases.push('PG18_SCRAM_TLS_RDS_READONLY_AND_CREATEROLE_GRAPH_REFUSAL');
+    current = 'synthetic-pg16-source';
+    await runCommand(
+      base,
+      ['scripts/zhiban-deploy/synthetic-pg16-source.cjs', path.join(base, 'source16')],
+      'source16',
+    );
+    current = 'logical-import';
+    const source16 = json(path.join(base, 'source16/snapshots/latest.json'));
+    await runCommand(
+      base,
+      [
+        'scripts/zhiban-deploy/import-rehearsal.cjs',
+        source16.path,
+        source16.manifestHash,
+        path.join(base, 'import'),
+      ],
+      'logical-import',
+    );
+    const imported = json(path.join(base, 'import/RESULT.json'));
+    check(
+      imported.status === 'PASS' &&
+        imported.dataAclRoleDifferences === 0 &&
+        imported.providerActivated === false,
+      'Imported result rejected',
+    );
+    phases.push(
+      'PG16_TO_PG18_THREE_DATABASE_LOGICAL_IMPORT_DATA_ACL_ROLES_AND_IDENTITY_QUARANTINED',
+    );
+
     current = 'directed-product';
     await runCommand(
       base,
@@ -298,14 +377,19 @@ async function main() {
       status: 'PASS',
       ...identity,
       postgresMajor: 18,
-      referenceSha256: json('docs/v2/candidates/pg18-provider-v1/pin.json').sha256,
+      referenceSha256: json('docs/v2/candidates/openmaic-130/pin-pg18.json').sha256,
       sourceSha: cp.execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim(),
       phases,
       elapsedMs: Date.now() - began,
       privateMaterialsUploaded: false,
-      scope: 'SYNTHETIC_PG18_FRESH_INSTALL_AND_SAME_MAJOR_RESTORE',
+      applicationVersion: '1.3.0',
+      importedReferenceSha256: imported.referenceSha256,
+      importedProviderActivated: false,
+      rdsFormalHostAccepted: false,
+      scope: 'SYNTHETIC_PG18_FRESH_APPLICATION_RESTORE_AND_PG16_LOGICAL_IMPORT_QUARANTINE',
       excluded: [
         'PG16_IMPORTED_ACTIVATION',
+        'RDS_FORMAL_INSTALLER_AND_RUNTIME_HOST',
         'CLOUD_PRODUCTION',
         'EXTERNAL_PROVIDERS',
         'OLD_NATIVE_MAINTENANCE',
@@ -318,8 +402,19 @@ async function main() {
       postgresMajor: 18,
       phase: current,
       completed: phases,
+      startupDiagnostics: Object.fromEntries(
+        ['source16', 'directed', 'instance'].map((n) => [
+          n,
+          require('../zhiban-ci/startup-diagnostics.cjs').readStartupTrace(
+            path.join(base, n),
+            'start',
+          ),
+        ]),
+      ),
       elapsedMs: Date.now() - began,
-      diagnostic: 'PRIVATE_LOGS_RETAINED_LOCALLY_NOT_UPLOADED',
+      diagnostic: /^[A-Z0-9_-]{1,90}$/.test(e.message || '')
+        ? e.message
+        : 'PRIVATE_LOGS_RETAINED_LOCALLY_NOT_UPLOADED',
     });
     throw e;
   } finally {

@@ -1,12 +1,20 @@
 {
   "extends": "../../tsconfig.json",
-  "compilerOptions": { "incremental": false },
+  "compilerOptions": {
+    "incremental": false
+  },
   "include": [
     "../../next-env.d.ts",
     "../../types/**/*.d.ts",
     "./pg18-tool.ts",
     "./pg18-readback.ts",
     "./verify-pg18-boundaries.ts",
-    "../../lib/zhiban/infrastructure/openmaic/root-pg18.ts"
+    "../../lib/zhiban/infrastructure/openmaic/root-pg18.ts",
+    "./upgrade-snapshot-130.ts",
+    "./verify-upgraded-copy.ts",
+    "../zhiban-local/run-snapshot-upgrade.ts",
+    "../zhiban-local/start-persistent.ts",
+    "./verify-pg18.ts",
+    "./build-openmaic-130-reference.ts"
   ]
 }

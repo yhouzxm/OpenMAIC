@@ -57,7 +57,7 @@ describe.skipIf(!contractUrl)('live session SSE tail', () => {
   let store: Awaited<
     ReturnType<typeof import('@/lib/server/agent-runtime/store').getAgentSessionStore>
   >;
-  let sessionGet: typeof import('@/app/api/agent/sessions/[id]/events/route').GET;
+  let sessionGet: typeof import('@/app/api/agent/sessions/[id]/events/handler').GET;
   const sessionId = `session-${randomUUID()}`;
 
   beforeAll(async () => {
@@ -86,7 +86,7 @@ describe.skipIf(!contractUrl)('live session SSE tail', () => {
       prompt: 'Build a lesson',
       stageId: 'stage-1',
     });
-    sessionGet = (await import('@/app/api/agent/sessions/[id]/events/route')).GET;
+    sessionGet = (await import('@/app/api/agent/sessions/[id]/events/handler')).GET;
   }, 120_000);
 
   afterAll(async () => {

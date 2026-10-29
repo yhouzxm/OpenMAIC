@@ -1,0 +1,28 @@
+{
+  "kind": "HISTORICAL_VISUAL_ATTACHMENT_SCOPE_NOTE_V1",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "parentReceipt": "upgrade-local.json",
+  "reason": "The later PG18 verifier reused fixed output paths. These three original screenshot byte sequences were overwritten; do not substitute the new hashes into the historical receipt. Original logs and other matching attachments remain within their own scope. Future runs allocate independent directories.",
+  "affected": [
+    {
+      "path": "docs/v2/evidence/openmaic-130/library-desktop.png",
+      "priorSha256": "65c001b451f25103bb0bd745f2cdbbc750f1e6ea8b805c81ee8fdded95350a2b",
+      "currentPg18Sha256": "2748934f503e7a201f8ad1041f3c53d35d7b80b3a79fefcf1fb43991e61f9fed",
+      "priorBytesRecoverable": false
+    },
+    {
+      "path": "docs/v2/evidence/openmaic-130/native-authoring-workspace.png",
+      "priorSha256": "ced524eb934267c4414ab86eaeb3135c2a3a95dc25baa2f1cbb2bb2419fcd8e8",
+      "currentPg18Sha256": "f485408ab471dcf755d49f7295ae2b40788556bdd060cc8527b7af4ddb665b22",
+      "priorBytesRecoverable": false
+    },
+    {
+      "path": "docs/v2/evidence/openmaic-130/native-authoring-published.png",
+      "priorSha256": "82d69acb28b1fdcddbb612137dec805ec1f13a4d0d652afdc48e25353ca9ad60",
+      "currentPg18Sha256": "26a2e6f0e470920b1562c9b4d025761c584d4ffaead132b48f8aa568b9b73b70",
+      "priorBytesRecoverable": false
+    }
+  ],
+  "laterPg18Copy": "docs/v2/evidence/persistence-130/pg18-authoring-20261029T1509"
+}

@@ -2,7 +2,13 @@ import type { NextConfig } from 'next';
 import { PHASE_PRODUCTION_BUILD } from 'next/constants';
 
 const nextConfig: NextConfig = {
+  // Keep Next dev from creating or rewriting repository agent instructions.
+  agentRules: false,
   output: 'standalone',
+  env: {
+    INTERACTIVE_ASSET_BASE_URL:
+      process.env.INTERACTIVE_ASSET_BASE_URL?.trim() || '/vendor/interactive',
+  },
   outputFileTracingIncludes: {
     '/*': [
       'lib/server/agent-runtime/import-pptx-worker.mjs',
@@ -47,6 +53,8 @@ const nextConfig: NextConfig = {
     '@aws-sdk/s3-request-presigner',
   ],
   experimental: {
+    // Resolve named storage exports to their leaf modules: its root also exports Node-only material APIs.
+    optimizePackageImports: ['@openmaic/storage'],
     proxyClientMaxBodySize: '200mb',
   },
   async headers() {
@@ -54,6 +62,13 @@ const nextConfig: NextConfig = {
     const frameAncestors = extraAncestors ? `'self' ${extraAncestors}` : "'self'";
 
     return [
+      {
+        source: '/vendor/interactive/:path*',
+        headers: [
+          { key: 'Access-Control-Allow-Origin', value: '*' },
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
       {
         source: '/(.*)',
         headers: [

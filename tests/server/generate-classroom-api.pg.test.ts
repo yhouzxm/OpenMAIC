@@ -216,7 +216,7 @@ describe.skipIf(!contractUrl)('the headless classroom API on PostgreSQL', () => 
   });
 
   async function upload(ownerCookie: string, text: string): Promise<string> {
-    const { POST } = await import('@/app/api/materials/route');
+    const { POST } = await import('@/app/api/materials/handler');
     const response = await POST(
       new NextRequest('http://localhost/api/materials', {
         method: 'POST',

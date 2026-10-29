@@ -1,3 +1,4 @@
+import { startOwnerExtractionRunner } from '@/lib/server/material-extraction/owner-extraction';
 import { initializeCourseResults } from '../course-results/service';
 import { initializeClassroomLive } from '../classroom-live/service';
 import { configureSecretStorageDirectory } from '@/lib/server/secret-box';
@@ -57,6 +58,7 @@ export class LessonService {
   private readonly execution = new AsyncLocalStorage<ContentContext>();
   private runner: ReturnType<typeof startGenerationRunner> | null = null;
   private native!: Pool;
+  private libraryExtractor: ReturnType<typeof startOwnerExtractionRunner> | null = null;
   private materialExtractor: ReturnType<typeof startOwnerMaterialExtractor> | null = null;
   constructor(
     private readonly content: ContentService,
@@ -177,9 +179,17 @@ export class LessonService {
       },
     }) as RunStepServices;
     this.runner = startGenerationRunner({ services, config: { maxConcurrent: 1 } });
-    if (materialRoot) this.materialExtractor = startOwnerMaterialExtractor({ concurrency: 1 });
+    if (materialRoot) {
+      this.materialExtractor = startOwnerMaterialExtractor({ concurrency: 1 });
+      this.libraryExtractor = startOwnerExtractionRunner({ maxConcurrent: 1 });
+    }
   }
   async close() {
+    const libraryDrain = await this.libraryExtractor?.stop({ timeoutMs: 5000 });
+    if (libraryDrain && !libraryDrain.drained)
+      console.warn(
+        'Library extraction stopped before provider completion; claim-fenced outputs remain private.',
+      );
     await this.materialExtractor?.stop({ timeoutMs: 5000 });
     await stopAuthoringHost();
     await this.runner?.stop({ timeoutMs: 5000 });

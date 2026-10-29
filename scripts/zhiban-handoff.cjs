@@ -39,6 +39,8 @@ function eligible(name) {
   )
     return false;
   if (name.startsWith('docs/v2/evidence/p7-handoff/')) return false;
+  // Delivery receipts bind the resulting kit; including them would create a circular source digest.
+  if (name.startsWith('docs/v2/evidence/persistence-130/')) return false;
   if (
     (base.startsWith('.env') && base !== '.env.example') ||
     base === 'openmaic.yml' ||
@@ -162,7 +164,7 @@ function status(root) {
     githubActions: false,
     scope: 'UNIFIED_LOCAL_HANDOFF_NOT_PRODUCTION',
     version: pkg.version,
-    officialPin: 'e19d0d4f45d81b8f7ab599b33ab03b0b8b68d5c0',
+    officialPin: 'c0f296aa36096ec3d1e1e2b94a7a48e20075e0a1',
     branch: git(root, ['branch', '--show-current']).trim(),
     baselineHead: git(root, ['rev-parse', 'HEAD']).trim(),
     dirtyEntries: git(root, ['status', '--porcelain=v1']).trim().split('\n').filter(Boolean).length,
@@ -179,7 +181,8 @@ function status(root) {
       standardStart: 'pnpm trial:zhiban',
       existingPrivateModelWrapper: 'Optional existing operator configuration; keys not exported',
     },
-    dataLifetime: 'Default persistent startup preserves accounts and three databases through verified private snapshots; explicit disposable mode has a separate cleanup lifecycle',
+    dataLifetime:
+      'Default persistent startup preserves accounts and three databases through verified private snapshots; explicit disposable mode has a separate cleanup lifecycle',
     accountDelivery: 'Current private accounts.json only; never included in the source kit',
   };
 }
@@ -264,8 +267,8 @@ function pack(root, outputParent = path.join(os.homedir(), '.local/share/zhiban-
       branch,
       baselineHead: head,
       sourceState: 'DIRTY_CANDIDATE_SNAPSHOT_NOT_HEAD_ALONE',
-      officialVersion: '1.2.1',
-      officialPin: 'e19d0d4f45d81b8f7ab599b33ab03b0b8b68d5c0',
+      officialVersion: '1.3.0',
+      officialPin: 'c0f296aa36096ec3d1e1e2b94a7a48e20075e0a1',
       scope: 'SOURCE_SNAPSHOT_FOR_EXISTING_SAME_PATH_CHECKOUT',
       restorePrerequisites: [
         'Existing trusted Git checkout and official pin objects',

@@ -6,7 +6,10 @@ import assert from 'node:assert/strict';
 import { Pool } from 'pg';
 import { createIdentityComposition } from '../../lib/zhiban/infrastructure/identity/composition/root';
 import { createIdentityHttp } from '../../lib/zhiban/infrastructure/identity/http/adapter';
-import { validateContentDatabaseState } from '../zhiban-local/content-receipt';
+import { pg18Reference, executionEvidence, pg18Lineage } from '../zhiban-local/pg-version';
+import { businessPg18Catalog } from './pg18-catalog';
+import { catalogFingerprint } from '../../lib/zhiban/infrastructure/openmaic/catalog';
+import { verifyNativeSchemaState } from '../../lib/zhiban/infrastructure/openmaic/schema-state';
 const require = createRequire(join(process.cwd(), 'scripts/zhiban-deploy/verify-pg18.ts'));
 const transfer = require('./pg-transfer.cjs');
 async function main() {
@@ -112,25 +115,33 @@ async function main() {
     const install = JSON.parse(
       await readFile(join(bundle, 'host-files/content-installation.json'), 'utf8'),
     );
-    let fullHost: string;
+    assert.equal(pg18Lineage, 'PG16_IMPORTED_V1');
+    const reference = await pg18Reference();
+    const admin = await pool('postgres').connect();
+    const native = await pool('zhiban_openmaic_runtime', manifest.databases[1]).connect();
     try {
-      await validateContentDatabaseState(
-        pool('zhiban_bridge_runtime'),
-        pool('zhiban_openmaic_runtime', manifest.databases[1]),
-        install,
+      assert.equal(
+        (await businessPg18Catalog(admin)).fingerprint,
+        reference.businessFingerprint,
+        'Imported business differs from independently constructed PG16→PG18 profile',
       );
-      fullHost = 'UNEXPECTED_ACCEPTANCE';
-    } catch (e) {
-      assert.match((e as Error).message, /Bridge endpoint rejected/);
-      fullHost = 'BLOCKED_BY_FROZEN_PG16_PROVIDER_CONTRACT';
+      await native.query('SET search_path=pg_catalog,public,pg_temp');
+      assert.equal(await catalogFingerprint(native, 'public'), reference.nativeFingerprint);
+      await verifyNativeSchemaState(native);
+    } finally {
+      admin.release();
+      native.release();
     }
-    assert.notEqual(fullHost, 'UNEXPECTED_ACCEPTANCE');
+    // A successful logical import does not turn the copied PG16 receipt into a PG18 authority.
+    assert.equal(install.kind, 'LOCAL_UNIFIED_CONTENT_INSTALLATION');
+    assert.equal(install.provider.storage, '0.38.1');
+    const fullHost = 'REQUIRES_EXPLICIT_PG18_RECEIPT_REBIND_AND_RUNTIME_HOST';
     await writeFile(
       output,
       JSON.stringify(
         {
-          evidenceOrigin: 'LOCAL',
-          githubActions: false,
+          ...executionEvidence(),
+          referenceSha256: reference.manifestSha256,
           postgres: endpoint.version,
           identity: 'PASS_REAL_PG18_COMPOSITION_AND_HTTP_FACADE',
           checks,
@@ -146,7 +157,7 @@ async function main() {
       { mode: 0o600, flag: 'wx' },
     );
     console.log(
-      'PG18 real Identity login/spaces/CSRF/logout passed; full host remains closed by frozen PG16 contract',
+      'PG16→PG18 import, independent catalog and three-role Identity passed; copied PG16 application receipt remains quarantined',
     );
   } finally {
     for (const p of pools) await p.end();

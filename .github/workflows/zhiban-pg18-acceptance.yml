@@ -1,4 +1,4 @@
-name: Zhiban PG18 isolated application and restore
+name: Zhiban v1.3 PG18 application, logical import and restore
 
 # Prepared candidate. No push, pull_request or schedule trigger.
 on:
@@ -46,8 +46,8 @@ jobs:
         run: |
           set -euo pipefail
           git -c http.version=HTTP/1.1 fetch --no-tags --depth=1 \
-            https://github.com/THU-MAIC/OpenMAIC.git e19d0d4f45d81b8f7ab599b33ab03b0b8b68d5c0
-          [[ "$(git rev-parse FETCH_HEAD)" == e19d0d4f45d81b8f7ab599b33ab03b0b8b68d5c0 ]]
+            https://github.com/THU-MAIC/OpenMAIC.git c0f296aa36096ec3d1e1e2b94a7a48e20075e0a1
+          [[ "$(git rev-parse FETCH_HEAD)" == c0f296aa36096ec3d1e1e2b94a7a48e20075e0a1 ]]
 
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:

@@ -228,7 +228,7 @@ describe('claiming anonymous work through the routes', () => {
   });
 
   it('claims on the first request under OWNER_CLAIM_TRIGGER=auto, and not by default', async () => {
-    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/handler');
     const learnerKey = () =>
       handlePersistenceRequest(
         new Request('http://localhost/api/persistence/learner-key', {
@@ -258,7 +258,7 @@ describe('claiming anonymous work through the routes', () => {
     expect(clearsAnonymousCookie(response)).toBe(true);
     expect(await ownerOf('anon-course')).toBe(ALICE);
 
-    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/handler');
     const merge = await handlePersistenceRequest(
       new Request('http://localhost/api/persistence/runtime/learners/merge', {
         method: 'POST',
@@ -286,7 +286,7 @@ describe('claiming anonymous work through the routes', () => {
     // The browser never applied the claim's Set-Cookie and still presents
     // the retired anonymous cookie, to a deployment that admits anonymous
     // requests, without the host session.
-    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/handler');
     const save = await handlePersistenceRequest(
       new Request('http://localhost/api/persistence/documents/stale-course', {
         method: 'PUT',
@@ -342,7 +342,7 @@ describe('claiming anonymous work through the routes', () => {
   });
 
   it("routes the runtime contract's learner merge through the claim, for the pending claim only", async () => {
-    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/handler');
     const merge = (body: unknown, headers: Record<string, string> = SAME_ORIGIN_JSON) =>
       handlePersistenceRequest(
         new Request('http://localhost/api/persistence/runtime/learners/merge', {

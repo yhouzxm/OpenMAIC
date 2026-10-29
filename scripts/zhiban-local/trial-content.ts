@@ -34,6 +34,7 @@ import {
 } from './content-receipt';
 import { pngSources } from './png-receipt';
 import { contentProfile } from './content-profile';
+import { catalogFingerprint } from '../../lib/zhiban/infrastructure/openmaic/catalog';
 const hash = (v: string | Buffer) => createHash('sha256').update(v).digest('hex');
 const classroomEdit = process.argv.includes('--classroom-edit');
 const sharedClassroom = classroomEdit || process.argv.includes('--shared-classroom');
@@ -51,6 +52,7 @@ const origin =
     localPgMajor === 18
       ? pg18Origin
       : process.argv.includes('--authoring-focus') ||
+          process.argv.includes('--upstream130-focus') ||
           process.argv.includes('--classroom-ai-focus') ||
           process.argv.includes('--resources-focus') ||
           process.argv.includes('--pbl-focus') ||
@@ -98,7 +100,7 @@ async function bindings() {
       else result[resolve(f)] = hash(await readFile(f));
     }
   }
-  for (const p of ['dsl', 'storage', 'editor', 'renderer', 'generation']) {
+  for (const p of ['dsl', 'geometry', 'storage', 'editor', 'renderer', 'generation']) {
     await walk(`packages/@openmaic/${p}/src`);
     await walk(`packages/@openmaic/${p}/dist`);
     result[resolve(`packages/@openmaic/${p}/package.json`)] = hash(
@@ -697,4 +699,117 @@ export async function upgradeRestoredContent(input: Target & { pool: PoolFactory
     bundleHash: hash(await readFile(previous.bundlePath)),
   };
   await writeFile(path, JSON.stringify(current, null, 2) + '\n', { mode: 0o600 });
+}
+
+/** Only the offline snapshot upgrader calls this, after independently pinned schema verification.
+ * A new deployment is issued; historical deployments/generations and their receipts are retained.
+ */
+export async function issueUpgradedContent130(
+  input: Target & { pool: PoolFactory; snapshotManifestSha256: string },
+) {
+  await target(input);
+  if (localPgMajor !== 16 || !process.argv.includes('--unified-trial'))
+    throw Error('PG16 unified offline upgrade required');
+  const path = join(input.owned, 'content-installation.json');
+  const previousBytes = await readFile(path);
+  const previous = JSON.parse(previousBytes.toString());
+  if (
+    !/^[a-f0-9]{64}$/.test(input.snapshotManifestSha256) ||
+    previous.kind !== 'LOCAL_UNIFIED_CONTENT_INSTALLATION' ||
+    previous.evidenceOrigin !== 'LOCAL' ||
+    previous.githubActions !== false ||
+    previous.origin !== origin ||
+    previous.port !== port ||
+    previous.socket !== input.socket ||
+    previous.dataDirectory !== join(input.owned, 'data') ||
+    previous.database !== database ||
+    previous.nativeDatabase !== nativeDatabase ||
+    previous.certificateHash !== input.certificateHash ||
+    previous.bundlePath !== join(input.owned, 'content-client.js') ||
+    previous.bundleHash !== hash(await readFile(previous.bundlePath))
+  )
+    throw Error('Offline source receipt binding rejected');
+  const source = await candidateSources(),
+    png = await pngSources(true),
+    interactive = await interactiveSources(),
+    attempt = await attemptRuntimeSources(),
+    joint = await jointSources(),
+    admin = input.pool();
+  const profile = await gradingProfile(admin, joint.reference.enabledProfile.fingerprint);
+  const nativeClient = await input.pool('zhiban_openmaic_runtime', nativeDatabase).connect();
+  let nativeFingerprint: string;
+  try {
+    await nativeClient.query('SET search_path=pg_catalog,public,pg_temp');
+    nativeFingerprint = await catalogFingerprint(nativeClient, 'public');
+  } finally {
+    nativeClient.release();
+  }
+  if (
+    (await contentProfile(admin)).fingerprint !== profile ||
+    nativeFingerprint !== png.reference.nativeFingerprint
+  )
+    throw Error('Upgraded database differs from independent v1.3.0 reference');
+  await checkLedgers(admin);
+  const { v7 } = await import('uuid');
+  const deploymentId = v7(),
+    now = Date.now();
+  await admin.query(
+    'INSERT INTO zhiban_bridge.deployment_registry VALUES($1,$2,$3,$4,$5,$6,$7,$8,1,$9,$9)',
+    [
+      deploymentId,
+      'LOCAL_OFFLINE_OPENMAIC_130',
+      official.sha,
+      official.storage,
+      official.dsl,
+      official.renderer,
+      png.reference.nativeFingerprint,
+      'VERIFIED',
+      now,
+    ],
+  );
+  const { build } = createRequire(require.resolve('tsx'))('esbuild');
+  await build({
+    entryPoints: ['app/zhiban/local/content-client.tsx'],
+    outfile: previous.bundlePath,
+    bundle: true,
+    platform: 'browser',
+    format: 'iife',
+    minify: true,
+    define: { 'process.env.NODE_ENV': '"production"' },
+    logLevel: 'silent',
+  });
+  const current = {
+    ...previous,
+    issuedAt: new Date().toISOString(),
+    deploymentId,
+    contentHash: source.hash,
+    pngHash: png.hash,
+    interactiveHash: interactive.hash,
+    attemptRuntimeHash: attempt.hash,
+    jointHash: joint.hash,
+    jointClassroomFingerprint: joint.reference.jointClassroomFingerprint,
+    profile,
+    nativeFingerprint: png.reference.nativeFingerprint,
+    provider: official,
+    bindingsHash: hash(JSON.stringify(await bindings())),
+    bundleHash: hash(await readFile(previous.bundlePath)),
+    migration: {
+      kind: 'LOCAL_OFFLINE_OPENMAIC_130_V1',
+      sourceSnapshotManifestSha256: input.snapshotManifestSha256,
+      previousReceiptSha256: hash(previousBytes),
+      previousDeploymentId: previous.deploymentId,
+    },
+  };
+  await validateContentDatabaseState(
+    input.pool('zhiban_bridge_runtime'),
+    input.pool('zhiban_openmaic_runtime', nativeDatabase),
+    current,
+  );
+  await writeFile(
+    join(input.owned, 'content-installation.before-openmaic-130.json'),
+    previousBytes,
+    { mode: 0o600, flag: 'wx' },
+  );
+  await writeFile(path, JSON.stringify(current, null, 2) + '\n', { mode: 0o600 });
+  return current;
 }

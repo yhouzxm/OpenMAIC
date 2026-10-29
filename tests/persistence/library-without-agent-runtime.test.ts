@@ -115,8 +115,8 @@ describe.each([
     const stages = await import('@/app/api/stages/route');
     const stage = await import('@/app/api/stages/[id]/route');
     const manifest = await import('@/app/api/stages/[id]/manifest/route');
-    const scenes = await import('@/app/api/stages/[id]/scenes/route');
-    const freshness = await import('@/app/api/stages/[id]/freshness/route');
+    const scenes = await import('@/app/api/stages/[id]/scenes/handler');
+    const freshness = await import('@/app/api/stages/[id]/freshness/handler');
     const status = await import('@/app/api/stages/[id]/status/route');
     const generationComplete = await import('@/app/api/stages/[id]/generation-complete/route');
     const publish = await import('@/app/api/stages/[id]/publish/route');

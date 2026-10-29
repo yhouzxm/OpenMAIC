@@ -65,6 +65,10 @@ vi.mock('@/lib/server/identity/resolve', async () =>
     mocks.resolveRequestOwnerId,
   ),
 );
+vi.mock('@/lib/persistence/session-material-links', async (original) => ({
+  ...(await original<typeof import('@/lib/persistence/session-material-links')>()),
+  listLinkedOwnerMaterials: async () => [],
+}));
 vi.mock('@/lib/persistence/server-provider', () => ({
   getServerPersistenceProvider: async () => ({
     documentStore: mocks.fakeStore!.store,
@@ -80,6 +84,31 @@ vi.mock('@/lib/persistence/server-provider', () => ({
 vi.mock('@/lib/server/agent-runtime/owner-scoped-documents', () => ({
   getOwnerScopedDocumentStore: async () => mocks.fakeStore!.store,
 }));
+// The upload's pool steps (allocation, then the root-and-pointer publication)
+// have suites of their own; here they only need to succeed.
+vi.mock('@/lib/persistence/owner-materials', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/lib/persistence/owner-materials')>();
+  return {
+    ...actual,
+    allocateOwnerMaterialBytes: async () => 'asset-1',
+    publishOwnerMaterialUpload: async (_persistence: unknown, ownerId: string, id: string) => ({
+      id,
+      ownerId,
+      kind: 'source' as const,
+      derivedFrom: null,
+      mime: 'application/pdf',
+      bytes: 5,
+      originalName: 'notes.pdf',
+      ossKey: '',
+      assetId: 'asset-1',
+      sha256: 'abc',
+      status: 'ready' as const,
+      extraction: { status: 'idle' as const },
+      createdAt: 1,
+      deletedAt: null,
+    }),
+  };
+});
 vi.mock('@/lib/server/agent-runtime/session-materials', async (importOriginal) => {
   const actual =
     await importOriginal<typeof import('@/lib/server/agent-runtime/session-materials')>();
@@ -89,6 +118,7 @@ vi.mock('@/lib/server/agent-runtime/session-materials', async (importOriginal) =
     listSessionMaterials: mocks.listSessionMaterials,
     createSourceMaterial: mocks.createSourceMaterial,
     getSessionMaterial: mocks.getSessionMaterial,
+    getSessionMaterialQueryable: async () => mocks.queryPool,
   };
 });
 
@@ -99,10 +129,10 @@ import {
   PATCH as patchStage,
   PUT as putStage,
 } from '@/app/api/stages/[id]/route';
-import { GET as getScenes } from '@/app/api/stages/[id]/scenes/route';
+import { GET as getScenes } from '@/app/api/stages/[id]/scenes/handler';
 import { GET as getManifest } from '@/app/api/stages/[id]/manifest/route';
-import { GET as getFreshness } from '@/app/api/stages/[id]/freshness/route';
-import { GET as getMaterials, POST as postMaterials } from '@/app/api/materials/route';
+import { GET as getFreshness } from '@/app/api/stages/[id]/freshness/handler';
+import { GET as getMaterials, POST as postMaterials } from '@/app/api/materials/handler';
 import { DELETE as deleteMaterial, GET as getMaterial } from '@/app/api/materials/[id]/route';
 import { GET as getFolders, POST as postFolders } from '@/app/api/folders/route';
 import { DELETE as deleteFolder, PATCH as patchFolder } from '@/app/api/folders/[id]/route';
@@ -116,7 +146,7 @@ import { GET as getAgentSessions } from '@/app/api/agent/sessions/route';
 import { GET as getAgentSessionsStatus } from '@/app/api/agent/sessions/status/route';
 import { GET as getAgentSession } from '@/app/api/agent/sessions/[id]/route';
 import { GET as getAgentSkills } from '@/app/api/agent/skills/route';
-import { GET as getOwnerEvents } from '@/app/api/agent/owner-events/route';
+import { GET as getOwnerEvents } from '@/app/api/agent/owner-events/handler';
 import { GET as getSkillExport } from '@/app/api/skills/[id]/route';
 
 interface RouteCase {
@@ -505,6 +535,8 @@ for (const state of STATES) {
       mocks.assetStore.put.mockResolvedValue('asset-1');
       mocks.assetStore.remove.mockResolvedValue(undefined);
       mocks.queryPool.query.mockImplementation(async (text: string) => {
+        if (text.includes('asset_root_refs') || text.includes('WHERE derived_from'))
+          return { rows: [] };
         if (text.includes('owner_material')) {
           return {
             rows: [
@@ -516,7 +548,7 @@ for (const state of STATES) {
                 mime: 'application/pdf',
                 bytes: 5,
                 original_name: 'notes.pdf',
-                asset_id: 'asset-1',
+                asset_id: null,
                 oss_key: '',
                 sha256: 'abc',
                 status: 'ready',

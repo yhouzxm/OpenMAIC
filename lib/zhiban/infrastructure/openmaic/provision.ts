@@ -78,6 +78,10 @@ export async function provisionNative(
     await client.query(
       'GRANT SELECT(stage_id) ON document_asset_withdrawals TO zhiban_openmaic_runtime',
     );
+    await client.query('GRANT SELECT ON asset_root_refs TO zhiban_openmaic_runtime');
+    await client.query(
+      'GRANT UPDATE(rule_version) ON asset_reference_tracking TO zhiban_openmaic_runtime',
+    );
     await client.query('GRANT SELECT ON openmaic_schema_migrations TO zhiban_openmaic_runtime');
     const fingerprint = await catalogFingerprint(client, 'public');
     const committed = await client.query('COMMIT');

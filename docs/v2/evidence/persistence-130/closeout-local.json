@@ -1,0 +1,268 @@
+{
+  "kind": "OPENMAIC_130_PERSISTENCE_LOCAL_V1",
+  "status": "LOCAL_COPY_RECOVERY_PG18_PASS_RDS_READINESS_ONLY",
+  "createdAt": "2026-10-29T16:02:20.602400+00:00",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "branch": "refactor/zhiban-v2",
+  "baseHead": "038a28e8181e8fddcf69a386244da64044a3486b",
+  "dirtyCandidate": true,
+  "officialVersion": "1.3.0",
+  "officialSha": "c0f296aa36096ec3d1e1e2b94a7a48e20075e0a1",
+  "sourceDigest": "a8af656b81ca97191ff7abe66b97407c94b10646c7495d18d64e7e5b0b4a3ef9",
+  "committed": false,
+  "pushed": false,
+  "ciDispatched": false,
+  "cloudConnected": false,
+  "productionDeployed": false,
+  "originalSnapshot": {
+    "path": "/home/zxm/.local/share/zhiban-persistent/2026-10-28T05-26-11.274Z-a55e7c48",
+    "manifestSha256": "4a05448a24c04e25876ba52e91cafdd329c753cadd44799ae14186f47f7a15f6",
+    "defaultPointerUnchanged": true,
+    "sourceFileClosureVerifiedByUpgrader": true
+  },
+  "deliveryState": {
+    "path": "/home/zxm/.local/share/zhiban-130-persistent",
+    "latestSnapshot": "/home/zxm/.local/share/zhiban-130-persistent/snapshots/2026-10-29T15-37-07.498Z-d6b66a96",
+    "manifestSha256": "19d435d6a5d675b1640789e1ee6ee5d113560e376c5396872af7463055c53486",
+    "applicationVersion": "1.3.0",
+    "stopped": true,
+    "workingRootRemoved": true,
+    "pendingOrFailedMarker": false,
+    "newDeploymentId": "01a18846-8f43-740b-94ec-0b1a2ad89c21",
+    "historicalDeploymentsGenerationsPreserved": true,
+    "actualLegacyOriginalCandidates": 0,
+    "accountsSha256": "91d73979d2a3a17ba17c69549682aa4d944f875c004bb8427ad5ba35d262e122"
+  },
+  "recovery": {
+    "rehearsalNamespace": "/home/zxm/.local/share/zhiban-130-copy-20261029-r4",
+    "sameInputSnapshotPin": "4a05448a24c04e25876ba52e91cafdd329c753cadd44799ae14186f47f7a15f6",
+    "stableRowsHashFirstAndSecond": "8fddf60b8dfe8b7557017126c5971dceddd2d06a83e2b0c60e1a748758025961",
+    "finalNamespaceHistoricalTeacherAndStudentPublicationReads": 4,
+    "threeRoles": [
+      "ADMIN",
+      "TEACHER",
+      "STUDENT"
+    ],
+    "realModelCalled": false
+  },
+  "kits": {
+    "source": {
+      "path": "/home/zxm/.local/state/zhiban-delivery/130-20261029/source",
+      "manifestSha256": "2091f0fa880f05fde0a020768dd13443d962cf88e119527d7a93eb649f4ac50b",
+      "sourceDigest": "a8af656b81ca97191ff7abe66b97407c94b10646c7495d18d64e7e5b0b4a3ef9",
+      "verify": "PASS",
+      "currentPackedSourceMatch": {
+        "status": "PASS",
+        "sourceDigest": "a8af656b81ca97191ff7abe66b97407c94b10646c7495d18d64e7e5b0b4a3ef9",
+        "files": 6474,
+        "changedAfterPacking": [],
+        "scope": "CURRENT_PACKED_SOURCE_BYTES_MATCH_NOT_DEPENDENCY_INSTALL_ACCEPTANCE"
+      },
+      "freshDependencyInstallPerformed": false
+    },
+    "private": {
+      "path": "/home/zxm/.local/state/zhiban-delivery/130-20261029/private",
+      "manifestSha256": "435cfe054410ec078d7b970b4f9e41a7a294caba9decde38c0396decf6121248",
+      "verify": "PASS",
+      "importNamespace": "/home/zxm/.local/state/zhiban-delivery/130-20261029/import-check",
+      "importedAndHashVerified": true,
+      "importedNamespaceBooted": false,
+      "hostModelConfigurationDelivered": false,
+      "scannerAuthorityDelivered": false,
+      "productionApprovalIncluded": false
+    }
+  },
+  "pg18": {
+    "referencePath": "docs/v2/candidates/openmaic-130/reference-pg18.json",
+    "referencePin": "1a7743d479730cb459c345d374a639551dc528691fbd24bc12b429e7d907599d",
+    "serverVersionNum": 180006,
+    "constructionAndRealProductJourneySeparate": true,
+    "sourceLineage": "PG18_FRESH_V1",
+    "pg16ImportedLineageAccepted": false,
+    "rdsEvidence": false
+  },
+  "checks": [
+    {
+      "status": "PASS",
+      "scope": "Actual pre-v1.3.0 snapshot copy upgrade, exact prior profile/ledger checks and preserved prior rows/accounts; new deployment and receipt",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/persistence-130-20261029/checks/upgrade-final.log",
+      "sha256": "d712de5706e53151723de7f7dd24f1298479036ec0e16eaf255db27e79487237"
+    },
+    {
+      "status": "PASS",
+      "scope": "Separate synthetic nonempty legacy originals on real PG16: owner/root/bytes, wrong digest refusal, retry and idempotence; actual source snapshot had zero candidates",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/persistence-130-20261029/checks/material-fixture.log",
+      "sha256": "0b4cc78f05494e9409331eb2f18d7b2f9a469fedcb04338afc10372324406181"
+    },
+    {
+      "status": "PASS",
+      "scope": "First migrated rehearsal namespace boot and normal stop",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/persistence-130-20261029/checks/host-first.log",
+      "sha256": "3a318ea7ea2ff769a7eaa66ec8cadeb32dcb807c92479e9646ceadc31bab9784"
+    },
+    {
+      "status": "PASS",
+      "scope": "Existing three role logins/workspaces and stable three-database row baseline in rehearsal namespace",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/persistence-130-20261029/checks/readback-first.log",
+      "sha256": "05d5bfe1da00d6452991cc79e5020dd898809f01a81ed762eb3c96e7742cd8a3"
+    },
+    {
+      "status": "PASS",
+      "scope": "Normal rehearsal host stop and snapshot publication",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/persistence-130-20261029/checks/stop-first.log",
+      "sha256": "88f03c9031e080e3b1e7e3bc9aa97bb0ab1e0f458ae6395f5021baefca60be9f"
+    },
+    {
+      "status": "PASS",
+      "scope": "Rehearsal namespace restore and normal stop",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/persistence-130-20261029/checks/host-second.log",
+      "sha256": "024e87eccf4d50a6114dc34133b94ce48cc06bfdd61a5c4b53acf6fa6ba5618f"
+    },
+    {
+      "status": "PASS",
+      "scope": "Exact rehearsal stable row/account hashes match after restore and same original role logins",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/persistence-130-20261029/checks/readback-second.log",
+      "sha256": "151399d159e5a5f2f16fb11bbb7a98a23416cb340b430d476061180ca0c2cac0"
+    },
+    {
+      "status": "PASS",
+      "scope": "Second normal stop/save",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/persistence-130-20261029/checks/stop-second.log",
+      "sha256": "88f03c9031e080e3b1e7e3bc9aa97bb0ab1e0f458ae6395f5021baefca60be9f"
+    },
+    {
+      "status": "PASS",
+      "scope": "Final delivery namespace normal start without upgrade switch and normal stop",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/persistence-130-20261029/checks/host-delivery.log",
+      "sha256": "2780a99fb3467674fedc930090d96b9b8285e6d617af17af3c5000b014e01098"
+    },
+    {
+      "status": "PASS",
+      "scope": "Final namespace actual three-role HTTPS login/workspace and teacher/student pre-existing fixed publications",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/persistence-130-20261029/checks/readback-delivery.log",
+      "sha256": "aecaeecf4c3cce666a932833b84860b25be772394d8972f1eb92d276ede12e6e"
+    },
+    {
+      "status": "PASS",
+      "scope": "Final delivery host normal stop/save, no retained working data root",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/persistence-130-20261029/checks/stop-delivery.log",
+      "sha256": "88f03c9031e080e3b1e7e3bc9aa97bb0ab1e0f458ae6395f5021baefca60be9f"
+    },
+    {
+      "status": "PASS",
+      "scope": "Independent fresh source-only PG18.6 reference construction, not production acceptance",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/persistence-130-20261029/checks/reference-pg18.log",
+      "sha256": "7382bf9bed1c7de6a8030e5f1412698d11004750bcfc9e6d28426e5edb32773a"
+    },
+    {
+      "status": "PASS",
+      "scope": "Version 1.3.0 real disposable PG18 Identity/HTTPS/editor/library/adopt/publish/student and MAINTAIN/version/closed Native negatives",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/persistence-130-20261029/checks/pg18-journey.log",
+      "sha256": "4e0be737509239239f7916ab740fb7960f9456a26fbade376ef0dde1f4b5f37d"
+    },
+    {
+      "status": "PASS",
+      "scope": "Snapshot wrong pin/overlap/external DSN, partial Native DDL/pre-save/post-save cuts, pre-v1.3 restore refusal and version/profile contracts",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/persistence-130-20261029/checks/boundaries-final.log",
+      "sha256": "8c923807701f94e40069418c0d496f99ab486da310063f04abf0db2644db0f51"
+    },
+    {
+      "status": "PASS",
+      "scope": "Real loopback PG18 SCRAM/TLS RDS tool preflight/staging, bad CA, 3D000, insecure URL/HTTP/foreign DB/pin rejection; no cloud connection",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/persistence-130-20261029/checks/rds-final.log",
+      "sha256": "a58b8de09072b2b5d92ff2fb615865820a3ed89cf99bc1c45b4ec3127ab944b2"
+    },
+    {
+      "status": "PASS",
+      "scope": "New helper allocates distinct artifact directories for separate PG16/PG18 runs; no product rerun claim",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/persistence-130-20261029/checks/evidence-isolation.log",
+      "sha256": "17401beafc3373c480a826fe97d7e2fc073c08450860fd03980cbb82f45c18d6"
+    },
+    {
+      "status": "PASS",
+      "scope": "Current dirty source + two Git anchors local installation kit creation, dependencies not bundled",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/persistence-130-20261029/checks/pack-source.log",
+      "sha256": "251fb631e0375570adca53205a3b4795ea077639d1525576217047b0157f7fab"
+    },
+    {
+      "status": "PASS",
+      "scope": "Source installation kit manifest/archive hash closure",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/persistence-130-20261029/checks/verify-source-kit.log",
+      "sha256": "15e4b2b3a3a320e202dca58b6330e206644e163b343f48e3bde69856506abecd"
+    },
+    {
+      "status": "PASS",
+      "scope": "Private three-database snapshot, original bytes, instance secrets and development TLS packaging; host model config/scanner authority excluded",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/persistence-130-20261029/checks/pack-private.log",
+      "sha256": "6d3f2e53c8e2e70f95e4de0173f6771a08ffd679d2df953c315a2ddf4746604c"
+    },
+    {
+      "status": "PASS",
+      "scope": "Private package hash closure only",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/persistence-130-20261029/checks/verify-private-kit.log",
+      "sha256": "b7cc1b9a303330be83a54baaf4f77cfa9ac877d4d13796f6942c04c89a41aca2"
+    },
+    {
+      "status": "PASS",
+      "scope": "Private package import into separate isolated namespace, not started",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/persistence-130-20261029/checks/import-private.log",
+      "sha256": "01415436e7bd0a897e76cc7e065dcd2c5780d957c57724b2ecb2797b96b2a759"
+    },
+    {
+      "status": "PASS",
+      "scope": "Imported private snapshot file/hash closure only; not a second target host boot",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/persistence-130-20261029/checks/verify-import.log",
+      "sha256": "b0e5cbc27cf43cb464d78866fbc3d23ade10c4dbb5ada55a91ccec470d168ae6"
+    },
+    {
+      "status": "PASS",
+      "scope": "Touched deployment/snapshot/receipt/evidence scripts and contract tests lint",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/persistence-130-20261029/checks/lint-delivery.log",
+      "sha256": "418a5c17f33c70e99b0cc0a07fce69191489cfedc94164bfa903785777c5bd4b"
+    },
+    {
+      "status": "PASS",
+      "scope": "Whitespace/conflict diff check",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/persistence-130-20261029/checks/diff-check.log",
+      "sha256": "418a5c17f33c70e99b0cc0a07fce69191489cfedc94164bfa903785777c5bd4b"
+    },
+    {
+      "status": "PASS",
+      "scope": "Deployment TypeScript graph for migration/material/readback and PG18 roots; subsequent verification-only directory helper checked by direct execution/lint",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/persistence-130-20261029/checks/types-final.log",
+      "sha256": "418a5c17f33c70e99b0cc0a07fce69191489cfedc94164bfa903785777c5bd4b"
+    }
+  ],
+  "artifactSha256": {
+    "docs/v2/evidence/persistence-130/frozen-sql-source.json": "d5da87b6488c2c9a9f79024bb0da65e84f128dfc247767c70b5d95b167042a02",
+    "docs/v2/evidence/persistence-130/pg18-journey-local.json": "5c00f49d2166ddefdb5f74d6423e5fbcd38f9a5f9a190d30514e5759b430c312",
+    "docs/v2/evidence/persistence-130/pg18-authoring-20261029T1509/native-authoring-workspace.png": "f485408ab471dcf755d49f7295ae2b40788556bdd060cc8527b7af4ddb665b22",
+    "docs/v2/evidence/persistence-130/pg18-authoring-20261029T1509/library-desktop.png": "2748934f503e7a201f8ad1041f3c53d35d7b80b3a79fefcf1fb43991e61f9fed",
+    "docs/v2/evidence/persistence-130/pg18-authoring-20261029T1509/library-mobile.png": "5b7f594da48d413905939b583bbd2a5323addbfec47f67f5d4928791ea7ca409",
+    "docs/v2/evidence/persistence-130/pg18-authoring-20261029T1509/native-authoring-published.png": "26a2e6f0e470920b1562c9b4d025761c584d4ffaead132b48f8aa568b9b73b70",
+    "docs/v2/evidence/persistence-130/pg18-authoring-20261029T1509/native-authoring-browser.json": "790b2897e80be68192cd3109bc75a244f030e94cd44eeda10f929d8f46b5d126"
+  },
+  "frozenExistingSql": {
+    "status": "PASS",
+    "existingFiles": 57,
+    "changed": [],
+    "scope": "FROZEN_PREEXISTING_MIGRATION_SOURCE_BYTES_NOT_REMOTE_DEPLOYMENT"
+  },
+  "historicalVisualEvidence": {
+    "scopeNote": "docs/v2/evidence/openmaic-130/ARTIFACT-SCOPE-NOTE.json",
+    "priorScreenshotsOverwritten": 3,
+    "priorHashesNotRewritten": true,
+    "originalBytesUnavailable": true,
+    "newPg18Images": "docs/v2/evidence/persistence-130/pg18-authoring-20261029T1509",
+    "futureRunsHaveUniqueDirectories": true
+  },
+  "deferredGates": [
+    "RDS-specific independently approved owner/grantor/catalog/ACL profile and minimum-privilege full host installer/loader still require implementation/target facts",
+    "Actual Alibaba SSH, restricted administrator, trusted RDS CA/SSL and public HTTPS IP certificate not supplied or changed",
+    "PG16 to PG18 logical import, application receipt binding and real target restore/cutover not accepted",
+    "Private restore package excludes root .env.local/openmaic.yml, scanner authority and old trusted Native maintenance inputs; none were exported or re-enabled",
+    "Same-machine LOCAL package verification/import is not fresh installation or cross-machine acceptance",
+    "Three prior screenshot byte sequences were overwritten; retain the historical receipt unchanged but do not count those attachments as re-verifiable PG16 evidence"
+  ]
+}

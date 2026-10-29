@@ -244,7 +244,7 @@ describe('the legacy import binding and its fence', () => {
         stage: { id: 'anon-course', name: 'x', createdAt: 1, updatedAt: 1 },
         scenes: [],
       } as never);
-      const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+      const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/handler');
       const { GET: listStages } = await import('@/app/api/stages/route');
       // A read the anonymous tab sent before the claim; its answer arrives after.
       const lateRead = new Request('http://localhost/api/stages', {
@@ -349,7 +349,7 @@ describe('the legacy import binding and its fence', () => {
       ...(hasBody ? { body: JSON.stringify(body) } : {}),
     });
     if (endpoint.route === 'app/api/persistence/[...path]/route.ts') {
-      const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+      const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/handler');
       return handlePersistenceRequest(request);
     }
     const modules: Record<string, () => Promise<Record<string, unknown>>> = {

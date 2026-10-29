@@ -43,7 +43,7 @@ import {
   OWNER_EVENT_POLL_INTERVAL_MS,
   OWNER_EVENT_REPLAY_LIMIT,
   SSE_HEARTBEAT_INTERVAL_MS,
-} from '@/app/api/agent/owner-events/route';
+} from '@/app/api/agent/owner-events/handler';
 
 function call(lastEventId?: { header?: string; query?: string }) {
   const query = lastEventId?.query ? `?lastEventId=${lastEventId.query}` : '';

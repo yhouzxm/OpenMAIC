@@ -77,7 +77,7 @@ export function FillAuthoring({
         onChange={(next) => {
           setNativeCache(next);
           const pending = [...next.questions];
-          const merged = value.questions.flatMap((q) =>
+          const merged = value.questions.flatMap<Question>((q) =>
             q.type === 'fill_blank' || q.type === 'matching' || q.type === 'ordering'
               ? [q]
               : pending.length

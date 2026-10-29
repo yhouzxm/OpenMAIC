@@ -1,0 +1,15 @@
+{
+  "kind": "ZHIBAN_RDS_PG18_DEPLOYMENT_INPUT_V1",
+  "origin": "https://47.120.42.25:88",
+  "expectedHost": "replace-with-your-rds-endpoint.pg.rds.aliyuncs.com",
+  "port": 5432,
+  "maintenanceDatabase": "postgres",
+  "databases": {
+    "business": "zhiban_business",
+    "content": "zhiban_content",
+    "authoring": "zhiban_authoring"
+  },
+  "adminEnvFile": "/var/lib/zhiban/config/rds-admin.env",
+  "caFile": "/var/lib/zhiban/config/rds-ca.pem",
+  "expectedReferenceSha256": "c00007350cb01b92234d34b48deb51fbe6a4f4de3790c33e104e7d035e1b5d8e"
+}

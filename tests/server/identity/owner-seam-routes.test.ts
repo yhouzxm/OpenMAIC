@@ -110,7 +110,7 @@ describe('owner identity seam through the routes', () => {
   });
 
   async function persistence(path: string, user: string, init: RequestInit = {}) {
-    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/handler');
     return handlePersistenceRequest(
       new Request(`http://localhost/api/persistence${path}`, {
         ...init,

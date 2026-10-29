@@ -1,0 +1,23 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "status": "SOURCE_CANDIDATE",
+  "officialSha": "c0f296aa36096ec3d1e1e2b94a7a48e20075e0a1",
+  "extensionVersion": "0.2.0",
+  "scope": "QUIZ_EXTENSION_REBASED_ON_OPENMAIC_1_3_0; construction source only, no old receipt relabel",
+  "files": {
+    "packages/@openmaic/dsl/package.json": "f4265e4ded3d4bb1ae071359d165c606917f5d273075a8570cdc6ea3e9245380",
+    "packages/@openmaic/dsl/src/quiz.ts": "a1674ffd8c432712e5f53617b1c18eb2f501f56778f71085b57a4dda53374f30",
+    "packages/@openmaic/editor/package.json": "d360390d748fdf0d35669e14f84d9aa83c95c6e49122aadb60b4f402f3edf346",
+    "packages/@openmaic/editor/rollup.config.js": "23cece0e32b2e3a5f33b107fd6e175ffb45fb7b8795b043ebc369c0dd5078d19",
+    "packages/@openmaic/editor/src/quiz/QuestionCard.tsx": "72e44478f2b93fdf1fcd0a31be3555ca5709bc20798f0340e754442aea887124",
+    "packages/@openmaic/editor/src/quiz/context.tsx": "bc64460b8385de58fd0921b71d866923c2c333c69006d273e4d1dcff654c1db1",
+    "packages/@openmaic/editor/src/quiz/index.tsx": "2f88f2670067f68d72fc83bb4c158730f0b73faf89917cb8a071dc4cae42490f",
+    "packages/@openmaic/editor/src/quiz/ops.ts": "186101015ec8fe1185bdb913db69bc69d384fc769dfc1ea0cc10f7142560f7d6",
+    "packages/@openmaic/renderer/package.json": "b64e2fbb5a7b16ca9986cc2d3a6c27ff733cf589007c268eabeb2ca038c004b9",
+    "packages/@openmaic/renderer/rollup.config.js": "6dacaff8c5bacb78dac0aefdd549879c031b70bdcb03172cef393da8956f355c",
+    "packages/@openmaic/renderer/src/quiz/index.tsx": "8290e3a4d38959ab630f58a5f9cb84d2769904d243db85bf51ddd682c7e3a690",
+    "packages/@openmaic/renderer/src/quiz/math-text.ts": "fd46ba274b30dfb09b0ed13fbfeffa9e927a83e461603eeea1a6a5746ef69c64",
+    "packages/@openmaic/renderer/src/quiz/presentation.tsx": "7d0b58b29ca10b48771553ff519f79ba6a158e9d9b2c9bdb415ebe30a29f9f08"
+  }
+}

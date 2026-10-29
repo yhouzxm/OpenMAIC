@@ -1,0 +1,61 @@
+{
+  "status": "REMOTE_SIGNED_OFF",
+  "checkpointSha": "d3ac1815272d534e07ccd32af3a8ae877f0c51c8",
+  "sourceDigest": "306edeaf32825e7547ebf4c5387040a0d79a422913f7542ef6baea15bed522fe",
+  "referenceSha256": "ac7971c762672f80f3a6303a1121cc859da9e6f99712b418e61340175d72e46e",
+  "remoteBranchHeadVerified": true,
+  "defaultRegistrationSha": "8dca21ed57d130012442512bfb74a6f3fb8b4e44",
+  "registrationScope": "ONLY_MANUAL_WORKFLOW_FILE_NO_PRODUCT_MERGE_TO_MAIN",
+  "workflowId": 398359122,
+  "environment": {
+    "id": 25471618320,
+    "name": "zhiban-pg18-acceptance",
+    "requiredReviewer": "yhouzxm",
+    "preventSelfReview": false,
+    "adminBypass": false,
+    "allowedBranch": "refactor/zhiban-v2",
+    "approvedSha": "d3ac1815272d534e07ccd32af3a8ae877f0c51c8",
+    "reviewApproval": "Applied explicit user authorization to this run only"
+  },
+  "run": {
+    "id": 40523471029,
+    "attempt": 1,
+    "url": "https://github.com/yhouzxm/OpenMAIC/actions/runs/40523471029",
+    "sha": "d3ac1815272d534e07ccd32af3a8ae877f0c51c8",
+    "status": "completed",
+    "conclusion": "success",
+    "createdAt": "2026-10-27T14:41:03Z",
+    "updatedAt": "2026-10-27T14:47:10Z"
+  },
+  "dispatchRequests": 1,
+  "automaticRedispatch": false,
+  "lastUpdatedAt": "2026-10-27T14:49:04.504322+00:00",
+  "privateMaterialDelivery": false,
+  "postRunRecord": "LOCAL_UNCOMMITTED; branch remains the tested SHA",
+  "remoteBranchHead": "d3ac1815272d534e07ccd32af3a8ae877f0c51c8",
+  "defaultBranchRegistrationHead": "8dca21ed57d130012442512bfb74a6f3fb8b4e44",
+  "privateMaterialsUploaded": false,
+  "cleanupStep": "SUCCESS",
+  "summarySha256": "1f6249865c21ed191396dd35ca81df0de7f4b4c8aa53d89f4366cdf87351823c",
+  "artifact": {
+    "id": 12743580959,
+    "name": "zhiban-pg18-summary-40523471029-1",
+    "sizeInBytes": 743,
+    "expiresAt": "2026-11-03T14:47:05Z",
+    "contents": "ONE_ALLOWLISTED_JSON_ONLY"
+  },
+  "acceptancePhases": [
+    "INDEPENDENT_REFERENCE_REBUILD",
+    "PG18_NATIVE_PUBLICATION_RUNTIME_AUTHORIZATION_AND_NEGATIVE_GATES",
+    "FRESH_INSTALL_THREE_ROLES_HTTPS_AND_PRIVATE_BASELINE",
+    "PG18_LIVE_BASEBACKUP",
+    "OFFLINE_SNAPSHOT_RESTORE_IDENTICAL_ROWS_ACCOUNTS_THREE_ROLES",
+    "LIVE_BASEBACKUP_RESTORE_IDENTICAL_ROWS_ACCOUNTS_THREE_ROLES"
+  ],
+  "importantExclusions": [
+    "PG16_IMPORTED_ACTIVATION",
+    "CLOUD_PRODUCTION",
+    "EXTERNAL_PROVIDERS",
+    "OLD_NATIVE_MAINTENANCE"
+  ]
+}

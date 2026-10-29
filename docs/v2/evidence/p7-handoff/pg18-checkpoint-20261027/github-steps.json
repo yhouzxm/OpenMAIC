@@ -1,0 +1,67 @@
+{
+  "status": "SUCCESS",
+  "runId": 40523471029,
+  "jobId": 122256556982,
+  "steps": [
+    {
+      "name": "Set up job",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Require approved revision and private synthetic namespace",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Fetch only the pinned official source needed by the reuse verifier",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Install pinned runtimes and clean source dependencies",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Verify source-built expected profiles, application and PG18 restore",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Stop only owned processes and destroy private synthetic material",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Retain only allowlisted public summary",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Complete job",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ]
+}

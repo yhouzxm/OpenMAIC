@@ -94,7 +94,7 @@ describe('host asset hooks', () => {
     path: string,
     init: { method?: string; body?: BodyInit; headers?: Record<string, string> } = {},
   ): Promise<Response> {
-    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+    const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/handler');
     return handlePersistenceRequest(
       new Request(`http://localhost/api/persistence${path}`, {
         method: init.method ?? 'GET',

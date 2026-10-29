@@ -231,7 +231,7 @@ export class BridgeRepository {
         plan.operation === 'TRANSFER' ? uuid(plan.targetOwner) : slot.owner_membership_id;
       check(plan.operation !== 'TRANSFER' || owner !== slot.owner_membership_id);
       await this.changed(
-        `INSERT INTO zhiban_bridge.resource_generations(tenant_id,generation_id,slot_id,deployment_id,owner_membership_id,generation,owner_handle,stage_ref,content_digest,dsl_version,state,repository_revision,created_at,updated_at,activated_at,terminal_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,'0.11.3','PENDING',1,$10,$10,NULL,NULL)`,
+        `INSERT INTO zhiban_bridge.resource_generations(tenant_id,generation_id,slot_id,deployment_id,owner_membership_id,generation,owner_handle,stage_ref,content_digest,dsl_version,state,repository_revision,created_at,updated_at,activated_at,terminal_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,(SELECT dsl_version FROM zhiban_bridge.deployment_registry WHERE deployment_id=$4),'PENDING',1,$10,$10,NULL,NULL)`,
         [
           this.tenant,
           generationId,

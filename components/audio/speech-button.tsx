@@ -16,6 +16,8 @@ interface SpeechButtonProps {
   size?: 'sm' | 'md';
   /** Keep browser-native ASR active until the user manually stops it. */
   continuous?: boolean;
+  /** Hide the idle control without unmounting an active recorder. */
+  hiddenWhenIdle?: boolean;
 }
 
 export function shouldCancelRecordingOnDisable(args: {
@@ -32,6 +34,7 @@ export function SpeechButton({
   disabled,
   size = 'sm',
   continuous,
+  hiddenWhenIdle = false,
 }: SpeechButtonProps) {
   const { t } = useI18n();
 
@@ -50,6 +53,7 @@ export function SpeechButton({
   }, []);
 
   const {
+    isStarting,
     isRecording,
     isProcessing,
     recordingTime,
@@ -69,7 +73,7 @@ export function SpeechButton({
     }
   }, [continuous, disabled, isRecording, cancelRecording]);
 
-  const active = isRecording || isProcessing;
+  const active = isStarting || isRecording || isProcessing;
 
   // Gate on ASR availability (toggle + provider configured + browser support)
   // so every call site is disabled uniformly when ASR is off/unusable — but
@@ -79,7 +83,9 @@ export function SpeechButton({
   const isDisabled = (disabled || !asrAvailable) && !active;
 
   const handleClick = () => {
-    if (isRecording) {
+    if (isStarting) {
+      cancelRecording();
+    } else if (isRecording) {
       stopRecording();
     } else if (!isProcessing) {
       startRecording();
@@ -91,6 +97,8 @@ export function SpeechButton({
   const iconSize = isMd ? 'w-4 h-4' : 'w-3.5 h-3.5';
   const barH = isMd ? 14 : 10;
 
+  if (hiddenWhenIdle && !active) return null;
+
   return (
     <Tooltip>
       <TooltipTrigger asChild>
@@ -100,6 +108,14 @@ export function SpeechButton({
             isRecording && maxRecordingSeconds
               ? `${recordingTime}/${maxRecordingSeconds}s`
               : undefined
+          }
+          data-state={active ? 'active' : 'idle'}
+          aria-label={
+            isProcessing
+              ? t('roundtable.processing')
+              : isRecording || isStarting
+                ? t('voice.stopListening')
+                : t('voice.startListening')
           }
           disabled={isDisabled || isProcessing}
           onClick={handleClick}
@@ -123,7 +139,7 @@ export function SpeechButton({
             />
           )}
 
-          {isProcessing ? (
+          {isProcessing || isStarting ? (
             <Loader2 className={cn(iconSize, 'animate-spin')} />
           ) : isRecording ? (
             /* Mini equalizer bars */
@@ -171,7 +187,7 @@ export function SpeechButton({
       <TooltipContent side="top" className="text-xs">
         {isProcessing
           ? t('roundtable.processing')
-          : isRecording
+          : isRecording || isStarting
             ? t('voice.stopListening')
             : t('voice.startListening')}
       </TooltipContent>

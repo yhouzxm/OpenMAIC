@@ -10,19 +10,19 @@ export async function verifyUpstreamPackage(pkg: string) {
     );
   const entries = execFileSync(
     'git',
-    ['ls-tree', '-rz', 'e19d0d4f45d81b8f7ab599b33ab03b0b8b68d5c0', '--', ...sourcePaths],
+    ['ls-tree', '-rz', 'c0f296aa36096ec3d1e1e2b94a7a48e20075e0a1', '--', ...sourcePaths],
     { encoding: 'utf8' },
   )
     .split('\0')
     .filter(Boolean);
-  // The unchanged quiz extension retains its independently recorded v1.2.0
-  // base and hashes. Official source files are checked against v1.2.1 above.
+  // The quiz extension is rebased and independently hashed for v1.3.0.
+  // Historical v1.2.0 extension evidence remains unchanged.
   const extension = JSON.parse(
-    await readFile('docs/v2/evidence/zhiban-quiz-extension-source-local.json', 'utf8'),
+    await readFile('docs/v2/candidates/openmaic-130/quiz-extension-source.json', 'utf8'),
   ) as { officialSha: string; extensionVersion: string; files: Record<string, string> };
   if (
-    extension.officialSha !== 'a9da60b3b4adb429369c0da13d5637a904ead2b0' ||
-    extension.extensionVersion !== '0.1.0'
+    extension.officialSha !== 'c0f296aa36096ec3d1e1e2b94a7a48e20075e0a1' ||
+    extension.extensionVersion !== '0.2.0'
   )
     throw Error('Quiz extension pin rejected');
   for (const [path, digest] of Object.entries(extension.files))

@@ -1,3 +1,4 @@
+import { interactiveVendorAsset } from './interactive-assets';
 import { verifyPg18Boundaries } from '../zhiban-deploy/verify-pg18-boundaries';
 import { presentUiHtml, uiEnvironment } from './ui-presentation';
 import {
@@ -134,6 +135,7 @@ import { verifyNativeAuthoring } from './verify-native-authoring';
 import { verifyClassroomAi } from './verify-classroom-ai';
 import { verifyCourseLive } from './verify-course-live';
 const pg18Acceptance = process.argv.includes('--pg18-acceptance');
+const upstream130Focus = process.argv.includes('--upstream130-focus');
 const courseLiveFocus = process.argv.includes('--course-live-focus');
 import { verifyNativePbl } from './verify-native-pbl';
 import { verifyMultimodal } from './verify-multimodal';
@@ -143,7 +145,8 @@ const multimodalFocus = process.argv.includes('--multimodal-focus');
 import { verifyNativeArchive } from './verify-native-archive';
 const nativeArchiveFocus = process.argv.includes('--native-archive-focus');
 const nativePblFocus = process.argv.includes('--native-pbl-focus');
-const authoringFocus = process.argv.includes('--authoring-focus');
+const authoringFocus =
+  process.argv.includes('--authoring-focus') || process.argv.includes('--upstream130-focus');
 const classroomAiFocus = process.argv.includes('--classroom-ai-focus');
 const nativeClassroomFocus = process.argv.includes('--native-classroom-focus');
 const playerFocus = process.argv.includes('--native-player-focus') || nativeClassroomFocus;
@@ -554,16 +557,16 @@ if (serviceCenterFocus) {
   );
   process.env.OPENMAIC_CONFIG = fixture;
 }
-if (localPgMajor === 18 && process.env.ZHIBAN_LOCAL_STATE) {
+if (process.env.ZHIBAN_LOCAL_STATE) {
   await privateEntry(process.env.ZHIBAN_LOCAL_STATE, true);
   await writeFile(
     join(process.env.ZHIBAN_LOCAL_STATE, 'RUNTIME.json'),
     JSON.stringify({
-      kind: 'PG18_OWNED_RUNTIME_V1',
+      kind: localPgMajor === 18 ? 'PG18_OWNED_RUNTIME_V1' : 'PG16_OWNED_RUNTIME_V1',
       root: owned,
       socket,
       port,
-      major: 18,
+      major: localPgMajor,
       pid: process.pid,
       processStart: (await readFile(`/proc/${process.pid}/stat`, 'utf8'))
         .split(') ')[1]
@@ -1460,7 +1463,7 @@ async function main() {
         socket,
       })
     : null;
-  if (localPgMajor === 18 && pg18Acceptance && contentInstallation) {
+  if (localPgMajor === 18 && (pg18Acceptance || upstream130Focus) && contentInstallation) {
     const bounded = (user: string, db = database) => {
       const p = new Pool({
         host: socket,
@@ -1840,8 +1843,12 @@ async function main() {
         url.pathname;
       const videoVendor =
         /^\/vendor\/(?:gsap\.min\.js|video-export\/fonts\/[a-zA-Z0-9_.-]+\.woff2)$/.test(assetKey);
+      const interactiveVendor = interactiveVendorAsset(assetKey);
       const pageAsset =
         assets[assetKey] ??
+        (interactiveVendor
+          ? ['@interactive-vendor/' + interactiveVendor.path, interactiveVendor.type]
+          : undefined) ??
         (videoVendor
           ? [
               '@video-vendor/' + assetKey.slice(8),
@@ -1857,6 +1864,7 @@ async function main() {
         }
         outgoing.writeHead(200, {
           'Content-Type': type + '; charset=utf-8',
+          ...(interactiveVendor ? { 'Access-Control-Allow-Origin': '*' } : {}),
           'Cache-Control': 'no-store',
           'X-Content-Type-Options': 'nosniff',
           'Content-Security-Policy':
@@ -1892,11 +1900,13 @@ async function main() {
         let bytes = await readFile(
           file === '@content-bundle'
             ? contentHost!.bundlePath
-            : file.startsWith('@video-vendor/')
-              ? join(root, 'public/vendor', file.slice(14))
-              : file.startsWith('@export/')
-                ? join(root, 'public/vendor/standalone-player', file.slice(8))
-                : join(root, 'app/zhiban/local', file),
+            : file.startsWith('@interactive-vendor/')
+              ? join(root, 'public/vendor/interactive', file.slice(20))
+              : file.startsWith('@video-vendor/')
+                ? join(root, 'public/vendor', file.slice(14))
+                : file.startsWith('@export/')
+                  ? join(root, 'public/vendor/standalone-player', file.slice(8))
+                  : join(root, 'app/zhiban/local', file),
         );
         if (sharedClassroom && type === 'text/html')
           bytes = Buffer.from(
@@ -2193,6 +2203,7 @@ async function main() {
               ? {
                   Origin: origin,
                   'Content-Type': 'application/json',
+                  'Content-Length': String(Buffer.byteLength(JSON.stringify(payload))),
                   'x-zhiban-command': v7().replaceAll('-', ''),
                   ...(a?.csrf ? { 'x-zhiban-csrf': a.csrf } : {}),
                 }

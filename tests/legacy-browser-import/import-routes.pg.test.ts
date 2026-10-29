@@ -66,7 +66,7 @@ describe.skipIf(!contractUrl)('the legacy browser importer against the app route
     const path = url.pathname;
     const method = request.method;
     if (path.startsWith('/api/persistence')) {
-      const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/route');
+      const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/handler');
       return handlePersistenceRequest(request, { poolFactory: () => pool });
     }
     if (path === '/api/stages') {

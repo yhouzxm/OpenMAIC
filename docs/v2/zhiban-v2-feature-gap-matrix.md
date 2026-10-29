@@ -1,3 +1,11 @@
+> 2026-10-30：[PG16→PG18 三库逻辑导入与 RDS／云端接续](zhiban-v2-rds-pg18-import-cloud-20261030.md)已补独立 imported 参考、真实副本及现场合成数据导入和 RDS CREATEROLE 角色图拒绝；应用 receipt 启用与正式 installer／运行宿主仍未完成。新 GitHub 结果认该页实际 closeout，不扩展旧证据。
+
+> 2026-10-29：[v1.3.0 持久化副本与 PG18／RDS 接续](zhiban-v2-openmaic-130-persistence.md)已完成 LOCAL 副本迁移／恢复与本版 PG18 定向验证；RDS 工具为只读预检和未应用材料，正式 installer／运行宿主及真实云端切换仍未签收。旧证据不跨来源扩展。
+
+> 2026-10-28：[最新剩余清单](zhiban-v2-remaining-work-audit-20261028.md)覆盖当前排期与证据边界。下列 36 行是历史能力分类，不是未完功能计数；PG18 隔离 GitHub 验收已通过指定 SHA，RDS 正式部署入口仍未实现。
+
+> 2026-10-29：已完成 LOCAL 代码集成、定向浏览器旅程和生产构建的 [OpenMAIC v1.3.0 升级候选](zhiban-v2-openmaic-130-upgrade.md)。新版知识库／Pro 工作台按现有课程授权复用；既有数据库切换及新 PG18 验收单列，旧证据不跨版本扩展。
+
 > 2026-10-27 P7 更新：PG18 全量应用首装、三角色课堂及三库同主版本恢复已 LOCAL 通过，手动 GitHub 验收候选已准备，详见[PG18 版本化交付](zhiban-v2-pg18-readiness.md)。远端尚未运行，原 PG16 导入实例未激活，生产／真实 Native 维护权限继续保留原边界。
 
 > 2026-10-27：[原生整课视频导出＋教师控制的课堂共享](zhiban-v2-course-video-sharing-local.md)已 LOCAL 接通并完成真实渲染／下载及双浏览器旅程。同步限定固定课件位置、播放状态和教师公开板书文字／小结，私人 AI 内部状态不广播；永久视频归档和大班／长课容量未据此签收。

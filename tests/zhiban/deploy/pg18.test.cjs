@@ -33,30 +33,33 @@ function invoke(code, env = {}) {
     { env: e, cwd: root, encoding: 'utf8' },
   );
 }
-const dir = path.join(root, 'docs/v2/candidates/pg18-provider-v1');
+const dir = path.join(root, 'docs/v2/candidates/openmaic-130');
 fs.mkdirSync(dir, { recursive: true, mode: 0o700 });
-function fixture() {
+function fixture(major = 18, lineage = major === 18 ? 'PG18_FRESH_V1' : 'PG16_FRESH_V1') {
   const source = Buffer.from('approved SQL');
   fs.writeFileSync(path.join(root, 'source.sql'), source);
   const r = {
-    kind: 'PG18_SOURCE_BUILT_REFERENCE_V1',
-    major: 18,
+    kind: 'OPENMAIC_130_SOURCE_BUILT_REFERENCE_V1',
+    major,
+    sourceLineage: lineage,
     evidenceOrigin: 'LOCAL',
     githubActions: false,
     constructionOnly: true,
-    profiles: { 'old.json': { scope: 'PG18' } },
+    profiles: { 'old.json': major === 16 ? { scope: 'PG16', frozen: true } : { scope: 'PG18' } },
     sourceHashes: { 'source.sql': hash(source) },
-    importedPg16: { major: 18, profiles: { 'old.json': { scope: 'IMPORT' } } },
   };
+  if (lineage === 'PG16_IMPORTED_V1') r.profiles = { 'old.json': { scope: 'IMPORT' } };
+  const suffix = lineage === 'PG16_IMPORTED_V1' ? '-imported' : '';
   const bytes = JSON.stringify(r);
-  fs.writeFileSync(path.join(dir, 'reference.json'), bytes);
+  fs.writeFileSync(path.join(dir, 'reference-pg' + major + suffix + '.json'), bytes);
   fs.writeFileSync(
-    path.join(dir, 'pin.json'),
-    JSON.stringify({ kind: 'PG18_REFERENCE_PIN_V1', sha256: hash(bytes) }),
+    path.join(dir, 'pin-pg' + major + suffix + '.json'),
+    JSON.stringify({ kind: 'OPENMAIC_130_REFERENCE_PIN_V1', sha256: hash(bytes) }),
   );
 }
 const pg18 = { ZHIBAN_LOCAL_PG_PROFILE: 'PG18_V1', ZHIBAN_PG18_LINEAGE: 'PG18_FRESH_V1' };
-test('PG16 default reads the original profile with no PG18 reference requirement', () => {
+test('PG16 requires its independent v1.3.0 reference instead of trusting a legacy file', () => {
+  fixture(16);
   fs.writeFileSync(path.join(root, 'old.json'), '{"scope":"PG16","frozen":true}');
   const r = invoke(
     "console.log(JSON.stringify([m.localPgMajor,await m.readProfileReference('old.json')]))",
@@ -65,7 +68,7 @@ test('PG16 default reads the original profile with no PG18 reference requirement
   assert.equal(r.status, 0, r.stderr);
   assert.deepEqual(JSON.parse(r.stdout), [16, { scope: 'PG16', frozen: true }]);
 });
-test('PG18 source-built reference and explicit imported lineage remain separate', () => {
+test('PG18 imported lineage requires a separate pinned independent reference and rejects fresh substitution', () => {
   fixture();
   let r = invoke("console.log((await m.readProfileReference('old.json')).scope)", pg18);
   assert.equal(r.status, 0, r.stderr);
@@ -74,12 +77,23 @@ test('PG18 source-built reference and explicit imported lineage remain separate'
     ...pg18,
     ZHIBAN_PG18_LINEAGE: 'PG16_IMPORTED_V1',
   });
+  assert.notEqual(r.status, 0);
+  assert.match(r.stderr, /ENOENT/);
+  fixture(18, 'PG16_IMPORTED_V1');
+  const imported = { ...pg18, ZHIBAN_PG18_LINEAGE: 'PG16_IMPORTED_V1' };
+  r = invoke("console.log((await m.readProfileReference('old.json')).scope)", imported);
   assert.equal(r.status, 0, r.stderr);
   assert.equal(r.stdout.trim(), 'IMPORT');
+  fs.copyFileSync(
+    path.join(dir, 'reference-pg18.json'),
+    path.join(dir, 'reference-pg18-imported.json'),
+  );
+  fs.copyFileSync(path.join(dir, 'pin-pg18.json'), path.join(dir, 'pin-pg18-imported.json'));
+  assert.match(invoke('await m.pg18Reference()', imported).stderr, /lineage mismatch/);
 });
 test('bad expected pin, changed SQL and unrecognized major or lineage fail closed', () => {
   fixture();
-  fs.appendFileSync(path.join(dir, 'reference.json'), ' ');
+  fs.appendFileSync(path.join(dir, 'reference-pg18.json'), ' ');
   assert.notEqual(invoke('await m.pg18Reference()', pg18).status, 0);
   fixture();
   fs.appendFileSync(path.join(root, 'source.sql'), ' changed');

@@ -70,11 +70,12 @@ async function main() {
     process.argv.includes('--shared-classroom') ||
     process.argv.includes('--classroom-edit')
   ) {
-    for (const pkg of ['dsl', 'storage', 'editor', 'renderer', 'generation']) {
+    for (const pkg of ['dsl', 'geometry', 'storage', 'editor', 'renderer', 'generation']) {
       startup.enter('SDK_VERIFY', pkg);
       await verifyUpstreamPackage(pkg);
       let reuse = false;
       for (const cachePath of [
+        'docs/v2/evidence/openmaic-130/sdk-build-local.json',
         'docs/v2/evidence/zhiban-local-sdk-build-cache.json',
         'docs/v2/evidence/zhiban-quiz-sdk-build-local.json',
         'docs/v2/evidence/m5-c-png-openmaic-120-local.json',
@@ -151,7 +152,7 @@ async function main() {
         '--files',
         '--hidden',
         '--no-ignore',
-        ...['dsl', 'storage', 'editor', 'renderer', 'generation'].flatMap((p) => [
+        ...['dsl', 'geometry', 'storage', 'editor', 'renderer', 'generation'].flatMap((p) => [
           `packages/@openmaic/${p}/src`,
           `packages/@openmaic/${p}/dist`,
           `packages/@openmaic/${p}/package.json`,
@@ -273,6 +274,7 @@ async function main() {
               '--lesson-focus',
               '--lesson-product-focus',
               '--authoring-focus',
+              '--upstream130-focus',
               '--classroom-ai-focus',
               '--native-pbl-focus',
               '--native-archive-focus',

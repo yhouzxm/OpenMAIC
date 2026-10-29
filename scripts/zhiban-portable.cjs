@@ -9,7 +9,7 @@ const cp = require('node:child_process');
 const crypto = require('node:crypto');
 const hash = (b) => crypto.createHash('sha256').update(b).digest('hex');
 const bin = '/usr/lib/postgresql/16/bin';
-const official = 'e19d0d4f45d81b8f7ab599b33ab03b0b8b68d5c0';
+const official = 'c0f296aa36096ec3d1e1e2b94a7a48e20075e0a1';
 const tlsNames = ['localhost.crt', 'localhost.key', 'development-ca.crt', 'receipt.json'];
 function check(v, message) {
   if (!v) throw Error(message);

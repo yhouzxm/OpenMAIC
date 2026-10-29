@@ -11,6 +11,8 @@
     "render-service",
     "tests",
     "eval",
+    "docs",
+    "scripts",
     "packages/@openmaic/*/test"
   ]
 }

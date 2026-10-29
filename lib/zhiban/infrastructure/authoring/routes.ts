@@ -38,7 +38,17 @@ import * as h35 from '@/app/api/materials/[id]/route';
 import * as h36 from '@/app/api/folders/[id]/route';
 import * as h37 from '@/app/api/stages/[id]/route';
 import * as h38 from '@/app/api/agents/[id]/route';
+import * as original from '@/app/api/materials/[id]/original/route';
+import * as library from '@/app/api/materials/library/route';
+import * as materialFolders from '@/app/api/materials/folders/route';
+import * as materialFolder from '@/app/api/materials/folders/[id]/route';
+import * as materialMove from '@/app/api/materials/move/route';
 export const nativeRoutes = [
+  { pattern: /^\/api\/materials\/([^/]+)\/original$/, keys: ['id'], handlers: original },
+  { pattern: /^\/api\/materials\/library$/, keys: [], handlers: library },
+  { pattern: /^\/api\/materials\/folders$/, keys: [], handlers: materialFolders },
+  { pattern: /^\/api\/materials\/folders\/([^/]+)$/, keys: ['id'], handlers: materialFolder },
+  { pattern: /^\/api\/materials\/move$/, keys: [], handlers: materialMove },
   { pattern: new RegExp('^/api/generation-runs/events$'), keys: [], handlers: h0 },
   { pattern: new RegExp('^/api/agent/sessions/status$'), keys: [], handlers: h1 },
   { pattern: new RegExp('^/api/model-config/import$'), keys: [], handlers: h2 },

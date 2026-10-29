@@ -1,3 +1,4 @@
+import { validateShapeGeometry, RENDER_PATH_LIMITS, shapeToTextFallback } from '@openmaic/geometry';
 /** Native PPTX layout engine, with explicit media dependencies and a data-only default. */
 
 import pptxgen from 'pptxgenjs';
@@ -607,7 +608,13 @@ export async function buildPptxBlob(
     if (!slide.elements) continue;
 
     // ── Elements ──
-    for (const el of slide.elements) {
+    for (const sourceElement of slide.elements) {
+      const el =
+        sourceElement.type === 'shape' &&
+        !validateShapeGeometry(sourceElement, RENDER_PATH_LIMITS).ok
+          ? shapeToTextFallback(sourceElement)
+          : sourceElement;
+      if (!el) continue;
       // ── TEXT ──
       if (el.type === 'text') {
         const textProps = formatHTML(el.content, ratioPx2Pt);
@@ -619,7 +626,7 @@ export async function buildPptxBlob(
           fontSize: DEFAULT_FONT_SIZE / ratioPx2Pt,
           fontFace: el.defaultFontName || DEFAULT_FONT_FAMILY,
           color: '#000000',
-          valign: 'top',
+          valign: el.vAlign ?? 'top',
           margin: 10 / ratioPx2Pt,
           paraSpaceBefore: 5 / ratioPx2Pt,
           lineSpacingMultiple: 1.5 / 1.25,
@@ -646,6 +653,20 @@ export async function buildPptxBlob(
         if (el.vertical) options.vert = 'eaVert';
 
         pptxSlide.addText(textProps, options);
+        if (el.link) {
+          const hyperlink = getLinkOption(el.link, slideNumbers);
+          if (hyperlink)
+            pptxSlide.addShape('rect' as pptxgen.ShapeType, {
+              x: options.x,
+              y: options.y,
+              w: options.w,
+              h: options.h,
+              rotate: options.rotate,
+              fill: { color: '#ffffff', transparency: 100 },
+              line: { color: '#ffffff', transparency: 100 },
+              hyperlink,
+            });
+        }
       }
 
       // ── IMAGE ──

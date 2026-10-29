@@ -10,6 +10,10 @@ import { uiEnvironment } from './ui-presentation';
 const startup = createStartupDiagnostics('PERSISTENT');
 async function main() {
   startup.enter('PERSISTENT_CONFIG');
+  if (process.env.ZHIBAN_LOCAL_STATE)
+    for (const name of ['UPGRADING.json', 'FAILED.json'])
+      if (await lstat(join(process.env.ZHIBAN_LOCAL_STATE, name)).catch(() => null))
+        throw Error('Incomplete offline upgrade is quarantined; refusing startup');
   if (process.argv.slice(2).some((x) => x !== '--upgrade-local'))
     throw Error('Unsupported launcher option');
   const envFile = '.env.local';

@@ -63,6 +63,25 @@ export async function buildNativeAuthoring() {
         contents: 'export const randomBytes=(n)=>crypto.getRandomValues(new Uint8Array(n));',
         loader: 'js',
       }));
+      b.onLoad(
+        { filter: /components\/workbench\/workspace\/MaterialLibraryPage\.tsx$/ },
+        async (args) => {
+          const source = await readFile(args.path, 'utf8');
+          const anchor =
+            'href: `/api/materials/${encodeURIComponent(material.materialId)}/original`,\n        onSelect: () => {},';
+          if (source.split(anchor).length !== 2)
+            throw Error('Native material download transport source changed');
+          return {
+            loader: 'tsx',
+            contents:
+              'import { openNativeMaterialOriginal } from "@/app/zhiban/local/native-original";\n' +
+              source.replace(
+                anchor,
+                'onSelect: () => { void openNativeMaterialOriginal(material.materialId, material.opensInline === true); },',
+              ),
+          };
+        },
+      );
       b.onLoad({ filter: /lib\/workbench\/workspace-actions\.ts$/ }, () => ({
         loader: 'js',
         contents: `export async function deleteWorkspaceSession(id){const u=new URL(location.href);const r=await fetch('/api/zhiban/authoring/'+u.searchParams.get('tenant')+'/offerings/'+u.searchParams.get('offering')+'/delete-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id})});if(!r.ok)throw Error('会话删除未完成');return r.json();}`,
@@ -96,8 +115,20 @@ export async function buildNativeAuthoring() {
     outfile: 'app/zhiban/local/native-workbench.bundle.js',
   });
   const results = [workspace];
-  results.push(await build({...common,entryPoints:['app/zhiban/local/course-results.tsx'],outfile:'app/zhiban/local/course-results.bundle.js'}));
-  results.push(await build({...common, entryPoints:['app/zhiban/local/admin-services.tsx'],outfile:'app/zhiban/local/admin-services.bundle.js'}));
+  results.push(
+    await build({
+      ...common,
+      entryPoints: ['app/zhiban/local/course-results.tsx'],
+      outfile: 'app/zhiban/local/course-results.bundle.js',
+    }),
+  );
+  results.push(
+    await build({
+      ...common,
+      entryPoints: ['app/zhiban/local/admin-services.tsx'],
+      outfile: 'app/zhiban/local/admin-services.bundle.js',
+    }),
+  );
   results.push(
     await build({
       ...common,

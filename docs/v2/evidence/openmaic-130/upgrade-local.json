@@ -1,0 +1,133 @@
+{
+  "kind": "OPENMAIC_130_UPGRADE_LOCAL_V1",
+  "status": "LOCAL_CANDIDATE_VALIDATED",
+  "createdAt": "2026-10-29T14:34:01.254189+00:00",
+  "evidenceOrigin": "LOCAL",
+  "githubActions": false,
+  "branch": "refactor/zhiban-v2",
+  "baseHead": "038a28e8181e8fddcf69a386244da64044a3486b",
+  "dirtyCandidate": true,
+  "committed": false,
+  "pushed": false,
+  "ciDispatched": false,
+  "deployed": false,
+  "officialVersion": "1.3.0",
+  "officialSha": "c0f296aa36096ec3d1e1e2b94a7a48e20075e0a1",
+  "codeConfigSqlCandidateDigest": "f8c18cb8fd7bfd8d012b4d948cf870784a513ae8b079d268340646443dea0152",
+  "digestIsPortableSourceDigest": false,
+  "referencePg16Sha256": "c452b13da184defe183da52de4ccfeceeb31f1b8f4107b9bba2b12117f26b16e",
+  "existingAppliedMigrationFiles": {
+    "status": "PASS",
+    "count": 57,
+    "changed": []
+  },
+  "checks": [
+    {
+      "status": "PASS",
+      "scope": "Seven upstream SDK source pins; rebased quiz extension separately hashed",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/openmaic-130-20261029-203623/checks/sources.log",
+      "logSha256": "3560e505ed5288199e84b641dac91b36cea99efbd33afea84f9eb8d088c8bc03"
+    },
+    {
+      "status": "PASS",
+      "scope": "Quiz extensions, published lesson projection, archive, WAV/recording and interactive assets",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/openmaic-130-20261029-203623/checks/unit-light.log",
+      "logSha256": "8ce190d85207919c3e9f79a8e86b5bb53665c5f28f3cb82be2517325c3797833"
+    },
+    {
+      "status": "PASS",
+      "scope": "Office provider config, extraction availability, TTS concurrency, knowledge library UI and PPTX shape/math",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/openmaic-130-20261029-203623/checks/unit-adapters.log",
+      "logSha256": "7280e329feef927c129992c8461190443bac63329ec9045878415a4b34405b21"
+    },
+    {
+      "status": "PASS",
+      "scope": "Node boot validation and explicit material-pool backfill behavior",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/openmaic-130-20261029-203623/checks/boot.log",
+      "logSha256": "6c29ad898ca1a2f1e9faf951274788a5d4d77ca8e192a7fe3d0a2b5858d3f463"
+    },
+    {
+      "status": "PASS",
+      "scope": "Relocated owner/session event, stage scene/freshness handlers and legacy Office admission",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/openmaic-130-20261029-203623/checks/route-boundaries.log",
+      "logSha256": "4696dbc51d39864ae3dacb764c11f50c9f30d166da375f48f8ceea5851cd79b3"
+    },
+    {
+      "status": "PASS",
+      "scope": "Six selected upstream library lifecycle/isolation/concurrency cases on owned real PG16; 51 unselected",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/openmaic-130-20261029-203623/checks/library-pg16.log",
+      "logSha256": "f570ad22c3ff7502cab7224d0957408e65f8c9aebb71d04a292e327ba82a7d5c"
+    },
+    {
+      "status": "PASS",
+      "scope": "Fresh owned PG16 reference reconstruction and pin verification; construction only",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/openmaic-130-20261029-203623/checks/reference-verify.log",
+      "logSha256": "63eec5cb9f911446f4cd2d3c298dcb569dfc9157c62f69d81b2c946f514898fb"
+    },
+    {
+      "status": "PASS",
+      "scope": "Production application TypeScript graph, including all imported dependencies",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/openmaic-130-20261029-203623/checks/types-build.log",
+      "logSha256": "418a5c17f33c70e99b0cc0a07fce69191489cfedc94164bfa903785777c5bd4b"
+    },
+    {
+      "status": "PASS",
+      "scope": "Touched application/build/handler boundaries",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/openmaic-130-20261029-203623/checks/lint-final.log",
+      "logSha256": "418a5c17f33c70e99b0cc0a07fce69191489cfedc94164bfa903785777c5bd4b"
+    },
+    {
+      "status": "PASS",
+      "scope": "Reference constructor lint",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/openmaic-130-20261029-203623/checks/lint-builder-final.log",
+      "logSha256": "418a5c17f33c70e99b0cc0a07fce69191489cfedc94164bfa903785777c5bd4b"
+    },
+    {
+      "status": "PASS",
+      "scope": "Full Next production build using Webpack; neutral model config and unreachable build-only DB",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/openmaic-130-20261029-203623/checks/build-webpack-accepted.log",
+      "logSha256": "456bdf0b018cfa4768d881408d8d04000af2bca8a546c3260a8930d96af16f4a"
+    },
+    {
+      "status": "PASS",
+      "scope": "Final candidate LOCAL disposable PG16, real Identity/HTTPS and teacher editor/library/adopt/publish/student browser journey; no real model invocation",
+      "log": "/home/zxm/.local/state/zhiban-upgrades/openmaic-130-20261029-203623/checks/journey-final.log",
+      "logSha256": "b09acf799265a185427ef85f00416d3d8d85b7971b843288da71c94a7707d595"
+    }
+  ],
+  "artifactSha256": {
+    "docs/v2/evidence/openmaic-130/candidate-source.json": "b1864d8a80242ba16691375b11305e99e68c69c9097b24e5d3537428cd87081a",
+    "docs/v2/evidence/openmaic-130/native-authoring-browser.json": "790b2897e80be68192cd3109bc75a244f030e94cd44eeda10f929d8f46b5d126",
+    "docs/v2/evidence/openmaic-130/library-desktop.png": "65c001b451f25103bb0bd745f2cdbbc750f1e6ea8b805c81ee8fdded95350a2b",
+    "docs/v2/evidence/openmaic-130/library-mobile.png": "5b7f594da48d413905939b583bbd2a5323addbfec47f67f5d4928791ea7ca409",
+    "docs/v2/evidence/openmaic-130/native-authoring-workspace.png": "ced524eb934267c4414ab86eaeb3135c2a3a95dc25baa2f1cbb2bb2419fcd8e8",
+    "docs/v2/evidence/openmaic-130/native-authoring-published.png": "82d69acb28b1fdcddbb612137dec805ec1f13a4d0d652afdc48e25353ca9ad60"
+  },
+  "stoppedOrSuperseded": [
+    {
+      "log": "/home/zxm/.local/state/zhiban-upgrades/openmaic-130-20261029-203623/checks/build.log",
+      "result": "Turbopack deliberately stopped for memory/swap pressure; not PASS"
+    },
+    {
+      "log": "/home/zxm/.local/state/zhiban-upgrades/openmaic-130-20261029-203623/checks/unit-integration.log",
+      "result": "PGlite WASM suite stopped for memory pressure; selected real PG16 cases replace only corresponding scope"
+    },
+    {
+      "logs": [
+        "build-webpack.log",
+        "build-webpack-final.log",
+        "build-webpack-leaf.log"
+      ],
+      "result": "Build failures diagnosed and fixed; only accepted final build counts"
+    }
+  ],
+  "boundaries": [
+    "No existing persistent database or Alibaba RDS migration, activation or production startup",
+    "New PG18 reference and v1.3.0 PG18 acceptance pending; old GitHub PG18 evidence remains bound to its earlier source",
+    "Real external AI/media services not reinvoked; structural invocation refusal and adoption/publication validated",
+    "Knowledge library is current teaching-offering and teacher partition, actual admitted upload bound 1MiB",
+    "Trusted Native maintenance inputs remain missing and isolated",
+    "No pre-v1.3 snapshot upgrade/receipt relabeling; stop all old writers before pool migration; no in-place downgrade after v1.3 writes",
+    "Full classroom regression and unrelated suites intentionally not repeated"
+  ]
+}

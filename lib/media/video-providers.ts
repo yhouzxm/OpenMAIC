@@ -16,7 +16,6 @@ import {
   testSeedanceConnectivity,
 } from './adapters/seedance-adapter';
 import { generateWithKling, testKlingConnectivity } from './adapters/kling-adapter';
-import { generateWithVeo, testVeoConnectivity } from './adapters/veo-adapter';
 import {
   generateWithMiniMaxVideo,
   testMiniMaxVideoConnectivity,
@@ -43,8 +42,6 @@ export async function testVideoConnectivity(
       return testSeedanceConnectivity(config);
     case 'kling':
       return testKlingConnectivity(config);
-    case 'veo':
-      return testVeoConnectivity(config);
     case 'minimax-video':
       return testMiniMaxVideoConnectivity(config);
     case 'grok-video':
@@ -134,8 +131,6 @@ export async function generateVideo(
       return generateWithSeedance(config, options, control);
     case 'kling':
       return generateWithKling(config, options, control);
-    case 'veo':
-      return generateWithVeo(config, options, control);
     case 'minimax-video':
       return generateWithMiniMaxVideo(config, options, control);
     case 'grok-video':

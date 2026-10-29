@@ -100,7 +100,7 @@ export function nativeManifest(
   );
   return {
     formatVersion: 1,
-    appVersion: 'OpenMAIC-1.2.1-zhiban-archive',
+    appVersion: 'OpenMAIC-1.3.0-zhiban-archive',
     exportedAt: new Date().toISOString(),
     stage: {
       name: d.stage.name,

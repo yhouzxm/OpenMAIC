@@ -206,7 +206,7 @@ export async function prepareTrial(input: {
       errors: string[] = [];
     page.on('pageerror', (e) => errors.push(e.message));
     await page.goto(urls.workspace);
-    await page.getByLabel('账号 ID', { exact: true }).fill(a.uid);
+    await page.getByLabel('账号 ID 或 @登录标识', { exact: true }).fill(a.uid);
     await page.getByLabel('密码', { exact: true }).fill(a.password);
     await page.getByRole('button', { name: '登录并进入', exact: true }).click();
     if (role === 'ADMIN') {
