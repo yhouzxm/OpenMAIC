@@ -1,4 +1,4 @@
-> 2026-10-30：[PG16→PG18 三库逻辑导入与 RDS／云端接续](zhiban-v2-rds-pg18-import-cloud-20261030.md)已补独立 imported 参考、真实副本及现场合成数据导入和 RDS CREATEROLE 角色图拒绝；应用 receipt 启用与正式 installer／运行宿主仍未完成。新 GitHub 结果认该页实际 closeout，不扩展旧证据。
+> 2026-10-30：[PG16→PG18 三库逻辑导入与 RDS／云端接续](zhiban-v2-rds-pg18-import-cloud-20261030.md)已补独立 imported 参考、真实副本及现场合成数据导入和 RDS CREATEROLE 角色图拒绝；应用 receipt 启用与正式 installer／运行宿主仍未完成。真实 GitHub run 40942085416／代码 9072c48f 已 PASS，范围认该页 closeout；不扩展旧证据或签收正式 RDS 宿主。
 
 > 2026-10-29：[v1.3.0 持久化副本与 PG18／RDS 接续](zhiban-v2-openmaic-130-persistence.md)已完成 LOCAL 副本迁移／恢复与本版 PG18 定向验证；RDS 工具为只读预检和未应用材料，正式 installer／运行宿主及真实云端切换仍未签收。旧证据不跨来源扩展。
 

@@ -1,0 +1,39 @@
+{
+  "kind": "ZHIBAN_130_IMPORT_CLOUD_CLOSEOUT_V1",
+  "status": "PARTIAL_PENDING_FORMAL_RDS_HOST_AND_IMPORTED_ACTIVATION",
+  "codeSha": "9072c48f62141b86ada18819667978c2609024a9",
+  "officialSha": "c0f296aa36096ec3d1e1e2b94a7a48e20075e0a1",
+  "branch": "refactor/zhiban-v2",
+  "cloud": {
+    "runId": "40942085416",
+    "attempt": 1,
+    "url": "https://github.com/yhouzxm/OpenMAIC/actions/runs/40942085416",
+    "conclusion": "success",
+    "summarySha256": "82425298a04297049608f7da52af7a98f201798d636d9d87a94be6ad6e50ed8b",
+    "ownedProcessCleanup": "PASS",
+    "protectedEnvironment": "zhiban-pg18-acceptance",
+    "approvedSha": "9072c48f62141b86ada18819667978c2609024a9"
+  },
+  "local": {
+    "actualSnapshotLogicalImport": "PASS",
+    "syntheticLogicalImport": "PASS",
+    "dataAclRoleDifferences": 0,
+    "threeRoleIdentityCsrfLogout": "PASS",
+    "deploymentTypeCheck": "PASS",
+    "directedBoundaryChecks": "PASS",
+    "sourceSnapshotChanged": false,
+    "privateMaterialsUploaded": false
+  },
+  "formalRdsHostAccepted": false,
+  "importedProviderActivated": false,
+  "alibabaRdsConnected": false,
+  "productionDeployed": false,
+  "oldSourceAndPrivateKitsRebuilt": false,
+  "shutdown": {
+    "requestedAfterCompletion": true,
+    "performed": false,
+    "reason": "Full requested installation/runtime/activation remains incomplete; trusted target inputs requested"
+  },
+  "nextPackage": "Formal RDS installation/runtime separation, independently approved RDS owner/grantor/ACL reference and imported receipt activation",
+  "suggestedModel": "GPT-6.1 Sol / high"
+}

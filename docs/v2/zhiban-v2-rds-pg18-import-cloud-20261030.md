@@ -26,7 +26,7 @@ pnpm verify:zhiban:pg16-import /absolute/snapshot MANIFEST_SHA256 /absolute/new-
 
 手动 workflow `zhiban-pg18-acceptance.yml` 绑定环境批准 SHA，拉取 v1.3.0 上游 c0f296a…，只在真实 GitHub 运行中记录 run／attempt／SHA。验证独立 fresh／imported 参考、RDS TLS 与权限拒绝、现场 PG16 三库逻辑导入、PG18 应用定向旅程、全新安装、三角色 HTTPS，以及在线备份／正常停止快照的同主版本恢复。上传仅允许公开摘要和经过既有 allowlist 的启动阶段；私有库、凭据、实例密钥、原始日志及本机材料不上传。
 
-本轮新 run／SHA 在实际完成后写入本目录 closeout；旧 1.2.x GitHub PASS 保留旧范围。
+真实 GitHub [run 40942085416 / attempt 1](https://github.com/yhouzxm/OpenMAIC/actions/runs/40942085416) **SUCCESS**，代码 SHA `9072c48f62141b86ada18819667978c2609024a9`。上述九个阶段完成，清理步骤成功，artifact 仅有公开摘要。见 [原摘要](evidence/persistence-130/rds-import-cloud/github-summary.json) 与 [范围 closeout](evidence/persistence-130/rds-import-cloud/closeout.json)。后续文档 checkpoint 不改变被测代码 SHA；旧 1.2.x GitHub PASS 保留旧范围。
 
 ## 尚未完成，继续隔离
 
