@@ -92,7 +92,7 @@ async function main() {
     const at = Date.now(),
       environment = 'INSTALLATION_TEST_ONLY',
       approvalRef = 'first-admin';
-    const policyDigests = {} as Record<(typeof purposes)[number],string>;
+    const policyDigests = {} as Record<(typeof purposes)[number], string>;
     for (const purpose of purposes) {
       const initial = purpose === 'INITIAL_PROVISION';
       const p = {

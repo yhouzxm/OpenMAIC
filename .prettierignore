@@ -29,3 +29,30 @@ out/
 
 # SVG arc helper (vendored declaration)
 lib/export/svg-arc-to-cubic-bezier.d.ts
+
+# Immutable historical evidence and frozen maintenance candidates
+docs/v2/evidence/
+docs/v2/candidates/
+
+.zhiban-*/
+.zhiban-*.mjs
+
+# Generated browser assets (source TSX is checked)
+/app/zhiban/local/quiz-client.js
+/app/zhiban/local/published-player.js
+/app/zhiban/local/native-workbench.bundle.js
+/app/zhiban/local/native-workbench.bundle.css
+/app/zhiban/local/native-review.js
+/app/zhiban/local/native-published.js
+/app/zhiban/local/native-theme.css
+/app/zhiban/local/native-assets/
+/app/zhiban/local/native-classroom.bundle.js
+/app/zhiban/local/native-classroom.bundle.css
+/app/zhiban/local/content-client.js
+/app/zhiban/local/native-archive.bundle.js
+/app/zhiban/local/native-services.bundle.js
+/app/zhiban/local/admin-services.bundle.js
+/app/zhiban/local/course-results.bundle.js
+
+# Checked-in runtime bundle; authored input is attempt-runtime-page.tsx
+/app/zhiban/local/attempt-runtime-page.js

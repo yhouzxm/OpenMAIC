@@ -180,11 +180,21 @@ function Root() {
       clearInterval(t);
     };
   }, []);
-  useEffect(()=>{
-    const target=q.get('scene');if(!target)return;let applied=false;
-    const apply=()=>{const state=useStageStore.getState();if(!applied&&state.scenes.some(s=>s.id===target)){applied=true;state.setCurrentSceneId(target);}};
-    const stop=useStageStore.subscribe(apply);apply();return stop;
-  },[]);
+  useEffect(() => {
+    const target = q.get('scene');
+    if (!target) return;
+    let applied = false;
+    const apply = () => {
+      const state = useStageStore.getState();
+      if (!applied && state.scenes.some((s) => s.id === target)) {
+        applied = true;
+        state.setCurrentSceneId(target);
+      }
+    };
+    const stop = useStageStore.subscribe(apply);
+    apply();
+    return stop;
+  }, []);
   configurePublishedPbl(data?.pblEnabled === true);
   const change = async (pbl = false) => {
     if (!data || busy) return;
@@ -227,7 +237,11 @@ function Root() {
                   <div className="native-classroom-shell">
                     <header className="native-classroom-bar">
                       <a href={course}>← 返回课程</a>
-                      <a href={`/zhiban/course-results?tenant=${tenant}&offering=${offering}${q.get('resultAttempt')?'&attempt='+encodeURIComponent(q.get('resultAttempt')!):''}`}>课堂成果与共享结果</a>
+                      <a
+                        href={`/zhiban/course-results?tenant=${tenant}&offering=${offering}${q.get('resultAttempt') ? '&attempt=' + encodeURIComponent(q.get('resultAttempt')!) : ''}`}
+                      >
+                        课堂成果与共享结果
+                      </a>
                       <strong>原生 AI 课堂{data ? ' · ' + data.title : ''}</strong>
                       {data?.teacher && (
                         <button disabled={busy} onClick={() => void change()}>
@@ -244,7 +258,9 @@ function Root() {
                       </small>
                       {notice && <span role="status">{notice}</span>}
                     </header>
-                    {data?.enabled&&<ClassroomSharing key={data.stageId} base={base} teacher={data.teacher}/>}
+                    {data?.enabled && (
+                      <ClassroomSharing key={data.stageId} base={base} teacher={data.teacher} />
+                    )}
                     {error ? (
                       <section className="native-classroom-notice" role="alert">
                         {error}

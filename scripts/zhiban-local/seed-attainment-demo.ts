@@ -654,14 +654,12 @@ async function main() {
         }
         if (role === 'teacher') {
           await page.goto(m.origin + urls.teacher);
-          const policyCard = page
-            .locator('#auto-grading section')
-            .filter({
-              has: page.getByRole('heading', {
-                name: 'AI 服务正式评分：安全维护步骤',
-                exact: true,
-              }),
-            });
+          const policyCard = page.locator('#auto-grading section').filter({
+            has: page.getByRole('heading', {
+              name: 'AI 服务正式评分：安全维护步骤',
+              exact: true,
+            }),
+          });
           const post = page.waitForResponse(
             (r) => r.request().method() === 'POST' && r.url().includes('/api/zhiban/autograde/'),
           );

@@ -8,7 +8,13 @@ import type { AcademicContext, AcademicStore, AcademicTransaction } from '../aca
 import type { TutorEngine } from '../../infrastructure/tutor/native';
 import type { TutorPgTransaction } from '../../infrastructure/tutor/postgres/transaction';
 export interface TutorContent {
-  tools?(x:AcademicContext,o:string,source:TutorSource|null,signal:AbortSignal,vision:boolean):Promise<AgentTool[]>;
+  tools?(
+    x: AcademicContext,
+    o: string,
+    source: TutorSource | null,
+    signal: AbortSignal,
+    vision: boolean,
+  ): Promise<AgentTool[]>;
   list(
     x: AcademicContext,
     o: string,
@@ -77,7 +83,9 @@ export class TutorService {
       after = academicId(parts[0]);
     }
     const page = await this.tx(x, (a, t) => t.read(a, o, mode, id, after));
-    const capability = await withServiceTenant(x.tenantId,()=>this.engine.capability(this.owner(x, o)));
+    const capability = await withServiceTenant(x.tenantId, () =>
+      this.engine.capability(this.owner(x, o)),
+    );
     return {
       ...page,
       next: page.next ? Buffer.from(page.next + ':' + mac(page.next)).toString('base64url') : null,
@@ -97,7 +105,10 @@ export class TutorService {
     if (c.type === 'ASK') {
       const page = await this.tx(x, (a, t) => t.read(a, o, c.mode, c.id, null));
       source = (page as { session: { source: TutorSource | null } }).session.source;
-      requireAcademic((await withServiceTenant(x.tenantId,()=>this.engine.capability(this.owner(x, o)))).ready, 'UNAVAILABLE');
+      requireAcademic(
+        (await withServiceTenant(x.tenantId, () => this.engine.capability(this.owner(x, o)))).ready,
+        'UNAVAILABLE',
+      );
     }
     this.reservations++;
     let accepted;
@@ -169,9 +180,15 @@ export class TutorService {
       source = run.source;
       await this.content.guard(x, o, source, async () => {});
       if (controller.signal.aborted) throw Error('CANCELLED');
-      const output = await withServiceTenant(x.tenantId,async()=>{ await registerServiceOwner(this.owner(x,o),x.tenantId); const capability=await this.engine.capability(this.owner(x,o));
-        const tools=capability.tools&&this.content.tools?await this.content.tools(x,o,source,controller.signal,!!capability.vision):[];
-        return this.engine.generate(this.owner(x, o), run, controller.signal,tools); });
+      const output = await withServiceTenant(x.tenantId, async () => {
+        await registerServiceOwner(this.owner(x, o), x.tenantId);
+        const capability = await this.engine.capability(this.owner(x, o));
+        const tools =
+          capability.tools && this.content.tools
+            ? await this.content.tools(x, o, source, controller.signal, !!capability.vision)
+            : [];
+        return this.engine.generate(this.owner(x, o), run, controller.signal, tools);
+      });
       requireAcademic(
         typeof output.text === 'string' &&
           output.text.trim().length > 0 &&

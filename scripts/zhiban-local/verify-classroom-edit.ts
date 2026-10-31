@@ -77,7 +77,7 @@ export async function verifyClassroomEdit(input: Input) {
     opensAt: null,
     closesAt: null,
   };
-  let open = await send(schedule);
+  const open = await send(schedule);
   assert.equal((await read(student)).sessions.length, 1);
   assert.equal(
     (await http(base, teacher, { ...schedule, revision: open.revision, title: '越权改已发布标题' }))
@@ -120,7 +120,7 @@ export async function verifyClassroomEdit(input: Input) {
     ).status,
     200,
   );
-  let task = await send({
+  const task = await send({
     type: 'DISPATCH_TASK',
     id: row.id,
     revision: open.revision,

@@ -977,14 +977,33 @@ const fileMime = (name) => attachmentMimeByExtension[name.split('.').pop().toLow
           card = el('section', undefined, 'learning-activity');
         rows.append(card);
         // Public fixed rubric disclosure; the original submit remains server-authorized.
-        if(a.status === 'PUBLISHED') {
-          const ac=new AbortController(); owners.add(()=>ac.abort());
-          fetch(`/api/zhiban/autograde/${tenant}/offerings/${offering.id}?mode=${teacher?'TEACHER':'STUDENT'}&activity=${a.id}`,{headers:{'x-zhiban-request':'identity-v1'},cache:'no-store',signal:ac.signal})
-            .then(async r=>r.ok?await r.json():null).then(data=>{
-              if(ac.signal.aborted||!data)return;
-              const policy=data.rows.find(p=>p.id===a.id&&p.enabled&&p.activity_version===p.published_version);
-              if(policy)card.prepend(el('p',`本活动已启用 AI 服务正式评分（${policy.provider} / ${policy.model}）。固定评分规则：${policy.rubric}。可在课程“AI 正式评分”查看本人成绩并申诉。`,'muted'));
-            }).catch(()=>{});
+        if (a.status === 'PUBLISHED') {
+          const ac = new AbortController();
+          owners.add(() => ac.abort());
+          fetch(
+            `/api/zhiban/autograde/${tenant}/offerings/${offering.id}?mode=${teacher ? 'TEACHER' : 'STUDENT'}&activity=${a.id}`,
+            {
+              headers: { 'x-zhiban-request': 'identity-v1' },
+              cache: 'no-store',
+              signal: ac.signal,
+            },
+          )
+            .then(async (r) => (r.ok ? await r.json() : null))
+            .then((data) => {
+              if (ac.signal.aborted || !data) return;
+              const policy = data.rows.find(
+                (p) => p.id === a.id && p.enabled && p.activity_version === p.published_version,
+              );
+              if (policy)
+                card.prepend(
+                  el(
+                    'p',
+                    `本活动已启用 AI 服务正式评分（${policy.provider} / ${policy.model}）。固定评分规则：${policy.rubric}。可在课程“AI 正式评分”查看本人成绩并申诉。`,
+                    'muted',
+                  ),
+                );
+            })
+            .catch(() => {});
         }
         if (!teacher && pinnedAttempt && classroomActivity[1] === a.id) {
           const search = new URLSearchParams(location.search),

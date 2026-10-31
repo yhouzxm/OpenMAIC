@@ -408,7 +408,8 @@ describe.skipIf(!contractUrl)('claiming anonymous work on PostgreSQL', () => {
         await claimant.query('SELECT pg_advisory_xact_lock($1::bigint)', [
           ownerIdentityLockKey(ANON).toString(),
         ]);
-        const { handlePersistenceRequest } = await import('@/app/api/persistence/[...path]/handler');
+        const { handlePersistenceRequest } =
+          await import('@/app/api/persistence/[...path]/handler');
         const headers = {
           cookie: `anonymous_id=${ANON.slice('anon:'.length)}`,
           'content-type': 'application/json',

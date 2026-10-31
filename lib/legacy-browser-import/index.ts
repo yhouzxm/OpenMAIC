@@ -1,4 +1,4 @@
-import {isGlobalLegacyImportSuppressed} from '@/lib/persistence/browser-host-policy';
+import { isGlobalLegacyImportSuppressed } from '@/lib/persistence/browser-host-policy';
 /**
  * One-way import of what earlier builds stored in this browser into the
  * server, automatically and silently.
@@ -489,7 +489,7 @@ let scheduled = false;
  * is idle. Called from the client persistence bootstrap.
  */
 export function scheduleLegacyBrowserImport(): void {
-  if (isGlobalLegacyImportSuppressed()||scheduled || typeof window === 'undefined') return;
+  if (isGlobalLegacyImportSuppressed() || scheduled || typeof window === 'undefined') return;
   scheduled = true;
   const start = () => {
     void runSerialized({});

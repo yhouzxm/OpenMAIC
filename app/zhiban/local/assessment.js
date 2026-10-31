@@ -403,7 +403,13 @@
             ),
             el('p', p.feedback),
           );
-          if (p.published_by === null) section.append(el('p', '受限 AI 服务正式评分 · 可从课程“AI 正式评分”提出本人申诉；人工更正保留原记录。'));
+          if (p.published_by === null)
+            section.append(
+              el(
+                'p',
+                '受限 AI 服务正式评分 · 可从课程“AI 正式评分”提出本人申诉；人工更正保留原记录。',
+              ),
+            );
           if (p.reason) section.append(el('p', '更正说明：' + p.reason));
           root.append(section);
         }

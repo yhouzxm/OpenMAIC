@@ -270,7 +270,13 @@ export function contentHttp(
             )
           : undefined;
         if (preview.slides?.[0]?.elements?.[0]?.text?.startsWith('原生完整课件 · 来源 SHA256 ')) {
-          return new Response(null, {status:302,headers:{'Location': `/zhiban/native-published?tenant=${tenant}&offering=${offering}&resource=${match[3]}&publication=${preview.publicationId}`, 'Cache-Control':'private, no-store'}});
+          return new Response(null, {
+            status: 302,
+            headers: {
+              Location: `/zhiban/native-published?tenant=${tenant}&offering=${offering}&resource=${match[3]}&publication=${preview.publicationId}`,
+              'Cache-Control': 'private, no-store',
+            },
+          });
         }
         return new Response(
           publishedPlayerDocument(

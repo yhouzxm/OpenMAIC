@@ -94,7 +94,11 @@ export function classroomAiHttp(
       if (tail === 'shared' && request.method === 'GET')
         return response(trace, 200, await live.read(x, resource, publication));
       if (tail === 'shared' && request.method === 'POST')
-        return response(trace, 200, await live.write(x, resource, publication, await body(request, 65536, 3000)));
+        return response(
+          trace,
+          200,
+          await live.write(x, resource, publication, await body(request, 65536, 3000)),
+        );
       if ((tail === 'policy' || tail === 'pbl-policy') && request.method === 'POST') {
         const v = (await body(request, 4096, 3000)) as { enabled: unknown; revision: unknown };
         requireContent(

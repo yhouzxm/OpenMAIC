@@ -304,11 +304,29 @@ export const PlaybackChromeRoot = forwardRef<PlaybackChromeRootHandle, PlaybackC
     }, [selectedAgentIds]);
 
     const engineRef = useRef<PlaybackEngine | null>(null);
-    useEffect(()=>bindSharedPlayback({
-      read:()=>{const e=engineRef.current;if(!e)return null;return {sceneId:e.getCurrentSceneId()??'',actionIndex:Math.max(0,e.getSnapshot().actionIndex),mode:e.getMode()==='playing'?'playing':'paused'};},
-      apply:async v=>{const e=engineRef.current;if(!e||e.getCurrentSceneId()!==v.sceneId)return false;if(e.getMode()==='live')return false;e.pause();return e.jumpToAction(v.actionIndex,{autoplay:v.mode==='playing'});},
-      pause:()=>engineRef.current?.pause(),
-    }),[]);
+    useEffect(
+      () =>
+        bindSharedPlayback({
+          read: () => {
+            const e = engineRef.current;
+            if (!e) return null;
+            return {
+              sceneId: e.getCurrentSceneId() ?? '',
+              actionIndex: Math.max(0, e.getSnapshot().actionIndex),
+              mode: e.getMode() === 'playing' ? 'playing' : 'paused',
+            };
+          },
+          apply: async (v) => {
+            const e = engineRef.current;
+            if (!e || e.getCurrentSceneId() !== v.sceneId) return false;
+            if (e.getMode() === 'live') return false;
+            e.pause();
+            return e.jumpToAction(v.actionIndex, { autoplay: v.mode === 'playing' });
+          },
+          pause: () => engineRef.current?.pause(),
+        }),
+      [],
+    );
     const audioPlayerRef = useRef(createAudioPlayer());
     const chatAreaRef = useRef<ChatAreaRef>(null);
     const lectureSessionIdRef = useRef<string | null>(null);

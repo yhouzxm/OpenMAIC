@@ -1,4 +1,4 @@
-import {isGlobalLegacyImportSuppressed} from '@/lib/persistence/browser-host-policy';
+import { isGlobalLegacyImportSuppressed } from '@/lib/persistence/browser-host-policy';
 /**
  * Agent Registry Store
  *
@@ -185,7 +185,7 @@ let legacyImport: Promise<void> | undefined;
  * Never rejects. Loaded on demand: it is temporary.
  */
 export function importLegacyAgents(): Promise<void> {
-  if(isGlobalLegacyImportSuppressed())return Promise.resolve();
+  if (isGlobalLegacyImportSuppressed()) return Promise.resolve();
   legacyImport ??= (async () => {
     try {
       const { runAgentsImport } = await import('@/lib/legacy-browser-import/agents-import');

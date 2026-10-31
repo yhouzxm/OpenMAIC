@@ -6,9 +6,7 @@ import { runNativeChild } from '@/lib/agent/runtime/run-native-child';
 import type { AgentMessage } from '@earendil-works/pi-agent-core';
 import type { TutorRun } from './postgres/transaction';
 export interface TutorEngine {
-  capability(
-    owner: string,
-  ): Promise<{
+  capability(owner: string): Promise<{
     ready: boolean;
     provider?: string;
     model?: string;

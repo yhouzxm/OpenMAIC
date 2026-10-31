@@ -108,7 +108,10 @@ export function setWorkspaceLayerLoaderForTests(loader?: WorkspaceLayerLoader): 
  * (canonicalizeStoredOwner) instead.
  */
 export async function workspaceLayer(ownerId: string): Promise<ModelConfigLayer | null> {
-  if (hostWorkspace) { const layer = await hostWorkspace(ownerId); if (layer !== undefined) return layer; }
+  if (hostWorkspace) {
+    const layer = await hostWorkspace(ownerId);
+    if (layer !== undefined) return layer;
+  }
   const databaseUrl = process.env.DATABASE_URL?.trim();
   if (!databaseUrl) return null;
   const [{ getServerPersistenceProvider }, { readWorkspaceModelConfig }] = await Promise.all([

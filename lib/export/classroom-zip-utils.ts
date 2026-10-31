@@ -366,7 +366,7 @@ export async function collectLegacyAudioForExport(
   return { audioUrlToPath, blobs, fullyRescuedAudioIds };
 }
 
-export {actionsToManifest} from './manifest-actions';
+export { actionsToManifest } from './manifest-actions';
 
 // ─── Import: Reference Rewriting ───────────────────────────────
 

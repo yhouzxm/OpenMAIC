@@ -364,8 +364,29 @@
 }
 
 /* Personal profile and member directory reuse the administration surfaces. */
-.profile-page > main { max-width: 960px; margin: 24px auto; padding: 24px; }
-.profile-page label { display: grid; gap: 6px; margin: 12px 0; }
-.profile-page textarea { font: inherit; padding: 10px; width: 100%; box-sizing: border-box; }
-.profile-page article { padding: 16px; margin: 12px 0; border: 1px solid var(--border, #ddd); border-radius: 8px; overflow-wrap: anywhere; }
-.profile-page .academic-form { margin: 16px 0; }
+.profile-page > main {
+  max-width: 960px;
+  margin: 24px auto;
+  padding: 24px;
+}
+.profile-page label {
+  display: grid;
+  gap: 6px;
+  margin: 12px 0;
+}
+.profile-page textarea {
+  font: inherit;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.profile-page article {
+  padding: 16px;
+  margin: 12px 0;
+  border: 1px solid var(--border, #ddd);
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+.profile-page .academic-form {
+  margin: 16px 0;
+}

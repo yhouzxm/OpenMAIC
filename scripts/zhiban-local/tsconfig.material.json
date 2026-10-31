@@ -46,9 +46,5 @@
     "./verify-peer.ts",
     "./verify-persistent-host.ts"
   ],
-  "exclude": [
-    "../../node_modules",
-    "../../.next",
-    "../../packages/**/dist"
-  ]
+  "exclude": ["../../node_modules", "../../.next", "../../packages/**/dist"]
 }

@@ -175,7 +175,9 @@ it('requires an exact teacher-list target and binds its cursor independently fro
     { offering, limit: '100' },
     { offering, member: v7() },
   ])
-    expect(() => workspaceQuery(context, 'teachers', input)).toThrow();
+    expect(() =>
+      workspaceQuery(context, 'teachers', Object.fromEntries(Object.entries(input))),
+    ).toThrow();
   const q = workspaceQuery(context, 'teachers', { offering, q: ' 周 ', limit: '10' });
   expect(q.q).toBe('周');
   const cursor = workspaceCursor(context, q, v7());

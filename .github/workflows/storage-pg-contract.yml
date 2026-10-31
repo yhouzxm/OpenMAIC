@@ -11,6 +11,7 @@ on:
         options:
           - full
           - bridge-recheck
+          - diagnostics-recheck
   push:
     branches: [main]
   pull_request:
@@ -24,7 +25,7 @@ jobs:
   storage-pg-contract:
     name: Storage Contract (PostgreSQL 16)
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 25
     services:
       postgres:
         image: postgres:16
@@ -59,7 +60,7 @@ jobs:
         run: |
           set -euo pipefail
           case "$STORAGE_SUITE" in
-            full|bridge-recheck) printf 'STORAGE SUITE: %s\n' "$STORAGE_SUITE" ;;
+            full|bridge-recheck|diagnostics-recheck) printf 'STORAGE SUITE: %s\n' "$STORAGE_SUITE" ;;
             *) echo INVALID_STORAGE_SUITE; exit 1 ;;
           esac
 
@@ -101,12 +102,12 @@ jobs:
 
       - name: Diagnostic setup — exact official reference and browser
         run: |
-          git -c http.version=HTTP/1.1 fetch --no-tags --depth=1 https://github.com/THU-MAIC/OpenMAIC.git 1f05a70ac93e09c67fb4d3aafb9c2b068d14fcce
-          test "$(git rev-parse FETCH_HEAD)" = "1f05a70ac93e09c67fb4d3aafb9c2b068d14fcce"
+          git -c http.version=HTTP/1.1 fetch --no-tags --depth=1 https://github.com/THU-MAIC/OpenMAIC.git c0f296aa36096ec3d1e1e2b94a7a48e20075e0a1
+          test "$(git rev-parse FETCH_HEAD)" = "c0f296aa36096ec3d1e1e2b94a7a48e20075e0a1"
           pnpm exec playwright install --with-deps chromium
 
       - name: OpenMAIC isolated diagnostics — fresh artifacts, two passes
-        if: env.STORAGE_SUITE == 'full'
+        if: env.STORAGE_SUITE == 'full' || env.STORAGE_SUITE == 'diagnostics-recheck'
         shell: bash
         run: |
           set -euo pipefail

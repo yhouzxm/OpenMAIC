@@ -362,8 +362,13 @@ function App() {
     }
   };
   const adopt = (r: any, d: any) => {
-    if(d.slides?.length===1&&d.slides[0].elements?.[0]?.text?.startsWith('原生完整课件 · 来源 SHA256 ')){
-      location.href=r.viewOnly?`/zhiban/native-published?tenant=${tenant}&offering=${offering}&resource=${r.id}&publication=${d.publicationId}`:`/zhiban/native-review?tenant=${tenant}&offering=${offering}&resource=${r.id}`;
+    if (
+      d.slides?.length === 1 &&
+      d.slides[0].elements?.[0]?.text?.startsWith('原生完整课件 · 来源 SHA256 ')
+    ) {
+      location.href = r.viewOnly
+        ? `/zhiban/native-published?tenant=${tenant}&offering=${offering}&resource=${r.id}&publication=${d.publicationId}`
+        : `/zhiban/native-review?tenant=${tenant}&offering=${offering}&resource=${r.id}`;
       return;
     }
     setCurrent({ ...r, publicationId: d.publicationId });
@@ -518,7 +523,11 @@ function App() {
                 </small>
                 {r.teacher && (
                   <button disabled={busy} onClick={() => open(r)}>
-                    {r.draft?.slides?.[0]?.elements?.[0]?.text?.startsWith('原生完整课件 · 来源 SHA256 ')?'审核完整课件':'编辑草稿'}
+                    {r.draft?.slides?.[0]?.elements?.[0]?.text?.startsWith(
+                      '原生完整课件 · 来源 SHA256 ',
+                    )
+                      ? '审核完整课件'
+                      : '编辑草稿'}
                   </button>
                 )}
                 {r.state === 'PUBLISHED' && (

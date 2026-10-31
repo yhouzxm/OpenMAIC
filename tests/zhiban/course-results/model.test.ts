@@ -29,10 +29,10 @@ describe('trusted classroom provenance', () => {
           { value: 'A', label: '安培' },
           { value: 'B', label: '伏特' },
         ],
-        answer: 'A',
+        answer: ['A'],
         points: 2,
       },
-    ] as QuizQuestion[];
+    ] satisfies QuizQuestion[];
     expect(quizEvidence(q, { q: 'B', score: 100 }).practiceScore).toBe(0);
     expect(quizEvidence(q, { q: 'A' }).practiceScore).toBe(2);
     expect(() => quizEvidence(q, { q: ['A', 'A'] })).toThrow();
@@ -48,17 +48,17 @@ describe('trusted classroom provenance', () => {
           { value: 'A', label: '安培' },
           { value: 'B', label: '伏特' },
         ],
-        answer: 'A',
+        answer: ['A'],
         points: 2,
       },
-    ] as QuizQuestion[];
+    ] satisfies QuizQuestion[];
     const result = quizEvidence(q, JSON.parse('{"__proto__":"A"}'));
     expect(result.practiceScore).toBe(2);
     expect(JSON.parse(JSON.stringify(result.answers)).__proto__).toEqual(['A']);
   });
   it('does not treat short answers as an AI formal grade', () => {
     const result = quizEvidence(
-      [{ id: 's', type: 'short_answer', question: '解释', points: 3 }] as QuizQuestion[],
+      [{ id: 's', type: 'short_answer', question: '解释', points: 3 }] satisfies QuizQuestion[],
       { s: '电流与电压有关' },
     );
     expect(result.shortAnswerReviewRequired).toBe(true);

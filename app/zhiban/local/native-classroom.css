@@ -75,12 +75,71 @@ body,
   }
 }
 
-.classroom-sharing { flex-shrink:0; padding:8px 18px; background:#fff; border-bottom:1px solid #dbe4ef; font-size:13px; max-height:35dvh; overflow:auto; }
-.classroom-sharing summary { cursor:pointer; color:#176ddd; font-weight:600; }
-.classroom-sharing label { display:inline-flex; flex-direction:column; gap:4px; width:min(42%,480px); margin:0 12px 8px 0; }
-.classroom-sharing textarea { min-height:54px; border:1px solid #cbd5e1; border-radius:6px; padding:6px; color:#172b4d; }
-.classroom-sharing button { padding:6px 12px; border:1px solid #cbd5e1; border-radius:6px; margin:4px; cursor:pointer; }
-.classroom-sharing small { display:block; color:#64748b; }
-.shared-public-text { display:flex; flex-wrap:wrap; align-items:baseline; gap:10px; }
-.shared-public-text pre,.shared-public-text p { white-space:pre-wrap; overflow-wrap:anywhere; margin:4px; max-width:100%; }
-@media(max-width:640px){.classroom-sharing {padding:8px;max-height:42dvh}.classroom-sharing label{width:100%;margin-right:0}.native-classroom-bar{padding:8px}.native-classroom-bar strong{flex-basis:100%}}
+.classroom-sharing {
+  flex-shrink: 0;
+  padding: 8px 18px;
+  background: #fff;
+  border-bottom: 1px solid #dbe4ef;
+  font-size: 13px;
+  max-height: 35dvh;
+  overflow: auto;
+}
+.classroom-sharing summary {
+  cursor: pointer;
+  color: #176ddd;
+  font-weight: 600;
+}
+.classroom-sharing label {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px;
+  width: min(42%, 480px);
+  margin: 0 12px 8px 0;
+}
+.classroom-sharing textarea {
+  min-height: 54px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 6px;
+  color: #172b4d;
+}
+.classroom-sharing button {
+  padding: 6px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  margin: 4px;
+  cursor: pointer;
+}
+.classroom-sharing small {
+  display: block;
+  color: #64748b;
+}
+.shared-public-text {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px;
+}
+.shared-public-text pre,
+.shared-public-text p {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  margin: 4px;
+  max-width: 100%;
+}
+@media (max-width: 640px) {
+  .classroom-sharing {
+    padding: 8px;
+    max-height: 42dvh;
+  }
+  .classroom-sharing label {
+    width: 100%;
+    margin-right: 0;
+  }
+  .native-classroom-bar {
+    padding: 8px;
+  }
+  .native-classroom-bar strong {
+    flex-basis: 100%;
+  }
+}

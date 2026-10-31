@@ -34,9 +34,5 @@
     "./build-profile-reference.ts",
     "./verify-profile.ts"
   ],
-  "exclude": [
-    "../../node_modules",
-    "../../.next",
-    "../../packages/**/dist"
-  ]
+  "exclude": ["../../node_modules", "../../.next", "../../packages/**/dist"]
 }

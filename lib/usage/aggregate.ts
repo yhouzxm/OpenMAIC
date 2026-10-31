@@ -52,37 +52,36 @@ function dayKey(createdAt: number): string {
   return new Date(createdAt).toISOString().slice(0, 10);
 }
 
-
 /** Shared aggregation; callers enforce their own record scope before using it. */
 export function aggregateUsage(records: UsageRecord[]) {
-    const byModel = new Map<string, Bucket>();
-    const byDay = new Map<string, Bucket>();
-    const byKind = new Map<UsageKind, Bucket>();
-    let totalRequests = 0;
-    let totalLlmTokens = 0;
+  const byModel = new Map<string, Bucket>();
+  const byDay = new Map<string, Bucket>();
+  const byKind = new Map<UsageKind, Bucket>();
+  let totalRequests = 0;
+  let totalLlmTokens = 0;
 
-    for (const r of records) {
-      totalRequests += 1;
-      if (r.kind === 'llm') {
-        totalLlmTokens += r.inputTokens + r.outputTokens;
-      }
-
-      const mk = r.modelString || r.modelId;
-      if (!byModel.has(mk)) byModel.set(mk, emptyBucket(mk, r.kind, unitOf(r)));
-      addTo(byModel.get(mk)!, r);
-
-      const dk = dayKey(r.createdAt);
-      if (!byDay.has(dk)) byDay.set(dk, emptyBucket(dk, 'llm', 'token'));
-      addTo(byDay.get(dk)!, r);
-
-      if (!byKind.has(r.kind)) byKind.set(r.kind, emptyBucket(r.kind, r.kind, unitOf(r)));
-      addTo(byKind.get(r.kind)!, r);
+  for (const r of records) {
+    totalRequests += 1;
+    if (r.kind === 'llm') {
+      totalLlmTokens += r.inputTokens + r.outputTokens;
     }
 
-    return {
-      totals: { requests: totalRequests, llmTokens: totalLlmTokens },
-      byModel: [...byModel.values()].sort((a, b) => b.requests - a.requests),
-      byDay: [...byDay.values()].sort((a, b) => a.key.localeCompare(b.key)),
-      byKind: [...byKind.values()],
-    };
+    const mk = r.modelString || r.modelId;
+    if (!byModel.has(mk)) byModel.set(mk, emptyBucket(mk, r.kind, unitOf(r)));
+    addTo(byModel.get(mk)!, r);
+
+    const dk = dayKey(r.createdAt);
+    if (!byDay.has(dk)) byDay.set(dk, emptyBucket(dk, 'llm', 'token'));
+    addTo(byDay.get(dk)!, r);
+
+    if (!byKind.has(r.kind)) byKind.set(r.kind, emptyBucket(r.kind, r.kind, unitOf(r)));
+    addTo(byKind.get(r.kind)!, r);
+  }
+
+  return {
+    totals: { requests: totalRequests, llmTokens: totalLlmTokens },
+    byModel: [...byModel.values()].sort((a, b) => b.requests - a.requests),
+    byDay: [...byDay.values()].sort((a, b) => a.key.localeCompare(b.key)),
+    byKind: [...byKind.values()],
+  };
 }

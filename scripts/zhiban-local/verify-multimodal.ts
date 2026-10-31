@@ -250,7 +250,9 @@ export async function verifyMultimodal(input: Parameters<typeof verifyClassroomA
   const eicar = Buffer.from(
     'X5O!P%@AP[4\\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*',
   );
-  const infected = await wire(base + '/native/api/materials', eicar, 'text/plain', teacher, {'x-material-filename':'eicar.txt'});
+  const infected = await wire(base + '/native/api/materials', eicar, 'text/plain', teacher, {
+    'x-material-filename': 'eicar.txt',
+  });
   assert.equal(infected.status, 503);
   assert.equal(infected.json.error.code, 'FILE_NOT_CLEARED');
   const assignment = (

@@ -335,9 +335,7 @@ function Root() {
           <>
             <section className="card">
               <h2>固定课件导出</h2>
-              <p className="muted">
-                导出课件设计和资源，不包含学生记录、成绩或私人 AI 对话。
-              </p>
+              <p className="muted">导出课件设计和资源，不包含学生记录、成绩或私人 AI 对话。</p>
               {source.size ? (
                 <>
                   <button disabled={busy} onClick={() => void act(load)}>
@@ -372,12 +370,12 @@ function Root() {
                 <p>从已发布课件或原生工作台选择「归档与恢复」，即可导出指定课件。</p>
               )}
             </section>
-            {source.size>0&&<CourseVideo api={api} source={source} load={loadSource}/>}
+            {source.size > 0 && <CourseVideo api={api} source={source} load={loadSource} />}
             <section className="card">
               <h2>恢复为新的编辑副本</h2>
               <p>
-                支持原生 .maic.zip 完整设计与资产；PPTX
-                可恢复为幻灯片，占位页无法还原在线测验、PBL 项目或 AI 对话。
+                支持原生 .maic.zip 完整设计与资产；PPTX 可恢复为幻灯片，占位页无法还原在线测验、PBL
+                项目或 AI 对话。
               </p>
               <input
                 aria-label="选择课件归档"

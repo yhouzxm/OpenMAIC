@@ -255,7 +255,7 @@ async function main() {
         a.status === 'ACTIVE',
     );
     assert.ok(assignment);
-    let fresh = (await http(path, teacher)).data.resources.find((r: any) => r.id === row.id);
+    const fresh = (await http(path, teacher)).data.resources.find((r: any) => r.id === row.id);
     const stale = { ...draft, revision: fresh.revision };
     const nativeBefore = Number(
       (await native.query('SELECT count(*) FROM public.document_stages')).rows[0].count,

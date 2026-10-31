@@ -37,6 +37,9 @@
     "packages/docs",
     "openclaw",
     "e2e",
-    "render-service"
+    "render-service",
+    "docs/v2/evidence",
+    "docs/v2/candidates",
+    ".zhiban-*/**"
   ]
 }

@@ -270,9 +270,7 @@ export async function verifyUnifiedTrial(input: Input) {
       .getByLabel('评分反馈', { exact: true })
       .fill('讲义、作答与附件对应，已完成本次人工评分。');
     const refreshedQueue = tp.waitForResponse(
-      (r) =>
-        new URL(r.url()).pathname === assessment + '/queue' &&
-        r.request().method() === 'GET',
+      (r) => new URL(r.url()).pathname === assessment + '/queue' && r.request().method() === 'GET',
     );
     const savedGrade = tp.waitForResponse(
       (r) =>

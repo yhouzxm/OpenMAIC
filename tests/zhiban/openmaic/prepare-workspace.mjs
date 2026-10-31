@@ -4,6 +4,7 @@ import { execFileSync, spawn } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { resolve, join, basename, dirname, relative, isAbsolute } from 'node:path';
 import { createHash } from 'node:crypto';
+import { verifyGitPackages } from './package-provenance.mjs';
 
 const source = process.cwd();
 const root = await mkdtemp(join(tmpdir(), 'zhiban-0b-'));
@@ -94,21 +95,10 @@ try {
   if (actualPnpm !== expectedPnpm) throw new Error('DIAGNOSTIC_PNPM_VERSION_REJECTED');
   const archive = join(root, 'source.tar');
   const head = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: source, encoding: 'utf8' }).trim();
-  execFileSync(
-    'git',
-    [
-      'diff',
-      '--exit-code',
-      '1f05a70ac93e09c67fb4d3aafb9c2b068d14fcce',
-      head,
-      '--',
-      'packages/@openmaic',
-    ],
-    {
-      cwd: source,
-      stdio: 'ignore',
-    },
+  const delta = JSON.parse(
+    await readFile(join(source, 'tests/zhiban/openmaic/package-delta-130.json'), 'utf8'),
   );
+  verifyGitPackages(source, head, delta);
   execFileSync(
     'git',
     [
@@ -146,7 +136,8 @@ try {
     join(workspace, 'tests/zhiban/openmaic/artifact-provenance.json'),
     JSON.stringify({
       baseHead: head,
-      officialTag: '1f05a70ac93e09c67fb4d3aafb9c2b068d14fcce',
+      officialTag: delta.official,
+      packageDelta: delta.sha256,
       lockDigest,
       node: process.version,
       platform: process.platform,
@@ -158,7 +149,9 @@ try {
   process.stdout.write(
     'Cleanup this exact new workspace after checks using the approved cleanup helper.\n',
   );
-} catch {
+} catch (error) {
+  // Only allowlisted phase codes are public; dependency logs remain ordinary build output.
+  if (/^DIAGNOSTIC_[A-Z_]+$/.test(error?.message ?? '')) process.stderr.write(error.message + '\n');
   await cleanup(root);
   process.stderr.write('DIAGNOSTIC_FRESH_BUILD_FAILED\n');
   process.exitCode = 1;

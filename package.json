@@ -149,7 +149,8 @@
     "setup:zhiban:production": "node scripts/zhiban-deploy/run-production-tool.cjs production setup",
     "setup:zhiban:production:plan": "node scripts/zhiban-deploy/run-production-tool.cjs production setup-plan",
     "build:zhiban:host": "node scripts/zhiban-deploy/run-production-tool.cjs production build-host",
-    "ops:zhiban": "node scripts/zhiban-deploy/run-production-tool.cjs production"
+    "ops:zhiban": "node scripts/zhiban-deploy/run-production-tool.cjs production",
+    "lint:ci": "node scripts/check-eslint-debt.mjs"
   },
   "dependencies": {
     "@ai-sdk/amazon-bedrock": "^4.0.103",

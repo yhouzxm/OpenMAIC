@@ -58,10 +58,18 @@ async function main() {
     started = true;
     const admin = pool('postgres', 'postgres');
     await admin.query('CREATE DATABASE zhiban_authoring_reference');
-    await pool('postgres','zhiban_authoring_reference').query(await readFile('lib/zhiban/infrastructure/production/authoring-roles.sql','utf8'));
-    const source=await pool('zhiban_authoring_migrator','zhiban_authoring_reference').connect();
+    await pool('postgres', 'zhiban_authoring_reference').query(
+      await readFile('lib/zhiban/infrastructure/production/authoring-roles.sql', 'utf8'),
+    );
+    const source = await pool('zhiban_authoring_migrator', 'zhiban_authoring_reference').connect();
     let expected;
-    try {await source.query('SET ROLE zhiban_authoring_owner');await source.query('SET search_path=public,pg_catalog');expected=await installAuthoringSchema(source);}finally{source.release(true);}
+    try {
+      await source.query('SET ROLE zhiban_authoring_owner');
+      await source.query('SET search_path=public,pg_catalog');
+      expected = await installAuthoringSchema(source);
+    } finally {
+      source.release(true);
+    }
     await admin.query('CREATE DATABASE zhiban_install_authoring');
     const a = pool('postgres');
     await a.query(
@@ -78,8 +86,8 @@ async function main() {
     }
     // Source-only reference is captured before target construction, in another database.
     // The declared target name is configuration, never an observed target catalog value.
-    const approved={...expected,database:'zhiban_install_authoring'};
-    assert.deepEqual(observed,approved);
+    const approved = { ...expected, database: 'zhiban_install_authoring' };
+    assert.deepEqual(observed, approved);
     configureInstalledSchema(approved);
     const runtime = pool('zhiban_authoring_runtime');
     assert.equal(await verifyInstalledSchema(runtime), true);

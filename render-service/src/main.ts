@@ -654,23 +654,26 @@ export async function startService(resourceExecutor?: RenderExecutor): Promise<v
   // makeProjectDir() would ENOENT. mktemp still creates a fresh subdir per job.
   await mkdir(config.tmpDir, { recursive: true }).catch(() => {});
 
-  serve({ fetch: app.fetch, port: config.port, hostname: process.env.RENDER_BIND_HOST || '0.0.0.0' }, (info) => {
-    console.log(
-      `[render-service] listening on :${info.port} ` +
-        `(resourceProfile=${config.resourceProfile.name}, ` +
-        `capturePolicy=${config.resourceProfile.capturePolicy}, ` +
-        `requestedCaptureMode=${config.resourceProfile.requestedCaptureMode}, ` +
-        `maxConcurrency=${config.maxConcurrency}, producerWorkers=${config.producerWorkers}, ` +
-        `browserGpuMode=${process.env.PRODUCER_BROWSER_GPU_MODE ?? 'producer-default'}, ` +
-        `browserPool=${process.env.PRODUCER_ENABLE_BROWSER_POOL ?? 'producer-default'}, ` +
-        `lowMemoryMode=${process.env.PRODUCER_LOW_MEMORY_MODE ?? 'auto'}, ` +
-        `staticDedup=${process.env.HF_STATIC_DEDUP ?? 'producer-default'}, ` +
-        `headlessShell=${process.env.PRODUCER_HEADLESS_SHELL_PATH ?? 'unset'}, ` +
-        `requireBeginFrame=${config.requireBeginFrame}, ` +
-        `producer=${runtimeVersions.producer}, node=${runtimeVersions.node}, ` +
-        `chromium=${runtimeVersions.chromium}, ffmpeg=${runtimeVersions.ffmpeg})`,
-    );
-  });
+  serve(
+    { fetch: app.fetch, port: config.port, hostname: process.env.RENDER_BIND_HOST || '0.0.0.0' },
+    (info) => {
+      console.log(
+        `[render-service] listening on :${info.port} ` +
+          `(resourceProfile=${config.resourceProfile.name}, ` +
+          `capturePolicy=${config.resourceProfile.capturePolicy}, ` +
+          `requestedCaptureMode=${config.resourceProfile.requestedCaptureMode}, ` +
+          `maxConcurrency=${config.maxConcurrency}, producerWorkers=${config.producerWorkers}, ` +
+          `browserGpuMode=${process.env.PRODUCER_BROWSER_GPU_MODE ?? 'producer-default'}, ` +
+          `browserPool=${process.env.PRODUCER_ENABLE_BROWSER_POOL ?? 'producer-default'}, ` +
+          `lowMemoryMode=${process.env.PRODUCER_LOW_MEMORY_MODE ?? 'auto'}, ` +
+          `staticDedup=${process.env.HF_STATIC_DEDUP ?? 'producer-default'}, ` +
+          `headlessShell=${process.env.PRODUCER_HEADLESS_SHELL_PATH ?? 'unset'}, ` +
+          `requireBeginFrame=${config.requireBeginFrame}, ` +
+          `producer=${runtimeVersions.producer}, node=${runtimeVersions.node}, ` +
+          `chromium=${runtimeVersions.chromium}, ffmpeg=${runtimeVersions.ffmpeg})`,
+      );
+    },
+  );
 }
 
 // Only auto-start when run as the entrypoint, not when imported by tests.

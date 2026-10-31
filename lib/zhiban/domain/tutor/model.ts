@@ -8,8 +8,8 @@ export interface TutorSource {
   title: string;
   text: string;
   digest: string;
-  media?:{ref:string;mime:string;digest:string}[];
-  sharedResultId?:string;
+  media?: { ref: string; mime: string; digest: string }[];
+  sharedResultId?: string;
 }
 export type TutorCommand =
   | {

@@ -8,12 +8,12 @@ import { PgRuntimeStore } from '@openmaic/storage/runtime/pg';
 import { document } from './fixtures';
 
 const versions = {
-  dsl: '0.11.2',
-  storage: '0.31.1',
-  generation: '0.3.13',
-  editor: '0.0.9',
-  renderer: '0.1.11',
-  importer: '0.3.0',
+  dsl: '0.12.0',
+  storage: '0.38.1',
+  generation: '0.3.28',
+  editor: '0.0.12',
+  renderer: '0.2.0',
+  importer: '0.3.1',
 };
 describe('P01-P06 pinned published artifact evidence', () => {
   test.each(Object.entries(versions))(
@@ -74,7 +74,7 @@ describe('P01-P06 pinned published artifact evidence', () => {
         await readFile('tests/zhiban/openmaic/artifact-provenance.json', 'utf8'),
       );
       expect(value.freshBuild).toBe(true);
-      expect(value.officialTag).toBe('1f05a70ac93e09c67fb4d3aafb9c2b068d14fcce');
+      expect(value.officialTag).toBe('c0f296aa36096ec3d1e1e2b94a7a48e20075e0a1');
       expect(value.lockDigest).toBe(
         createHash('sha256')
           .update(await readFile('pnpm-lock.yaml'))

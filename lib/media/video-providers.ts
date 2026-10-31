@@ -31,8 +31,8 @@ import {
   openRouterBaseUrl,
 } from './adapters/openrouter-image-adapter';
 
-import {VIDEO_PROVIDERS} from './video-catalog';
-export {VIDEO_PROVIDERS} from './video-catalog';
+import { VIDEO_PROVIDERS } from './video-catalog';
+export { VIDEO_PROVIDERS } from './video-catalog';
 
 export async function testVideoConnectivity(
   config: VideoGenerationConfig,

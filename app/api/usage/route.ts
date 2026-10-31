@@ -2,9 +2,7 @@ import { aggregateUsage } from '@/lib/usage/aggregate';
 import { NextRequest } from 'next/server';
 import { createLogger } from '@/lib/logger';
 import { apiError, apiSuccess } from '@/lib/server/api-response';
-import {
-  readUsageRecords,
-} from '@/lib/server/usage-storage';
+import { readUsageRecords } from '@/lib/server/usage-storage';
 
 const log = createLogger('UsageAPI');
 

@@ -644,12 +644,14 @@ export async function buildStandaloneHtmlExport(
   // Slide audio elements are never played offline, so their bytes are not
   // collected (or counted as missing) either; without narration, interactive
   // pages do not fetch their clips.
-  const snapshot = options.snapshot ?? await buildClassroomExportSnapshot(stage, scenes, options.documentDeps, {
-    audio: includeNarration,
-    videoBytes: includeNarration,
-    audioElements: false,
-    interactiveMedia: includeNarration,
-  });
+  const snapshot =
+    options.snapshot ??
+    (await buildClassroomExportSnapshot(stage, scenes, options.documentDeps, {
+      audio: includeNarration,
+      videoBytes: includeNarration,
+      audioElements: false,
+      interactiveMedia: includeNarration,
+    }));
   const bytes = await collectStandaloneMediaBytes(snapshot, options, {
     playbackMedia: includeNarration,
   });

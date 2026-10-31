@@ -7,6 +7,7 @@ const slide = (src: string, mediaRef?: string): Pick<Slide, 'background' | 'elem
     {
       id: 'video',
       type: 'video',
+      autoplay: false,
       src,
       mediaRef,
       left: 0,

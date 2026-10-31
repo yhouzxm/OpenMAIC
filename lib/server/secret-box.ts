@@ -24,13 +24,14 @@ const log = createLogger('SecretBox');
 export const INSTANCE_SECRET_FILE = 'instance-secret.key';
 let hostSecretDirectory: string | undefined;
 /** Embedded host keeps the instance key with its private recoverable data, never in source. */
-export function configureSecretStorageDirectory(directory:string) {
-  if(hostSecretDirectory || !path.isAbsolute(directory)) throw Error('Secret directory rejected');
-  fs.mkdirSync(directory,{recursive:true,mode:0o700});
-  const stat=fs.lstatSync(directory);
-  if(!stat.isDirectory()||stat.isSymbolicLink()||stat.uid!==process.getuid?.()) throw Error('Private secret directory required');
-  fs.chmodSync(directory,0o700);
-  hostSecretDirectory=directory;
+export function configureSecretStorageDirectory(directory: string) {
+  if (hostSecretDirectory || !path.isAbsolute(directory)) throw Error('Secret directory rejected');
+  fs.mkdirSync(directory, { recursive: true, mode: 0o700 });
+  const stat = fs.lstatSync(directory);
+  if (!stat.isDirectory() || stat.isSymbolicLink() || stat.uid !== process.getuid?.())
+    throw Error('Private secret directory required');
+  fs.chmodSync(directory, 0o700);
+  hostSecretDirectory = directory;
 }
 const ALGORITHM = 'aes-256-gcm';
 const IV_BYTES = 12;

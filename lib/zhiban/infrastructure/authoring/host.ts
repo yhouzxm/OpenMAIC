@@ -26,9 +26,12 @@ export const authoringOwner = (x: ContentContext) =>
   `course-author:${hash(`${x.tenant}:${x.offering}:${x.member}`)}`;
 export const isAuthoringOwner = (owner: string) => owner.startsWith('course-author:');
 const scope = new AsyncLocalStorage<string>();
-const serviceOperator = new AsyncLocalStorage<{owner:string; guard:()=>Promise<void>}>();
-export const withServiceOperator = <T>(owner:string, guard:()=>Promise<void>, work:()=>Promise<T>) =>
-  serviceOperator.run({owner,guard},()=>withNativeOwner(owner,work));
+const serviceOperator = new AsyncLocalStorage<{ owner: string; guard: () => Promise<void> }>();
+export const withServiceOperator = <T>(
+  owner: string,
+  guard: () => Promise<void>,
+  work: () => Promise<T>,
+) => serviceOperator.run({ owner, guard }, () => withNativeOwner(owner, work));
 
 const authoringRequestScope = new AsyncLocalStorage<ContentContext>();
 export const withAuthoringRequest = <T>(x: ContentContext, work: () => Promise<T>) =>
@@ -41,14 +44,17 @@ export const withNativeOwner = <T>(
   owner: string,
   work: () => Promise<T>,
   binding?: ClassroomBinding,
-) => scope.run(owner, () => withServiceTenant(
-  binding?.tenant ?? requestContext(owner)?.tenant ?? currentServiceTenant(),
-  async () => {
-    const tenant=currentServiceTenant();
-    if(tenant) await registerServiceOwner(owner,tenant);
-    return withClassroomBinding(binding, work);
-  },
-));
+) =>
+  scope.run(owner, () =>
+    withServiceTenant(
+      binding?.tenant ?? requestContext(owner)?.tenant ?? currentServiceTenant(),
+      async () => {
+        const tenant = currentServiceTenant();
+        if (tenant) await registerServiceOwner(owner, tenant);
+        return withClassroomBinding(binding, work);
+      },
+    ),
+  );
 const titleTasks = new Set<Promise<void>>();
 let worker: ReturnType<typeof startAgentRunner> | undefined;
 export function configureAuthoringHost(content: ContentService) {
@@ -64,7 +70,10 @@ export function configureAuthoringHost(content: ContentService) {
         name: 'zhiban-current-course-teacher',
         async authenticate() {
           const owner = scope.getStore();
-          return owner && (requestContext(owner) || currentClassroomBinding(owner) || serviceOperator.getStore()?.owner === owner)
+          return owner &&
+            (requestContext(owner) ||
+              currentClassroomBinding(owner) ||
+              serviceOperator.getStore()?.owner === owner)
             ? {
                 status: 'authenticated',
                 principal: {
@@ -85,8 +94,10 @@ export function configureAuthoringHost(content: ContentService) {
   configureOwnerHostPolicy({
     async execution(owner) {
       if (owner.startsWith('zhiban-services:')) {
-        const op=serviceOperator.getStore(); requireContent(op?.owner===owner,'FORBIDDEN',403);
-        await op!.guard(); return;
+        const op = serviceOperator.getStore();
+        requireContent(op?.owner === owner, 'FORBIDDEN', 403);
+        await op!.guard();
+        return;
       }
       if (isClassroomOwner(owner)) {
         const binding = currentClassroomBinding(owner);
@@ -101,8 +112,12 @@ export function configureAuthoringHost(content: ContentService) {
     },
     async withExecution(owner, work) {
       if (owner.startsWith('zhiban-services:')) {
-        const op=serviceOperator.getStore(); requireContent(op?.owner===owner,'FORBIDDEN',403);
-        await op!.guard(); const result=await work(); await op!.guard(); return result;
+        const op = serviceOperator.getStore();
+        requireContent(op?.owner === owner, 'FORBIDDEN', 403);
+        await op!.guard();
+        const result = await work();
+        await op!.guard();
+        return result;
       }
       if (isClassroomOwner(owner)) {
         const binding = currentClassroomBinding(owner);
@@ -135,7 +150,10 @@ export function configureAuthoringHost(content: ContentService) {
   process.env.OPENMAIC_AGENT_RUNTIME_ENABLED = 'true';
 }
 export async function initializeAuthoringStorage(pool: Pool) {
-  if (await verifyInstalledSchema(pool)) { worker ??= startAgentRunner(); return; }
+  if (await verifyInstalledSchema(pool)) {
+    worker ??= startAgentRunner();
+    return;
+  }
   const sql = await readFile('lib/zhiban/infrastructure/authoring/schema.sql', 'utf8');
   const client = await pool.connect();
   try {

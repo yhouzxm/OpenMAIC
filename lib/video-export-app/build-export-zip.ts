@@ -89,7 +89,9 @@ async function compileStageIr(options: {
     throw new NoScenesError('No scenes to export');
   }
 
-  const stageName = options.document ? stage.name || 'classroom' : await resolveExportStageName(stage);
+  const stageName = options.document
+    ? stage.name || 'classroom'
+    : await resolveExportStageName(stage);
   const { width, height } = VIDEO_RESOLUTIONS[options.resolution];
 
   const [deps, quizLayout] = await Promise.all([

@@ -30,6 +30,24 @@ const eslintConfig = defineConfig([
   globalIgnores([
     // Default ignores of eslint-config-next:
     '.next/**',
+    '.zhiban-*/**',
+    '.zhiban-*.mjs',
+    'app/zhiban/local/quiz-client.js',
+    'app/zhiban/local/published-player.js',
+    'app/zhiban/local/native-workbench.bundle.js',
+    'app/zhiban/local/native-workbench.bundle.css',
+    'app/zhiban/local/native-review.js',
+    'app/zhiban/local/native-published.js',
+    'app/zhiban/local/native-theme.css',
+    'app/zhiban/local/native-assets/',
+    'app/zhiban/local/native-classroom.bundle.js',
+    'app/zhiban/local/native-classroom.bundle.css',
+    'app/zhiban/local/content-client.js',
+    'app/zhiban/local/native-archive.bundle.js',
+    'app/zhiban/local/native-services.bundle.js',
+    'app/zhiban/local/admin-services.bundle.js',
+    'app/zhiban/local/course-results.bundle.js',
+
     'out/**',
     'build/**',
     'next-env.d.ts',
@@ -54,6 +72,8 @@ const eslintConfig = defineConfig([
     // Isolated MP4 render service: its own package, tsconfig, and Node-only
     // deps (@hyperframes/producer). Linted/typechecked under render-service/.
     'render-service/**',
+    // Historical run artifacts have their own isolated verification contracts.
+    'docs/v2/evidence/**',
   ]),
   {
     rules: {
@@ -72,6 +92,10 @@ const eslintConfig = defineConfig([
         },
       ],
     },
+  },
+  {
+    files: ['**/*.cjs'],
+    rules: { '@typescript-eslint/no-require-imports': 'off' },
   },
   // Package boundary (machine-enforced): @openmaic/renderer is a standalone,
   // app-agnostic package. It must never reach back into the host app through

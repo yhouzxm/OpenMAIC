@@ -36,8 +36,8 @@ import {
   OPENROUTER_DEFAULT_BASE_URL,
 } from './adapters/openrouter-image-adapter';
 
-import {IMAGE_PROVIDERS} from './image-catalog';
-export {IMAGE_PROVIDERS} from './image-catalog';
+import { IMAGE_PROVIDERS } from './image-catalog';
+export { IMAGE_PROVIDERS } from './image-catalog';
 
 export async function testImageConnectivity(
   config: ImageGenerationConfig,

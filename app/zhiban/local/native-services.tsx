@@ -202,9 +202,7 @@ function Root() {
           <>
             <section className="card">
               <h2>当前可用服务</h2>
-              <p>
-                服务由管理员配置，使用前请检查连接。
-              </p>
+              <p>服务由管理员配置，使用前请检查连接。</p>
               <div className="service-grid">
                 {Object.entries(status.kinds).map(([k, v]: any) => (
                   <article key={k}>

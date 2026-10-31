@@ -255,7 +255,9 @@ export async function createVideoTimelineDeps(input: {
       // duration/format/ossKey metadata for the compiler's sync lookups.
       const record = input.portable ? undefined : await db.audioFiles.get(audioId);
       const blob = input.portable
-        ? (audioId.startsWith('data:') ? await (await fetchMediaUrl(audioId,15000)).blob() : null)
+        ? audioId.startsWith('data:')
+          ? await (await fetchMediaUrl(audioId, 15000)).blob()
+          : null
         : await resolveAudioBlob(audioId);
       return { audioId, blob, record };
     },
@@ -322,7 +324,23 @@ export async function createVideoTimelineDeps(input: {
   for (const entry of assetManifest.entries) {
     if (entry.kind === 'audio') continue;
     const record = input.portable
-      ? (entry.ref.startsWith('data:') ? await fetchMediaUrl(entry.ref,15000).then(async r=>{const blob=await r.blob();return {id:entry.ref,stageId:stage.id,elementId:entry.ref,type:entry.ref.startsWith('data:video/')?'video':'image',blob,mimeType:blob.type,createdAt:0,size:blob.size,prompt:'',params:'{}'} as MediaFileRecord;}) : undefined)
+      ? entry.ref.startsWith('data:')
+        ? await fetchMediaUrl(entry.ref, 15000).then(async (r) => {
+            const blob = await r.blob();
+            return {
+              id: entry.ref,
+              stageId: stage.id,
+              elementId: entry.ref,
+              type: entry.ref.startsWith('data:video/') ? 'video' : 'image',
+              blob,
+              mimeType: blob.type,
+              createdAt: 0,
+              size: blob.size,
+              prompt: '',
+              params: '{}',
+            } as MediaFileRecord;
+          })
+        : undefined
       : await db.mediaFiles.get(mediaFileKey(stage.id, entry.ref)).catch(() => undefined);
     if (record) mediaByElementId.set(entry.ref, record);
   }

@@ -490,18 +490,16 @@ async function main() {
     const browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
     try {
       const page = await browser.newPage();
-      await page
-        .context()
-        .addCookies([
-          {
-            name: teacher.cookie.split('=')[0],
-            value: teacher.cookie.split('=').slice(1).join('='),
-            url: meta.origin,
-            httpOnly: true,
-            secure: true,
-            sameSite: 'Strict',
-          },
-        ]);
+      await page.context().addCookies([
+        {
+          name: teacher.cookie.split('=')[0],
+          value: teacher.cookie.split('=').slice(1).join('='),
+          url: meta.origin,
+          httpOnly: true,
+          secure: true,
+          sameSite: 'Strict',
+        },
+      ]);
       await page.goto(teacherUrl);
       await expect(page.getByRole('heading', { name: '教案、课堂环节与实验' })).toBeVisible();
       await expect(page.getByRole('button', { name: '按教案开始课堂', exact: true })).toBeVisible();

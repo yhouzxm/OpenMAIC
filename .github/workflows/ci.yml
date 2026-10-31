@@ -11,6 +11,7 @@ on:
         options:
           - full
           - bridge-recheck
+          - checks-recheck
   push:
     # Integration branches are listed here as well as below: a pull_request run
     # only ever proves one part merged into the branch, so without a push
@@ -57,6 +58,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
+      NODE_OPTIONS: --max-old-space-size=4096
       CI_SUITE: ${{ github.event_name == 'workflow_dispatch' && inputs.suite || 'full' }}
     steps:
       - uses: actions/checkout@v5
@@ -68,7 +70,7 @@ jobs:
         run: |
           set -euo pipefail
           case "$CI_SUITE" in
-            full|bridge-recheck) printf 'CI SUITE: %s\n' "$CI_SUITE" ;;
+            full|bridge-recheck|checks-recheck) printf 'CI SUITE: %s\n' "$CI_SUITE" ;;
             *) echo INVALID_CI_SUITE; exit 1 ;;
           esac
 
@@ -164,7 +166,7 @@ jobs:
         run: |
           scripts/ci-run-parallel.sh \
             'prettier' 'pnpm check' \
-            'eslint' 'pnpm lint' \
+            'eslint' 'pnpm lint:ci' \
             'tsc' 'npx tsc --noEmit' \
             'i18n' 'pnpm check:i18n-keys'
 
@@ -175,22 +177,34 @@ jobs:
       # Keep these sequential. Running root vitest alongside the storage
       # package on a 4-core runner made 5s-timeout tests flake (CPU
       # contention, not a product regression).
+      - name: Changed contracts recheck
+        if: inputs.suite == 'checks-recheck'
+        run: |
+          node --test scripts/eslint-debt-policy.test.mjs tests/zhiban/openmaic/package-provenance.test.mjs
+          pnpm exec vitest run tests/zhiban/course-results/model.test.ts tests/zhiban/multimodal/published-video.test.ts tests/zhiban/workspace/query.test.ts tests/zhiban/openmaic/artifacts.test.ts
+
       - name: Unit Tests
+        if: inputs.suite != 'checks-recheck'
         run: pnpm test
 
       - name: Unit Tests (importer)
+        if: inputs.suite != 'checks-recheck'
         run: pnpm --filter @openmaic/importer test
 
       - name: Unit Tests (dsl)
+        if: inputs.suite != 'checks-recheck'
         run: pnpm --filter @openmaic/dsl test
 
       - name: TypeScript (generation)
+        if: inputs.suite != 'checks-recheck'
         run: pnpm --filter @openmaic/generation run typecheck
 
       - name: Unit Tests (generation)
+        if: inputs.suite != 'checks-recheck'
         run: pnpm --filter @openmaic/generation test
 
       - name: Node consumer smoke (generation scene)
+        if: inputs.suite != 'checks-recheck'
         shell: bash
         run: |
           set -euo pipefail
@@ -223,14 +237,16 @@ jobs:
       # incidental glob. The device-scope guard is written as `@ts-expect-error`
       # probes in those tests, and a probe nothing type-checks proves nothing.
       - name: TypeScript (storage, incl. tests)
+        if: inputs.suite != 'checks-recheck'
         run: pnpm --filter @openmaic/storage run typecheck
 
       - name: Unit Tests (storage)
+        if: inputs.suite != 'checks-recheck'
         run: pnpm --filter @openmaic/storage test
 
   render-service:
     name: Render Service (typecheck + tests)
-    if: github.event_name != 'workflow_dispatch' || inputs.suite != 'bridge-recheck'
+    if: inputs.suite != 'checks-recheck' && (github.event_name != 'workflow_dispatch' || inputs.suite != 'bridge-recheck')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     # The producer dep bundles puppeteer; skip its Chromium download — the unit
@@ -267,6 +283,22 @@ jobs:
 
   e2e:
     name: E2E Tests
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: openmaic_e2e
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: ci-disposable-e2e
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d openmaic_e2e"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_URL: postgresql://postgres:ci-disposable-e2e@127.0.0.1:5432/openmaic_e2e
     if: github.event_name != 'workflow_dispatch' || inputs.suite != 'bridge-recheck'
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -386,7 +418,7 @@ jobs:
 
   docker-main-image:
     name: Main image (deps + builder)
-    if: github.event_name != 'workflow_dispatch' || inputs.suite != 'bridge-recheck'
+    if: inputs.suite != 'checks-recheck' && (github.event_name != 'workflow_dispatch' || inputs.suite != 'bridge-recheck')
     runs-on: ubuntu-latest
     timeout-minutes: 45
     # The main Dockerfile was never built in CI, so an install step that no
