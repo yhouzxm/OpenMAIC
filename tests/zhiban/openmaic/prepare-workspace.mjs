@@ -122,7 +122,7 @@ try {
   await pnpm('install --frozen-lockfile --ignore-scripts');
   await pnpm('--filter mathml2omml build');
   await pnpm('--filter pptxgenjs build');
-  for (const name of ['dsl', 'generation', 'storage', 'importer', 'renderer', 'editor']) {
+  for (const name of ['dsl', 'geometry', 'generation', 'storage', 'importer', 'renderer', 'editor']) {
     await pnpm(`--filter @openmaic/${name} build`);
   }
   if (
