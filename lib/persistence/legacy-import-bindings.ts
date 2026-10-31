@@ -1,3 +1,4 @@
+import { applyHostSchemaMigrations as applySchemaMigrations } from '@/lib/persistence/installed-schema';
 /**
  * Which owner a browser's pre-server data belongs to, decided by the server.
  *
@@ -19,7 +20,7 @@
  * Temporary, like the importer: remove with it.
  */
 import type { Queryable } from '@openmaic/storage/document/pg';
-import { applySchemaMigrations, type SchemaMigrationSet } from '@openmaic/storage/pg-migrations';
+import { type SchemaMigrationSet } from '@openmaic/storage/pg-migrations';
 
 /** The request header an importer request carries its browser id in. */
 export const LEGACY_IMPORT_HEADER = 'x-openmaic-legacy-import';

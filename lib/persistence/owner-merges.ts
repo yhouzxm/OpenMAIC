@@ -1,3 +1,4 @@
+import { applyHostSchemaMigrations as applySchemaMigrations } from '@/lib/persistence/installed-schema';
 /**
  * Retired owner ids, and the identity lock that orders writes against their
  * retirement.
@@ -29,7 +30,7 @@ import { createHash } from 'node:crypto';
 
 import { DocumentWriteRefusedError } from '@openmaic/storage';
 import type { Queryable } from '@openmaic/storage/document/pg';
-import { applySchemaMigrations, type SchemaMigrationSet } from '@openmaic/storage/pg-migrations';
+import { type SchemaMigrationSet } from '@openmaic/storage/pg-migrations';
 
 import { StorageBusyError } from '@openmaic/storage';
 

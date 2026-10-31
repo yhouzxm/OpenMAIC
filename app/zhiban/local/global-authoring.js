@@ -5,7 +5,7 @@
   const courseList = location.pathname === '/zhiban/teacher/courses';
   const validRoute = courseList || location.pathname === '/zhiban/teacher/agents';
   const globalPath = courseList ? '/zhiban/teacher/courses' : '/zhiban/teacher/agents';
-  const title = courseList ? '教师课程入口' : '教师 AI 备课入口';
+  const title = courseList ? '我的课程' : 'AI 备课';
   const text = (value) =>
     courseList
       ? value
@@ -53,8 +53,7 @@
     n.onclick = () => void fn();
     return n;
   };
-  const back = () =>
-    link('返回当前空间工作台', '/zhiban' + (uuid(tenant) ? '?space=' + tenant : ''));
+  const back = () => link('返回工作台', '/zhiban' + (uuid(tenant) ? '?space=' + tenant : ''));
   function error(text) {
     if (!dead) root.replaceChildren(el('h1', title), el('p', text), back());
   }
@@ -63,7 +62,7 @@
     controllers.add(controller);
     const timer = setTimeout(() => controller.abort(), 10000);
     try {
-      const r = await fetch(path, {
+      const r = await (window.zhibanMemberPresentation?.read || fetch)(path, {
         headers: { 'x-zhiban-request': 'identity-v1' },
         credentials: 'same-origin',
         cache: 'no-store',
@@ -106,25 +105,10 @@
       const rows = data.rows.filter(
         (row) => row.mode === role.toUpperCase() && (!course || row.course_id === course),
       );
-      root.replaceChildren(
-        el('h1', title),
-        back(),
-        el(
-          'p',
-          courseList
-            ? '选择任教教学班，进入现有课程工作区。搜索和分页只包含当前有权访问的教学班。'
-            : '选择任教教学班，复用现有原生生成 → 教师审核采用 → 显式发布流程。',
-        ),
-        el(
-          'p',
-          courseList
-            ? '这里复用当前课程列表，不自动跳转机电专用课程，也不扩大课程管理权限。'
-            : '旧智能体入口现用于教师备课；干预 Agent、自动监控和 AI Peer 未在本入口启用。',
-        ),
-      );
+      root.replaceChildren(el('h1', title));
       if (course)
         root.append(
-          el('p', '当前按旧链接指定课程筛选教学班。'),
+          el('p', '已筛选指定课程。'),
           link('显示全部课程', `${globalPath}?space=${tenant}`),
         );
       const form = el('form');
@@ -159,7 +143,7 @@
           state,
         ),
         size = select(
-          'AI 备课入口每页条数',
+          '每页条数',
           [
             ['10', '10'],
             ['20', '20'],
@@ -167,7 +151,7 @@
           ],
           limit,
         );
-      const submit = el('button', '查询AI 备课课程');
+      const submit = el('button', '查询');
       submit.type = 'submit';
       form.append(submit);
       form.onsubmit = (e) => {
@@ -180,7 +164,7 @@
         index = 0;
         void load();
       };
-      root.append(form, button('刷新 AI 备课课程', load));
+      root.append(form);
       const list = el('section');
       list.setAttribute('aria-label', text('可访问的 AI 备课课程'));
       root.append(list);

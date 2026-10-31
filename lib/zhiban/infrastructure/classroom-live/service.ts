@@ -1,3 +1,4 @@
+import { verifyInstalledSchema } from '@/lib/persistence/installed-schema';
 import { readFile } from 'node:fs/promises';
 import { v7 } from 'uuid';
 import type { Pool } from 'pg';
@@ -7,6 +8,9 @@ import type { ContentContext } from '../content/service';
 import type { ClassroomAiService } from '../classroom-ai/service';
 import { LIVE_TTL_MS, liveCommand } from './model';
 export async function initializeClassroomLive(pool: Pool) {
+  if (await verifyInstalledSchema(pool)) {
+    return;
+  }
   const sql = await readFile('lib/zhiban/infrastructure/classroom-live/schema.sql', 'utf8');
   await applySchemaMigrations(pool, {
     store: 'zhiban-classroom-live',

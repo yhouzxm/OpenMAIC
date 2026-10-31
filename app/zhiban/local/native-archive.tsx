@@ -336,8 +336,7 @@ function Root() {
             <section className="card">
               <h2>固定课件导出</h2>
               <p className="muted">
-                原生归档可恢复为编辑副本。PPTX、资源包、离线 HTML
-                和讲稿复用原生导出器；不携带学生历史、成绩或私人 AI 对话。
+                导出课件设计和资源，不包含学生记录、成绩或私人 AI 对话。
               </p>
               {source.size ? (
                 <>
@@ -378,7 +377,7 @@ function Root() {
               <h2>恢复为新的编辑副本</h2>
               <p>
                 支持原生 .maic.zip 完整设计与资产；PPTX
-                复用原生转换器恢复为幻灯片，不能从占位页还原在线 Quiz／PBL／AI。
+                可恢复为幻灯片，占位页无法还原在线测验、PBL 项目或 AI 对话。
               </p>
               <input
                 aria-label="选择课件归档"

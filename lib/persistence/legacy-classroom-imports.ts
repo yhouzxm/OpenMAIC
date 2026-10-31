@@ -1,3 +1,4 @@
+import { applyHostSchemaMigrations as applySchemaMigrations } from '@/lib/persistence/installed-schema';
 /**
  * The ledger of the one-time import of file-stored classrooms
  * (`lib/server/legacy-classroom-import.ts`).
@@ -17,7 +18,7 @@
  * Temporary, like the importer: remove with it.
  */
 import type { Queryable } from '@openmaic/storage/document/pg';
-import { applySchemaMigrations, type SchemaMigrationSet } from '@openmaic/storage/pg-migrations';
+import { type SchemaMigrationSet } from '@openmaic/storage/pg-migrations';
 
 const SCHEMA = `
 CREATE TABLE IF NOT EXISTS legacy_classroom_imports (

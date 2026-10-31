@@ -19,6 +19,14 @@ import { Client, type Notification } from 'pg';
 
 import { createLogger } from '@/lib/logger';
 
+let hostNotifyClientFactory: ((url: string) => Client) | undefined;
+/** Explicit embedded host transport, configured before any LISTEN connection. */
+export function configureEventNotifyClientFactory(factory: (url: string) => Client) {
+  if (hostNotifyClientFactory || state.client || state.connecting)
+    throw Error('Event transport already initialized');
+  hostNotifyClientFactory = factory;
+}
+
 /** The minimal query surface a transaction handle must expose for pg_notify. */
 export interface NotifyQueryable {
   query<TRow extends Record<string, unknown> = Record<string, unknown>>(
@@ -259,11 +267,13 @@ async function connect(generation: number): Promise<void> {
   // never come from getPool() and must never be created per SSE stream. The
   // process-wide state above gives one application instance exactly one live
   // LISTEN connection and fans notifications out in memory.
-  const client = new Client({
-    connectionString,
-    application_name: AGENT_EVENT_NOTIFY_APPLICATION_NAME,
-    connectionTimeoutMillis: 10_000,
-  });
+  const client = hostNotifyClientFactory
+    ? hostNotifyClientFactory(connectionString)
+    : new Client({
+        connectionString,
+        application_name: AGENT_EVENT_NOTIFY_APPLICATION_NAME,
+        connectionTimeoutMillis: 10_000,
+      });
   state.client = client;
   client.on('notification', (notification) => {
     if (notification.channel === AGENT_EVENT_PROBE_CHANNEL) {

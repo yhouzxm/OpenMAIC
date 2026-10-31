@@ -1,0 +1,29 @@
+{
+  "origin": "https://47.120.42.25:88",
+  "environment": "REPLACE_WITH_ENVIRONMENT_REF",
+  "approvalRef": "REPLACE_WITH_POLICY_APPROVAL_REF",
+  "catalogApprovalRecord": "REPLACE_WITH_CATALOG_APPROVAL_REF",
+  "corpus": {
+    "approvalRef": "REPLACE_WITH_CORPUS_APPROVAL_REF",
+    "values": ["REPLACE_WITH_REVIEWED_COMPROMISED_PASSWORD_CORPUS"]
+  },
+  "sessionPolicy": {
+    "absoluteMs": 28800000,
+    "idleMs": 1800000
+  },
+  "membershipPolicy": {
+    "tenantRecordCapacity": 10000,
+    "controlRecordCapacity": 10000,
+    "sourceTtlMs": 1800000
+  },
+  "admissionLimits": {
+    "windowMs": 60000,
+    "globalLimit": 100,
+    "ipLimit": 30,
+    "locatorLimit": 15,
+    "pairLimit": 15,
+    "userLimit": 15,
+    "maxBuckets": 1000
+  },
+  "transportApprovalRef": "REPLACE_WITH_DIRECT_TLS_TRANSPORT_APPROVAL_REF"
+}

@@ -268,8 +268,8 @@
       const wrap = el('section', undefined, `course-workspace ${role}-course`);
       const hero = el('header', undefined, 'course-hero');
       const copy = el('div', undefined, 'course-hero-copy');
-      const back = el('a', '← 返回我的课程', 'button secondary');
-      back.href = `${role === 'teacher' ? '/zhiban/teacher/courses' : '/zhiban'}?space=${tenant}`;
+      const back = el('a', '← 返回', 'button secondary');
+      back.href = `/zhiban?space=${tenant}`;
       if (toolsEntry || (role === 'student' && section === 'tutor')) {
         const toolsBack = el('a', '返回 AI 学习辅导课程列表', 'button secondary');
         toolsBack.href = `/zhiban/student/tools?space=${tenant}${toolsCourse ? '&courseId=' + toolsCourse : ''}`;
@@ -301,12 +301,24 @@
       copy.append(
         back,
         el('h1', o.course_name),
-        el(
-          'p',
-          `${o.name} · ${o.term_name} · ${o.status === 'OPEN' ? '开放' : '已关闭'} · 发布版本 ${o.course_version}`,
-        ),
+        el('p', `课程代码：${o.code}　学期：${o.term_name}`),
       );
+      copy.querySelectorAll('a').forEach((a) => {
+        if (a !== back) a.remove();
+      });
       hero.append(copy);
+      const titleBadges = el('span', undefined, 'course-title-badges');
+      titleBadges.append(
+        el('span', o.status === 'OPEN' ? '进行中' : '已结束', 'course-status'),
+        el('span', role === 'teacher' ? '授课教师' : '学生', 'course-role'),
+      );
+      copy.querySelector('h1').append(titleBadges);
+      if (role === 'teacher') {
+        const settings = el('a', '课程设置', 'button secondary course-settings-link');
+        settings.href = `/zhiban/teacher/courses/${course}/settings?space=${tenant}&offering=${o.id}`;
+        hero.append(settings);
+      }
+
       if (role === 'student') hero.append(el('div', '▤', 'course-hero-cover'));
       const body = el('div', undefined, 'course-body');
       const nav = el('nav', undefined, 'course-inner-nav');
@@ -314,9 +326,9 @@
       const items =
         role === 'teacher'
           ? [
-              ['', '课程概览'],
+              ['', '章节'],
               ['classrooms', '课堂与互动'],
-              ['resources', '讲义与图片'],
+              ['resources', '课程资源'],
               ['agents', 'AI 备课'],
               ['learning-center', '学习中心'],
               ['discussions', '课程讨论'],
@@ -359,7 +371,10 @@
             ];
       for (const [part, label] of items) {
         const a = el('a', label);
-        a.href = part==='course-results'?`/zhiban/course-results?tenant=${tenant}&offering=${offering}`:href(part);
+        a.href =
+          part === 'course-results'
+            ? `/zhiban/course-results?tenant=${tenant}&offering=${offering}`
+            : href(part);
         if (part === section || (role === 'student' && part === 'tools' && section === 'tutor'))
           a.setAttribute('aria-current', 'page');
         nav.append(a);

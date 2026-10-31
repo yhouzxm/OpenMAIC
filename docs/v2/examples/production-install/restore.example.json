@@ -1,0 +1,10 @@
+{
+  "kind": "ZHIBAN_RESTORE_INPUT_V1",
+  "operationsFile": "/root/zhiban-operations/target-operations.json",
+  "backupDirectory": "/root/zhiban-backups/REPLACE_WITH_BACKUP_ID",
+  "backupPin": "REPLACE_WITH_BACKUP_MANIFEST_SHA256",
+  "backupAuthority": {
+    "publicKey": "REPLACE_WITH_SOURCE_BACKUP_SIGNER_SPKI_PEM",
+    "spkiSha256": "REPLACE_WITH_SOURCE_BACKUP_SIGNER_SPKI_SHA256"
+  }
+}

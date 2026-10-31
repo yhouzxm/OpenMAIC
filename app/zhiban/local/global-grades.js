@@ -34,8 +34,7 @@
     n.onclick = () => void fn();
     return n;
   };
-  const back = () =>
-    link('返回当前空间工作台', '/zhiban' + (uuid(tenant) ? '?space=' + tenant : ''));
+  const back = () => link('返回工作台', '/zhiban' + (uuid(tenant) ? '?space=' + tenant : ''));
   function error(text) {
     if (!dead)
       root.replaceChildren(
@@ -49,13 +48,15 @@
     controllers.add(controller);
     const timer = setTimeout(() => controller.abort(), 10000);
     try {
-      const r = await fetch(path, {
+      const r = await (window.zhibanMemberPresentation?.read || fetch)(path, {
         headers: { 'x-zhiban-request': 'identity-v1' },
         credentials: 'same-origin',
         cache: 'no-store',
         signal: controller.signal,
       });
-      if (!r.ok)
+      if (!r.ok) {
+        const refusal = await r.json().catch(() => null);
+        console.warn('ZHIBAN_GRADES_READ', r.status, refusal?.error?.code || 'HTTP_ERROR');
         throw Error(
           r.status === 401
             ? '请先返回工作台登录。'
@@ -63,6 +64,7 @@
               ? '当前空间或课程关系已变化，请返回工作台核对。'
               : '成绩入口暂不可用，请重试。',
         );
+      }
       return await r.json();
     } finally {
       clearTimeout(timer);
@@ -92,20 +94,10 @@
       const rows = data.rows.filter(
         (row) => row.mode === role.toUpperCase() && (!course || row.course_id === course),
       );
-      root.replaceChildren(
-        el('h1', role === 'teacher' ? '学生成绩' : '测评与我的成绩'),
-        back(),
-        el(
-          'p',
-          role === 'teacher'
-            ? '选择当前任教教学班查看成绩簿、待评分记录及受限CSV。'
-            : '选择当前在读教学班查看本人已发布成绩及历史作答。',
-        ),
-      );
-      root.append(el('p', '此页只选择课程，不计算跨课程总评。关闭教学班仍按现有课程权限核验。'));
+      root.replaceChildren(el('h1', role === 'teacher' ? '学生成绩' : '测评与成绩'));
       if (course)
         root.append(
-          el('p', '当前按旧链接指定课程筛选教学班。'),
+          el('p', '已筛选指定课程。'),
           link('显示全部课程', `/zhiban/${role}/grades?space=${tenant}`),
         );
       const form = el('form');
@@ -140,7 +132,7 @@
           state,
         ),
         size = select(
-          '成绩入口每页条数',
+          '每页条数',
           [
             ['10', '10'],
             ['20', '20'],
@@ -148,7 +140,7 @@
           ],
           limit,
         );
-      const submit = el('button', '查询成绩课程');
+      const submit = el('button', '查询');
       submit.type = 'submit';
       form.append(submit);
       form.onsubmit = (e) => {
@@ -161,7 +153,7 @@
         index = 0;
         void load();
       };
-      root.append(form, button('刷新成绩课程', load));
+      root.append(form);
       const list = el('section');
       list.setAttribute('aria-label', '可访问的成绩课程');
       root.append(list);

@@ -1,3 +1,4 @@
+import { applyHostSchemaMigrations as applySchemaMigrations } from '@/lib/persistence/installed-schema';
 /**
  * Owner-scoped material library — the server-side half of `POST /api/materials`
  * (the reference's `lib/server/materials/store.ts`, ported onto this branch's
@@ -32,7 +33,7 @@
 import { randomUUID } from 'node:crypto';
 
 import type { Queryable } from '@openmaic/storage/document/pg';
-import { applySchemaMigrations, type SchemaMigrationSet } from '@openmaic/storage/pg-migrations';
+import { type SchemaMigrationSet } from '@openmaic/storage/pg-migrations';
 import { encodeJson } from '@openmaic/storage/pg-json';
 import {
   nodePostgresTransaction,

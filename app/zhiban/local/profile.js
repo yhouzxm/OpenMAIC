@@ -24,6 +24,7 @@
     role = 'ALL',
     limit = '20';
   let ownDraft = null,
+    unitName = '',
     baseline = '',
     edits = new Map();
   const notice = el('p');
@@ -47,11 +48,14 @@
     try {
       const headers = { 'x-zhiban-request': 'identity-v1' };
       if (command) {
-        const csrf = await fetch('/api/zhiban/identity/csrf', {
-          credentials: 'same-origin',
-          headers,
-          signal: controller.signal,
-        });
+        const csrf = await (window.zhibanMemberPresentation?.read || fetch)(
+          '/api/zhiban/identity/csrf',
+          {
+            credentials: 'same-origin',
+            headers,
+            signal: controller.signal,
+          },
+        );
         if (!csrf.ok)
           throw Object.assign(Error('登录或安全令牌不可用。'), {
             definitive: csrf.status >= 400 && csrf.status < 500,
@@ -60,7 +64,7 @@
         headers['Content-Type'] = 'application/json';
         if (key) headers['x-zhiban-command'] = key;
       }
-      const response = await fetch(url, {
+      const response = await (window.zhibanMemberPresentation?.read || fetch)(url, {
         method: command ? 'POST' : 'GET',
         headers,
         body: command ? JSON.stringify(command) : undefined,
@@ -118,6 +122,7 @@
       );
     else {
       current = await request(base + '/me');
+      unitName = (await window.zhibanMemberPresentation?.spaceName(tenant).catch(() => '')) || '';
       if (!ownDraft) {
         ownDraft = ownValues(current);
         baseline = JSON.stringify(ownDraft);
@@ -132,7 +137,7 @@
       await load();
       if (!dead) {
         draw();
-        notice.textContent = '已读取最新资料；未保存输入仍保留。';
+        notice.textContent = '';
       }
     } catch (e) {
       if (!dead) {
@@ -144,6 +149,7 @@
           draw();
         }
         notice.textContent = e.message;
+        if (![401, 403].includes(e.status)) notice.append(button('重试', refresh));
       }
     } finally {
       busy = false;
@@ -165,17 +171,15 @@
       await load();
       if (!dead) {
         draw();
-        notice.textContent = '保存已确认。';
+        notice.textContent = '已保存。';
       }
     } catch (e) {
       if (dead) return;
       if (e.definitive) pending = null;
       draw();
       notice.textContent =
-        e.message +
-        (pending
-          ? ' 结果未知，请按原命令重试；输入已保留。'
-          : ' 输入已保留；读取最新资料不会覆盖当前输入。');
+        e.message + (pending ? ' 结果未知，请按原命令重试；输入已保留。' : ' 输入已保留。');
+      if (!pending && ![401, 403].includes(e.status)) notice.append(button('重新加载', refresh));
     } finally {
       busy = false;
       lock();
@@ -209,12 +213,10 @@
   function security(parent) {
     const panel = el('details', undefined, 'academic-form');
     panel.append(el('summary', '账户安全'));
-    panel.append(
-      el(
-        'p',
-        '登录使用上方账号 ID。修改密码或退出全部会话需验证当前密码，完成后重新登录；此页面不支持重置他人密码。',
-      ),
-    );
+    panel.append(el('p', '修改密码或退出全部会话需验证当前密码，完成后请重新登录。'));
+    const identifiers = el('a', '登录标识设置', 'button secondary');
+    identifiers.href = `/zhiban/login-identifiers?tenant=${tenant}`;
+    panel.append(identifiers);
     const form = el('form'),
       password = field(form, '当前密码', '', () => {}, 1024),
       fresh = field(form, '新密码（至少15个字符）', '', () => {}, 1024),
@@ -279,98 +281,87 @@
     if (dead) return;
     root.replaceChildren(el('h1', members ? '成员账户目录' : '个人设置'), notice);
     const toolbar = el('div', undefined, 'profile-toolbar');
-    root.append(toolbar);
-    const back = el('a', '返回当前空间工作台', 'button secondary');
-    back.href = `/zhiban?space=${tenant}`;
-    toolbar.append(back);
-    if (!members) {
-      const identifiers = el('a', '管理本人登录标识', 'button secondary');
-      identifiers.href = `/zhiban/login-identifiers?tenant=${tenant}`;
-      toolbar.append(identifiers);
-    }
     if (pending) {
       const retry = button('按原命令重试', () => save(pending.command, true));
       retry.dataset.retry = 'true';
       toolbar.append(retry);
-    } else toolbar.append(button('读取最新资料', refresh));
+    } else if (members) toolbar.append(button('刷新目录', refresh));
+    if (members) root.append(toolbar);
     if (!members && current) {
       const overview = el('div', undefined, 'profile-overview');
       const identity = el('section', undefined, 'profile-identity');
       identity.append(el('h2', '基本信息'));
-      const identityFields = el('div', undefined, 'profile-fields');
-      const roleNames = { ADMIN: '机构管理员', TEACHER: '教师', STUDENT: '学生' };
-      for (const [title, value] of [
-        ['正式姓名', current.formalName || '未登记'],
-        [
-          '平台角色',
-          current.roles.map((r) => roleNames[r.roleCode] || r.roleCode).join(' / ') || '空间成员',
-        ],
-        [
-          '学号／工号',
-          [current.studentNo, current.employeeNo].filter(Boolean).join(' / ') || '未登记',
-        ],
-        [
-          '成员状态',
-          { ACTIVE: '正常', SUSPENDED: '已停用', REVOKED: '已撤销' }[current.status] ||
-            current.status,
-        ],
-        ['登录账号 ID', current.userId],
-      ]) {
-        const label = el('label', title),
-          input = el('input');
-        input.value = value;
-        input.readOnly = true;
-        label.append(input);
-        identityFields.append(label);
-      }
-      identity.append(
-        identityFields,
-        el('p', '正式档案由本空间管理员维护；业务编号不用于登录。', 'profile-help'),
-      );
+      const identityFields = el('div', undefined, 'profile-basic-rows');
+      const roleNames = {
+        ADMIN: '机构管理员',
+        TENANT_ADMIN: '机构管理员',
+        TEACHER: '教师',
+        STUDENT: '学生',
+      };
+      const basicRow = (title, value) => {
+        const row = el('div', undefined, 'profile-basic-row');
+        row.append(el('span', title, 'profile-row-label'), el('span', value, 'profile-row-value'));
+        return row;
+      };
+      const nameRow = basicRow('姓名', current.formalName || current.displayName || '未登记');
+      identityFields.append(nameRow);
+      identity.append(identityFields);
       const avatar = el('section', undefined, 'profile-avatar-panel');
       avatar.append(
-        el('h2', '本空间头像'),
         avatarView(current.avatar, current.displayName),
-        el('p', '仅PNG，最大96×96像素、12 KiB；展示给本空间管理员目录。更换头像不保存文字资料。'),
+        el('p', '支持 PNG，最大 96×96 像素、12 KiB。'),
       );
       const avatarLabel = el('label', '选择PNG头像'),
         avatarInput = el('input');
       avatarInput.type = 'file';
       avatarInput.accept = 'image/png';
       avatarLabel.append(avatarInput);
+      avatarLabel.hidden = true;
       avatar.append(avatarLabel);
-      avatar.append(
-        button('上传并保存头像', async () => {
-          const file = avatarInput.files?.[0];
-          if (!file || file.size > 12288 || file.type !== 'image/png') {
-            notice.textContent = '请选择12 KiB以内的PNG；像素最大96×96。';
-            return;
-          }
-          const bytes = new Uint8Array(await file.arrayBuffer());
-          if (dead || busy || pending) return;
-          await save({
-            type: 'SAVE_AVATAR',
-            revision: current.avatar?.revision ?? null,
-            png: btoa(String.fromCharCode(...bytes)),
-          });
-        }),
-      );
+      const uploadAvatar = async () => {
+        const file = avatarInput.files?.[0];
+        if (!file || file.size > 12288 || file.type !== 'image/png') {
+          notice.textContent = '请选择12 KiB以内的PNG；像素最大96×96。';
+          return;
+        }
+        const bytes = new Uint8Array(await file.arrayBuffer());
+        if (dead || busy || pending) return;
+        await save({
+          type: 'SAVE_AVATAR',
+          revision: current.avatar?.revision ?? null,
+          png: btoa(String.fromCharCode(...bytes)),
+        });
+      };
+      avatarInput.addEventListener('change', () => void uploadAvatar());
+      const uploadButton = button('上传头像', () => avatarInput.click());
+      uploadButton.classList.add('primary');
+      uploadButton.title = '支持 PNG，最大 96×96 像素、12 KiB。';
+      avatar.append(uploadButton);
       if (current.avatar?.png)
         avatar.append(
           button('移除本人头像', () =>
             save({ type: 'SAVE_AVATAR', revision: current.avatar.revision, png: null }),
           ),
         );
-      overview.append(avatar, identity);
+      const avatarRow = el('div', undefined, 'profile-basic-row profile-avatar-row');
+      avatarRow.append(el('span', '当前头像', 'profile-row-label'), avatar);
+      identityFields.append(avatarRow);
+      for (const [title, value] of [
+        [
+          '平台角色',
+          current.roles.map((r) => roleNames[r.roleCode] || r.roleCode).join(' / ') || '空间成员',
+        ],
+        [
+          '人员编号',
+          [current.studentNo, current.employeeNo].filter(Boolean).join(' / ') || '未登记',
+        ],
+        ['所属单位', unitName || '未登记'],
+      ])
+        identityFields.append(basicRow(title, value));
+      overview.append(identity);
       root.append(overview);
       const form = el('form', undefined, 'academic-form profile-editor');
-      form.append(
-        el('h2', '账户与联系方式'),
-        el(
-          'p',
-          '显示名用于课程和讨论；正式姓名和学号／工号由管理员维护。联系方式和简介仅本人可见，邮箱不作登录或找回凭据。',
-        ),
-      );
+      form.append(el('h2', '账号绑定'));
       const fields = el('div', undefined, 'profile-fields');
       form.append(fields);
       for (const [key, title, max] of [
@@ -400,6 +391,8 @@
       };
       root.append(form);
       security(root);
+      if (toolbar.childNodes.length) root.append(toolbar);
+      root.append(notice);
     }
     if (members && page) {
       root.append(
@@ -412,7 +405,7 @@
         el(
           'p',
           page.globalStatusAsOf
-            ? `全局状态查证于 ${new Date(page.globalStatusAsOf).toLocaleString('zh-CN')}；这里只显示读取时状态。平台处理后请读取最新资料，实际访问由服务器逐次核验。`
+            ? `状态更新于 ${new Date(page.globalStatusAsOf).toLocaleString('zh-CN')}，平台操作后可刷新目录查看。`
             : '全局状态尚未查证。',
         ),
       );

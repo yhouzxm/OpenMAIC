@@ -1,3 +1,4 @@
+import { applyHostSchemaMigrations as applySchemaMigrations } from '@/lib/persistence/installed-schema';
 /**
  * Which library materials a conversation has attached (RFC #1716 §4).
  *
@@ -32,7 +33,7 @@
  * again reuses the copy instead of adding a link, so the conversation never
  * lists the same file twice under two ids. Copies are never migrated.
  */
-import { applySchemaMigrations, type SchemaMigrationSet } from '@openmaic/storage/pg-migrations';
+import { type SchemaMigrationSet } from '@openmaic/storage/pg-migrations';
 import type { Queryable, WithTransaction } from '@openmaic/storage/document/pg';
 
 import type { OwnerExtractionResult } from './owner-material-extraction';

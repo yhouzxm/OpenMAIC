@@ -57,7 +57,10 @@ function validate(m: IdentityHttpManifest, c: IdentityCompositionConfig) {
     !m ||
     m.backendPrivate !== true ||
     m.fixedOverwritingProxy !== true ||
-    c.deployment !== 'SINGLE_PROCESS_HTTPS' ||
+    !(
+      (c.deployment === 'SINGLE_PROCESS_HTTPS' && c.origin.startsWith('https://')) ||
+      (c.deployment === 'SINGLE_PROCESS_HTTP' && c.origin.startsWith('http://'))
+    ) ||
     m.policy.origin !== c.origin ||
     Object.keys(m.runtimeSecrets).sort().join(',') !== 'auth,control,tenant'
   )

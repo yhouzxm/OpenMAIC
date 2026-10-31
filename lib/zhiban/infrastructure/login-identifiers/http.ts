@@ -8,6 +8,7 @@ import {
   query,
   headers,
   cookie,
+  sessionCookie,
   record,
   text,
   response,
@@ -43,7 +44,7 @@ export function createLoginIdentifiersHttp(
       headers(request, origin, request.method === 'POST');
       query(request, []);
       if (!service.enabled) return failure(id, 503, 'SERVICE_UNAVAILABLE');
-      const raw = cookie(request);
+      const raw = cookie(request, origin);
       if (login) {
         const b = record(await body(request, 8192, 3000), ['identifier', 'password']);
         text(b.identifier, /^[\s\S]{0,128}$/);
@@ -68,7 +69,12 @@ export function createLoginIdentifiersHttp(
         });
         r.headers.set(
           'set-cookie',
-          `__Host-zhiban_session=${bearerForCookie(result.bearer)}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=${maxAge}; Expires=${new Date(result.identity.absoluteExpiresAt).toUTCString()}`,
+          sessionCookie(
+            origin,
+            bearerForCookie(result.bearer),
+            maxAge,
+            result.identity.absoluteExpiresAt,
+          ),
         );
         return r;
       }

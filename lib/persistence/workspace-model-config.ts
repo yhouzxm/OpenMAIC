@@ -1,3 +1,4 @@
+import { applyHostSchemaMigrations as applySchemaMigrations } from '@/lib/persistence/installed-schema';
 /**
  * The workspace model configuration: the providers and slot assignments a
  * workspace sets in the web settings (RFC #1701, tracked in #1725). A
@@ -17,7 +18,7 @@
  * claim moves the row to the account unless the account has one already.
  */
 import type { Queryable } from '@openmaic/storage/document/pg';
-import { applySchemaMigrations, type SchemaMigrationSet } from '@openmaic/storage/pg-migrations';
+import { type SchemaMigrationSet } from '@openmaic/storage/pg-migrations';
 import { encodeJson } from '@openmaic/storage/pg-json';
 import {
   nodePostgresTransaction,
@@ -146,7 +147,10 @@ export async function saveWorkspaceModelConfig(
   next: ModelConfigFile,
   expectedRevision: number | null,
   /** Providers whose stored key is removed even if it can no longer be opened. */
-  { clearKeys = [], afterWrite }: {
+  {
+    clearKeys = [],
+    afterWrite,
+  }: {
     clearKeys?: readonly string[];
     /** Embedded host audit, committed or rolled back with the configuration. */
     afterWrite?: (tx: Queryable, revision: number) => Promise<void>;

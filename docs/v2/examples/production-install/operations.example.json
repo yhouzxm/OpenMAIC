@@ -1,0 +1,64 @@
+{
+  "kind": "ZHIBAN_OPERATIONS_INPUT_V1",
+  "runtimeFile": "/etc/zhiban/runtime.json",
+  "serviceUid": 995,
+  "serviceGid": 995,
+  "pgBin": "/usr/lib/postgresql/18/bin",
+  "connections": {
+    "business": {
+      "host": "REPLACE_WITH_RDS_ENDPOINT",
+      "port": 5432,
+      "database": "zhiban_business",
+      "role": "REPLACE_WITH_APPROVED_FULL_DATA_ADMIN",
+      "credentialFile": "/root/zhiban-operations/business.env",
+      "caFile": "/etc/zhiban/rds-ca.pem"
+    },
+    "content": {
+      "host": "REPLACE_WITH_RDS_ENDPOINT",
+      "port": 5432,
+      "database": "zhiban_content",
+      "role": "REPLACE_WITH_APPROVED_FULL_DATA_ADMIN",
+      "credentialFile": "/root/zhiban-operations/content.env",
+      "caFile": "/etc/zhiban/rds-ca.pem"
+    },
+    "authoring": {
+      "host": "REPLACE_WITH_RDS_ENDPOINT",
+      "port": 5432,
+      "database": "zhiban_authoring",
+      "role": "REPLACE_WITH_APPROVED_FULL_DATA_ADMIN",
+      "credentialFile": "/root/zhiban-operations/authoring.env",
+      "caFile": "/etc/zhiban/rds-ca.pem"
+    }
+  },
+  "receiptPrivateKeyFile": "/root/zhiban-operations/receipt-private.pem",
+  "additionalPrivateFiles": {
+    "/etc/zhiban/public-tls/fullchain.pem": "REPLACE_WITH_PUBLIC_CERTIFICATE_SHA256",
+    "/etc/zhiban/public-tls/private.pem": "REPLACE_WITH_PUBLIC_KEY_FILE_SHA256"
+  },
+  "migrations": {
+    "business": {
+      "host": "REPLACE_WITH_RDS_ENDPOINT",
+      "port": 5432,
+      "database": "zhiban_business",
+      "role": "zhiban_migrator",
+      "credentialFile": "/root/zhiban-operations/zhiban_migrator.env",
+      "caFile": "/etc/zhiban/rds-ca.pem"
+    },
+    "content": {
+      "host": "REPLACE_WITH_RDS_ENDPOINT",
+      "port": 5432,
+      "database": "zhiban_content",
+      "role": "zhiban_openmaic_migrator",
+      "credentialFile": "/root/zhiban-operations/zhiban_openmaic_migrator.env",
+      "caFile": "/etc/zhiban/rds-ca.pem"
+    },
+    "authoring": {
+      "host": "REPLACE_WITH_RDS_ENDPOINT",
+      "port": 5432,
+      "database": "zhiban_authoring",
+      "role": "zhiban_authoring_migrator",
+      "credentialFile": "/root/zhiban-operations/zhiban_authoring_migrator.env",
+      "caFile": "/etc/zhiban/rds-ca.pem"
+    }
+  }
+}

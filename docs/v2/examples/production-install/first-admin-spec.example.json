@@ -1,0 +1,7 @@
+{
+  "environment": "REPLACE_WITH_ENVIRONMENT_REF",
+  "approvalRef": "first-admin",
+  "operatorRef": "REPLACE_WITH_OPERATOR_REF",
+  "approverRef": "REPLACE_WITH_APPROVER_REF",
+  "validForSeconds": 900
+}

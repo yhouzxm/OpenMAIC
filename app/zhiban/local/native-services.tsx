@@ -203,7 +203,7 @@ function Root() {
             <section className="card">
               <h2>当前可用服务</h2>
               <p>
-                “已配置”表示主机已指定服务，实际效果需真实调用验收。密钥、地址和模型由主机配置，普通教师无法修改。
+                服务由管理员配置，使用前请检查连接。
               </p>
               <div className="service-grid">
                 {Object.entries(status.kinds).map(([k, v]: any) => (
@@ -222,7 +222,7 @@ function Root() {
                     </strong>
                     <p>
                       {v.available
-                        ? '已配置 · 尚未真实验收'
+                        ? '已配置 · 待验证'
                         : v.state === 'DISABLED'
                           ? '主机已关闭'
                           : '服务未配置／不可用'}
@@ -257,8 +257,7 @@ function Root() {
                 </p>
               )}
               <p>
-                上传后复用原生抽取和 Agent
-                引用。外部解析／生成会向主机选定服务发送相应内容。原件保留在本人课程资料库，学生发布仍走课程资源入口。
+                上传后可解析和引用资料。外部解析／生成会向配置的服务发送相应内容；原件保留在本人资料库，发布后学生才能查看。
               </p>
               <input
                 aria-label="选择资料或音频"

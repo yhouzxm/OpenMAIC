@@ -1,3 +1,4 @@
+import { verifyInstalledSchema } from '@/lib/persistence/installed-schema';
 import { registerServiceOwner } from '../service-center/config';
 import { currentServiceTenant, withServiceTenant } from '@/lib/server/service-scope';
 /** Course-bound host over the existing OpenMAIC workspace APIs, stores and workers. */
@@ -134,6 +135,7 @@ export function configureAuthoringHost(content: ContentService) {
   process.env.OPENMAIC_AGENT_RUNTIME_ENABLED = 'true';
 }
 export async function initializeAuthoringStorage(pool: Pool) {
+  if (await verifyInstalledSchema(pool)) { worker ??= startAgentRunner(); return; }
   const sql = await readFile('lib/zhiban/infrastructure/authoring/schema.sql', 'utf8');
   const client = await pool.connect();
   try {

@@ -60,7 +60,7 @@
         tree = el('div', undefined, 'outline-tree');
       notice.setAttribute('role', 'status');
       root.className = 'curriculum';
-      root.replaceChildren(el('h3', '章节与单元'), notice, toolbar, tree);
+      root.replaceChildren(el('h3', '课程结构'), notice, toolbar, tree);
       const live = () => !closed && root.isConnected;
       const guard = () => !dirty || confirm('课程目录有未保存修改，确认放弃并离开？');
       const clickGuard = (e) => {
@@ -103,25 +103,31 @@
         const headers = { 'x-zhiban-request': 'identity-v1' };
         try {
           if (command) {
-            const r = await fetch('/api/zhiban/identity/csrf', {
-              headers,
-              credentials: 'same-origin',
-              cache: 'no-store',
-              signal: c.signal,
-            });
+            const r = await (window.zhibanMemberPresentation?.read || fetch)(
+              '/api/zhiban/identity/csrf',
+              {
+                headers,
+                credentials: 'same-origin',
+                cache: 'no-store',
+                signal: c.signal,
+              },
+            );
             if (!r.ok) throw Error('登录已失效。');
             headers['x-zhiban-csrf'] = (await r.json()).csrfToken;
             headers['x-zhiban-command'] = key;
             headers['Content-Type'] = 'application/json';
           }
-          const r = await fetch(`/api/zhiban/learning/${tenant}/offerings/${offering.id}/outline`, {
-            method: command ? 'POST' : 'GET',
-            headers,
-            credentials: 'same-origin',
-            cache: 'no-store',
-            signal: c.signal,
-            ...(command ? { body: JSON.stringify(command) } : {}),
-          });
+          const r = await (window.zhibanMemberPresentation?.read || fetch)(
+            `/api/zhiban/learning/${tenant}/offerings/${offering.id}/outline`,
+            {
+              method: command ? 'POST' : 'GET',
+              headers,
+              credentials: 'same-origin',
+              cache: 'no-store',
+              signal: c.signal,
+              ...(command ? { body: JSON.stringify(command) } : {}),
+            },
+          );
           const data = await r.json();
           if (!r.ok)
             throw Object.assign(
@@ -382,9 +388,38 @@
       function draw() {
         if (!value) return;
         const teacher = value.mode === 'TEACHER';
+        root.dataset.mode = teacher ? 'teacher' : 'student';
+        root.dispatchEvent(
+          new CustomEvent('outline-summary', {
+            detail: {
+              resources: value.resources
+                ? value.resources.length + (value.materials?.length || 0)
+                : null,
+            },
+          }),
+        );
         toolbar.replaceChildren();
         tree.replaceChildren();
-        toolbar.append(el('p', `已发布目录版本 ${value.publicationNo}`));
+        const units = chapters.reduce((n, c) => n + c.units.length, 0);
+        toolbar.append(
+          el(
+            'p',
+            `当前已发布 v${value.publicationNo} · ${chapters.length} 个章节 · ${units} 个活动`,
+          ),
+        );
+        if (teacher) {
+          const edit = button(
+            root.classList.contains('is-editing') ? '结束编辑' : '编辑课程结构',
+            async () => {
+              if (!guard()) return;
+              if (root.classList.contains('is-editing') && dirty) await load();
+              root.classList.toggle('is-editing');
+              draw();
+            },
+          );
+          edit.classList.add('outline-edit-toggle');
+          toolbar.append(edit);
+        }
         if (!teacher && value.progress?.configured) {
           const p = value.progress;
           toolbar.append(

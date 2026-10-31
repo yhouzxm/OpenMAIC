@@ -87,12 +87,15 @@
           const search = new URLSearchParams(
             Object.entries(filters).filter(([, v]) => v !== null && v !== undefined),
           );
-          const r = await fetch(`/api/zhiban/workspace/${tenant}/${kind}?${search}`, {
-            headers: { 'x-zhiban-request': 'identity-v1' },
-            credentials: 'same-origin',
-            cache: 'no-store',
-            signal: c.signal,
-          });
+          const r = await (window.zhibanMemberPresentation?.read || fetch)(
+            `/api/zhiban/workspace/${tenant}/${kind}?${search}`,
+            {
+              headers: { 'x-zhiban-request': 'identity-v1' },
+              credentials: 'same-origin',
+              cache: 'no-store',
+              signal: c.signal,
+            },
+          );
           const data = await r.json();
           if (!r.ok)
             throw Object.assign(
@@ -171,94 +174,6 @@
         parent.append(f);
         return f;
       }
-      function roster(o, parent, names) {
-        let query = '',
-          size = '20',
-          history = [null],
-          page = 0,
-          busy = false,
-          epoch = 0,
-          closed = false;
-        const dispose = () => {
-          closed = true;
-          epoch++;
-          names.clear();
-        };
-        children.add(dispose);
-        async function read() {
-          if (busy || closed || destroyed) return;
-          busy = true;
-          const version = ++epoch;
-          parent.querySelectorAll('input,select,button').forEach((n) => (n.disabled = true));
-          try {
-            const result = await request('roster', {
-              offering: o.id,
-              q: query,
-              limit: size,
-              cursor: history[page],
-            });
-            if (closed || destroyed || version !== epoch || !parent.isConnected) return;
-            parent.replaceChildren();
-            names.clear();
-            filterForm(parent, {
-              searchLabel: '搜索学生名单',
-              sizeLabel: '名单每页条数',
-              query,
-              size,
-              submit: (v, l) => {
-                if (busy) return;
-                query = v;
-                size = l;
-                history = [null];
-                page = 0;
-                void read();
-              },
-            });
-            const list = el('div', undefined, 'course-roster');
-            parent.append(list);
-            for (const row of result.rows) {
-              names.set(row.membership_id, row.name || row.membership_id);
-              const item = el('p');
-              item.append(el('span', row.name || '未填写姓名'), el('small', row.membership_id));
-              list.append(item);
-            }
-            if (!result.rows.length)
-              list.append(
-                el(
-                  'p',
-                  page ? '本页已无记录，可返回上一页或重新搜索。' : '暂无匹配学生。',
-                  'muted',
-                ),
-              );
-            const nav = el('nav', undefined, 'course-pagination');
-            nav.setAttribute('aria-label', '学生名单分页');
-            const prev = button('上一页学生', () => {
-                if (!busy && page > 0) {
-                  page--;
-                  return read();
-                }
-              }),
-              next = button('下一页学生', () => {
-                if (!busy && result.nextCursor) {
-                  history[++page] = result.nextCursor;
-                  return read();
-                }
-              });
-            prev.disabled = page === 0;
-            next.disabled = !result.nextCursor;
-            nav.append(prev, el('span', `第 ${page + 1} 页 · 本页 ${result.rows.length} 人`), next);
-            parent.append(nav);
-          } catch (e) {
-            if (!closed && !destroyed && version === epoch) {
-              parent.replaceChildren(el('p', e.message, 'notice'), button('重试学生名单', read));
-            }
-          } finally {
-            busy = false;
-          }
-        }
-        void read();
-        return dispose;
-      }
       async function drawCourse(route) {
         const offering = context.get('offering');
         // This extra field forces a full activity-page navigation; it never supplies authority.
@@ -298,6 +213,9 @@
         }
         const data = await request('courses', { q: offering, limit: '50' });
         if (destroyed || !root.isConnected) return;
+        root.dispatchEvent(
+          new CustomEvent('workspace-context', { detail: { roles: data.roles || [] } }),
+        );
         const mode = route.role.toUpperCase();
         const o =
           data.mode === 'MEMBER'
@@ -319,18 +237,27 @@
         wrap.dataset.offering = o.id;
         wrap.dataset.course = o.course_id;
         wrap.dataset.mode = mode;
-        const listUrl = `${route.role === 'teacher' ? '/zhiban/teacher/courses' : '/zhiban'}?space=${tenant}`;
+        const listUrl = `/zhiban?space=${tenant}`;
         const hero = el('header', undefined, 'course-hero');
         const heading = el('div', undefined, 'course-hero-copy');
         heading.append(
-          link('← 返回我的课程', listUrl),
+          link('← 返回', listUrl),
           el('h1', o.course_name),
-          el(
-            'p',
-            `${o.name} · ${o.term_name} · ${o.status === 'OPEN' ? '开放' : '已关闭'} · 发布版本 ${o.course_version}`,
-          ),
+          el('p', `课程代码：${o.code}　学期：${o.term_name}`),
         );
         hero.append(heading);
+        const titleBadges = el('span', undefined, 'course-title-badges');
+        titleBadges.append(
+          el('span', o.status === 'OPEN' ? '进行中' : '已结束', 'course-status'),
+          el('span', route.role === 'teacher' ? '授课教师' : '学生', 'course-role'),
+        );
+        heading.querySelector('h1').append(titleBadges);
+        if (route.role === 'teacher') {
+          const settings = el('a', '课程设置', 'button secondary course-settings-link');
+          settings.href = `/zhiban/teacher/courses/${o.course_id}/settings?space=${tenant}&offering=${o.id}`;
+          hero.append(settings);
+        }
+
         if (route.role === 'student') hero.append(el('div', '▤', 'course-hero-cover'));
         wrap.append(hero);
         const body = el('div', undefined, 'course-body');
@@ -339,10 +266,11 @@
         const items =
           route.role === 'teacher'
             ? [
-                ['', '课程概览'],
+                ['', '章节'],
                 ['classrooms', '课堂与互动'],
-                ['resources', '讲义与图片'],
-                ['agents', 'AI 备课'],
+                ['pbl', 'PBL 项目'],
+                ['resources', '课程资源'],
+                ['agents', '智能体中心'],
                 ['learning-center', '学习中心'],
                 ['discussions', '课程讨论'],
                 ['students', '选课学生'],
@@ -357,7 +285,7 @@
                 ['tutor', 'AI 学习辅导'],
               ]
             : [
-                ['', '目录'],
+                ['', '章节'],
                 ['introduction', '课程简介'],
                 ['coursework', '学习活动'],
                 ['resources', '课程资源'],
@@ -383,17 +311,61 @@
         root.append(wrap);
         const contentUrl = courseHref(route.role, o.course_id, tenant, o.id, 'resources');
         if (route.section === '') {
-          panel.append(el('h2', route.role === 'teacher' ? '课程概览' : '课程目录'));
-          panel.append(el('p', o.course_description || '暂无课程简介。', 'course-description'));
-          panel.append(
-            el(
-              'p',
-              `教学班代码 ${o.code} · 当前教学班 ${o.name} · ${o.enrolled_count}/${o.capacity} 人`,
-              'muted',
-            ),
-          );
+          const stats = el('div', undefined, 'course-overview-stats');
+          panel.append(stats);
+          const slots = [];
+          for (const [title, part, icon] of [
+            ['课堂与场景', route.role === 'teacher' ? 'classrooms' : 'coursework', '▤'],
+            ['PBL 项目', 'pbl', '◇'],
+            ['课程资源', 'resources', '▱'],
+            ['启用智能体', route.role === 'teacher' ? 'agents' : 'tools', '♧'],
+          ]) {
+            const card = el('a', undefined, 'course-stat');
+            card.href = courseHref(route.role, o.course_id, tenant, o.id, part);
+            const count = el('strong', '—');
+            const copy = el('div');
+            copy.append(el('span', title), count);
+            card.append(el('span', icon, 'course-stat-icon'), copy);
+            stats.append(card);
+            slots.push(count);
+          }
+          const readStat = async (path, slot, select) => {
+            try {
+              const r = await (window.zhibanMemberPresentation?.read || fetch)(path, {
+                headers: { 'x-zhiban-request': 'identity-v1' },
+                credentials: 'same-origin',
+                cache: 'no-store',
+                signal: AbortSignal.timeout(10000),
+              });
+              if (!r.ok) return;
+              const v = await r.json();
+              if (!destroyed && stats.isConnected) slot.textContent = select(v);
+            } catch {
+              /* An unavailable statistic never becomes a fabricated zero. */
+            }
+          };
+          void (async () => {
+            await readStat(
+              `/api/zhiban/learning/${tenant}/offerings/${o.id}/classrooms`,
+              slots[0],
+              (v) => String(v.sessions.length),
+            );
+            await readStat(
+              `/api/zhiban/pbl/${tenant}/offerings/${o.id}`,
+              slots[1],
+              (v) => String(v.rows.length) + (v.next ? '+' : ''),
+            );
+            await readStat(
+              `/api/zhiban/tutor/${tenant}/offerings/${o.id}?mode=${mode}`,
+              slots[3],
+              (v) => (v.policy.enabled ? '1' : '0'),
+            );
+          })();
           const outlineRoot = el('section');
           panel.append(outlineRoot);
+          outlineRoot.addEventListener('outline-summary', (e) => {
+            slots[2].textContent = e.detail.resources === null ? '—' : String(e.detail.resources);
+          });
           if (window.zhibanCurriculum) {
             const cleanup = await window.zhibanCurriculum.render(
               tenant,
@@ -404,19 +376,6 @@
             );
             if (typeof cleanup === 'function') children.add(cleanup);
           }
-          panel.append(
-            link(route.role === 'teacher' ? '编辑讲义与图片' : '查看讲义与图片', contentUrl),
-            link(
-              route.role === 'teacher' ? '进入课堂与互动' : '进入学习活动',
-              courseHref(
-                route.role,
-                o.course_id,
-                tenant,
-                o.id,
-                route.role === 'teacher' ? 'classrooms' : 'coursework',
-              ),
-            ),
-          );
         } else if (route.section === 'discussions') {
           const cleanup = await window.zhibanDiscussion.render(tenant, o, panel);
           if (typeof cleanup === 'function') children.add(cleanup);
@@ -527,15 +486,9 @@
             '/zhiban/student/classrooms',
           ].includes(location.pathname);
         const header = el('div', undefined, 'workspace-header');
-        header.append(
-          el('h2', globalClassroom ? '课堂入口 · 选择教学班' : '我的课程'),
-          button('刷新课程', () => load()),
-        );
-        root.append(
-          header,
-          el('p', '选择课程进入工作区，查看教学内容与学习活动。', 'catalog-subtitle'),
-        );
-        filterForm(root, {
+        header.append(el('h2', globalClassroom ? '课堂入口 · 选择教学班' : '我的课程'));
+        root.append(header);
+        const catalogFilters = filterForm(root, {
           searchLabel: '搜索我的课程',
           sizeLabel: '课程每页条数',
           statusLabel: '课程状态',
@@ -552,80 +505,61 @@
             void load();
           },
         });
+        catalogFilters.id = 'catalog-filters';
+        const searchLabel = catalogFilters.querySelector('label');
+        const searchInput = searchLabel.querySelector('input');
+        searchInput.setAttribute('form', catalogFilters.id);
+        searchInput.placeholder = '课程名称 / 课程代码';
+        searchLabel.classList.add('catalog-search');
+        header.append(searchLabel);
+        const subtitle = el('p', '选择课程进入教学工作区', 'catalog-subtitle');
+        header.insertBefore(subtitle, searchLabel);
         const list = el('div', undefined, 'academic-grid workspace-courses');
         root.append(list);
         for (const o of data.rows) {
-          const card = el('article', undefined, 'card academic-card');
+          const card = el('article', undefined, 'card academic-card course-list-card');
           card.dataset.offering = o.id;
-          const cover = el('div', undefined, 'course-cover');
+          const cover = el('a', undefined, 'course-cover');
           cover.setAttribute('aria-hidden', 'true');
           cover.append(el('span', '▤'), el('small', '智伴·创学'));
-          card.append(
-            cover,
-            el('h3', o.course_name),
-            el('h4', o.name, 'offering-name'),
-            el(
-              'p',
-              `${o.mode === 'TEACHER' ? '任教' : '选课'} · ${o.course_name} · 发布版本 ${o.course_version} · ${o.term_name}`,
-            ),
-            el(
-              'p',
-              `${o.status === 'OPEN' ? '开放' : '已关闭'} · ${o.enrolled_count}/${o.capacity} 人`,
-            ),
-            el('p', o.course_description, 'muted'),
+          const summary = el('div', undefined, 'course-list-summary');
+          const titleRow = el('div', undefined, 'course-list-title');
+          titleRow.append(el('h3', o.course_name));
+          const roleBadge = el(
+            'span',
+            o.mode === 'TEACHER' ? '任课教师' : '已选课程',
+            'course-role-badge',
           );
-          card.append(
-            link(
-              globalClassroom ? '进入课堂任务' : '进入课程工作区',
-              courseHref(
-                o.mode.toLowerCase(),
-                o.course_id,
-                tenant,
-                o.id,
-                globalClassroom ? (o.mode === 'TEACHER' ? 'classrooms' : 'coursework') : '',
-              ),
-            ),
-            link(
-              o.mode === 'TEACHER' ? '教学内容 · 编辑与预览' : '查看教学内容',
-              `/zhiban/content?tenant=${tenant}&offering=${o.id}`,
+          titleRow.append(roleBadge);
+          summary.append(
+            titleRow,
+            el('p', `课程代码：${o.code || '—'}`, 'course-list-meta'),
+            el('p', `学期：${o.term_name}`, 'course-list-meta'),
+          );
+          const stateBadge = el(
+            'span',
+            o.status === 'OPEN' ? '进行中' : '已结束',
+            `course-state-badge ${o.status === 'OPEN' ? 'is-open' : ''}`,
+          );
+          titleRow.append(stateBadge);
+          const enter = link(
+            globalClassroom ? '进入课堂任务' : '进入课程工作区 →',
+            courseHref(
+              o.mode.toLowerCase(),
+              o.course_id,
+              tenant,
+              o.id,
+              globalClassroom ? (o.mode === 'TEACHER' ? 'classrooms' : 'coursework') : '',
             ),
           );
-          if (o.mode === 'TEACHER')
-            card.append(
-              link('教师统计', `/zhiban/analytics?tenant=${tenant}&offering=${o.id}`),
-              link('待评分与成绩', `/zhiban/grading?tenant=${tenant}&offering=${o.id}`),
-            );
-          else
-            card.append(link('我的学习概览', `/zhiban/progress?tenant=${tenant}&offering=${o.id}`));
-          const names = new Map();
-          if (o.mode === 'TEACHER') {
-            const details = el('details');
-            details.append(el('summary', '学生名单（分页）'));
-            const panel = el('div');
-            details.append(panel);
-            let initialized = false;
-            details.addEventListener('toggle', () => {
-              if (details.open && !initialized) {
-                initialized = true;
-                roster(o, panel, names);
-              }
-            });
-            card.append(details);
-          } else card.append(el('p', '我的选课：当前有效', 'muted'));
-          if (window.zhibanLearning) {
-            const details = el('details', undefined, 'learning-section');
-            details.append(el('summary', '学习活动与提交'));
-            const panel = el('div', undefined, 'learning-panel');
-            details.append(panel);
-            let initialized = false;
-            details.addEventListener('toggle', () => {
-              if (details.open && !initialized) {
-                initialized = true;
-                void window.zhibanLearning.render(tenant, o, panel, (id) => names.get(id) || id);
-              }
-            });
-            card.append(details);
-          }
+          enter.classList.add('course-enter-link');
+          cover.href = enter.href;
+          cover.removeAttribute('aria-hidden');
+          cover.setAttribute('aria-label', `进入${o.course_name}`);
+          const titleLink = el('a', o.course_name);
+          titleLink.href = enter.href;
+          titleRow.querySelector('h3').replaceChildren(titleLink);
+          card.append(cover, summary, enter);
           list.append(card);
           if (context.get('offering') === o.id) {
             const learning = card.querySelector('details.learning-section');

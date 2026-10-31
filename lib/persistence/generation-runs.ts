@@ -1,3 +1,4 @@
+import { applyHostSchemaMigrations as applySchemaMigrations } from '@/lib/persistence/installed-schema';
 /**
  * The tables behind server-side generation runs (RFC #1754 §E); the run
  * engine and its store live in `lib/server/generation/run/`. This module only
@@ -38,7 +39,7 @@
  * every execution of the run. Null for a run started without them.
  */
 import type { Queryable } from '@openmaic/storage/document/pg';
-import { applySchemaMigrations, type SchemaMigrationSet } from '@openmaic/storage/pg-migrations';
+import { type SchemaMigrationSet } from '@openmaic/storage/pg-migrations';
 
 const SCHEMA = `
 CREATE TABLE IF NOT EXISTS generation_runs (

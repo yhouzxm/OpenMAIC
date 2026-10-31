@@ -15,13 +15,7 @@
   const target = activityRoute?.[2] ?? classroomRoute?.[1];
   const validRoute = pbl || deep || location.pathname === '/zhiban/student/tools';
   const globalPath = pbl || deep ? location.pathname : '/zhiban/student/tools';
-  const title = pbl
-    ? 'PBL 小组项目入口'
-    : deep
-      ? activityRoute
-        ? '学习活动入口'
-        : '课堂入口'
-      : '学生 AI 学习辅导入口';
+  const title = pbl ? 'PBL 小组项目' : deep ? (activityRoute ? '学习活动' : '课堂') : 'AI 学习辅导';
   const text = (value) =>
     pbl
       ? value.replaceAll('AI 学习辅导', 'PBL 小组项目')
@@ -68,8 +62,7 @@
     n.onclick = () => void fn();
     return n;
   };
-  const back = () =>
-    link('返回当前空间工作台', '/zhiban' + (uuid(tenant) ? '?space=' + tenant : ''));
+  const back = () => link('返回工作台', '/zhiban' + (uuid(tenant) ? '?space=' + tenant : ''));
   function error(text) {
     if (!dead) root.replaceChildren(el('h1', title), el('p', text), back());
   }
@@ -78,7 +71,7 @@
     controllers.add(controller);
     const timer = setTimeout(() => controller.abort(), 10000);
     try {
-      const r = await fetch(path, {
+      const r = await (window.zhibanMemberPresentation?.read || fetch)(path, {
         headers: { 'x-zhiban-request': 'identity-v1' },
         credentials: 'same-origin',
         cache: 'no-store',
@@ -124,33 +117,13 @@
           (!course || row.course_id === course) &&
           (!pbl || !targetOffering || row.id === targetOffering),
       );
-      root.replaceChildren(
-        el('h1', title),
-        back(),
-        el(
-          'p',
-          pbl
-            ? '选择当前有权限的教学班，进入课程项目、共同成果与教师评价。'
-            : deep
-              ? '先选择有权限的教学班，再精确核对当前课堂或活动；不会自动开始作答或进入任务。'
-              : '选择在读教学班进入课程 Tutor。由教师控制开关，对话和历史仅本人可见，不计成绩或完成。',
-        ),
-        el(
-          'p',
-          pbl
-            ? pblRoute[2]
-              ? '旧链接中的项目编号无法自动对应当前小组。请进入课程选择项目；旧项目历史不在此处显示。'
-              : '复用当前教学班权限；发布、分组、共同提交和评价均在课程内完成。'
-            : deep
-              ? '此入口仅支持当前课程的活动或课堂编号。旧链接无法自动对应时，请进入课程重新选择；课堂与实验仍须按课程要求进入。'
-              : '此入口提供课程 AI 辅导；其他 AI 学习功能请从课程工作区进入。',
-        ),
-      );
+      root.replaceChildren(el('h1', title));
+      if (pbl && pblRoute[2]) root.append(el('p', '请在课程内重新选择项目。'));
       if (pbl && targetOffering)
         root.append(link('显示全部教学班', `${globalPath}?space=${tenant}`));
       if (course)
         root.append(
-          el('p', '当前按旧链接指定课程筛选教学班。'),
+          el('p', '已筛选指定课程。'),
           link('显示全部课程', `${globalPath}?space=${tenant}`),
         );
       const form = el('form');
@@ -185,7 +158,7 @@
           state,
         ),
         size = select(
-          'AI 学习辅导入口每页条数',
+          '每页条数',
           [
             ['10', '10'],
             ['20', '20'],
@@ -193,7 +166,7 @@
           ],
           limit,
         );
-      const submit = el('button', '查询AI 学习辅导课程');
+      const submit = el('button', '查询');
       submit.type = 'submit';
       form.append(submit);
       form.onsubmit = (e) => {
@@ -206,7 +179,7 @@
         index = 0;
         void load();
       };
-      root.append(form, button('刷新 AI 学习辅导课程', load));
+      root.append(form);
       const list = el('section');
       list.setAttribute('aria-label', text('可访问的 AI 学习辅导课程'));
       root.append(list);
@@ -318,8 +291,8 @@
     if (!found) {
       error(
         activityRoute
-          ? '未找到可访问的活动。请进入课程重新选择，旧链接中的活动编号可能已不适用。'
-          : '未找到可访问的开放课堂。课堂可能已结束、访问权限已变化，或旧链接已不适用。',
+          ? '该活动不可访问，请在课程内重新选择。'
+          : '该课堂已结束或暂不可访问，请在课程内重新选择。',
       );
       root.append(
         link(

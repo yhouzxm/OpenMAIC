@@ -1,3 +1,4 @@
+import { hostSchemaBootstrap } from '@/lib/persistence/installed-schema';
 import {
   PgAgentSessionStore,
   ensureAgentSessionSchema,
@@ -47,7 +48,9 @@ export function nodePostgresTransaction(pool: Pool): WithTransaction {
 
 async function createAgentSessionStore(connectionString: string): Promise<PgAgentSessionStore> {
   const { pool } = await getServerPersistenceProvider(connectionString);
-  await withSchemaBootstrapLock(pool as unknown as ConnectableQueryable, ensureAgentSessionSchema);
+  await withSchemaBootstrapLock(pool as unknown as ConnectableQueryable, (q) =>
+    hostSchemaBootstrap(q, ensureAgentSessionSchema),
+  );
   // URL observations from user-authored prompt/message text are registered
   // inside the same business transaction that creates the session / posts the
   // message (reference session-store semantics), so they commit atomically and

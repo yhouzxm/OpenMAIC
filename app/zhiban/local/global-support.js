@@ -9,7 +9,14 @@
       ? ['profiles', 'risks'].includes(route?.[2])
       : ['profile', 'risks'].includes(route?.[2]);
   const globalPath = `/zhiban/${role}/${kind === 'support' ? 'risks' : role === 'teacher' ? 'profiles' : 'profile'}`;
-  const title = kind === 'profile' ? '学习证据画像入口' : '风险与学习支持入口';
+  const title =
+    kind === 'profile'
+      ? role === 'teacher'
+        ? '学习分析'
+        : '学习档案'
+      : role === 'teacher'
+        ? '风险预警'
+        : '学习支持';
   const input = new URLSearchParams(location.search);
   const uuid = (v) =>
     /^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(v ?? '');
@@ -42,8 +49,7 @@
     n.onclick = () => void fn();
     return n;
   };
-  const back = () =>
-    link('返回当前空间工作台', '/zhiban' + (uuid(tenant) ? '?space=' + tenant : ''));
+  const back = () => link('返回工作台', '/zhiban' + (uuid(tenant) ? '?space=' + tenant : ''));
   function error(text) {
     if (!dead) root.replaceChildren(el('h1', title), el('p', text), back());
   }
@@ -52,7 +58,7 @@
     controllers.add(controller);
     const timer = setTimeout(() => controller.abort(), 10000);
     try {
-      const r = await fetch(path, {
+      const r = await (window.zhibanMemberPresentation?.read || fetch)(path, {
         headers: { 'x-zhiban-request': 'identity-v1' },
         credentials: 'same-origin',
         cache: 'no-store',
@@ -95,25 +101,10 @@
       const rows = data.rows.filter(
         (row) => row.mode === role.toUpperCase() && (!course || row.course_id === course),
       );
-      root.replaceChildren(
-        el('h1', title),
-        back(),
-        el(
-          'p',
-          role === 'teacher'
-            ? '选择任教教学班进入证据画像、私有规则审阅及人工支持。'
-            : '选择在读教学班进入本人已公开的学习观察、纠错、提醒及补救任务。',
-        ),
-      );
-      root.append(
-        el(
-          'p',
-          '画像维度仍在审阅中；此处仅展示可追溯证据与教师发布的支持，不计算能力分、排名或自动诊断。',
-        ),
-      );
+      root.replaceChildren(el('h1', title));
       if (course)
         root.append(
-          el('p', '当前按旧链接指定课程筛选教学班。'),
+          el('p', '已筛选指定课程。'),
           link('显示全部课程', `${globalPath}?space=${tenant}`),
         );
       const form = el('form');
@@ -148,7 +139,7 @@
           state,
         ),
         size = select(
-          '画像与支持入口每页条数',
+          '每页条数',
           [
             ['10', '10'],
             ['20', '20'],
@@ -156,7 +147,7 @@
           ],
           limit,
         );
-      const submit = el('button', '查询画像与支持课程');
+      const submit = el('button', '查询');
       submit.type = 'submit';
       form.append(submit);
       form.onsubmit = (e) => {
@@ -169,7 +160,7 @@
         index = 0;
         void load();
       };
-      root.append(form, button('刷新画像与支持课程', load));
+      root.append(form);
       const list = el('section');
       list.setAttribute('aria-label', '可访问的画像与支持课程');
       root.append(list);

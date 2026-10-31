@@ -1,0 +1,116 @@
+{
+  "kind": "ZHIBAN_RUNTIME_INPUT_V1",
+  "instanceId": "REPLACE_WITH_NEW_UUIDV7",
+  "origin": "https://47.120.42.25:88",
+  "address": "127.0.0.1",
+  "port": 3491,
+  "stateDirectory": "/var/lib/zhiban/instance",
+  "profileFile": "/etc/zhiban/source-profile.json",
+  "profilePin": "REPLACE_WITH_REVIEWED_SOURCE_PROFILE_SHA256",
+  "receiptAuthority": {
+    "publicKey": "REPLACE_WITH_RECEIPT_ISSUER_ED25519_SPKI_PEM",
+    "spkiSha256": "REPLACE_WITH_RECEIPT_ISSUER_SPKI_SHA256"
+  },
+  "tls": {
+    "certificateFile": "/etc/zhiban/internal-tls/server.pem",
+    "privateKeyFile": "/etc/zhiban/internal-tls/server.key",
+    "serverName": "zhiban.internal"
+  },
+  "databases": {
+    "business": "zhiban_business",
+    "content": "zhiban_content",
+    "authoring": "zhiban_authoring"
+  },
+  "connections": {
+    "auth": {
+      "host": "REPLACE_WITH_RDS_ENDPOINT",
+      "port": 5432,
+      "database": "zhiban_business",
+      "role": "zhiban_auth_runtime",
+      "credentialFile": "/etc/zhiban/runtime/zhiban_auth_runtime.env",
+      "caFile": "/etc/zhiban/rds-ca.pem"
+    },
+    "tenant": {
+      "host": "REPLACE_WITH_RDS_ENDPOINT",
+      "port": 5432,
+      "database": "zhiban_business",
+      "role": "zhiban_runtime",
+      "credentialFile": "/etc/zhiban/runtime/zhiban_runtime.env",
+      "caFile": "/etc/zhiban/rds-ca.pem"
+    },
+    "control": {
+      "host": "REPLACE_WITH_RDS_ENDPOINT",
+      "port": 5432,
+      "database": "zhiban_business",
+      "role": "zhiban_control_runtime",
+      "credentialFile": "/etc/zhiban/runtime/zhiban_control_runtime.env",
+      "caFile": "/etc/zhiban/rds-ca.pem"
+    },
+    "business": {
+      "host": "REPLACE_WITH_RDS_ENDPOINT",
+      "port": 5432,
+      "database": "zhiban_business",
+      "role": "zhiban_academic_runtime",
+      "credentialFile": "/etc/zhiban/runtime/zhiban_academic_runtime.env",
+      "caFile": "/etc/zhiban/rds-ca.pem"
+    },
+    "bridge": {
+      "host": "REPLACE_WITH_RDS_ENDPOINT",
+      "port": 5432,
+      "database": "zhiban_business",
+      "role": "zhiban_bridge_runtime",
+      "credentialFile": "/etc/zhiban/runtime/zhiban_bridge_runtime.env",
+      "caFile": "/etc/zhiban/rds-ca.pem"
+    },
+    "native": {
+      "host": "REPLACE_WITH_RDS_ENDPOINT",
+      "port": 5432,
+      "database": "zhiban_content",
+      "role": "zhiban_openmaic_runtime",
+      "credentialFile": "/etc/zhiban/runtime/zhiban_openmaic_runtime.env",
+      "caFile": "/etc/zhiban/rds-ca.pem"
+    },
+    "worker": {
+      "host": "REPLACE_WITH_RDS_ENDPOINT",
+      "port": 5432,
+      "database": "zhiban_business",
+      "role": "zhiban_autograde_worker",
+      "credentialFile": "/etc/zhiban/runtime/zhiban_autograde_worker.env",
+      "caFile": "/etc/zhiban/rds-ca.pem"
+    },
+    "authoring": {
+      "host": "REPLACE_WITH_RDS_ENDPOINT",
+      "port": 5432,
+      "database": "zhiban_authoring",
+      "role": "zhiban_authoring_runtime",
+      "credentialFile": "/etc/zhiban/runtime/zhiban_authoring_runtime.env",
+      "caFile": "/etc/zhiban/rds-ca.pem"
+    }
+  },
+  "identity": null,
+  "membershipAuthority": {
+    "directory": "/etc/zhiban/control-approvals",
+    "environment": "REPLACE_WITH_ENVIRONMENT_REF",
+    "operator": {
+      "reference": "REPLACE_WITH_OPERATOR_REF",
+      "publicKey": "REPLACE_WITH_OPERATOR_ED25519_SPKI_PEM",
+      "spkiSha256": "REPLACE_WITH_OPERATOR_SPKI_SHA256"
+    },
+    "approver": {
+      "reference": "REPLACE_WITH_APPROVER_REF",
+      "publicKey": "REPLACE_WITH_APPROVER_ED25519_SPKI_PEM",
+      "spkiSha256": "REPLACE_WITH_APPROVER_SPKI_SHA256"
+    }
+  },
+  "trustedProxy": {
+    "address": "127.0.0.1",
+    "tokenFile": "/etc/zhiban/proxy-token"
+  },
+  "serviceEnvironment": {
+    "file": "/etc/zhiban/services.env",
+    "pin": "REPLACE_WITH_SERVICES_ENV_SHA256",
+    "files": {
+      "/etc/zhiban/openmaic.yml": "REPLACE_WITH_OPENMAIC_CONFIG_SHA256"
+    }
+  }
+}

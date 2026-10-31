@@ -1,3 +1,4 @@
+import { verifyInstalledSchema } from '@/lib/persistence/installed-schema';
 /** Course-bound native autonomous PBL. No formal Attempt, grade or group-submission writes. */
 import { readFile } from 'node:fs/promises';
 import { randomUUID } from 'node:crypto';
@@ -22,6 +23,9 @@ import type { ClassroomAiService } from './service';
 import { mergePblLearnerInput, preparePblTaskCompletion } from './pbl-state';
 
 export async function initializePublishedPbl(pool: Pool) {
+  if (await verifyInstalledSchema(pool)) {
+    return;
+  }
   const sql = await readFile('lib/zhiban/infrastructure/classroom-ai/pbl-schema.sql', 'utf8');
   const c = await pool.connect();
   const expected: Record<string, string[]> = {

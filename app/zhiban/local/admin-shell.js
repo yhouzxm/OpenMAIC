@@ -1,7 +1,22 @@
 /* Shared administrator presentation. Server mode is checked before standalone views mount. */
 (() => {
+  // Independent page widgets authenticate the same session. Serialize only their
+  // reads; every request still reaches server authorization, with no cached result.
+  let readTail = Promise.resolve();
+  function read(input, options = {}) {
+    if (options.method && options.method !== 'GET') return fetch(input, options);
+    const response = readTail.then(() => fetch(input, options));
+    readTail = response.then(
+      () => undefined,
+      () => undefined,
+    );
+    return response;
+  }
+  window.zhibanMemberPresentation = { read, spaceName };
   // Inline vector icons respect the existing CSP; no remote fonts or data URL images.
   const vectorPaths = {
+    folder: ['M3 7V4h7l2 3h9v13H3Z'],
+    bot: ['M5 8h14v12H5ZM12 3v5M2 12v5m20-5v5M9 12v3m6-3v3'],
     brand: [
       'M18 2a16 16 0 1 0 0 32 16 16 0 0 0 0-32',
       'm7 15 11-5 11 5-11 5-11-5',
@@ -36,11 +51,160 @@
   }
   function decorate() {
     if (!document.body.classList.contains('portal')) return;
+    const top = document.querySelector('.topbar');
+    document.querySelectorAll('.course-stat-icon').forEach((icon, i) => {
+      if (!icon.querySelector('svg'))
+        icon.replaceChildren(
+          vector(['book', 'grid', 'folder', 'bot'][i % 4], 'course-stat-vector'),
+        );
+    });
+    for (const nav of document.querySelectorAll('.course-inner-nav')) {
+      if (nav.dataset.referenceLayout || !location.pathname.startsWith('/zhiban/teacher/courses/'))
+        continue;
+      nav.dataset.referenceLayout = 'true';
+      const anchors = [...nav.querySelectorAll(':scope > a')];
+      const key = (a) => new URL(a.href).pathname.split('/').slice(5).join('/');
+      const order = [
+        ['', '章节'],
+        ['classrooms', '课堂与互动'],
+        ['pbl', 'PBL 项目'],
+        ['teachers', '课程教师'],
+        ['students', '选课学生'],
+        ['grades', '学生成绩'],
+        ['analytics', '教学分析'],
+        ['risk', '风险预警'],
+        ['agents', '智能体中心'],
+      ];
+      const primary = new Set([...order.map(([k]) => k), 'settings']);
+      for (const [k, title] of order) {
+        const a = anchors.find((a) => key(a) === k);
+        if (a) {
+          a.textContent = title;
+          nav.append(a);
+        }
+      }
+      const extra = anchors.filter((a) => !primary.has(key(a)));
+      if (extra.length) {
+        const details = el('details', undefined, 'course-more-tools');
+        details.append(el('summary', '更多课程工具'), ...extra);
+        nav.append(details);
+      }
+      const settings = anchors.find((a) => key(a) === 'settings');
+      if (settings) nav.append(settings);
+    }
+    if (top) {
+      if (top.querySelector('.topbar-actions')) top.querySelector('.header-exit')?.remove();
+      const context = new URLSearchParams(location.search);
+      const tenant = context.get('tenant') || context.get('space');
+      if (tenant && /^[a-f0-9-]{36}$/.test(tenant) && !top.dataset.accountLoading) {
+        top.dataset.accountLoading = 'true';
+        void read(`/api/zhiban/profile/${tenant}/me`, {
+          headers: { 'x-zhiban-request': 'identity-v1' },
+          credentials: 'same-origin',
+          cache: 'no-store',
+        })
+          .then(async (response) => {
+            if (!response.ok || !top.isConnected) return;
+            const info = await response.json();
+            if (!top.querySelector('.header-account')) {
+              const account = el(
+                'a',
+                info.displayName || info.formalName || '个人资料',
+                'header-account',
+              );
+              account.href = `/zhiban/profile?tenant=${tenant}`;
+              top.append(account);
+            }
+            if (
+              ![...top.querySelectorAll('button')].some((button) => /退出/.test(button.textContent))
+            ) {
+              const exit = el('button', '退出', 'button secondary header-exit');
+              exit.type = 'button';
+              exit.onclick = async () => {
+                exit.disabled = true;
+                try {
+                  const proof = await read('/api/zhiban/identity/csrf', {
+                    headers: { 'x-zhiban-request': 'identity-v1' },
+                    credentials: 'same-origin',
+                    cache: 'no-store',
+                  });
+                  if (!proof.ok) throw Error();
+                  const { csrfToken } = await proof.json();
+                  const result = await fetch('/api/zhiban/identity/logout', {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: {
+                      'x-zhiban-request': 'identity-v1',
+                      'Content-Type': 'application/json',
+                      'x-zhiban-csrf': csrfToken,
+                    },
+                    body: '{}',
+                  });
+                  if (!result.ok) throw Error();
+                  location.assign('/zhiban');
+                } catch {
+                  exit.disabled = false;
+                  exit.textContent = '重试退出';
+                }
+              };
+              top.append(exit);
+            }
+          })
+          .catch(() => {});
+      }
+      const profile = document.querySelector('.sidebar-profile');
+      if (profile && profile.textContent.trim()) {
+        let account = top.querySelector('.header-account');
+        if (!account) {
+          account = el('a', '', 'header-account');
+          top.append(account);
+        }
+        if (account.textContent !== profile.textContent.trim())
+          account.textContent = profile.textContent.trim();
+        if (account.href !== profile.href) account.href = profile.href;
+      }
+      for (const toggle of document.querySelectorAll('.nav-toggle')) {
+        if (!toggle.dataset.hamburger) {
+          toggle.dataset.hamburger = 'true';
+          toggle.setAttribute('aria-label', '打开或关闭导航菜单');
+          const frame = document
+            .getElementById(toggle.getAttribute('aria-controls'))
+            ?.closest('.role-shell');
+          if (frame && matchMedia('(max-width: 800px)').matches) {
+            frame.classList.remove('nav-open');
+            toggle.setAttribute('aria-expanded', 'false');
+          }
+        }
+        if (toggle.parentElement !== top) top.append(toggle);
+      }
+      const course = document.querySelector('.course-workspace');
+      if (course && !top.querySelector('.nav-toggle')) {
+        const nav = course.querySelector('.course-inner-nav');
+        if (nav) {
+          nav.id ||= 'course-navigation';
+          const toggle = el('button', '课程菜单', 'nav-toggle');
+          toggle.type = 'button';
+          toggle.dataset.hamburger = 'true';
+          toggle.setAttribute('aria-label', '打开或关闭课程菜单');
+          toggle.setAttribute('aria-controls', nav.id);
+          toggle.setAttribute('aria-expanded', 'false');
+          toggle.onclick = () =>
+            toggle.setAttribute(
+              'aria-expanded',
+              String(course.classList.toggle('course-nav-open')),
+            );
+          top.append(toggle);
+        }
+      }
+    }
     for (const brand of document.querySelectorAll('.topbar .brand'))
       if (!brand.querySelector('.portal-brand-icon'))
         brand.prepend(vector('brand', 'portal-brand-icon'));
     for (const title of document.querySelectorAll('.role-title'))
-      if (!title.querySelector('.portal-user-icon'))
+      if (
+        !title.closest('.role-sidebar')?.querySelector('.sidebar-profile') &&
+        !title.querySelector('.portal-user-icon')
+      )
         title.prepend(vector('user', 'portal-user-icon'));
     for (const nav of document.querySelectorAll('.role-nav-item, .course-inner-nav a')) {
       if (nav.querySelector('.portal-nav-icon')) continue;
@@ -59,6 +223,30 @@
       if (!avatar.querySelector('svg')) avatar.prepend(vector('user', 'portal-avatar-icon'));
   }
   decorate();
+  document.addEventListener('click', (event) => {
+    const item = event.target.closest?.('.role-nav a[href], .course-inner-nav a[href]');
+    if (!item || event.defaultPrevented || !matchMedia('(max-width: 800px)').matches) return;
+    document
+      .querySelectorAll('.nav-open,.course-nav-open')
+      .forEach((frame) => frame.classList.remove('nav-open', 'course-nav-open'));
+    document
+      .querySelectorAll('.topbar .nav-toggle')
+      .forEach((toggle) => toggle.setAttribute('aria-expanded', 'false'));
+    try {
+      sessionStorage.setItem('zhiban-nav-open', 'false');
+    } catch {
+      /* Navigation works without storage. */
+    }
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+    document
+      .querySelectorAll('.nav-open,.course-nav-open')
+      .forEach((frame) => frame.classList.remove('nav-open', 'course-nav-open'));
+    document
+      .querySelectorAll('.topbar .nav-toggle')
+      .forEach((toggle) => toggle.setAttribute('aria-expanded', 'false'));
+  });
   const presentation = new MutationObserver(decorate);
   presentation.observe(document.body, { childList: true, subtree: true });
   window.addEventListener('pagehide', () => presentation.disconnect(), { once: true });
@@ -71,6 +259,7 @@
   };
   const params = new URLSearchParams(location.search);
   const tenant = params.get('tenant');
+  if (location.pathname === '/zhiban/admin/accounts') document.body.dataset.adminPage = 'accounts';
   const page = document.body.dataset.adminPage;
   const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
   const managementUrl = (tenant, section = 'offerings', offering = null) =>
@@ -167,7 +356,7 @@
     try {
       if (!uuid.test(tenant ?? '') || params.getAll('tenant').length !== 1)
         throw Error('空间地址无效，请从工作台进入。');
-      const r = await fetch(`/api/zhiban/workspace/${tenant}/courses?limit=10`, {
+      const r = await read(`/api/zhiban/workspace/${tenant}/courses?limit=10`, {
         headers: { 'x-zhiban-request': 'identity-v1' },
         credentials: 'same-origin',
         cache: 'no-store',
@@ -264,5 +453,157 @@
       return false;
     }
   }
+  async function mountMemberNavigation() {
+    const main = document.querySelector('main');
+    const memberPages = [
+      'profile-root',
+      'global-grades',
+      'global-support',
+      'global-authoring',
+      'global-tools',
+      'attainment',
+    ];
+    const space = params.get('space') || params.get('tenant');
+    if (page || !main || !memberPages.includes(main.id) || !uuid.test(space || '')) return;
+    try {
+      const headers = { 'x-zhiban-request': 'identity-v1' };
+      const response = await read(`/api/zhiban/workspace/${space}/courses?limit=10`, {
+        headers,
+        credentials: 'same-origin',
+        cache: 'no-store',
+      });
+      if (!response.ok) return;
+      const data = await response.json();
+      if (data.mode !== 'MEMBER') return;
+      const role = data.roles.includes('TEACHER')
+        ? 'teacher'
+        : data.roles.includes('STUDENT')
+          ? 'student'
+          : null;
+      if (!role) return;
+      document.body.classList.add('portal', 'member-shell-page');
+      const frame = el('div', undefined, 'role-shell member-shell');
+      const side = el('aside', undefined, 'role-sidebar');
+      side.setAttribute('aria-label', '角色导航');
+      side.id = 'member-navigation';
+      const profile = el('a', undefined, 'sidebar-profile');
+      profile.href = `/zhiban/${role === 'teacher' ? 'teacher/profile' : 'student/settings'}?tenant=${space}`;
+      const avatar = el('span', undefined, 'sidebar-avatar');
+      avatar.append(vector('user', 'sidebar-user-vector'));
+      const name = el('span', '个人资料', 'sidebar-profile-name');
+      profile.append(avatar, name);
+      const unit = el('p', '正在读取单位…', 'sidebar-unit');
+      side.append(profile, el('p', role === 'teacher' ? '教师' : '学生', 'role-title'), unit);
+      void spaceName(space)
+        .then((name) => {
+          if (unit.isConnected) unit.textContent = name || '单位未登记';
+        })
+        .catch(() => {
+          unit.textContent = '单位暂不可用';
+        });
+      const nav = el('nav', undefined, 'role-nav');
+      nav.setAttribute('aria-label', '工作台导航');
+      const entries =
+        role === 'teacher'
+          ? [
+              ['我的课程', '/zhiban'],
+              ['学生成绩', '/zhiban/teacher/grades'],
+              ['学习分析', '/zhiban/teacher/profiles'],
+              ['AI 备课', '/zhiban/teacher/agents'],
+              ['风险预警', '/zhiban/teacher/risks'],
+            ]
+          : [
+              ['校内证书与学分', '/zhiban/attainment'],
+              ['我的课程', '/zhiban'],
+              ['测评与成绩', '/zhiban/student/grades'],
+              ['学习档案', '/zhiban/student/profile'],
+              ['学习支持', '/zhiban/student/risks'],
+              ['AI 学习辅导', '/zhiban/student/tools'],
+            ];
+      for (const [label, path] of entries) {
+        const a = el('a', label, 'role-nav-item');
+        a.href =
+          path === '/zhiban/attainment'
+            ? `${path}?tenant=${space}&mode=STUDENT`
+            : `${path}?space=${space}`;
+        if (location.pathname === path) a.setAttribute('aria-current', 'page');
+        nav.append(a);
+      }
+      side.append(nav);
+      const panel = el('div', undefined, 'role-main');
+      const toggle = el('button', '展开角色导航', 'button secondary nav-toggle');
+      toggle.type = 'button';
+      toggle.setAttribute('aria-controls', side.id);
+      toggle.setAttribute('aria-expanded', 'false');
+      try {
+        if (sessionStorage.getItem('zhiban-nav-open') === 'true') {
+          frame.classList.add('nav-open');
+          toggle.setAttribute('aria-expanded', 'true');
+          toggle.textContent = '收起角色导航';
+        }
+      } catch {}
+      toggle.onclick = () => {
+        const open = frame.classList.toggle('nav-open');
+        try {
+          sessionStorage.setItem('zhiban-nav-open', String(open));
+        } catch {}
+        toggle.setAttribute('aria-expanded', String(open));
+        toggle.textContent = open ? '收起角色导航' : '展开角色导航';
+      };
+      main.before(toggle, frame);
+      frame.append(side, panel);
+      panel.append(main);
+      const profileResponse = await read(`/api/zhiban/profile/${space}/me`, {
+        headers,
+        credentials: 'same-origin',
+        cache: 'no-store',
+      });
+      if (profileResponse.ok) {
+        const info = await profileResponse.json();
+        name.textContent = info.displayName || info.formalName || '个人资料';
+        if (info.avatar?.png) {
+          const image = el('img');
+          image.src = `data:image/png;base64,${info.avatar.png}`;
+          image.alt = '';
+          avatar.replaceChildren(image);
+        }
+      }
+    } catch {
+      /* Existing page supplies its own session and error handling. */
+    }
+  }
+  const spaceNames = new Map();
+  function spaceName(id) {
+    if (!spaceNames.has(id))
+      spaceNames.set(
+        id,
+        (async () => {
+          let after = null;
+          for (let page = 0; page < 20; page++) {
+            const response = await read(
+              '/api/zhiban/identity/spaces?limit=50' + (after ? '&afterMembershipId=' + after : ''),
+              {
+                headers: { 'x-zhiban-request': 'identity-v1' },
+                credentials: 'same-origin',
+                cache: 'no-store',
+                signal: AbortSignal.timeout(10000),
+              },
+            );
+            if (!response.ok) {
+              console.warn('ZHIBAN_SPACE_READ', response.status);
+              throw Error('单位暂不可用');
+            }
+            const data = await response.json();
+            const space = data.spaces.find((space) => space.tenantId === id);
+            if (space) return space.displayName;
+            if (!data.nextCursor) return '';
+            after = data.nextCursor;
+          }
+          return '';
+        })(),
+      );
+    return spaceNames.get(id);
+  }
+  void mountMemberNavigation();
   window.zhibanAdminShell = { ready: bootstrap(), navigation, table, managementUrl, labels };
 })();

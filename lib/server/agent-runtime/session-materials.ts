@@ -1,3 +1,4 @@
+import { hostSchemaBootstrap } from '@/lib/persistence/installed-schema';
 /**
  * Session-scoped web materials — host adapter.
  *
@@ -55,7 +56,7 @@ async function createMaterialStore(connectionString: string): Promise<PgAgentSes
   await getAgentSessionStore();
   // dependency the URL trust-gate table has inside that schema.
   await withSchemaBootstrapLock(pool as unknown as ConnectableQueryable, async (locked) => {
-    await ensureAgentSessionMaterialSchema(locked);
+    await hostSchemaBootstrap(locked, ensureAgentSessionMaterialSchema);
     // Links reference agent_sessions too, and are read beside the copies.
     await ensureSessionMaterialLinkSchema(locked);
   });

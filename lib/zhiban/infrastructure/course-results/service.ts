@@ -1,3 +1,4 @@
+import { verifyInstalledSchema } from '@/lib/persistence/installed-schema';
 import { writableAttempt } from '../../domain/learning/model';
 /* eslint-disable @typescript-eslint/no-explicit-any -- native publication and original academic rows */
 import { readFile } from 'node:fs/promises';
@@ -25,6 +26,10 @@ import {
   type TaskSpec,
 } from './model';
 export async function initializeCourseResults(pool: Pool) {
+  if (await verifyInstalledSchema(pool)) {
+    configureCourseEvidenceGate(pool);
+    return digest(await readFile('lib/zhiban/infrastructure/course-results/schema.sql', 'utf8'));
+  }
   const sql = await readFile('lib/zhiban/infrastructure/course-results/schema.sql', 'utf8');
   await applySchemaMigrations(pool, {
     store: 'zhiban-course-results',

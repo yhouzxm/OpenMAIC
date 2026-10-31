@@ -65,10 +65,7 @@
   const adoptedEditors = el('section'),
     openedQuizzes = new Map();
   details.append(
-    el(
-      'p',
-      '复用原生生成任务，先确认大纲再生成。采用的是文字讲义，不包含动画、音视频及互动；请审核后保存并发布。',
-    ),
+    el('p', '先确认大纲，再生成文字讲义草稿。审核后保存并发布。'),
     notice,
     kindLabel,
     label,

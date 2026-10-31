@@ -20,8 +20,8 @@ export const tid = '01960000-0000-7000-8000-000000000002';
 export const mid = '01960000-0000-7000-8000-000000000003';
 export const secret = 'Synthetic-http-test-only-input!';
 export const policy = { origin, concurrentRequests: 8, bodyTimeoutMs: 1000, retryAfterSeconds: 30 };
-export function setup() {
-  const csrf = new SessionCsrfPolicy(origin),
+export function setup(siteOrigin = origin) {
+  const csrf = new SessionCsrfPolicy(siteOrigin, siteOrigin.startsWith('https://')),
     handles = new WeakMap<object, string>(),
     live = new Map<string, { session: string; absoluteExpiresAt: number; idleExpiresAt: number }>();
   const me = (h: object) => {
@@ -125,7 +125,7 @@ export function setup() {
   const root = { security, application, queries, members } as unknown as HttpComposition;
   const load = vi.fn(async () => root),
     telemetry = vi.fn(),
-    facade = createIdentityHttp(load, policy, telemetry);
+    facade = createIdentityHttp(load, { ...policy, origin: siteOrigin }, telemetry);
   return { facade, security, application, queries, members, live, load, telemetry };
 }
 export function request(path: string, method = 'GET', value?: unknown, extras: HeadersInit = {}) {

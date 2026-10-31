@@ -1,3 +1,4 @@
+import { applyHostSchemaMigrations as applySchemaMigrations } from '@/lib/persistence/installed-schema';
 /**
  * An owner's custom agents (RFC #1754, G). Built-in agents are code
  * (`lib/orchestration/registry/built-in.ts`) and never stored; each custom
@@ -11,7 +12,7 @@
  */
 import type { Queryable } from '@openmaic/storage/document/pg';
 import { encodeJson } from '@openmaic/storage/pg-json';
-import { applySchemaMigrations, type SchemaMigrationSet } from '@openmaic/storage/pg-migrations';
+import { type SchemaMigrationSet } from '@openmaic/storage/pg-migrations';
 import {
   nodePostgresTransaction,
   type ConnectableQueryable,

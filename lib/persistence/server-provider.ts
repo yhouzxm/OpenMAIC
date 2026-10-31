@@ -1,3 +1,4 @@
+import { hostSchemaBootstrap } from './installed-schema';
 import { PgAssetStore, ensureAssetSchema } from '@openmaic/storage/asset/pg';
 import {
   PgDocumentStore,
@@ -76,16 +77,18 @@ async function createServerPersistenceProvider(
     // One instance at a time: see withSchemaBootstrapLock. The ownership
     // backfill in ensureStageMetaSchema runs under the same lock, before any
     // store below is built.
-    await withSchemaBootstrapLock(queryable, async (locked) => {
-      await ensureSchema(locked);
-      await ensureDocumentSchema(locked);
-      await ensureStageMetaSchema(locked);
-      await ensureOwnerMaterialSchema(locked);
-      await ensureAssetSchema(locked);
-      await ensureLegacyClassroomImportSchema(locked);
-      await ensureWorkspaceModelConfigSchema(locked);
-      await ensureOwnerAgentSchema(locked);
-    });
+    await withSchemaBootstrapLock(queryable, async (locked) =>
+      hostSchemaBootstrap(locked, async (locked) => {
+        await ensureSchema(locked);
+        await ensureDocumentSchema(locked);
+        await ensureStageMetaSchema(locked);
+        await ensureOwnerMaterialSchema(locked);
+        await ensureAssetSchema(locked);
+        await ensureLegacyClassroomImportSchema(locked);
+        await ensureWorkspaceModelConfigSchema(locked);
+        await ensureOwnerAgentSchema(locked);
+      }),
+    );
     const withTransaction = nodePostgresTransaction(queryable);
     const byteStore = configuredLazyAssetByteStore(queryable);
     const documentStore = new PgDocumentStore(queryable, {

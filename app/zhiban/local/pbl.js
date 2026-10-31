@@ -261,18 +261,14 @@
         field('任务清单（每行一个任务）', '分析问题\n设计并验证方案\n整理成果与反思', 'textarea'),
       );
       const details = el('details');
-      details.append(el('summary', '复用原生PBL v2项目'));
+      details.append(el('summary', '导入已有项目设计'));
       json = labelled(
         details,
-        '原生PBL项目JSON（可选）',
-        field('原生PBL项目JSON（可选）', '', 'textarea'),
+        '项目设计 JSON（可选）',
+        field('项目设计 JSON（可选）', '', 'textarea'),
       );
       details.append(
-        el(
-          'p',
-          '填写后使用原生JSON中的项目、里程碑和任务；仅采用设计，聊天与AI评价不作为小组结果。',
-          'pbl-note',
-        ),
+        el('p', '导入项目、里程碑和任务设计，聊天与 AI 评价不会导入为小组成果。', 'pbl-note'),
       );
       form.append(details);
     } else {

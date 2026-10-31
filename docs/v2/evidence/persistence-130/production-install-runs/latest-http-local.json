@@ -1,0 +1,60 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "createdAt": "2026-10-30T23:20:33.947Z",
+  "baselineSha": "3a15d89888187ab3fed768026fc744cf72dcc544",
+  "githubActions": false,
+  "profilePin": "c2df451d1fc202ef4fcb3c4e05a759ab198cfe2602490bc4a789d0e41303dfbd",
+  "scope": "FRESH_THREE_DATABASE_INSTALL_AND_FIRST_ADMIN_HTTP",
+  "productionConnected": false,
+  "databaseTransport": "PLAIN_ACTUAL_PG_CONNECTION_AND_INVALID_CONFIGURATION_REJECTED",
+  "setup": {
+    "status": "PASS",
+    "scope": "ONE_CLI_CREATES_THREE_DATABASES_ROLES_SCHEMAS_AND_FIRST_ADMIN",
+    "repeat": "VERIFIED_NO_DDL",
+    "existingData": "REFUSED_BEFORE_WRITE_AND_PRESERVED",
+    "privateAdminNotInRuntime": true
+  },
+  "installer": "PASS",
+  "httpProxy": "PASS_GENERATED_NGINX_CONFIG_SYNTAX_AND_UPSTREAM_TLS",
+  "control": "PASS_DUAL_SIGNATURE_REAUTH_CSRF_TENANT_CREATE_AND_COMMAND_BINDING",
+  "httpBrowser": "PASS_LOGIN_RELOAD_LOGOUT_CSRF_AND_CROSS_ORIGIN_REJECTION",
+  "browser": {
+    "status": "PASS",
+    "screenshot": "/home/zxm/openmaic/zhiban/docs/v2/evidence/persistence-130/production-install-runs/fresh-wu7yWM/first-platform-admin.png",
+    "tlsTrust": "HTTP_PUBLIC_NGINX_UPSTREAM_TLS_VERIFIED"
+  },
+  "teaching": {
+    "status": "PASS",
+    "scope": "SYNTHETIC_THREE_ROLE_COURSE_PUBLICATION_SUBMISSION_MANUAL_GRADE_AND_CONTENT_BRIDGE",
+    "records": [
+      "trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands",
+      "real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft"
+    ]
+  },
+  "sourceProfile": "/home/zxm/openmaic/zhiban/docs/v2/evidence/persistence-130/production-install-runs/fresh-wu7yWM/source-profile.json",
+  "restart": "PASS_SAME_ADMINISTRATOR_AND_PASSWORD",
+  "negatives": [
+    "WRONG_PLAN",
+    "SETUP_WRONG_PIN_NO_DATABASE_WRITE",
+    "SETUP_NONEMPTY_DATABASE_RETAINED",
+    "CONCURRENT_RUNTIME_LOCK",
+    "UNAUTHENTICATED",
+    "NON_ADMIN",
+    "RAW_NATIVE_CLOSED",
+    "CSRF",
+    "TAMPERED_RECEIPT",
+    "ACTUAL_PARTIAL_CONTENT_CONNECTION_FAILURE",
+    "ACL_MAINTAIN_DRIFT",
+    "IDENTITY_LEDGER_DRIFT"
+  ],
+  "partialFailure": {
+    "status": "QUARANTINED",
+    "failedPhase": "CONTENT_SCHEMA",
+    "retainedCompletedPhases": [
+      "BUSINESS_SCHEMA"
+    ],
+    "noReceipt": true
+  },
+  "sourceScope": "UNCOMMITTED_CANDIDATE",
+  "status": "PASS"
+}

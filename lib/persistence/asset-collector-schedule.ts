@@ -1,3 +1,4 @@
+import { hostSchemaBootstrap } from '@/lib/persistence/installed-schema';
 /**
  * The periodic pass that actually reclaims unreferenced assets.
  *
@@ -168,7 +169,7 @@ export function startAssetCollectorSchedule(
     // the schedule's -- `stop()` ends it, while the provider's is ended by the
     // shutdown hook that owns it.
     await getServerPersistenceProvider(connectionString);
-    await withSchemaBootstrapLock(queryable, ensureAssetSchema);
+    await withSchemaBootstrapLock(queryable, (q) => hostSchemaBootstrap(q, ensureAssetSchema));
     // The same selection the request path makes (a host byte store, else
     // the built-in one), so this pass deletes through the layer the route
     // wrote through.

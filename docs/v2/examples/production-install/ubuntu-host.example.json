@@ -1,0 +1,15 @@
+{
+  "kind": "ZHIBAN_UBUNTU_HOST_V1",
+  "runtimeFile": "/etc/zhiban/runtime.json",
+  "operationsFile": "/root/zhiban-operations/operations.json",
+  "releaseDirectory": "/var/www/zhiban/releases/REPLACE_WITH_RELEASE_ID",
+  "nodeBinary": "/usr/bin/node",
+  "serviceUser": "zhiban",
+  "serviceGroup": "zhiban",
+  "serviceUid": 995,
+  "serviceGid": 995,
+  "temporaryDirectory": "/var/lib/zhiban/tmp",
+  "publicCertificateFile": "/etc/zhiban/public-tls/fullchain.pem",
+  "publicPrivateKeyFile": "/etc/zhiban/public-tls/private.pem",
+  "upstreamCaFile": "/etc/zhiban/internal-tls/ca.pem"
+}

@@ -1,0 +1,16 @@
+{
+  "kind": "ZHIBAN_SETUP_INPUT_V1",
+  "installationFile": "/root/zhiban-install/install.json",
+  "preparation": {
+    "admin": {
+      "host": "REPLACE_WITH_RDS_ENDPOINT",
+      "port": 5432,
+      "database": "postgres",
+      "role": "REPLACE_WITH_APPROVED_GRANTOR",
+      "credentialFile": "/root/zhiban-install/admin.env",
+      "caFile": "/etc/zhiban/rds-ca.pem"
+    },
+    "psqlBinary": "/usr/lib/postgresql/18/bin/psql",
+    "createDatabases": true
+  }
+}

@@ -55,14 +55,6 @@
       'tutor-note',
     ),
   );
-  if (/^\/zhiban\/student\/courses\/[0-9a-f-]{36}\/tools$/.test(location.pathname))
-    root.append(
-      el(
-        'p',
-        '旧课程工具入口复用课程 Tutor；学习伙伴须教师单独启用，工具型 Agent 未启用。',
-        'tutor-note',
-      ),
-    );
   const status = el('p', '', 'tutor-meta'),
     alert = el('p', '', 'tutor-alert');
   alert.setAttribute('role', 'alert');

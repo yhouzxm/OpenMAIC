@@ -1,0 +1,93 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "createdAt": "2026-10-30T23:12:33.417Z",
+  "baselineSha": "3a15d89888187ab3fed768026fc744cf72dcc544",
+  "githubActions": false,
+  "profilePin": "75ac97fa3d5df4ffb89c13a8854f7f6de00864ebb6635778e363ede6ea4236e8",
+  "scope": "FRESH_THREE_DATABASE_INSTALL_AND_FIRST_ADMIN_HTTPS",
+  "productionConnected": false,
+  "databaseTransport": "PLAIN_ACTUAL_PG_CONNECTION_AND_INVALID_CONFIGURATION_REJECTED",
+  "setup": {
+    "status": "PASS",
+    "scope": "ONE_CLI_CREATES_THREE_DATABASES_ROLES_SCHEMAS_AND_FIRST_ADMIN",
+    "repeat": "VERIFIED_NO_DDL",
+    "existingData": "REFUSED_BEFORE_WRITE_AND_PRESERVED",
+    "privateAdminNotInRuntime": true
+  },
+  "installer": "PASS",
+  "control": "PASS_DUAL_SIGNATURE_REAUTH_CSRF_TENANT_CREATE_AND_COMMAND_BINDING",
+  "browser": {
+    "status": "PASS",
+    "screenshot": "/home/zxm/openmaic/zhiban/docs/v2/evidence/persistence-130/production-install-runs/fresh-IJIld5/first-platform-admin.png",
+    "tlsTrust": "EXACT_LEAF_SPKI_PIN_PLUS_NODE_HTTPS_CA_VERIFICATION"
+  },
+  "teaching": {
+    "status": "PASS",
+    "scope": "SYNTHETIC_THREE_ROLE_COURSE_PUBLICATION_SUBMISSION_MANUAL_GRADE_AND_CONTENT_BRIDGE",
+    "records": [
+      "trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands",
+      "real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft"
+    ]
+  },
+  "sourceProfile": "/home/zxm/openmaic/zhiban/docs/v2/evidence/persistence-130/production-install-runs/fresh-IJIld5/source-profile.json",
+  "restart": "PASS_SAME_ADMINISTRATOR_AND_PASSWORD",
+  "operations": {
+    "evidenceOrigin": "LOCAL",
+    "createdAt": "2026-10-30T23:14:38.196Z",
+    "baselineSha": "3a15d89888187ab3fed768026fc744cf72dcc544",
+    "sourceScope": "UNCOMMITTED_CANDIDATE",
+    "githubActions": false,
+    "scope": "NON_ROOT_HOST_AND_CONSISTENT_THREE_DATABASE_BACKUP_RESTORE",
+    "productionConnected": false,
+    "preStopBinding": "PASS_FOREIGN_INSTANCE_REJECTED_WITHOUT_STOP_OR_FENCE",
+    "stopAndBarrier": "PASS_PROCESS_EXIT_AND_ACTUAL_WRITER_BLOCKED",
+    "receiptPurpose": "PASS_VALID_SIGNATURE_WITH_WRONG_PURPOSE_REJECTED",
+    "maintenance": "PASS_RESTART_REFUSED_UNTIL_EXPLICIT_RELEASE",
+    "restore": "PASS_ALL_TABLE_INVENTORIES_ORIGINALS_INSTANCE_KEY_AND_SEALED_CONFIG",
+    "activation": "PASS_NEW_SIGNED_RECEIPT_OLD_BINDINGS_RETAINED_AND_DATA_RECHECK",
+    "host": {
+      "status": "PASS",
+      "effectiveUid": 1000,
+      "prebuiltEntry": true,
+      "readOnlyRelease": true,
+      "sourceWritesRequired": false
+    },
+    "startupReadiness": "PASS_PREBUILT_PROBE_STARTED_BEFORE_HOST",
+    "systemd": "PASS_UNIT_SYNTAX_ONLY_NOT_MACHINE_BOOT",
+    "browser": {
+      "status": "PASS",
+      "screenshot": "/home/zxm/openmaic/zhiban/docs/v2/evidence/persistence-130/production-operations-runs/recovered-J189CE/student-history.png",
+      "scope": "ORIGINAL_STUDENT_GRADE_AND_OLD_DEPLOYMENT_CONTENT_VIA_TLS_PROXY"
+    },
+    "proxy": "PASS_REAL_NGINX_TLS_NAME_CA_WRONG_CA_DENIED_AND_SPOOFED_HEADERS_REPLACED",
+    "lockLoss": "PASS_ACTUAL_BACKEND_TERMINATION_STOPS_PROCESS_AND_PERSISTS_FENCE",
+    "resume": "PASS_EXPLICIT_SOURCE_RELEASE_ONLY",
+    "backupPin": "eea19a46f500b62abbbe8a95251e7749cd84bac4383a7a33effcdb4562c2a489",
+    "profilePin": "75ac97fa3d5df4ffb89c13a8854f7f6de00864ebb6635778e363ede6ea4236e8",
+    "status": "PASS"
+  },
+  "negatives": [
+    "WRONG_PLAN",
+    "SETUP_WRONG_PIN_NO_DATABASE_WRITE",
+    "SETUP_NONEMPTY_DATABASE_RETAINED",
+    "CONCURRENT_RUNTIME_LOCK",
+    "UNAUTHENTICATED",
+    "NON_ADMIN",
+    "RAW_NATIVE_CLOSED",
+    "CSRF",
+    "TAMPERED_RECEIPT",
+    "ACTUAL_PARTIAL_CONTENT_CONNECTION_FAILURE",
+    "ACL_MAINTAIN_DRIFT",
+    "IDENTITY_LEDGER_DRIFT"
+  ],
+  "partialFailure": {
+    "status": "QUARANTINED",
+    "failedPhase": "CONTENT_SCHEMA",
+    "retainedCompletedPhases": [
+      "BUSINESS_SCHEMA"
+    ],
+    "noReceipt": true
+  },
+  "sourceScope": "UNCOMMITTED_CANDIDATE",
+  "status": "PASS"
+}

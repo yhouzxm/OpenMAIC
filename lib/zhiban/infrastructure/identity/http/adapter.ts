@@ -21,7 +21,8 @@ import {
   requestId,
   response,
   failure,
-  clearCookie,
+  clearSessionCookie,
+  sessionCookie,
   record,
   ProtocolRefusal,
   invalid,
@@ -149,7 +150,7 @@ export function createIdentityHttp(
   policy = Object.freeze({ ...policy });
   if (
     new URL(policy.origin).origin !== policy.origin ||
-    !policy.origin.startsWith('https://') ||
+    !['https:', 'http:'].includes(new URL(policy.origin).protocol) ||
     !Number.isInteger(policy.concurrentRequests) ||
     policy.concurrentRequests < 1 ||
     !Number.isInteger(policy.bodyTimeoutMs) ||
@@ -158,6 +159,7 @@ export function createIdentityHttp(
     policy.retryAfterSeconds < 1
   )
     throw new Error('Invalid HTTP security policy.');
+  const clearCookie = clearSessionCookie(policy.origin);
   let active = 0;
   const root = Promise.resolve().then(load);
   void root.catch(() => {});
@@ -219,7 +221,7 @@ export function createIdentityHttp(
           return fail(405, 'METHOD_NOT_ALLOWED', { Allow: methods.join(', ') });
         const unsafe = request.method === 'POST';
         headers(request, policy.origin, unsafe);
-        const raw = cookie(request);
+        const raw = cookie(request, policy.origin);
         if (active >= policy.concurrentRequests)
           return fail(429, 'TOO_MANY_REQUESTS', {
             'Retry-After': String(policy.retryAfterSeconds),
@@ -323,7 +325,12 @@ export function createIdentityHttp(
           );
           if (maxAge === 0) throw new PublicRefusal(401, 'UNAUTHENTICATED');
           return reply(200, own(result.identity), {
-            'Set-Cookie': `__Host-zhiban_session=${bearerForCookie(result.bearer)}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=${maxAge}; Expires=${new Date(result.identity.absoluteExpiresAt).toUTCString()}`,
+            'Set-Cookie': sessionCookie(
+              policy.origin,
+              bearerForCookie(result.bearer),
+              maxAge,
+              result.identity.absoluteExpiresAt,
+            ),
           });
         }
         if (route === 'logout') {

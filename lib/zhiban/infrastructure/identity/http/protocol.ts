@@ -61,7 +61,7 @@ export function headers(request: Request, origin: string, unsafe: boolean) {
   )
     throw new ProtocolRefusal(415);
 }
-export function cookie(request: Request) {
+export function cookie(request: Request, configuredOrigin = request.url) {
   const input = request.headers.get('cookie');
   if (input === null) return null;
   if (input.includes(',') || /[^\x20-\x7e]/.test(input)) invalid();
@@ -73,7 +73,11 @@ export function cookie(request: Request) {
     const name = p.slice(0, at),
       value = p.slice(at + 1);
     if (!/^[!#$%&'*+\-.^_`|~0-9A-Za-z]+$/.test(name) || /[\s"\\]/.test(value)) invalid();
-    if (name === '__Host-zhiban_session') {
+    const sessionName =
+      new URL(configuredOrigin).protocol === 'http:'
+        ? 'zhiban_session_http'
+        : '__Host-zhiban_session';
+    if (name === sessionName) {
       if (found !== null || !/^[A-Za-z0-9_-]{43}$/.test(value)) invalid();
       found = value;
     }
@@ -232,3 +236,13 @@ export function failure(id: string, status: number, code: string, extra?: Header
 }
 export const clearCookie =
   '__Host-zhiban_session=; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT';
+
+/** Cookies are host-only in both modes; HTTP mode is deliberately explicit in the origin. */
+export function sessionCookie(origin: string, value: string, maxAge: number, expires: number) {
+  const secure = new URL(origin).protocol === 'https:';
+  const name = secure ? '__Host-zhiban_session' : 'zhiban_session_http';
+  return `${name}=${value}; HttpOnly; ${secure ? 'Secure; ' : ''}SameSite=Lax; Path=/; Max-Age=${maxAge}; Expires=${new Date(expires).toUTCString()}`;
+}
+export function clearSessionCookie(origin: string) {
+  return sessionCookie(origin, '', 0, 0);
+}

@@ -55,7 +55,7 @@
     const aliasLogin =
       route === 'login' && typeof body?.userId === 'string' && body.userId.trim().startsWith('@');
     const payload = aliasLogin ? { identifier: body.userId, password: body.password } : body;
-    const response = await fetch(
+    const response = await (window.zhibanMemberPresentation?.read || fetch)(
       aliasLogin ? '/api/zhiban/login-identifiers/login' : `/api/zhiban/identity/${route}`,
       {
         method: body === undefined ? 'GET' : 'POST',
@@ -88,6 +88,12 @@
     return element;
   }
   function login(notice) {
+    document
+      .querySelectorAll('.topbar .header-account,.topbar .header-exit')
+      .forEach((item) => item.remove());
+    const top = document.querySelector('.topbar');
+    if (top) delete top.dataset.accountLoading;
+    document.querySelectorAll('.topbar .nav-toggle').forEach((toggle) => toggle.remove());
     document.querySelector('.topbar-actions')?.remove();
     document.body.classList.remove('admin-portal');
     document.body.dataset.screen = 'login';
@@ -240,15 +246,26 @@
       node('p', 'MY WORKSPACE', 'eyebrow'),
       node('h1', current ? current.displayName : '你的工作台'),
     );
-    const identifiers = node('a', '本人登录标识', 'button secondary');
-    identifiers.href = '/zhiban/login-identifiers';
     header.append(title);
     const top = document.querySelector('.topbar');
     top.querySelector('.topbar-actions')?.remove();
     const topActions = node('div', undefined, 'topbar-actions');
-    topActions.append(identifiers, button('退出登录', logout, 'button secondary'));
+    topActions.append(button('退出', logout, 'button secondary'));
     top.append(topActions);
     root.append(header);
+    void (window.zhibanMemberPresentation?.read || fetch)('/api/zhiban/platform', {
+      headers: { 'x-zhiban-request': 'identity-v1' },
+      credentials: 'same-origin',
+      cache: 'no-store',
+    })
+      .then(async (r) => {
+        if (r.ok && (await r.json()).platformAdmin && header.isConnected) {
+          const a = node('a', '平台管理', 'button secondary');
+          a.href = '/zhiban/platform';
+          header.append(a);
+        }
+      })
+      .catch(() => {});
     const account = node('p', `已登录 · ${identity.userId}`, 'account');
     root.append(account);
     if (query && !current) message(root, '该空间当前不可访问。请选择你已加入的空间。');
@@ -287,11 +304,10 @@
       return;
     }
 
-    const courseRoute = window.zhibanWorkspace?.courseRoute(location.pathname);
-    if (courseRoute) {
+    if (window.zhibanWorkspace?.courseRoute(location.pathname)) {
       document.body.dataset.screen = 'course';
       const mount = node('section', undefined, 'course-mount');
-      root.replaceChildren(header, mount);
+      root.replaceChildren(mount);
       void window.zhibanAcademic.render(current.tenantId, mount);
       return;
     }
@@ -304,22 +320,48 @@
     // Move space/account controls into the sidebar without changing session authority.
     const switcherHeading = root.querySelector('.section-title');
     if (switcherHeading) switcherHeading.remove();
-    sidebar.append(account, switcher);
+    account.remove();
+    const profileLink = node('a', undefined, 'sidebar-profile');
+    const avatar = node('span', undefined, 'sidebar-avatar');
+    avatar.setAttribute('aria-hidden', 'true');
+    const avatarIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    avatarIcon.setAttribute('viewBox', '0 0 24 24');
+    avatarIcon.setAttribute('aria-hidden', 'true');
+    const avatarPath = document.createElementNS(avatarIcon.namespaceURI, 'path');
+    avatarPath.setAttribute('d', 'M20 21a8 8 0 0 0-16 0M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z');
+    avatarIcon.append(avatarPath);
+    avatar.append(avatarIcon);
+    const profileName = node('span', identity.userId, 'sidebar-profile-name');
+    profileLink.append(avatar, profileName);
+    const unit = node('p', current.displayName, 'sidebar-unit');
+    sidebar.append(profileLink, unit);
+    if (spaces.length > 1) sidebar.append(switcher);
+    else switcher.remove();
     const nav = node('nav', undefined, 'role-nav');
     nav.setAttribute('aria-label', '工作台导航');
-    sidebar.prepend(node('p', '正在确认角色…', 'role-title'));
+    sidebar.insertBefore(node('p', '正在确认角色…', 'role-title'), unit);
     sidebar.append(nav);
     pane.append(academic);
     const toggle = button(
       '展开角色导航',
       () => {
         const open = shell.classList.toggle('nav-open');
+        try {
+          sessionStorage.setItem('zhiban-nav-open', String(open));
+        } catch {}
         toggle.setAttribute('aria-expanded', String(open));
         toggle.textContent = open ? '收起角色导航' : '展开角色导航';
       },
       'button secondary nav-toggle',
     );
     toggle.setAttribute('aria-expanded', 'false');
+    try {
+      if (sessionStorage.getItem('zhiban-nav-open') === 'true') {
+        shell.classList.add('nav-open');
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.textContent = '收起角色导航';
+      }
+    } catch {}
     toggle.setAttribute('aria-controls', sidebar.id);
     root.append(toggle, shell);
     shell.append(sidebar, pane);
@@ -333,6 +375,24 @@
             ? 'STUDENT'
             : 'MEMBER';
       document.body.dataset.role = role;
+      profileLink.href = `${role === 'STUDENT' ? '/zhiban/student/settings' : role === 'TEACHER' ? '/zhiban/teacher/profile' : '/zhiban/profile'}?tenant=${encodeURIComponent(current.tenantId)}`;
+      void fetch(`/api/zhiban/profile/${encodeURIComponent(current.tenantId)}/me`, {
+        headers: { 'x-zhiban-request': 'identity-v1' },
+        credentials: 'same-origin',
+        cache: 'no-store',
+      })
+        .then(async (response) => {
+          if (!response.ok || !profileLink.isConnected) return;
+          const profile = await response.json();
+          profileName.textContent = profile.displayName || profile.formalName || identity.userId;
+          if (profile.avatar?.png) {
+            const image = node('img');
+            image.src = `data:image/png;base64,${profile.avatar.png}`;
+            image.alt = '';
+            avatar.replaceChildren(image);
+          }
+        })
+        .catch(() => {});
       const names = { ADMIN: '机构管理员', TEACHER: '教师', STUDENT: '学生', MEMBER: '空间成员' };
       sidebar.querySelector('.role-title').textContent = roles.length
         ? roles.map((r) => names[r]).join(' / ')
@@ -347,9 +407,6 @@
         );
         return;
       }
-      const profileLink = node('a', '个人资料与账户', 'role-nav-item');
-      profileLink.href = `${role === 'STUDENT' ? '/zhiban/student/settings' : role === 'TEACHER' ? '/zhiban/teacher/profile' : '/zhiban/profile'}?tenant=${current.tenantId}`;
-      nav.append(profileLink);
       if (role === 'STUDENT') {
         const a = node('a', '校内证书与学分', 'role-nav-item');
         a.href = '/zhiban/attainment?tenant=' + current.tenantId + '&mode=STUDENT';
@@ -359,17 +416,8 @@
         role === 'ADMIN'
           ? ['教学管理', '用户管理', '学籍管理', '权限管理']
           : role === 'TEACHER'
-            ? [
-                '我的课程',
-                '课堂教学',
-                '虚拟实训',
-                'PBL项目',
-                '学生成绩',
-                '学习分析',
-                'AI 备课',
-                '风险预警',
-              ]
-            : ['我的课程', 'PBL项目', '测评与成绩', '学习档案', '学习支持', 'AI 学习辅导'];
+            ? ['我的课程', '学生成绩', '学习分析', 'AI 备课', '风险预警']
+            : ['我的课程', '测评与成绩', '学习档案', '学习支持', 'AI 学习辅导'];
       entries.forEach((label, index) => {
         const item = node(
           'a',
@@ -377,10 +425,8 @@
           'role-nav-item',
         );
         if (index === 0) {
-          item.href = `${role === 'TEACHER' ? '/zhiban/teacher/courses' : '/zhiban'}?space=${encodeURIComponent(current.tenantId)}`;
+          item.href = `/zhiban?space=${encodeURIComponent(current.tenantId)}`;
           item.setAttribute('aria-current', 'page');
-        } else if (window.zhibanClassrooms && role === 'TEACHER' && label === '课堂教学') {
-          item.href = '/zhiban/teacher/classrooms?space=' + current.tenantId;
         } else if (
           (role === 'TEACHER' && label === '学生成绩') ||
           (role === 'STUDENT' && label === '测评与成绩')
@@ -404,16 +450,9 @@
           item.href = `/zhiban/directory?tenant=${encodeURIComponent(current.tenantId)}`;
         } else {
           // Course tools remain on their authorized course rows until their global pages migrate.
-          const hint = [
-            '课堂教学',
-            '学生成绩',
-            '学习分析',
-            '测评与成绩',
-            '学习档案',
-            '学籍管理',
-            '虚拟实训',
-            'PBL项目',
-          ].includes(label)
+          const hint = ['学生成绩', '学习分析', '测评与成绩', '学习档案', '学籍管理'].includes(
+            label,
+          )
             ? '从课程内进入'
             : '暂未开放';
           item.setAttribute('aria-disabled', 'true');
@@ -465,12 +504,15 @@
         const query = course
           ? `?q=${encodeURIComponent(course.dataset.offering)}&limit=50`
           : '?limit=10';
-        const response = await fetch(`/api/zhiban/workspace/${tenant}/courses${query}`, {
-          headers: { 'x-zhiban-request': 'identity-v1' },
-          credentials: 'same-origin',
-          cache: 'no-store',
-          signal: AbortSignal.timeout(10000),
-        });
+        const response = await (window.zhibanMemberPresentation?.read || fetch)(
+          `/api/zhiban/workspace/${tenant}/courses${query}`,
+          {
+            headers: { 'x-zhiban-request': 'identity-v1' },
+            credentials: 'same-origin',
+            cache: 'no-store',
+            signal: AbortSignal.timeout(10000),
+          },
+        );
         if (!response.ok) throw new ApiError(response.status);
         const access = await response.json();
         unchanged = course

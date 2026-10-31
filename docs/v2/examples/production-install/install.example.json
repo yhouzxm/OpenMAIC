@@ -1,0 +1,53 @@
+{
+  "kind": "ZHIBAN_FRESH_INSTALL_INPUT_V1",
+  "runtimeFile": "/etc/zhiban/runtime.json",
+  "migrations": {
+    "business": {
+      "host": "REPLACE_WITH_RDS_ENDPOINT",
+      "port": 5432,
+      "database": "zhiban_business",
+      "role": "zhiban_migrator",
+      "credentialFile": "/root/zhiban-install/zhiban_migrator.env",
+      "caFile": "/etc/zhiban/rds-ca.pem"
+    },
+    "content": {
+      "host": "REPLACE_WITH_RDS_ENDPOINT",
+      "port": 5432,
+      "database": "zhiban_content",
+      "role": "zhiban_openmaic_migrator",
+      "credentialFile": "/root/zhiban-install/zhiban_openmaic_migrator.env",
+      "caFile": "/etc/zhiban/rds-ca.pem"
+    },
+    "authoring": {
+      "host": "REPLACE_WITH_RDS_ENDPOINT",
+      "port": 5432,
+      "database": "zhiban_authoring",
+      "role": "zhiban_authoring_migrator",
+      "credentialFile": "/root/zhiban-install/zhiban_authoring_migrator.env",
+      "caFile": "/etc/zhiban/rds-ca.pem"
+    }
+  },
+  "receiptPrivateKeyFile": "/root/zhiban-install/receipt-private.pem",
+  "admissionPolicies": null,
+  "firstAdministrator": {
+    "policy": {
+      "directory": "/root/zhiban-install/first-admin-approvals",
+      "environment": "REPLACE_WITH_ENVIRONMENT_REF",
+      "operator": {
+        "reference": "REPLACE_WITH_OPERATOR_REF",
+        "publicKey": "REPLACE_WITH_OPERATOR_ED25519_SPKI_PEM",
+        "spkiSha256": "REPLACE_WITH_OPERATOR_SPKI_SHA256"
+      },
+      "approver": {
+        "reference": "REPLACE_WITH_APPROVER_REF",
+        "publicKey": "REPLACE_WITH_APPROVER_ED25519_SPKI_PEM",
+        "spkiSha256": "REPLACE_WITH_APPROVER_SPKI_SHA256"
+      },
+      "manifests": {
+        "first-admin": "REPLACE_WITH_REVIEWED_MANIFEST_DIGEST"
+      }
+    },
+    "reference": "first-admin",
+    "passwordFile": "/root/zhiban-install/initial-password.txt"
+  }
+}

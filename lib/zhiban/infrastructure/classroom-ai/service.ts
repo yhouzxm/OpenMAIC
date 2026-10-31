@@ -1,3 +1,4 @@
+import { verifyInstalledSchema } from '@/lib/persistence/installed-schema';
 import { readFile } from 'node:fs/promises';
 import type { Pool } from 'pg';
 import { v7 } from 'uuid';
@@ -16,6 +17,10 @@ export async function initializeClassroomAi(pool: Pool) {
   process.env.OPENMAIC_ENABLE_PI_NATIVE_CHILD_RUNTIME = 'true';
   process.env.OPENMAIC_ENABLE_PI_NATIVE_CHILD_SPOTLIGHT = 'true';
   process.env.NEXT_PUBLIC_COURSEWARE_REFERENCE_ENABLED = 'true';
+  if (await verifyInstalledSchema(pool)) {
+    await initializePublishedPbl(pool);
+    return;
+  }
   const sql = await readFile('lib/zhiban/infrastructure/classroom-ai/schema.sql', 'utf8');
   const c = await pool.connect();
   try {

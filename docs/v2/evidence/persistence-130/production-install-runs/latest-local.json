@@ -1,0 +1,92 @@
+{
+  "evidenceOrigin": "LOCAL",
+  "createdAt": "2026-10-30T13:11:55.489Z",
+  "baselineSha": "3a15d89888187ab3fed768026fc744cf72dcc544",
+  "githubActions": false,
+  "profilePin": "fe232a5642ff0e65f6320fa1255e1f8577c40aba48509c406a6b65e5525e7c45",
+  "scope": "FRESH_THREE_DATABASE_INSTALL_AND_FIRST_ADMIN_HTTPS",
+  "productionConnected": false,
+  "setup": {
+    "status": "PASS",
+    "scope": "ONE_CLI_CREATES_THREE_DATABASES_ROLES_SCHEMAS_AND_FIRST_ADMIN",
+    "repeat": "VERIFIED_NO_DDL",
+    "existingData": "REFUSED_BEFORE_WRITE_AND_PRESERVED",
+    "privateAdminNotInRuntime": true
+  },
+  "installer": "PASS",
+  "control": "PASS_DUAL_SIGNATURE_REAUTH_CSRF_TENANT_CREATE_AND_COMMAND_BINDING",
+  "browser": {
+    "status": "PASS",
+    "screenshot": "/home/zxm/openmaic/zhiban/docs/v2/evidence/persistence-130/production-install-runs/fresh-CVfzMe/first-platform-admin.png",
+    "tlsTrust": "EXACT_LEAF_SPKI_PIN_PLUS_NODE_HTTPS_CA_VERIFICATION"
+  },
+  "teaching": {
+    "status": "PASS",
+    "scope": "SYNTHETIC_THREE_ROLE_COURSE_PUBLICATION_SUBMISSION_MANUAL_GRADE_AND_CONTENT_BRIDGE",
+    "records": [
+      "trial course/term/class/offering, owner, teacher assignment and two enrollments prepared through real guarded Academic commands",
+      "real teacher publication -> student attempts/submissions -> manual grading/publication leaves one unstarted activity, one TODO, one published grade and one teacher-only draft"
+    ]
+  },
+  "sourceProfile": "/home/zxm/openmaic/zhiban/docs/v2/evidence/persistence-130/production-install-runs/fresh-CVfzMe/source-profile.json",
+  "restart": "PASS_SAME_ADMINISTRATOR_AND_PASSWORD",
+  "operations": {
+    "evidenceOrigin": "LOCAL",
+    "createdAt": "2026-10-30T13:13:37.658Z",
+    "baselineSha": "3a15d89888187ab3fed768026fc744cf72dcc544",
+    "sourceScope": "UNCOMMITTED_CANDIDATE",
+    "githubActions": false,
+    "scope": "NON_ROOT_HOST_AND_CONSISTENT_THREE_DATABASE_BACKUP_RESTORE",
+    "productionConnected": false,
+    "preStopBinding": "PASS_FOREIGN_INSTANCE_REJECTED_WITHOUT_STOP_OR_FENCE",
+    "stopAndBarrier": "PASS_PROCESS_EXIT_AND_ACTUAL_WRITER_BLOCKED",
+    "receiptPurpose": "PASS_VALID_SIGNATURE_WITH_WRONG_PURPOSE_REJECTED",
+    "maintenance": "PASS_RESTART_REFUSED_UNTIL_EXPLICIT_RELEASE",
+    "restore": "PASS_ALL_TABLE_INVENTORIES_ORIGINALS_INSTANCE_KEY_AND_SEALED_CONFIG",
+    "activation": "PASS_NEW_SIGNED_RECEIPT_OLD_BINDINGS_RETAINED_AND_DATA_RECHECK",
+    "host": {
+      "status": "PASS",
+      "effectiveUid": 1000,
+      "prebuiltEntry": true,
+      "readOnlyRelease": true,
+      "sourceWritesRequired": false
+    },
+    "startupReadiness": "PASS_PREBUILT_PROBE_STARTED_BEFORE_HOST",
+    "systemd": "PASS_UNIT_SYNTAX_ONLY_NOT_MACHINE_BOOT",
+    "browser": {
+      "status": "PASS",
+      "screenshot": "/home/zxm/openmaic/zhiban/docs/v2/evidence/persistence-130/production-operations-runs/recovered-em5os1/student-history.png",
+      "scope": "ORIGINAL_STUDENT_GRADE_AND_OLD_DEPLOYMENT_CONTENT_VIA_TLS_PROXY"
+    },
+    "proxy": "PASS_REAL_NGINX_TLS_NAME_CA_WRONG_CA_DENIED_AND_SPOOFED_HEADERS_REPLACED",
+    "lockLoss": "PASS_ACTUAL_BACKEND_TERMINATION_STOPS_PROCESS_AND_PERSISTS_FENCE",
+    "resume": "PASS_EXPLICIT_SOURCE_RELEASE_ONLY",
+    "backupPin": "6cce07b3cad90c72736b475e0872efd04354773b32984a78e925525df8785ceb",
+    "profilePin": "fe232a5642ff0e65f6320fa1255e1f8577c40aba48509c406a6b65e5525e7c45",
+    "status": "PASS"
+  },
+  "negatives": [
+    "WRONG_PLAN",
+    "SETUP_WRONG_PIN_NO_DATABASE_WRITE",
+    "SETUP_NONEMPTY_DATABASE_RETAINED",
+    "CONCURRENT_RUNTIME_LOCK",
+    "UNAUTHENTICATED",
+    "NON_ADMIN",
+    "RAW_NATIVE_CLOSED",
+    "CSRF",
+    "TAMPERED_RECEIPT",
+    "ACTUAL_PARTIAL_CONTENT_CONNECTION_FAILURE",
+    "ACL_MAINTAIN_DRIFT",
+    "IDENTITY_LEDGER_DRIFT"
+  ],
+  "partialFailure": {
+    "status": "QUARANTINED",
+    "failedPhase": "CONTENT_SCHEMA",
+    "retainedCompletedPhases": [
+      "BUSINESS_SCHEMA"
+    ],
+    "noReceipt": true
+  },
+  "sourceScope": "UNCOMMITTED_CANDIDATE",
+  "status": "PASS"
+}

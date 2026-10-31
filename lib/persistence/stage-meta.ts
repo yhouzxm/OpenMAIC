@@ -1,6 +1,7 @@
+import { applyHostSchemaMigrations as applySchemaMigrations } from '@/lib/persistence/installed-schema';
 import { DocumentNotFoundError } from '@openmaic/storage';
 import type { Queryable } from '@openmaic/storage/document/pg';
-import { applySchemaMigrations, type SchemaMigrationSet } from '@openmaic/storage/pg-migrations';
+import { type SchemaMigrationSet } from '@openmaic/storage/pg-migrations';
 
 import { ensureLegacyImportBindingSchema } from './legacy-import-bindings';
 import { ensureOwnerMergeSchema } from './owner-merges';

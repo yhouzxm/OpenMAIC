@@ -1,3 +1,4 @@
+import { hostSchemaBootstrap } from '@/lib/persistence/installed-schema';
 /**
  * Lazy process-wide binding of the durable user-skill store.
  *
@@ -60,7 +61,9 @@ interface UserSkillStores {
 
 async function createUserSkillStores(connectionString: string): Promise<UserSkillStores> {
   const { pool } = await getServerPersistenceProvider(connectionString);
-  await withSchemaBootstrapLock(pool as unknown as ConnectableQueryable, ensureUserSkillSchema);
+  await withSchemaBootstrapLock(pool as unknown as ConnectableQueryable, (q) =>
+    hostSchemaBootstrap(q, ensureUserSkillSchema),
+  );
   const withTransaction = nodePostgresTransaction(pool);
   // Both take the owner's identity lock as the create transaction's first
   // statement (lib/persistence/owner-merges.ts), so a create cannot commit

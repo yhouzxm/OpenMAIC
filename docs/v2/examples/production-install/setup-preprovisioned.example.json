@@ -1,0 +1,4 @@
+{
+  "kind": "ZHIBAN_SETUP_INPUT_V1",
+  "installationFile": "/root/zhiban-install/install.json"
+}

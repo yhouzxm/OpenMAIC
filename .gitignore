@@ -134,3 +134,11 @@ render-service/.owner-bound-parent-*/
 
 # Ephemeral ESM import validators
 /.zhiban-import-tools-*/
+
+# Explicitly built, source-profile-pinned formal service artifact
+/.zhiban-host/
+
+# Ephemeral local tools and private synthetic-account screenshots
+/.zhiban-production-run-*.mjs
+/docs/v2/evidence/persistence-130/production-install-runs/fresh-*/first-platform-admin.png
+/docs/v2/evidence/persistence-130/production-operations-runs/recovered-*/student-history.png

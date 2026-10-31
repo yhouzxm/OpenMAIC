@@ -15,6 +15,12 @@
     "../zhiban-local/run-snapshot-upgrade.ts",
     "../zhiban-local/start-persistent.ts",
     "./verify-pg18.ts",
-    "./build-openmaic-130-reference.ts"
+    "./build-openmaic-130-reference.ts",
+    "./verify-installed-authoring.ts",
+    "./verify-first-admin.ts",
+    "../../lib/zhiban/infrastructure/production/*.ts",
+    "./production-cli.ts",
+    "./verify-production-install.ts",
+    "./verify-production-operations.ts"
   ]
 }

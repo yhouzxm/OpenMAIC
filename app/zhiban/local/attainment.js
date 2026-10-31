@@ -29,13 +29,16 @@
     const h = { 'x-zhiban-request': 'identity-v1' },
       signal = AbortSignal.any([abort.signal, AbortSignal.timeout(15000)]);
     if (c) {
-      const r = await fetch('/api/zhiban/identity/csrf', { headers: h, signal });
+      const r = await (window.zhibanMemberPresentation?.read || fetch)(
+        '/api/zhiban/identity/csrf',
+        { headers: h, signal },
+      );
       if (!r.ok) throw Error('登录已失效');
       h['x-zhiban-csrf'] = (await r.json()).csrfToken;
       h['content-type'] = 'application/json';
       h['x-zhiban-command'] = key;
     }
-    const r = await fetch(path, {
+    const r = await (window.zhibanMemberPresentation?.read || fetch)(path, {
         headers: h,
         signal,
         cache: 'no-store',

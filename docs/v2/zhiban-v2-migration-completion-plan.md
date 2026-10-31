@@ -263,6 +263,8 @@ V2 课程元数据管理职责、真实身份、内容版本、Attempt、评分�
 
 ## 6. 当前执行顺序（替换所有历史“下一步”）
 
+生产安装接续以[正式生产安装剩余交付计划](zhiban-v2-production-installation-plan.md)为准。统一 setup 安装时自动初始化数据库；A 安装／运行宿主与 B 全新首管理员已在独立 PG18 TLS／HTTPS 上贯通，含三库来源／ACL／ledger、签名 receipt、正式页面与三角色教学定向旅程；见[全新安装手册](zhiban-v2-production-fresh-install.md)和 [LOCAL 结果](evidence/persistence-130/production-install-runs/latest-local.json)。C 的 Ubuntu 非 root／只读宿主、systemd／HTTPS88 模板、配置交接与三库＋原件＋实例密钥一致备份恢复已完成本机隔离验证，见[运维手册](zhiban-v2-ubuntu-operations.md)及 [LOCAL 结果](evidence/persistence-130/production-operations-runs/latest-local.json)。systemd 仅语法检查；下一整包为真实 ECS／RDS 预置、开机与恢复验收，仍待输入并保持隔离。可选旧 LOCAL／PG16 导入启用和不兼容 schema 升级单列，不重复功能移植或 GitHub 基础回归。
+
 2026-10-23集中对账：以下沿原P1–P7合并交付，不另起迁移主线。36项能力表中的多个“部分可用”共用同一个Runtime或真实运营缺口，不能累计成36项未完功能；原人日估算不作为当前剩余工期。
 
 **已交付，不再重做：** [原生备课／完整编辑](zhiban-v2-native-authoring-local.md)、[AI课堂](zhiban-v2-native-ai-classroom-local.md)、[自主PBL](zhiban-v2-native-autonomous-pbl-local.md)及[稳定六格式归档／新副本恢复](zhiban-v2-native-archive-local.md)均已有各自LOCAL证明；三角色工作区及普通旧入口；教务／名册与七类导入；章节编排、讲义、学习与讨论；已批准题型及复制、人工评分／更正、成绩簿跨页导出、总评／申诉；正式依据的进度／先修；账户LOCAL流程和资料；跟进／提醒／补救／风险审阅／证据画像；教师AI文字／Quiz备课、课程文字Tutor、简答AI建议与人工决定；固定教案／人工实验报告、私人AI伙伴及PBL小组共同提交／教师评价；当前LOCAL源码交接。各项证明仍按其原source／实例范围，不等于生产签收。

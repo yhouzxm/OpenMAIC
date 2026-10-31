@@ -1,4 +1,4 @@
-import { applySchemaMigrations } from '@openmaic/storage/pg-migrations';
+import { applyHostSchemaMigrations as applySchemaMigrations } from '@/lib/persistence/installed-schema';
 import type { Pool } from 'pg';
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';

@@ -45,7 +45,7 @@ export interface IdentityCompositionConfig {
   /** Until separately approved named operator evidence/config exists, pass null. */
   readonly operator: OperatorApprovalStore | null;
   readonly transportApprovalRef: string;
-  readonly deployment: 'SINGLE_PROCESS_HTTPS';
+  readonly deployment: 'SINGLE_PROCESS_HTTPS' | 'SINGLE_PROCESS_HTTP';
   /** No approved capacity/evidence configuration means these entrypoints remain closed. */
   readonly membership?: {
     readonly policy: MembershipCompositionPolicy;
@@ -60,10 +60,14 @@ export async function createIdentityComposition(
 ) {
   try {
     if (typeof window !== 'undefined') throw new IdentityPortError('UNAVAILABLE');
-    integrity(config !== null && config?.deployment === 'SINGLE_PROCESS_HTTPS');
+    integrity(
+      config !== null &&
+        ((config?.deployment === 'SINGLE_PROCESS_HTTPS' && config.origin.startsWith('https://')) ||
+          (config?.deployment === 'SINGLE_PROCESS_HTTP' && config.origin.startsWith('http://'))),
+    );
     ref(config.transportApprovalRef);
     ref(config.corpus?.approvalRef);
-    const csrf = new SessionCsrfPolicy(config.origin, true);
+    const csrf = new SessionCsrfPolicy(config.origin, config.deployment === 'SINGLE_PROCESS_HTTPS');
     const policy = sessionPolicy(config.sessionPolicy);
     const catalog = new ApprovedIdentityCatalog(config.catalog);
     const corpus = new LocalCompromisedPasswordScreening(config.corpus.values);
@@ -235,7 +239,10 @@ export async function createIdentityComposition(
       members,
       queries,
       control,
-      cookiePolicy: sessionCookiePolicy(true),
+      cookiePolicy:
+        config.deployment === 'SINGLE_PROCESS_HTTPS'
+          ? sessionCookiePolicy(true)
+          : Object.freeze({ ...sessionCookiePolicy(false), name: 'zhiban_session_http' }),
     });
   } catch {
     throw new IdentityPortError('UNAVAILABLE');

@@ -143,7 +143,13 @@
     "verify:zhiban:upstream130": "tsx scripts/zhiban-local/run-m6-catalog.ts --unified-trial --upstream130-focus",
     "upgrade:zhiban:snapshot": "tsx scripts/zhiban-local/run-snapshot-upgrade.ts",
     "deploy:zhiban:rds": "node scripts/zhiban-deploy/rds.cjs",
-    "verify:zhiban:pg16-import": "node scripts/zhiban-deploy/import-rehearsal.cjs"
+    "verify:zhiban:pg16-import": "node scripts/zhiban-deploy/import-rehearsal.cjs",
+    "deploy:zhiban:production": "node scripts/zhiban-deploy/run-production-tool.cjs production",
+    "verify:zhiban:production": "node scripts/zhiban-deploy/run-production-tool.cjs verify-install",
+    "setup:zhiban:production": "node scripts/zhiban-deploy/run-production-tool.cjs production setup",
+    "setup:zhiban:production:plan": "node scripts/zhiban-deploy/run-production-tool.cjs production setup-plan",
+    "build:zhiban:host": "node scripts/zhiban-deploy/run-production-tool.cjs production build-host",
+    "ops:zhiban": "node scripts/zhiban-deploy/run-production-tool.cjs production"
   },
   "dependencies": {
     "@ai-sdk/amazon-bedrock": "^4.0.103",
