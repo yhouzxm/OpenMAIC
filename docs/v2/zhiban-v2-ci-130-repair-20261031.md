@@ -35,3 +35,19 @@ LOCAL独立PG16临时cluster验证25项全部通过并清理；Quiz提示及arti
 42028076341代码检查全通过，定向E2E四项通过，Quiz回放一项因旧button定位与新版radio／checkbox语义不符失败；保留播放器无障碍语义，更新测试并验证aria选中状态。增加browser-recheck仅复验页面旅程，不重复代码门禁及Native诊断。
 
 42029125831两轮B9 Native均11/11通过。C9首例旧式部分失败断言要求无schema，但v1.3独立迁移已提交账本及两张runtime表，阻断后续正常安装；改用独立job-owned partial数据库，断言残留三表、无运行权限、重试拒绝及finally清理，正常安装仍使用原全新空库。精确catalog增加原生migration ledger。后续runtime-recheck只补C9两轮。
+
+## 2026-11-05 定向收口
+
+最终代码checkpoint：`6c12e6fe65a46fd8b2345bdefba77beec9018fe7`。本节之后的提交只记录证据，不重复运行CI。没有单次full／同SHA全集signoff；以下分项结果保留各自SHA，不将失败workflow改称成功。
+
+| 范围 | run／SHA | 实际结果 |
+| --- | --- | --- |
+| 格式、lint增量、TypeScript、i18n、受影响单元与门禁负向检查 | [42028076341](https://github.com/yhouzxm/OpenMAIC/actions/runs/42028076341)／`c32400bc731f37570a7042a66cd786ae5e394abd` | check job 127248018318 PASS；该轮E2E另有失败，workflow整体FAIL |
+| 两轮B0单位／PG／browser及B9 browser | [42028078616](https://github.com/yhouzxm/OpenMAIC/actions/runs/42028078616)／`c32400bc731f37570a7042a66cd786ae5e394abd` | 每轮101项＋1 browser PASS；B9 browser 2项PASS；该轮Native旧列断言失败，workflow整体FAIL |
+| B9 Native精确ACL／真实存储 | [42029125831](https://github.com/yhouzxm/OpenMAIC/actions/runs/42029125831)／`dcb713976d1871834e338a036198725b46cfd68b` | 两轮各11项PASS；该轮C9旧夹具失败，workflow整体FAIL |
+| Quiz编排编辑→播放作答评分、课堂切换／布局 | [42029609581](https://github.com/yhouzxm/OpenMAIC/actions/runs/42029609581)／`7d9c6bb7a3f8eee0a7c1996107e391a1543fbc16` | browser-recheck整体SUCCESS，5项E2E PASS |
+| C9 Runtime、部分安装隔离／授权／并发与故障边界 | [42030325960](https://github.com/yhouzxm/OpenMAIC/actions/runs/42030325960)／`6c12e6fe65a46fd8b2345bdefba77beec9018fe7` | runtime-recheck整体SUCCESS，两轮各20项PASS；job-owned数据库／进程／workspace清理完成 |
+
+从`c32400bc`至最终代码checkpoint仅改变测试、workflow和本文，应用／lib／package生产源码一致；本节为docs-only证据收口。252条严格lint历史债务继续存在，增量门禁成功不能解释为严格lint零错误。未重跑整套full、主镜像、真实模型或PG18保护验收；历史成功只保留原范围。未连接生产ECS／RDS，未修改已应用迁移或冻结授权语义。
+
+下一完整工作回到原P7统一门户体验与交接，优先核对实际桌面／移动菜单和课程返回，避免重复课堂全回归。建议GPT-6.1 Sol / medium。
