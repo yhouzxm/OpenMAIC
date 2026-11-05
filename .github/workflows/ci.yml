@@ -12,6 +12,7 @@ on:
           - full
           - bridge-recheck
           - checks-recheck
+          - browser-recheck
   push:
     # Integration branches are listed here as well as below: a pull_request run
     # only ever proves one part merged into the branch, so without a push
@@ -55,6 +56,7 @@ jobs:
 
   check:
     name: Lint, Typecheck & Unit Tests
+    if: inputs.suite != 'browser-recheck'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
@@ -70,7 +72,7 @@ jobs:
         run: |
           set -euo pipefail
           case "$CI_SUITE" in
-            full|bridge-recheck|checks-recheck) printf 'CI SUITE: %s\n' "$CI_SUITE" ;;
+            full|bridge-recheck|checks-recheck|browser-recheck) printf 'CI SUITE: %s\n' "$CI_SUITE" ;;
             *) echo INVALID_CI_SUITE; exit 1 ;;
           esac
 
@@ -246,7 +248,7 @@ jobs:
 
   render-service:
     name: Render Service (typecheck + tests)
-    if: inputs.suite != 'checks-recheck' && (github.event_name != 'workflow_dispatch' || inputs.suite != 'bridge-recheck')
+    if: inputs.suite != 'browser-recheck' && inputs.suite != 'checks-recheck' && (github.event_name != 'workflow_dispatch' || inputs.suite != 'bridge-recheck')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     # The producer dep bundles puppeteer; skip its Chromium download — the unit
@@ -407,11 +409,11 @@ jobs:
           NEXT_PUBLIC_COURSEWARE_REFERENCE_ENABLED: 'true'
 
       - name: Run e2e tests
-        if: inputs.suite != 'checks-recheck'
+        if: inputs.suite != 'checks-recheck' && inputs.suite != 'browser-recheck'
         run: pnpm exec playwright test
 
       - name: Recheck Quiz authoring and classroom persistence
-        if: inputs.suite == 'checks-recheck'
+        if: inputs.suite == 'checks-recheck' || inputs.suite == 'browser-recheck'
         run: pnpm exec playwright test e2e/tests/quiz-content-surface-657.spec.ts e2e/tests/classroom-interaction.spec.ts
 
       - uses: actions/upload-artifact@v7
@@ -423,7 +425,7 @@ jobs:
 
   docker-main-image:
     name: Main image (deps + builder)
-    if: inputs.suite != 'checks-recheck' && (github.event_name != 'workflow_dispatch' || inputs.suite != 'bridge-recheck')
+    if: inputs.suite != 'browser-recheck' && inputs.suite != 'checks-recheck' && (github.event_name != 'workflow_dispatch' || inputs.suite != 'bridge-recheck')
     runs-on: ubuntu-latest
     timeout-minutes: 45
     # The main Dockerfile was never built in CI, so an install step that no

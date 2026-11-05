@@ -213,9 +213,12 @@ test.describe('Quiz content surface (#657)', () => {
     await expect(page.getByText('Capital of France (edited)?')).toBeVisible({ timeout: 10_000 });
 
     // Answer: single (Paris), multiple (Two + Four), short-answer (text).
-    await page.getByRole('button', { name: /Paris/ }).click();
-    await page.getByRole('button', { name: /Two/ }).click();
-    await page.getByRole('button', { name: /Four/ }).click();
+    await page.getByRole('radio', { name: /Paris/ }).click();
+    await page.getByRole('checkbox', { name: /Two/ }).click();
+    await page.getByRole('checkbox', { name: /Four/ }).click();
+    await expect(page.getByRole('radio', { name: /Paris/ })).toBeChecked();
+    await expect(page.getByRole('checkbox', { name: /Two/ })).toBeChecked();
+    await expect(page.getByRole('checkbox', { name: /Four/ })).toBeChecked();
     await page.getByPlaceholder('Type your answer here...').fill('Hello everyone!');
 
     await testInfo.attach('playback-answering', {

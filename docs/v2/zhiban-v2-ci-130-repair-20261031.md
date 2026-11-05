@@ -31,3 +31,5 @@ LOCAL独立PG16临时cluster验证25项全部通过并清理；Quiz提示及arti
 42027541050／42027540439的浏览器准备被新的 ubuntu-latest（26.04）阻塞，锁定的Playwright 1.58.2不支持该OS；浏览器相关job改固定ubuntu-24.04，保持依赖锁不变。该轮浏览器／诊断不计通过。
 
 42028078616已完成两轮B0各101项unit/PG＋1项browser，B9中12项通过，仅N02查询旧document_stages.owner_id（v1.3已移出）失败。权限断言改为宿主zhiban_document_ownership.owner_id仍不可UPDATE；无ACL放宽。后续只运行bridge-recheck验证Native及Runtime，B0／浏览器成功范围保留该轮原SHA。
+
+42028076341代码检查全通过，定向E2E四项通过，Quiz回放一项因旧button定位与新版radio／checkbox语义不符失败；保留播放器无障碍语义，更新测试并验证aria选中状态。增加browser-recheck仅复验页面旅程，不重复代码门禁及Native诊断。
