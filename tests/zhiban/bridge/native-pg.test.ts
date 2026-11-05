@@ -181,7 +181,7 @@ describe
         expect(
           (
             await c.query(
-              "SELECT has_table_privilege(session_user,'document_folders','SELECT') AS folders,has_column_privilege(session_user,'document_stages','owner_id','UPDATE') AS owner,has_table_privilege(session_user,'asset_entries','DELETE') AS delete_allowed,has_database_privilege(session_user,current_database(),'TEMP') AS temp",
+              "SELECT has_table_privilege(session_user,'document_folders','SELECT') AS folders,has_column_privilege(session_user,'zhiban_document_ownership','owner_id','UPDATE') AS owner,has_table_privilege(session_user,'asset_entries','DELETE') AS delete_allowed,has_database_privilege(session_user,current_database(),'TEMP') AS temp",
             )
           ).rows[0],
         ).toEqual({ folders: false, owner: false, delete_allowed: false, temp: false });

@@ -29,3 +29,5 @@ LOCAL：4 GiB Node堆下根 TypeScript检查通过。受影响四文件 29 项�
 LOCAL独立PG16临时cluster验证25项全部通过并清理；Quiz提示及artifact定向测试15项通过（fresh provenance用例仅在隔离云诊断执行），来源／lint门禁反向检查通过。定向E2E复验仅Quiz编辑发布回放和课堂持久化，不重跑已通过的其他页面。所有结果限相应源码及环境。
 
 42027541050／42027540439的浏览器准备被新的 ubuntu-latest（26.04）阻塞，锁定的Playwright 1.58.2不支持该OS；浏览器相关job改固定ubuntu-24.04，保持依赖锁不变。该轮浏览器／诊断不计通过。
+
+42028078616已完成两轮B0各101项unit/PG＋1项browser，B9中12项通过，仅N02查询旧document_stages.owner_id（v1.3已移出）失败。权限断言改为宿主zhiban_document_ownership.owner_id仍不可UPDATE；无ACL放宽。后续只运行bridge-recheck验证Native及Runtime，B0／浏览器成功范围保留该轮原SHA。
