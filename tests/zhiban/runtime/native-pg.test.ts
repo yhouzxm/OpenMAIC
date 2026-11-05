@@ -200,39 +200,73 @@ describe.skipIf(!configured).sequential('C9-N real public Runtime PG16', () => {
       sceneBindingId: null,
     });
   it('C9-N01 explicit provisioning and readonly receipt match exact public schema', async () => {
-    let createdTables = 0,
-      rolledBack = 0;
-    const failedProvision = {
-      connect: async () => {
-        const c = await migrator.connect();
-        return {
-          release: (bad?: boolean) => c.release(bad),
-          query: async <R extends Record<string, unknown>>(sql: string, params?: unknown[]) => {
-            if (sql.startsWith('GRANT SELECT,INSERT')) throw Error('synthetic-provision-fault');
-            const r = await c.query<R>(sql, params);
-            if (/CREATE TABLE IF NOT EXISTS runtime_(sessions|records)/.test(sql)) createdTables++;
-            if (sql === 'ROLLBACK' && r.command === 'ROLLBACK') rolledBack++;
-            return r;
-          },
-        };
-      },
-    };
-    await expect(
-      provisionRuntimeNative(
-        failedProvision as unknown as TransactionPool,
-        database,
-        'synthetic-failed-approval',
-      ),
-    ).rejects.toThrow(RuntimeFailure);
-    expect(createdTables).toBe(2);
-    expect(rolledBack).toBe(1);
-    expect(
-      (
-        await admin((c) =>
-          c.query("SELECT count(*)::int AS n FROM pg_tables WHERE schemaname='public'"),
-        )
-      ).rows[0].n,
-    ).toBe(0);
+    const partialDatabase = database + '_partial';
+    await admin((c) => c.query(`CREATE DATABASE ${partialDatabase}`), false);
+    const partialUrl = url();
+    partialUrl.pathname = '/' + partialDatabase;
+    const partialAdmin = new Client({ connectionString: partialUrl.toString() });
+    let partialPool: Pool | undefined;
+    try {
+      await partialAdmin.connect();
+      await partialAdmin.query('REVOKE ALL ON SCHEMA public FROM PUBLIC');
+      await partialAdmin.query('ALTER SCHEMA public OWNER TO zhiban_openmaic_owner');
+      await partialAdmin.query('GRANT USAGE ON SCHEMA public TO zhiban_openmaic_runtime');
+      await partialAdmin.query(`REVOKE ALL ON DATABASE ${partialDatabase} FROM PUBLIC`);
+      await partialAdmin.query(
+        `GRANT CONNECT ON DATABASE ${partialDatabase} TO zhiban_openmaic_migrator,zhiban_openmaic_runtime`,
+      );
+      partialUrl.username = 'zhiban_openmaic_migrator';
+      partialUrl.password = password;
+      partialPool = new Pool({ connectionString: partialUrl.toString(), max: 1 });
+      let createdTables = 0,
+        rolledBack = 0;
+      const failedProvision = {
+        connect: async () => {
+          const c = await partialPool!.connect();
+          return {
+            release: (bad?: boolean) => c.release(bad),
+            query: async <R extends Record<string, unknown>>(sql: string, params?: unknown[]) => {
+              if (sql.startsWith('GRANT SELECT,INSERT')) throw Error('synthetic-provision-fault');
+              const r = await c.query<R>(sql, params);
+              if (/CREATE TABLE IF NOT EXISTS runtime_(sessions|records)/.test(sql))
+                createdTables++;
+              if (sql === 'ROLLBACK' && r.command === 'ROLLBACK') rolledBack++;
+              return r;
+            },
+          };
+        },
+      };
+      await expect(
+        provisionRuntimeNative(
+          failedProvision as unknown as TransactionPool,
+          partialDatabase,
+          'synthetic-failed-approval',
+        ),
+      ).rejects.toThrow(RuntimeFailure);
+      expect(createdTables).toBe(2);
+      expect(rolledBack).toBe(1);
+      expect(
+        (
+          await partialAdmin.query(
+            "SELECT count(*)::int AS n FROM pg_tables WHERE schemaname='public'",
+          )
+        ).rows[0].n,
+      ).toBe(3);
+      expect(
+        (
+          await partialAdmin.query(
+            "SELECT has_table_privilege('zhiban_openmaic_runtime','runtime_sessions','SELECT,INSERT,UPDATE') AS access",
+          )
+        ).rows[0].access,
+      ).toBe(false);
+      await expect(
+        provisionRuntimeNative(partialPool!, partialDatabase, 'retry-partial'),
+      ).rejects.toThrow(RuntimeFailure);
+    } finally {
+      await partialPool?.end();
+      await partialAdmin.end();
+      await admin((c) => c.query(`DROP DATABASE ${partialDatabase} WITH (FORCE)`), false);
+    }
     receipt = await provisionRuntimeNative(migrator, database, 'synthetic-c9-approval');
     expect(await verifyRuntimeProvisioning(migrator, receipt)).toEqual({ status: 'VERIFIED' });
     expect(receipt).toMatchObject({
@@ -252,6 +286,7 @@ describe.skipIf(!configured).sequential('C9-N real public Runtime PG16', () => {
       ),
     );
     expect(r.rows).toEqual([
+      { relname: 'openmaic_schema_migrations', relrowsecurity: false, relforcerowsecurity: false },
       { relname: 'runtime_records', relrowsecurity: false, relforcerowsecurity: false },
       { relname: 'runtime_sessions', relrowsecurity: false, relforcerowsecurity: false },
     ]);

@@ -33,3 +33,5 @@ LOCAL独立PG16临时cluster验证25项全部通过并清理；Quiz提示及arti
 42028078616已完成两轮B0各101项unit/PG＋1项browser，B9中12项通过，仅N02查询旧document_stages.owner_id（v1.3已移出）失败。权限断言改为宿主zhiban_document_ownership.owner_id仍不可UPDATE；无ACL放宽。后续只运行bridge-recheck验证Native及Runtime，B0／浏览器成功范围保留该轮原SHA。
 
 42028076341代码检查全通过，定向E2E四项通过，Quiz回放一项因旧button定位与新版radio／checkbox语义不符失败；保留播放器无障碍语义，更新测试并验证aria选中状态。增加browser-recheck仅复验页面旅程，不重复代码门禁及Native诊断。
+
+42029125831两轮B9 Native均11/11通过。C9首例旧式部分失败断言要求无schema，但v1.3独立迁移已提交账本及两张runtime表，阻断后续正常安装；改用独立job-owned partial数据库，断言残留三表、无运行权限、重试拒绝及finally清理，正常安装仍使用原全新空库。精确catalog增加原生migration ledger。后续runtime-recheck只补C9两轮。
