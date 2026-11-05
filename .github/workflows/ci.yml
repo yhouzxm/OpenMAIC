@@ -300,7 +300,7 @@ jobs:
     env:
       DATABASE_URL: postgresql://postgres:ci-disposable-e2e@127.0.0.1:5432/openmaic_e2e
     if: github.event_name != 'workflow_dispatch' || inputs.suite != 'bridge-recheck'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v5
