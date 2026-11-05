@@ -20,6 +20,7 @@ export function QuizAuthoringSurface({
   t = (k) => k,
   errors = [],
 }: QuizAuthoringSurfaceProps) {
+  const [adding, setAdding] = useState(false);
   const [expanded, setExpanded] = useState<string | null>(null);
   const history = useRef(ops.createQuizEditHistory(value));
   if (history.current.present !== value) history.current = ops.createQuizEditHistory(value);
@@ -68,25 +69,30 @@ export function QuizAuthoringSurface({
           ))}
         </Reorder.Group>
         <div>
-          {(['single', 'multiple', 'short_answer'] as const).map((type) => (
-            <button
-              type="button"
-              key={type}
-              onClick={() =>
-                change((c) => {
-                  const next = ops.addQuestion(c, type);
-                  setExpanded(next.questions.at(-1)!.id);
-                  return next;
-                })
-              }
-            >
-              添加{type === 'single' ? '单选' : type === 'multiple' ? '多选' : '简答'}
-            </button>
-          ))}
+          <button type="button" aria-expanded={adding} onClick={() => setAdding(!adding)}>
+            {t('edit.quiz.addQuestion')}
+          </button>
+          {adding &&
+            (['single', 'multiple', 'short_answer'] as const).map((type) => (
+              <button
+                type="button"
+                key={type}
+                onClick={() =>
+                  change((c) => {
+                    const next = ops.addQuestion(c, type);
+                    setExpanded(next.questions.at(-1)!.id);
+                    setAdding(false);
+                    return next;
+                  })
+                }
+              >
+                {t(`edit.quiz.type.${type}`)}
+              </button>
+            ))}
         </div>
       </fieldset>
     </Context.Provider>
   );
 }
 
-export {QuestionCard} from './QuestionCard';
+export { QuestionCard } from './QuestionCard';

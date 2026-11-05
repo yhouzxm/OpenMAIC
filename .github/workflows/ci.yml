@@ -407,7 +407,12 @@ jobs:
           NEXT_PUBLIC_COURSEWARE_REFERENCE_ENABLED: 'true'
 
       - name: Run e2e tests
+        if: inputs.suite != 'checks-recheck'
         run: pnpm exec playwright test
+
+      - name: Recheck Quiz authoring and classroom persistence
+        if: inputs.suite == 'checks-recheck'
+        run: pnpm exec playwright test e2e/tests/quiz-content-surface-657.spec.ts e2e/tests/classroom-interaction.spec.ts
 
       - uses: actions/upload-artifact@v7
         if: failure()

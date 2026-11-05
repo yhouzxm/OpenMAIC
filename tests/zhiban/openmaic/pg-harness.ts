@@ -66,16 +66,23 @@ export async function createPgFixture() {
       client.release(discard);
     }
   };
+  let phase = 'VERSION';
   try {
     const version = await pool.query<{ version: string }>(
       "SELECT current_setting('server_version') AS version",
     );
     if (!version.rows[0].version.startsWith('16.')) throw new Error('DIAGNOSTIC_PG16_REQUIRED');
-    await withTransaction(async (queryable) => {
-      await ensureAssetSchema(queryable);
-      await ensureDocumentSchema(queryable);
-      await ensureSchema(queryable);
-    });
+    // v1.3 migration runners own their transactions and session locks.
+    phase = 'ASSET_SCHEMA';
+    await ensureAssetSchema(pool);
+    phase = 'DOCUMENT_SCHEMA';
+    await ensureDocumentSchema(pool);
+    phase = 'RUNTIME_SCHEMA';
+    await ensureSchema(pool);
+    await pool.query(`CREATE TABLE IF NOT EXISTS diagnostic_document_owners (
+      stage_id text PRIMARY KEY REFERENCES document_stages(id) ON DELETE CASCADE,
+      owner_id text NOT NULL
+    )`);
     const fixture = authorityFixture();
     const asset = new PgAssetStore(pool as Queryable, {
       withTransaction,
@@ -91,6 +98,7 @@ export async function createPgFixture() {
     for (const stage of Object.values(fixture.stages)) {
       const mapping = fixture.authority.mappings.get(stage)!;
       const principal = { key: mapping.owner };
+      phase = 'ASSET_WRITE';
       const image = await asset.put(principal, new Blob([PNG], { type: 'image/png' }));
       const audio = await asset.put(
         principal,
@@ -103,11 +111,14 @@ export async function createPgFixture() {
       const store = new PgDocumentStore(pool as Queryable, {
         withTransaction,
         ownerId: mapping.owner,
+        documentOwnership: { table: 'diagnostic_document_owners', claimOnCreate: true },
         trackAssetReferences: true,
       });
       stores.set(mapping.owner, store);
+      phase = 'DOCUMENT_WRITE';
       await store.saveDocument(document(stage, slide({ image, audio, video })));
     }
+    phase = 'SESSION_WRITE';
     for (const [id, binding] of fixture.authority.bindings)
       await runtime.createSession({
         id,
@@ -149,8 +160,10 @@ export async function createPgFixture() {
       version: version.rows[0].version,
       close: () => pool.end(),
     };
-  } catch {
+  } catch (error) {
     await pool.end();
-    throw new Error('DIAGNOSTIC_PG_SETUP_FAILED');
+    const name =
+      error instanceof Error && /^[A-Za-z]+Error$/.test(error.name) ? error.name : 'Error';
+    throw new Error(`DIAGNOSTIC_PG_SETUP_FAILED_${phase}_${name}`);
   }
 }
